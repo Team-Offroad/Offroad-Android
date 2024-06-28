@@ -1,0 +1,165 @@
+[versions]
+# Android Core Libraries
+coreKtx = "1.13.1"
+lifecycleRuntimeKtx = "2.8.2"
+activityCompose = "1.9.0"
+appcompat = "1.7.0"
+material = "1.12.0"
+
+# Testing Libraries
+junit = "4.13.2"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+
+# Jetpack Compose
+composeBom = "2024.06.00"
+
+# Kotlin
+jetbrainsKotlinJvm = "1.9.0"
+kotlin = "1.9.0"
+
+# Android Gradle Plugin (AGP)
+agp = "8.5.0"
+
+# SDK Versions
+minSdk = "30"
+targetSdk = "34"
+
+# App Versioning
+configVersion = "1.0"
+versionCode = "1"
+versionName = "1.0.0"
+
+# Dependency Injection
+daggerHilt = "2.51.1"
+inject = "1"
+hiltNavigationCompose = "1.2.0"
+
+# Image Loading
+coil = "2.6.0"
+
+# Networking
+retrofit = "2.9.0"
+okhttp = "4.12.0"
+
+# Kotlin Coroutines
+kotlinCoroutines = "2.0.0"
+
+# Navigation
+navigation = "2.7.7"
+
+# Kotlin Serialization
+kotlinxSerialization = "1.7.1"
+retrofit2KotlinxSerialization = "1.0.0"
+
+[libraries]
+# Core Libraries
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+# Testing Libraries
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+
+# Jetpack Compose Libraries
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+
+# Dependency Injection Libraries
+hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "daggerHilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "daggerHilt" }
+hilt-plugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "daggerHilt" }
+hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+inject = { group = "javax.inject", name = "javax.inject", version.ref = "inject" }
+
+# Image Loading Libraries
+coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
+
+# Networking Libraries
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp" }
+okhttp-bom = { group = "com.squareup.okhttp3", name = "okhttp-bom", version.ref = "okhttp" }
+okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor" }
+
+# Kotlin Coroutines Libraries
+kotlin-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
+kotlin-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinCoroutines" }
+
+# Navigation Libraries
+navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
+navigation-safe-args = { group = "androidx.navigation", name = "navigation-safe-args-gradle-plugin", version.ref = "navigation" }
+
+# Kotlin Serialization Libraries
+kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+retrofit2-kotlinx-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofit2KotlinxSerialization" }
+
+[plugins]
+# Android Application Plugin
+android-application = { id = "com.android.application", version.ref = "agp" }
+
+# Kotlin Plugins
+jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+
+# Dependency Injection Plugin
+daggers-hilt = { id = "dagger.hilt.android.plugin", version.ref = "daggerHilt" }
+
+[bundles]
+# Core Libraries Bundle
+core = [
+    "androidx-core-ktx",
+    "androidx-lifecycle-runtime-ktx",
+    "androidx-activity-compose",
+    "androidx-appcompat",
+    "material"
+]
+
+# Jetpack Compose Libraries Bundle
+compose = [
+    "androidx-compose-bom",
+    "androidx-ui",
+    "androidx-ui-graphics",
+    "androidx-ui-tooling",
+    "androidx-ui-tooling-preview",
+    "androidx-material3"
+]
+
+# Dependency Injection Libraries Bundle
+hilt = [
+    "hilt",
+    "hilt-compiler",
+    "hilt-navigation-compose",
+    "inject"
+]
+
+# Networking Libraries Bundle
+networking = [
+    "retrofit",
+    "okhttp",
+    "okhttp-bom",
+    "okhttp-logging-interceptor"
+]
+
+# Kotlin Coroutines Libraries Bundle
+coroutines = [
+    "kotlin-coroutines-core",
+    "kotlin-coroutines-android"
+]
+
+# Navigation Libraries Bundle
+navigation = [
+    "navigation-compose",
+    "navigation-ui-ktx",
+    "navigation-safe-args"
+]
