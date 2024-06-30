@@ -16,10 +16,10 @@ composeBom = "2024.06.00"
 
 # Kotlin
 jetbrainsKotlinJvm = "1.9.0"
-kotlin = "1.9.0"
+kotlin = "2.0.0"
 
 # Android Gradle Plugin (AGP)
-agp = "8.5.0"
+androidGradlePlugin = "8.5.0"
 
 # SDK Versions
 minSdk = "30"
@@ -51,6 +51,8 @@ navigation = "2.7.7"
 # Kotlin Serialization
 kotlinxSerialization = "1.7.1"
 retrofit2KotlinxSerialization = "1.0.0"
+
+ksp = "1.9.10-1.0.13"
 
 [libraries]
 # Core Libraries
@@ -104,9 +106,14 @@ navigation-safe-args = { group = "androidx.navigation", name = "navigation-safe-
 kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 retrofit2-kotlinx-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofit2KotlinxSerialization" }
 
+android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+compose-compiler-gradle-plugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
+ksp-gradle-plugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+
 [plugins]
 # Android Application Plugin
-android-application = { id = "com.android.application", version.ref = "agp" }
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 
 # Kotlin Plugins
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
@@ -115,51 +122,4 @@ jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrai
 # Dependency Injection Plugin
 daggers-hilt = { id = "dagger.hilt.android.plugin", version.ref = "daggerHilt" }
 
-[bundles]
-# Core Libraries Bundle
-core = [
-    "androidx-core-ktx",
-    "androidx-lifecycle-runtime-ktx",
-    "androidx-activity-compose",
-    "androidx-appcompat",
-    "material"
-]
-
-# Jetpack Compose Libraries Bundle
-compose = [
-    "androidx-compose-bom",
-    "androidx-ui",
-    "androidx-ui-graphics",
-    "androidx-ui-tooling",
-    "androidx-ui-tooling-preview",
-    "androidx-material3"
-]
-
-# Dependency Injection Libraries Bundle
-hilt = [
-    "hilt",
-    "hilt-compiler",
-    "hilt-navigation-compose",
-    "inject"
-]
-
-# Networking Libraries Bundle
-networking = [
-    "retrofit",
-    "okhttp",
-    "okhttp-bom",
-    "okhttp-logging-interceptor"
-]
-
-# Kotlin Coroutines Libraries Bundle
-coroutines = [
-    "kotlin-coroutines-core",
-    "kotlin-coroutines-android"
-]
-
-# Navigation Libraries Bundle
-navigation = [
-    "navigation-compose",
-    "navigation-ui-ktx",
-    "navigation-safe-args"
-]
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
