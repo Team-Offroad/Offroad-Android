@@ -1,6 +1,6 @@
-import com.teamoffroad.convention.configureCoroutineAndroid
-import com.teamoffroad.convention.configureHiltAndroid
-import com.teamoffroad.convention.configureKotlinAndroid
+import com.teamoffroad.app.configureCoroutineAndroid
+import com.teamoffroad.app.configureHiltAndroid
+import com.teamoffroad.app.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply

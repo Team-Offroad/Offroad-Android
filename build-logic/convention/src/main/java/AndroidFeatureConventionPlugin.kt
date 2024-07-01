@@ -1,12 +1,13 @@
 import com.android.build.gradle.LibraryExtension
-import com.teamoffroad.convention.configureHiltAndroid
-import com.teamoffroad.convention.libs
+import com.teamoffroad.app.configureHiltAndroid
+import com.teamoffroad.app.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 
 class AndroidFeatureConventionPlugin : Plugin<Project> {
+
     override fun apply(target: Project) {
         with(target) {
             pluginManager.apply {
@@ -28,13 +29,17 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             // TODO: Add more test configurations
 
             dependencies {
-                "implementation"(project(":core"))
+                "implementation"(project(":core:common"))
+                "implementation"(project(":core:data"))
+                "implementation"(project(":core:datastore"))
+                "implementation"(project(":core:designsystem"))
+                "implementation"(project(":core:model"))
+                "implementation"(project(":core:navigation"))
 
-                val libs = extensions.libs
                 "implementation"(libs.findLibrary("hilt.navigation.compose").get())
-                "implementation"(libs.findLibrary("androidx.compose.navigation").get())
-                "implementation"(libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
-                "implementation"(libs.findLibrary("androidx.lifecycle.runtimeCompose").get())
+                "implementation"(libs.findLibrary("navigation.compose").get())
+                "implementation"(libs.findLibrary("androidx.lifecycle.runtime.compose").get())
+                "implementation"(libs.findLibrary("androidx.lifecycle.viewmodel.compose").get())
                 // TODO: Add more test dependencies
             }
         }

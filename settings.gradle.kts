@@ -16,6 +16,17 @@ dependencyResolutionManagement {
 
 rootProject.name = "Offroad"
 include(":app")
-include(":core")
-include(":feature")
-include(":feature:auth")
+
+include(
+    ":core:common",
+    ":core:data",
+    ":core:datastore",
+    ":core:designsystem",
+    ":core:model",
+    ":core:navigation",
+)
+
+include(
+    ":feature:home",
+    ":feature:main",
+)

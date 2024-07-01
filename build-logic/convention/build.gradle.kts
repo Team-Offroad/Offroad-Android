@@ -1,5 +1,6 @@
 plugins {
     `kotlin-dsl`
+    `kotlin-dsl-precompiled-script-plugins`
 }
 
 java {
@@ -38,11 +39,11 @@ gradlePlugin {
         }
         register("androidHilt") {
             id = "offroad.android.hilt"
-            implementationClass = "com.offroad.convention.HiltAndroidPlugin"
+            implementationClass = "com.teamoffroad.app.HiltAndroidPlugin"
         }
         register("kotlinHilt") {
             id = "offroad.kotlin.hilt"
-            implementationClass = "com.offroad.convention.HiltKotlinPlugin"
+            implementationClass = "com.teamoffroad.app.HiltKotlinPlugin"
         }
     }
 }
