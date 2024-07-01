@@ -36,5 +36,13 @@ gradlePlugin {
             id = "offroad.kotlin.library"
             implementationClass = "KotlinLibraryConventionPlugin"
         }
+        register("androidHilt") {
+            id = "offroad.android.hilt"
+            implementationClass = "com.offroad.convention.HiltAndroidPlugin"
+        }
+        register("kotlinHilt") {
+            id = "offroad.kotlin.hilt"
+            implementationClass = "com.offroad.convention.HiltKotlinPlugin"
+        }
     }
 }

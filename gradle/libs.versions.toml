@@ -50,7 +50,11 @@ retrofit2KotlinxSerialization = "1.0.0"
 # Kotlin Symbol Processing
 ksp = "1.9.10-1.0.13"
 
+# AndroidX Lifecycle
 androidxLifecycle = "2.8.1"
+
+# Desugar JDK Libraries
+desugarJdkLibs = "2.0.4"
 
 [libraries]
 # Core Libraries
@@ -67,16 +71,17 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 
 # Jetpack Compose Libraries
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
-androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
-androidx-ui = { group = "androidx.compose.ui", name = "ui" }
-androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
-androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
-androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
-androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 
 # Dependency Injection Libraries
 hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "daggerHilt" }
+hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "daggerHilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "daggerHilt" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 inject = { group = "javax.inject", name = "javax.inject", version.ref = "inject" }
@@ -109,6 +114,9 @@ compose-compiler-gradle-plugin = { group = "org.jetbrains.kotlin", name = "compo
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradle-plugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 
+# Desugar JDK Libraries
+desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugarJdkLibs" }
+
 [plugins]
 # Android Application Plugin
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -118,7 +126,7 @@ jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = 
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 
 # Dependency Injection Plugin
-daggers-hilt = { id = "dagger.hilt.android.plugin", version.ref = "daggerHilt" }
+daggers-hilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
 
 # Compose Compiler Plugin
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
@@ -129,3 +137,6 @@ androidx-lifecycle-viewmodelCompose = { id = "androidx.lifecycle.viewmodel-compo
 
 # Android Library Plugin
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+
+# Kotlin Symbol Processing Plugin
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
