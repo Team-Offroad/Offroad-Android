@@ -35,6 +35,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 "implementation"(project(":core:designsystem"))
                 "implementation"(project(":core:model"))
                 "implementation"(project(":core:navigation"))
+                "implementation"(project(":core:domain"))
 
                 // TODO: Add more test dependencies
 
