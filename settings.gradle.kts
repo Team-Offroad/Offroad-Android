@@ -26,6 +26,7 @@ include(
     ":core:model",
     ":core:navigation",
     ":core:domain",
+    ":core:database",
 )
 
 include(

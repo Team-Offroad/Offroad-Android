@@ -7,7 +7,6 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 
 class AndroidFeatureConventionPlugin : Plugin<Project> {
-
     override fun apply(target: Project) {
         with(target) {
             pluginManager.apply {
@@ -36,6 +35,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 "implementation"(project(":core:model"))
                 "implementation"(project(":core:navigation"))
                 "implementation"(project(":core:domain"))
+                "implementation"(project(":core:database"))
 
                 // TODO: Add more test dependencies
 
