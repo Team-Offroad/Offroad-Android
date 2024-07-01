@@ -4,6 +4,6 @@ import org.gradle.api.Project
 
 fun Project.setNamespace(name: String) {
     androidExtension.apply {
-        namespace = "com.teamoffroad.offroad.$name"
+        namespace = "com.teamoffroad.app.$name"
     }
 }

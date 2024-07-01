@@ -6,6 +6,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+@Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -24,6 +25,7 @@ include(
     ":core:designsystem",
     ":core:model",
     ":core:navigation",
+    ":core:domain",
 )
 
 include(
