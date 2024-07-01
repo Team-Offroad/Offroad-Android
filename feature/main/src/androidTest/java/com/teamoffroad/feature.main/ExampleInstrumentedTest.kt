@@ -1,4 +1,4 @@
-package com.teamoffroad.main
+package com.teamoffroad.feature.main
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

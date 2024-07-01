@@ -36,11 +36,13 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 "implementation"(project(":core:model"))
                 "implementation"(project(":core:navigation"))
 
+                // TODO: Add more test dependencies
+
                 "implementation"(libs.findLibrary("hilt.navigation.compose").get())
                 "implementation"(libs.findLibrary("navigation.compose").get())
                 "implementation"(libs.findLibrary("androidx.lifecycle.runtime.compose").get())
                 "implementation"(libs.findLibrary("androidx.lifecycle.viewmodel.compose").get())
-                // TODO: Add more test dependencies
+                "androidTestImplementation"(libs.findLibrary("navigation.test").get())
             }
         }
     }

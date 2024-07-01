@@ -1,3 +1,4 @@
+import com.teamoffroad.app.configureKotest
 import com.teamoffroad.app.configureKotlin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -8,8 +9,8 @@ class KotlinLibraryConventionPlugin : Plugin<Project> {
         with(target) {
             apply(plugin = "org.jetbrains.kotlin.jvm")
 
-            // TODO: Add more test dependencies
             configureKotlin()
+            configureKotest()
         }
     }
 }

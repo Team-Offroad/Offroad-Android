@@ -1,4 +1,5 @@
 import com.teamoffroad.app.configureHiltAndroid
+import com.teamoffroad.app.configureKotestAndroid
 import com.teamoffroad.app.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -11,7 +12,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
 
             configureKotlinAndroid()
             configureHiltAndroid()
-            // TODO: Add more test configurations
+            configureKotestAndroid()
         }
     }
 }

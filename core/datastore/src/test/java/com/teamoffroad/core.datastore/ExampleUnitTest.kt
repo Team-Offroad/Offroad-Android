@@ -1,4 +1,4 @@
-package com.teamoffroad.datastore
+package com.teamoffroad.core.datastore
 
 import org.junit.Test
 
