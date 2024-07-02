@@ -11,12 +11,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:model"))
-    implementation(project(":core:datastore"))
-    implementation(project(":core:domain"))
-
-    implementation(libs.retrofit)
-    implementation(libs.retrofit2.kotlinx.serialization)
-    implementation(libs.okhttp.logging.interceptor)
-    implementation(libs.kotlinx.serialization)
+    api(project(":core:common"))
+    api(project(":core:database"))
+    api(project(":core:datastore"))
+    api(project(":core:network"))
 }

@@ -21,12 +21,13 @@ include(":app")
 include(
     ":core:common",
     ":core:data",
+    ":core:database",
     ":core:datastore",
+    ":core:network",
     ":core:designsystem",
     ":core:model",
     ":core:navigation",
     ":core:domain",
-    ":core:database",
 )
 
 include(

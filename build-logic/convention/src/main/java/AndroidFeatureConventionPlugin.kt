@@ -30,12 +30,10 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             dependencies {
                 "implementation"(project(":core:common"))
                 "implementation"(project(":core:data"))
-                "implementation"(project(":core:datastore"))
                 "implementation"(project(":core:designsystem"))
                 "implementation"(project(":core:model"))
                 "implementation"(project(":core:navigation"))
                 "implementation"(project(":core:domain"))
-                "implementation"(project(":core:database"))
 
                 // TODO: Add more test dependencies
 
