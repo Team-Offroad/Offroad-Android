@@ -9,7 +9,7 @@ assignees: ''
 
 ## ⭐️ Type <!-- 이슈 종류 -->
 
-`FEATURE` `BUG`
+`FEATURE` `REFACTOR` `FIX` `BUILD` `DOCS`
 
 ## 🛣️ Overview <!-- 이슈 간략 설명 -->
 
