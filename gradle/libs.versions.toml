@@ -1,0 +1,149 @@
+[versions]
+# Android Core Libraries
+activityCompose = "1.9.0"
+appcompat = "1.7.0"
+coreKtx = "1.13.1"
+lifecycleRuntimeKtx = "2.8.2"
+androidxDatastore = "1.1.1"
+material = "1.12.0"
+
+# Testing Libraries
+espressoCore = "3.6.1"
+junit = "4.13.2"
+junitVersion = "1.2.1"
+
+# Jetpack Compose
+composeBom = "2024.06.00"
+
+# Kotlin
+kotlin = "2.0.0"
+
+# Android Gradle Plugin (AGP)
+androidGradlePlugin = "8.5.0"
+
+# App Versioning
+versionCode = "1"
+versionName = "1.0.0"
+
+# Dependency Injection
+daggerHilt = "2.51.1"
+hiltNavigationCompose = "1.2.0"
+inject = "1"
+
+# Image Loading
+coil = "2.6.0"
+
+# Networking
+okhttp = "4.12.0"
+retrofit = "2.9.0"
+
+# Kotlin Coroutines
+kotlinCoroutines = "1.9.0-RC"
+
+# Navigation
+navigation = "2.7.7"
+
+# Kotlin Serialization
+kotlinxSerialization = "1.7.1"
+retrofit2KotlinxSerialization = "1.0.0"
+
+# Kotlin Symbol Processing
+ksp = "2.0.0-1.0.22"
+
+# AndroidX Lifecycle
+androidxLifecycle = "2.8.1"
+
+# Desugar JDK Libraries
+desugarJdkLibs = "2.0.4"
+
+kotest = "5.9.0"
+
+[libraries]
+# Core Libraries
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDatastore" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+# Testing Libraries
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+kotest-runner = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
+kotest-assertions = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
+
+# Jetpack Compose Libraries
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+
+# Dependency Injection Libraries
+hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "daggerHilt" }
+hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "daggerHilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "daggerHilt" }
+hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+inject = { group = "javax.inject", name = "javax.inject", version.ref = "inject" }
+
+# Image Loading Libraries
+coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
+
+# Networking Libraries
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp" }
+okhttp-bom = { group = "com.squareup.okhttp3", name = "okhttp-bom", version.ref = "okhttp" }
+okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+
+# Kotlin Coroutines Libraries
+kotlin-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinCoroutines" }
+kotlin-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
+
+# Navigation Libraries
+navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+navigation-safe-args = { group = "androidx.navigation", name = "navigation-safe-args-gradle-plugin", version.ref = "navigation" }
+navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
+navigation-test = { group = "androidx.navigation", name = "navigation-testing", version.ref = "navigation" }
+
+# Kotlin Serialization Libraries
+kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+retrofit-kotlinx-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofit2KotlinxSerialization" }
+
+# Gradle Plugins
+android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+compose-compiler-gradle-plugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
+kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+ksp-gradle-plugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+
+# Desugar JDK Libraries
+desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugarJdkLibs" }
+
+# AndroidX Lifecycle Plugins
+androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
+androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
+
+[plugins]
+# Android Application Plugin
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+
+# Kotlin Plugins
+jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+# Dependency Injection Plugin
+daggers-hilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
+
+# Compose Compiler Plugin
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
+# Android Library Plugin
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+
+# Kotlin Symbol Processing Plugin
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
