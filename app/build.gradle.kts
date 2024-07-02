@@ -20,14 +20,12 @@ android {
     }
 
     buildTypes {
-        getByName("release") {
-            signingConfig = signingConfigs.getByName("debug")
-        }
-
-        create("benchmark") {
-            matchingFallbacks.add("release")
-            signingConfig = signingConfigs.getByName("debug")
-            isDebuggable = false
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 }
