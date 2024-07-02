@@ -9,6 +9,8 @@ android {
 }
 
 dependencies {
-    testImplementation(libs.junit)
+    api(project(":core:model"))
+    implementation(project(":core:common"))
     implementation(libs.androidx.datastore)
+    testImplementation(libs.junit)
 }

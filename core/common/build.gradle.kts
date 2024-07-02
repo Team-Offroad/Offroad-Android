@@ -2,7 +2,7 @@ import com.teamoffroad.app.setNamespace
 
 plugins {
     id("offroad.android.library")
-    id("offroad.android.compose")
+    id("offroad.android.hilt")
 }
 
 android {
