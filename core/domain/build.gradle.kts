@@ -1,12 +1,9 @@
-import com.teamoffroad.app.setNamespace
-
 plugins {
-    id("offroad.android.library")
+    id("java-library")
+    alias(libs.plugins.jetbrains.kotlin.jvm)
 }
 
-android {
-    setNamespace("core.domain")
-}
-
-dependencies {
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
