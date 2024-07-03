@@ -57,6 +57,7 @@ androidxLifecycle = "2.8.1"
 desugarJdkLibs = "2.0.4"
 
 kotest = "5.9.0"
+runtimeLivedata = "1.6.8"
 
 [libraries]
 # Core Libraries
@@ -83,6 +84,7 @@ androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-te
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-compose-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
 
 # Dependency Injection Libraries
 hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "daggerHilt" }

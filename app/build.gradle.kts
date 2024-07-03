@@ -5,10 +5,10 @@ plugins {
 }
 
 android {
-    setNamespace("app")
+    setNamespace("offroad.app")
 
     defaultConfig {
-        applicationId = "com.teamoffroad.app"
+        applicationId = "com.teamoffroad.offroad.app"
         versionCode = libs.versions.versionCode.get().toInt()
         versionName = libs.versions.versionName.get()
     }

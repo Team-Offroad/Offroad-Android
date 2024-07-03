@@ -39,11 +39,11 @@ gradlePlugin {
         }
         register("androidHilt") {
             id = "offroad.android.hilt"
-            implementationClass = "com.teamoffroad.app.HiltAndroidPlugin"
+            implementationClass = "AndroidHiltConventionPlugin"
         }
         register("kotlinHilt") {
             id = "offroad.kotlin.hilt"
-            implementationClass = "com.teamoffroad.app.HiltKotlinPlugin"
+            implementationClass = "KotlinHiltConventionPlugin"
         }
     }
 }
