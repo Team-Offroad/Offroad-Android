@@ -1,7 +1,7 @@
 package com.teamoffroad.feature.home.domain.repository
 
-import com.teamoffroad.feature.home.domain.entity.DummyUserEntity
+import com.teamoffroad.feature.home.domain.model.DummyUser
 
 interface DummyUserRepository {
-    suspend fun fetchUsers(): List<DummyUserEntity>
+    suspend fun fetchUsers(): List<DummyUser>
 }
