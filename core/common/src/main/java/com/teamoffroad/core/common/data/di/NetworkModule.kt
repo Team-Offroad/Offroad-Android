@@ -16,7 +16,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-    private const val BASE_URL = ""
+    private const val BASE_URL = "https://www.dummy.com"
     private const val CONTENT_TYPE = "application/json"
 
     private val json: Json = Json {
