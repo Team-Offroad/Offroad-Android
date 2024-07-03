@@ -10,7 +10,7 @@ class DummyDummyUserRepositoryImpl @Inject constructor(
     private val dummyUserService: DummyUserService
 ) : DummyUserRepository {
 
-    override suspend fun getUsers(): List<DummyUserEntity> {
+    override suspend fun fetchUsers(): List<DummyUserEntity> {
         val userResponses = dummyUserService.getUsers()
         return userResponses.map { it.toDomain() }
     }

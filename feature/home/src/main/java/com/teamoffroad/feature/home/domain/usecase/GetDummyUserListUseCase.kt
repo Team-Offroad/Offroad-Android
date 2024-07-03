@@ -8,6 +8,6 @@ class GetDummyUserListUseCase @Inject constructor(
     private val dummyUserRepository: DummyUserRepository
 ) {
     suspend operator fun invoke(): List<DummyUserEntity> {
-        return dummyUserRepository.getUsers()
+        return dummyUserRepository.fetchUsers()
     }
 }
