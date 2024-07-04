@@ -8,6 +8,9 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme =
@@ -22,16 +25,38 @@ private val LightColorScheme =
         primary = Purple40,
         secondary = PurpleGrey40,
         tertiary = Pink40,
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-     */
+        /* Other default colors to override
+        background = Color(0xFFFFFBFE),
+        surface = Color(0xFFFFFBFE),
+        onPrimary = Color.White,
+        onSecondary = Color.White,
+        onTertiary = Color.White,
+        onBackground = Color(0xFF1C1B1F),
+        onSurface = Color(0xFF1C1B1F),
+         */
     )
+
+private val LocalOffroadTypography = staticCompositionLocalOf<OffroadTypography> {
+    error("No OffroadTypography Provided")
+}
+
+// ex) Text(text = "text", style = OffroadTheme.typography.
+
+object OffroadTheme {
+    val typography: OffroadTypography
+        @Composable get() = LocalOffroadTypography.current
+}
+
+@Composable
+fun ProvideOffroadTypography(typography: OffroadTypography, content: @Composable () -> Unit) {
+    val provideTypography = remember { typography.copy() }
+    provideTypography.update(typography)
+    CompositionLocalProvider(
+        LocalOffroadTypography provides provideTypography,
+        content = content
+    )
+}
+
 
 @Composable
 fun OffroadTheme(
@@ -50,10 +75,12 @@ fun OffroadTheme(
             darkTheme -> DarkColorScheme
             else -> LightColorScheme
         }
+    val typography = offroadTypography()
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content,
-    )
+    ProvideOffroadTypography(typography) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            content = content,
+        )
+    }
 }
