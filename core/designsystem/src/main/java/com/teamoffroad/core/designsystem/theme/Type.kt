@@ -31,7 +31,9 @@ class OffroadTypography internal constructor(
     btnSmall: TextStyle,
     hint: TextStyle,
     tooltipNumber: TextStyle,
-    tooltipAdrs: TextStyle
+    tooltipAdrs: TextStyle,
+    bothLogin: TextStyle,
+    bothBottomLabel: TextStyle
 ) {
     var title: TextStyle by mutableStateOf(title)
         private set
@@ -59,6 +61,10 @@ class OffroadTypography internal constructor(
         private set
     var tooltipAdrs: TextStyle by mutableStateOf(tooltipAdrs)
         private set
+    var bothLogin: TextStyle by mutableStateOf(bothLogin)
+        private set
+    var bothBottomLabel: TextStyle by mutableStateOf(bothBottomLabel)
+        private set
 
     fun copy(
         title: TextStyle = this.title,
@@ -74,6 +80,8 @@ class OffroadTypography internal constructor(
         hint: TextStyle = this.hint,
         tooltipNumber: TextStyle = this.tooltipNumber,
         tooltipAdrs: TextStyle = this.tooltipAdrs,
+        bothLogin: TextStyle = this.bothLogin,
+        bothBottomLabel: TextStyle = this.bothBottomLabel
     ): OffroadTypography = OffroadTypography(
         title,
         subtitle2Bold,
@@ -87,7 +95,9 @@ class OffroadTypography internal constructor(
         btnSmall,
         hint,
         tooltipNumber,
-        tooltipAdrs
+        tooltipAdrs,
+        bothLogin,
+        bothBottomLabel
     )
 
     fun update(other: OffroadTypography) {
@@ -104,6 +114,8 @@ class OffroadTypography internal constructor(
         hint = other.hint
         tooltipNumber = other.tooltipNumber
         tooltipAdrs = other.tooltipAdrs
+        bothLogin = other.bothLogin
+        bothBottomLabel = other.bothBottomLabel
     }
 }
 
@@ -176,6 +188,16 @@ fun offroadTypography(): OffroadTypography {
             fontFamily = PretendardMedium,
             fontWeight = FontWeight.Medium,
             fontSize = 11.sp
+        ),
+        bothLogin = TextStyle(
+            fontFamily = PretendardSemiBold,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 15.sp
+        ),
+        bothBottomLabel = TextStyle(
+            fontFamily = PretendardRegular,
+            fontWeight = FontWeight.Normal,
+            fontSize = 14.sp
         )
     )
 }
