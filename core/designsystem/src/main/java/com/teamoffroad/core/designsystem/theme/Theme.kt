@@ -25,22 +25,11 @@ private val LightColorScheme =
         primary = Purple40,
         secondary = PurpleGrey40,
         tertiary = Pink40,
-        /* Other default colors to override
-        background = Color(0xFFFFFBFE),
-        surface = Color(0xFFFFFBFE),
-        onPrimary = Color.White,
-        onSecondary = Color.White,
-        onTertiary = Color.White,
-        onBackground = Color(0xFF1C1B1F),
-        onSurface = Color(0xFF1C1B1F),
-         */
     )
 
 private val LocalOffroadTypography = staticCompositionLocalOf<OffroadTypography> {
     error("No OffroadTypography Provided")
 }
-
-// ex) Text(text = "text", style = OffroadTheme.typography.
 
 object OffroadTheme {
     val typography: OffroadTypography
@@ -56,7 +45,6 @@ fun ProvideOffroadTypography(typography: OffroadTypography, content: @Composable
         content = content
     )
 }
-
 
 @Composable
 fun OffroadTheme(
