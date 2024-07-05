@@ -14,10 +14,14 @@ android {
 
 dependencies {
     implementation(project(":feature:home"))
+    implementation(project(":feature:explore"))
+    implementation(project(":feature:mypage"))
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.kotlinx.immutable)
 }
