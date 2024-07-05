@@ -34,3 +34,5 @@ include(
     ":feature:home",
     ":feature:main",
 )
+include(":feature:mypage")
+include(":feature:explore")
