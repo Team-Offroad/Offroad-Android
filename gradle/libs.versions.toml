@@ -41,11 +41,13 @@ retrofit = "2.9.0"
 kotlinCoroutines = "1.9.0-RC"
 
 # Navigation
-navigation = "2.7.7"
+navigation = "2.8.0-beta02"
 
 # Kotlin Serialization
 kotlinxSerialization = "1.7.1"
 retrofit2KotlinxSerialization = "1.0.0"
+kotlinxSerializationJson = "1.7.1"
+
 
 # Kotlin Symbol Processing
 ksp = "2.0.0-1.0.22"
@@ -56,7 +58,12 @@ androidxLifecycle = "2.8.1"
 # Desugar JDK Libraries
 desugarJdkLibs = "2.0.4"
 
+# kotlinx immutable
+kotlinxImmutable = "0.3.7"
+
+
 kotest = "5.9.0"
+navigationRuntimeKtx = "2.7.7"
 
 [libraries]
 # Core Libraries
@@ -113,6 +120,8 @@ navigation-test = { group = "androidx.navigation", name = "navigation-testing", 
 # Kotlin Serialization Libraries
 kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 retrofit-kotlinx-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofit2KotlinxSerialization" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+
 
 # Gradle Plugins
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
@@ -126,6 +135,10 @@ desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", ver
 # AndroidX Lifecycle Plugins
 androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
 androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
+androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
+
+# kotlinx immutable
+kotlinx-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxImmutable" }
 
 [plugins]
 # Android Application Plugin
@@ -144,6 +157,8 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 
 # Android Library Plugin
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 # Kotlin Symbol Processing Plugin
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
