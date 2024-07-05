@@ -5,7 +5,7 @@ import com.teamoffroad.app.feature.main.R
 import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.core.navigation.Route
 
-internal enum class MainTab(
+internal enum class MainNavTab(
     val iconResId: Int,
     internal val contentDescription: String,
     val route: MainTabRoute,
@@ -28,7 +28,7 @@ internal enum class MainTab(
 
     companion object {
         @Composable
-        fun find(predicate: @Composable (MainTabRoute) -> Boolean): MainTab? {
+        fun find(predicate: @Composable (MainTabRoute) -> Boolean): MainNavTab? {
             return entries.find { predicate(it.route) }
         }
 

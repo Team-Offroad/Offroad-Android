@@ -21,15 +21,17 @@ internal class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    val startDestination = MainTab.HOME.route
-    //이걸로 시작점 바꿔서 작업하면 됩니다.
+    val startDestination = MainNavTab.HOME.route
+    //Route.Auth
+    //MainTab.HOME.route
+    //요런식으로 시작점 바꿔서 작업하면 됩니다.
 
-    val currentTab: MainTab?
-        @Composable get() = MainTab.find { tab ->
+    val currentTab: MainNavTab?
+        @Composable get() = MainNavTab.find { tab ->
             currentDestination?.hasRoute(tab::class) == true
         }
 
-    fun navigate(tab: MainTab) {
+    fun navigate(tab: MainNavTab) {
         val navOptions = navOptions {
             popUpTo(navController.graph.findStartDestination().id) {
                 saveState = true
@@ -38,14 +40,14 @@ internal class MainNavigator(
             restoreState = true
         }
         when (tab) {
-            MainTab.HOME -> navController.navigateHome(navOptions)
-            MainTab.EXPLORE -> navController.navigateExplore(navOptions)
-            MainTab.MYPAGE -> navController.navigateMypage(navOptions)
+            MainNavTab.HOME -> navController.navigateHome(navOptions)
+            MainNavTab.EXPLORE -> navController.navigateExplore(navOptions)
+            MainNavTab.MYPAGE -> navController.navigateMypage(navOptions)
         }
     }
 
     @Composable
-    fun shouldShowBottomBar() = MainTab.contains {
+    fun shouldShowBottomBar() = MainNavTab.contains {
         currentDestination?.hasRoute(it::class) == true
     }
 }
