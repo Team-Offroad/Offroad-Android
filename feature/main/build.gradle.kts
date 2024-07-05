@@ -13,9 +13,11 @@ android {
 }
 
 dependencies {
+    implementation(project(":feature:auth"))
     implementation(project(":feature:home"))
     implementation(project(":feature:explore"))
     implementation(project(":feature:mypage"))
+
 
 
     implementation(libs.androidx.core.ktx)
