@@ -158,7 +158,5 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 # Android Library Plugin
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-
 # Kotlin Symbol Processing Plugin
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

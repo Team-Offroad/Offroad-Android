@@ -3,7 +3,7 @@ import com.teamoffroad.app.setNamespace
 plugins {
     id("offroad.android.library")
     id("offroad.android.compose")
-    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.jetbrains.kotlin.serialization)
 
 }
 
@@ -12,5 +12,5 @@ android {
 }
 
 dependencies {
-    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.serialization)
 }

@@ -18,8 +18,6 @@ dependencies {
     implementation(project(":feature:explore"))
     implementation(project(":feature:mypage"))
 
-
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity.compose)
