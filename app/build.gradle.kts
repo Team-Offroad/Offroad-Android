@@ -34,5 +34,8 @@ dependencies {
     implementation(project(":core:navigation"))
     implementation(project(":core:designsystem"))
     implementation(project(":feature:main"))
+    implementation(project(":feature:auth"))
     implementation(project(":feature:home"))
+    implementation(project(":feature:explore"))
+    implementation(project(":feature:mypage"))
 }

@@ -4,6 +4,7 @@ plugins {
     id("offroad.android.library")
     id("offroad.android.compose")
     alias(libs.plugins.jetbrains.kotlin.serialization)
+
 }
 
 android {
