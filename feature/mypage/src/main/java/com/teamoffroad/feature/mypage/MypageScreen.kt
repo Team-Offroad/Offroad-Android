@@ -7,15 +7,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 
 @Composable
-internal fun MypageRoute(
-    padding: PaddingValues,
-) {
-    MypageScreen(
-        padding = padding,
-    )
-}
-
-@Composable
 internal fun MypageScreen(
     padding: PaddingValues,
 ) {

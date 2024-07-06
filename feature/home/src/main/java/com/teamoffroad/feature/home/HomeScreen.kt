@@ -7,15 +7,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 
 @Composable
-internal fun HomeRoute(
-    padding: PaddingValues,
-) {
-    HomeScreen(
-        padding = padding,
-    )
-}
-
-@Composable
 internal fun HomeScreen(
     padding: PaddingValues,
 ) {

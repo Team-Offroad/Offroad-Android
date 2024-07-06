@@ -8,15 +8,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 
 @Composable
-internal fun AuthRoute(
-    padding: PaddingValues,
-) {
-    AuthScreen(
-        padding = padding,
-    )
-}
-
-@Composable
 internal fun AuthScreen(
     padding: PaddingValues,
 ) {

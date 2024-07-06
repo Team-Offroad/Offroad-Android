@@ -7,15 +7,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 
 @Composable
-internal fun ExploreRoute(
-    padding: PaddingValues,
-) {
-    ExploreScreen(
-        padding = padding,
-    )
-}
-
-@Composable
 internal fun ExploreScreen(
     padding: PaddingValues,
 ) {
