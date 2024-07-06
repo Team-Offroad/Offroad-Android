@@ -13,7 +13,6 @@ import com.teamoffroad.feature.explore.navigation.navigateExplore
 import com.teamoffroad.feature.home.navigation.navigateHome
 import com.teamoffroad.feature.mypage.navigation.navigateMypage
 
-
 internal class MainNavigator(
     val navController: NavHostController,
 ) {
