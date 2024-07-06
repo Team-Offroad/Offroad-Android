@@ -15,12 +15,3 @@ internal fun Project.configureHiltAndroid() {
         "ksp"(libs.findLibrary("hilt.compiler").get())
     }
 }
-
-internal class HiltAndroidPlugin : Plugin<Project> {
-
-    override fun apply(target: Project) {
-        with(target) {
-            configureHiltAndroid()
-        }
-    }
-}

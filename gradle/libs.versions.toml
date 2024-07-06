@@ -46,8 +46,6 @@ navigation = "2.8.0-beta02"
 # Kotlin Serialization
 kotlinxSerialization = "1.7.1"
 retrofit2KotlinxSerialization = "1.0.0"
-kotlinxSerializationJson = "1.7.1"
-
 
 # Kotlin Symbol Processing
 ksp = "2.0.0-1.0.22"
@@ -61,9 +59,8 @@ desugarJdkLibs = "2.0.4"
 # kotlinx immutable
 kotlinxImmutable = "0.3.7"
 
-
 kotest = "5.9.0"
-navigationRuntimeKtx = "2.7.7"
+runtimeLivedata = "1.6.8"
 
 [libraries]
 # Core Libraries
@@ -90,6 +87,7 @@ androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-te
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-compose-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
 
 # Dependency Injection Libraries
 hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "daggerHilt" }
@@ -120,8 +118,6 @@ navigation-test = { group = "androidx.navigation", name = "navigation-testing", 
 # Kotlin Serialization Libraries
 kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 retrofit-kotlinx-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofit2KotlinxSerialization" }
-kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
-
 
 # Gradle Plugins
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
