@@ -1,9 +1,9 @@
 package com.teamoffroad.feature.main
 
 import androidx.compose.runtime.Composable
-import com.teamoffroad.app.feature.main.R
 import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.core.navigation.Route
+import com.teamoffroad.offroad.feature.main.R
 
 internal enum class MainNavTab(
     val iconResId: Int,
