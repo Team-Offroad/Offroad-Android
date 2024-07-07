@@ -14,8 +14,12 @@ fun NavController.navigateAuth(navOptions: NavOptions) {
 
 fun NavGraphBuilder.authNavGraph(
     padding: PaddingValues,
+    onAuthBtnClick: () -> Unit,
 ) {
     composable<Route.Auth> {
-        AuthRoute(padding)
+        AuthRoute(
+            padding,
+            onAuthBtnClick,
+        )
     }
 }
