@@ -9,6 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import com.teamoffroad.core.navigation.Route
 import com.teamoffroad.feature.explore.navigation.navigateExplore
 import com.teamoffroad.feature.home.navigation.navigateHome
 import com.teamoffroad.feature.mypage.navigation.navigateMypage
@@ -20,7 +21,7 @@ internal class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    val startDestination = MainNavTab.HOME.route
+    val startDestination = Route.Auth
     //Route.Auth
     //MainTab.HOME.route
     //요런식으로 시작점 바꿔서 작업하면 됩니다.
@@ -30,14 +31,17 @@ internal class MainNavigator(
             currentDestination?.hasRoute(tab::class) == true
         }
 
-    fun navigate(tab: MainNavTab) {
-        val navOptions = navOptions {
+    val navOptions by lazy {
+        navOptions {
             popUpTo(navController.graph.findStartDestination().id) {
                 saveState = true
             }
             launchSingleTop = true
             restoreState = true
         }
+    }
+
+    fun navigate(tab: MainNavTab) {
         when (tab) {
             MainNavTab.HOME -> navController.navigateHome(navOptions)
             MainNavTab.EXPLORE -> navController.navigateExplore(navOptions)
@@ -48,6 +52,10 @@ internal class MainNavigator(
     @Composable
     fun setBottomBarVisibility() = MainNavTab.contains {
         currentDestination?.hasRoute(it::class) == true
+    }
+
+    fun navigateHome() {
+        navController.navigateHome(navOptions)
     }
 }
 
