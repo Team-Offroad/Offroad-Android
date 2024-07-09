@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.auth
+package com.teamoffroad.feature.auth.presentation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
