@@ -1,3 +1,4 @@
+import com.teamoffroad.app.getApiKey
 import com.teamoffroad.app.setNamespace
 
 plugins {
@@ -8,6 +9,14 @@ plugins {
 
 android {
     setNamespace("core.common")
+
+    defaultConfig {
+        buildConfigField("String", "BASE_URL", getApiKey("base.url"))
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {

@@ -24,4 +24,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.kotlinx.immutable)
+
+    implementation(libs.androidx.constraintlayout.compose)
 }

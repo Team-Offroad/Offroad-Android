@@ -20,7 +20,6 @@ val OpticianSansRegular = FontFamily(Font(R.font.optician_sans, FontWeight.Norma
 
 @Stable
 class OffroadTypography internal constructor(
-    // pretendard
     title: TextStyle,
     subtitle2Bold: TextStyle,
     subtitleReg: TextStyle,
@@ -34,9 +33,8 @@ class OffroadTypography internal constructor(
     tooltipNumber: TextStyle,
     textContentsSmall: TextStyle,
     textContents: TextStyle,
+    profileTitle: TextStyle,
     bothLogin: TextStyle,
-
-    // optician sans
     bothBottomLabel: TextStyle,
     bothRecentNum: TextStyle,
     bothUpcomingSmallNum: TextStyle,
@@ -68,9 +66,10 @@ class OffroadTypography internal constructor(
         private set
     var textContents: TextStyle by mutableStateOf(textContents)
         private set
+    var profileTitle: TextStyle by mutableStateOf(profileTitle)
+        private set
     var bothLogin: TextStyle by mutableStateOf(bothLogin)
         private set
-
     var bothBottomLabel: TextStyle by mutableStateOf(bothBottomLabel)
         private set
     var bothRecentNum: TextStyle by mutableStateOf(bothRecentNum)
@@ -94,8 +93,8 @@ class OffroadTypography internal constructor(
         tooltipNumber: TextStyle = this.tooltipNumber,
         textContentsSmall: TextStyle = this.textContentsSmall,
         textContents: TextStyle = this.textContents,
+        profileTitle: TextStyle = this.profileTitle,
         bothLogin: TextStyle = this.bothLogin,
-
         bothBottomLabel: TextStyle = this.bothBottomLabel,
         bothRecentNum: TextStyle = this.subtitleReg,
         bothUpcomingSmallNum: TextStyle = this.bothUpcomingSmallNum,
@@ -114,8 +113,8 @@ class OffroadTypography internal constructor(
         tooltipNumber,
         textContentsSmall,
         textContents,
+        profileTitle,
         bothLogin,
-
         bothBottomLabel,
         bothRecentNum,
         bothUpcomingSmallNum,
@@ -136,8 +135,8 @@ class OffroadTypography internal constructor(
         tooltipNumber = other.tooltipNumber
         textContentsSmall = other.textContentsSmall
         textContents = other.textContents
+        profileTitle = other.profileTitle
         bothLogin = other.bothLogin
-
         bothBottomLabel = other.bothBottomLabel
         bothRecentNum = other.bothRecentNum
         bothUpcomingSmallNum = other.bothUpcomingSmallNum
@@ -214,6 +213,11 @@ fun offroadTypography(): OffroadTypography {
             fontFamily = PretendardMedium,
             fontWeight = FontWeight.Medium,
             fontSize = 11.sp
+        ),
+        profileTitle = TextStyle(
+            fontFamily = PretendardBold,
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp
         ),
         bothLogin = TextStyle(
             fontFamily = PretendardSemiBold,

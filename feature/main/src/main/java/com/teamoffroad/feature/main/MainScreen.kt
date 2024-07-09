@@ -1,11 +1,13 @@
 package com.teamoffroad.feature.main
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.teamoffroad.core.designsystem.theme.Sub4
 import com.teamoffroad.feature.main.component.MainBottomBar
 import com.teamoffroad.feature.main.component.MainNavHost
 import kotlinx.collections.immutable.toPersistentList
@@ -17,7 +19,7 @@ internal fun MainScreen(
 ) {
     MainScreenContent(
         navigator = navigator,
-        modifier = modifier
+        modifier = modifier,
     )
 }
 
@@ -38,12 +40,13 @@ private fun MainScreenContent(
             MainBottomBar(
                 modifier = Modifier
                     .navigationBarsPadding()
-                    .padding(start = 8.dp, end = 8.dp, bottom = 28.dp),
+                    .height(74.dp)
+                    .background(Sub4),
                 visible = navigator.setBottomBarVisibility(),
                 tabs = MainNavTab.entries.toPersistentList(),
                 currentTab = navigator.currentTab,
                 onTabSelected = { navigator.navigate(it) }
             )
-        },
+        }
     )
 }
