@@ -22,12 +22,13 @@ include(
     ":core:common",
     ":core:designsystem",
     ":core:navigation",
+    ":core:datastore",
 )
 
 include(
     ":feature:home",
     ":feature:main",
+    ":feature:auth",
+    ":feature:explore",
+    ":feature:mypage",
 )
-include(":feature:mypage")
-include(":feature:explore")
-include(":feature:auth")
