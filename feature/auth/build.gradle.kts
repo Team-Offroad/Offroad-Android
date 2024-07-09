@@ -2,6 +2,7 @@ import com.teamoffroad.app.setNamespace
 
 plugins {
     id("offroad.android.feature")
+    id("offroad.android.library")
 }
 
 android {
@@ -9,4 +10,5 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.datastore)
 }
