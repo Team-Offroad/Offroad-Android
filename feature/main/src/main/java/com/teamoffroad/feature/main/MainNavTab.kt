@@ -11,17 +11,17 @@ internal enum class MainNavTab(
     val route: MainTabRoute,
 ) {
     HOME(
-        iconResId = R.drawable.ic_android_black_24dp,
+        iconResId = R.drawable.ic_main_home,
         contentDescription = "홈",
         MainTabRoute.Home,
     ),
     EXPLORE(
-        iconResId = R.drawable.ic_android_black_24dp,
+        iconResId = R.drawable.ic_main_explore,
         contentDescription = "탐험",
         MainTabRoute.Explore,
     ),
     MYPAGE(
-        iconResId = R.drawable.ic_android_black_24dp,
+        iconResId = R.drawable.ic_main_mypage,
         contentDescription = "마이페이지",
         MainTabRoute.Mypage,
     );
