@@ -1,3 +1,4 @@
+import com.teamoffroad.app.getApiKey
 import com.teamoffroad.app.setNamespace
 
 plugins {
@@ -7,6 +8,14 @@ plugins {
 
 android {
     setNamespace("feature.home")
+
+    defaultConfig {
+        buildConfigField("String", "GOOGLE_CLIENT_ID", getApiKey("google.client.id"))
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {
