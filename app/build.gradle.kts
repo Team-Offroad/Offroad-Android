@@ -8,7 +8,7 @@ android {
     setNamespace("offroad.app")
 
     defaultConfig {
-        applicationId = "com.teamoffroad.offroad.app"
+        applicationId = "com.teamoffroad.app"
         versionCode = libs.versions.versionCode.get().toInt()
         versionName = libs.versions.versionName.get()
     }

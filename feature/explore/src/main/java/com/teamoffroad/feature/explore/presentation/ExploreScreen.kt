@@ -10,7 +10,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 internal fun ExploreScreen(
     padding: PaddingValues,
-    viewModel: ExploreViewModel = hiltViewModel(),
 ) {
 
     Text(

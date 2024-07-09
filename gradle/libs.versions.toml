@@ -61,6 +61,14 @@ kotlinxImmutable = "0.3.7"
 kotest = "5.9.0"
 runtimeLivedata = "1.6.8"
 
+# Naver Map
+naverMapCompose = "1.7.2"
+naverMapLocation = "21.0.2"
+
+# Google Play Service
+googlePlayService = "21.1.0"
+googleAccompanistPermissions = "0.32.0"
+
 [libraries]
 # Core Libraries
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
@@ -135,6 +143,14 @@ androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navig
 # kotlinx immutable
 kotlinx-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxImmutable" }
 
+# Naver Map
+naver-map-compose = { group = "io.github.fornewid", name = "naver-map-compose", version.ref = "naverMapCompose" }
+naver-map-location = { group = "io.github.fornewid", name = "naver-map-location", version.ref = "naverMapLocation" }
+
+# Google Play Service
+google-play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "googlePlayService" }
+google-accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "googleAccompanistPermissions" }
+
 [plugins]
 # Android Application Plugin
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -155,3 +171,12 @@ android-library = { id = "com.android.library", version.ref = "androidGradlePlug
 
 # Kotlin Symbol Processing Plugin
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+
+[bundles]
+# Offroad Map Libraries
+offroad-map = [
+    "naver-map-compose",
+    "naver-map-location",
+    "google-play-services-location",
+    "google-accompanist-permissions",
+]
