@@ -1,7 +1,7 @@
-package com.teamoffroad.feature.auth.data.repositoryimpl
+package com.teamoffroad.feature.auth.data.repository
 
 import com.teamoffroad.feature.auth.data.datasource.AuthPreferencesDataSource
-import com.teamoffroad.feature.auth.data.repository.AuthInfoRepository
+import com.teamoffroad.feature.auth.domain.repository.AuthInfoRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Named
@@ -12,8 +12,7 @@ internal class AuthInfoRepositoryImpl @Inject constructor(
 
     override fun getAccessToken(): Flow<String> =
         dataSource.accessToken
-
-
+    
     override fun getRefreshToken(): Flow<String> =
         dataSource.refreshToken
 

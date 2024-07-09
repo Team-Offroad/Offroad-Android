@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.auth.data.repository
+package com.teamoffroad.feature.auth.domain.repository
 
 import kotlinx.coroutines.flow.Flow
 
