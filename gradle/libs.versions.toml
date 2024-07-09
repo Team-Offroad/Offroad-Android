@@ -65,6 +65,7 @@ runtimeLivedata = "1.6.8"
 # Naver Map
 naverMapCompose = "1.7.2"
 naverMapLocation = "21.0.2"
+naverMapSdk = "3.18.0"
 
 # Google Play Service
 googlePlayService = "21.1.0"
@@ -148,6 +149,7 @@ kotlinx-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collectio
 # Naver Map
 naver-map-compose = { group = "io.github.fornewid", name = "naver-map-compose", version.ref = "naverMapCompose" }
 naver-map-location = { group = "io.github.fornewid", name = "naver-map-location", version.ref = "naverMapLocation" }
+naver-map-sdk = { group = "com.naver.maps", name = "map-sdk", version.ref = "naverMapSdk" }
 
 # Google Play Service
 google-play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "googlePlayService" }
