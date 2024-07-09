@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.teamoffroad.feature.auth.navigation.authNavGraph
-import com.teamoffroad.feature.explore.navigation.exploreNavGraph
+import com.teamoffroad.feature.explore.presentation.navigation.exploreNavGraph
 import com.teamoffroad.feature.home.navigation.homeNavGraph
 import com.teamoffroad.feature.main.MainNavigator
 import com.teamoffroad.feature.mypage.navigation.mypageNavGraph
