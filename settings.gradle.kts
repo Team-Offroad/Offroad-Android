@@ -32,3 +32,4 @@ include(
     ":feature:explore",
     ":feature:mypage",
 )
+include(":core:data")
