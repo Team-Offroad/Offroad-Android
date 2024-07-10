@@ -7,13 +7,9 @@ plugins {
 
 android {
     setNamespace("feature.home")
-
-    buildFeatures {
-        compose = true
-    }
 }
 
 dependencies {
     implementation(libs.retrofit.kotlinx.serialization)
-    implementation(libs.androidx.constraintlayout.compose)
+    implementation(libs.androidx.appcompat)
 }
