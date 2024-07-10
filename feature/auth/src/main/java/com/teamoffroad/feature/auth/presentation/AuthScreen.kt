@@ -25,7 +25,7 @@ import com.teamoffroad.offroad.feature.home.R
 @Composable
 internal fun AuthScreen(
     padding: PaddingValues,
-    onAuthBtnClick: () -> Unit,
+    navigateToHome: () -> Unit,
 ) {
     Surface(
         modifier = Modifier
@@ -52,13 +52,13 @@ internal fun AuthScreen(
                 painter = painterResource(id = R.drawable.ic_auth_kakao_logo),
                 background = Kakao,
                 contentDescription = "auth_kakao",
-                onClick = onAuthBtnClick,
+                onClick = navigateToHome,
                 modifier = Modifier
                     .constrainAs(kakaoLogin) {
                         start.linkTo(parent.start, margin = 24.dp)
                         end.linkTo(parent.end, margin = 24.dp)
                         top.linkTo(appLogo.bottom, margin = 38.dp)
-                        bottom.linkTo(parent.bottom, margin = 389.dp)
+                        bottom.linkTo(parent.bottom, margin = 388.dp)
                     }
             )
             ClickableImage(
@@ -67,7 +67,7 @@ internal fun AuthScreen(
                 painter = painterResource(id = R.drawable.ic_auth_google_logo),
                 background = White,
                 contentDescription = "auth_google",
-                onClick = onAuthBtnClick,
+                onClick = navigateToHome,
                 modifier = Modifier
                     .constrainAs(googleLogin) {
                         start.linkTo(parent.start, margin = 24.dp)

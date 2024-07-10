@@ -10,6 +10,6 @@ internal fun AuthRoute(
 ) {
     AuthScreen(
         padding = padding,
-        onAuthBtnClick = onAuthBtnClick
+        navigateToHome = onAuthBtnClick
     )
 }
