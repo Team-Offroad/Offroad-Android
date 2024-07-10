@@ -40,7 +40,7 @@ internal fun MainNavHost(
             )
             authNavGraph(
                 padding = padding,
-                onAuthBtnClick = { navigator.navigateHome() }
+                navigateToHome = { navigator.navigateToHome() }
             )
         }
     }

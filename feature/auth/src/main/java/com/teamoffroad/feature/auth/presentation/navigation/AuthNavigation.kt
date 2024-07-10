@@ -14,12 +14,12 @@ fun NavController.navigateAuth(navOptions: NavOptions) {
 
 fun NavGraphBuilder.authNavGraph(
     padding: PaddingValues,
-    onAuthBtnClick: () -> Unit,
+    navigateToHome: () -> Unit,
 ) {
     composable<Route.Auth> {
         AuthRoute(
             padding,
-            onAuthBtnClick,
+            navigateToHome,
         )
     }
 }
