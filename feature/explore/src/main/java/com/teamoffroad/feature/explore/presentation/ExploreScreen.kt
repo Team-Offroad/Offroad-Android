@@ -32,7 +32,7 @@ internal fun ExploreScreen(
 
     val launcherMultiplePermissions = getLocationPermissionLauncher(updatePermission)
 
-    HandlePermissions(
+    ExplorePermissionsHandler(
         context = context,
         locationState = locationState,
         launcherMultiplePermissions = launcherMultiplePermissions,
@@ -44,12 +44,12 @@ internal fun ExploreScreen(
         Text("Location permissions granted")
     }
     if (locationState.isPermissionRejected) {
-        HandlePermissionRejected(context, navigateToHome)
+        ExplorePermissionRejectedHandler(context, navigateToHome)
     }
 }
 
 @Composable
-fun getLocationPermissionLauncher(
+private fun getLocationPermissionLauncher(
     updatePermission: (Boolean, Boolean) -> Unit,
 ): ManagedActivityResultLauncher<Array<String>, Map<String, Boolean>> {
     return rememberLauncherForActivityResult(
@@ -64,7 +64,7 @@ fun getLocationPermissionLauncher(
 }
 
 @Composable
-fun HandlePermissions(
+private fun ExplorePermissionsHandler(
     context: Context,
     locationState: LocationModel,
     launcherMultiplePermissions: ManagedActivityResultLauncher<Array<String>, Map<String, Boolean>>,
@@ -90,7 +90,7 @@ fun HandlePermissions(
 }
 
 @Composable
-fun HandlePermissionRejected(
+private fun ExplorePermissionRejectedHandler(
     context: Context,
     navigateToHome: () -> Unit,
 ) {
