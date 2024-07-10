@@ -20,4 +20,6 @@ android {
 
 dependencies {
     implementation(libs.androidx.datastore)
+    implementation(libs.androidx.constraintlayout.compose)
+
 }
