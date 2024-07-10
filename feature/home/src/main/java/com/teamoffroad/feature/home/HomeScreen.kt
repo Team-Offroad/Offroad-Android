@@ -102,11 +102,11 @@ internal fun HomeScreen(
                                 )
                                 Image(
                                     painter = painterResource(id = R.drawable.ic_home_upload),
-                                    contentDescription = "explorer",
+                                    contentDescription = "upload",
                                 )
                                 Image(
                                     painter = painterResource(id = R.drawable.ic_home_change),
-                                    contentDescription = "explorer",
+                                    contentDescription = "change",
                                 )
                             }
                         }
