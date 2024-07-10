@@ -1,15 +1,22 @@
 package com.teamoffroad.feature.explore.presentation.model
 
+import com.naver.maps.geometry.LatLng
+
 data class LocationModel(
-    val latitude: Float = DEFAULT_LOCATION_LATITUDE,
-    val longitude: Float = DEFAULT_LOCATION_LONGITUDE,
+    val location: LatLng = LatLng(
+        DEFAULT_LOCATION_LATITUDE.toDouble(),
+        DEFAULT_LOCATION_LONGITUDE.toDouble(),
+    ),
     val isAlreadyHavePermission: Boolean = false,
     val isPermissionRejected: Boolean = false,
 ) {
+
     fun updateLocation(latitude: Float, longitude: Float): LocationModel {
         return copy(
-            latitude = latitude,
-            longitude = longitude,
+            location = LatLng(
+                latitude.toDouble(),
+                longitude.toDouble(),
+            ),
         )
     }
 
