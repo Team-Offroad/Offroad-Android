@@ -1,13 +1,22 @@
 package com.teamoffroad.feature.explore.presentation
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
 
 @Composable
 internal fun ExploreRoute(
-    padding: PaddingValues,
+    navigateToHome: () -> Unit,
+    viewModel: ExploreViewModel = hiltViewModel(),
 ) {
+
+    val uiState: ExploreUiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     ExploreScreen(
-        padding = padding,
+        locationState = uiState.locationModel,
+        navigateToHome = navigateToHome,
+        updatePermission = viewModel::updatePermission,
     )
 }

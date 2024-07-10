@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.explore.presentation.navigation
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -13,9 +12,9 @@ fun NavController.navigateExplore(navOptions: NavOptions) {
 }
 
 fun NavGraphBuilder.exploreNavGraph(
-    padding: PaddingValues,
+    navigateToHome: () -> Unit,
 ) {
     composable<MainTabRoute.Explore> {
-        ExploreRoute(padding)
+        ExploreRoute(navigateToHome)
     }
 }

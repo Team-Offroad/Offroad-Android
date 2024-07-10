@@ -1,14 +1,23 @@
 package com.teamoffroad.feature.explore.presentation
 
-import android.location.Location
 import androidx.lifecycle.ViewModel
+import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
-class ExploreViewModel: ViewModel() {
+@HiltViewModel
+class ExploreViewModel @Inject constructor(
 
-    private val _location = MutableStateFlow<Location?>(null)
-    val location: StateFlow<Location?> = _location
+) : ViewModel() {
+
+    private val _uiState: MutableStateFlow<ExploreUiState> = MutableStateFlow(ExploreUiState())
+    val uiState: StateFlow<ExploreUiState> get() = _uiState
+
+    fun updatePermission(isAlreadyHavePermission: Boolean, isPermissionRejected: Boolean) {
+        _uiState.value = uiState.value.copy(
+            locationModel = uiState.value.locationModel.updatePermission(isAlreadyHavePermission, isPermissionRejected)
+        )
+    }
 }

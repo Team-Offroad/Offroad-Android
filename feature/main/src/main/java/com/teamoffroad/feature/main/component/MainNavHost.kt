@@ -33,7 +33,7 @@ internal fun MainNavHost(
                 padding = padding,
             )
             exploreNavGraph(
-                padding = padding
+                navigateToHome = { navigator.navigateHome() }
             )
             mypageNavGraph(
                 padding = padding,
