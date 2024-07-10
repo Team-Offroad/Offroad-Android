@@ -54,7 +54,7 @@ internal class MainNavigator(
         currentDestination?.hasRoute(it::class) == true
     }
 
-    fun navigateHome() {
+    fun navigateToHome() {
         navController.navigateHome(navOptions)
     }
 }
