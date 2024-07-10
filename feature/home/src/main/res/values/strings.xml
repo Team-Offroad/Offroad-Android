@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="recent_quest">최근 진행한 퀘스트</string>
+    <string name="circle">circle</string>
+    <string name="close_complete_quest">완료 임박 퀘스트</string>
+    <string name="linear">linear</string>
+    <string name="explorer">모험가</string>
+</resources>
