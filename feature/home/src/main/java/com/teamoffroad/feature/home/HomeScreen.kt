@@ -2,6 +2,8 @@ package com.teamoffroad.feature.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -15,7 +17,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -24,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -40,6 +42,8 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.teamoffroad.core.common.component.ContentsLocation
 import com.teamoffroad.core.common.component.ContentsTitle
+import com.teamoffroad.core.common.component.PopupTagActive
+import com.teamoffroad.core.designsystem.theme.Black15
 import com.teamoffroad.core.designsystem.theme.Black25
 import com.teamoffroad.core.designsystem.theme.CharacterName
 import com.teamoffroad.core.designsystem.theme.Contents1
@@ -50,7 +54,6 @@ import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.OpticianSansRegular
 import com.teamoffroad.core.designsystem.theme.PretendardBold
-import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.Sub4
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.offroad.feature.home.R
@@ -65,148 +68,114 @@ internal fun HomeScreen(
             .verticalScroll(rememberScrollState()),
         color = Main1
     ) {
-        ConstraintLayout {
-            val stamp = createRef()
-            Image(
-                painter = painterResource(id = R.drawable.img_home_stamp),
-                contentDescription = "stamp",
-                modifier = Modifier
-                    .constrainAs(stamp) {
-                        top.linkTo(parent.top, margin = 28.dp)
-                        end.linkTo(parent.end, margin = (-36).dp)
-                    }
-            )
-
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 32.dp)
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Box(
+                modifier = Modifier.fillMaxWidth()
             ) {
-                TextNickname("비포장도로")
-                Spacer(modifier = Modifier.padding(12.dp))
-                TextCharacterName("오푸")
 
-                ConstraintLayout(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    val (explorer, download, upload, change) = createRefs()
-
-                    Image(
-                        painter = painterResource(id = R.drawable.img_home_explorer),
-                        contentDescription = "explorer",
-                        modifier = Modifier
-                            .constrainAs(explorer) {
-                                start.linkTo(parent.start)
-                                end.linkTo(parent.end)
-                            }
-                    )
-
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_home_download),
-                        contentDescription = "download",
-                        modifier = Modifier
-                            .constrainAs(download) {
-                                end.linkTo(parent.end, margin = 30.dp)
-                            },
-                        tint = Color.Unspecified
-                    )
-
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_home_upload),
-                        contentDescription = "upload",
-                        modifier = Modifier
-                            .constrainAs(upload) {
-                                end.linkTo(download.end)
-                                top.linkTo(download.bottom)
-                            },
-                        tint = Color.Unspecified
-                    )
-
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_home_change),
-                        contentDescription = "change",
-                        modifier = Modifier
-                            .constrainAs(change) {
-                                end.linkTo(upload.end)
-                                top.linkTo(upload.bottom)
-                            },
-                        tint = Color.Unspecified
-                    )
+                Column {
+                    TextNickname("비포장도로")
+                    TextCharacterName("오푸")
                 }
 
-                Spacer(modifier = Modifier.padding(top = 18.dp))
-
-                ConstraintLayout(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 24.dp)
-                        .background(
-                            color = Sub,
-                            shape = RoundedCornerShape(10.dp)
+                Box {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.TopEnd
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.img_home_stamp),
+                            contentDescription = "stamp",
                         )
-                        .padding(vertical = 6.dp)
-                ) {
-                    val (title, changeIcon) = createRefs()
-                    //PopupTagSub(modifier = Modifier)
-                    Text(
-                        text = "초보 모험가",
-                        color = White,
-                        style = OffroadTheme.typography.subtitle2Semibold,
-                        modifier = Modifier
-                            .constrainAs(title) {
-                                start.linkTo(parent.start)
-                                end.linkTo(parent.end)
-                                top.linkTo(parent.top)
-                                bottom.linkTo(parent.bottom)
-                            }
-                    )
 
-                    Icon(
-                        painter = painterResource(R.drawable.ic_home_change_title),
-                        contentDescription = "change title",
-                        modifier = Modifier
-                            .constrainAs(changeIcon) {
-                                end.linkTo(parent.end, margin = 18.dp)
-                                top.linkTo(parent.top)
-                                bottom.linkTo(parent.bottom)
-                            },
-                        tint = Color.Unspecified
-                    )
-                }
-                Spacer(modifier = Modifier.padding(top = 12.dp))
-                Row(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Spacer(modifier = Modifier.padding(start = 24.dp))
-                    Surface(
-                        color = Contents1,
-                        modifier = Modifier
-                            .weight(1f)
-                            .clip(shape = RoundedCornerShape(10.dp))
-                    ) {
-                        ProgressBar(HomeProgressBarData("최근 진행한 퀘스트", "circle", 3, 4, "홍대입구 한바퀴"))
+                        Box(
+                            contentAlignment = Alignment.TopEnd,
+                            modifier = Modifier.padding(top = 64.dp, end = 28.dp)
+                        ) {
+                            Column {
+                                Image(
+                                    painter = painterResource(id = R.drawable.ic_home_download),
+                                    contentDescription = "explorer",
+                                )
+                                Image(
+                                    painter = painterResource(id = R.drawable.ic_home_upload),
+                                    contentDescription = "explorer",
+                                )
+                                Image(
+                                    painter = painterResource(id = R.drawable.ic_home_change),
+                                    contentDescription = "explorer",
+                                )
+                            }
+                        }
                     }
-                    Spacer(modifier = Modifier.padding(start = 12.dp))
-                    Surface(
-                        color = Contents2,
+
+                    Box(
                         modifier = Modifier
-                            .weight(1f)
-                            .clip(shape = RoundedCornerShape(10.dp))
+                            .fillMaxWidth()
+                            .padding(top = 90.dp),
+                        contentAlignment = Alignment.Center
                     ) {
-                        ProgressBar(HomeProgressBarData("완료 임박 퀘스트", "linear", 7, 8, "도심 속 공원 탐방"))
+                        Image(
+                            painter = painterResource(id = R.drawable.img_home_explorer),
+                            contentDescription = "explorer"
+                        )
                     }
-                    Spacer(modifier = Modifier.padding(end = 24.dp))
                 }
             }
-            Spacer(modifier = Modifier.padding(top = 34.dp))
+            Spacer(modifier = Modifier.padding(18.dp))
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp)
+            ) {
+                PopupTagActive(text = "초보 모험가")
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.CenterEnd),
+                    contentAlignment = Alignment.CenterEnd
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_home_change_title),
+                        contentDescription = "change title",
+                        modifier = Modifier.padding(end = 20.dp)
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.padding(top = 12.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Spacer(modifier = Modifier.padding(start = 24.dp))
+                Surface(
+                    color = Contents1,
+                    modifier = Modifier
+                        .weight(1f)
+                        .clip(shape = RoundedCornerShape(10.dp))
+                ) {
+                    ProgressBar(HomeProgressBarData("최근 진행한 퀘스트", "circle", 3, 4, "홍대입구 한바퀴"))
+                }
+                Spacer(modifier = Modifier.padding(start = 12.dp))
+                Surface(
+                    color = Contents2,
+                    modifier = Modifier
+                        .weight(1f)
+                        .clip(shape = RoundedCornerShape(10.dp))
+                ) {
+                    ProgressBar(HomeProgressBarData("완료 임박 퀘스트", "linear", 7, 8, "도심 속 공원 탐방"))
+                }
+                Spacer(modifier = Modifier.padding(end = 24.dp))
+            }
         }
-
     }
 }
 
 @Composable
 fun ProgressBar(data: HomeProgressBarData) {
-    when(data.type) {
+    when (data.type) {
         "circle" -> {
             Column {
                 Row {
@@ -219,7 +188,6 @@ fun ProgressBar(data: HomeProgressBarData) {
                             .padding(top = 16.dp)
                     )
                 }
-
                 Spacer(modifier = Modifier.padding(top = 14.dp))
 
                 var recentQuestProgress by remember { mutableStateOf(0.8f) }
@@ -263,6 +231,7 @@ fun ProgressBar(data: HomeProgressBarData) {
                 Spacer(modifier = Modifier.padding(bottom = 12.dp))
             }
         }
+
         "linear" -> {
             Column(
                 modifier = Modifier.fillMaxWidth()
@@ -296,7 +265,6 @@ fun ProgressBar(data: HomeProgressBarData) {
                             ) {
                                 append(data.amount.toString())
                             }
-
                             withStyle(
                                 SpanStyle(
                                     fontFamily = OpticianSansRegular,
@@ -305,6 +273,7 @@ fun ProgressBar(data: HomeProgressBarData) {
                                     color = Black25
                                 )
                             ) {
+                                append("/")
                                 append(data.total.toString())
                             }
                         },
@@ -348,7 +317,7 @@ fun ProgressBar(data: HomeProgressBarData) {
 @Composable
 fun TextNickname(nickname: String) {
     Text(
-        modifier = Modifier.padding(start = 24.dp),
+        modifier = Modifier.padding(start = 24.dp, top = 32.dp),
         style = OffroadTheme.typography.subtitleReg,
         text = buildAnnotatedString {
             append("모험가 ")
@@ -371,10 +340,15 @@ fun TextCharacterName(name: String) {
         style = OffroadTheme.typography.subtitle2Semibold,
         text = name,
         modifier = Modifier
-            .padding(start = 24.dp)
+            .padding(start = 24.dp, top = 12.dp)
             .background(
                 color = CharacterName,
                 shape = RoundedCornerShape(6.dp)
+            )
+            .border(
+                width = 1.dp,
+                shape = RoundedCornerShape(6.dp),
+                color = Black15
             )
             .padding(horizontal = 16.dp)
             .padding(vertical = 6.dp),
