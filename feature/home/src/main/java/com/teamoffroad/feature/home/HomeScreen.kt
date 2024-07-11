@@ -68,265 +68,40 @@ internal fun HomeScreen(
             .verticalScroll(rememberScrollState()),
         color = Main1
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Box(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-
-                Column {
-                    TextNickname("비포장도로")
-                    TextCharacterName("오푸")
-                }
-
-                Box {
-                    Box(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.TopEnd
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.img_home_stamp),
-                            contentDescription = "stamp",
-                        )
-
-                        Box(
-                            contentAlignment = Alignment.TopEnd,
-                            modifier = Modifier.padding(top = 64.dp, end = 28.dp)
-                        ) {
-                            Column {
-                                Image(
-                                    painter = painterResource(id = R.drawable.ic_home_download),
-                                    contentDescription = "explorer",
-                                )
-                                Image(
-                                    painter = painterResource(id = R.drawable.ic_home_upload),
-                                    contentDescription = "upload",
-                                )
-                                Image(
-                                    painter = painterResource(id = R.drawable.ic_home_change),
-                                    contentDescription = "change",
-                                )
-                            }
-                        }
-                    }
-
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 90.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.img_home_explorer),
-                            contentDescription = "explorer"
-                        )
-                    }
-                }
-            }
-            Spacer(modifier = Modifier.padding(18.dp))
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 24.dp)
-            ) {
-                PopupTagActive(text = "초보 모험가")
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.CenterEnd),
-                    contentAlignment = Alignment.CenterEnd
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_home_change_title),
-                        contentDescription = "change title",
-                        modifier = Modifier.padding(end = 20.dp)
-                    )
-                }
-            }
+        Column(modifier = Modifier.fillMaxWidth()) {
+            UsersAdventuresInformation(modifier = Modifier)
             Spacer(modifier = Modifier.padding(top = 12.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Spacer(modifier = Modifier.padding(start = 24.dp))
-                Surface(
-                    color = Contents1,
-                    modifier = Modifier
-                        .weight(1f)
-                        .clip(shape = RoundedCornerShape(10.dp))
-                ) {
-                    ProgressBar(
-                        HomeProgressBarData(
-                            stringResource(id = R.string.recent_quest), stringResource(
-                                id = R.string.circle
-                            ), 3, 4, "홍대입구 한바퀴"
-                        )
-                    )
-                }
-                Spacer(modifier = Modifier.padding(start = 12.dp))
-                Surface(
-                    color = Contents2,
-                    modifier = Modifier
-                        .weight(1f)
-                        .clip(shape = RoundedCornerShape(10.dp))
-                ) {
-                    ProgressBar(
-                        HomeProgressBarData(
-                            stringResource(id = R.string.close_complete_quest), stringResource(
-                                id = R.string.linear
-                            ), 7, 8, "도심 속 공원 탐방"
-                        )
-                    )
-                }
-                Spacer(modifier = Modifier.padding(end = 24.dp))
-            }
+            UsersQuestInformation()
         }
     }
 }
 
 @Composable
-fun ProgressBar(data: HomeProgressBarData) {
-    when (data.type) {
-        "circle" -> {
-            Column {
-                Row {
-                    ContentsTitle(data.title)
-                    Spacer(modifier = Modifier.padding(start = 4.dp))
-                    Image(
-                        painter = painterResource(id = R.drawable.img_home_recent_quest),
-                        contentDescription = "recent quest",
-                        modifier = Modifier
-                            .padding(top = 16.dp)
-                    )
-                }
-                Spacer(modifier = Modifier.padding(top = 14.dp))
-
-                var recentQuestProgress by remember { mutableStateOf(0.8f) }
-
-                ConstraintLayout(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    val (main, text) = createRefs()
-
-                    CircularProgressIndicator(
-                        progress = { recentQuestProgress },
-                        color = Contents1GraphMain,
-                        trackColor = Contents1GraphSub,
-                        strokeWidth = 8.dp,
-                        strokeCap = StrokeCap.Round,
-                        modifier = Modifier
-                            .size(82.dp)
-                            .constrainAs(main) {
-                                start.linkTo(parent.start)
-                                end.linkTo(parent.end)
-                            }
-                    )
-
-                    Text(
-                        text = "3/4",
-                        color = Main1,
-                        style = OffroadTheme.typography.bothRecentNum,
-                        modifier = Modifier
-                            .constrainAs(text) {
-                                start.linkTo(main.start)
-                                end.linkTo(main.end)
-                                top.linkTo(main.top)
-                                bottom.linkTo(main.bottom)
-                            }
-                    )
-                }
-
-                Spacer(modifier = Modifier.padding(top = 12.dp))
-                ContentsLocation(data.location)
-                Spacer(modifier = Modifier.padding(bottom = 12.dp))
-            }
+private fun UsersAdventuresInformation(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Column {
+            NicknameText("비포장도로")
+            CharacterNameText("오푸")
         }
-
-        "linear" -> {
-            Column(
-                modifier = Modifier.fillMaxWidth()
+        Box {
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.TopEnd
             ) {
-                Row {
-                    ContentsTitle(title = data.title)
-                    Spacer(modifier = Modifier.padding(start = 4.dp))
-                    Image(
-                        painter = painterResource(id = R.drawable.img_home_close_complete),
-                        contentDescription = "recent quest",
-                        modifier = Modifier
-                            .padding(top = 16.dp)
-                    )
-                }
-
-                Spacer(modifier = Modifier.padding(top = 16.dp))
-
-                ConstraintLayout {
-                    val text = createRef()
-
-                    Text(
-                        textAlign = TextAlign.Center,
-                        text = buildAnnotatedString {
-                            withStyle(
-                                SpanStyle(
-                                    fontFamily = OpticianSansRegular,
-                                    fontWeight = FontWeight.Normal,
-                                    color = Sub4,
-                                    fontSize = 62.sp
-                                )
-                            ) {
-                                append(data.amount.toString())
-                            }
-                            withStyle(
-                                SpanStyle(
-                                    fontFamily = OpticianSansRegular,
-                                    fontWeight = FontWeight.Normal,
-                                    fontSize = 30.sp,
-                                    color = Black25
-                                )
-                            ) {
-                                append("/")
-                                append(data.total.toString())
-                            }
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .constrainAs(text) {
-                                start.linkTo(parent.start)
-                                end.linkTo(parent.end)
-                            }
-                    )
-                }
-
-                Spacer(modifier = Modifier.padding(top = 8.dp))
-
-                ConstraintLayout {
-                    val progress = createRef()
-                    var closeCompleteProgress by remember { mutableStateOf(0.8f) }
-
-                    LinearProgressIndicator(
-                        progress = { closeCompleteProgress },
-                        trackColor = Black25,
-                        color = Sub4,
-                        strokeCap = StrokeCap.Round,
-                        modifier = Modifier
-                            .height(8.dp)
-                            .padding(end = 10.dp)
-                            .constrainAs(progress) {
-                                start.linkTo(parent.start, margin = (-3).dp)
-                            }
-                    )
-                }
-
-                Spacer(modifier = Modifier.padding(top = 20.dp))
-                ContentsLocation(data.location)
-                Spacer(modifier = Modifier.padding(bottom = 12.dp))
+                HomeBackground()
+                HomeIcons()
             }
+            CharacterImage()
         }
     }
+    Spacer(modifier = Modifier.padding(18.dp))
+    EmblemNameText(Modifier)
 }
 
 @Composable
-fun TextNickname(nickname: String) {
+private fun NicknameText(nickname: String) {
     Text(
         modifier = Modifier.padding(start = 24.dp, top = 32.dp),
         style = OffroadTheme.typography.subtitleReg,
@@ -347,7 +122,7 @@ fun TextNickname(nickname: String) {
 }
 
 @Composable
-fun TextCharacterName(name: String) {
+private fun CharacterNameText(name: String) {
     Text(
         style = OffroadTheme.typography.subtitle2Semibold,
         text = name,
@@ -368,6 +143,251 @@ fun TextCharacterName(name: String) {
     )
 }
 
+@Composable
+private fun HomeBackground() {
+    Image(
+        painter = painterResource(id = R.drawable.img_home_stamp),
+        contentDescription = "stamp",
+    )
+}
+
+@Composable
+private fun CharacterImage() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 90.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.img_home_explorer),
+            contentDescription = "explorer"
+        )
+    }
+}
+
+@Composable
+private fun HomeIcons() {
+    Box(
+        contentAlignment = Alignment.TopEnd,
+        modifier = Modifier.padding(top = 64.dp, end = 28.dp)
+    ) {
+        Column {
+            Image(
+                painter = painterResource(id = R.drawable.ic_home_download),
+                contentDescription = "explorer",
+            )
+            Image(
+                painter = painterResource(id = R.drawable.ic_home_upload),
+                contentDescription = "upload",
+            )
+            Image(
+                painter = painterResource(id = R.drawable.ic_home_change),
+                contentDescription = "change",
+            )
+        }
+    }
+}
+
+@Composable
+private fun EmblemNameText(modifier: Modifier = Modifier) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp)
+    ) {
+        Box(
+            modifier = modifier.fillMaxWidth(),
+            contentAlignment = Alignment.CenterEnd
+        ) {
+            PopupTagActive(text = "초보 모험가")
+            Image(
+                painter = painterResource(id = R.drawable.ic_home_change_title),
+                contentDescription = "change title",
+                modifier = Modifier.padding(end = 20.dp)
+            )
+        }
+    }
+
+}
+
+@Composable
+private fun UsersQuestInformation() {
+    Row(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Spacer(modifier = Modifier.padding(start = 24.dp))
+        RecentQuest(
+            modifier = Modifier.weight(1f),
+            data = HomeProgressBarData(
+                stringResource(id = R.string.recent_quest), stringResource(
+                    id = R.string.circle
+                ), 3, 4, "홍대입구 한바퀴"
+            )
+        )
+        Spacer(modifier = Modifier.padding(start = 12.dp))
+        CloseCompleteRequest(
+            modifier = Modifier.weight(1f),
+            data = HomeProgressBarData(
+                stringResource(id = R.string.close_complete_quest), stringResource(
+                    id = R.string.linear
+                ), 7, 8, "도심 속 공원 탐방"
+            )
+        )
+        Spacer(modifier = Modifier.padding(end = 24.dp))
+    }
+}
+
+@Composable
+private fun RecentQuest(modifier: Modifier = Modifier, data: HomeProgressBarData) {
+    Surface(
+        color = Contents1,
+        modifier = modifier.clip(shape = RoundedCornerShape(10.dp))
+    ) {
+        Column {
+            Row {
+                ContentsTitle(data.title)
+                Spacer(modifier = Modifier.padding(start = 4.dp))
+                Image(
+                    painter = painterResource(id = R.drawable.img_home_recent_quest),
+                    contentDescription = "recent quest",
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                )
+            }
+            Spacer(modifier = Modifier.padding(top = 14.dp))
+            CircleProgressBar()
+            Spacer(modifier = Modifier.padding(top = 12.dp))
+            ContentsLocation(data.location)
+            Spacer(modifier = Modifier.padding(bottom = 12.dp))
+        }
+    }
+}
+
+@Composable
+private fun CloseCompleteRequest(modifier: Modifier = Modifier, data: HomeProgressBarData) {
+    Surface(
+        color = Contents2,
+        modifier = modifier
+            .clip(shape = RoundedCornerShape(10.dp))
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Row {
+                ContentsTitle(title = data.title)
+                Spacer(modifier = Modifier.padding(start = 4.dp))
+                Image(
+                    painter = painterResource(id = R.drawable.img_home_close_complete),
+                    contentDescription = "recent quest",
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                )
+            }
+            Spacer(modifier = Modifier.padding(top = 16.dp))
+            LinearProgressBar(data)
+            Spacer(modifier = Modifier.padding(top = 20.dp))
+            ContentsLocation(data.location)
+            Spacer(modifier = Modifier.padding(bottom = 12.dp))
+        }
+    }
+
+}
+
+@Composable
+private fun CircleProgressBar() {
+    var recentQuestProgress by remember { mutableStateOf(0.8f) }
+
+    ConstraintLayout(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        val (main, text) = createRefs()
+
+        CircularProgressIndicator(
+            progress = { recentQuestProgress },
+            color = Contents1GraphMain,
+            trackColor = Contents1GraphSub,
+            strokeWidth = 8.dp,
+            strokeCap = StrokeCap.Round,
+            modifier = Modifier
+                .size(82.dp)
+                .constrainAs(main) {
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
+        )
+
+        Text(
+            text = "3/4",
+            color = Main1,
+            style = OffroadTheme.typography.bothRecentNum,
+            modifier = Modifier
+                .constrainAs(text) {
+                    start.linkTo(main.start)
+                    end.linkTo(main.end)
+                    top.linkTo(main.top)
+                    bottom.linkTo(main.bottom)
+                }
+        )
+    }
+}
+
+@Composable
+private fun LinearProgressBar(data: HomeProgressBarData) {
+    ConstraintLayout {
+        val text = createRef()
+        Text(
+            textAlign = TextAlign.Center,
+            text = buildAnnotatedString {
+                withStyle(
+                    SpanStyle(
+                        fontFamily = OpticianSansRegular,
+                        fontWeight = FontWeight.Normal,
+                        color = Sub4,
+                        fontSize = 62.sp
+                    )
+                ) {
+                    append(data.amount.toString())
+                }
+                withStyle(
+                    SpanStyle(
+                        fontFamily = OpticianSansRegular,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 30.sp,
+                        color = Black25
+                    )
+                ) {
+                    append("/")
+                    append(data.total.toString())
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .constrainAs(text) {
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
+        )
+    }
+    Spacer(modifier = Modifier.padding(top = 8.dp))
+    ConstraintLayout {
+        val progress = createRef()
+        var closeCompleteProgress by remember { mutableStateOf(0.8f) }
+
+        LinearProgressIndicator(
+            progress = { closeCompleteProgress },
+            trackColor = Black25,
+            color = Sub4,
+            strokeCap = StrokeCap.Round,
+            modifier = Modifier
+                .height(8.dp)
+                .padding(end = 10.dp)
+                .constrainAs(progress) {
+                    start.linkTo(parent.start, margin = (-3).dp)
+                }
+        )
+    }
+}
 
 @Preview(showBackground = true)
 @Composable
