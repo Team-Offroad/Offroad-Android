@@ -29,7 +29,7 @@ import com.teamoffroad.core.designsystem.theme.Contents1GraphMain
 import com.teamoffroad.core.designsystem.theme.Contents1GraphSub
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
-import com.teamoffroad.feature.home.HomeProgressBarData
+import com.teamoffroad.feature.home.presentation.model.HomeProgressBarData
 import com.teamoffroad.offroad.feature.home.R
 
 @Composable

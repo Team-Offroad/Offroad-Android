@@ -34,7 +34,7 @@ import com.teamoffroad.core.designsystem.theme.Black25
 import com.teamoffroad.core.designsystem.theme.Contents2
 import com.teamoffroad.core.designsystem.theme.OpticianSansRegular
 import com.teamoffroad.core.designsystem.theme.Sub4
-import com.teamoffroad.feature.home.HomeProgressBarData
+import com.teamoffroad.feature.home.presentation.model.HomeProgressBarData
 import com.teamoffroad.offroad.feature.home.R
 
 @Composable

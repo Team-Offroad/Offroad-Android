@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.home
+package com.teamoffroad.feature.home.presentation.model
 
 data class HomeProgressBarData(
     val title: String,
