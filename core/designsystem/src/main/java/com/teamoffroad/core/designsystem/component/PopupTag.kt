@@ -1,4 +1,4 @@
-package com.teamoffroad.core.common.component
+package com.teamoffroad.core.designsystem.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

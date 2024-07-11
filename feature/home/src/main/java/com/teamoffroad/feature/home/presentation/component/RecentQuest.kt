@@ -22,8 +22,8 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.teamoffroad.core.common.component.ContentsLocation
-import com.teamoffroad.core.common.component.ContentsTitle
+import com.teamoffroad.core.designsystem.component.ContentsLocation
+import com.teamoffroad.core.designsystem.component.ContentsTitle
 import com.teamoffroad.core.designsystem.theme.Contents1
 import com.teamoffroad.core.designsystem.theme.Contents1GraphMain
 import com.teamoffroad.core.designsystem.theme.Contents1GraphSub

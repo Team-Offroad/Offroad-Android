@@ -28,8 +28,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.teamoffroad.core.common.component.ContentsLocation
-import com.teamoffroad.core.common.component.ContentsTitle
+import com.teamoffroad.core.designsystem.component.ContentsLocation
+import com.teamoffroad.core.designsystem.component.ContentsTitle
 import com.teamoffroad.core.designsystem.theme.Black25
 import com.teamoffroad.core.designsystem.theme.Contents2
 import com.teamoffroad.core.designsystem.theme.OpticianSansRegular

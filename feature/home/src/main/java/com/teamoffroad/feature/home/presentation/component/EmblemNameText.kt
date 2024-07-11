@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.teamoffroad.core.common.component.PopupTagActive
+import com.teamoffroad.core.designsystem.component.PopupTagActive
 import com.teamoffroad.offroad.feature.home.R
 
 @Composable
