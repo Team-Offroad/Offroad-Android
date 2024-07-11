@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    setNamespace("feature.home")
+    setNamespace("feature.auth")
 
     defaultConfig {
         buildConfigField("String", "GOOGLE_CLIENT_ID", getApiKey("google.client.id"))

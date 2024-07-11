@@ -20,7 +20,7 @@ import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
-import com.teamoffroad.offroad.feature.home.R
+import com.teamoffroad.offroad.feature.auth.R
 
 @Composable
 internal fun AuthScreen(
