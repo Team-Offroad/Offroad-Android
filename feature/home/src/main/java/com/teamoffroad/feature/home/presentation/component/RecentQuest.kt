@@ -12,8 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.teamoffroad.core.designsystem.component.ContentsLocation
-import com.teamoffroad.core.designsystem.component.ContentsTitle
 import com.teamoffroad.core.designsystem.theme.Contents1
 import com.teamoffroad.feature.home.presentation.model.HomeProgressBarData
 import com.teamoffroad.offroad.feature.home.R

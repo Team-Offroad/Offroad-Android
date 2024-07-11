@@ -9,7 +9,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.teamoffroad.core.designsystem.component.PopupTagActive
+import com.teamoffroad.core.designsystem.component.OffroadTagItem
+import com.teamoffroad.core.designsystem.theme.OffroadTheme
+import com.teamoffroad.core.designsystem.theme.Sub
+import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.offroad.feature.home.R
 
 @Composable
@@ -23,7 +26,12 @@ fun EmblemNameText(modifier: Modifier = Modifier) {
             modifier = modifier.fillMaxWidth(),
             contentAlignment = Alignment.CenterEnd
         ) {
-            PopupTagActive(text = "초보 모험가")
+            OffroadTagItem(
+                text = "초보 모험가",
+                textColor = White,
+                style = OffroadTheme.typography.subtitle2Semibold,
+                backgroundColor = Sub
+            )
             Image(
                 painter = painterResource(id = R.drawable.ic_home_change_title),
                 contentDescription = "change title",

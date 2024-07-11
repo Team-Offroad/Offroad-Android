@@ -1,4 +1,4 @@
-package com.teamoffroad.core.designsystem.component
+package com.teamoffroad.feature.home.presentation.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,16 +28,5 @@ fun ContentsLocation(location: String) {
         text = location,
         style = OffroadTheme.typography.textContentsSmall,
         color = Main1,
-    )
-}
-
-@Composable
-fun ContentsTitle(title: String) {
-    Text(
-        text = title,
-        modifier = Modifier
-            .padding(start = 12.dp, top = 16.dp),
-        color = Main1,
-        style = OffroadTheme.typography.textContents,
     )
 }
