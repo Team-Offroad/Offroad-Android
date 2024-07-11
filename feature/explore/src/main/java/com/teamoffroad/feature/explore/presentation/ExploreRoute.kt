@@ -18,5 +18,6 @@ internal fun ExploreRoute(
         locationState = uiState.locationModel,
         navigateToHome = navigateToHome,
         updatePermission = viewModel::updatePermission,
+        updateLocation = viewModel::updateLocation,
     )
 }

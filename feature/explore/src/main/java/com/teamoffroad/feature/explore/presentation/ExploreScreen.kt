@@ -31,11 +31,13 @@ import androidx.core.content.ContextCompat
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.compose.CameraPositionState
 import com.naver.maps.map.compose.ExperimentalNaverMapApi
+import com.naver.maps.map.compose.LocationOverlay
 import com.naver.maps.map.compose.MapProperties
 import com.naver.maps.map.compose.MapUiSettings
 import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberCameraPositionState
 import com.naver.maps.map.compose.rememberFusedLocationSource
+import com.naver.maps.map.overlay.OverlayImage
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
@@ -48,6 +50,7 @@ internal fun ExploreScreen(
     locationState: LocationModel,
     navigateToHome: () -> Unit,
     updatePermission: (Boolean, Boolean) -> Unit,
+    updateLocation: (Double, Double) -> Unit,
 ) {
 
     val context = LocalContext.current
@@ -60,15 +63,11 @@ internal fun ExploreScreen(
     val launcherMultiplePermissions = getLocationPermissionLauncher(updatePermission)
 
     ExplorePermissionsHandler(
-        context = context,
-        locationState = locationState,
-        launcherMultiplePermissions = launcherMultiplePermissions,
-        permissions = permissions,
-        updatePermission = updatePermission
+        context = context, locationState = locationState, launcherMultiplePermissions = launcherMultiplePermissions, permissions = permissions, updatePermission = updatePermission
     )
 
     if (locationState.isAlreadyHavePermission) {
-        ExploreNaverMap(locationState)
+        ExploreNaverMap(locationState, updateLocation)
     }
     if (locationState.isPermissionRejected) {
         ExplorePermissionRejectedHandler(context, navigateToHome)
@@ -123,9 +122,7 @@ private fun ExplorePermissionRejectedHandler(
     navigateToHome: () -> Unit,
 ) {
     Toast.makeText(
-        context,
-        stringResource(R.string.explore_location_permission_failed),
-        Toast.LENGTH_SHORT
+        context, stringResource(R.string.explore_location_permission_failed), Toast.LENGTH_SHORT
     ).show()
     navigateToHome()
 }
@@ -134,6 +131,7 @@ private fun ExplorePermissionRejectedHandler(
 @Composable
 private fun ExploreNaverMap(
     locationState: LocationModel,
+    updateLocation: (Double, Double) -> Unit,
 ) {
     val mapProperties by remember {
         mutableStateOf(
@@ -159,9 +157,15 @@ private fun ExploreNaverMap(
             locationSource = rememberFusedLocationSource(),
             cameraPositionState = cameraPositionState,
             onLocationChange = { location ->
-                // TODO: 거리계산 로직 추가
+                updateLocation(location.latitude, location.longitude)
             },
-        )
+        ) {
+            LocationOverlay(
+                position = locationState.location,
+                icon = OverlayImage.fromResource(R.drawable.ic_explore_refresh),
+                subIcon = OverlayImage.fromResource(R.drawable.ic_explore_refresh),
+            )
+        }
     }
 }
 
