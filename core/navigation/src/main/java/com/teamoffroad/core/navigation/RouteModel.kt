@@ -17,3 +17,14 @@ sealed interface MainTabRoute : Route {
     @Serializable
     data object Mypage : MainTabRoute
 }
+
+sealed interface AuthSettingRoute : Route {
+    @Serializable
+    data object SetNickname : AuthSettingRoute
+
+    @Serializable
+    data object SetBirthDate : AuthSettingRoute
+
+    @Serializable
+    data object SetGender : AuthSettingRoute
+}
