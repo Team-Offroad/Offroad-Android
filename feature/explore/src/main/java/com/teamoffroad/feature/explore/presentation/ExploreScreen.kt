@@ -194,5 +194,3 @@ private fun ExploreAppBar() {
         )
     }
 }
-
-private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
