@@ -20,4 +20,10 @@ class ExploreViewModel @Inject constructor(
             locationModel = uiState.value.locationModel.updatePermission(isAlreadyHavePermission, isPermissionRejected)
         )
     }
+
+    fun updateLocation(latitude: Double, longitude: Double) {
+        _uiState.value = uiState.value.copy(
+            locationModel = uiState.value.locationModel.updateLocation(latitude, longitude)
+        )
+    }
 }

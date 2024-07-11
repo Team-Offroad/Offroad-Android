@@ -17,11 +17,11 @@ data class LocationModel(
     },
 ) {
 
-    fun updateLocation(latitude: Float, longitude: Float): LocationModel {
+    fun updateLocation(latitude: Double, longitude: Double): LocationModel {
         return copy(
             location = LatLng(
-                latitude.toDouble(),
-                longitude.toDouble(),
+                latitude,
+                longitude,
             ),
         )
     }

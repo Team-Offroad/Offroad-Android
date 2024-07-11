@@ -35,6 +35,7 @@ import com.naver.maps.map.compose.MapProperties
 import com.naver.maps.map.compose.MapUiSettings
 import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberCameraPositionState
+import com.naver.maps.map.compose.rememberFusedLocationSource
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
@@ -144,18 +145,22 @@ private fun ExploreNaverMap(
     }
     val mapUiSettings by remember {
         mutableStateOf(
-            MapUiSettings(isLocationButtonEnabled = false)
+            MapUiSettings(isLocationButtonEnabled = true)
         )
     }
     val cameraPositionState: CameraPositionState = rememberCameraPositionState {
         position = CameraPosition(locationState.location, 15.0)
     }
 
-    Box(Modifier.fillMaxSize()) {
+    Box(Modifier.fillMaxSize().padding(bottom = 74.dp)) {
         NaverMap(
             properties = mapProperties,
             uiSettings = mapUiSettings,
+            locationSource = rememberFusedLocationSource(),
             cameraPositionState = cameraPositionState,
+            onLocationChange = { location ->
+                // TODO: 거리계산 로직 추가
+            },
         )
     }
 }
@@ -185,3 +190,5 @@ private fun ExploreAppBar() {
         )
     }
 }
+
+private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
