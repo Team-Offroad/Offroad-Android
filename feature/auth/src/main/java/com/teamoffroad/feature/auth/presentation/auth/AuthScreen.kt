@@ -1,11 +1,13 @@
-package com.teamoffroad.feature.auth.presentation
+package com.teamoffroad.feature.auth.presentation.auth
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -58,7 +60,6 @@ internal fun AuthScreen(
                         start.linkTo(parent.start, margin = 24.dp)
                         end.linkTo(parent.end, margin = 24.dp)
                         top.linkTo(appLogo.bottom, margin = 38.dp)
-                        bottom.linkTo(parent.bottom, margin = 388.dp)
                     }
             )
             ClickableImage(
@@ -73,7 +74,6 @@ internal fun AuthScreen(
                         start.linkTo(parent.start, margin = 24.dp)
                         end.linkTo(parent.end, margin = 24.dp)
                         top.linkTo(kakaoLogin.bottom, margin = 14.dp)
-                        bottom.linkTo(parent.bottom, margin = 320.dp)
                     }
             )
         }
@@ -93,7 +93,9 @@ fun ClickableImage(
     Box(
         modifier = modifier
             .clickable(onClick = onClick)
-            .background(color = background)
+            .background(color = background,
+                shape = RoundedCornerShape(6.dp)
+            )
     ) {
         ConstraintLayout {
             val (loginLogo, logoText) = createRefs()
