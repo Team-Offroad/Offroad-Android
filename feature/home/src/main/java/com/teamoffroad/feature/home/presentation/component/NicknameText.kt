@@ -20,7 +20,7 @@ fun NicknameText(nickname: String) {
         modifier = Modifier.padding(start = 24.dp, top = 32.dp),
         style = OffroadTheme.typography.subtitleReg,
         text = buildAnnotatedString {
-            append(stringResource(id = R.string.explorer))
+            append(stringResource(id = R.string.home_explorer))
             append(" ")
             withStyle(
                 SpanStyle(
@@ -30,7 +30,7 @@ fun NicknameText(nickname: String) {
             ) {
                 append(nickname)
             }
-            append("님")
+            append(stringResource(id = R.string.home_explorer_suffix))
         }
     )
 }

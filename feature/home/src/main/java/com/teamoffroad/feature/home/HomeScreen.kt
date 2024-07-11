@@ -90,18 +90,14 @@ private fun UsersQuestInformation() {
         RecentQuest(
             modifier = Modifier.weight(1f),
             data = HomeProgressBarData(
-                stringResource(id = R.string.recent_quest), stringResource(
-                    id = R.string.circle
-                ), 3, 4, "홍대입구 한바퀴"
+                stringResource(id = R.string.home_recent_quest_title), 3, 4, "홍대입구 한바퀴"
             )
         )
         Spacer(modifier = Modifier.padding(start = 12.dp))
         CloseCompleteRequest(
             modifier = Modifier.weight(1f),
             data = HomeProgressBarData(
-                stringResource(id = R.string.close_complete_quest), stringResource(
-                    id = R.string.linear
-                ), 7, 8, "도심 속 공원 탐방"
+                stringResource(id = R.string.home_close_complete_quest_title), 7, 8, "도심 속 공원 탐방"
             )
         )
         Spacer(modifier = Modifier.padding(end = 24.dp))
