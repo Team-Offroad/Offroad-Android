@@ -28,7 +28,7 @@ import com.teamoffroad.feature.home.presentation.component.EmblemNameText
 import com.teamoffroad.feature.home.presentation.component.HomeIcons
 import com.teamoffroad.feature.home.presentation.component.NicknameText
 import com.teamoffroad.feature.home.presentation.component.RecentQuest
-import com.teamoffroad.feature.home.presentation.model.HomeProgressBarData
+import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 import com.teamoffroad.offroad.feature.home.R
 
 @Composable
@@ -89,14 +89,14 @@ private fun UsersQuestInformation() {
         Spacer(modifier = Modifier.padding(start = 24.dp))
         RecentQuest(
             modifier = Modifier.weight(1f),
-            data = HomeProgressBarData(
+            data = HomeProgressBarModel(
                 stringResource(id = R.string.home_recent_quest_title), 3, 4, "홍대입구 한바퀴"
             )
         )
         Spacer(modifier = Modifier.padding(start = 12.dp))
         CloseCompleteRequest(
             modifier = Modifier.weight(1f),
-            data = HomeProgressBarData(
+            data = HomeProgressBarModel(
                 stringResource(id = R.string.home_close_complete_quest_title), 7, 8, "도심 속 공원 탐방"
             )
         )

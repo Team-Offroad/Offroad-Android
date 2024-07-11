@@ -13,11 +13,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Contents1
-import com.teamoffroad.feature.home.presentation.model.HomeProgressBarData
+import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 import com.teamoffroad.offroad.feature.home.R
 
 @Composable
-fun RecentQuest(modifier: Modifier = Modifier, data: HomeProgressBarData) {
+fun RecentQuest(modifier: Modifier = Modifier, data: HomeProgressBarModel) {
     Surface(
         color = Contents1,
         modifier = modifier.clip(shape = RoundedCornerShape(10.dp))

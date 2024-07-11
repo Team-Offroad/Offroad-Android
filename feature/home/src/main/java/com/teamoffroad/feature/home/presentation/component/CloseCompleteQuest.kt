@@ -14,11 +14,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Contents2
-import com.teamoffroad.feature.home.presentation.model.HomeProgressBarData
+import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 import com.teamoffroad.offroad.feature.home.R
 
 @Composable
-fun CloseCompleteRequest(modifier: Modifier = Modifier, data: HomeProgressBarData) {
+fun CloseCompleteRequest(modifier: Modifier = Modifier, data: HomeProgressBarModel) {
     Surface(
         color = Contents2,
         modifier = modifier

@@ -24,10 +24,10 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.teamoffroad.core.designsystem.theme.Black25
 import com.teamoffroad.core.designsystem.theme.OpticianSansRegular
 import com.teamoffroad.core.designsystem.theme.Sub4
-import com.teamoffroad.feature.home.presentation.model.HomeProgressBarData
+import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 
 @Composable
-fun LinearProgressBar(data: HomeProgressBarData) {
+fun LinearProgressBar(data: HomeProgressBarModel) {
     ConstraintLayout {
         val text = createRef()
         Text(
