@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_recent_quest_title">최근 진행한 퀘스트</string>
+    <string name="home_close_complete_quest_title">완료 임박 퀘스트</string>
+    <string name="home_explorer">모험가</string>
+    <string name="home_explorer_suffix">님</string>
+</resources>
