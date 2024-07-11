@@ -1,6 +1,7 @@
 package com.teamoffroad.feature.explore.presentation.model
 
 import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.compose.LocationTrackingMode
 
 data class LocationModel(
     val location: LatLng = LatLng(
@@ -9,6 +10,11 @@ data class LocationModel(
     ),
     val isAlreadyHavePermission: Boolean = false,
     val isPermissionRejected: Boolean = false,
+    val isUserTrackingEnabled: Boolean = true,
+    val locationTrackingMode: LocationTrackingMode = when (isUserTrackingEnabled) {
+        true -> LocationTrackingMode.Follow
+        false -> LocationTrackingMode.NoFollow
+    },
 ) {
 
     fun updateLocation(latitude: Float, longitude: Float): LocationModel {
@@ -24,6 +30,12 @@ data class LocationModel(
         return copy(
             isAlreadyHavePermission = isAlreadyHavePermission,
             isPermissionRejected = isPermissionRejected,
+        )
+    }
+
+    fun updateTrackingToggle(isUserTrackingEnabled: Boolean): LocationModel {
+        return copy(
+            isUserTrackingEnabled = !isUserTrackingEnabled,
         )
     }
 

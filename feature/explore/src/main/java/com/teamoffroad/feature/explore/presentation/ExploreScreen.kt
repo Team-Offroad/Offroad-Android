@@ -7,12 +7,38 @@ import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import com.naver.maps.map.CameraPosition
+import com.naver.maps.map.compose.CameraPositionState
+import com.naver.maps.map.compose.ExperimentalNaverMapApi
+import com.naver.maps.map.compose.MapProperties
+import com.naver.maps.map.compose.MapUiSettings
+import com.naver.maps.map.compose.NaverMap
+import com.naver.maps.map.compose.rememberCameraPositionState
+import com.teamoffroad.core.designsystem.theme.Gray100
+import com.teamoffroad.core.designsystem.theme.Main1
+import com.teamoffroad.core.designsystem.theme.Main2
+import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.explore.presentation.model.LocationModel
 import com.teamoffroad.offroad.feature.explore.R
 
@@ -41,11 +67,12 @@ internal fun ExploreScreen(
     )
 
     if (locationState.isAlreadyHavePermission) {
-        Text("Location permissions granted")
+        ExploreNaverMap(locationState)
     }
     if (locationState.isPermissionRejected) {
         ExplorePermissionRejectedHandler(context, navigateToHome)
     }
+    ExploreAppBar()
 }
 
 @Composable
@@ -100,4 +127,61 @@ private fun ExplorePermissionRejectedHandler(
         Toast.LENGTH_SHORT
     ).show()
     navigateToHome()
+}
+
+@OptIn(ExperimentalNaverMapApi::class)
+@Composable
+private fun ExploreNaverMap(
+    locationState: LocationModel,
+) {
+    val mapProperties by remember {
+        mutableStateOf(
+            MapProperties(
+                isMountainLayerGroupEnabled = true,
+                locationTrackingMode = locationState.locationTrackingMode,
+            )
+        )
+    }
+    val mapUiSettings by remember {
+        mutableStateOf(
+            MapUiSettings(isLocationButtonEnabled = false)
+        )
+    }
+    val cameraPositionState: CameraPositionState = rememberCameraPositionState {
+        position = CameraPosition(locationState.location, 15.0)
+    }
+
+    Box(Modifier.fillMaxSize()) {
+        NaverMap(
+            properties = mapProperties,
+            uiSettings = mapUiSettings,
+            cameraPositionState = cameraPositionState,
+        )
+    }
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+private fun ExploreAppBar() {
+    Column {
+        TopAppBar(
+            colors = topAppBarColors(
+                containerColor = Main1,
+                titleContentColor = Main2,
+            ),
+            title = {
+                Text(
+                    stringResource(R.string.explore_title),
+                    textAlign = TextAlign.Start,
+                    style = OffroadTheme.typography.subtitle2Semibold,
+                    modifier = Modifier.padding(top = 32.dp),
+                )
+            },
+            modifier = Modifier.height(70.dp),
+        )
+        HorizontalDivider(
+            color = Gray100,
+            modifier = Modifier.height(1.dp),
+        )
+    }
 }
