@@ -29,6 +29,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.teamoffroad.core.designsystem.theme.Black15
+import com.teamoffroad.core.designsystem.theme.Black25
+import com.teamoffroad.core.designsystem.theme.Gray400
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.NametagInactive
 import com.teamoffroad.core.designsystem.theme.NametagStroke
@@ -68,15 +71,26 @@ fun OffroadDialog(
                         customTitleDialogState.value.onClickCancel()
                     }
                 )
+
+                val selectedItem = remember { mutableStateOf<DummyDataModel?>(null) }
+
                 Column(
                     modifier = Modifier.padding(start = 22.dp, end = 22.dp, bottom = 12.dp)
                 ) {
                     Spacer(modifier = Modifier.padding(top = 30.dp))
                     DialogTitle()
                     Spacer(modifier = Modifier.padding(top = 22.dp))
-                    CharacterTitle(LocalContext.current)
+                    CharacterTitle(LocalContext.current) { itemSelected ->
+                        selectedItem.value = itemSelected
+                    }
                     Spacer(modifier = Modifier.padding(top = 12.dp))
-                    ChangeCharacterTitle()
+                    ChangeCharacterTitle(
+                        isSelected = selectedItem.value != null,
+                        onClickChange = {
+                            showDialog.value = false
+                            customTitleDialogState.value.onClickCancel()
+                        }
+                    )
                 }
             }
         }
@@ -95,7 +109,10 @@ fun DialogTitle() {
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun CharacterTitle(context: Context) {
+fun CharacterTitle(
+    context: Context,
+    onSelectionChange: (DummyDataModel?) -> Unit
+) {
     val characterTitles = remember {
         mutableStateListOf(
             DummyDataModel("오프로드 스타터", 0),
@@ -132,7 +149,8 @@ fun CharacterTitle(context: Context) {
                     borderColor = if (data == selectedDummyDataModel.value) Sub else NametagStroke,
                     dummyDataModel = data,
                     onItemClick = { clickedData ->
-                        selectedDummyDataModel.value = clickedData
+                        selectedDummyDataModel.value = if (selectedDummyDataModel.value == clickedData) null else clickedData
+                        onSelectionChange(selectedDummyDataModel.value)
                         Toast.makeText(context, data.idx.toString(), Toast.LENGTH_SHORT).show()
                     }
                 )
@@ -142,11 +160,18 @@ fun CharacterTitle(context: Context) {
 }
 
 @Composable
-fun ChangeCharacterTitle() {
+fun ChangeCharacterTitle(
+    isSelected: Boolean,
+    onClickChange: () -> Unit
+) {
     DialogChangeButton(
-        text = "바꾸기",
-        textColor = White,
+        text = stringResource(id = R.string.home_change_character_txtx),
+        textColor =  if (isSelected) White else Gray400,
         style = OffroadTheme.typography.textRegular,
-        backgroundColor = Main2
+        backgroundColor = if (isSelected) Main2 else Black15,
+        borderColor = if (isSelected) Main2 else Black25,
+        onItemClick = {
+            onClickChange()
+        }
     )
 }

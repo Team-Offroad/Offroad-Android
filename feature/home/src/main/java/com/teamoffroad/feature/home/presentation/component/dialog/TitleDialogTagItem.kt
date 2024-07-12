@@ -41,11 +41,11 @@ fun DialogTagItem(
             .fillMaxWidth()
             .background(
                 color = backgroundColor,
-                shape = RoundedCornerShape(10.dp),
+                shape = RoundedCornerShape(5.dp),
             )
             .border(
                 width = 1.dp,
-                shape = RoundedCornerShape(10.dp),
+                shape = RoundedCornerShape(5.dp),
                 color = borderColor,
             )
             .padding(vertical = 12.dp)
