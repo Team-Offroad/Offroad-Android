@@ -16,6 +16,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -32,6 +33,8 @@ import com.teamoffroad.offroad.feature.home.R
 
 @Composable
 fun OffroadDialog(
+    showDialog: MutableState<Boolean>,
+    customTitleDialogState: MutableState<CustomTitleDialogState>,
     onClickCancel: () -> Unit
 ) {
     Dialog(
@@ -52,7 +55,12 @@ fun OffroadDialog(
             )
         ) {
             Box {
-                CloseDialog()
+                CloseDialog(
+                    onClickCancel = {
+                        showDialog.value = false
+                        customTitleDialogState.value.onClickCancel()
+                    }
+                )
                 Column(
                     modifier = Modifier.padding(start = 22.dp, end = 22.dp, bottom = 12.dp)
                 ) {

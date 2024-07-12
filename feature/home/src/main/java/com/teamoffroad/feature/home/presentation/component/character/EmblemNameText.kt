@@ -57,6 +57,8 @@ fun EmblemNameText(
 
                 if (showDialog.value) {
                     OffroadDialog(
+                        showDialog,
+                        customTitleDialogState,
                         onClickCancel = {
                             showDialog.value = false
                             customTitleDialogState.value.onClickCancel()
