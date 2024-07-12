@@ -43,6 +43,7 @@ import com.naver.maps.map.compose.rememberFusedLocationSource
 import com.naver.maps.map.overlay.OverlayImage
 import com.teamoffroad.core.designsystem.theme.MapGradiEnd
 import com.teamoffroad.core.designsystem.theme.MapGradiStart
+import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.feature.explore.presentation.component.ExploreAppBar
 import com.teamoffroad.feature.explore.presentation.component.ExploreMapBottomButton
 import com.teamoffroad.feature.explore.presentation.component.ExploreRefreshButton
@@ -172,8 +173,9 @@ private fun ExploreNaverMap(
         ) {
             LocationOverlay(
                 position = locationState.location,
-                icon = OverlayImage.fromResource(R.drawable.ic_explore_refresh),
-                subIcon = OverlayImage.fromResource(R.drawable.ic_explore_location),
+                icon = OverlayImage.fromResource(R.drawable.ic_explore_location_overlay),
+                subIcon = OverlayImage.fromResource(R.drawable.ic_explore_location_overlay_sub),
+                circleColor = Sub2.copy(alpha = 0.07f),
             )
         }
         Box(
