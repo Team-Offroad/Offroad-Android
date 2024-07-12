@@ -3,6 +3,7 @@ package com.teamoffroad.feature.explore.presentation
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.view.Gravity
 import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -163,7 +164,7 @@ private fun ExploreNaverMap(
     }
     val mapUiSettings by remember {
         mutableStateOf(
-            MapUiSettings()
+            MapUiSettings(isScaleBarEnabled = false, isZoomControlEnabled = false, isLogoClickEnabled = false, logoGravity = Gravity.TOP)
         )
     }
     val cameraPositionState: CameraPositionState = rememberCameraPositionState {
