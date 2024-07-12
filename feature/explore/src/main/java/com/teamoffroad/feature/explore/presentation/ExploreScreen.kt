@@ -7,15 +7,23 @@ import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
@@ -28,6 +36,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -45,9 +54,11 @@ import com.naver.maps.map.compose.rememberCameraPositionState
 import com.naver.maps.map.compose.rememberFusedLocationSource
 import com.naver.maps.map.overlay.OverlayImage
 import com.teamoffroad.core.designsystem.theme.Gray100
+import com.teamoffroad.core.designsystem.theme.Gray400
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
+import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.explore.presentation.component.ExploreMapBottomButton
 import com.teamoffroad.feature.explore.presentation.model.LocationModel
 import com.teamoffroad.offroad.feature.explore.R
@@ -151,14 +162,18 @@ private fun ExploreNaverMap(
     }
     val mapUiSettings by remember {
         mutableStateOf(
-            MapUiSettings(isLocationButtonEnabled = true)
+            MapUiSettings()
         )
     }
     val cameraPositionState: CameraPositionState = rememberCameraPositionState {
         position = CameraPosition(locationState.location, 15.0)
     }
 
-    Box(Modifier.fillMaxSize().padding(bottom = 74.dp)) {
+    Box(
+        Modifier
+            .fillMaxSize()
+            .padding(top = 70.dp, bottom = 74.dp)
+    ) {
         NaverMap(
             properties = mapProperties,
             uiSettings = mapUiSettings,
@@ -171,11 +186,30 @@ private fun ExploreNaverMap(
             LocationOverlay(
                 position = locationState.location,
                 icon = OverlayImage.fromResource(R.drawable.ic_explore_refresh),
-                subIcon = OverlayImage.fromResource(R.drawable.ic_explore_refresh),
+                subIcon = OverlayImage.fromResource(R.drawable.ic_explore_location),
+            )
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 26.dp)
+                .align(Alignment.TopCenter),
+        ) {
+            ExploreRefreshButton(
+                text = "현 지도에서 검색",
+                onClick = {},
+                modifier = Modifier.align(Alignment.Center),
+            )
+            ExploreTrackingButton(
+                onClick = {},
+                modifier = Modifier.align(Alignment.CenterEnd)
+                    .padding(end = 22.dp),
             )
         }
         Row(
-            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 36.dp),
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 36.dp),
             horizontalArrangement = Arrangement.Center,
         ) {
             ExploreMapBottomButton(
@@ -194,7 +228,77 @@ private fun ExploreNaverMap(
 }
 
 @Composable
+private fun ExploreRefreshButton(
+    modifier: Modifier,
+    text: String,
+    radius: Int = 6,
+    onClick: () -> Unit,
+) {
+    Box(
+        modifier = modifier
+            .width(126.dp)
+            .height(32.dp)
+            .border(1.dp, Gray100, shape = RoundedCornerShape(radius.dp))
+            .shadow(4.dp, shape = RoundedCornerShape(radius.dp))
+            .background(color = White, shape = RoundedCornerShape(radius.dp))
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center,
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+        ) {
+            Image(
+                painter = painterResource(R.drawable.ic_explore_refresh),
+                contentDescription = text,
+                modifier = Modifier.size(22.dp),
+            )
+            Spacer(modifier = Modifier.size(2.dp))
+            Text(
+                text = text,
+                color = Gray400,
+                style = OffroadTheme.typography.hint,
+            )
+        }
+    }
+}
+
+@Composable
+private fun ExploreTrackingButton(
+    modifier: Modifier,
+    onClick: () -> Unit,
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Spacer(modifier = Modifier.weight(1f))
+        Box(
+            modifier = Modifier
+                .size(42.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(36.dp)
+                    .align(Alignment.Center)
+                    .shadow(elevation = 4.dp, shape = CircleShape)
+            )
+            Image(
+                painter = painterResource(R.drawable.ic_explore_tracking_no_follow),
+                contentDescription = "트래킹 모드 전환",
+                modifier = Modifier
+                    .size(42.dp)
+                    .align(Alignment.Center)
+                    .clickable { onClick() }
+            )
+        }
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
+@Composable
 private fun ExploreAppBar() {
     Column {
         TopAppBar(
