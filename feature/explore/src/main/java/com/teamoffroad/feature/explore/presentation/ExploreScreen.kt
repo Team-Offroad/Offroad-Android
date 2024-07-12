@@ -7,11 +7,15 @@ import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
@@ -22,8 +26,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -42,6 +48,7 @@ import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
+import com.teamoffroad.feature.explore.presentation.component.ExploreMapBottomButton
 import com.teamoffroad.feature.explore.presentation.model.LocationModel
 import com.teamoffroad.offroad.feature.explore.R
 
@@ -63,7 +70,11 @@ internal fun ExploreScreen(
     val launcherMultiplePermissions = getLocationPermissionLauncher(updatePermission)
 
     ExplorePermissionsHandler(
-        context = context, locationState = locationState, launcherMultiplePermissions = launcherMultiplePermissions, permissions = permissions, updatePermission = updatePermission
+        context = context,
+        locationState = locationState,
+        launcherMultiplePermissions = launcherMultiplePermissions,
+        permissions = permissions,
+        updatePermission = updatePermission
     )
 
     if (locationState.isAlreadyHavePermission) {
@@ -135,10 +146,7 @@ private fun ExploreNaverMap(
 ) {
     val mapProperties by remember {
         mutableStateOf(
-            MapProperties(
-                isMountainLayerGroupEnabled = true,
-                locationTrackingMode = locationState.locationTrackingMode,
-            )
+            MapProperties(locationTrackingMode = locationState.locationTrackingMode)
         )
     }
     val mapUiSettings by remember {
@@ -164,6 +172,22 @@ private fun ExploreNaverMap(
                 position = locationState.location,
                 icon = OverlayImage.fromResource(R.drawable.ic_explore_refresh),
                 subIcon = OverlayImage.fromResource(R.drawable.ic_explore_refresh),
+            )
+        }
+        Row(
+            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 36.dp),
+            horizontalArrangement = Arrangement.Center,
+        ) {
+            ExploreMapBottomButton(
+                painter = painterResource(R.drawable.ic_explore_quest_list),
+                text = "퀘스트 목록",
+                onClick = {},
+            )
+            Spacer(modifier = Modifier.size(16.dp))
+            ExploreMapBottomButton(
+                painter = painterResource(R.drawable.ic_explore_location),
+                text = "장소 목록",
+                onClick = {},
             )
         }
     }
