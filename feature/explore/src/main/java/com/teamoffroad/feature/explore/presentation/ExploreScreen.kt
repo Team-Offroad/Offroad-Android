@@ -8,12 +8,14 @@ import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -23,6 +25,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -38,6 +41,8 @@ import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberCameraPositionState
 import com.naver.maps.map.compose.rememberFusedLocationSource
 import com.naver.maps.map.overlay.OverlayImage
+import com.teamoffroad.core.designsystem.theme.MapGradiEnd
+import com.teamoffroad.core.designsystem.theme.MapGradiStart
 import com.teamoffroad.feature.explore.presentation.component.ExploreAppBar
 import com.teamoffroad.feature.explore.presentation.component.ExploreMapBottomButton
 import com.teamoffroad.feature.explore.presentation.component.ExploreRefreshButton
@@ -171,6 +176,12 @@ private fun ExploreNaverMap(
                 subIcon = OverlayImage.fromResource(R.drawable.ic_explore_location),
             )
         }
+        Box(
+            Modifier.background(Brush.verticalGradient(listOf(MapGradiStart, MapGradiEnd)))
+                .fillMaxWidth()
+                .height(126.dp)
+                .align(Alignment.BottomCenter)
+        )
         Box(
             modifier = Modifier
                 .fillMaxWidth()
