@@ -45,7 +45,8 @@ import com.teamoffroad.offroad.feature.home.R
 fun OffroadDialog(
     showDialog: MutableState<Boolean>,
     customTitleDialogState: MutableState<CustomTitleDialogState>,
-    onClickCancel: () -> Unit
+    onClickCancel: () -> Unit,
+    onCharacterChange: (Int?) -> Unit, // 홈으로 idx 전달 위한 callback
 ) {
     Dialog(
         onDismissRequest = {
@@ -87,6 +88,7 @@ fun OffroadDialog(
                     ChangeCharacterTitle(
                         isSelected = selectedItem.value != null,
                         onClickChange = {
+                            onCharacterChange(selectedItem.value?.idx)
                             showDialog.value = false
                             customTitleDialogState.value.onClickCancel()
                         }

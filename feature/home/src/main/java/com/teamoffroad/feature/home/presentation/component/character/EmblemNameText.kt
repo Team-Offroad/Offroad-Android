@@ -9,6 +9,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -29,6 +30,7 @@ fun EmblemNameText(
     val customTitleDialogState: MutableState<CustomTitleDialogState> =
         mutableStateOf(CustomTitleDialogState())
     val showDialog = mutableStateOf(false)
+    var selectedCharacterIdx = remember { mutableStateOf<String?>("초보 모험가") }
 
     Box(
         modifier = Modifier
@@ -40,7 +42,7 @@ fun EmblemNameText(
             contentAlignment = Alignment.CenterEnd
         ) {
             OffroadTagItem(
-                text = "초보 모험가",
+                text = selectedCharacterIdx.value.toString(),
                 textColor = White,
                 style = OffroadTheme.typography.subtitle2Semibold,
                 backgroundColor = Sub
@@ -62,6 +64,10 @@ fun EmblemNameText(
                         onClickCancel = {
                             showDialog.value = false
                             customTitleDialogState.value.onClickCancel()
+                        },
+                        onCharacterChange = { idx ->
+                            selectedCharacterIdx.value = idx.toString()
+
                         }
                     )
                 }
