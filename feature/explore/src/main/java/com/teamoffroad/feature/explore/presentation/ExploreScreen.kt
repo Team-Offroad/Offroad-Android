@@ -14,6 +14,7 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -159,7 +160,13 @@ private fun ExploreNaverMap(
     }
     val mapUiSettings by remember {
         mutableStateOf(
-            MapUiSettings(isScaleBarEnabled = false, isZoomControlEnabled = false, isLogoClickEnabled = false, logoGravity = Gravity.TOP)
+            MapUiSettings(
+                isScaleBarEnabled = false,
+                isZoomControlEnabled = false,
+                isLogoClickEnabled = false,
+                logoGravity = Gravity.TOP,
+                logoMargin = PaddingValues(top = 0.dp, start = 22.dp),
+            )
         )
     }
     var circleAlpha by remember {
@@ -194,7 +201,7 @@ private fun ExploreNaverMap(
     Box(
         Modifier
             .fillMaxSize()
-            .padding(top = 70.dp, bottom = 74.dp)
+            .padding(bottom = 74.dp)
     ) {
         NaverMap(
             properties = mapProperties,
@@ -229,7 +236,7 @@ private fun ExploreNaverMap(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 26.dp)
+                .padding(top = 96.dp)
                 .align(Alignment.TopCenter),
         ) {
             ExploreRefreshButton(
