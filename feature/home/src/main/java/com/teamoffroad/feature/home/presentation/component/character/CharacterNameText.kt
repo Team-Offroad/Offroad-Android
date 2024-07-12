@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.home.presentation.component
+package com.teamoffroad.feature.home.presentation.component.character
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

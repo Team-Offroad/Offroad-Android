@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.home.presentation.component
+package com.teamoffroad.feature.home.presentation.component.quest.progressbar
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -14,6 +14,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Contents2
+import com.teamoffroad.feature.home.presentation.component.quest.ContentsLocation
+import com.teamoffroad.feature.home.presentation.component.quest.ContentsTitle
 import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 import com.teamoffroad.offroad.feature.home.R
 

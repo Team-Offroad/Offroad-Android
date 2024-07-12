@@ -21,13 +21,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
-import com.teamoffroad.feature.home.presentation.component.CharacterImage
-import com.teamoffroad.feature.home.presentation.component.CharacterNameText
-import com.teamoffroad.feature.home.presentation.component.CloseCompleteRequest
-import com.teamoffroad.feature.home.presentation.component.EmblemNameText
+import com.teamoffroad.feature.home.presentation.component.character.CharacterImage
+import com.teamoffroad.feature.home.presentation.component.character.CharacterNameText
+import com.teamoffroad.feature.home.presentation.component.quest.progressbar.CloseCompleteRequest
+import com.teamoffroad.feature.home.presentation.component.character.EmblemNameText
 import com.teamoffroad.feature.home.presentation.component.HomeIcons
-import com.teamoffroad.feature.home.presentation.component.NicknameText
-import com.teamoffroad.feature.home.presentation.component.RecentQuest
+import com.teamoffroad.feature.home.presentation.component.user.NicknameText
+import com.teamoffroad.feature.home.presentation.component.quest.progressbar.RecentQuest
 import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 import com.teamoffroad.offroad.feature.home.R
 
