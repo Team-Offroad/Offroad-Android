@@ -11,10 +11,7 @@ data class LocationModel(
     val isAlreadyHavePermission: Boolean = false,
     val isPermissionRejected: Boolean = false,
     val isUserTrackingEnabled: Boolean = true,
-    val locationTrackingMode: LocationTrackingMode = when (isUserTrackingEnabled) {
-        true -> LocationTrackingMode.Follow
-        false -> LocationTrackingMode.NoFollow
-    },
+    val locationTrackingMode: LocationTrackingMode = getTrackingMode(isUserTrackingEnabled),
 ) {
 
     fun updateLocation(latitude: Double, longitude: Double): LocationModel {
@@ -36,11 +33,19 @@ data class LocationModel(
     fun updateTrackingToggle(isUserTrackingEnabled: Boolean): LocationModel {
         return copy(
             isUserTrackingEnabled = !isUserTrackingEnabled,
+            locationTrackingMode = getTrackingMode(!isUserTrackingEnabled),
         )
     }
 
-    companion object {
+    private companion object {
         private const val DEFAULT_LOCATION_LATITUDE = 37.588764f
         private const val DEFAULT_LOCATION_LONGITUDE = 127.05879f
+
+        private fun getTrackingMode(isUserTrackingEnabled: Boolean): LocationTrackingMode {
+            return when (isUserTrackingEnabled) {
+                true -> LocationTrackingMode.Follow
+                false -> LocationTrackingMode.NoFollow
+            }
+        }
     }
 }

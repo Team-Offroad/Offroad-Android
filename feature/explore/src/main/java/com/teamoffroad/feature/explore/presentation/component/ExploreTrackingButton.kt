@@ -19,7 +19,8 @@ import com.teamoffroad.offroad.feature.explore.R
 @Composable
 fun ExploreTrackingButton(
     modifier: Modifier,
-    onClick: () -> Unit,
+    isTrackingEnabled: Boolean,
+    onClick: (Boolean) -> Unit,
 ) {
     Row(
         modifier = modifier,
@@ -30,7 +31,7 @@ fun ExploreTrackingButton(
             modifier = Modifier
                 .size(42.dp)
                 .clip(CircleShape)
-                .clickable { onClick() }
+                .clickable { onClick(isTrackingEnabled) }
         ) {
             Box(
                 modifier = Modifier
@@ -39,7 +40,10 @@ fun ExploreTrackingButton(
                     .shadow(elevation = 4.dp, shape = CircleShape)
             )
             Image(
-                painter = painterResource(R.drawable.ic_explore_tracking_no_follow),
+                painter = when (isTrackingEnabled) {
+                    true -> painterResource(R.drawable.ic_explore_tracking_follow)
+                    false -> painterResource(R.drawable.ic_explore_tracking_no_follow)
+                },
                 contentDescription = "트래킹 모드 전환",
                 modifier = Modifier
                     .size(42.dp)

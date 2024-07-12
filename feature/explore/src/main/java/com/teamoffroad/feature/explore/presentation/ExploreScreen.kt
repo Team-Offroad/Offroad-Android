@@ -8,6 +8,9 @@ import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,8 +24,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -33,8 +38,10 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.compose.CameraPositionState
+import com.naver.maps.map.compose.CameraUpdateReason
 import com.naver.maps.map.compose.ExperimentalNaverMapApi
 import com.naver.maps.map.compose.LocationOverlay
+import com.naver.maps.map.compose.LocationTrackingMode
 import com.naver.maps.map.compose.MapProperties
 import com.naver.maps.map.compose.MapUiSettings
 import com.naver.maps.map.compose.NaverMap
@@ -57,6 +64,7 @@ internal fun ExploreScreen(
     navigateToHome: () -> Unit,
     updatePermission: (Boolean, Boolean) -> Unit,
     updateLocation: (Double, Double) -> Unit,
+    updateTrackingToggle: (Boolean) -> Unit,
 ) {
 
     val context = LocalContext.current
@@ -77,7 +85,7 @@ internal fun ExploreScreen(
     )
 
     if (locationState.isAlreadyHavePermission) {
-        ExploreNaverMap(locationState, updateLocation)
+        ExploreNaverMap(locationState, updateLocation, updateTrackingToggle)
     }
     if (locationState.isPermissionRejected) {
         ExplorePermissionRejectedHandler(context, navigateToHome)
@@ -142,10 +150,11 @@ private fun ExplorePermissionRejectedHandler(
 private fun ExploreNaverMap(
     locationState: LocationModel,
     updateLocation: (Double, Double) -> Unit,
+    updateTrackingToggle: (Boolean) -> Unit,
 ) {
-    val mapProperties by remember {
+    var mapProperties by remember {
         mutableStateOf(
-            MapProperties(locationTrackingMode = locationState.locationTrackingMode)
+            MapProperties(locationTrackingMode = LocationTrackingMode.Follow)
         )
     }
     val mapUiSettings by remember {
@@ -153,8 +162,33 @@ private fun ExploreNaverMap(
             MapUiSettings(isScaleBarEnabled = false, isZoomControlEnabled = false, isLogoClickEnabled = false, logoGravity = Gravity.TOP)
         )
     }
+    var circleAlpha by remember {
+        mutableFloatStateOf(0.25f)
+    }
+    var subIcon by remember {
+        mutableStateOf<OverlayImage?>(OverlayImage.fromResource(R.drawable.ic_explore_location_overlay_sub))
+    }
     val cameraPositionState: CameraPositionState = rememberCameraPositionState {
         position = CameraPosition(locationState.location, 15.0)
+    }
+
+    LaunchedEffect(locationState.locationTrackingMode) {
+        mapProperties = mapProperties.copy(locationTrackingMode = locationState.locationTrackingMode)
+        circleAlpha = when (locationState.isUserTrackingEnabled) {
+            true -> 0.25f
+            false -> 0.07f
+        }
+    }
+
+    LaunchedEffect(locationState.isUserTrackingEnabled) {
+        subIcon = when (locationState.isUserTrackingEnabled) {
+            true -> OverlayImage.fromResource(R.drawable.ic_explore_location_overlay_sub)
+            false -> null
+        }
+    }
+
+    LaunchedEffect(cameraPositionState.cameraUpdateReason) {
+        if (cameraPositionState.cameraUpdateReason == CameraUpdateReason.GESTURE) updateTrackingToggle(true)
     }
 
     Box(
@@ -165,7 +199,7 @@ private fun ExploreNaverMap(
         NaverMap(
             properties = mapProperties,
             uiSettings = mapUiSettings,
-            locationSource = rememberFusedLocationSource(),
+            locationSource = rememberFusedLocationSource(isCompassEnabled = true),
             cameraPositionState = cameraPositionState,
             onLocationChange = { location ->
                 updateLocation(location.latitude, location.longitude)
@@ -174,16 +208,24 @@ private fun ExploreNaverMap(
             LocationOverlay(
                 position = locationState.location,
                 icon = OverlayImage.fromResource(R.drawable.ic_explore_location_overlay),
-                subIcon = OverlayImage.fromResource(R.drawable.ic_explore_location_overlay_sub),
-                circleColor = Sub2.copy(alpha = 0.07f),
+                subIcon = subIcon,
+                subIconWidth = 48,
+                subIconHeight = 40,
+                circleColor = Sub2.copy(alpha = circleAlpha),
             )
         }
-        Box(
-            Modifier.background(Brush.verticalGradient(listOf(MapGradiStart, MapGradiEnd)))
-                .fillMaxWidth()
-                .height(126.dp)
-                .align(Alignment.BottomCenter)
-        )
+        AnimatedVisibility(
+            visible = true,
+            enter = EnterTransition.None,
+            exit = ExitTransition.None,
+            modifier = Modifier.align(Alignment.BottomCenter)
+        ) {
+            Box(
+                Modifier.background(Brush.verticalGradient(listOf(MapGradiStart, MapGradiEnd)))
+                    .fillMaxWidth()
+                    .height(126.dp)
+            )
+        }
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -196,7 +238,8 @@ private fun ExploreNaverMap(
                 modifier = Modifier.align(Alignment.Center),
             )
             ExploreTrackingButton(
-                onClick = {},
+                isTrackingEnabled = locationState.isUserTrackingEnabled,
+                onClick = updateTrackingToggle,
                 modifier = Modifier.align(Alignment.CenterEnd)
                     .padding(end = 22.dp),
             )

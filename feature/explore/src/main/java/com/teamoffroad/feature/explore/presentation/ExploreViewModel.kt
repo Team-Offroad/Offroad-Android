@@ -26,4 +26,10 @@ class ExploreViewModel @Inject constructor(
             locationModel = uiState.value.locationModel.updateLocation(latitude, longitude)
         )
     }
+
+    fun updateTrackingToggle(isUserTrackingEnabled: Boolean) {
+        _uiState.value = uiState.value.copy(
+            locationModel = uiState.value.locationModel.updateTrackingToggle(isUserTrackingEnabled)
+        )
+    }
 }

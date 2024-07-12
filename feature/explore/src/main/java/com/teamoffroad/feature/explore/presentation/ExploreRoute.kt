@@ -19,5 +19,6 @@ internal fun ExploreRoute(
         navigateToHome = navigateToHome,
         updatePermission = viewModel::updatePermission,
         updateLocation = viewModel::updateLocation,
+        updateTrackingToggle = viewModel::updateTrackingToggle,
     )
 }
