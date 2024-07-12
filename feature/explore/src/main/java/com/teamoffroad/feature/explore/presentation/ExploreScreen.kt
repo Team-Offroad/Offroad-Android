@@ -36,6 +36,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -278,6 +279,8 @@ private fun ExploreTrackingButton(
         Box(
             modifier = Modifier
                 .size(42.dp)
+                .clip(CircleShape)
+                .clickable { onClick() }
         ) {
             Box(
                 modifier = Modifier
@@ -290,8 +293,7 @@ private fun ExploreTrackingButton(
                 contentDescription = "트래킹 모드 전환",
                 modifier = Modifier
                     .size(42.dp)
-                    .align(Alignment.Center)
-                    .clickable { onClick() }
+                    .align(Alignment.Center),
             )
         }
     }
