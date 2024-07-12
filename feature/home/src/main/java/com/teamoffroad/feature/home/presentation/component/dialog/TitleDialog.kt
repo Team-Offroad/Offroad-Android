@@ -3,8 +3,6 @@ package com.teamoffroad.feature.home.presentation.component.dialog
 import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.Toast
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,7 +19,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,6 +35,7 @@ import com.teamoffroad.core.designsystem.theme.NametagStroke
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.feature.home.presentation.model.DummyDataModel
 import com.teamoffroad.offroad.feature.home.R
 
 @Composable
@@ -100,42 +98,42 @@ fun DialogTitle() {
 fun CharacterTitle(context: Context) {
     val characterTitles = remember {
         mutableStateListOf(
-            Product("오프로드 스타터", 0),
-            Product("위대한 첫 걸음", 1),
-            Product("왕초보 탐험가", 2),
-            Product("초보 모험가", 3),
-            Product("오프로드 스타터", 4),
-            Product("위대한 첫 걸음", 5),
-            Product("왕초보 탐험가", 6),
-            Product("초보 모험가", 7),
-            Product("오프로드 스타터", 8),
-            Product("위대한 첫 걸음", 9),
-            Product("왕초보 탐험가", 10),
-            Product("초보 모험가", 11)
+            DummyDataModel("오프로드 스타터", 0),
+            DummyDataModel("위대한 첫 걸음", 1),
+            DummyDataModel("왕초보 탐험가", 2),
+            DummyDataModel("초보 모험가", 3),
+            DummyDataModel("오프로드 스타터", 4),
+            DummyDataModel("위대한 첫 걸음", 5),
+            DummyDataModel("왕초보 탐험가", 6),
+            DummyDataModel("초보 모험가", 7),
+            DummyDataModel("오프로드 스타터", 8),
+            DummyDataModel("위대한 첫 걸음", 9),
+            DummyDataModel("왕초보 탐험가", 10),
+            DummyDataModel("초보 모험가", 11)
         )
     }
-    val selectedProduct = remember { mutableStateOf<Product?>(null) }
-    val listState = rememberLazyListState()
+    val selectedDummyDataModel = remember { mutableStateOf<DummyDataModel?>(null) }
+    val dummyDataState = rememberLazyListState()
 
     Box {
         LazyColumn(
-            state = listState,
+            state = dummyDataState,
             modifier = Modifier
                 .heightIn(0.dp, 246.dp)
-                .drawScrollbar(listState),
+                .drawScrollbar(dummyDataState),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            items(characterTitles) { product ->
+            items(characterTitles) { data ->
                 DialogTagItem(
-                    text = product.title,
-                    textColor = if (product == selectedProduct.value) White else Main2,
+                    text = data.title,
+                    textColor = if (data == selectedDummyDataModel.value) White else Main2,
                     style = OffroadTheme.typography.subtitle2Semibold,
-                    backgroundColor = if (product == selectedProduct.value) Sub else NametagInactive,
-                    borderColor = if (product == selectedProduct.value) Sub else NametagStroke,
-                    product = product,
-                    onItemClick = { clickedProduct ->
-                        selectedProduct.value = clickedProduct
-                        Toast.makeText(context, product.idx.toString(), Toast.LENGTH_SHORT).show()
+                    backgroundColor = if (data == selectedDummyDataModel.value) Sub else NametagInactive,
+                    borderColor = if (data == selectedDummyDataModel.value) Sub else NametagStroke,
+                    dummyDataModel = data,
+                    onItemClick = { clickedData ->
+                        selectedDummyDataModel.value = clickedData
+                        Toast.makeText(context, data.idx.toString(), Toast.LENGTH_SHORT).show()
                     }
                 )
             }
@@ -152,8 +150,3 @@ fun ChangeCharacterTitle() {
         backgroundColor = Main2
     )
 }
-
-data class Product(
-    val title: String,
-    val idx: Int
-)

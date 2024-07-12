@@ -2,7 +2,6 @@ package com.teamoffroad.feature.home.presentation.component.dialog
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -16,6 +15,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
+import com.teamoffroad.feature.home.presentation.model.DummyDataModel
 
 @Composable
 fun DialogTagItem(
@@ -24,8 +24,8 @@ fun DialogTagItem(
     style: TextStyle,
     backgroundColor: Color,
     borderColor: Color = backgroundColor,
-    product: Product,
-    onItemClick: (Product) -> Unit
+    dummyDataModel: DummyDataModel,
+    onItemClick: (DummyDataModel) -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     Text(
@@ -36,7 +36,7 @@ fun DialogTagItem(
         modifier = Modifier
             .clickableWithoutRipple(
                 interactionSource = interactionSource,
-                onClick = { onItemClick(product) }
+                onClick = { onItemClick(dummyDataModel) }
             )
             .fillMaxWidth()
             .background(
