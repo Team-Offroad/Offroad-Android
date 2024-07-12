@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.teamoffroad.feature.auth.presentation.navigation.authNavGraph
+import com.teamoffroad.feature.auth.presentation.navigation.setNicknameNavGraph
 import com.teamoffroad.feature.explore.presentation.navigation.exploreNavGraph
 import com.teamoffroad.feature.home.navigation.homeNavGraph
 import com.teamoffroad.feature.main.MainNavigator
@@ -33,12 +34,16 @@ internal fun MainNavHost(
                 padding = padding,
             )
             exploreNavGraph(
-                navigateToHome = { navigator.navigateHome() }
+                navigateToHome = { navigator.navigateToHome() }
             )
             mypageNavGraph(
                 padding = padding,
             )
             authNavGraph(
+                padding = padding,
+                navigateToSetNickname = { navigator.navigateToSetNickname() }
+            )
+            setNicknameNavGraph(
                 padding = padding,
                 navigateToHome = { navigator.navigateToHome() }
             )

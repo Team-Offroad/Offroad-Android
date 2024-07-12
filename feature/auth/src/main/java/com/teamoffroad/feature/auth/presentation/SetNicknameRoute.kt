@@ -4,13 +4,13 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 
 @Composable
-internal fun AuthRoute(
+internal fun SetNicknameRoute(
     padding: PaddingValues,
-    onAuthBtnClick: () -> Unit,
+    onHomeBtnClick: () -> Unit,
 ) {
 
-    AuthScreen(
+    SetNicknameScreen(
         padding = padding,
-        navigateToSetNickname = onAuthBtnClick
+        navigateToHome = onHomeBtnClick
     )
 }
