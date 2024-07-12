@@ -1,36 +1,28 @@
 package com.teamoffroad.feature.home.presentation.component.dialog
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.teamoffroad.core.designsystem.component.OffroadTagItem
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.NametagInactive
 import com.teamoffroad.core.designsystem.theme.NametagStroke
@@ -77,20 +69,6 @@ fun OffroadDialog(
 }
 
 @Composable
-fun CloseDialog() {
-    Box(
-        modifier = Modifier.fillMaxWidth(),
-        contentAlignment = Alignment.TopEnd
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_home_close),
-            contentDescription = "close",
-            modifier = Modifier.padding(top = 6.dp, end = 4.dp)
-        )
-    }
-}
-
-@Composable
 fun DialogTitle() {
     Text(
         modifier = Modifier.fillMaxWidth(),
@@ -107,20 +85,25 @@ fun CharacterTitle() {
         "오프로드 스타터", "위대한 첫 걸음", "왕초보 탐험가", "초보 모험가",
         "오프로드 스타터", "위대한 첫 걸음", "왕초보 탐험가", "초보 모험가",
         "오프로드 스타터", "위대한 첫 걸음", "왕초보 탐험가", "초보 모험가")
+    val listState = rememberLazyListState()
 
-    LazyColumn(
-        modifier = Modifier
-            .heightIn(0.dp, 246.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-        items(characterTitles) {
-            DialogTagItem(
-                text = it,
-                textColor = Main2,
-                style = OffroadTheme.typography.subtitle2Semibold,
-                backgroundColor = NametagInactive,
-                borderColor = NametagStroke
-            )
+    Box {
+        LazyColumn(
+            state = listState,
+            modifier = Modifier
+                .heightIn(0.dp, 246.dp)
+                .drawScrollbar(listState),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            items(characterTitles) { title ->
+                DialogTagItem(
+                    text = title,
+                    textColor = Main2,
+                    style = OffroadTheme.typography.subtitle2Semibold,
+                    backgroundColor = NametagInactive,
+                    borderColor = NametagStroke
+                )
+            }
         }
     }
 }
