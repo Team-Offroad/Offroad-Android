@@ -21,7 +21,7 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.auth.presentation.component.NicknameHintText
 import com.teamoffroad.feature.auth.presentation.component.NicknameTextField
-import com.teamoffroad.feature.auth.presentation.component.OnboardingBtn
+import com.teamoffroad.feature.auth.presentation.component.OnboardingButton
 
 @Composable
 internal fun SetNicknameScreen(
@@ -60,7 +60,7 @@ internal fun SetNicknameScreen(
                             .height(43.dp)
                     )
                     Spacer(modifier = Modifier.padding(horizontal = 6.dp))
-                    OnboardingBtn(
+                    OnboardingButton(
                         text = "중복확인", isActive = true,
                         modifier = Modifier
                             .width(82.dp)
@@ -73,18 +73,15 @@ internal fun SetNicknameScreen(
                     modifier = Modifier
                 )
             }
-
-
             Spacer(modifier = Modifier.padding(vertical = 176.dp))
             OffroadBasicBtn(
                 modifier = Modifier
                     .width(312.dp)
-                    .height(49.dp),
+                    .height(50.dp),
                 onClick = navigateToHome,
                 isActive = true,
                 text = "다음"
             )
         }
-
     }
 }

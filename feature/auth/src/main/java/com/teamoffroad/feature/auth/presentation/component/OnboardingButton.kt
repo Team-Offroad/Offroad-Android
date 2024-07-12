@@ -26,7 +26,7 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
 
 @Composable
-fun OnboardingBtn(
+fun OnboardingButton(
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(6.dp),
     text: String,
@@ -71,7 +71,7 @@ fun OnboardingButtonPreview() {
         var normalValue by remember {
             mutableStateOf("")
         }
-        OnboardingBtn(
+        OnboardingButton(
             isActive = true,
             text = "asdsad"
         )
