@@ -8,6 +8,7 @@ internal fun SetNicknameRoute(
     padding: PaddingValues,
     onHomeBtnClick: () -> Unit,
 ) {
+
     SetNicknameScreen(
         padding = padding,
         navigateToHome = onHomeBtnClick

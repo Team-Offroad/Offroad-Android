@@ -8,6 +8,7 @@ internal fun AuthRoute(
     padding: PaddingValues,
     onAuthBtnClick: () -> Unit,
 ) {
+
     AuthScreen(
         padding = padding,
         navigateToSetNickname = onAuthBtnClick

@@ -47,7 +47,6 @@ internal fun MainNavHost(
                 padding = padding,
                 navigateToHome = { navigator.navigateToHome() }
             )
-
         }
     }
 }

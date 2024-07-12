@@ -23,9 +23,6 @@ internal class MainNavigator(
             .currentBackStackEntryAsState().value?.destination
 
     val startDestination = Route.Auth
-    //Route.Auth
-    //MainTab.HOME.route
-    //요런식으로 시작점 바꿔서 작업하면 됩니다.
 
     val currentTab: MainNavTab?
         @Composable get() = MainNavTab.find { tab ->
