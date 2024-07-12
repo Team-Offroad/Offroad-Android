@@ -53,8 +53,6 @@ fun EmblemNameText(
                 Image(
                     painter = painterResource(id = R.drawable.ic_home_change_title),
                     contentDescription = "change title",
-                    modifier = Modifier
-                        .padding(end = 20.dp)
                 )
 
                 if (showDialog.value) {
