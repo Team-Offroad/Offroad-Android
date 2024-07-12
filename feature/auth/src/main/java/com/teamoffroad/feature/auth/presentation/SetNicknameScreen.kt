@@ -26,7 +26,7 @@ import com.teamoffroad.feature.auth.presentation.component.OnboardingButton
 @Composable
 internal fun SetNicknameScreen(
     padding: PaddingValues,
-    navigateToHome: () -> Unit,
+    navigateToSetBirthDate: () -> Unit,
 ) {
     Surface(
         modifier = Modifier
@@ -78,7 +78,7 @@ internal fun SetNicknameScreen(
                 modifier = Modifier
                     .width(312.dp)
                     .height(50.dp),
-                onClick = navigateToHome,
+                onClick = navigateToSetBirthDate,
                 isActive = true,
                 text = "다음"
             )

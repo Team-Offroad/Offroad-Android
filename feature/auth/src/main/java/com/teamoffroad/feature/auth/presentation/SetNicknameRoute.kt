@@ -6,11 +6,10 @@ import androidx.compose.runtime.Composable
 @Composable
 internal fun SetNicknameRoute(
     padding: PaddingValues,
-    onHomeBtnClick: () -> Unit,
+    navigateToSetBirthDate: () -> Unit,
 ) {
-
     SetNicknameScreen(
         padding = padding,
-        navigateToHome = onHomeBtnClick
+        navigateToSetBirthDate = navigateToSetBirthDate
     )
 }

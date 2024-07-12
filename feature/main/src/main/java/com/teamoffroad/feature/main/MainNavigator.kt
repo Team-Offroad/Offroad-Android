@@ -10,7 +10,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.teamoffroad.core.navigation.Route
-import com.teamoffroad.feature.auth.presentation.navigation.navigateSetNickname
+import com.teamoffroad.feature.auth.presentation.navigation.navigateToSetBirthDate
+import com.teamoffroad.feature.auth.presentation.navigation.navigateToSetNickname
 import com.teamoffroad.feature.explore.presentation.navigation.navigateExplore
 import com.teamoffroad.feature.home.navigation.navigateHome
 import com.teamoffroad.feature.mypage.navigation.navigateMypage
@@ -57,7 +58,11 @@ internal class MainNavigator(
     }
 
     fun navigateToSetNickname(){
-        navController.navigateSetNickname(navOptions)
+        navController.navigateToSetNickname(navOptions)
+    }
+
+    fun navigateToSetBirthDate(){
+        navController.navigateToSetBirthDate(navOptions)
     }
 }
 
