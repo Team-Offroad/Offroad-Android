@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.home.presentation.component
+package com.teamoffroad.feature.home.presentation.component.quest
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
