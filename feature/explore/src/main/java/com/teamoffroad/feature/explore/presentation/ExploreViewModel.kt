@@ -17,7 +17,8 @@ class ExploreViewModel @Inject constructor(
 
     fun updatePermission(isAlreadyHavePermission: Boolean, isPermissionRejected: Boolean) {
         _uiState.value = uiState.value.copy(
-            locationModel = uiState.value.locationModel.updatePermission(isAlreadyHavePermission, isPermissionRejected)
+            isAlreadyHavePermission = isAlreadyHavePermission,
+            isPermissionRejected = isPermissionRejected
         )
     }
 

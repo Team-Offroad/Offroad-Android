@@ -25,10 +25,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -37,16 +34,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
-import com.naver.maps.map.CameraPosition
-import com.naver.maps.map.compose.CameraPositionState
 import com.naver.maps.map.compose.CameraUpdateReason
 import com.naver.maps.map.compose.ExperimentalNaverMapApi
 import com.naver.maps.map.compose.LocationOverlay
-import com.naver.maps.map.compose.LocationTrackingMode
-import com.naver.maps.map.compose.MapProperties
 import com.naver.maps.map.compose.MapUiSettings
 import com.naver.maps.map.compose.NaverMap
-import com.naver.maps.map.compose.rememberCameraPositionState
 import com.naver.maps.map.compose.rememberFusedLocationSource
 import com.naver.maps.map.overlay.OverlayImage
 import com.teamoffroad.core.designsystem.theme.MapGradiEnd
@@ -56,12 +48,13 @@ import com.teamoffroad.feature.explore.presentation.component.ExploreAppBar
 import com.teamoffroad.feature.explore.presentation.component.ExploreMapBottomButton
 import com.teamoffroad.feature.explore.presentation.component.ExploreRefreshButton
 import com.teamoffroad.feature.explore.presentation.component.ExploreTrackingButton
+import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
 import com.teamoffroad.feature.explore.presentation.model.LocationModel
 import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 internal fun ExploreScreen(
-    locationState: LocationModel,
+    uiState: ExploreUiState,
     navigateToHome: () -> Unit,
     updatePermission: (Boolean, Boolean) -> Unit,
     updateLocation: (Double, Double) -> Unit,
@@ -79,16 +72,16 @@ internal fun ExploreScreen(
 
     ExplorePermissionsHandler(
         context = context,
-        locationState = locationState,
+        uiState = uiState,
         launcherMultiplePermissions = launcherMultiplePermissions,
         permissions = permissions,
         updatePermission = updatePermission
     )
 
-    if (locationState.isAlreadyHavePermission) {
-        ExploreNaverMap(locationState, updateLocation, updateTrackingToggle)
+    if (uiState.isAlreadyHavePermission) {
+        ExploreNaverMap(uiState.locationModel, updateLocation, updateTrackingToggle)
     }
-    if (locationState.isPermissionRejected) {
+    if (uiState.isPermissionRejected) {
         ExplorePermissionRejectedHandler(context, navigateToHome)
     }
     ExploreAppBar()
@@ -112,13 +105,13 @@ private fun getLocationPermissionLauncher(
 @Composable
 private fun ExplorePermissionsHandler(
     context: Context,
-    locationState: LocationModel,
+    uiState: ExploreUiState,
     launcherMultiplePermissions: ManagedActivityResultLauncher<Array<String>, Map<String, Boolean>>,
     permissions: Array<String>,
     updatePermission: (Boolean, Boolean) -> Unit,
 ) {
-    LaunchedEffect(locationState.isAlreadyHavePermission) {
-        if (locationState.isAlreadyHavePermission) return@LaunchedEffect
+    LaunchedEffect(uiState.isAlreadyHavePermission) {
+        if (uiState.isAlreadyHavePermission) return@LaunchedEffect
 
         val isFineLocationGranted = ContextCompat.checkSelfPermission(
             context, Manifest.permission.ACCESS_FINE_LOCATION
@@ -153,46 +146,10 @@ private fun ExploreNaverMap(
     updateLocation: (Double, Double) -> Unit,
     updateTrackingToggle: (Boolean) -> Unit,
 ) {
-    var mapProperties by remember {
-        mutableStateOf(
-            MapProperties(locationTrackingMode = LocationTrackingMode.Follow)
-        )
-    }
-    val mapUiSettings by remember {
-        mutableStateOf(
-            MapUiSettings(
-                isScaleBarEnabled = false,
-                isZoomControlEnabled = false,
-                isLogoClickEnabled = false,
-                logoGravity = Gravity.TOP,
-                logoMargin = PaddingValues(top = 0.dp, start = 22.dp),
-            )
-        )
-    }
-    var circleAlpha by remember {
-        mutableFloatStateOf(0.25f)
-    }
-    var subIcon by remember {
-        mutableStateOf<OverlayImage?>(OverlayImage.fromResource(R.drawable.ic_explore_location_overlay_sub))
-    }
-    val cameraPositionState: CameraPositionState = rememberCameraPositionState {
-        position = CameraPosition(locationState.location, 15.0)
-    }
-
-    LaunchedEffect(locationState.locationTrackingMode) {
-        mapProperties = mapProperties.copy(locationTrackingMode = locationState.locationTrackingMode)
-        circleAlpha = when (locationState.isUserTrackingEnabled) {
-            true -> 0.25f
-            false -> 0.07f
-        }
-    }
-
-    LaunchedEffect(locationState.isUserTrackingEnabled) {
-        subIcon = when (locationState.isUserTrackingEnabled) {
-            true -> OverlayImage.fromResource(R.drawable.ic_explore_location_overlay_sub)
-            false -> null
-        }
-    }
+    val cameraPositionState by rememberUpdatedState(newValue = locationState.cameraPositionState)
+    val mapProperties by rememberUpdatedState(newValue = locationState.mapProperties)
+    val location by rememberUpdatedState(newValue = locationState.location)
+    val subIcon by rememberUpdatedState(newValue = locationState.subIcon)
 
     LaunchedEffect(cameraPositionState.cameraUpdateReason) {
         if (cameraPositionState.cameraUpdateReason == CameraUpdateReason.GESTURE) updateTrackingToggle(true)
@@ -205,7 +162,14 @@ private fun ExploreNaverMap(
     ) {
         NaverMap(
             properties = mapProperties,
-            uiSettings = mapUiSettings,
+            uiSettings = MapUiSettings(
+                isScaleBarEnabled = false,
+                isZoomControlEnabled = false,
+                isLogoClickEnabled = false,
+                logoGravity = Gravity.TOP,
+                // TODO: 로고 이미지 수정
+                logoMargin = PaddingValues(top = 0.dp, start = 22.dp),
+            ),
             locationSource = rememberFusedLocationSource(isCompassEnabled = true),
             cameraPositionState = cameraPositionState,
             onLocationChange = { location ->
@@ -213,12 +177,12 @@ private fun ExploreNaverMap(
             },
         ) {
             LocationOverlay(
-                position = locationState.location,
+                position = location,
                 icon = OverlayImage.fromResource(R.drawable.ic_explore_location_overlay),
                 subIcon = subIcon,
                 subIconWidth = 48,
                 subIconHeight = 40,
-                circleColor = Sub2.copy(alpha = circleAlpha),
+                circleColor = Sub2.copy(alpha = locationState.circleAlpha),
             )
         }
         AnimatedVisibility(

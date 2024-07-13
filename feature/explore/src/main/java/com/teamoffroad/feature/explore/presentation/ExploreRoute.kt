@@ -15,7 +15,7 @@ internal fun ExploreRoute(
     val uiState: ExploreUiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     ExploreScreen(
-        locationState = uiState.locationModel,
+        uiState = uiState,
         navigateToHome = navigateToHome,
         updatePermission = viewModel::updatePermission,
         updateLocation = viewModel::updateLocation,
