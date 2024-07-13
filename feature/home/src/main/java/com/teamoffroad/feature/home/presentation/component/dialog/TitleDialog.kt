@@ -38,13 +38,14 @@ import com.teamoffroad.core.designsystem.theme.NametagStroke
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.feature.home.presentation.model.CustomTitleDialogStateModel
 import com.teamoffroad.feature.home.presentation.model.DummyDataModel
 import com.teamoffroad.offroad.feature.home.R
 
 @Composable
 fun OffroadDialog(
     showDialog: MutableState<Boolean>,
-    customTitleDialogState: MutableState<CustomTitleDialogState?>,
+    customTitleDialogStateModel: MutableState<CustomTitleDialogStateModel?>,
     onClickCancel: () -> Unit,
     onCharacterChange: (Int?) -> Unit, // 홈으로 idx 전달 위한 callback
 ) {
@@ -69,7 +70,7 @@ fun OffroadDialog(
                 CloseDialog(
                     onClickCancel = {
                         showDialog.value = false
-                        customTitleDialogState.value?.onClickCancel
+                        customTitleDialogStateModel.value?.onClickCancel
                     }
                 )
 
@@ -90,7 +91,7 @@ fun OffroadDialog(
                         onClickChange = {
                             onCharacterChange(selectedItem.value?.idx)
                             showDialog.value = false
-                            customTitleDialogState.value?.onClickCancel
+                            customTitleDialogStateModel.value?.onClickCancel
                         }
                     )
                 }
