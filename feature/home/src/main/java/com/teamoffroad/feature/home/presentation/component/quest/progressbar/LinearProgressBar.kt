@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.home.presentation.component
+package com.teamoffroad.feature.home.presentation.component.quest.progressbar
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth

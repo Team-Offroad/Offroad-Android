@@ -45,7 +45,7 @@ val NametagInactive = Color(0xFFFFEDDB)
 val BottombarButtonStroke = Color(0xFFFEFBF6)
 
 val Brown = Color(0xFF463E32)
-val NametagStroke = Color(0xFFFFE2C4)
+val NametagStroke = Color(0xFFFFD6AB)
 val Contents1 = Color(0xFF8B8446)
 val Contents1GraphMain = Color(0xFFFED761)
 val Contents1GraphSub = Color(0xFFBBAC57)
