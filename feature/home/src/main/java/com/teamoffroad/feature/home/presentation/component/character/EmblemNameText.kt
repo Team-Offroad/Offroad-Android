@@ -27,8 +27,8 @@ import com.teamoffroad.offroad.feature.home.R
 fun EmblemNameText(
     modifier: Modifier = Modifier
 ) {
-    val customTitleDialogState: MutableState<CustomTitleDialogState> =
-        mutableStateOf(CustomTitleDialogState())
+    val customTitleDialogState = remember { mutableStateOf<CustomTitleDialogState?>(null) }
+
     val showDialog = mutableStateOf(false)
     var selectedCharacterIdx = remember { mutableStateOf<String?>("초보 모험가") }
 
@@ -63,7 +63,7 @@ fun EmblemNameText(
                         customTitleDialogState,
                         onClickCancel = {
                             showDialog.value = false
-                            customTitleDialogState.value.onClickCancel()
+                            customTitleDialogState.value?.onClickCancel
                         },
                         onCharacterChange = { idx ->
                             selectedCharacterIdx.value = idx.toString()

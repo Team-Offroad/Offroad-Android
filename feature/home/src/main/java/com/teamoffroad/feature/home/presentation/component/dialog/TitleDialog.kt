@@ -44,7 +44,7 @@ import com.teamoffroad.offroad.feature.home.R
 @Composable
 fun OffroadDialog(
     showDialog: MutableState<Boolean>,
-    customTitleDialogState: MutableState<CustomTitleDialogState>,
+    customTitleDialogState: MutableState<CustomTitleDialogState?>,
     onClickCancel: () -> Unit,
     onCharacterChange: (Int?) -> Unit, // 홈으로 idx 전달 위한 callback
 ) {
@@ -69,7 +69,7 @@ fun OffroadDialog(
                 CloseDialog(
                     onClickCancel = {
                         showDialog.value = false
-                        customTitleDialogState.value.onClickCancel()
+                        customTitleDialogState.value?.onClickCancel
                     }
                 )
 
@@ -90,7 +90,7 @@ fun OffroadDialog(
                         onClickChange = {
                             onCharacterChange(selectedItem.value?.idx)
                             showDialog.value = false
-                            customTitleDialogState.value.onClickCancel()
+                            customTitleDialogState.value?.onClickCancel
                         }
                     )
                 }
