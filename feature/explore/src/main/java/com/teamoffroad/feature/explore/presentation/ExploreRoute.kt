@@ -20,5 +20,6 @@ internal fun ExploreRoute(
         updatePermission = viewModel::updatePermission,
         updateLocation = viewModel::updateLocation,
         updateTrackingToggle = viewModel::updateTrackingToggle,
+        updatePlaces = viewModel::updatePlaces,
     )
 }

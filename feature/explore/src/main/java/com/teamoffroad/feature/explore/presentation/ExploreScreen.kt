@@ -8,10 +8,6 @@ import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -19,7 +15,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -28,7 +23,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -38,18 +32,21 @@ import com.naver.maps.map.compose.CameraUpdateReason
 import com.naver.maps.map.compose.ExperimentalNaverMapApi
 import com.naver.maps.map.compose.LocationOverlay
 import com.naver.maps.map.compose.MapUiSettings
+import com.naver.maps.map.compose.Marker
+import com.naver.maps.map.compose.MarkerState
 import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberFusedLocationSource
+import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.OverlayImage
-import com.teamoffroad.core.designsystem.theme.MapGradiEnd
-import com.teamoffroad.core.designsystem.theme.MapGradiStart
 import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.feature.explore.presentation.component.ExploreAppBar
 import com.teamoffroad.feature.explore.presentation.component.ExploreMapBottomButton
+import com.teamoffroad.feature.explore.presentation.component.ExploreMapForeground
 import com.teamoffroad.feature.explore.presentation.component.ExploreRefreshButton
 import com.teamoffroad.feature.explore.presentation.component.ExploreTrackingButton
 import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
 import com.teamoffroad.feature.explore.presentation.model.LocationModel
+import com.teamoffroad.feature.explore.presentation.model.PlaceModel
 import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
@@ -59,6 +56,7 @@ internal fun ExploreScreen(
     updatePermission: (Boolean, Boolean) -> Unit,
     updateLocation: (Double, Double) -> Unit,
     updateTrackingToggle: (Boolean) -> Unit,
+    updatePlaces: () -> Unit,
 ) {
 
     val context = LocalContext.current
@@ -70,16 +68,18 @@ internal fun ExploreScreen(
 
     val launcherMultiplePermissions = getLocationPermissionLauncher(updatePermission)
 
+    updatePlaces()
+
     ExplorePermissionsHandler(
         context = context,
         uiState = uiState,
         launcherMultiplePermissions = launcherMultiplePermissions,
         permissions = permissions,
-        updatePermission = updatePermission
+        updatePermission = updatePermission,
     )
 
     if (uiState.isAlreadyHavePermission) {
-        ExploreNaverMap(uiState.locationModel, updateLocation, updateTrackingToggle)
+        ExploreNaverMap(uiState.locationModel, uiState.places, updateLocation, updateTrackingToggle)
     }
     if (uiState.isPermissionRejected) {
         ExplorePermissionRejectedHandler(context, navigateToHome)
@@ -143,6 +143,7 @@ private fun ExplorePermissionRejectedHandler(
 @Composable
 private fun ExploreNaverMap(
     locationState: LocationModel,
+    placeModel: List<PlaceModel>,
     updateLocation: (Double, Double) -> Unit,
     updateTrackingToggle: (Boolean) -> Unit,
 ) {
@@ -150,6 +151,7 @@ private fun ExploreNaverMap(
     val mapProperties by rememberUpdatedState(newValue = locationState.mapProperties)
     val location by rememberUpdatedState(newValue = locationState.location)
     val subIcon by rememberUpdatedState(newValue = locationState.subIcon)
+    val places by rememberUpdatedState(newValue = placeModel)
 
     LaunchedEffect(cameraPositionState.cameraUpdateReason) {
         if (cameraPositionState.cameraUpdateReason == CameraUpdateReason.GESTURE) updateTrackingToggle(true)
@@ -184,19 +186,15 @@ private fun ExploreNaverMap(
                 subIconHeight = 40,
                 circleColor = Sub2.copy(alpha = locationState.circleAlpha),
             )
+            places.forEach { place ->
+                Marker(
+                    state = MarkerState(position = place.location),
+                    icon = OverlayImage.fromResource(R.drawable.ic_explore_place_marker),
+                )
+                InfoWindow()
+            }
         }
-        AnimatedVisibility(
-            visible = true,
-            enter = EnterTransition.None,
-            exit = ExitTransition.None,
-            modifier = Modifier.align(Alignment.BottomCenter)
-        ) {
-            Box(
-                Modifier.background(Brush.verticalGradient(listOf(MapGradiStart, MapGradiEnd)))
-                    .fillMaxWidth()
-                    .height(126.dp)
-            )
-        }
+        ExploreMapForeground()
         Box(
             modifier = Modifier
                 .fillMaxWidth()
