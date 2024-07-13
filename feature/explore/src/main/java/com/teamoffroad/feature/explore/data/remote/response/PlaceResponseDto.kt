@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PlaceResponseDto(
-    val id: Int,
+    val id: Long,
     val name: String,
     val address: String,
     val shortIntroduction: String,
