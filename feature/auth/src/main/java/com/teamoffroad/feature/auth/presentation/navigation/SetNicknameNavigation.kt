@@ -8,18 +8,18 @@ import androidx.navigation.compose.composable
 import com.teamoffroad.core.navigation.AuthSettingRoute
 import com.teamoffroad.feature.auth.presentation.SetNicknameRoute
 
-fun NavController.navigateSetNickname(navOptions: NavOptions) {
+fun NavController.navigateToSetNickname(navOptions: NavOptions) {
     navigate(AuthSettingRoute.SetNickname, navOptions)
 }
 
 fun NavGraphBuilder.setNicknameNavGraph(
     padding: PaddingValues,
-    navigateToHome: () -> Unit,
+    navigateToSetBirthDate: () -> Unit,
 ) {
     composable<AuthSettingRoute.SetNickname> {
         SetNicknameRoute(
             padding,
-            onHomeBtnClick = navigateToHome
+            navigateToSetBirthDate
         )
     }
 }

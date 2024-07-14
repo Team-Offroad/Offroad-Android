@@ -26,7 +26,7 @@ import com.teamoffroad.feature.auth.presentation.component.OnboardingButton
 @Composable
 internal fun SetNicknameScreen(
     padding: PaddingValues,
-    navigateToHome: () -> Unit,
+    navigateToSetBirthDate: () -> Unit,
 ) {
     Surface(
         modifier = Modifier
@@ -53,8 +53,9 @@ internal fun SetNicknameScreen(
             Column {
                 Row {
                     NicknameTextField(
-                        value = "닉네임 입력",
+                        placeholder = "닉네임 입력",
                         onValueChange = {},
+                        textAlign = Alignment.CenterStart,
                         modifier = Modifier
                             .defaultMinSize(minWidth = 218.dp)
                             .height(43.dp)
@@ -73,15 +74,17 @@ internal fun SetNicknameScreen(
                     modifier = Modifier
                 )
             }
-            Spacer(modifier = Modifier.padding(vertical = 176.dp))
+            Spacer(modifier = Modifier.weight(1f))
+            //키패드 돋보기or다음 누르면 키패드내려가게?
             OffroadBasicBtn(
                 modifier = Modifier
                     .width(312.dp)
                     .height(50.dp),
-                onClick = navigateToHome,
+                onClick = navigateToSetBirthDate,
                 isActive = true,
                 text = "다음"
             )
+            Spacer(modifier = Modifier.height(24.dp))
         }
     }
 }
