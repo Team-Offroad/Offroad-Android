@@ -15,6 +15,4 @@ dependencies {
     implementation(libs.google.play.services.location)
     implementation(libs.retrofit.kotlinx.serialization)
     implementation(libs.bundles.offroad.map)
-    
-    implementation(libs.coil)
 }

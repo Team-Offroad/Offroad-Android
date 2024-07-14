@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import com.naver.maps.map.overlay.InfoWindow
-import com.teamoffroad.feature.explore.presentation.component.CustomInfoWindow
+import com.teamoffroad.feature.explore.presentation.component.ExploreInfoWindow
 import com.teamoffroad.feature.explore.presentation.model.PlaceModel
 
 class ComposeInfoWindowAdapter(
@@ -23,15 +23,17 @@ class ComposeInfoWindowAdapter(
         visitCount: Int,
         categoryImage: String,
         onButtonClick: () -> Unit,
+        onCloseButtonClick: () -> Unit = {},
     ) {
-        CustomInfoWindow(
+        ExploreInfoWindow(
             title = title,
             shortIntroduction = shortIntroduction,
             address = address,
             visitCount = visitCount,
-            onButtonClick = onButtonClick,
             modifier = Modifier,
             categoryImage = categoryImage,
+            onButtonClick = onButtonClick,
+            onCloseButtonClick = onCloseButtonClick,
         )
     }
 
@@ -47,6 +49,9 @@ class ComposeInfoWindowAdapter(
                     categoryImage = place.categoryImage,
                     onButtonClick = {
                         // TODO: Button click action
+                    },
+                    onCloseButtonClick = {
+                        infoWindow.close()
                     },
                 )
             }

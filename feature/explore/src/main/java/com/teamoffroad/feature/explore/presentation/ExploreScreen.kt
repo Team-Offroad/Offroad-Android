@@ -27,10 +27,14 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.naver.maps.geometry.LatLng
@@ -45,8 +49,8 @@ import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberFusedLocationSource
 import com.naver.maps.map.overlay.OverlayImage
 import com.teamoffroad.core.designsystem.theme.Sub2
-import com.teamoffroad.feature.explore.presentation.component.CustomInfoWindow
 import com.teamoffroad.feature.explore.presentation.component.ExploreAppBar
+import com.teamoffroad.feature.explore.presentation.component.ExploreInfoWindow
 import com.teamoffroad.feature.explore.presentation.component.ExploreMapBottomButton
 import com.teamoffroad.feature.explore.presentation.component.ExploreMapForeground
 import com.teamoffroad.feature.explore.presentation.component.ExploreRefreshButton
@@ -55,7 +59,6 @@ import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
 import com.teamoffroad.feature.explore.presentation.model.LocationModel
 import com.teamoffroad.feature.explore.presentation.model.PlaceModel
 import com.teamoffroad.offroad.feature.explore.R
-import kotlin.math.roundToInt
 
 @Composable
 internal fun ExploreScreen(
@@ -161,8 +164,10 @@ private fun ExploreNaverMap(
     val subIcon by rememberUpdatedState(newValue = locationState.subIcon)
     val places by rememberUpdatedState(newValue = placeModel)
 
+    val density = LocalDensity.current
     var selectedPlace by remember { mutableStateOf<PlaceModel?>(null) }
-    var markerOffset by remember { mutableStateOf(IntOffset(0, 0)) }
+    var markerOffset by remember { mutableStateOf(IntOffset.Zero) }
+    var mapViewSize by remember { mutableStateOf(IntSize.Zero) }
 
     LaunchedEffect(cameraPositionState.cameraUpdateReason) {
         if (cameraPositionState.cameraUpdateReason == CameraUpdateReason.GESTURE) {
@@ -172,7 +177,12 @@ private fun ExploreNaverMap(
     }
 
     Box(
-        Modifier.fillMaxSize().padding(bottom = 74.dp)
+        Modifier
+            .fillMaxSize()
+            .padding(bottom = 74.dp)
+            .onGloballyPositioned { coordinates ->
+                mapViewSize = coordinates.size
+            }
     ) {
         NaverMap(
             properties = mapProperties,
@@ -207,15 +217,17 @@ private fun ExploreNaverMap(
                     icon = OverlayImage.fromResource(R.drawable.ic_explore_place_marker),
                     onClick = {
                         selectedPlace = place
-                        markerOffset = calculateMarkerOffset(place.location, cameraPositionState)
+                        markerOffset = calculateMarkerOffset(place.location, cameraPositionState, density, mapViewSize)
                         true
                     },
                 )
             }
         }
         selectedPlace?.let { place ->
-            Box(modifier = Modifier.align(Alignment.TopStart).offset { markerOffset }) {
-                CustomInfoWindow(
+            Box(modifier = Modifier
+                .align(Alignment.TopStart)
+                .offset { markerOffset }) {
+                ExploreInfoWindow(
                     title = place.name,
                     shortIntroduction = place.shortIntroduction,
                     address = place.address,
@@ -224,13 +236,19 @@ private fun ExploreNaverMap(
                     onButtonClick = {
                         // Button click action
                     },
-                    modifier = Modifier.align(Alignment.TopCenter)
+                    onCloseButtonClick = {
+                        selectedPlace = null
+                    },
+                    modifier = Modifier.align(Alignment.TopCenter),
                 )
             }
         }
         ExploreMapForeground()
         Box(
-            modifier = Modifier.fillMaxWidth().padding(top = 96.dp).align(Alignment.TopCenter),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 96.dp)
+                .align(Alignment.TopCenter),
         ) {
             ExploreRefreshButton(
                 text = "현 지도에서 검색",
@@ -240,11 +258,15 @@ private fun ExploreNaverMap(
             ExploreTrackingButton(
                 isTrackingEnabled = locationState.isUserTrackingEnabled,
                 onClick = updateTrackingToggle,
-                modifier = Modifier.align(Alignment.CenterEnd).padding(end = 22.dp),
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .padding(end = 22.dp),
             )
         }
         Row(
-            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 36.dp),
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 36.dp),
             horizontalArrangement = Arrangement.Center,
         ) {
             ExploreMapBottomButton(
@@ -262,9 +284,28 @@ private fun ExploreNaverMap(
     }
 }
 
-private fun calculateMarkerOffset(location: LatLng, cameraPositionState: CameraPositionState): IntOffset {
+private fun calculateMarkerOffset(location: LatLng, cameraPositionState: CameraPositionState, density: Density, screenSize: IntSize): IntOffset {
     val screenPosition = cameraPositionState.projection?.toScreenLocation(location)
     return screenPosition?.let {
-        IntOffset(it.x.roundToInt() - 350, (it.y.roundToInt()) - 640)
+        with(density) {
+            var xOffset = (it.x.toDp() - 115.dp).roundToPx()
+            var yOffset = (it.y.toDp() - 210.dp).roundToPx()
+
+            if (xOffset < 0) {
+                xOffset = 28
+            }
+            if (xOffset + 230.dp.roundToPx() > screenSize.width) {
+                xOffset = screenSize.width - 714
+            }
+
+            if (yOffset < 120.dp.roundToPx()) {
+                yOffset = 232
+            }
+            if (yOffset + 174.dp.roundToPx() > screenSize.height) {
+                yOffset = screenSize.height - 174
+            }
+
+            IntOffset(xOffset, yOffset)
+        }
     } ?: IntOffset(0, 0)
 }

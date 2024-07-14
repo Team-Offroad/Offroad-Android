@@ -8,6 +8,7 @@ import com.teamoffroad.feature.explore.presentation.model.PlaceModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,7 +17,7 @@ class ExploreViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<ExploreUiState> = MutableStateFlow(ExploreUiState())
-    val uiState: StateFlow<ExploreUiState> get() = _uiState
+    val uiState: StateFlow<ExploreUiState> = _uiState.asStateFlow()
 
     fun updatePermission(isAlreadyHavePermission: Boolean, isPermissionRejected: Boolean) {
         _uiState.value = uiState.value.copy(
@@ -97,9 +98,9 @@ class ExploreViewModel @Inject constructor(
         ),
         PlaceModel(
             id = 6,
-            name = "Place6",
-            address = "서울시 중구 을지로 333",
-            shortIntroduction = "을지로의 무명 장소",
+            name = "Place6Place6Place6",
+            address = "서울시 중구 을지로 333서울시 중구 을지로 333서울시 중구 을지로 333서울시 중구 을지로 333",
+            shortIntroduction = "을지로의 무명 장소을지로의 무명 장소을지로의 무명 장소을지로의 무명 장소을지로의 무명 장소",
             placeCategory = PlaceCategory.NONE,
             categoryImage = "https://github.com/user-attachments/assets/7344bbaa-291b-4756-b3ae-06402a960810",
             location = LatLng(37.566500, 126.923000),
