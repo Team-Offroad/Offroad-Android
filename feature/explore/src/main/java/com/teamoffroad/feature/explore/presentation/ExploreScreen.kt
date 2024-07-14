@@ -292,7 +292,7 @@ private fun calculateMarkerOffset(location: LatLng, cameraPositionState: CameraP
     return screenPosition?.let {
         with(density) {
             var xOffset = (it.x.toDp() - 115.dp).roundToPx()
-            var yOffset = (it.y.toDp() - 210.dp).roundToPx()
+            var yOffset = (it.y.toDp() - 224.dp).roundToPx()
 
             if (xOffset < 0) {
                 xOffset = 28
