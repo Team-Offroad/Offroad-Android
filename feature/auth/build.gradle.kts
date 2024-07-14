@@ -4,10 +4,11 @@ import com.teamoffroad.app.setNamespace
 plugins {
     id("offroad.android.feature")
     id("offroad.android.library")
+    id("offroad.android.compose")
 }
 
 android {
-    setNamespace("feature.home")
+    setNamespace("feature.auth")
 
     defaultConfig {
         buildConfigField("String", "GOOGLE_CLIENT_ID", getApiKey("google.client.id"))
@@ -15,10 +16,14 @@ android {
 
     buildFeatures {
         buildConfig = true
+        compose = true
     }
 }
 
 dependencies {
+    implementation(project(":core:designsystem"))
+
+    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.constraintlayout.compose)
 }

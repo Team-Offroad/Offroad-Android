@@ -11,4 +11,5 @@ android {
 
 dependencies {
     implementation(libs.retrofit.kotlinx.serialization)
+    implementation(libs.androidx.appcompat)
 }
