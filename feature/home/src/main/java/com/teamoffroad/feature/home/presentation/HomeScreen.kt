@@ -1,5 +1,12 @@
-package com.teamoffroad.feature.home
+package com.teamoffroad.feature.home.presentation
 
+import android.content.Context
+import android.os.Build
+import android.widget.Toast
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +22,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,16 +31,20 @@ import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.home.presentation.component.HomeIcons
 import com.teamoffroad.feature.home.presentation.component.character.CharacterItem
+import com.teamoffroad.feature.home.presentation.component.download.downloadImage
 import com.teamoffroad.feature.home.presentation.component.quest.progressbar.CloseCompleteRequest
 import com.teamoffroad.feature.home.presentation.component.quest.progressbar.RecentQuest
 import com.teamoffroad.feature.home.presentation.component.user.NicknameText
 import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 import com.teamoffroad.offroad.feature.home.R
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 internal fun HomeScreen(
     padding: PaddingValues,
 ) {
+    val context = LocalContext.current
+
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -40,18 +52,25 @@ internal fun HomeScreen(
         color = Main1
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
-            UsersAdventuresInformation(modifier = Modifier)
+            UsersAdventuresInformation(context = context, modifier = Modifier)
             Spacer(modifier = Modifier.padding(top = 12.dp))
             UsersQuestInformation()
         }
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
-private fun UsersAdventuresInformation(modifier: Modifier = Modifier) {
+private fun UsersAdventuresInformation(
+    context: Context,
+    modifier: Modifier = Modifier,
+) {
     Box(
         modifier = modifier.fillMaxWidth()
     ) {
+        val imageUrl =
+            "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MThfMTI5%2FMDAxNzE4NzAwMDc3NDU5.aKzepvLVpANcA_ADj_iPwrCReF3JtmKBrUTfuO2i2e8g.gWSssQEsdKMzp2SMcxWte5v9KB-S9VeyZ7TzERECYVEg.JPEG%2FCK_cm26006990.jpg&type=a340"
+
         Column {
             NicknameText("비포장도로")
             CharacterItem().CharacterNameText("오푸")
@@ -62,7 +81,10 @@ private fun UsersAdventuresInformation(modifier: Modifier = Modifier) {
                 contentAlignment = Alignment.TopEnd
             ) {
                 HomeBackground()
-                HomeIcons()
+                HomeIcons(
+                    context = context,
+                    url = imageUrl
+                )
             }
             CharacterItem().CharacterImage()
         }

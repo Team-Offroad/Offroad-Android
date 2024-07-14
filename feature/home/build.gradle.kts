@@ -12,4 +12,6 @@ android {
 dependencies {
     implementation(libs.retrofit.kotlinx.serialization)
     implementation(libs.androidx.appcompat)
+    implementation(libs.volley)
+    implementation("io.coil-kt:coil:2.2.2")
 }

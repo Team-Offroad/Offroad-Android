@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.home
+package com.teamoffroad.feature.home.presentation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable

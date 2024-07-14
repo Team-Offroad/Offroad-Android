@@ -6,7 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.teamoffroad.core.navigation.MainTabRoute
-import com.teamoffroad.feature.home.HomeRoute
+import com.teamoffroad.feature.home.presentation.HomeRoute
 
 fun NavController.navigateHome(navOptions: NavOptions) {
     navigate(MainTabRoute.Home, navOptions)
