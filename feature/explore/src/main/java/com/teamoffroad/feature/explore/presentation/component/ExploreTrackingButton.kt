@@ -37,7 +37,7 @@ fun ExploreTrackingButton(
                 modifier = Modifier
                     .size(36.dp)
                     .align(Alignment.Center)
-                    .shadow(elevation = 4.dp, shape = CircleShape)
+                    .shadow(elevation = 2.dp, shape = CircleShape)
             )
             Image(
                 painter = when (isTrackingEnabled) {

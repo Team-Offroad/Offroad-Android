@@ -69,3 +69,14 @@ data class LocationModel(
         private const val NO_FOLLOW_CIRCLE_ALPHA = 0.07f
     }
 }
+
+data class PlaceModel(
+    val id: Long,
+    val name: String,
+    val address: String,
+    val shortIntroduction: String,
+    val placeCategory: PlaceCategory,
+    val categoryImage: String,
+    val location: LatLng,
+    val visitCount: Int,
+)
