@@ -35,7 +35,6 @@ internal fun SetBirthDateScreen(
     ) {
         Column {
             Spacer(modifier = Modifier.padding(vertical = 22.dp))
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
