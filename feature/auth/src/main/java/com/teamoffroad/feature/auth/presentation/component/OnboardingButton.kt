@@ -42,7 +42,7 @@ fun OnboardingButton(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .background(color = if (isActive) backGroundColor else backGroundColor, shape = shape)
+            .background(backGroundColor, shape = shape)
             .border(
                 width = 1.dp,
                 color = if (isActive) borderLineColor else borderLineColor,
