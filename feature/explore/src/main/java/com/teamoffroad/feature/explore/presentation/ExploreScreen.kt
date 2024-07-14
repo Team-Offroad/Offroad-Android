@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -47,6 +48,7 @@ import com.naver.maps.map.compose.MarkerState
 import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberFusedLocationSource
 import com.naver.maps.map.overlay.OverlayImage
+import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.feature.explore.presentation.component.ExploreAppBar
 import com.teamoffroad.feature.explore.presentation.component.ExploreInfoWindow
@@ -95,7 +97,6 @@ internal fun ExploreScreen(
     if (uiState.isPermissionRejected) {
         ExplorePermissionRejectedHandler(context, navigateToHome)
     }
-    ExploreAppBar()
 }
 
 @Composable
@@ -218,26 +219,6 @@ private fun ExploreNaverMap(
                 )
             }
         }
-        selectedPlace?.let { place ->
-            Box(modifier = Modifier
-                .align(Alignment.TopStart)
-                .offset { markerOffset }) {
-                ExploreInfoWindow(
-                    title = place.name,
-                    shortIntroduction = place.shortIntroduction,
-                    address = place.address,
-                    visitCount = place.visitCount,
-                    categoryImage = place.categoryImage,
-                    onButtonClick = {
-                        // Button click action
-                    },
-                    onCloseButtonClick = {
-                        updateSelectedPlace(null)
-                    },
-                    modifier = Modifier.align(Alignment.TopCenter),
-                )
-            }
-        }
         ExploreMapForeground()
         Box(
             modifier = Modifier
@@ -275,6 +256,33 @@ private fun ExploreNaverMap(
                 text = stringResource(R.string.explore_places),
                 onClick = {},
             )
+        }
+        ExploreAppBar()
+        selectedPlace?.let { place ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Black.copy(alpha = 0.25f))
+            ) {
+                Box(modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .offset { markerOffset }) {
+                    ExploreInfoWindow(
+                        title = place.name,
+                        shortIntroduction = place.shortIntroduction,
+                        address = place.address,
+                        visitCount = place.visitCount,
+                        categoryImage = place.categoryImage,
+                        onButtonClick = {
+                            // Button click action
+                        },
+                        onCloseButtonClick = {
+                            updateSelectedPlace(null)
+                        },
+                        modifier = Modifier.align(Alignment.TopCenter),
+                    )
+                }
+            }
         }
     }
 }
