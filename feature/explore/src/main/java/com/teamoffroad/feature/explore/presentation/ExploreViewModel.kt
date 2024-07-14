@@ -51,6 +51,7 @@ class ExploreViewModel @Inject constructor(
             address = "서울시 강남구 테헤란로 123",
             shortIntroduction = "테헤란로의 멋진 카페",
             placeCategory = PlaceCategory.CAFFE,
+            categoryImage = "https://github.com/user-attachments/assets/7344bbaa-291b-4756-b3ae-06402a960810",
             location = LatLng(37.566900, 126.923500),
             visitCount = 5
         ),
@@ -60,6 +61,7 @@ class ExploreViewModel @Inject constructor(
             address = "서울시 서초구 서초대로 456",
             shortIntroduction = "서초대로의 유명 레스토랑",
             placeCategory = PlaceCategory.RESTAURANT,
+            categoryImage = "https://github.com/user-attachments/assets/7344bbaa-291b-4756-b3ae-06402a960810",
             location = LatLng(37.567000, 126.923600),
             visitCount = 8
         ),
@@ -69,6 +71,7 @@ class ExploreViewModel @Inject constructor(
             address = "서울시 마포구 홍익로 789",
             shortIntroduction = "홍익로의 아름다운 공원",
             placeCategory = PlaceCategory.PARK,
+            categoryImage = "https://github.com/user-attachments/assets/7344bbaa-291b-4756-b3ae-06402a960810",
             location = LatLng(37.566800, 126.923400),
             visitCount = 3
         ),
@@ -78,6 +81,7 @@ class ExploreViewModel @Inject constructor(
             address = "서울시 종로구 세종대로 101",
             shortIntroduction = "세종대로의 문화 명소",
             placeCategory = PlaceCategory.CULTURE,
+            categoryImage = "https://github.com/user-attachments/assets/7344bbaa-291b-4756-b3ae-06402a960810",
             location = LatLng(37.566700, 126.923200),
             visitCount = 12
         ),
@@ -87,6 +91,7 @@ class ExploreViewModel @Inject constructor(
             address = "서울시 송파구 올림픽로 222",
             shortIntroduction = "올림픽로의 스포츠 센터",
             placeCategory = PlaceCategory.SPORT,
+            categoryImage = "https://github.com/user-attachments/assets/7344bbaa-291b-4756-b3ae-06402a960810",
             location = LatLng(37.566600, 126.923100),
             visitCount = 20
         ),
@@ -96,6 +101,7 @@ class ExploreViewModel @Inject constructor(
             address = "서울시 중구 을지로 333",
             shortIntroduction = "을지로의 무명 장소",
             placeCategory = PlaceCategory.NONE,
+            categoryImage = "https://github.com/user-attachments/assets/7344bbaa-291b-4756-b3ae-06402a960810",
             location = LatLng(37.566500, 126.923000),
             visitCount = 0
         ),
