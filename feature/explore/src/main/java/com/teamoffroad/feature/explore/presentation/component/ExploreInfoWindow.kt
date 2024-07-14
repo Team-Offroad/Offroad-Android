@@ -22,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -63,10 +64,11 @@ fun ExploreInfoWindow(
             Column(
                 modifier = Modifier
                     .background(color = Main3)
+                    .paint(painterResource(id = R.drawable.bg_explore_info_window))
                     .border(
                         width = 1.dp,
                         color = Main3,
-                        shape = RoundedCornerShape(8.dp)
+                        shape = RoundedCornerShape(8.dp),
                     )
                     .padding(top = 0.dp, bottom = 14.dp, start = 14.dp, end = 14.dp)
             ) {
