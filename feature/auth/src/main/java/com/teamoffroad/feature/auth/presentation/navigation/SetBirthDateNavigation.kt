@@ -12,11 +12,11 @@ fun NavController.navigateToSetBirthDate(navOptions: NavOptions) {
 }
 
 fun NavGraphBuilder.setBirthDateNavGraph(
-    navigateToHome: () -> Unit,
+    navigateToSetGender: () -> Unit,
 ) {
     composable<AuthSettingRoute.SetBirthDate> {
         SetBirthDateRoute(
-            navigateToHome,
+            navigateToSetGender,
         )
     }
 }

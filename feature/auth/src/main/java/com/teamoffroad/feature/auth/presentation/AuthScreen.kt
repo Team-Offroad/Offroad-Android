@@ -92,7 +92,8 @@ fun ClickableImage(
     Box(
         modifier = modifier
             .clickable(onClick = onClick)
-            .background(color = background,
+            .background(
+                color = background,
                 shape = RoundedCornerShape(6.dp)
             )
     ) {
