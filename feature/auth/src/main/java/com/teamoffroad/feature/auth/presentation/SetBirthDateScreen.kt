@@ -56,7 +56,7 @@ internal fun SetBirthDateScreen(
                 style = OffroadTheme.typography.profileTitle,
                 textAlign = TextAlign.Center
             )
-            Spacer(modifier = Modifier.padding(vertical = 5.dp))
+            Spacer(modifier = Modifier.padding(vertical = 6.dp))
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = "나이를 알려주세요.",
@@ -76,7 +76,7 @@ internal fun SetBirthDateScreen(
             )
             Row(
                 modifier = Modifier
-                    .padding(top = 13.dp)
+                    .padding(top = 12.dp)
                     .padding(horizontal = 24.dp),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
@@ -96,12 +96,12 @@ internal fun SetBirthDateScreen(
                     style = OffroadTheme.typography.subtitleReg,
                 )
                 NicknameTextField(
+                    modifier = Modifier
+                        .width(66.dp)
+                        .height(43.dp),
                     placeholder = "MM",
                     onValueChange = {},
                     textAlign = Alignment.Center,
-                    modifier = Modifier
-                        .width(66.dp)
-                        .height(43.dp)
                 )
                 Text(
                     modifier = Modifier.padding(start = 6.dp, end = 8.dp),
@@ -110,21 +110,25 @@ internal fun SetBirthDateScreen(
                     style = OffroadTheme.typography.subtitleReg,
                 )
                 NicknameTextField(
+                    modifier = Modifier
+                        .width(66.dp)
+                        .height(43.dp),
                     placeholder = "DD",
                     onValueChange = {},
                     textAlign = Alignment.Center,
-                    modifier = Modifier
-                        .width(66.dp)
-                        .height(43.dp)
                 )
                 Text(
-                    modifier = Modifier.padding(start = 6.dp, end = 20.dp),
+                    modifier = Modifier
+                        .padding(start = 6.dp, end = 20.dp),
                     text = "일",
                     color = Main2,
                     style = OffroadTheme.typography.subtitleReg,
                 )
             }
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(
+                modifier = Modifier
+                    .weight(1f)
+            )
             OffroadBasicBtn(
                 modifier = Modifier
                     .width(312.dp)
