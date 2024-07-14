@@ -107,7 +107,7 @@ hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-com
 inject = { group = "javax.inject", name = "javax.inject", version.ref = "inject" }
 
 # Image Loading Libraries
-coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
+coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 
 # Networking Libraries
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp" }
