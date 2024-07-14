@@ -23,7 +23,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -68,6 +67,7 @@ internal fun ExploreScreen(
     updateLocation: (Double, Double) -> Unit,
     updateTrackingToggle: (Boolean) -> Unit,
     updatePlaces: () -> Unit,
+    updateSelectedPlace: (PlaceModel?) -> Unit,
 ) {
 
     val context = LocalContext.current
@@ -90,7 +90,7 @@ internal fun ExploreScreen(
     )
 
     if (uiState.isAlreadyHavePermission) {
-        ExploreNaverMap(uiState.locationModel, uiState.places, updateLocation, updateTrackingToggle)
+        ExploreNaverMap(uiState.locationModel, uiState.places, uiState.selectedPlace, updateLocation, updateTrackingToggle, updateSelectedPlace)
     }
     if (uiState.isPermissionRejected) {
         ExplorePermissionRejectedHandler(context, navigateToHome)
@@ -154,24 +154,19 @@ private fun ExplorePermissionRejectedHandler(
 @Composable
 private fun ExploreNaverMap(
     locationState: LocationModel,
-    placeModel: List<PlaceModel>,
+    places: List<PlaceModel>,
+    selectedPlace: PlaceModel?,
     updateLocation: (Double, Double) -> Unit,
     updateTrackingToggle: (Boolean) -> Unit,
+    updateSelectedPlace: (PlaceModel?) -> Unit,
 ) {
-    val cameraPositionState by rememberUpdatedState(newValue = locationState.cameraPositionState)
-    val mapProperties by rememberUpdatedState(newValue = locationState.mapProperties)
-    val location by rememberUpdatedState(newValue = locationState.location)
-    val subIcon by rememberUpdatedState(newValue = locationState.subIcon)
-    val places by rememberUpdatedState(newValue = placeModel)
-
     val density = LocalDensity.current
-    var selectedPlace by remember { mutableStateOf<PlaceModel?>(null) }
     var markerOffset by remember { mutableStateOf(IntOffset.Zero) }
     var mapViewSize by remember { mutableStateOf(IntSize.Zero) }
 
-    LaunchedEffect(cameraPositionState.cameraUpdateReason) {
-        if (cameraPositionState.cameraUpdateReason == CameraUpdateReason.GESTURE) {
-            selectedPlace = null
+    LaunchedEffect(locationState.cameraPositionState.cameraUpdateReason) {
+        if (locationState.cameraPositionState.cameraUpdateReason == CameraUpdateReason.GESTURE) {
+            updateSelectedPlace(null)
             updateTrackingToggle(true)
         }
     }
@@ -185,7 +180,7 @@ private fun ExploreNaverMap(
             }
     ) {
         NaverMap(
-            properties = mapProperties,
+            properties = locationState.mapProperties,
             uiSettings = MapUiSettings(
                 isScaleBarEnabled = false,
                 isZoomControlEnabled = false,
@@ -195,20 +190,20 @@ private fun ExploreNaverMap(
                 logoMargin = PaddingValues(top = 0.dp, start = 22.dp),
             ),
             locationSource = rememberFusedLocationSource(isCompassEnabled = true),
-            cameraPositionState = cameraPositionState,
+            cameraPositionState = locationState.cameraPositionState,
             onLocationChange = { location ->
                 updateLocation(location.latitude, location.longitude)
             },
             onMapClick = { _, _ ->
-                selectedPlace = null
+                updateSelectedPlace(null)
             },
         ) {
             LocationOverlay(
-                position = location,
+                position = locationState.location,
                 icon = OverlayImage.fromResource(R.drawable.ic_explore_location_overlay),
-                subIcon = subIcon,
+                subIcon = locationState.subIcon,
                 subIconWidth = 48,
-                subIconHeight = 40,
+                subIconHeight = 60,
                 circleColor = Sub2.copy(alpha = locationState.circleAlpha),
             )
             places.forEach { place ->
@@ -216,8 +211,8 @@ private fun ExploreNaverMap(
                     state = MarkerState(position = place.location),
                     icon = OverlayImage.fromResource(R.drawable.ic_explore_place_marker),
                     onClick = {
-                        selectedPlace = place
-                        markerOffset = calculateMarkerOffset(place.location, cameraPositionState, density, mapViewSize)
+                        updateSelectedPlace(place)
+                        markerOffset = calculateMarkerOffset(place.location, locationState.cameraPositionState, density, mapViewSize)
                         true
                     },
                 )
@@ -237,7 +232,7 @@ private fun ExploreNaverMap(
                         // Button click action
                     },
                     onCloseButtonClick = {
-                        selectedPlace = null
+                        updateSelectedPlace(null)
                     },
                     modifier = Modifier.align(Alignment.TopCenter),
                 )

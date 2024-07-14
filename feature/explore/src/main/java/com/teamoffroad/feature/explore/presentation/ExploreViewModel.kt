@@ -45,6 +45,12 @@ class ExploreViewModel @Inject constructor(
         )
     }
 
+    fun updateSelectedPlace(place: PlaceModel?) {
+        _uiState.value = uiState.value.copy(
+            selectedPlace = place
+        )
+    }
+
     private val dummyPlaces = listOf(
         PlaceModel(
             id = 1,

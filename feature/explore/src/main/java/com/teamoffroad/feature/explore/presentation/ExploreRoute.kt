@@ -21,5 +21,6 @@ internal fun ExploreRoute(
         updateLocation = viewModel::updateLocation,
         updateTrackingToggle = viewModel::updateTrackingToggle,
         updatePlaces = viewModel::updatePlaces,
+        updateSelectedPlace = viewModel::updateSelectedPlace
     )
 }
