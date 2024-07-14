@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,12 +21,12 @@ import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
-import com.teamoffroad.offroad.feature.home.R
+import com.teamoffroad.offroad.feature.auth.R
 
 @Composable
 internal fun AuthScreen(
     padding: PaddingValues,
-    navigateToHome: () -> Unit,
+    navigateToSetNickname: () -> Unit,
 ) {
     Surface(
         modifier = Modifier
@@ -52,13 +53,12 @@ internal fun AuthScreen(
                 painter = painterResource(id = R.drawable.ic_auth_kakao_logo),
                 background = Kakao,
                 contentDescription = "auth_kakao",
-                onClick = navigateToHome,
+                onClick = navigateToSetNickname,
                 modifier = Modifier
                     .constrainAs(kakaoLogin) {
                         start.linkTo(parent.start, margin = 24.dp)
                         end.linkTo(parent.end, margin = 24.dp)
                         top.linkTo(appLogo.bottom, margin = 38.dp)
-                        bottom.linkTo(parent.bottom, margin = 388.dp)
                     }
             )
             ClickableImage(
@@ -67,13 +67,12 @@ internal fun AuthScreen(
                 painter = painterResource(id = R.drawable.ic_auth_google_logo),
                 background = White,
                 contentDescription = "auth_google",
-                onClick = navigateToHome,
+                onClick = navigateToSetNickname,
                 modifier = Modifier
                     .constrainAs(googleLogin) {
                         start.linkTo(parent.start, margin = 24.dp)
                         end.linkTo(parent.end, margin = 24.dp)
                         top.linkTo(kakaoLogin.bottom, margin = 14.dp)
-                        bottom.linkTo(parent.bottom, margin = 320.dp)
                     }
             )
         }
@@ -93,7 +92,9 @@ fun ClickableImage(
     Box(
         modifier = modifier
             .clickable(onClick = onClick)
-            .background(color = background)
+            .background(color = background,
+                shape = RoundedCornerShape(6.dp)
+            )
     ) {
         ConstraintLayout {
             val (loginLogo, logoText) = createRefs()

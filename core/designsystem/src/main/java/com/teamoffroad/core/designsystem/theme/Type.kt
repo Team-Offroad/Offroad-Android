@@ -212,7 +212,7 @@ fun offroadTypography(): OffroadTypography {
         textContents = TextStyle(
             fontFamily = PretendardMedium,
             fontWeight = FontWeight.Medium,
-            fontSize = 11.sp
+            fontSize = 13.sp
         ),
         profileTitle = TextStyle(
             fontFamily = PretendardBold,

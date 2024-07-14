@@ -10,6 +10,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.teamoffroad.core.navigation.Route
+import com.teamoffroad.feature.auth.presentation.navigation.navigateToSetBirthDate
+import com.teamoffroad.feature.auth.presentation.navigation.navigateToSetNickname
 import com.teamoffroad.feature.explore.presentation.navigation.navigateExplore
 import com.teamoffroad.feature.home.navigation.navigateHome
 import com.teamoffroad.feature.mypage.navigation.navigateMypage
@@ -22,9 +24,6 @@ internal class MainNavigator(
             .currentBackStackEntryAsState().value?.destination
 
     val startDestination = Route.Auth
-    //Route.Auth
-    //MainTab.HOME.route
-    //요런식으로 시작점 바꿔서 작업하면 됩니다.
 
     val currentTab: MainNavTab?
         @Composable get() = MainNavTab.find { tab ->
@@ -56,6 +55,14 @@ internal class MainNavigator(
 
     fun navigateToHome() {
         navController.navigateHome(navOptions)
+    }
+
+    fun navigateToSetNickname(){
+        navController.navigateToSetNickname(navOptions)
+    }
+
+    fun navigateToSetBirthDate(){
+        navController.navigateToSetBirthDate(navOptions)
     }
 }
 
