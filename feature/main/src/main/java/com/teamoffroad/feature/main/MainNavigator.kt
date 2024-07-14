@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.teamoffroad.core.navigation.Route
 import com.teamoffroad.feature.auth.presentation.navigation.navigateToSetBirthDate
+import com.teamoffroad.feature.auth.presentation.navigation.navigateToSetCharacter
 import com.teamoffroad.feature.auth.presentation.navigation.navigateToSetGender
 import com.teamoffroad.feature.auth.presentation.navigation.navigateToSetNickname
 import com.teamoffroad.feature.explore.presentation.navigation.navigateExplore
@@ -68,6 +69,10 @@ internal class MainNavigator(
 
     fun navigateToSetGender() {
         navController.navigateToSetGender(navOptions)
+    }
+
+    fun navigateToSetCharacter() {
+        navController.navigateToSetCharacter(navOptions)
     }
 }
 
