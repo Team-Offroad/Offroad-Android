@@ -246,7 +246,7 @@ private fun ExploreNaverMap(
                 .align(Alignment.TopCenter),
         ) {
             ExploreRefreshButton(
-                text = "현 지도에서 검색",
+                text = stringResource(R.string.explore_map_refresh),
                 onClick = {},
                 modifier = Modifier.align(Alignment.Center),
             )
@@ -266,13 +266,13 @@ private fun ExploreNaverMap(
         ) {
             ExploreMapBottomButton(
                 painter = painterResource(R.drawable.ic_explore_quest_list),
-                text = "퀘스트 목록",
+                text = stringResource(R.string.explore_quests),
                 onClick = {},
             )
             Spacer(modifier = Modifier.size(16.dp))
             ExploreMapBottomButton(
                 painter = painterResource(R.drawable.ic_explore_location),
-                text = "장소 목록",
+                text = stringResource(R.string.explore_places),
                 onClick = {},
             )
         }
