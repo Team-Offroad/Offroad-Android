@@ -204,7 +204,7 @@ private fun ExploreNaverMap(
                 icon = OverlayImage.fromResource(R.drawable.ic_explore_location_overlay),
                 subIcon = locationState.subIcon,
                 subIconWidth = 48,
-                subIconHeight = 60,
+                subIconHeight = 40,
                 circleColor = Sub2.copy(alpha = locationState.circleAlpha),
             )
             places.forEach { place ->
