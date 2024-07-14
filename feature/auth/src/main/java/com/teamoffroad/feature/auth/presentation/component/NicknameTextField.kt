@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -50,6 +49,7 @@ fun NicknameTextField(
     minLines: Int = 1,
     maxLength: Int = 10,
     textStyle: TextStyle = OffroadTheme.typography.textAuto,
+    textAlign: Alignment,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
@@ -98,12 +98,11 @@ fun NicknameTextField(
                         shape = shape,
                     )
                     .padding(vertical = 12.dp, horizontal = 12.dp),
-                verticalArrangement = Arrangement.SpaceBetween,
             ) {
                 Box(
                     modifier = modifier
                         .clip(shape = shape),
-                    contentAlignment = Alignment.CenterStart,
+                    contentAlignment = textAlign,
                 ) {
                     if (value.isEmpty()) {
                         Text(
@@ -115,11 +114,6 @@ fun NicknameTextField(
                         )
                     }
                     innerText()
-                }
-                Box(
-                    modifier = modifier
-                        .padding(top = 8.dp),
-                ) {
                 }
             }
         },
@@ -133,8 +127,5 @@ fun NicknameTextFieldPreview() {
         var normalValue by remember {
             mutableStateOf("")
         }
-        NicknameTextField(
-            placeholder = "오프로드",
-        )
     }
 }
