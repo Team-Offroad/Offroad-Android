@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="explore_location_permission_failed">탐험을 시작하려면 위치 정보 수집 활용에 동의해 주세요.</string>
+    <string name="explore_location_permission_failed">탐험을 시작하려면 위치 정보 수집·활용에 동의해 주세요.</string>
+    <string name="explore_title">어디를 탐험해 볼까요?</string>
+    <string name="explore_visit_count">탐험횟수: %s</string>
+    <string name="explore_explore_button_label">탐험하기</string>
+    <string name="explore_map_refresh">현 지도에서 검색</string>
+    <string name="explore_quests">퀘스트 목록</string>
+    <string name="explore_places">장소 목록</string>
 </resources>
