@@ -4,9 +4,9 @@ import androidx.compose.runtime.Composable
 
 @Composable
 internal fun SetBirthDateRoute(
-    navigateToHome: () -> Unit,
+    navigateToSetGender: () -> Unit,
 ) {
     SetBirthDateScreen(
-        navigateToHome = navigateToHome
+        navigateToHome = navigateToSetGender
     )
 }

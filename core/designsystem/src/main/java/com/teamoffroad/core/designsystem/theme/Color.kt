@@ -17,7 +17,6 @@ val Main3 = Color(0xFFFFFBF4)
 
 val Sub = Color(0xFFFF901C)
 val Sub2 = Color(0xFFE57A2C)
-val Sub3 = Color(0xFF8B6546)
 val Sub4 = Color(0xFF353028)
 
 val White = Color(0xFFFFFFFF)
