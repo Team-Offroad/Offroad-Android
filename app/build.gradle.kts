@@ -16,10 +16,6 @@ android {
         manifestPlaceholders["NAVER_CLIENT_ID"] = gradleLocalProperties(rootDir, providers).getProperty("naver.client.id")
     }
 
-    buildFeatures {
-        buildConfig = true
-    }
-
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
