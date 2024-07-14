@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.teamoffroad.feature.auth.presentation.navigation.authNavGraph
 import com.teamoffroad.feature.auth.presentation.navigation.setBirthDateNavGraph
+import com.teamoffroad.feature.auth.presentation.navigation.setGenderNavGraph
 import com.teamoffroad.feature.auth.presentation.navigation.setNicknameNavGraph
 import com.teamoffroad.feature.explore.presentation.navigation.exploreNavGraph
 import com.teamoffroad.feature.home.navigation.homeNavGraph
@@ -49,6 +50,9 @@ internal fun MainNavHost(
                 navigateToSetBirthDate = { navigator.navigateToSetBirthDate() }
             )
             setBirthDateNavGraph(
+                navigateToSetGender = { navigator.navigateToSetGender() }
+            )
+            setGenderNavGraph(
                 navigateToHome = { navigator.navigateToHome() }
             )
         }
