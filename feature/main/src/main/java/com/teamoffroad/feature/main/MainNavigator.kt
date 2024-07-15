@@ -74,6 +74,11 @@ internal class MainNavigator(
     fun navigateToExploreCameraScreen(placeId: Long, latitude: Double, longitude: Double) {
         navController.navigateToExploreCameraScreen(placeId, latitude, longitude, navOptions)
     }
+
+    fun navigateToExplore() {
+        navController.popBackStack()
+        navController.navigateExplore(navOptions)
+    }
 }
 
 @Composable

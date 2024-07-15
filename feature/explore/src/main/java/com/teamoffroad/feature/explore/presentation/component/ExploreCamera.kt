@@ -43,7 +43,7 @@ fun ExploreCamera(
                 .also {
                     it.setAnalyzer(
                         ContextCompat.getMainExecutor(context),
-                        BarcodeAnalyzer(context) { barcode ->
+                        BarcodeAnalyzer { barcode ->
                             Toast.makeText(context, barcode, Toast.LENGTH_SHORT).show()
                             postExploreResult(placeId, latitude, longitude, barcode)
                         }

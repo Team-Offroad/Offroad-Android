@@ -1,6 +1,6 @@
 package com.teamoffroad.feature.explore.presentation
 
-import android.content.Context
+import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
@@ -9,7 +9,6 @@ import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 
 class BarcodeAnalyzer(
-    private val context: Context,
     private val onBarcodeDetected: (String) -> Unit,
 ) : ImageAnalysis.Analyzer {
 
@@ -19,6 +18,7 @@ class BarcodeAnalyzer(
 
     private val scanner = BarcodeScanning.getClient(options)
 
+    @ExperimentalGetImage
     override fun analyze(imageProxy: ImageProxy) {
         imageProxy.image?.let { image ->
             scanner.process(

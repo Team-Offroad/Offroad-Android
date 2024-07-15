@@ -9,6 +9,7 @@ import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -27,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -194,7 +196,6 @@ private fun ExploreNaverMap(
 
     LaunchedEffect(locationState.cameraPositionState.cameraUpdateReason) {
         if (locationState.cameraPositionState.cameraUpdateReason == CameraUpdateReason.GESTURE) {
-            updateSelectedPlace(null)
             updateTrackingToggle(true)
         }
     }
@@ -238,8 +239,8 @@ private fun ExploreNaverMap(
                     state = MarkerState(position = place.location),
                     icon = OverlayImage.fromResource(R.drawable.ic_explore_place_marker),
                     onClick = {
-                        updateSelectedPlace(place)
                         markerOffset = calculateMarkerOffset(place.location, locationState.cameraPositionState, density, mapViewSize)
+                        updateSelectedPlace(place)
                         true
                     },
                 )
@@ -289,6 +290,9 @@ private fun ExploreNaverMap(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Black.copy(alpha = 0.25f))
+                    .pointerInput(Unit) {
+                        detectTapGestures(onTap = { updateSelectedPlace(null) })
+                    }
             ) {
                 Box(modifier = Modifier
                     .align(Alignment.TopStart)
@@ -305,6 +309,7 @@ private fun ExploreNaverMap(
                                 locationState.location.latitude,
                                 locationState.location.longitude,
                             )
+                            updateSelectedPlace(null)
                         },
                         onCloseButtonClick = {
                             updateSelectedPlace(null)

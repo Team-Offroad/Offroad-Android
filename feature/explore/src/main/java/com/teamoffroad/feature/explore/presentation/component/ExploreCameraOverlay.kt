@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -36,90 +35,57 @@ fun ExploreCameraOverlay() {
         }
         append(stringResource(R.string.explore_camera_hint_second))
     }
-    Column(
+    Spacer(
+        modifier = Modifier
+            .height(16.dp)
+            .fillMaxWidth()
+            .background(Black.copy(alpha = 0.44f))
+    )
+    Row(
         modifier = Modifier
             .fillMaxWidth()
+            .height(312.dp)
     ) {
         Spacer(
             modifier = Modifier
-                .height(20.dp)
-                .fillMaxWidth()
+                .weight(1f)
+                .fillMaxHeight()
                 .background(Black.copy(alpha = 0.44f))
         )
-        Row(
+        Image(
+            painter = painterResource(id = R.drawable.bg_explore_camera_frame),
+            contentDescription = "QR 코드 프레임",
             modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .background(Black.copy(alpha = 0.44f))
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_explore_navigate_back),
-                contentDescription = "이전 화면",
-                modifier = Modifier
-                    .padding(start = 12.dp)
-                    .size(48.dp)
-                    .padding(12.dp)
-            )
-            Text(
-                text = "이전 화면",
-                style = OffroadTheme.typography.textRegular,
-                color = White,
-                fontSize = 14.sp,
-                modifier = Modifier.align(Alignment.CenterVertically)
-            )
-        }
+                .size(312.dp)
+        )
         Spacer(
             modifier = Modifier
-                .height(16.dp)
-                .fillMaxWidth()
+                .weight(1f)
+                .fillMaxHeight()
                 .background(Black.copy(alpha = 0.44f))
         )
-        Row(
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Black.copy(alpha = 0.44f))
+            .padding(top = 40.dp),
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_explore_qr),
+            contentDescription = "QR 코드 스캔 아이콘",
             modifier = Modifier
-                .fillMaxWidth()
-                .height(312.dp)
-        ) {
-            Spacer(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight()
-                    .background(Black.copy(alpha = 0.44f))
-            )
-            Image(
-                painter = painterResource(id = R.drawable.bg_explore_camera_frame),
-                contentDescription = "QR 코드 프레임",
-                modifier = Modifier
-                    .size(312.dp)
-            )
-            Spacer(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight()
-                    .background(Black.copy(alpha = 0.44f))
-            )
-        }
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Black.copy(alpha = 0.44f))
-                .padding(top = 40.dp),
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_explore_qr),
-                contentDescription = "QR 코드 스캔 아이콘",
-                modifier = Modifier
-                    .size(28.dp)
-                    .align(Alignment.CenterHorizontally)
-            )
-            Spacer(modifier = Modifier.height(22.dp))
-            Text(
-                text = annotatedHintString,
-                style = OffroadTheme.typography.textRegular,
-                color = White,
-                textAlign = TextAlign.Center,
-                fontSize = 14.sp,
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-            )
-        }
+                .size(28.dp)
+                .align(Alignment.CenterHorizontally)
+        )
+        Spacer(modifier = Modifier.height(22.dp))
+        Text(
+            text = annotatedHintString,
+            style = OffroadTheme.typography.textRegular,
+            color = White,
+            textAlign = TextAlign.Center,
+            fontSize = 14.sp,
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+        )
     }
 }

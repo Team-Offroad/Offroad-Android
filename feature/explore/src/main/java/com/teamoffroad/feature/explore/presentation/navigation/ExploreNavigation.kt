@@ -22,6 +22,7 @@ fun NavController.navigateToExploreCameraScreen(placeId: Long, latitude: Double,
 
 fun NavGraphBuilder.exploreNavGraph(
     navigateToHome: () -> Unit,
+    navigateToExplore: () -> Unit,
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
 ) {
     composable<MainTabRoute.Explore> {
@@ -38,6 +39,6 @@ fun NavGraphBuilder.exploreNavGraph(
         val placeId = backStackEntry.arguments?.getLong("placeId") ?: 0
         val latitude = backStackEntry.arguments?.getString("latitude")?.toDouble() ?: 0.0
         val longitude = backStackEntry.arguments?.getString("longitude")?.toDouble() ?: 0.0
-        ExploreCameraScreen(placeId, latitude, longitude)
+        ExploreCameraScreen(placeId, latitude, longitude, navigateToExplore)
     }
 }
