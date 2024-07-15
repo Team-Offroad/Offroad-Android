@@ -3,7 +3,6 @@ package com.teamoffroad.feature.explore.presentation
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.util.Log
 import android.view.Gravity
 import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
@@ -97,9 +96,10 @@ internal fun ExploreScreen(
             uiState.locationModel,
             uiState.places,
             uiState.selectedPlace,
+            navigateToExploreCameraScreen,
             viewModel::updateLocation,
             viewModel::updateTrackingToggle,
-            viewModel::updateSelectedPlace
+            viewModel::updateSelectedPlace,
         )
     }
     Button(onClick = { navigateToExploreCameraScreen(1, 37.5665, 126.9780) }) {
@@ -134,7 +134,6 @@ private fun ExploreLocationPermissionHandler(
         } else {
             updatePermission(null, true, true)
         }
-        Log.e("123123", uiState.isCameraPermissionGranted.toString())
     }
 }
 
@@ -189,6 +188,7 @@ private fun ExploreNaverMap(
     locationState: LocationModel,
     places: List<PlaceModel>,
     selectedPlace: PlaceModel?,
+    navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
     updateLocation: (Double, Double) -> Unit,
     updateTrackingToggle: (Boolean) -> Unit,
     updateSelectedPlace: (PlaceModel?) -> Unit,
@@ -305,7 +305,11 @@ private fun ExploreNaverMap(
                         visitCount = place.visitCount,
                         categoryImage = place.categoryImage,
                         onButtonClick = {
-                            // Button click action
+                            navigateToExploreCameraScreen(
+                                place.id,
+                                locationState.location.latitude,
+                                locationState.location.longitude,
+                            )
                         },
                         onCloseButtonClick = {
                             updateSelectedPlace(null)

@@ -9,4 +9,6 @@
     <string name="explore_map_refresh">현 지도에서 검색</string>
     <string name="explore_quests">퀘스트 목록</string>
     <string name="explore_places">장소 목록</string>
+    <string name="explore_camera_hint_first">QR 코드</string>
+    <string name="explore_camera_hint_second">가 잘 보이도록\n카메라를 비춰주세요.</string>
 </resources>
