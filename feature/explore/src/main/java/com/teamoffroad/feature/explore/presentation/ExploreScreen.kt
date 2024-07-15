@@ -3,6 +3,7 @@ package com.teamoffroad.feature.explore.presentation
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.util.Log
 import android.view.Gravity
 import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
@@ -68,7 +69,7 @@ import com.teamoffroad.offroad.feature.explore.R
 @Composable
 internal fun ExploreScreen(
     navigateToHome: () -> Unit,
-    navigateToCameraScreen: () -> Unit,
+    navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
     viewModel: ExploreViewModel = hiltViewModel(),
 ) {
     val uiState: ExploreUiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -101,7 +102,7 @@ internal fun ExploreScreen(
             viewModel::updateSelectedPlace
         )
     }
-    Button(onClick = navigateToCameraScreen) {
+    Button(onClick = { navigateToExploreCameraScreen(1, 37.5665, 126.9780) }) {
         Text(text = "Camera")
     }
 }
@@ -133,6 +134,7 @@ private fun ExploreLocationPermissionHandler(
         } else {
             updatePermission(null, true, true)
         }
+        Log.e("123123", uiState.isCameraPermissionGranted.toString())
     }
 }
 

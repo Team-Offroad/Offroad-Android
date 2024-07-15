@@ -71,8 +71,8 @@ internal class MainNavigator(
         navController.navigateToSetGender(navOptions)
     }
 
-    fun navigateToExploreCameraScreen() {
-        navController.navigateToExploreCameraScreen(navOptions)
+    fun navigateToExploreCameraScreen(placeId: Long, latitude: Double, longitude: Double) {
+        navController.navigateToExploreCameraScreen(placeId, latitude, longitude, navOptions)
     }
 }
 
