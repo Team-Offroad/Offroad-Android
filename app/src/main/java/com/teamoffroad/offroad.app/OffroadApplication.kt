@@ -1,4 +1,4 @@
-package com.teamoffroad.app
+package com.teamoffroad.offroad.app
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
