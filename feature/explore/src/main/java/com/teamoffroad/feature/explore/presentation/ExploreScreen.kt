@@ -19,8 +19,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -101,9 +99,6 @@ internal fun ExploreScreen(
             viewModel::updateTrackingToggle,
             viewModel::updateSelectedPlace,
         )
-    }
-    Button(onClick = { navigateToExploreCameraScreen(1, 37.5665, 126.9780) }) {
-        Text(text = "Camera")
     }
 }
 
