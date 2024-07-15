@@ -7,6 +7,6 @@ internal fun SetBirthDateRoute(
     navigateToSetGender: () -> Unit,
 ) {
     SetBirthDateScreen(
-        navigateToHome = navigateToSetGender
+        navigateToSetGender = navigateToSetGender
     )
 }

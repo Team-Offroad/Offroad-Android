@@ -2,6 +2,7 @@ package com.teamoffroad.feature.auth.presentation.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,9 +30,11 @@ import com.teamoffroad.core.designsystem.theme.White
 fun OnboardingButton(
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(6.dp),
+    nickname: String,
     text: String,
     isActive: Boolean,
     onClick: () -> Unit = {},
+    checkNickname: (String) -> Unit = {}
 ) {
     val (borderLineColor, contentColor, backGroundColor) = if (isActive) {
         Triple(Black, White, Black)
@@ -48,9 +51,10 @@ fun OnboardingButton(
                 color = if (isActive) borderLineColor else borderLineColor,
                 shape = shape
             )
-            .padding(vertical = 8.dp, horizontal = 6.dp),
+            .padding(vertical = 8.dp, horizontal = 6.dp)
+            .clickable(enabled = isActive,
+                onClick = { checkNickname(nickname) }),
         contentAlignment = Alignment.Center
-        //.customClickable(onClick = onClick),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -71,9 +75,6 @@ fun OnboardingButtonPreview() {
         var normalValue by remember {
             mutableStateOf("")
         }
-        OnboardingButton(
-            isActive = true,
-            text = "asdsad"
-        )
+
     }
 }

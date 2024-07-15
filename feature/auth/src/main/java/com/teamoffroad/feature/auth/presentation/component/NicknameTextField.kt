@@ -20,7 +20,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
@@ -57,18 +56,18 @@ fun NicknameTextField(
 ) {
     val isFocused by interactionSource.collectIsFocusedAsState()
 
-    val borderLineColor = when {
-        isFocused -> Sub
-        value.isEmpty() -> Gray100
-        else -> Gray100
+    val borderLineColor = remember { mutableStateOf(Gray100) }
+    val textColor = remember { mutableStateOf(Gray300) }
+
+    if (isFocused || value.isNotBlank()) {
+        borderLineColor.value = Sub
+        textColor.value = Main2
+    } else {
+        borderLineColor.value = Gray100
+        textColor.value = Gray300
     }
 
-    val textColor: Color = when {
-        isFocused -> Main2
-        value.isEmpty() -> Gray300
-        else -> Gray300
-    }
-    val updatedTextStyle = textStyle.copy(color = textColor)
+    val updatedTextStyle = textStyle.copy(color = textColor.value)
 
     BasicTextField(
         modifier = modifier,
@@ -94,7 +93,7 @@ fun NicknameTextField(
                     )
                     .border(
                         width = 1.dp,
-                        color = borderLineColor,
+                        color = borderLineColor.value,
                         shape = shape,
                     )
                     .padding(vertical = 12.dp, horizontal = 12.dp),

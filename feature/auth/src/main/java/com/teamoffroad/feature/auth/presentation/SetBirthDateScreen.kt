@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.GrammaticalInflectionManagerCompat.GrammaticalGender
 import com.teamoffroad.core.designsystem.component.OffroadBasicBtn
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -26,7 +27,7 @@ import com.teamoffroad.feature.auth.presentation.component.NicknameTextField
 
 @Composable
 internal fun SetBirthDateScreen(
-    navigateToHome: () -> Unit
+    navigateToSetGender: () -> Unit
 ) {
     Surface(
         modifier = Modifier
@@ -133,7 +134,7 @@ internal fun SetBirthDateScreen(
                     .width(312.dp)
                     .height(50.dp)
                     .align(Alignment.CenterHorizontally),
-                onClick = navigateToHome,
+                onClick = navigateToSetGender,
                 isActive = true,
                 text = "다음"
             )
