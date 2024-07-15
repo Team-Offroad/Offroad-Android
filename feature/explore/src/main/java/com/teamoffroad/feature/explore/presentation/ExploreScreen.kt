@@ -149,9 +149,9 @@ private fun getPermissionsLauncher(
         }
 
         when {
-            isLocationNotGranted -> updatePermission(true, false, true)
-
             isCameraNotGranted -> updatePermission(true, true, false)
+
+            isLocationNotGranted -> updatePermission(true, false, true)
         }
     }
 }
@@ -164,9 +164,9 @@ private fun ExplorePermissionRejectedHandler(
     updatePermission: (Boolean?, Boolean, Boolean) -> Unit,
 ) {
     val toastMessage = when {
-        !uiState.isLocationPermissionGranted -> stringResource(R.string.explore_location_permission_failed)
-
         !uiState.isCameraPermissionGranted -> stringResource(R.string.explore_camera_permission_failed)
+
+        !uiState.isLocationPermissionGranted -> stringResource(R.string.explore_location_permission_failed)
 
         else -> ""
     }
