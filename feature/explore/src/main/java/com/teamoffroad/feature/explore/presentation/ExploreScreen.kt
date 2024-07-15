@@ -65,7 +65,7 @@ import com.teamoffroad.offroad.feature.explore.R
 internal fun ExploreScreen(
     uiState: ExploreUiState,
     navigateToHome: () -> Unit,
-    updatePermission: (Boolean, Boolean) -> Unit,
+    updatePermission: (Boolean?, Boolean, Boolean) -> Unit,
     updateLocation: (Double, Double) -> Unit,
     updateTrackingToggle: (Boolean) -> Unit,
     updatePlaces: () -> Unit,
@@ -73,69 +73,78 @@ internal fun ExploreScreen(
 ) {
 
     val context = LocalContext.current
-
-    val permissions = arrayOf(
-        Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-    )
-
-    val launcherMultiplePermissions = getLocationPermissionLauncher(updatePermission)
-
     updatePlaces()
 
-    ExplorePermissionsHandler(
+    ExploreLocationPermissionHandler(
         context = context,
         uiState = uiState,
-        launcherMultiplePermissions = launcherMultiplePermissions,
-        permissions = permissions,
         updatePermission = updatePermission,
     )
 
-    if (uiState.isAlreadyHavePermission) {
-        ExploreNaverMap(uiState.locationModel, uiState.places, uiState.selectedPlace, updateLocation, updateTrackingToggle, updateSelectedPlace)
+    if (uiState.isSomePermissionRejected == true) {
+        ExplorePermissionRejectedHandler(
+            context = context,
+            uiState = uiState,
+            navigateToHome = navigateToHome,
+            updatePermission = updatePermission,
+        )
     }
-    if (uiState.isPermissionRejected) {
-        ExplorePermissionRejectedHandler(context, navigateToHome)
+
+    if (uiState.isAllPermissionGranted) {
+        ExploreNaverMap(
+            uiState.locationModel, uiState.places, uiState.selectedPlace, updateLocation, updateTrackingToggle, updateSelectedPlace
+        )
     }
 }
 
 @Composable
-private fun getLocationPermissionLauncher(
-    updatePermission: (Boolean, Boolean) -> Unit,
-): ManagedActivityResultLauncher<Array<String>, Map<String, Boolean>> {
-    return rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissionsMap ->
-        val isPermissionGranted = permissionsMap.values.all { it }
-        when (isPermissionGranted) {
-            true -> updatePermission(true, false)
-            false -> updatePermission(false, true)
+private fun ExploreLocationPermissionHandler(
+    context: Context,
+    uiState: ExploreUiState,
+    updatePermission: (Boolean?, Boolean, Boolean) -> Unit,
+) {
+    val launcherLocationPermissions = getPermissionsLauncher(updatePermission)
+
+    LaunchedEffect(uiState.isAllPermissionGranted) {
+        val isFineLocationGranted = ContextCompat.checkSelfPermission(
+            context, Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+
+        val isCameraGranted = ContextCompat.checkSelfPermission(
+            context, Manifest.permission.CAMERA
+        ) == PackageManager.PERMISSION_GRANTED
+
+        if (!isFineLocationGranted || !isCameraGranted) {
+            launcherLocationPermissions.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.CAMERA,
+                )
+            )
+        } else {
+            updatePermission(null, true, true)
         }
     }
 }
 
 @Composable
-private fun ExplorePermissionsHandler(
-    context: Context,
-    uiState: ExploreUiState,
-    launcherMultiplePermissions: ManagedActivityResultLauncher<Array<String>, Map<String, Boolean>>,
-    permissions: Array<String>,
-    updatePermission: (Boolean, Boolean) -> Unit,
-) {
-    LaunchedEffect(uiState.isAlreadyHavePermission) {
-        if (uiState.isAlreadyHavePermission) return@LaunchedEffect
+private fun getPermissionsLauncher(
+    updatePermission: (Boolean?, Boolean, Boolean) -> Unit,
+): ManagedActivityResultLauncher<Array<String>, Map<String, Boolean>> {
+    return rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { isPermissionGranted ->
+        val isLocationNotGranted = isPermissionGranted[Manifest.permission.ACCESS_FINE_LOCATION] == false
+        val isCameraNotGranted = isPermissionGranted[Manifest.permission.CAMERA] == false
 
-        val isFineLocationGranted = ContextCompat.checkSelfPermission(
-            context, Manifest.permission.ACCESS_FINE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
+        if (isPermissionGranted.values.all { it }) {
+            updatePermission(false, true, true)
+        }
 
-        val isCoarseLocationGranted = ContextCompat.checkSelfPermission(
-            context, Manifest.permission.ACCESS_COARSE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
+        when {
+            isLocationNotGranted -> updatePermission(true, false, true)
 
-        when (!isFineLocationGranted || !isCoarseLocationGranted) {
-            true -> launcherMultiplePermissions.launch(permissions)
-            false -> updatePermission(true, false)
+            isCameraNotGranted -> updatePermission(true, true, false)
         }
     }
 }
@@ -143,13 +152,25 @@ private fun ExplorePermissionsHandler(
 @Composable
 private fun ExplorePermissionRejectedHandler(
     context: Context,
+    uiState: ExploreUiState,
     navigateToHome: () -> Unit,
+    updatePermission: (Boolean?, Boolean, Boolean) -> Unit,
 ) {
-    Toast.makeText(
-        context, stringResource(R.string.explore_location_permission_failed), Toast.LENGTH_SHORT
-    ).show()
-    navigateToHome()
+    val toastMessage = when {
+        !uiState.isLocationPermissionGranted -> stringResource(R.string.explore_location_permission_failed)
+
+        !uiState.isCameraPermissionGranted -> stringResource(R.string.explore_camera_permission_failed)
+
+        else -> ""
+    }
+
+    if (toastMessage.isNotBlank()) {
+        Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show()
+        updatePermission(null, false, false)
+        navigateToHome()
+    }
 }
+
 
 @OptIn(ExperimentalNaverMapApi::class)
 @Composable
@@ -178,8 +199,7 @@ private fun ExploreNaverMap(
             .padding(bottom = 74.dp)
             .onGloballyPositioned { coordinates ->
                 mapViewSize = coordinates.size
-            }
-    ) {
+            }) {
         NaverMap(
             properties = locationState.mapProperties,
             uiSettings = MapUiSettings(
@@ -187,7 +207,7 @@ private fun ExploreNaverMap(
                 isZoomControlEnabled = false,
                 isLogoClickEnabled = false,
                 logoGravity = Gravity.TOP,
-                // TODO: 로고 이미지 수정
+                // TODO: 릴리즈 이전에 로고 이미지 수정
                 logoMargin = PaddingValues(top = 0.dp, start = 22.dp),
             ),
             locationSource = rememberFusedLocationSource(isCompassEnabled = true),

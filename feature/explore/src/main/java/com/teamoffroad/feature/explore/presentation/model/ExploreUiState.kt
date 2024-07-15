@@ -5,6 +5,8 @@ data class ExploreUiState(
     val places: List<PlaceModel> = emptyList(),
     val selectedPlace: PlaceModel? = null,
     val loading: Boolean = true,
-    val isAlreadyHavePermission: Boolean = false,
-    val isPermissionRejected: Boolean = false,
+    val isSomePermissionRejected: Boolean? = null,
+    val isAllPermissionGranted: Boolean = false,
+    val isLocationPermissionGranted: Boolean = false,
+    val isCameraPermissionGranted: Boolean = false,
 )
