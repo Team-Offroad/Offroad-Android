@@ -36,7 +36,8 @@ internal fun MainNavHost(
                 padding = padding,
             )
             exploreNavGraph(
-                navigateToHome = { navigator.navigateToHome() }
+                navigateToHome = { navigator.navigateToHome() },
+                navigateToExploreCameraScreen = { navigator.navigateToExploreCameraScreen() },
             )
             mypageNavGraph(
                 padding = padding,

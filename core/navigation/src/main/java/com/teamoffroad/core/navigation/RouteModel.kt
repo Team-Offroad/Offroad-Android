@@ -28,3 +28,8 @@ sealed interface AuthSettingRoute : Route {
     @Serializable
     data object SetGender : AuthSettingRoute
 }
+
+sealed interface ExploreRoute : Route {
+    @Serializable
+    data object ExploreCameraScreen : ExploreRoute
+}

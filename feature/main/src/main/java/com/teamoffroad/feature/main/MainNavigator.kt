@@ -14,7 +14,8 @@ import com.teamoffroad.feature.auth.presentation.navigation.navigateToSetBirthDa
 import com.teamoffroad.feature.auth.presentation.navigation.navigateToSetGender
 import com.teamoffroad.feature.auth.presentation.navigation.navigateToSetNickname
 import com.teamoffroad.feature.explore.presentation.navigation.navigateExplore
-import com.teamoffroad.feature.home.navigation.navigateHome
+import com.teamoffroad.feature.explore.presentation.navigation.navigateToExploreCameraScreen
+import com.teamoffroad.feature.home.navigation.navigateToHome
 import com.teamoffroad.feature.mypage.navigation.navigateMypage
 
 internal class MainNavigator(
@@ -43,7 +44,7 @@ internal class MainNavigator(
 
     fun navigate(tab: MainNavTab) {
         when (tab) {
-            MainNavTab.HOME -> navController.navigateHome(navOptions)
+            MainNavTab.HOME -> navController.navigateToHome(navOptions)
             MainNavTab.EXPLORE -> navController.navigateExplore(navOptions)
             MainNavTab.MYPAGE -> navController.navigateMypage(navOptions)
         }
@@ -55,7 +56,7 @@ internal class MainNavigator(
     }
 
     fun navigateToHome() {
-        navController.navigateHome(navOptions)
+        navController.navigateToHome(navOptions)
     }
 
     fun navigateToSetNickname() {
@@ -68,6 +69,10 @@ internal class MainNavigator(
 
     fun navigateToSetGender() {
         navController.navigateToSetGender(navOptions)
+    }
+
+    fun navigateToExploreCameraScreen() {
+        navController.navigateToExploreCameraScreen(navOptions)
     }
 }
 

@@ -19,6 +19,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -37,6 +39,8 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.compose.CameraPositionState
 import com.naver.maps.map.compose.CameraUpdateReason
@@ -63,22 +67,19 @@ import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 internal fun ExploreScreen(
-    uiState: ExploreUiState,
     navigateToHome: () -> Unit,
-    updatePermission: (Boolean?, Boolean, Boolean) -> Unit,
-    updateLocation: (Double, Double) -> Unit,
-    updateTrackingToggle: (Boolean) -> Unit,
-    updatePlaces: () -> Unit,
-    updateSelectedPlace: (PlaceModel?) -> Unit,
+    navigateToCameraScreen: () -> Unit,
+    viewModel: ExploreViewModel = hiltViewModel(),
 ) {
-
+    val uiState: ExploreUiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
-    updatePlaces()
+
+    viewModel.updatePlaces()
 
     ExploreLocationPermissionHandler(
         context = context,
         uiState = uiState,
-        updatePermission = updatePermission,
+        updatePermission = viewModel::updatePermission,
     )
 
     if (uiState.isSomePermissionRejected == true) {
@@ -86,14 +87,22 @@ internal fun ExploreScreen(
             context = context,
             uiState = uiState,
             navigateToHome = navigateToHome,
-            updatePermission = updatePermission,
+            updatePermission = viewModel::updatePermission,
         )
     }
 
     if (uiState.isAllPermissionGranted) {
         ExploreNaverMap(
-            uiState.locationModel, uiState.places, uiState.selectedPlace, updateLocation, updateTrackingToggle, updateSelectedPlace
+            uiState.locationModel,
+            uiState.places,
+            uiState.selectedPlace,
+            viewModel::updateLocation,
+            viewModel::updateTrackingToggle,
+            viewModel::updateSelectedPlace
         )
+    }
+    Button(onClick = navigateToCameraScreen) {
+        Text(text = "Camera")
     }
 }
 
