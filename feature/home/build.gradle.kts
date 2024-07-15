@@ -12,7 +12,5 @@ android {
 dependencies {
     implementation(libs.retrofit.kotlinx.serialization)
     implementation(libs.androidx.appcompat)
-    implementation(libs.volley)
-    implementation(libs.coil.kt.coil)
     implementation(libs.google.accompanist.permissions)
 }
