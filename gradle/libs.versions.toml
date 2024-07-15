@@ -2,7 +2,6 @@
 # Android Core Libraries
 activityCompose = "1.9.0"
 appcompat = "1.7.0"
-coilVersion = "2.6.0"
 coreKtx = "1.13.1"
 androidxDatastore = "1.1.1"
 material = "1.12.0"
@@ -80,7 +79,6 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
 androidx-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDatastore" }
-coil-kt-coil = { module = "io.coil-kt:coil", version.ref = "coilVersion" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 # Testing Libraries
