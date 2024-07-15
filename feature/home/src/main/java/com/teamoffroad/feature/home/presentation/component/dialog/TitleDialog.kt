@@ -19,7 +19,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.theme.Black15
 import com.teamoffroad.core.designsystem.theme.Black25
 import com.teamoffroad.core.designsystem.theme.Gray400
@@ -38,8 +39,10 @@ import com.teamoffroad.core.designsystem.theme.NametagStroke
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.feature.home.domain.model.Emblems
+import com.teamoffroad.feature.home.presentation.HomeViewModel
+import com.teamoffroad.feature.home.presentation.UiState
 import com.teamoffroad.feature.home.presentation.model.CustomTitleDialogStateModel
-import com.teamoffroad.feature.home.presentation.model.DummyDataModel
 import com.teamoffroad.offroad.feature.home.R
 
 @Composable
@@ -47,8 +50,27 @@ fun OffroadDialog(
     showDialog: MutableState<Boolean>,
     customTitleDialogStateModel: MutableState<CustomTitleDialogStateModel?>,
     onClickCancel: () -> Unit,
-    onCharacterChange: (Int?) -> Unit, // 홈으로 idx 전달 위한 callback
+    onCharacterChange: (String?) -> Unit,
 ) {
+    val viewModel: HomeViewModel = hiltViewModel()
+    val emblemListState =
+        viewModel.state.collectAsState(initial = UiState.Loading).value
+    val context = LocalContext.current
+
+    val emblems = when (emblemListState) {
+        is UiState.Success -> {
+            emblemListState.data
+        }
+
+        is UiState.Failure -> {
+            Toast.makeText(context, emblemListState.errorMessage, Toast.LENGTH_SHORT).show()
+            null
+        }
+
+        else -> null
+    }
+
+
     Dialog(
         onDismissRequest = {
             onClickCancel()
@@ -74,7 +96,7 @@ fun OffroadDialog(
                     }
                 )
 
-                val selectedItem = remember { mutableStateOf<DummyDataModel?>(null) }
+                val selectedItem = remember { mutableStateOf<Emblems.Emblem?>(null) }
 
                 Column(
                     modifier = Modifier.padding(start = 22.dp, end = 22.dp, bottom = 12.dp)
@@ -82,14 +104,16 @@ fun OffroadDialog(
                     Spacer(modifier = Modifier.padding(top = 30.dp))
                     DialogTitle()
                     Spacer(modifier = Modifier.padding(top = 22.dp))
-                    CharacterTitle(LocalContext.current) { itemSelected ->
-                        selectedItem.value = itemSelected
+                    if (emblems != null) {
+                        CharacterTitle(LocalContext.current, emblems = emblems) { itemSelected ->
+                            selectedItem.value = itemSelected
+                        }
                     }
                     Spacer(modifier = Modifier.padding(top = 12.dp))
                     ChangeCharacterTitle(
                         isSelected = selectedItem.value != null,
                         onClickChange = {
-                            onCharacterChange(selectedItem.value?.idx)
+                            onCharacterChange(selectedItem.value?.emblemCode)
                             showDialog.value = false
                             customTitleDialogStateModel.value?.onClickCancel
                         }
@@ -114,47 +138,44 @@ fun DialogTitle() {
 @Composable
 fun CharacterTitle(
     context: Context,
-    onSelectionChange: (DummyDataModel?) -> Unit
+    emblems: Emblems,
+    onSelectionChange: (Emblems.Emblem?) -> Unit
 ) {
-    val characterTitles = remember {
-        mutableStateListOf(
-            DummyDataModel("오프로드 스타터", 0),
-            DummyDataModel("위대한 첫 걸음", 1),
-            DummyDataModel("왕초보 탐험가", 2),
-            DummyDataModel("초보 모험가", 3),
-            DummyDataModel("오프로드 스타터", 4),
-            DummyDataModel("위대한 첫 걸음", 5),
-            DummyDataModel("왕초보 탐험가", 6),
-            DummyDataModel("초보 모험가", 7),
-            DummyDataModel("오프로드 스타터", 8),
-            DummyDataModel("위대한 첫 걸음", 9),
-            DummyDataModel("왕초보 탐험가", 10),
-            DummyDataModel("초보 모험가", 11)
-        )
-    }
-    val selectedDummyDataModel = remember { mutableStateOf<DummyDataModel?>(null) }
-    val dummyDataState = rememberLazyListState()
+//    val characterTitles = remember {
+//        mutableStateListOf(
+//            Emblems.Emblem("1", "오프로드 스타터"),
+//            Emblems.Emblem("2", "오프로드 스타터"),
+//            Emblems.Emblem("3", "오프로드 스타터"),
+//            Emblems.Emblem("4", "오프로드 스타터"),
+//            Emblems.Emblem("5", "오프로드 스타터"),
+//            Emblems.Emblem("6", "오프로드 스타터"),
+//            Emblems.Emblem("7", "오프로드 스타터"),
+//            Emblems.Emblem("8", "오프로드 스타터"),
+//        )
+//    }
+    val responseEmblemData = remember { mutableStateOf<Emblems.Emblem?>(null) }
+    val emblemDataState = rememberLazyListState()
 
     Box {
         LazyColumn(
-            state = dummyDataState,
+            state = emblemDataState,
             modifier = Modifier
                 .heightIn(0.dp, 246.dp)
-                .drawScrollbar(dummyDataState),
+                .drawScrollbar(emblemDataState),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            items(characterTitles) { data ->
+            items(emblems.emblems) { data ->
                 DialogTagItem(
-                    text = data.title,
-                    textColor = if (data == selectedDummyDataModel.value) White else Main2,
+                    text = data.emblemName,
+                    textColor = if (data.emblemCode == responseEmblemData.value?.emblemCode) White else Main2,
                     style = OffroadTheme.typography.subtitle2Semibold,
-                    backgroundColor = if (data == selectedDummyDataModel.value) Sub else NametagInactive,
-                    borderColor = if (data == selectedDummyDataModel.value) Sub else NametagStroke,
-                    dummyDataModel = data,
+                    backgroundColor = if (data.emblemCode == responseEmblemData.value?.emblemCode) Sub else NametagInactive,
+                    borderColor = if (data.emblemCode == responseEmblemData.value?.emblemCode) Sub else NametagStroke,
+                    emblem = data,
                     onItemClick = { clickedData ->
-                        selectedDummyDataModel.value = if (selectedDummyDataModel.value == clickedData) null else clickedData
-                        onSelectionChange(selectedDummyDataModel.value)
-                        Toast.makeText(context, data.idx.toString(), Toast.LENGTH_SHORT).show()
+                        responseEmblemData.value =
+                            if (responseEmblemData.value?.emblemCode == clickedData.emblemCode) null else clickedData
+                        onSelectionChange(responseEmblemData.value)
                     }
                 )
             }
@@ -169,7 +190,7 @@ fun ChangeCharacterTitle(
 ) {
     DialogChangeButton(
         text = stringResource(id = R.string.home_change_character_txtx),
-        textColor =  if (isSelected) White else Gray400,
+        textColor = if (isSelected) White else Gray400,
         style = OffroadTheme.typography.textRegular,
         backgroundColor = if (isSelected) Main2 else Black15,
         borderColor = if (isSelected) Main2 else Black25,
