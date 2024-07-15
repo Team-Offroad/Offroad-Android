@@ -39,25 +39,17 @@ fun HomeIcons(
     url: String
 ) {
     val scope = rememberCoroutineScope()
-
-//        val permissions = listOf(
-//        Manifest.permission.READ_MEDIA_IMAGES, //
-//        Manifest.permission.READ_EXTERNAL_STORAGE,
-//        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-//    )
-
     val permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         if (isGranted) {
-            Toast.makeText(context, "Permission Granted", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "권한이 허용되었습니다.", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(context, "Permission Denied", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "권한이 허용되지 않았습니다.", Toast.LENGTH_SHORT).show()
         }
     }
-
 
     Box(
         contentAlignment = Alignment.TopEnd,
@@ -66,8 +58,8 @@ fun HomeIcons(
         Column {
             IconButton(onClick = {
                 if (ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(context, "Permission Already Granted", Toast.LENGTH_SHORT).show()
                     downloadImage(context, url, scope)
+                    Toast.makeText(context, "이미지 다운 완료", Toast.LENGTH_SHORT).show()
                 } else {
                     launcher.launch(permission)
                 }
