@@ -37,16 +37,16 @@ internal fun AuthScreen(
     navigateToSetNickname: () -> Unit,
     viewModel: AuthViewModel = hiltViewModel(),
 ) {
-    val user by viewModel.user.collectAsStateWithLifecycle()
+    val userToken by viewModel.userToken.collectAsStateWithLifecycle()
 
-    Log.e("123123", user?.serverAuthCode.toString())
+    Log.e("123123", userToken.toString())
 
     val signInLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-            viewModel.handleSignInResult(task)
+            viewModel.performGoogleSignIn(task)
         }
     }
 

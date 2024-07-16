@@ -2,8 +2,8 @@ package com.teamoffroad.feature.auth.data.di
 
 import com.teamoffroad.feature.auth.data.datasource.AuthPreferencesDataSource
 import com.teamoffroad.feature.auth.data.datasource.DefaultAuthPreferencesDataSource
-import com.teamoffroad.feature.auth.domain.repository.AuthInfoRepository
-import com.teamoffroad.feature.auth.data.repository.AuthInfoRepositoryImpl
+import com.teamoffroad.feature.auth.data.repository.AuthRepositoryImpl
+import com.teamoffroad.feature.auth.domain.repository.AuthRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -19,13 +19,13 @@ internal abstract class DataModule {
     @Singleton
     @Named("auth_datasource")
     abstract fun bindsAuthDataSource(
-        dataSource: DefaultAuthPreferencesDataSource
+        dataSource: DefaultAuthPreferencesDataSource,
     ): AuthPreferencesDataSource
 
     @Binds
     @Singleton
     @Named("auth_repository")
     abstract fun bindsAuthInfoRepository(
-        repository: AuthInfoRepositoryImpl
-    ): AuthInfoRepository
+        repository: AuthRepositoryImpl,
+    ): AuthRepository
 }

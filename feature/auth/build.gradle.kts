@@ -5,6 +5,7 @@ plugins {
     id("offroad.android.feature")
     id("offroad.android.library")
     id("offroad.android.compose")
+    alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
 android {
@@ -27,4 +28,5 @@ dependencies {
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.google.play.services.auth)
+    implementation(libs.retrofit.kotlinx.serialization)
 }
