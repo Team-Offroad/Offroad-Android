@@ -1,14 +1,13 @@
 package com.teamoffroad.feature.home.presentation.component.dialog
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -18,9 +17,9 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -51,12 +50,16 @@ fun OffroadDialog(
     showDialog: MutableState<Boolean>,
     customTitleDialogStateModel: MutableState<CustomTitleDialogStateModel?>,
     onClickCancel: () -> Unit,
-    onCharacterChange: (String?) -> Unit,
+    onCharacterChange: (Emblem?) -> Unit,
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
     val emblemListState =
-        viewModel.state.collectAsState(initial = UiState.Loading).value
+        viewModel.getEmblemsState.collectAsState(initial = UiState.Loading).value
     val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        viewModel.getEmblems()
+    }
 
     val emblem = when (emblemListState) {
         is UiState.Success -> {
@@ -83,7 +86,8 @@ fun OffroadDialog(
     ) {
         Card(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .height(248.dp),
             shape = RoundedCornerShape(8.dp),
             colors = CardDefaults.cardColors(
                 containerColor = White
@@ -110,11 +114,11 @@ fun OffroadDialog(
                             selectedItem.value = itemSelected
                         }
                     }
-                    Spacer(modifier = Modifier.padding(top = 12.dp))
+                    Spacer(modifier = Modifier.padding(top = 12.dp).weight(1f))
                     ChangeCharacterTitle(
                         isSelected = selectedItem.value != null,
                         onClickChange = {
-                            onCharacterChange(selectedItem.value?.emblemCode)
+                            onCharacterChange(selectedItem.value)
                             showDialog.value = false
                             customTitleDialogStateModel.value?.onClickCancel
                         }
@@ -148,7 +152,6 @@ fun CharacterTitle(
         LazyColumn(
             state = emblemDataState,
             modifier = Modifier
-                .heightIn(246.dp)
                 .drawScrollbar(emblemDataState),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {

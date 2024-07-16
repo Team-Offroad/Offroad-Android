@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.home.presentation.component.quest.progressbar
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,9 +37,10 @@ fun RecentQuest(modifier: Modifier = Modifier, data: HomeProgressBarModel) {
                 )
             }
             Spacer(modifier = Modifier.padding(top = 14.dp))
-            CircleProgressBar()
+            CircleProgressBar(data)
             Spacer(modifier = Modifier.padding(top = 12.dp))
             ContentsLocation(data.location)
+            Log.d("offroad data.location", data.location) //
             Spacer(modifier = Modifier.padding(bottom = 12.dp))
         }
     }

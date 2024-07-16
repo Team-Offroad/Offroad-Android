@@ -1,21 +1,30 @@
 package com.teamoffroad.feature.auth.presentation
 
+import android.app.Activity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Kakao
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
@@ -25,55 +34,72 @@ import com.teamoffroad.offroad.feature.auth.R
 
 @Composable
 internal fun AuthScreen(
-    padding: PaddingValues,
     navigateToSetNickname: () -> Unit,
+    viewModel: AuthViewModel = hiltViewModel(),
 ) {
+    val isSignInSuccess by viewModel.successSignIn.collectAsStateWithLifecycle()
+    val isAutoSignIn by viewModel.autoSignIn.collectAsStateWithLifecycle()
+
+    val signInLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            viewModel.performGoogleSignIn(task)
+        }
+    }
+    viewModel.checkAutoSignIn()
+
+    LaunchedEffect(isSignInSuccess) {
+        if (isSignInSuccess) navigateToSetNickname()
+    }
+    LaunchedEffect(isAutoSignIn) {
+        if (isAutoSignIn) signInLauncher.launch(viewModel.googleSignInClient.signInIntent)
+    }
+
     Surface(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         color = Main1
     ) {
         ConstraintLayout {
-
             val (appLogo, kakaoLogin, googleLogin) = createRefs()
             Image(
                 painter = painterResource(id = R.drawable.ic_auth_logo),
                 contentDescription = "auth_logo",
-                modifier = Modifier
-                    .constrainAs(appLogo) {
-                        start.linkTo(parent.start, margin = 112.dp)
-                        end.linkTo(parent.end, margin = 112.dp)
-                        top.linkTo(parent.top, margin = 232.dp)
-                        bottom.linkTo(parent.bottom, margin = 432.dp)
-                    }
+                modifier = Modifier.constrainAs(appLogo) {
+                    start.linkTo(parent.start, margin = 112.dp)
+                    end.linkTo(parent.end, margin = 112.dp)
+                    top.linkTo(parent.top, margin = 232.dp)
+                    bottom.linkTo(parent.bottom, margin = 432.dp)
+                }
             )
             ClickableImage(
-                text = "Kakao로 계속하기",
-                textColor = Color.Black,
+                text = stringResource(R.string.explore_auth_kakao),
+                textColor = Black,
                 painter = painterResource(id = R.drawable.ic_auth_kakao_logo),
                 background = Kakao,
                 contentDescription = "auth_kakao",
                 onClick = navigateToSetNickname,
-                modifier = Modifier
-                    .constrainAs(kakaoLogin) {
-                        start.linkTo(parent.start, margin = 24.dp)
-                        end.linkTo(parent.end, margin = 24.dp)
-                        top.linkTo(appLogo.bottom, margin = 38.dp)
-                    }
+                modifier = Modifier.constrainAs(kakaoLogin) {
+                    start.linkTo(parent.start, margin = 24.dp)
+                    end.linkTo(parent.end, margin = 24.dp)
+                    top.linkTo(appLogo.bottom, margin = 38.dp)
+                }
             )
             ClickableImage(
-                text = "Google로 계속하기",
+                text = stringResource(R.string.explore_auth_google),
                 textColor = Main2,
                 painter = painterResource(id = R.drawable.ic_auth_google_logo),
                 background = White,
                 contentDescription = "auth_google",
-                onClick = navigateToSetNickname,
-                modifier = Modifier
-                    .constrainAs(googleLogin) {
-                        start.linkTo(parent.start, margin = 24.dp)
-                        end.linkTo(parent.end, margin = 24.dp)
-                        top.linkTo(kakaoLogin.bottom, margin = 14.dp)
-                    }
+                onClick = {
+                    signInLauncher.launch(viewModel.googleSignInClient.signInIntent)
+                },
+                modifier = Modifier.constrainAs(googleLogin) {
+                    start.linkTo(parent.start, margin = 24.dp)
+                    end.linkTo(parent.end, margin = 24.dp)
+                    top.linkTo(kakaoLogin.bottom, margin = 14.dp)
+                }
             )
         }
     }
@@ -87,7 +113,7 @@ fun ClickableImage(
     background: Color,
     contentDescription: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier
