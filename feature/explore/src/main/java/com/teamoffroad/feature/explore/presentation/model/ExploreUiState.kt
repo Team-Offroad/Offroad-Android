@@ -9,4 +9,5 @@ data class ExploreUiState(
     val isAllPermissionGranted: Boolean = false,
     val isLocationPermissionGranted: Boolean = false,
     val isCameraPermissionGranted: Boolean = false,
+    val isUpdatePlacesFailed: Boolean = false,
 )

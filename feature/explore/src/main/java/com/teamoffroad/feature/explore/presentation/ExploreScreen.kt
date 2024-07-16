@@ -3,6 +3,7 @@ package com.teamoffroad.feature.explore.presentation
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.util.Log
 import android.view.Gravity
 import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
@@ -74,7 +75,7 @@ internal fun ExploreScreen(
     val uiState: ExploreUiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
-    viewModel.updatePlaces()
+    if (uiState.places.isEmpty()) viewModel.updatePlaces()
 
     ExploreLocationPermissionHandler(
         context = context,
@@ -92,6 +93,7 @@ internal fun ExploreScreen(
     }
 
     if (uiState.isAllPermissionGranted) {
+        Log.e("123123", uiState.places.toString())
         ExploreNaverMap(
             uiState.locationModel,
             uiState.places,
@@ -302,7 +304,7 @@ private fun ExploreNaverMap(
                         shortIntroduction = place.shortIntroduction,
                         address = place.address,
                         visitCount = place.visitCount,
-                        categoryImage = place.categoryImage,
+                        categoryImage = place.categoryImageUrl,
                         onButtonClick = {
                             navigateToExploreCameraScreen(
                                 place.id,

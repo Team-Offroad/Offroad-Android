@@ -76,7 +76,7 @@ data class PlaceModel(
     val address: String,
     val shortIntroduction: String,
     val placeCategory: PlaceCategory,
-    val categoryImage: String,
+    val categoryImageUrl: String,
     val location: LatLng,
     val visitCount: Int,
 )
