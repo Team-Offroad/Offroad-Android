@@ -34,7 +34,7 @@ fun OnboardingButton(
     text: String,
     isActive: Boolean,
     onClick: () -> Unit = {},
-    checkNickname: (String) -> Unit = {}
+    onButtonClick: (String) -> Unit = {}
 ) {
     val (borderLineColor, contentColor, backGroundColor) = if (isActive) {
         Triple(Black, White, Black)
@@ -53,7 +53,7 @@ fun OnboardingButton(
             )
             .padding(vertical = 8.dp, horizontal = 6.dp)
             .clickable(enabled = isActive,
-                onClick = { checkNickname(nickname) }),
+                onClick = { onButtonClick(nickname) }),
         contentAlignment = Alignment.Center
     ) {
         Row(

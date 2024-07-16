@@ -46,19 +46,18 @@ fun SetCharacterDialog(
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Spacer(modifier = Modifier.height(30.dp))
                 Text(
-                    "$characterName}와 함께 하겠어요?",
-                    style = OffroadTheme.typography.title,
-                    color = Main2
+                        "$characterName}와 함께 하겠어요?",
+                style = OffroadTheme.typography.title,
+                color = Main2
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Text("지금 캐릭터를 선택하시면", style = OffroadTheme.typography.textRegular, color = Main2)
                 Text(
-                    "${characterName}와 모험을 시작하 돼요.",
+                    "${characterName}와 모험을 시작하게 돼요.",
                     style = OffroadTheme.typography.textRegular,
                     color = Main2
                 )
             }
-
         }
     }
 }

@@ -31,17 +31,17 @@ import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
+import com.teamoffroad.feature.auth.presentation.component.SetCharacterDialog
 import com.teamoffroad.feature.auth.presentation.component.SetCharacterIndicator
 import com.teamoffroad.offroad.feature.auth.R
 import kotlinx.coroutines.launch
 
+@SuppressLint("UnrememberedMutableState")
 @Composable
 internal fun SetCharacterScreen(
     navigateToHome: () -> Unit
 ) {
-    val imageSize = 5
-    val pagerState = rememberPagerState(pageCount = { imageSize })
-    val coroutineScope = rememberCoroutineScope()
+    val showDialog = mutableStateOf(false)
 
     Surface(
         modifier = Modifier
@@ -61,57 +61,7 @@ internal fun SetCharacterScreen(
                     color = Main2,
                     style = OffroadTheme.typography.title,
                 )
-                Row(
-                    modifier = Modifier
-                        .padding(horizontal = 18.dp)
-                        .fillMaxWidth(),
-                ) {
-                    Image(
-                        modifier = Modifier
-                            .clickable {
-                                coroutineScope.launch {
-                                    val previousPage = if (pagerState.currentPage - 1 < 0) {
-                                        pagerState.pageCount - 1
-                                    } else {
-                                        pagerState.currentPage - 1
-                                    }
-                                    pagerState.animateScrollToPage(previousPage)
-                                }
-                            }
-                            .padding(top = 126.dp, bottom = 92.dp),
-                        painter = painterResource(id = R.drawable.btn_pre_character),
-                        contentDescription = "pre_character_button"
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    HorizontalPager(
-                        modifier = Modifier
-                            .width(132.dp)
-                            .height(250.dp),
-                        state = pagerState
-                    ) { page ->
-                        Text(
-                            text = "page: $page",
-                        )
-                    }
-                    Spacer(modifier = Modifier.weight(1f))
-                    Image(
-                        modifier = Modifier
-                            .clickable {
-                                coroutineScope.launch {
-                                    val nextPage =
-                                        ((pagerState.currentPage + 1) % imageSize).coerceAtMost(
-                                            pagerState.pageCount - 1
-                                        )
-                                    pagerState.animateScrollToPage(nextPage)
-                                }
-                            }
-                            .padding(top = 126.dp, bottom = 92.dp),
-                        painter = painterResource(id = R.drawable.btn_next_character),
-                        contentDescription = "next_character_button"
-                    )
-                }
-                Spacer(modifier = Modifier.padding(vertical = 20.dp))
-                SetCharacterIndicator(imageSize, pagerState)
+                ShowSetCharacterPager()
                 Spacer(modifier = Modifier.padding(vertical = 14.dp))
             }
             Column(
@@ -148,7 +98,7 @@ internal fun SetCharacterScreen(
                         .height(50.dp),
                     onClick = navigateToHome,
                     isActive = true,
-                    text = "선택"
+                    text = "선택",
                 )
                 Spacer(modifier = Modifier.height(24.dp))
             }
@@ -156,8 +106,79 @@ internal fun SetCharacterScreen(
     }
 }
 
+@Composable
+fun ShowSetCharacterPager() {
+    val imageSize = 5
+    val pagerState = rememberPagerState(pageCount = { imageSize })
+    val coroutineScope = rememberCoroutineScope()
+
+    Row(
+        modifier = Modifier
+            .padding(horizontal = 18.dp)
+            .fillMaxWidth(),
+    ) {
+        Image(
+            modifier = Modifier
+                .clickable {
+                    coroutineScope.launch {
+                        val previousPage = if (pagerState.currentPage - 1 < 0) {
+                            pagerState.pageCount - 1
+                        } else {
+                            pagerState.currentPage - 1
+                        }
+                        pagerState.animateScrollToPage(previousPage)
+                    }
+                }
+                .padding(top = 126.dp, bottom = 92.dp),
+            painter = painterResource(id = R.drawable.btn_pre_character),
+            contentDescription = "pre_character_button"
+        )
+        Spacer(modifier = Modifier.weight(1f))
+        HorizontalPager(
+            modifier = Modifier
+                .width(132.dp)
+                .height(250.dp),
+            state = pagerState
+        ) { page ->
+            Text(
+                text = "page: $page",
+            )
+        }
+        Spacer(modifier = Modifier.weight(1f))
+        Image(
+            modifier = Modifier
+                .clickable {
+                    coroutineScope.launch {
+                        val nextPage =
+                            ((pagerState.currentPage + 1) % imageSize).coerceAtMost(
+                                pagerState.pageCount - 1
+                            )
+                        pagerState.animateScrollToPage(nextPage)
+                    }
+                }
+                .padding(top = 126.dp, bottom = 92.dp),
+            painter = painterResource(id = R.drawable.btn_next_character),
+            contentDescription = "next_character_button"
+        )
+    }
+    Spacer(modifier = Modifier.padding(vertical = 20.dp))
+    SetCharacterIndicator(imageSize, pagerState)
+}
+
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun ShowSetCharacterDialog() {
     val showDialog = mutableStateOf(false)
+    var selectedCharacterIdx = remember { mutableStateOf<String?>("초보 모험가") }
+
+    SetCharacterDialog(
+        characterName = "오푸",
+        showDialog = showDialog,
+        onClickCancel = {
+            showDialog.value = false
+        },
+        onCharacterChange = { idx ->
+            selectedCharacterIdx.value = idx.toString()
+        }
+    )
 }

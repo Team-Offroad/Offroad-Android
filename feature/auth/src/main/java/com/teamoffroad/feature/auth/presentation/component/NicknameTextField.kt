@@ -62,6 +62,9 @@ fun NicknameTextField(
     if (isFocused || value.isNotBlank()) {
         borderLineColor.value = Sub
         textColor.value = Main2
+    } else if (value.isEmpty()) {
+        borderLineColor.value = Gray100
+        textColor.value = Gray300
     } else {
         borderLineColor.value = Gray100
         textColor.value = Gray300
