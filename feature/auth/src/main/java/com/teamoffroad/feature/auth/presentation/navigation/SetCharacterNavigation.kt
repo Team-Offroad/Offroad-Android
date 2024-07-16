@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.auth.navigation
+package com.teamoffroad.feature.auth.presentation.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
