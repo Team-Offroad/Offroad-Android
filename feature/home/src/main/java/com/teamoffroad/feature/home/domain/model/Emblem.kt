@@ -1,6 +1,6 @@
 package com.teamoffroad.feature.home.domain.model
 
 data class Emblem(
-    val emblemCode: String,
+    var emblemCode: String,
     val emblemName: String
 )

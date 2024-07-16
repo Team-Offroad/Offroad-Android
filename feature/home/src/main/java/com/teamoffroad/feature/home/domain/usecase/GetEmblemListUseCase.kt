@@ -9,4 +9,8 @@ class GetEmblemListUseCase(
     suspend operator fun invoke(token: String): List<Emblem> {
         return emblemRepository.getEmblems(token)
     }
+
+    suspend operator fun invoke(emblemCode: String, token: String) {
+        return emblemRepository.patchEmblem(emblemCode, token)
+    }
 }

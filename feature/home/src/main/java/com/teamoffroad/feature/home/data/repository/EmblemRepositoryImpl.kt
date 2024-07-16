@@ -16,4 +16,8 @@ class EmblemRepositoryImpl @Inject constructor(
         val domainEmblems = emblemsEntity.map { it.toDomain() }
         return domainEmblems
     }
+
+    override suspend fun patchEmblem(emblemCode: String, token: String) {
+        emblemService.patchEmblem(emblemCode, token)
+    }
 }
