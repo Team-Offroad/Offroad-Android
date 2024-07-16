@@ -14,11 +14,11 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AuthModule {
+object GoogleAuthModule {
 
     @Provides
     @Singleton
-    fun provideGoogleSignInOptions(@ApplicationContext context: Context): GoogleSignInOptions {
+    fun provideGoogleSignInOptions(): GoogleSignInOptions {
         return GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestServerAuthCode(BuildConfig.GOOGLE_CLIENT_ID)
             .requestEmail()
