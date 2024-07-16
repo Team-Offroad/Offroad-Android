@@ -2,7 +2,7 @@ package com.teamoffroad.feature.home.data.mapper
 
 import com.teamoffroad.feature.home.data.model.EmblemEntity
 import com.teamoffroad.feature.home.data.model.UserQuestEntity
-import com.teamoffroad.feature.home.data.remote.response.emblem.EmblemsResponseDto
+import com.teamoffroad.feature.home.data.remote.response.EmblemsResponseDto
 import com.teamoffroad.feature.home.data.remote.response.UserQuestsResponseDto
 import com.teamoffroad.feature.home.domain.model.Emblem
 import com.teamoffroad.feature.home.domain.model.UserQuests
