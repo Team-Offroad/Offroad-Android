@@ -6,7 +6,6 @@ import com.teamoffroad.feature.auth.domain.usecase.ClearAutoSignInUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetAutoSignInUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetValidateNicknameUseCase
 import com.teamoffroad.feature.auth.domain.usecase.SetAutoSignInUseCase
-import com.teamoffroad.feature.auth.domain.usecase.GetValidateNicknameUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
