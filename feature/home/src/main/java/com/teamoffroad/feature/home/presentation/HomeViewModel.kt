@@ -26,13 +26,10 @@ class HomeViewModel @Inject constructor(
     private val _getUserQuestsState = MutableStateFlow<UiState<UserQuests>>(UiState.Loading)
     val getUserQuestsState = _getUserQuestsState.asStateFlow()
 
-    val token =
-        "token"
-
     fun getEmblems() {
         viewModelScope.launch {
             runCatching {
-                emblemRepository.getEmblems(token)
+                emblemRepository.getEmblems()
             }.onSuccess { state ->
                 _getEmblemsState.emit(UiState.Success(state))
             }.onFailure { t ->
@@ -45,7 +42,7 @@ class HomeViewModel @Inject constructor(
     fun patchEmblem(emblem: Emblem) {
         viewModelScope.launch {
             runCatching {
-                emblemRepository.patchEmblem(emblem.emblemCode, token)
+                emblemRepository.patchEmblem(emblem.emblemCode)
             }.onSuccess { state ->
                 _patchEmblemState.emit(UiState.Success(state))
             }.onFailure { t ->
@@ -58,7 +55,7 @@ class HomeViewModel @Inject constructor(
     fun getUserQuests() {
         viewModelScope.launch {
             runCatching {
-                emblemRepository.getUserQuests(token)
+                emblemRepository.getUserQuests()
             }.onSuccess { state ->
                 _getUserQuestsState.emit(UiState.Success(state))
             }.onFailure { t ->

@@ -10,18 +10,13 @@ import retrofit2.http.Query
 
 interface EmblemService {
     @GET("users/emblems")
-    suspend fun getEmblemsList(
-        @Header("Authorization") Authorization: String
-    ): BaseResponse<EmblemsResponseDto>
+    suspend fun getEmblemsList(): BaseResponse<EmblemsResponseDto>
 
     @PATCH("users/emblems")
     suspend fun patchEmblem(
         @Query("emblemCode") emblemCode: String,
-        @Header("Authorization") Authorization: String
     ): BaseResponse<Unit>
 
     @GET("users/quests")
-    suspend fun getUsersQuests(
-        @Header("Authorization") Authorization: String
-    ): BaseResponse<UserQuestsResponseDto>
+    suspend fun getUsersQuests(): BaseResponse<UserQuestsResponseDto>
 }

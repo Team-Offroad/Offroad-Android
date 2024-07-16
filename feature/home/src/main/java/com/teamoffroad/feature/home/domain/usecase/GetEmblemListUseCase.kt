@@ -7,15 +7,15 @@ import com.teamoffroad.feature.home.domain.repository.EmblemRepository
 class GetEmblemListUseCase(
     private val emblemRepository: EmblemRepository,
 ) {
-    suspend fun getEmblems(token: String): List<Emblem> {
-        return emblemRepository.getEmblems(token)
+    suspend fun getEmblems(): List<Emblem> {
+        return emblemRepository.getEmblems()
     }
 
-    suspend operator fun invoke(emblemCode: String, token: String) {
-        return emblemRepository.patchEmblem(emblemCode, token)
+    suspend operator fun invoke(emblemCode: String) {
+        return emblemRepository.patchEmblem(emblemCode, )
     }
 
-    suspend fun getUserQuests(token: String): UserQuests {
-        return emblemRepository.getUserQuests(token)
+    suspend fun getUserQuests(): UserQuests {
+        return emblemRepository.getUserQuests()
     }
 }
