@@ -1,18 +1,18 @@
 package com.teamoffroad.feature.home.data.mapper
 
-import com.teamoffroad.feature.home.data.model.EmblemsEntity
+import com.teamoffroad.feature.home.data.model.EmblemEntity
 import com.teamoffroad.feature.home.data.remote.response.emblem.EmblemsResponseDto
-import com.teamoffroad.feature.home.domain.model.Emblems
+import com.teamoffroad.feature.home.domain.model.Emblem
 
-fun EmblemsResponseDto.EmblemResponseDto.toData(): EmblemsEntity.EmblemEntity {
-    return EmblemsEntity.EmblemEntity(
+fun EmblemsResponseDto.EmblemResponseDto.toData(): EmblemEntity {
+    return EmblemEntity(
         emblemCode = emblemCode,
         emblemName = emblemName
     )
 }
 
-fun EmblemsEntity.EmblemEntity.toDomain(): Emblems.Emblem {
-    return Emblems.Emblem(
+fun EmblemEntity.toDomain(): Emblem {
+    return Emblem(
         emblemCode = emblemCode,
         emblemName = emblemName
     )

@@ -26,13 +26,4 @@ object NetworkModule {
     fun provideEmblemService(retrofit: Retrofit): EmblemService {
         return retrofit.create(EmblemService::class.java)
     }
-
-//    @Module
-//    @InstallIn(SingletonComponent::class)
-//    interface RepositoryModule {
-//        @Singleton
-//        @Binds
-//        fun bindsEmblemRepository(emblemRepository: EmblemRepository):
-//                EmblemRepository
-//    }
 }

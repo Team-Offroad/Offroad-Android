@@ -20,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -39,7 +40,7 @@ import com.teamoffroad.core.designsystem.theme.NametagStroke
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.White
-import com.teamoffroad.feature.home.domain.model.Emblems
+import com.teamoffroad.feature.home.domain.model.Emblem
 import com.teamoffroad.feature.home.presentation.HomeViewModel
 import com.teamoffroad.feature.home.presentation.UiState
 import com.teamoffroad.feature.home.presentation.model.CustomTitleDialogStateModel
@@ -57,7 +58,7 @@ fun OffroadDialog(
         viewModel.state.collectAsState(initial = UiState.Loading).value
     val context = LocalContext.current
 
-    val emblems = when (emblemListState) {
+    val emblem = when (emblemListState) {
         is UiState.Success -> {
             emblemListState.data
         }
@@ -96,7 +97,7 @@ fun OffroadDialog(
                     }
                 )
 
-                val selectedItem = remember { mutableStateOf<Emblems.Emblem?>(null) }
+                val selectedItem = remember { mutableStateOf<Emblem?>(null) }
 
                 Column(
                     modifier = Modifier.padding(start = 22.dp, end = 22.dp, bottom = 12.dp)
@@ -104,8 +105,8 @@ fun OffroadDialog(
                     Spacer(modifier = Modifier.padding(top = 30.dp))
                     DialogTitle()
                     Spacer(modifier = Modifier.padding(top = 22.dp))
-                    if (emblems != null) {
-                        CharacterTitle(LocalContext.current, emblems = emblems) { itemSelected ->
+                    if (emblem != null) {
+                        CharacterTitle(emblems = emblem) { itemSelected ->
                             selectedItem.value = itemSelected
                         }
                     }
@@ -137,34 +138,21 @@ fun DialogTitle() {
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun CharacterTitle(
-    context: Context,
-    emblems: Emblems,
-    onSelectionChange: (Emblems.Emblem?) -> Unit
+    emblems: List<Emblem>,
+    onSelectionChange: (Emblem?) -> Unit
 ) {
-//    val characterTitles = remember {
-//        mutableStateListOf(
-//            Emblems.Emblem("1", "오프로드 스타터"),
-//            Emblems.Emblem("2", "오프로드 스타터"),
-//            Emblems.Emblem("3", "오프로드 스타터"),
-//            Emblems.Emblem("4", "오프로드 스타터"),
-//            Emblems.Emblem("5", "오프로드 스타터"),
-//            Emblems.Emblem("6", "오프로드 스타터"),
-//            Emblems.Emblem("7", "오프로드 스타터"),
-//            Emblems.Emblem("8", "오프로드 스타터"),
-//        )
-//    }
-    val responseEmblemData = remember { mutableStateOf<Emblems.Emblem?>(null) }
+    val responseEmblemData = remember { mutableStateOf<Emblem?>(null) }
     val emblemDataState = rememberLazyListState()
 
     Box {
         LazyColumn(
             state = emblemDataState,
             modifier = Modifier
-                .heightIn(0.dp, 246.dp)
+                .heightIn(246.dp)
                 .drawScrollbar(emblemDataState),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            items(emblems.emblems) { data ->
+            items(emblems) { data ->
                 DialogTagItem(
                     text = data.emblemName,
                     textColor = if (data.emblemCode == responseEmblemData.value?.emblemCode) White else Main2,
@@ -172,7 +160,7 @@ fun CharacterTitle(
                     backgroundColor = if (data.emblemCode == responseEmblemData.value?.emblemCode) Sub else NametagInactive,
                     borderColor = if (data.emblemCode == responseEmblemData.value?.emblemCode) Sub else NametagStroke,
                     emblem = data,
-                    onItemClick = { clickedData ->
+                    onItemClick = { clickedData: Emblem ->
                         responseEmblemData.value =
                             if (responseEmblemData.value?.emblemCode == clickedData.emblemCode) null else clickedData
                         onSelectionChange(responseEmblemData.value)

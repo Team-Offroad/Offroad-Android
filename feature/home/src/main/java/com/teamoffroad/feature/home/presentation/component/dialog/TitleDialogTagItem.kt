@@ -15,7 +15,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
-import com.teamoffroad.feature.home.domain.model.Emblems
+import com.teamoffroad.feature.home.domain.model.Emblem
 
 @Composable
 fun DialogTagItem(
@@ -24,8 +24,8 @@ fun DialogTagItem(
     style: TextStyle,
     backgroundColor: Color,
     borderColor: Color = backgroundColor,
-    emblem: Emblems.Emblem,
-    onItemClick: (Emblems.Emblem) -> Unit
+    emblem: Emblem,
+    onItemClick: (Emblem) -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     Text(
