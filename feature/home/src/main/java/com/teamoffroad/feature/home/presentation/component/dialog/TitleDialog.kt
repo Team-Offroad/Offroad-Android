@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -86,7 +86,8 @@ fun OffroadDialog(
     ) {
         Card(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .height(248.dp),
             shape = RoundedCornerShape(8.dp),
             colors = CardDefaults.cardColors(
                 containerColor = White
@@ -113,7 +114,7 @@ fun OffroadDialog(
                             selectedItem.value = itemSelected
                         }
                     }
-                    Spacer(modifier = Modifier.padding(top = 12.dp))
+                    Spacer(modifier = Modifier.padding(top = 12.dp).weight(1f))
                     ChangeCharacterTitle(
                         isSelected = selectedItem.value != null,
                         onClickChange = {
@@ -151,7 +152,6 @@ fun CharacterTitle(
         LazyColumn(
             state = emblemDataState,
             modifier = Modifier
-                .heightIn(246.dp)
                 .drawScrollbar(emblemDataState),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {

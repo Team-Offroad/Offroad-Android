@@ -1,11 +1,13 @@
 package com.teamoffroad.feature.home.presentation.component.quest.progressbar
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -17,10 +19,11 @@ import com.teamoffroad.core.designsystem.theme.Contents1GraphMain
 import com.teamoffroad.core.designsystem.theme.Contents1GraphSub
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
+import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 
 @Composable
-fun CircleProgressBar() {
-    var recentQuestProgress by remember { mutableStateOf(0.8f) }
+fun CircleProgressBar(data: HomeProgressBarModel) {
+    var recentQuestProgress by remember { mutableFloatStateOf((data.amount / data.total).toFloat()) }
 
     ConstraintLayout(
         modifier = Modifier.fillMaxWidth()
@@ -42,7 +45,7 @@ fun CircleProgressBar() {
         )
 
         Text(
-            text = "3/4",
+            text = "${data.amount}/${data.total}",
             color = Main1,
             style = OffroadTheme.typography.bothRecentNum,
             modifier = Modifier

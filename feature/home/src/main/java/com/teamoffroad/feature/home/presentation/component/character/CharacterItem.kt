@@ -85,7 +85,7 @@ class CharacterItem {
         val customTitleDialogStateModel = remember { mutableStateOf<CustomTitleDialogStateModel?>(null) }
 
         val showDialog = mutableStateOf(false)
-        val selectedCharacter = remember { mutableStateOf(Emblem("", "초보 모험가")) }
+        val selectedCharacter = remember { mutableStateOf(Emblem("", "")) }
 
         when(emblemState) {
             is UiState.Success -> null
