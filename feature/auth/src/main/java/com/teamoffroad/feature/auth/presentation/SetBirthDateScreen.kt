@@ -12,12 +12,20 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.teamoffroad.core.designsystem.component.OffroadBasicBtn
+import com.teamoffroad.core.designsystem.component.addFocusCleaner
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
@@ -26,11 +34,21 @@ import com.teamoffroad.feature.auth.presentation.component.NicknameTextField
 
 @Composable
 internal fun SetBirthDateScreen(
-    navigateToHome: () -> Unit
+    navigateToSetGender: () -> Unit,
+    viewModel: OnboardingViewModel
 ) {
+    val focusManager = LocalFocusManager.current
+    val focusRequester by remember { mutableStateOf(FocusRequester()) }
+    val isNicknameValid by viewModel.isNicknameValid.collectAsState()
+    var year by remember { mutableStateOf("") }
+    var month by remember { mutableStateOf("") }
+    var day by remember { mutableStateOf("") }
+
+
     Surface(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .addFocusCleaner(focusManager),
         color = Main1
     ) {
         Column {
@@ -81,8 +99,9 @@ internal fun SetBirthDateScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 NicknameTextField(
+                    value = year,
                     placeholder = "YYYY",
-                    onValueChange = {},
+                    onValueChange = { year = it },
                     textAlign = Alignment.Center,
                     modifier = Modifier
                         .width(84.dp)
@@ -99,7 +118,8 @@ internal fun SetBirthDateScreen(
                         .width(66.dp)
                         .height(43.dp),
                     placeholder = "MM",
-                    onValueChange = {},
+                    value = month,
+                    onValueChange = { month = it },
                     textAlign = Alignment.Center,
                 )
                 Text(
@@ -112,8 +132,9 @@ internal fun SetBirthDateScreen(
                     modifier = Modifier
                         .width(66.dp)
                         .height(43.dp),
+                    value = day,
                     placeholder = "DD",
-                    onValueChange = {},
+                    onValueChange = { day = it },
                     textAlign = Alignment.Center,
                 )
                 Text(
@@ -133,7 +154,7 @@ internal fun SetBirthDateScreen(
                     .width(312.dp)
                     .height(50.dp)
                     .align(Alignment.CenterHorizontally),
-                onClick = navigateToHome,
+                onClick = navigateToSetGender,
                 isActive = true,
                 text = "다음"
             )

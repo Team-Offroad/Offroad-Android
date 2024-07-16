@@ -4,9 +4,9 @@ import androidx.compose.runtime.Composable
 
 @Composable
 internal fun SetGenderRoute(
-    navigateToHome: () -> Unit,
+    navigateToSetCharacter: () -> Unit,
 ) {
     SetGenderScreen(
-        navigateToHome = navigateToHome
+        navigateToSetCharacter = navigateToSetCharacter
     )
 }

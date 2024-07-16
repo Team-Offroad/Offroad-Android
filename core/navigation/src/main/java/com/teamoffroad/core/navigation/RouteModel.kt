@@ -27,4 +27,7 @@ sealed interface AuthSettingRoute : Route {
 
     @Serializable
     data object SetGender : AuthSettingRoute
+
+    @Serializable
+    data object SetCharacter : AuthSettingRoute
 }
