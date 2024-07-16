@@ -120,7 +120,6 @@ class CharacterItem {
                         painter = painterResource(id = R.drawable.ic_home_change_title),
                         contentDescription = "change title",
                     )
-
                     if (showDialog.value) {
                         OffroadDialog(
                             showDialog,

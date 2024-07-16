@@ -43,7 +43,10 @@ fun OffroadBasicBtn(
                 shape = shape
             )
             .padding(vertical = 8.dp, horizontal = 6.dp)
-            .clickable(onClick = onClick),
+            .clickable(
+                enabled = isActive,
+                onClick = onClick
+            ),
         contentAlignment = Alignment.Center,
     ) {
         Row(
