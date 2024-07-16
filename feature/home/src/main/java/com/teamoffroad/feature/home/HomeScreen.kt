@@ -35,14 +35,16 @@ internal fun HomeScreen(
 ) {
     Surface(
         modifier = Modifier
+            .padding(bottom = 74.dp)
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
         color = Main1
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
-            UsersAdventuresInformation(modifier = Modifier)
+            UsersAdventuresInformation(modifier = Modifier.weight(1f))
             Spacer(modifier = Modifier.padding(top = 12.dp))
             UsersQuestInformation()
+            Spacer(modifier = Modifier.padding(top = 34.dp))
         }
     }
 }
@@ -56,16 +58,23 @@ private fun UsersAdventuresInformation(modifier: Modifier = Modifier) {
             NicknameText("비포장도로")
             CharacterItem().CharacterNameText("오푸")
         }
-        Box {
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.TopEnd
-            ) {
-                HomeBackground()
-                HomeIcons()
-            }
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.TopEnd
+        ) {
+            HomeBackground()
+            HomeIcons()
+        }
+
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                //.fillMaxHeight()
+                .align(Alignment.BottomCenter)
+        ) {
             CharacterItem().CharacterImage()
         }
+
     }
     Spacer(modifier = Modifier.padding(18.dp))
     CharacterItem().EmblemNameText(Modifier)
