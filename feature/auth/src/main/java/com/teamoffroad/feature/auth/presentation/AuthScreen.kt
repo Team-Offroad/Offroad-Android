@@ -1,7 +1,6 @@
 package com.teamoffroad.feature.auth.presentation
 
 import android.app.Activity
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -37,9 +36,9 @@ internal fun AuthScreen(
     navigateToSetNickname: () -> Unit,
     viewModel: AuthViewModel = hiltViewModel(),
 ) {
-    val userToken by viewModel.userToken.collectAsStateWithLifecycle()
+    val isSignInSuccess by viewModel.successSignIn.collectAsStateWithLifecycle()
 
-    Log.e("123123", userToken.toString())
+    if (isSignInSuccess) navigateToSetNickname()
 
     val signInLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()

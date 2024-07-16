@@ -7,6 +7,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.teamoffroad.core.common.domain.usecase.SaveAccessTokenUseCase
+import com.teamoffroad.core.common.domain.usecase.SaveRefreshTokenUseCase
 import com.teamoffroad.feature.auth.domain.model.SignInInfo
 import com.teamoffroad.feature.auth.domain.model.UserToken
 import com.teamoffroad.feature.auth.domain.usecase.AuthUseCase
@@ -21,10 +23,15 @@ import javax.inject.Inject
 class AuthViewModel @Inject constructor(
     val googleSignInClient: GoogleSignInClient,
     private val authUseCase: AuthUseCase,
+    private val saveAccessTokenUseCase: SaveAccessTokenUseCase,
+    private val saveRefreshTokenUseCase: SaveRefreshTokenUseCase,
 ) : ViewModel() {
 
     private val _userToken = MutableStateFlow<UserToken>(UserToken("", ""))
     val userToken: StateFlow<UserToken> = _userToken
+
+    private val _successSignIn = MutableStateFlow(false)
+    val successSignIn: StateFlow<Boolean> = _successSignIn
 
     fun performGoogleSignIn(result: Task<GoogleSignInAccount>) {
         viewModelScope.launch {
@@ -50,6 +57,9 @@ class AuthViewModel @Inject constructor(
                 authUseCase.invoke(signInInfo)
             }.onSuccess { userToken ->
                 _userToken.value = userToken
+                saveAccessTokenUseCase.invoke(userToken.accessToken)
+                saveRefreshTokenUseCase.invoke(userToken.refreshToken)
+                _successSignIn.value = true
             }.onFailure {
                 Log.e("123123", it.message.toString())
             }
