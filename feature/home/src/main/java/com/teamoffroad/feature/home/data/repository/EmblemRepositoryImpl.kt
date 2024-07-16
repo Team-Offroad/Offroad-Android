@@ -4,6 +4,7 @@ import com.teamoffroad.feature.home.data.mapper.toData
 import com.teamoffroad.feature.home.data.mapper.toDomain
 import com.teamoffroad.feature.home.data.remote.service.EmblemService
 import com.teamoffroad.feature.home.domain.model.Emblem
+import com.teamoffroad.feature.home.domain.model.UserQuests
 import com.teamoffroad.feature.home.domain.repository.EmblemRepository
 import javax.inject.Inject
 
