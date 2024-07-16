@@ -11,6 +11,10 @@ class GetEmblemListUseCase(
         return emblemRepository.getEmblems(token)
     }
 
+    suspend operator fun invoke(emblemCode: String, token: String) {
+        return emblemRepository.patchEmblem(emblemCode, token)
+    }
+
     suspend fun getUserQuests(token: String): UserQuests {
         return emblemRepository.getUserQuests(token)
     }

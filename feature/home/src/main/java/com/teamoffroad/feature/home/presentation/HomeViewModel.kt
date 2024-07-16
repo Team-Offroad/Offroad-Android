@@ -18,24 +18,39 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val emblemRepository: EmblemRepository
 ) : ViewModel() {
-    private val _state = MutableStateFlow<UiState<List<Emblem>>>(UiState.Loading)
-    val state = _state.asStateFlow()
+    private val _getEmblemsState = MutableStateFlow<UiState<List<Emblem>>>(UiState.Loading)
+    val getEmblemsState = _getEmblemsState.asStateFlow()
 
+    private val _patchEmblemState = MutableStateFlow<UiState<Unit>>(UiState.Loading)
+    val patchEmblemState = _patchEmblemState.asStateFlow()
     private val _getUserQuestsState = MutableStateFlow<UiState<UserQuests>>(UiState.Loading)
     val getUserQuestsState = _getUserQuestsState.asStateFlow()
 
     val token =
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3MjExMzM0MjYsImV4cCI6MTcyMTEzNTIyNiwibWVtYmVySWQiOjN9.PTVJdYg7s_etL3Vpn1B9DOPcBsqfga5LmQv4bM33kExlW_pt696gV50_h4is6PCN"
+        "token"
 
     fun getEmblems() {
         viewModelScope.launch {
             runCatching {
                 emblemRepository.getEmblems(token)
             }.onSuccess { state ->
-                _state.emit(UiState.Success(state))
+                _getEmblemsState.emit(UiState.Success(state))
             }.onFailure { t ->
                 val errorMessage = getErrorMessage(t)
-                _state.emit(UiState.Failure(errorMessage))
+                _getEmblemsState.emit(UiState.Failure(errorMessage))
+            }
+        }
+    }
+
+    fun patchEmblem(emblem: Emblem) {
+        viewModelScope.launch {
+            runCatching {
+                emblemRepository.patchEmblem(emblem.emblemCode, token)
+            }.onSuccess { state ->
+                _patchEmblemState.emit(UiState.Success(state))
+            }.onFailure { t ->
+                val errorMessage = getErrorMessage(t)
+                _patchEmblemState.emit(UiState.Failure(errorMessage))
             }
         }
     }
@@ -52,5 +67,7 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
+
+
 
 }

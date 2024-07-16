@@ -2,11 +2,8 @@ package com.teamoffroad.feature.home.data.repository
 
 import com.teamoffroad.feature.home.data.mapper.toData
 import com.teamoffroad.feature.home.data.mapper.toDomain
-import com.teamoffroad.feature.home.data.remote.response.UserQuestsResponseDto.AlmostResponseDto
-import com.teamoffroad.feature.home.data.remote.response.UserQuestsResponseDto.RecentResponseDto
 import com.teamoffroad.feature.home.data.remote.service.EmblemService
 import com.teamoffroad.feature.home.domain.model.Emblem
-import com.teamoffroad.feature.home.domain.model.UserQuests
 import com.teamoffroad.feature.home.domain.repository.EmblemRepository
 import javax.inject.Inject
 
@@ -31,5 +28,9 @@ class EmblemRepositoryImpl @Inject constructor(
             userRecent = domainRecentEntity ?: UserQuests.UserRecent("", 0, 0),
             userAlmost = domainAlmostEntity ?: UserQuests.UserAlmost("", 0, 0)
         )
+    }
+
+    override suspend fun patchEmblem(emblemCode: String, token: String) {
+        emblemService.patchEmblem(emblemCode, token)
     }
 }

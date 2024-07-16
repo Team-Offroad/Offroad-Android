@@ -102,7 +102,7 @@ private fun UsersAdventuresInformation(
         }
     }
     Spacer(modifier = Modifier.padding(18.dp))
-    CharacterItem().EmblemNameText(Modifier)
+    CharacterItem().EmblemNameText(context, Modifier)
 }
 
 @Composable

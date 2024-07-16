@@ -50,11 +50,11 @@ fun OffroadDialog(
     showDialog: MutableState<Boolean>,
     customTitleDialogStateModel: MutableState<CustomTitleDialogStateModel?>,
     onClickCancel: () -> Unit,
-    onCharacterChange: (String?) -> Unit,
+    onCharacterChange: (Emblem?) -> Unit,
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
     val emblemListState =
-        viewModel.state.collectAsState(initial = UiState.Loading).value
+        viewModel.getEmblemsState.collectAsState(initial = UiState.Loading).value
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
@@ -118,7 +118,7 @@ fun OffroadDialog(
                     ChangeCharacterTitle(
                         isSelected = selectedItem.value != null,
                         onClickChange = {
-                            onCharacterChange(selectedItem.value?.emblemCode)
+                            onCharacterChange(selectedItem.value)
                             showDialog.value = false
                             customTitleDialogStateModel.value?.onClickCancel
                         }

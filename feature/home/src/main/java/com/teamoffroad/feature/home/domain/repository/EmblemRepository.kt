@@ -6,5 +6,7 @@ import com.teamoffroad.feature.home.domain.model.UserQuests
 interface EmblemRepository {
     suspend fun getEmblems(token: String): List<Emblem>
 
+    suspend fun patchEmblem(emblemCode: String, token: String)
+
     suspend fun getUserQuests(token: String): UserQuests
 }
