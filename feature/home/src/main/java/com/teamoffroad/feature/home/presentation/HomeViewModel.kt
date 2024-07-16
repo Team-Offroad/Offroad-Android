@@ -14,27 +14,38 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val emblemRepository: EmblemRepository
 ) : ViewModel() {
-    private val _state = MutableStateFlow<UiState<List<Emblem>>>(UiState.Loading)
-    val state = _state.asStateFlow()
+    private val _getEmblemsState = MutableStateFlow<UiState<List<Emblem>>>(UiState.Loading)
+    val getEmblemsState = _getEmblemsState.asStateFlow()
 
-    init {
-        getEmblems()
-    }
+    private val _patchEmblemState = MutableStateFlow<UiState<Unit>>(UiState.Loading)
+    val patchEmblemState = _patchEmblemState.asStateFlow()
 
+    val token =
+        "token"
     fun getEmblems() {
         viewModelScope.launch {
             runCatching {
                 emblemRepository.getEmblems(
-                    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3MjExMTcyNjUsImV4cCI6MTcyMTExOTA2NSwibWVtYmVySWQiOjN9.UJqIw9-EWxPFFLN6afh9WDQLskPbRhiTRotncuxIsy3jKjIUMHONTymgc5KhQHU9"
+                    token
                 )
             }.onSuccess { state ->
-                _state.emit(UiState.Success(state))
+                _getEmblemsState.emit(UiState.Success(state))
             }.onFailure { t ->
-                _state.emit(UiState.Failure(t.message.toString()))
+                _getEmblemsState.emit(UiState.Failure(t.message.toString()))
             }
         }
     }
 
-
+    fun patchEmblem(emblem: Emblem) {
+        viewModelScope.launch {
+            runCatching {
+                emblemRepository.patchEmblem(emblem.emblemCode, token)
+            }.onSuccess { state ->
+                _patchEmblemState.emit(UiState.Success(state))
+            }.onFailure { t ->
+                _patchEmblemState.emit(UiState.Failure(t.message.toString()))
+            }
+        }
+    }
 
 }
