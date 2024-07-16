@@ -177,7 +177,7 @@ fun ChangeCharacterTitle(
     onClickChange: () -> Unit
 ) {
     DialogChangeButton(
-        text = stringResource(id = R.string.home_change_character_txtx),
+        text = stringResource(id = R.string.home_change_character_txt),
         textColor = if (isSelected) White else Gray400,
         style = OffroadTheme.typography.textRegular,
         backgroundColor = if (isSelected) Main2 else Black15,
