@@ -48,8 +48,8 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching {
                 authUseCase.invoke(signInInfo)
-            }.onSuccess {
-                _userToken.value = it
+            }.onSuccess { userToken ->
+                _userToken.value = userToken
             }.onFailure {
                 Log.e("123123", it.message.toString())
             }
