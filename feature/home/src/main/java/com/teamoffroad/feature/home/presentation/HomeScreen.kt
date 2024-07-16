@@ -49,6 +49,11 @@ internal fun HomeScreen(
     val context = LocalContext.current
     val viewModel: HomeViewModel = hiltViewModel()
 
+    LaunchedEffect(Unit) {
+        viewModel.getUsersAdventuresInformations("None")
+        viewModel.getUserQuests()
+    }
+
     Surface(
         modifier = Modifier
             .padding(bottom = 74.dp)
@@ -57,7 +62,11 @@ internal fun HomeScreen(
         color = Main1
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
-            UsersAdventuresInformation(context = context, modifier = Modifier.weight(1f))
+            UsersAdventuresInformation(
+                context = context,
+                modifier = Modifier.weight(1f),
+                viewModel = viewModel,
+            )
             Spacer(modifier = Modifier.padding(top = 12.dp))
             UsersQuestInformation(context, viewModel)
             Spacer(modifier = Modifier.padding(top = 34.dp))
@@ -70,16 +79,28 @@ internal fun HomeScreen(
 private fun UsersAdventuresInformation(
     context: Context,
     modifier: Modifier = Modifier,
+    viewModel: HomeViewModel,
 ) {
+    val adventuresInformationsState = viewModel.getUsersAdventuresInformationsState.collectAsState(initial = UiState.Loading).value
+
+    val adventuresInformationsData = when(adventuresInformationsState) {
+        is UiState.Success -> adventuresInformationsState.data
+        is UiState.Failure -> {
+            Toast.makeText(context, adventuresInformationsState.errorMessage, Toast.LENGTH_SHORT).show()
+            null
+        }
+        else -> null
+    }
+    Log.d("offroad data adventuresInformationsData", adventuresInformationsData.toString())
+
     Box(
         modifier = modifier.fillMaxWidth()
     ) {
-        val imageUrl =
-            "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MThfMTI5%2FMDAxNzE4NzAwMDc3NDU5.aKzepvLVpANcA_ADj_iPwrCReF3JtmKBrUTfuO2i2e8g.gWSssQEsdKMzp2SMcxWte5v9KB-S9VeyZ7TzERECYVEg.JPEG%2FCK_cm26006990.jpg&type=a340"
+        val imageUrl = adventuresInformationsData?.characterImageUrl ?: ""
 
         Column {
-            NicknameText("비포장도로")
-            CharacterItem().CharacterNameText("오푸")
+            NicknameText(adventuresInformationsData?.nickname ?: "")
+            CharacterItem().CharacterNameText(adventuresInformationsData?.emblemName ?: "")
         }
         Box(
             modifier = Modifier.fillMaxWidth(),
@@ -102,7 +123,7 @@ private fun UsersAdventuresInformation(
         }
     }
     Spacer(modifier = Modifier.padding(18.dp))
-    CharacterItem().EmblemNameText(context, Modifier)
+    CharacterItem().EmblemNameText(context, Modifier, adventuresInformationsData?.emblemName ?: "")
 }
 
 @Composable
@@ -120,9 +141,6 @@ private fun UsersQuestInformation(
 ) {
     val userQuestsState =
         viewModel.getUserQuestsState.collectAsState(initial = UiState.Loading).value
-    LaunchedEffect(Unit) {
-        viewModel.getUserQuests()
-    }
 
     val userQuests = when (userQuestsState) {
         is UiState.Success -> {
@@ -139,6 +157,8 @@ private fun UsersQuestInformation(
 
     val recentQuest = userQuests?.userRecent ?: UserQuests.UserRecent()
     val almostQuest = userQuests?.userAlmost ?: UserQuests.UserAlmost()
+
+    Log.d("offroad data userQuests", userQuests.toString())
 
     Row(
         modifier = Modifier.fillMaxWidth()

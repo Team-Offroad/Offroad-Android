@@ -78,14 +78,15 @@ class CharacterItem {
     @Composable
     fun EmblemNameText(
         context: Context,
-        modifier: Modifier = Modifier
+        modifier: Modifier = Modifier,
+        emblem: String
     ) {
         val viewModel: HomeViewModel = hiltViewModel()
         val emblemState = viewModel.patchEmblemState.collectAsState(initial = UiState.Loading).value
         val customTitleDialogStateModel = remember { mutableStateOf<CustomTitleDialogStateModel?>(null) }
 
         val showDialog = mutableStateOf(false)
-        val selectedCharacter = remember { mutableStateOf(Emblem("", "")) }
+        val selectedCharacter = remember { mutableStateOf(Emblem("", emblem)) }
 
         when(emblemState) {
             is UiState.Success -> null
