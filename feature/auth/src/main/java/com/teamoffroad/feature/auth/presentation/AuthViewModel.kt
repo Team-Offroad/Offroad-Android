@@ -10,8 +10,9 @@ import com.google.android.gms.tasks.Task
 import com.teamoffroad.core.common.domain.usecase.SaveAccessTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.SaveRefreshTokenUseCase
 import com.teamoffroad.feature.auth.domain.model.SignInInfo
-import com.teamoffroad.feature.auth.domain.model.UserToken
 import com.teamoffroad.feature.auth.domain.usecase.AuthUseCase
+import com.teamoffroad.feature.auth.domain.usecase.GetAutoSignInUseCase
+import com.teamoffroad.feature.auth.domain.usecase.SetAutoSignInUseCase
 import com.teamoffroad.feature.auth.presentation.model.SocialSignInPlatform
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,13 +26,15 @@ class AuthViewModel @Inject constructor(
     private val authUseCase: AuthUseCase,
     private val saveAccessTokenUseCase: SaveAccessTokenUseCase,
     private val saveRefreshTokenUseCase: SaveRefreshTokenUseCase,
+    private val setAutoSignInUseCase: SetAutoSignInUseCase,
+    private val getAutoSignInUseCase: GetAutoSignInUseCase,
 ) : ViewModel() {
-
-    private val _userToken = MutableStateFlow<UserToken>(UserToken("", ""))
-    val userToken: StateFlow<UserToken> = _userToken
 
     private val _successSignIn = MutableStateFlow(false)
     val successSignIn: StateFlow<Boolean> = _successSignIn
+
+    private val _autoSignIn = MutableStateFlow(false)
+    val autoSignIn: StateFlow<Boolean> = _autoSignIn
 
     fun performGoogleSignIn(result: Task<GoogleSignInAccount>) {
         viewModelScope.launch {
@@ -56,12 +59,20 @@ class AuthViewModel @Inject constructor(
             runCatching {
                 authUseCase.invoke(signInInfo)
             }.onSuccess { userToken ->
-                _userToken.value = userToken
                 saveAccessTokenUseCase.invoke(userToken.accessToken)
                 saveRefreshTokenUseCase.invoke(userToken.refreshToken)
                 _successSignIn.value = true
+                setAutoSignInUseCase.invoke(true)
             }.onFailure {
                 Log.e("123123", it.message.toString())
+            }
+        }
+    }
+
+    fun checkAutoSignIn() {
+        viewModelScope.launch {
+            getAutoSignInUseCase.invoke().collect { isAutoSignIn ->
+                _autoSignIn.value = isAutoSignIn
             }
         }
     }

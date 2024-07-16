@@ -7,6 +7,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -15,7 +16,7 @@ object TokenModule {
 
     @Provides
     @Singleton
-    fun provideTokenManager(dataStore: DataStore<Preferences>): TokenManager {
+    fun provideTokenManager(@Named("tokenDataStore") dataStore: DataStore<Preferences>): TokenManager {
         return TokenManager(dataStore)
     }
 }

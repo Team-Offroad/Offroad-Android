@@ -37,8 +37,7 @@ internal fun AuthScreen(
     viewModel: AuthViewModel = hiltViewModel(),
 ) {
     val isSignInSuccess by viewModel.successSignIn.collectAsStateWithLifecycle()
-
-    if (isSignInSuccess) navigateToSetNickname()
+    val isAutoSignIn by viewModel.autoSignIn.collectAsStateWithLifecycle()
 
     val signInLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
@@ -48,6 +47,10 @@ internal fun AuthScreen(
             viewModel.performGoogleSignIn(task)
         }
     }
+    viewModel.checkAutoSignIn()
+
+    if (isSignInSuccess) navigateToSetNickname()
+    if (isAutoSignIn) signInLauncher.launch(viewModel.googleSignInClient.signInIntent)
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -85,8 +88,7 @@ internal fun AuthScreen(
                 background = White,
                 contentDescription = "auth_google",
                 onClick = {
-                    val signInIntent = viewModel.googleSignInClient.signInIntent
-                    signInLauncher.launch(signInIntent)
+                    signInLauncher.launch(viewModel.googleSignInClient.signInIntent)
                 },
                 modifier = Modifier.constrainAs(googleLogin) {
                     start.linkTo(parent.start, margin = 24.dp)
