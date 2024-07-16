@@ -1,14 +1,20 @@
 package com.teamoffroad.feature.auth.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.teamoffroad.feature.auth.domain.usecase.GetValidateNicknameUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
+@HiltViewModel
 class OnboardingViewModel @Inject constructor(
+    private val getValidateNicknameUseCase: GetValidateNicknameUseCase
 ) : ViewModel() {
+    private val _uiState: MutableStateFlow<AuthState> = MutableStateFlow(AuthState.Empty)
+    val uiState: StateFlow<AuthState> = _uiState.asStateFlow()
+
     private val _isCheckedNickname: MutableStateFlow<String> = MutableStateFlow("")
     val isCheckedNickname: StateFlow<String> = _isCheckedNickname.asStateFlow()
 
@@ -30,13 +36,20 @@ class OnboardingViewModel @Inject constructor(
     private val _inputNickname: MutableStateFlow<String> = MutableStateFlow("")
     val inputNickname: StateFlow<String> = _inputNickname.asStateFlow()
 
-    fun updateNicknameValid(nickname: String) {
-        _isNicknameValid.value = true
+    fun updateInputNickname(nickname: String) {
+        when (getValidateNicknameUseCase.invoke(nickname)) {
+            true -> {
+                _uiState.value = AuthState.Editing
+            }
+
+            false -> {
+                _uiState.value = AuthState.InvalidateNickname
+            }
+        }
     }
 
-    fun updateInputNickname(nickname: String) {
-        _inputNickname.value = nickname
-        Log.e("asdasd", _inputNickname.value.toString())
+    fun updateNicknameValid(nickname: String) {
+        _isNicknameValid.value = true
     }
 
     fun updateCheckedNickname(nickname: String) {

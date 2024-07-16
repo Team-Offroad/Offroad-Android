@@ -71,6 +71,7 @@ naverMapSdk = "3.18.0"
 googlePlayService = "21.1.0"
 googleAccompanistPermissions = "0.32.0"
 volley = "1.2.1"
+junitKtx = "1.2.1"
 
 [libraries]
 # Core Libraries
@@ -155,6 +156,7 @@ naver-map-sdk = { group = "com.naver.maps", name = "map-sdk", version.ref = "nav
 # Google Play Service
 google-play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "googlePlayService" }
 google-accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "googleAccompanistPermissions" }
+androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
 # volley = { group = "com.android.volley", name = "volley", version.ref = "volley" }
 
 [plugins]

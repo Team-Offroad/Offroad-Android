@@ -25,6 +25,7 @@ import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.feature.auth.presentation.AuthState
 
 @Composable
 fun OnboardingButton(
@@ -32,10 +33,12 @@ fun OnboardingButton(
     shape: Shape = RoundedCornerShape(6.dp),
     nickname: String,
     text: String,
-    isActive: Boolean,
+    authState: AuthState,
     onClick: () -> Unit = {},
     onButtonClick: (String) -> Unit = {}
 ) {
+    val isActive = if (authState == AuthState.Editing) true else false
+
     val (borderLineColor, contentColor, backGroundColor) = if (isActive) {
         Triple(Black, White, Black)
     } else {
@@ -48,7 +51,7 @@ fun OnboardingButton(
             .background(backGroundColor, shape = shape)
             .border(
                 width = 1.dp,
-                color = if (isActive) borderLineColor else borderLineColor,
+                color = borderLineColor,
                 shape = shape
             )
             .padding(vertical = 8.dp, horizontal = 6.dp)

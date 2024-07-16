@@ -42,7 +42,7 @@ internal fun SetNicknameScreen(
     val focusRequester by remember { mutableStateOf(FocusRequester()) }
 
     var text by remember { mutableStateOf("") }
-    val isNicknameValid by viewModel.isNicknameValid.collectAsState()
+    val nicknameState by viewModel.uiState.collectAsState()
 
     Surface(
         modifier = Modifier
@@ -83,7 +83,8 @@ internal fun SetNicknameScreen(
                     )
                     Spacer(modifier = Modifier.padding(horizontal = 6.dp))
                     OnboardingButton(
-                        text = "중복확인", isActive = text.isNotBlank(),
+                        text = "중복확인",
+                        authState = nicknameState,
                         modifier = Modifier
                             .width(82.dp)
                             .height(42.dp),
@@ -93,18 +94,16 @@ internal fun SetNicknameScreen(
                 }
                 Spacer(modifier = Modifier.padding(vertical = 6.dp))
                 NicknameHintText(
-                    value = "*한글 2~8자, 영어 2~16자 이내로 작성해주세요.",
-                    modifier = Modifier
+                    nicknameState = nicknameState
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
-            //키패드 돋보기or다음 누르면 키패드내려가게?
             OffroadBasicBtn(
                 modifier = Modifier
                     .width(312.dp)
                     .height(50.dp),
                 onClick = navigateToSetBirthDate,
-                isActive = isNicknameValid,
+                isActive = true,
                 text = "다음"
             )
             Spacer(modifier = Modifier.height(24.dp))
