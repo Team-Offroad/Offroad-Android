@@ -2,8 +2,9 @@ package com.teamoffroad.feature.auth.data.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
+import androidx.datastore.preferences.preferencesDataStoreFile
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,13 +17,12 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DataStoreModule {
 
-    private val Context.authDataStore by preferencesDataStore("AUTH_DATASTORE_NAME")
-
     @Provides
     @Singleton
-    @Named("auth")
-    fun providesAuthDataStore(
-        @ApplicationContext context: Context,
-    ): DataStore<Preferences> =
-        context.authDataStore
+    @Named("authDataStore")
+    fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> {
+        return PreferenceDataStoreFactory.create(
+            produceFile = { context.preferencesDataStoreFile("auth_preferences") }
+        )
+    }
 }

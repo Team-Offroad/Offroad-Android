@@ -12,11 +12,11 @@ fun NavController.navigateToSetGender(navOptions: NavOptions) {
 }
 
 fun NavGraphBuilder.setGenderNavGraph(
-    navigateToHome: () -> Unit,
+    navigateToSetCharacter: () -> Unit,
 ) {
     composable<AuthSettingRoute.SetGender> {
         SetGenderRoute(
-            navigateToHome,
+            navigateToSetCharacter,
         )
     }
 }

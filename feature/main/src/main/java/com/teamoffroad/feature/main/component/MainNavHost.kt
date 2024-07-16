@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.teamoffroad.feature.auth.presentation.navigation.authNavGraph
 import com.teamoffroad.feature.auth.presentation.navigation.setBirthDateNavGraph
+import com.teamoffroad.feature.auth.presentation.navigation.setCharacterNavGraph
 import com.teamoffroad.feature.auth.presentation.navigation.setGenderNavGraph
 import com.teamoffroad.feature.auth.presentation.navigation.setNicknameNavGraph
 import com.teamoffroad.feature.explore.presentation.navigation.exploreNavGraph
@@ -46,7 +47,6 @@ internal fun MainNavHost(
                 padding = padding,
             )
             authNavGraph(
-                padding = padding,
                 navigateToSetNickname = { navigator.navigateToSetNickname() }
             )
             setNicknameNavGraph(
@@ -57,6 +57,9 @@ internal fun MainNavHost(
                 navigateToSetGender = { navigator.navigateToSetGender() }
             )
             setGenderNavGraph(
+                navigateToSetCharacter = { navigator.navigateToSetCharacter() }
+            )
+            setCharacterNavGraph(
                 navigateToHome = { navigator.navigateToHome() }
             )
         }

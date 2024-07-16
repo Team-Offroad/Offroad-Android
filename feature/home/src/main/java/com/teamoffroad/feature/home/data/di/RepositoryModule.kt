@@ -1,7 +1,9 @@
 package com.teamoffroad.feature.home.data.di
 
 import com.teamoffroad.feature.home.data.repository.DummyDummyUserRepositoryImpl
+import com.teamoffroad.feature.home.data.repository.EmblemRepositoryImpl
 import com.teamoffroad.feature.home.domain.repository.DummyUserRepository
+import com.teamoffroad.feature.home.domain.repository.EmblemRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -17,4 +19,10 @@ abstract class RepositoryModule {
     abstract fun bindUserRepository(
         dummyUserRepositoryImpl: DummyDummyUserRepositoryImpl
     ): DummyUserRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindEmblemRepository(
+        emblemRepositoryImpl: EmblemRepositoryImpl
+    ): EmblemRepository
 }
