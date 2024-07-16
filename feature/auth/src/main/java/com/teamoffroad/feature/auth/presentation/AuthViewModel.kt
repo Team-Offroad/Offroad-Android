@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     val googleSignInClient: GoogleSignInClient,
-    val authUseCase: AuthUseCase,
+    private val authUseCase: AuthUseCase,
 ) : ViewModel() {
 
     private val _userToken = MutableStateFlow<UserToken>(UserToken("", ""))
