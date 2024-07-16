@@ -8,11 +8,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 internal fun SetNicknameRoute(
     padding: PaddingValues,
     navigateToSetBirthDate: () -> Unit,
-    authViewModel: AuthViewModel = hiltViewModel()
+    onboardingViewModel: OnboardingViewModel = hiltViewModel()
 ) {
     SetNicknameScreen(
         padding = padding,
         navigateToSetBirthDate = navigateToSetBirthDate,
-        viewModel = authViewModel
+        viewModel = onboardingViewModel
     )
 }

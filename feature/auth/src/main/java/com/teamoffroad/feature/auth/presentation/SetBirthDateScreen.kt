@@ -35,7 +35,7 @@ import com.teamoffroad.feature.auth.presentation.component.NicknameTextField
 @Composable
 internal fun SetBirthDateScreen(
     navigateToSetGender: () -> Unit,
-    viewModel: AuthViewModel
+    viewModel: OnboardingViewModel
 ) {
     val focusManager = LocalFocusManager.current
     val focusRequester by remember { mutableStateOf(FocusRequester()) }

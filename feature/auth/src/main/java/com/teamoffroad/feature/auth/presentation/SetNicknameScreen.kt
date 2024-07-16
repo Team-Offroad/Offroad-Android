@@ -36,10 +36,11 @@ import com.teamoffroad.feature.auth.presentation.component.OnboardingButton
 internal fun SetNicknameScreen(
     padding: PaddingValues,
     navigateToSetBirthDate: () -> Unit,
-    viewModel: AuthViewModel
+    viewModel: OnboardingViewModel
 ) {
     val focusManager = LocalFocusManager.current
     val focusRequester by remember { mutableStateOf(FocusRequester()) }
+
     var text by remember { mutableStateOf("") }
     val isNicknameValid by viewModel.isNicknameValid.collectAsState()
 
@@ -70,7 +71,10 @@ internal fun SetNicknameScreen(
                     NicknameTextField(
                         value = text,
                         placeholder = "닉네임 입력",
-                        onValueChange = { text = it },
+                        onValueChange = {
+                            text = it
+                            viewModel.updateInputNickname(it)
+                        },
                         textAlign = Alignment.CenterStart,
                         modifier = Modifier
                             .defaultMinSize(minWidth = 218.dp)

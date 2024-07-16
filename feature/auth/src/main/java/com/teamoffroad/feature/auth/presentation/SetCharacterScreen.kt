@@ -3,7 +3,7 @@ package com.teamoffroad.feature.auth.presentation
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.OffroadBasicBtn
+import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Brown
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
@@ -41,10 +42,23 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun SetCharacterScreen(
     navigateToHome: () -> Unit,
-    viewModel: AuthViewModel,
+    viewModel: OnboardingViewModel,
 ) {
     val showDialog = mutableStateOf(false)
+    val characterId = 1
+    val characterDescription = "오푸는 어쩌고 저쩌고 성격을 가진 귀여운 \n" +
+            "어쩌고 저쩌고 들어간다면 이렇게 들어갑니다.\n" +
+            "세 줄까지 이 정도. 이렇게 저렇게 이렇게 짝짝."
+    val characterName = "오푸"
+    val characterCode = "0001"
 
+    val characterSize = 3
+//가짜 데이터
+    val imageResourceIds = listOf(
+        R.drawable.ic_auth_logo,
+        R.drawable.ic_auth_google_logo,
+        R.drawable.ic_auth_kakao_logo
+    )
     Surface(
         modifier = Modifier
             .fillMaxSize(),
@@ -63,7 +77,7 @@ internal fun SetCharacterScreen(
                     color = Main2,
                     style = OffroadTheme.typography.title,
                 )
-                ShowSetCharacterPager()
+                ShowSetCharacterPager(characterSize, imageResourceIds)
                 Spacer(modifier = Modifier.padding(vertical = 14.dp))
             }
             Column(
@@ -87,9 +101,7 @@ internal fun SetCharacterScreen(
                 )
                 Spacer(modifier = Modifier.height(14.dp))
                 Text(
-                    text = "오푸는 어쩌고 저쩌고 성격을 가진 귀여운 \n" +
-                            "어쩌고 저쩌고 들어간다면 이렇게 들어갑니다.\n" +
-                            "세 줄까지 이 정도. 이렇게 저렇게 이렇게 짝짝.",
+                    text = characterDescription,
                     style = OffroadTheme.typography.textRegular,
                     color = Main2
                 )
@@ -109,17 +121,11 @@ internal fun SetCharacterScreen(
 }
 
 @Composable
-fun ShowSetCharacterPager() {
-    val imageSize = 3
+fun ShowSetCharacterPager(imageSize: Int, characterRes: List<Int>) {
     val pagerState = rememberPagerState(pageCount = { imageSize })
     val coroutineScope = rememberCoroutineScope()
+    val interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 
-    //가짜 데이터
-    val imageResourceIds = listOf(
-        R.drawable.ic_auth_logo,
-        R.drawable.ic_auth_google_logo,
-        R.drawable.ic_auth_kakao_logo
-    )
     Row(
         modifier = Modifier
             .padding(horizontal = 18.dp)
@@ -127,16 +133,18 @@ fun ShowSetCharacterPager() {
     ) {
         Image(
             modifier = Modifier
-                .clickable {
-                    coroutineScope.launch {
-                        val previousPage = if (pagerState.currentPage - 1 < 0) {
-                            pagerState.pageCount - 1
-                        } else {
-                            pagerState.currentPage - 1
+                .clickableWithoutRipple(interactionSource,
+                    onClick = {
+                        coroutineScope.launch {
+                            val previousPage = if (pagerState.currentPage - 1 < 0) {
+                                pagerState.pageCount - 1
+                            } else {
+                                pagerState.currentPage - 1
+                            }
+                            pagerState.animateScrollToPage(previousPage)
                         }
-                        pagerState.animateScrollToPage(previousPage)
                     }
-                }
+                )
                 .padding(top = 126.dp, bottom = 92.dp),
             painter = painterResource(id = R.drawable.btn_pre_character),
             contentDescription = "pre_character_button"
@@ -146,9 +154,10 @@ fun ShowSetCharacterPager() {
             modifier = Modifier
                 .width(132.dp)
                 .height(250.dp),
-            state = pagerState
+            state = pagerState,
+            userScrollEnabled = false,
         ) { page ->
-            val image: Painter = painterResource(id = imageResourceIds[page])
+            val image: Painter = painterResource(id = characterRes[page])
             Image(
                 painter = image,
                 contentDescription = null,
@@ -157,7 +166,7 @@ fun ShowSetCharacterPager() {
         Spacer(modifier = Modifier.weight(1f))
         Image(
             modifier = Modifier
-                .clickable {
+                .clickableWithoutRipple(interactionSource, onClick = {
                     coroutineScope.launch {
                         val nextPage =
                             ((pagerState.currentPage + 1) % imageSize).coerceAtMost(
@@ -165,7 +174,7 @@ fun ShowSetCharacterPager() {
                             )
                         pagerState.animateScrollToPage(nextPage)
                     }
-                }
+                })
                 .padding(top = 126.dp, bottom = 92.dp),
             painter = painterResource(id = R.drawable.btn_next_character),
             contentDescription = "next_character_button"

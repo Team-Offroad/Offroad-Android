@@ -1,13 +1,13 @@
 package com.teamoffroad.feature.auth.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.teamoffroad.offroad.feature.auth.R
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
-class AuthViewModel @Inject constructor(
+class OnboardingViewModel @Inject constructor(
 ) : ViewModel() {
     private val _isCheckedNickname: MutableStateFlow<String> = MutableStateFlow("")
     val isCheckedNickname: StateFlow<String> = _isCheckedNickname.asStateFlow()
@@ -27,8 +27,16 @@ class AuthViewModel @Inject constructor(
     private val _isNicknameValid: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isNicknameValid: StateFlow<Boolean> = _isNicknameValid.asStateFlow()
 
+    private val _inputNickname: MutableStateFlow<String> = MutableStateFlow("")
+    val inputNickname: StateFlow<String> = _inputNickname.asStateFlow()
+
     fun updateNicknameValid(nickname: String) {
         _isNicknameValid.value = true
+    }
+
+    fun updateInputNickname(nickname: String) {
+        _inputNickname.value = nickname
+        Log.e("asdasd", _inputNickname.value.toString())
     }
 
     fun updateCheckedNickname(nickname: String) {
