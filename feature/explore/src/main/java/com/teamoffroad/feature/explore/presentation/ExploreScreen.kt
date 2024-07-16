@@ -3,7 +3,6 @@ package com.teamoffroad.feature.explore.presentation
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.util.Log
 import android.view.Gravity
 import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
@@ -75,7 +74,12 @@ internal fun ExploreScreen(
     val uiState: ExploreUiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
-    if (uiState.places.isEmpty()) viewModel.updatePlaces()
+    LaunchedEffect(uiState.loading) {
+        if (!uiState.loading && uiState.places.isEmpty()) viewModel.updatePlaces()
+    }
+    if (uiState.isUpdatePlacesFailed) {
+        Toast.makeText(context, stringResource(R.string.explore_places_failed), Toast.LENGTH_SHORT).show()
+    }
 
     ExploreLocationPermissionHandler(
         context = context,
@@ -93,7 +97,6 @@ internal fun ExploreScreen(
     }
 
     if (uiState.isAllPermissionGranted) {
-        Log.e("123123", uiState.places.toString())
         ExploreNaverMap(
             uiState.locationModel,
             uiState.places,
@@ -102,6 +105,7 @@ internal fun ExploreScreen(
             viewModel::updateLocation,
             viewModel::updateTrackingToggle,
             viewModel::updateSelectedPlace,
+            viewModel::updatePlaces,
         )
     }
 }
@@ -191,6 +195,7 @@ private fun ExploreNaverMap(
     updateLocation: (Double, Double) -> Unit,
     updateTrackingToggle: (Boolean) -> Unit,
     updateSelectedPlace: (PlaceModel?) -> Unit,
+    updatePlaces: (Double, Double) -> Unit,
 ) {
     val density = LocalDensity.current
     var markerOffset by remember { mutableStateOf(IntOffset.Zero) }
@@ -257,7 +262,12 @@ private fun ExploreNaverMap(
         ) {
             ExploreRefreshButton(
                 text = stringResource(R.string.explore_map_refresh),
-                onClick = {},
+                onClick = {
+                    updatePlaces(
+                        locationState.cameraPositionState.position.target.latitude,
+                        locationState.cameraPositionState.position.target.longitude,
+                    )
+                },
                 modifier = Modifier.align(Alignment.Center),
             )
             ExploreTrackingButton(

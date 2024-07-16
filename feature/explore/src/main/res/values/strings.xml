@@ -11,4 +11,5 @@
     <string name="explore_places">장소 목록</string>
     <string name="explore_camera_hint_first">QR 코드</string>
     <string name="explore_camera_hint_second">가 잘 보이도록\n카메라를 비춰주세요.</string>
+    <string name="explore_places_failed">위치 정보를 불러오는 데 실패했어요.</string>
 </resources>

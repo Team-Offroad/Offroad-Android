@@ -13,6 +13,7 @@ data class LocationModel(
         DEFAULT_LOCATION_LATITUDE.toDouble(),
         DEFAULT_LOCATION_LONGITUDE.toDouble(),
     ),
+    val previousLocation: LatLng = location,
     val isUserTrackingEnabled: Boolean = true,
     val mapProperties: MapProperties = MapProperties(locationTrackingMode = LocationTrackingMode.Follow),
     val cameraPositionState: CameraPositionState = CameraPositionState(CameraPosition(location, 15.0)),
@@ -61,12 +62,24 @@ data class LocationModel(
         }
     }
 
+    fun isUserMoveFarEnough(): Boolean {
+        return location.distanceTo(previousLocation) > MAX_DISTANCE
+    }
+
+    fun updatePreviousLocation(location: LatLng): LocationModel {
+        return copy(
+            previousLocation = location,
+        )
+    }
+
     private companion object {
         private const val DEFAULT_LOCATION_LATITUDE = 37.588764f
         private const val DEFAULT_LOCATION_LONGITUDE = 127.05879f
 
         private const val FOLLOW_CIRCLE_ALPHA = 0.25f
         private const val NO_FOLLOW_CIRCLE_ALPHA = 0.07f
+
+        private const val MAX_DISTANCE = 750
     }
 }
 

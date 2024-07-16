@@ -1,8 +1,8 @@
 package com.teamoffroad.feature.explore.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.naver.maps.geometry.LatLng
 import com.teamoffroad.feature.explore.domain.usecase.GetPlaceListUseCase
 import com.teamoffroad.feature.explore.presentation.mapper.toUi
 import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
@@ -39,6 +39,12 @@ class ExploreViewModel @Inject constructor(
         _uiState.value = uiState.value.copy(
             locationModel = uiState.value.locationModel.updateLocation(latitude, longitude)
         )
+        if (uiState.value.locationModel.isUserMoveFarEnough()) {
+            _uiState.value = uiState.value.copy(
+                locationModel = uiState.value.locationModel.updatePreviousLocation(LatLng(latitude, longitude)),
+            )
+            updatePlaces(latitude, longitude)
+        }
     }
 
     fun updateTrackingToggle(isUserTrackingEnabled: Boolean) {
@@ -47,15 +53,14 @@ class ExploreViewModel @Inject constructor(
         )
     }
 
-    fun updatePlaces() {
+    fun updatePlaces(
+        latitude: Double = uiState.value.locationModel.location.latitude,
+        longitude: Double = uiState.value.locationModel.location.longitude,
+    ) {
         viewModelScope.launch {
             runCatching {
-                getPlaceListUseCase(
-                    uiState.value.locationModel.location.latitude,
-                    uiState.value.locationModel.location.longitude
-                ).map { it.toUi() }
+                getPlaceListUseCase(latitude, longitude).map { it.toUi() }
             }.onSuccess { places ->
-                Log.e("123123", places.toString())
                 _uiState.value = uiState.value.copy(
                     places = places,
                     loading = false,
