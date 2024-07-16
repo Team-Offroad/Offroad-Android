@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.auth.presentation
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,21 +14,41 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.credentials.GetCredentialRequest
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Kakao
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.offroad.feature.auth.BuildConfig
 import com.teamoffroad.offroad.feature.auth.R
 
 @Composable
 internal fun AuthScreen(
     padding: PaddingValues,
     navigateToSetNickname: () -> Unit,
+    viewModel: AuthViewModel = hiltViewModel(),
 ) {
+    val context = LocalContext.current
+
+    val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
+        .setFilterByAuthorizedAccounts(false)
+        .setServerClientId(BuildConfig.GOOGLE_CLIENT_ID)
+        .setAutoSelectEnabled(true)
+        .build()
+
+    val request: GetCredentialRequest = GetCredentialRequest.Builder()
+        .addCredentialOption(googleIdOption)
+        .build()
+
+
     Surface(
         modifier = Modifier
             .fillMaxSize(),
@@ -49,7 +70,7 @@ internal fun AuthScreen(
             )
             ClickableImage(
                 text = "Kakao로 계속하기",
-                textColor = Color.Black,
+                textColor = Black,
                 painter = painterResource(id = R.drawable.ic_auth_kakao_logo),
                 background = Kakao,
                 contentDescription = "auth_kakao",
@@ -67,7 +88,18 @@ internal fun AuthScreen(
                 painter = painterResource(id = R.drawable.ic_auth_google_logo),
                 background = White,
                 contentDescription = "auth_google",
-                onClick = navigateToSetNickname,
+                onClick = {
+                    viewModel.startGoogleSignIn(
+                        context = context,
+                        request = request,
+                        onSuccess = { googleIdTokenCredential ->
+                            Log.e("1231231", googleIdTokenCredential.idToken)
+                        },
+                        onFailure = { exception ->
+                            Log.e("1231231", exception.toString())
+                        }
+                    )
+                },
                 modifier = Modifier
                     .constrainAs(googleLogin) {
                         start.linkTo(parent.start, margin = 24.dp)
@@ -87,7 +119,7 @@ fun ClickableImage(
     background: Color,
     contentDescription: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier

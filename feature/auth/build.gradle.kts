@@ -26,4 +26,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.constraintlayout.compose)
+    implementation(libs.credentials)
+    implementation(libs.credentials.play.services.auth)
+    implementation(libs.googleid)
 }
