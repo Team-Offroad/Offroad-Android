@@ -42,7 +42,7 @@ fun CloseCompleteRequest(modifier: Modifier = Modifier, data: HomeProgressBarMod
             Spacer(modifier = Modifier.padding(top = 16.dp))
             LinearProgressBar(data)
             Spacer(modifier = Modifier.padding(top = 20.dp))
-            data.location?.let { ContentsLocation(it) }
+            ContentsLocation(data.location)
             Spacer(modifier = Modifier.padding(bottom = 12.dp))
         }
     }

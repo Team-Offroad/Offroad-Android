@@ -74,7 +74,7 @@ class CharacterItem {
         val customTitleDialogStateModel = remember { mutableStateOf<CustomTitleDialogStateModel?>(null) }
 
         val showDialog = mutableStateOf(false)
-        var selectedCharacterIdx = remember { mutableStateOf<String?>("초보 모험가") }
+        var selectedCharacterIdx = remember { mutableStateOf<String?>("") }
 
         Box(
             modifier = Modifier

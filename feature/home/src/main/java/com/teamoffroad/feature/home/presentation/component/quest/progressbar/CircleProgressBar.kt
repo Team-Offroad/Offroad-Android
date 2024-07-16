@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.home.presentation.component.quest.progressbar
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
@@ -22,7 +23,7 @@ import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 
 @Composable
 fun CircleProgressBar(data: HomeProgressBarModel) {
-    var recentQuestProgress by remember { mutableFloatStateOf((data.amount!! / data.total!!).toFloat()) }
+    var recentQuestProgress by remember { mutableFloatStateOf((data.amount / data.total).toFloat()) }
 
     ConstraintLayout(
         modifier = Modifier.fillMaxWidth()

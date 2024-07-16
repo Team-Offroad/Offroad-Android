@@ -2,6 +2,8 @@ package com.teamoffroad.feature.home.data.repository
 
 import com.teamoffroad.feature.home.data.mapper.toData
 import com.teamoffroad.feature.home.data.mapper.toDomain
+import com.teamoffroad.feature.home.data.remote.response.UserQuestsResponseDto.AlmostResponseDto
+import com.teamoffroad.feature.home.data.remote.response.UserQuestsResponseDto.RecentResponseDto
 import com.teamoffroad.feature.home.data.remote.service.EmblemService
 import com.teamoffroad.feature.home.domain.model.Emblem
 import com.teamoffroad.feature.home.domain.model.UserQuests
@@ -24,6 +26,10 @@ class EmblemRepositoryImpl @Inject constructor(
         val questAlmostEntity = response.data?.almostResponseDto?.toData()
         val domainRecentEntity = questRecentEntity?.toDomain()
         val domainAlmostEntity = questAlmostEntity?.toDomain()
-        return UserQuests(domainRecentEntity, domainAlmostEntity)
+
+        return UserQuests(
+            userRecent = domainRecentEntity ?: UserQuests.UserRecent("", 0, 0),
+            userAlmost = domainAlmostEntity ?: UserQuests.UserAlmost("", 0, 0)
+        )
     }
 }

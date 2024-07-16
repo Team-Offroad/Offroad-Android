@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.home.presentation.component.quest.progressbar
 
+import android.util.Log
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -67,7 +68,7 @@ fun LinearProgressBar(data: HomeProgressBarModel) {
     Spacer(modifier = Modifier.padding(top = 8.dp))
     ConstraintLayout {
         val progress = createRef()
-        var closeCompleteProgress by remember { mutableFloatStateOf((data.amount!! / data.total!!).toFloat()) }
+        var closeCompleteProgress by remember { mutableFloatStateOf((data.amount / data.total).toFloat()) }
 
         LinearProgressIndicator(
             progress = { closeCompleteProgress },

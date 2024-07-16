@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
+import com.teamoffroad.feature.home.domain.model.UserQuests
 import com.teamoffroad.feature.home.presentation.HomeViewModel
 import com.teamoffroad.feature.home.presentation.UiState
 import com.teamoffroad.feature.home.presentation.component.HomeIcons
@@ -135,33 +136,28 @@ private fun UsersQuestInformation(
 
         else -> null
     }
-    Log.d("offroad userQuests", userQuests.toString()) // 정보 가져왔나 확인 후 화면에 표시
 
-    userQuests?.let {
-        val recentQuest = userQuests.userRecent
-        Log.d("offroad recent", recentQuest.toString())
-        val almostQuest = userQuests.userAlmost
-        Log.d("offroad almost", almostQuest.toString())
+    val recentQuest = userQuests?.userRecent ?: UserQuests.UserRecent()
+    val almostQuest = userQuests?.userAlmost ?: UserQuests.UserAlmost()
 
-        Row(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Spacer(modifier = Modifier.padding(start = 24.dp))
-            RecentQuest(
-                modifier = Modifier.weight(1f),
-                data = HomeProgressBarModel(
-                    stringResource(id = R.string.home_recent_quest_title), recentQuest?.progress, recentQuest?.completeCondition, recentQuest?.questName
-                )
+    Row(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Spacer(modifier = Modifier.padding(start = 24.dp))
+        RecentQuest(
+            modifier = Modifier.weight(1f),
+            data = HomeProgressBarModel(
+                stringResource(id = R.string.home_recent_quest_title), recentQuest.progress, recentQuest.completeCondition, recentQuest.questName
             )
-            Spacer(modifier = Modifier.padding(start = 12.dp))
-            CloseCompleteRequest(
-                modifier = Modifier.weight(1f),
-                data = HomeProgressBarModel(
-                    stringResource(id = R.string.home_close_complete_quest_title), almostQuest?.progress, almostQuest?.completeCondition, almostQuest?.questName
-                )
+        )
+        Spacer(modifier = Modifier.padding(start = 12.dp))
+        CloseCompleteRequest(
+            modifier = Modifier.weight(1f),
+            data = HomeProgressBarModel(
+                stringResource(id = R.string.home_close_complete_quest_title), almostQuest.progress, almostQuest.completeCondition, almostQuest.questName
             )
-            Spacer(modifier = Modifier.padding(end = 24.dp))
-        }
+        )
+        Spacer(modifier = Modifier.padding(end = 24.dp))
     }
 }
 
