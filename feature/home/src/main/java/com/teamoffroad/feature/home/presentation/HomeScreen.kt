@@ -2,7 +2,6 @@ package com.teamoffroad.feature.home
 
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
@@ -91,7 +90,6 @@ private fun UsersAdventuresInformation(
         }
         else -> null
     }
-    Log.d("offroad data adventuresInformationsData", adventuresInformationsData.toString())
 
     Box(
         modifier = modifier.fillMaxWidth()
@@ -109,7 +107,7 @@ private fun UsersAdventuresInformation(
             HomeBackground()
             HomeIcons(
                 context = context,
-                url = imageUrl
+                imageUrl = imageUrl
             )
         }
 
@@ -119,7 +117,7 @@ private fun UsersAdventuresInformation(
                 //.fillMaxHeight()
                 .align(Alignment.BottomCenter)
         ) {
-            CharacterItem().CharacterImage()
+            CharacterItem().CharacterImage(imageUrl)
         }
     }
     Spacer(modifier = Modifier.padding(18.dp))
@@ -157,8 +155,6 @@ private fun UsersQuestInformation(
 
     val recentQuest = userQuests?.userRecent ?: UserQuests.UserRecent()
     val almostQuest = userQuests?.userAlmost ?: UserQuests.UserAlmost()
-
-    Log.d("offroad data userQuests", userQuests.toString())
 
     Row(
         modifier = Modifier.fillMaxWidth()

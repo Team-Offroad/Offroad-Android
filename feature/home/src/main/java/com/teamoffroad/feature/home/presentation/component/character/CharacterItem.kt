@@ -2,12 +2,12 @@ package com.teamoffroad.feature.home.presentation.component.character
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,9 +19,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
 import com.teamoffroad.core.designsystem.component.OffroadTagItem
 import com.teamoffroad.core.designsystem.theme.Black15
 import com.teamoffroad.core.designsystem.theme.CharacterName
@@ -38,16 +40,19 @@ import com.teamoffroad.offroad.feature.home.R
 class CharacterItem {
 
     @Composable
-    fun CharacterImage() {
+    fun CharacterImage(
+        imageUrl: String
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 90.dp),
             contentAlignment = Alignment.Center
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.img_home_explorer),
-                contentDescription = "explorer"
+            AsyncImage(
+                model = imageUrl,
+                contentDescription = "explorer",
+                modifier = Modifier.fillMaxSize()
             )
         }
     }
