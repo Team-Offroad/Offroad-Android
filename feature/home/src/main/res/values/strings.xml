@@ -6,4 +6,8 @@
     <string name="home_explorer_suffix">님</string>
     <string name="home_collected_character_name">내가 모은 칭호</string>
     <string name="home_change_character_txt">바꾸기</string>
+<<<<<<< HEAD
+=======
+    <string name="app_name">offroad</string>
+>>>>>>> 40fcfc9ec0400309c2a21680b2e4c3dd6cfe4562
 </resources>
