@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.home.presentation
+package com.teamoffroad.feature.home
 
 import android.Manifest
 import android.app.Activity
@@ -41,7 +41,6 @@ import com.teamoffroad.feature.home.presentation.component.quest.progressbar.Rec
 import com.teamoffroad.feature.home.presentation.component.user.NicknameText
 import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 import com.teamoffroad.offroad.feature.home.R
-import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
@@ -52,14 +51,16 @@ internal fun HomeScreen(
 
     Surface(
         modifier = Modifier
+            .padding(bottom = 74.dp)
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
         color = Main1
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
-            UsersAdventuresInformation(context = context, modifier = Modifier)
+            UsersAdventuresInformation(context = context, modifier = Modifier.weight(1f))
             Spacer(modifier = Modifier.padding(top = 12.dp))
             UsersQuestInformation()
+            Spacer(modifier = Modifier.padding(top = 34.dp))
         }
     }
 }
@@ -80,17 +81,23 @@ private fun UsersAdventuresInformation(
             NicknameText("비포장도로")
             CharacterItem().CharacterNameText("오푸")
         }
-        Box {
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.TopEnd
-            ) {
-                HomeBackground()
-                HomeIcons(
-                    context = context,
-                    url = imageUrl
-                )
-            }
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.TopEnd
+        ) {
+            HomeBackground()
+            HomeIcons(
+                context = context,
+                url = imageUrl
+            )
+        }
+
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                //.fillMaxHeight()
+                .align(Alignment.BottomCenter)
+        ) {
             CharacterItem().CharacterImage()
         }
     }
@@ -139,3 +146,4 @@ fun HomeScreenPreview() {
         )
     }
 }
+
