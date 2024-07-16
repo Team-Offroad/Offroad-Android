@@ -146,7 +146,7 @@ fun ShowSetCharacterPager(imageSize: Int, characterRes: List<Int>) {
                     }
                 )
                 .padding(top = 126.dp, bottom = 92.dp),
-            painter = painterResource(id = R.drawable.btn_pre_character),
+            painter = painterResource(id = R.drawable.btn_auth_pre_character),
             contentDescription = "pre_character_button"
         )
         Spacer(modifier = Modifier.weight(1f))
@@ -176,7 +176,7 @@ fun ShowSetCharacterPager(imageSize: Int, characterRes: List<Int>) {
                     }
                 })
                 .padding(top = 126.dp, bottom = 92.dp),
-            painter = painterResource(id = R.drawable.btn_next_character),
+            painter = painterResource(id = R.drawable.btn_auth_next_character),
             contentDescription = "next_character_button"
         )
     }
