@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.auth.data.di
+package com.teamoffroad.core.common.data.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -19,10 +19,10 @@ object DataStoreModule {
 
     @Provides
     @Singleton
-    @Named("authDataStore")
+    @Named("tokenDataStore")
     fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> {
         return PreferenceDataStoreFactory.create(
-            produceFile = { context.preferencesDataStoreFile("auth_preferences") }
+            produceFile = { context.preferencesDataStoreFile("tokens") }
         )
     }
 }

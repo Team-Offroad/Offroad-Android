@@ -10,6 +10,7 @@ material = "1.12.0"
 espressoCore = "3.6.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
+kotest = "5.9.0"
 
 # Jetpack Compose
 composeBom = "2024.06.00"
@@ -59,7 +60,6 @@ desugarJdkLibs = "2.0.4"
 # kotlinx immutable
 kotlinxImmutable = "0.3.7"
 
-kotest = "5.9.0"
 runtimeLivedata = "1.6.8"
 
 # Naver Map
@@ -70,7 +70,6 @@ naverMapSdk = "3.18.0"
 # Google Play Service
 googlePlayService = "21.1.0"
 googleAccompanistPermissions = "0.32.0"
-volley = "1.2.1"
 
 [libraries]
 # Core Libraries
@@ -155,7 +154,7 @@ naver-map-sdk = { group = "com.naver.maps", name = "map-sdk", version.ref = "nav
 # Google Play Service
 google-play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "googlePlayService" }
 google-accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "googleAccompanistPermissions" }
-# volley = { group = "com.android.volley", name = "volley", version.ref = "volley" }
+google-play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "googlePlayService" }
 
 [plugins]
 # Android Application Plugin

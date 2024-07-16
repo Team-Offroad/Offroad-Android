@@ -43,7 +43,6 @@ internal fun MainNavHost(
                 padding = padding,
             )
             authNavGraph(
-                padding = padding,
                 navigateToSetNickname = { navigator.navigateToSetNickname() }
             )
             setNicknameNavGraph(
