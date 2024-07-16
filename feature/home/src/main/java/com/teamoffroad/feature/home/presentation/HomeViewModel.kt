@@ -21,8 +21,7 @@ class HomeViewModel @Inject constructor(
     val patchEmblemState = _patchEmblemState.asStateFlow()
 
     val token =
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3MjExMjI3ODcsImV4cCI6MTcyMTEyNDU4NywibWVtYmVySWQiOjV9.FWSrNqzHUB4TLNz7suKa9xz9ttrZLec_AxodgU8y0_QQp4PD-7oKUZwuVPVPrgcS\""
-
+        "token"
     fun getEmblems() {
         viewModelScope.launch {
             runCatching {
