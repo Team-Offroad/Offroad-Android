@@ -1,27 +1,75 @@
 package com.teamoffroad.feature.home.presentation.component
 
+import android.Manifest
+import android.app.Activity
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
+import android.util.Log
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.teamoffroad.feature.home.presentation.component.download.downloadImage
 import com.teamoffroad.offroad.feature.home.R
+import kotlinx.coroutines.CoroutineScope
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
-fun HomeIcons() {
+fun HomeIcons(
+    context: Context,
+    url: String
+) {
+    val scope = rememberCoroutineScope()
+    val permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            Toast.makeText(context, "권한이 허용되었습니다.", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "권한이 허용되지 않았습니다.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     Box(
         contentAlignment = Alignment.TopEnd,
         modifier = Modifier.padding(top = 64.dp, end = 28.dp)
     ) {
         Column {
-            Image(
-                painter = painterResource(id = R.drawable.ic_home_download),
-                contentDescription = "explorer",
-            )
+            IconButton(onClick = {
+                if (ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED) {
+                    downloadImage(context, url, scope)
+                    Toast.makeText(context, "이미지 다운 완료", Toast.LENGTH_SHORT).show()
+                } else {
+                    launcher.launch(permission)
+                }
+            }) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_home_download),
+                    contentDescription = "download",
+                )
+            }
+
             Image(
                 painter = painterResource(id = R.drawable.ic_home_upload),
                 contentDescription = "upload",
