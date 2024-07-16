@@ -15,7 +15,8 @@ import com.teamoffroad.feature.auth.presentation.navigation.navigateToSetCharact
 import com.teamoffroad.feature.auth.presentation.navigation.navigateToSetGender
 import com.teamoffroad.feature.auth.presentation.navigation.navigateToSetNickname
 import com.teamoffroad.feature.explore.presentation.navigation.navigateExplore
-import com.teamoffroad.feature.home.navigation.navigateHome
+import com.teamoffroad.feature.explore.presentation.navigation.navigateToExploreCameraScreen
+import com.teamoffroad.feature.home.navigation.navigateToHome
 import com.teamoffroad.feature.mypage.navigation.navigateMypage
 
 internal class MainNavigator(
@@ -44,7 +45,7 @@ internal class MainNavigator(
 
     fun navigate(tab: MainNavTab) {
         when (tab) {
-            MainNavTab.HOME -> navController.navigateHome(navOptions)
+            MainNavTab.HOME -> navController.navigateToHome(navOptions)
             MainNavTab.EXPLORE -> navController.navigateExplore(navOptions)
             MainNavTab.MYPAGE -> navController.navigateMypage(navOptions)
         }
@@ -56,7 +57,7 @@ internal class MainNavigator(
     }
 
     fun navigateToHome() {
-        navController.navigateHome(navOptions)
+        navController.navigateToHome(navOptions)
     }
 
     fun navigateToSetNickname() {
@@ -73,6 +74,15 @@ internal class MainNavigator(
 
     fun navigateToSetCharacter() {
         navController.navigateToSetCharacter(navOptions)
+    }
+
+    fun navigateToExploreCameraScreen(placeId: Long, latitude: Double, longitude: Double) {
+        navController.navigateToExploreCameraScreen(placeId, latitude, longitude, navOptions)
+    }
+
+    fun navigateToExplore() {
+        navController.popBackStack()
+        navController.navigateExplore(navOptions)
     }
 }
 
