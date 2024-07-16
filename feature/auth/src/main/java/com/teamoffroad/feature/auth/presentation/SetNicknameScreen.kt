@@ -40,15 +40,15 @@ internal fun SetNicknameScreen(
 ) {
     val focusManager = LocalFocusManager.current
     val focusRequester by remember { mutableStateOf(FocusRequester()) }
+    var text by remember { mutableStateOf("") }
+    val isNicknameValid by viewModel.isNicknameValid.collectAsState()
+
     Surface(
         modifier = Modifier
             .fillMaxSize()
             .addFocusCleaner(focusManager),
         color = Main1,
     ) {
-        var text by remember { mutableStateOf("") }
-        val isNicknameValid by viewModel.isNicknameValid.collectAsState()
-
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Spacer(modifier = Modifier.padding(top = 104.dp))
             Text(
@@ -84,7 +84,7 @@ internal fun SetNicknameScreen(
                             .width(82.dp)
                             .height(42.dp),
                         nickname = text,
-                        checkNickname = viewModel::updateNicknameValid,
+                        onButtonClick = viewModel::updateNicknameValid,
                     )
                 }
                 Spacer(modifier = Modifier.padding(vertical = 6.dp))

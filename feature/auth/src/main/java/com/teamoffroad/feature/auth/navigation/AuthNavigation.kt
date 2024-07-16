@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.auth.presentation.navigation
+package com.teamoffroad.feature.auth.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
