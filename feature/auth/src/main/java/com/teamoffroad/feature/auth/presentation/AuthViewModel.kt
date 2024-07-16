@@ -1,56 +1,38 @@
 package com.teamoffroad.feature.auth.presentation
 
-import android.content.Context
 import android.util.Log
-import androidx.credentials.CredentialManager
-import androidx.credentials.CustomCredential
-import androidx.credentials.GetCredentialRequest
-import androidx.credentials.GetCredentialResponse
-import androidx.credentials.exceptions.GetCredentialException
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
-import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-
+    val googleSignInClient: GoogleSignInClient,
 ) : ViewModel() {
 
-    fun startGoogleSignIn(
-        context: Context,
-        request: GetCredentialRequest,
-        onSuccess: (GoogleIdTokenCredential) -> Unit,
-        onFailure: (Exception) -> Unit,
-    ) {
-        val credentialManager: CredentialManager by lazy {
-            CredentialManager.create(context)
-        }
+    private val _user = MutableLiveData<GoogleSignInAccount?>()
+    val user: LiveData<GoogleSignInAccount?> = _user
 
-        viewModelScope.launch {
-            try {
-                val result: GetCredentialResponse = credentialManager.getCredential(context, request)
-                handleSignIn(result, onSuccess)
-            } catch (e: GetCredentialException) {
-                onFailure(e)
-            }
+    fun handleSignInResult(result: Task<GoogleSignInAccount>) {
+        try {
+            val account = result.getResult(ApiException::class.java)
+            _user.value = account
+            Log.e("123123", "signInResult:success account=$account")
+        } catch (e: ApiException) {
+            Log.w("123123", "signInResult:failed code=" + e.statusCode)
+            _user.value = null
         }
     }
 
-    private fun handleSignIn(result: GetCredentialResponse, onSuccess: (GoogleIdTokenCredential) -> Unit) {
-        val credential = result.credential
-        if (credential is CustomCredential && credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
-            try {
-                val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
-                onSuccess(googleIdTokenCredential)
-            } catch (e: GoogleIdTokenParsingException) {
-                Log.e("1231232", "Received an invalid google id token response", e)
-            }
-        } else {
-            Log.e("1231232", "Unexpected type of credential")
+    fun signOut() {
+        googleSignInClient.signOut().addOnCompleteListener {
+            _user.value = null
         }
     }
 }
