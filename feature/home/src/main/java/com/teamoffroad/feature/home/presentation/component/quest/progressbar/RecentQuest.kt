@@ -36,9 +36,9 @@ fun RecentQuest(modifier: Modifier = Modifier, data: HomeProgressBarModel) {
                 )
             }
             Spacer(modifier = Modifier.padding(top = 14.dp))
-            CircleProgressBar()
+            CircleProgressBar(data)
             Spacer(modifier = Modifier.padding(top = 12.dp))
-            ContentsLocation(data.location)
+            data.location?.let { ContentsLocation(it) }
             Spacer(modifier = Modifier.padding(bottom = 12.dp))
         }
     }
