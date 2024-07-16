@@ -24,7 +24,7 @@ import com.teamoffroad.feature.auth.presentation.component.GenderHintButton
 
 @Composable
 internal fun SetGenderScreen(
-    navigateToHome: () -> Unit
+    navigateToSetCharacter: () -> Unit
 ) {
     Surface(
         modifier = Modifier
@@ -84,7 +84,7 @@ internal fun SetGenderScreen(
                     .width(312.dp)
                     .height(50.dp)
                     .align(Alignment.CenterHorizontally),
-                onClick = navigateToHome,
+                onClick = navigateToSetCharacter,
                 isActive = true,
                 text = "다음"
             )

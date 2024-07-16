@@ -4,12 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
-internal fun SetBirthDateRoute(
-    navigateToSetGender: () -> Unit,
+internal fun SetCharacterRoute(
+    navigateToHome: () -> Unit,
     onboardingViewModel: OnboardingViewModel = hiltViewModel()
 ) {
-    SetBirthDateScreen(
-        navigateToSetGender = navigateToSetGender,
+    SetCharacterScreen(
+        navigateToHome = navigateToHome,
         viewModel = onboardingViewModel
     )
 }
