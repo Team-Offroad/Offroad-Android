@@ -23,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.OffroadBasicBtn
@@ -39,7 +40,8 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnrememberedMutableState")
 @Composable
 internal fun SetCharacterScreen(
-    navigateToHome: () -> Unit
+    navigateToHome: () -> Unit,
+    viewModel: AuthViewModel,
 ) {
     val showDialog = mutableStateOf(false)
 
@@ -108,10 +110,16 @@ internal fun SetCharacterScreen(
 
 @Composable
 fun ShowSetCharacterPager() {
-    val imageSize = 5
+    val imageSize = 3
     val pagerState = rememberPagerState(pageCount = { imageSize })
     val coroutineScope = rememberCoroutineScope()
 
+    //가짜 데이터
+    val imageResourceIds = listOf(
+        R.drawable.ic_auth_logo,
+        R.drawable.ic_auth_google_logo,
+        R.drawable.ic_auth_kakao_logo
+    )
     Row(
         modifier = Modifier
             .padding(horizontal = 18.dp)
@@ -140,8 +148,10 @@ fun ShowSetCharacterPager() {
                 .height(250.dp),
             state = pagerState
         ) { page ->
-            Text(
-                text = "page: $page",
+            val image: Painter = painterResource(id = imageResourceIds[page])
+            Image(
+                painter = image,
+                contentDescription = null,
             )
         }
         Spacer(modifier = Modifier.weight(1f))
