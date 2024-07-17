@@ -2,6 +2,7 @@ package com.teamoffroad.feature.home.presentation.component.character
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,7 +20,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -84,14 +84,13 @@ class CharacterItem {
     fun EmblemNameText(
         context: Context,
         modifier: Modifier = Modifier,
-        emblem: String
     ) {
         val viewModel: HomeViewModel = hiltViewModel()
         val emblemState = viewModel.patchEmblemState.collectAsState(initial = UiState.Loading).value
+        val selectedEmblem = viewModel.selectedEmblem.collectAsState().value
         val customTitleDialogStateModel = remember { mutableStateOf<CustomTitleDialogStateModel?>(null) }
 
         val showDialog = mutableStateOf(false)
-        val selectedCharacter = remember { mutableStateOf(Emblem("", emblem)) }
 
         when(emblemState) {
             is UiState.Success -> null
@@ -112,7 +111,7 @@ class CharacterItem {
                 contentAlignment = Alignment.CenterEnd
             ) {
                 OffroadTagItem(
-                    text = selectedCharacter.value.emblemName,
+                    text = selectedEmblem,
                     textColor = White,
                     style = OffroadTheme.typography.subtitle2Semibold,
                     backgroundColor = Sub
@@ -137,7 +136,6 @@ class CharacterItem {
                             onCharacterChange = { emblem ->
                                 if (emblem != null) {
                                     viewModel.patchEmblem(emblem)
-                                    selectedCharacter.value = emblem
                                 }
                             }
                         )

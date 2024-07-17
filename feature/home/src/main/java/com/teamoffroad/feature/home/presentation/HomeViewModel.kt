@@ -1,6 +1,7 @@
 package com.teamoffroad.feature.home.presentation
 
 import android.util.Log
+import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.home.domain.model.Emblem
@@ -10,6 +11,7 @@ import com.teamoffroad.feature.home.domain.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,6 +21,9 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
     private val _getUsersAdventuresInformationsState = MutableStateFlow<UiState<UsersAdventuresInformations>>(UiState.Loading)
     val getUsersAdventuresInformationsState = _getUsersAdventuresInformationsState.asStateFlow()
+
+    private val _selectedEmblem = MutableStateFlow("")
+    val selectedEmblem = _selectedEmblem.asStateFlow()
 
     private val _getEmblemsState = MutableStateFlow<UiState<List<Emblem>>>(UiState.Loading)
     val getEmblemsState = _getEmblemsState.asStateFlow()
@@ -35,11 +40,16 @@ class HomeViewModel @Inject constructor(
                 userRepository.getUsersAdventuresInformations(category)
             }.onSuccess { state ->
                 _getUsersAdventuresInformationsState.emit(UiState.Success(state))
+                updateSelectedEmblem(state.emblemName)
             }.onFailure { t ->
                 val errorMessage = getErrorMessage(t)
                 _getUsersAdventuresInformationsState.emit(UiState.Failure(errorMessage))
             }
         }
+    }
+
+    fun updateSelectedEmblem(emblemName: String) {
+        _selectedEmblem.value = emblemName
     }
 
     fun getEmblems() {
@@ -61,6 +71,7 @@ class HomeViewModel @Inject constructor(
                 userRepository.patchEmblem(emblem.emblemCode)
             }.onSuccess { state ->
                 _patchEmblemState.emit(UiState.Success(state))
+                updateSelectedEmblem(emblem.emblemName)
             }.onFailure { t ->
                 val errorMessage = getErrorMessage(t)
                 _patchEmblemState.emit(UiState.Failure(errorMessage))

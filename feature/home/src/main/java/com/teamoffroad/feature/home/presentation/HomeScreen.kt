@@ -98,7 +98,7 @@ private fun UsersAdventuresInformation(
 
         Column {
             NicknameText(adventuresInformationsData?.nickname ?: "")
-            CharacterItem().CharacterNameText(adventuresInformationsData?.emblemName ?: "")
+            CharacterItem().CharacterNameText(adventuresInformationsData?.characterName ?: "")
         }
         Box(
             modifier = Modifier.fillMaxWidth(),
@@ -121,7 +121,7 @@ private fun UsersAdventuresInformation(
         }
     }
     Spacer(modifier = Modifier.padding(18.dp))
-    CharacterItem().EmblemNameText(context, Modifier, adventuresInformationsData?.emblemName ?: "")
+    CharacterItem().EmblemNameText(context, Modifier)
 }
 
 @Composable
