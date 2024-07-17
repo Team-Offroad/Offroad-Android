@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.edit
 import com.teamoffroad.feature.auth.data.mapper.toDomain
 import com.teamoffroad.feature.auth.data.remote.request.SignInInfoRequestDto
 import com.teamoffroad.feature.auth.data.remote.service.AuthService
+import com.teamoffroad.feature.auth.domain.model.Character
 import com.teamoffroad.feature.auth.domain.model.SignInInfo
 import com.teamoffroad.feature.auth.domain.model.UserToken
 import com.teamoffroad.feature.auth.domain.repository.AuthRepository
@@ -50,6 +51,11 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun getDuplicateNickname(nickname: String): Boolean =
         authService.getDuplicateNickname(nickname).data?.isDuplicate ?: false
 
+    override suspend fun getCharacters(): List<Character> {
+        return authService.getCharacters().data?.characters?.map {
+            it.toDomain()
+        } ?: emptyList()
+    }
 
     companion object {
         private val AUTO_LOGIN_KEY = booleanPreferencesKey("auto_login")

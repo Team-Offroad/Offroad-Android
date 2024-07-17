@@ -36,13 +36,14 @@ import com.teamoffroad.feature.auth.presentation.component.OnboardingButton
 internal fun SetNicknameScreen(
     padding: PaddingValues,
     navigateToSetBirthDate: () -> Unit,
-    viewModel: OnboardingViewModel
+    viewModel: OnboardingViewModel,
 ) {
     val focusManager = LocalFocusManager.current
     val focusRequester by remember { mutableStateOf(FocusRequester()) }
 
     var text by remember { mutableStateOf("") }
     val isNicknameValid by viewModel.isNicknameValid.collectAsState()
+    navigateToSetBirthDate()
 
     Surface(
         modifier = Modifier
