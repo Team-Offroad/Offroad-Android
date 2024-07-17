@@ -1,6 +1,7 @@
 package com.teamoffroad.feature.auth.data.remote.service
 
 import com.teamoffroad.core.common.data.remote.response.BaseResponse
+import com.teamoffroad.feature.auth.data.remote.request.ProfileUpdateRequestDto
 import com.teamoffroad.feature.auth.data.remote.request.SignInInfoRequestDto
 import com.teamoffroad.feature.auth.data.remote.response.CharactersResponseDto
 import com.teamoffroad.feature.auth.data.remote.response.DuplicateNicknameResponseDto
@@ -8,6 +9,7 @@ import com.teamoffroad.feature.auth.data.remote.response.SettingCharacterRespons
 import com.teamoffroad.feature.auth.data.remote.response.SignInInfoResponseDto
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -31,4 +33,10 @@ interface AuthService {
     suspend fun setCharacter(
         @Path("characterId") characterId: Int,
     ): BaseResponse<SettingCharacterResponseDto>
+
+    @PATCH("/users/profiles")
+    suspend fun patchUserProfile(
+        @Body() request: ProfileUpdateRequestDto
+    ): BaseResponse<String>
+
 }

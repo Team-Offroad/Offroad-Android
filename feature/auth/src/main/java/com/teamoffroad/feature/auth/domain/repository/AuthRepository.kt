@@ -3,6 +3,7 @@ package com.teamoffroad.feature.auth.domain.repository
 import com.teamoffroad.feature.auth.domain.model.Character
 import com.teamoffroad.feature.auth.domain.model.SignInInfo
 import com.teamoffroad.feature.auth.domain.model.UserToken
+import com.teamoffroad.feature.auth.domain.model.UserProfile
 import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
@@ -13,4 +14,5 @@ interface AuthRepository {
     suspend fun getDuplicateNickname(nickname: String): Boolean
     suspend fun getCharacters(): List<Character>
     suspend fun setCharacter(characterId: Int): String
+    suspend fun patchUserProfile(userProfile: UserProfile)
 }

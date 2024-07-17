@@ -6,10 +6,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 internal fun SetGenderRoute(
     navigateToSetCharacter: () -> Unit,
-    onboardingViewModel: OnboardingViewModel = hiltViewModel()
+    setGenderViewModel: SetGenderViewModel = hiltViewModel()
 ) {
     SetGenderScreen(
         navigateToSetCharacter = navigateToSetCharacter,
-        viewModel = onboardingViewModel,
+        viewModel = setGenderViewModel,
     )
 }
