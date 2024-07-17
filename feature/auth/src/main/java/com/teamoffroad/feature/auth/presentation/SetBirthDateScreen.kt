@@ -1,5 +1,7 @@
 package com.teamoffroad.feature.auth.presentation
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,7 +14,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,18 +33,18 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.auth.presentation.component.NicknameTextField
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 internal fun SetBirthDateScreen(
     navigateToSetGender: () -> Unit,
-    viewModel: OnboardingViewModel
+    viewModel: SetBirthDateViewModel
 ) {
     val focusManager = LocalFocusManager.current
     val focusRequester by remember { mutableStateOf(FocusRequester()) }
-    val isNicknameValid by viewModel.isNicknameValid.collectAsState()
+
     var year by remember { mutableStateOf("") }
     var month by remember { mutableStateOf("") }
     var day by remember { mutableStateOf("") }
-
 
     Surface(
         modifier = Modifier
@@ -101,7 +102,10 @@ internal fun SetBirthDateScreen(
                 NicknameTextField(
                     value = year,
                     placeholder = "YYYY",
-                    onValueChange = { year = it },
+                    onValueChange = {
+                        year = it
+                        viewModel.updateCheckedYear(year)
+                    },
                     textAlign = Alignment.Center,
                     modifier = Modifier
                         .width(84.dp)
@@ -119,7 +123,10 @@ internal fun SetBirthDateScreen(
                         .height(43.dp),
                     placeholder = "MM",
                     value = month,
-                    onValueChange = { month = it },
+                    onValueChange = {
+                        month = it
+                        viewModel.updateCheckedMonth(month)
+                    },
                     textAlign = Alignment.Center,
                 )
                 Text(
@@ -134,7 +141,10 @@ internal fun SetBirthDateScreen(
                         .height(43.dp),
                     value = day,
                     placeholder = "DD",
-                    onValueChange = { day = it },
+                    onValueChange = {
+                        day = it
+                        viewModel.updateCheckedDate(day)
+                    },
                     textAlign = Alignment.Center,
                 )
                 Text(

@@ -46,6 +46,6 @@ fun DialogChangeButton(
             .clickableWithoutRipple(
                 interactionSource = interactionSource,
                 onClick = { onItemClick() }
-            )
+            ),
     )
 }

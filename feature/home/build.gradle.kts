@@ -13,4 +13,6 @@ dependencies {
     implementation(libs.retrofit.kotlinx.serialization)
     implementation(libs.androidx.appcompat)
     implementation(libs.google.accompanist.permissions)
+    implementation(libs.gson)
+
 }

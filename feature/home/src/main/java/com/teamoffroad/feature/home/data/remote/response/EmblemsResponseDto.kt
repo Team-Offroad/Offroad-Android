@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.home.data.remote.response.emblem
+package com.teamoffroad.feature.home.data.remote.response
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

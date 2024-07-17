@@ -2,6 +2,7 @@ package com.teamoffroad.feature.home
 
 import android.content.Context
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -16,6 +17,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -23,8 +26,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
+import com.teamoffroad.feature.home.domain.model.UserQuests
+import com.teamoffroad.feature.home.presentation.HomeViewModel
+import com.teamoffroad.feature.home.presentation.UiState
 import com.teamoffroad.feature.home.presentation.component.HomeIcons
 import com.teamoffroad.feature.home.presentation.component.character.CharacterItem
 import com.teamoffroad.feature.home.presentation.component.quest.progressbar.CloseCompleteRequest
@@ -39,6 +46,12 @@ internal fun HomeScreen(
     padding: PaddingValues,
 ) {
     val context = LocalContext.current
+    val viewModel: HomeViewModel = hiltViewModel()
+
+    LaunchedEffect(Unit) {
+        viewModel.getUsersAdventuresInformations("None")
+        viewModel.getUserQuests()
+    }
 
     Surface(
         modifier = Modifier
@@ -48,9 +61,13 @@ internal fun HomeScreen(
         color = Main1
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
-            UsersAdventuresInformation(context = context, modifier = Modifier.weight(1f))
+            UsersAdventuresInformation(
+                context = context,
+                modifier = Modifier.weight(1f),
+                viewModel = viewModel,
+            )
             Spacer(modifier = Modifier.padding(top = 12.dp))
-            UsersQuestInformation()
+            UsersQuestInformation(context, viewModel)
             Spacer(modifier = Modifier.padding(top = 34.dp))
         }
     }
@@ -61,16 +78,27 @@ internal fun HomeScreen(
 private fun UsersAdventuresInformation(
     context: Context,
     modifier: Modifier = Modifier,
+    viewModel: HomeViewModel,
 ) {
+    val adventuresInformationsState = viewModel.getUsersAdventuresInformationsState.collectAsState(initial = UiState.Loading).value
+
+    val adventuresInformationsData = when(adventuresInformationsState) {
+        is UiState.Success -> adventuresInformationsState.data
+        is UiState.Failure -> {
+            Toast.makeText(context, adventuresInformationsState.errorMessage, Toast.LENGTH_SHORT).show()
+            null
+        }
+        else -> null
+    }
+
     Box(
         modifier = modifier.fillMaxWidth()
     ) {
-        val imageUrl =
-            "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MThfMTI5%2FMDAxNzE4NzAwMDc3NDU5.aKzepvLVpANcA_ADj_iPwrCReF3JtmKBrUTfuO2i2e8g.gWSssQEsdKMzp2SMcxWte5v9KB-S9VeyZ7TzERECYVEg.JPEG%2FCK_cm26006990.jpg&type=a340"
+        val imageUrl = adventuresInformationsData?.characterImageUrl ?: ""
 
         Column {
-            NicknameText("비포장도로")
-            CharacterItem().CharacterNameText("오푸")
+            NicknameText(adventuresInformationsData?.nickname ?: "")
+            CharacterItem().CharacterNameText(adventuresInformationsData?.emblemName ?: "")
         }
         Box(
             modifier = Modifier.fillMaxWidth(),
@@ -79,7 +107,7 @@ private fun UsersAdventuresInformation(
             HomeBackground()
             HomeIcons(
                 context = context,
-                url = imageUrl
+                imageUrl = imageUrl
             )
         }
 
@@ -89,11 +117,11 @@ private fun UsersAdventuresInformation(
                 //.fillMaxHeight()
                 .align(Alignment.BottomCenter)
         ) {
-            CharacterItem().CharacterImage()
+            CharacterItem().CharacterImage(imageUrl)
         }
     }
     Spacer(modifier = Modifier.padding(18.dp))
-    CharacterItem().EmblemNameText(context, Modifier)
+    CharacterItem().EmblemNameText(context, Modifier, adventuresInformationsData?.emblemName ?: "")
 }
 
 @Composable
@@ -105,7 +133,29 @@ private fun HomeBackground() {
 }
 
 @Composable
-private fun UsersQuestInformation() {
+private fun UsersQuestInformation(
+    context: Context,
+    viewModel: HomeViewModel
+) {
+    val userQuestsState =
+        viewModel.getUserQuestsState.collectAsState(initial = UiState.Loading).value
+
+    val userQuests = when (userQuestsState) {
+        is UiState.Success -> {
+            userQuestsState.data
+        }
+
+        is UiState.Failure -> {
+            Toast.makeText(context, userQuestsState.errorMessage, Toast.LENGTH_SHORT).show()
+            null
+        }
+
+        else -> null
+    }
+
+    val recentQuest = userQuests?.userRecent ?: UserQuests.UserRecent()
+    val almostQuest = userQuests?.userAlmost ?: UserQuests.UserAlmost()
+
     Row(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -113,14 +163,14 @@ private fun UsersQuestInformation() {
         RecentQuest(
             modifier = Modifier.weight(1f),
             data = HomeProgressBarModel(
-                stringResource(id = R.string.home_recent_quest_title), 3, 4, "홍대입구 한바퀴"
+                stringResource(id = R.string.home_recent_quest_title), recentQuest.progress, recentQuest.completeCondition, recentQuest.questName
             )
         )
         Spacer(modifier = Modifier.padding(start = 12.dp))
         CloseCompleteRequest(
             modifier = Modifier.weight(1f),
             data = HomeProgressBarModel(
-                stringResource(id = R.string.home_close_complete_quest_title), 7, 8, "도심 속 공원 탐방"
+                stringResource(id = R.string.home_close_complete_quest_title), almostQuest.progress, almostQuest.completeCondition, almostQuest.questName
             )
         )
         Spacer(modifier = Modifier.padding(end = 24.dp))

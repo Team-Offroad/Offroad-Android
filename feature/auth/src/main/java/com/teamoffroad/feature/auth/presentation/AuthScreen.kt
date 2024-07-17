@@ -34,11 +34,13 @@ import com.teamoffroad.offroad.feature.auth.R
 
 @Composable
 internal fun AuthScreen(
+    navigateToHome: () -> Unit,
     navigateToSetNickname: () -> Unit,
     viewModel: AuthViewModel = hiltViewModel(),
 ) {
     val isSignInSuccess by viewModel.successSignIn.collectAsStateWithLifecycle()
     val isAutoSignIn by viewModel.autoSignIn.collectAsStateWithLifecycle()
+    val isAlreadyExist by viewModel.alreadyExist.collectAsStateWithLifecycle()
 
     val signInLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
@@ -51,7 +53,8 @@ internal fun AuthScreen(
     viewModel.checkAutoSignIn()
 
     LaunchedEffect(isSignInSuccess) {
-        if (isSignInSuccess) navigateToSetNickname()
+        if (isSignInSuccess && !isAlreadyExist) navigateToSetNickname()
+        if (isSignInSuccess && isAlreadyExist) navigateToHome()
     }
     LaunchedEffect(isAutoSignIn) {
         if (isAutoSignIn) signInLauncher.launch(viewModel.googleSignInClient.signInIntent)

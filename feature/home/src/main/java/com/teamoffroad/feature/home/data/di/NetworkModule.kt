@@ -1,9 +1,7 @@
 package com.teamoffroad.feature.home.data.di
 
 import com.teamoffroad.feature.home.data.remote.service.DummyUserService
-import com.teamoffroad.feature.home.data.remote.service.EmblemService
-import com.teamoffroad.feature.home.domain.repository.EmblemRepository
-import dagger.Binds
+import com.teamoffroad.feature.home.data.remote.service.UserService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,7 +21,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideEmblemService(retrofit: Retrofit): EmblemService {
-        return retrofit.create(EmblemService::class.java)
+    fun provideEmblemService(retrofit: Retrofit): UserService {
+        return retrofit.create(UserService::class.java)
     }
 }

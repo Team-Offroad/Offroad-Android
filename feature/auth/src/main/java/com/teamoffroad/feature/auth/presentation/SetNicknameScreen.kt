@@ -36,13 +36,13 @@ import com.teamoffroad.feature.auth.presentation.component.OnboardingButton
 internal fun SetNicknameScreen(
     padding: PaddingValues,
     navigateToSetBirthDate: () -> Unit,
-    viewModel: OnboardingViewModel
+    viewModel: OnboardingViewModel,
 ) {
     val focusManager = LocalFocusManager.current
     val focusRequester by remember { mutableStateOf(FocusRequester()) }
 
     var text by remember { mutableStateOf("") }
-    val isNicknameValid by viewModel.isNicknameValid.collectAsState()
+    val isNicknameState by viewModel.isNicknameState.collectAsState()
 
     Surface(
         modifier = Modifier
@@ -88,7 +88,7 @@ internal fun SetNicknameScreen(
                             .width(82.dp)
                             .height(42.dp),
                         nickname = text,
-                        onButtonClick = viewModel::updateNicknameValid,
+                        onButtonClick = viewModel::getDuplicateNickname,
                     )
                 }
                 Spacer(modifier = Modifier.padding(vertical = 6.dp))
@@ -98,13 +98,15 @@ internal fun SetNicknameScreen(
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
-            //키패드 돋보기or다음 누르면 키패드내려가게?
             OffroadBasicBtn(
                 modifier = Modifier
                     .width(312.dp)
                     .height(50.dp),
-                onClick = navigateToSetBirthDate,
-                isActive = isNicknameValid,
+                onClick = {
+                    navigateToSetBirthDate()
+                    viewModel.updateNicknameValid(text)
+                },
+                isActive = isNicknameState,
                 text = "다음"
             )
             Spacer(modifier = Modifier.height(24.dp))
