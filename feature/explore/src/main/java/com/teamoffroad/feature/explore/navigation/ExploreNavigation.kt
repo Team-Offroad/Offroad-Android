@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.explore.navigation
 
+import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
@@ -13,6 +14,9 @@ import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.feature.explore.presentation.ExploreCameraScreen
 import com.teamoffroad.feature.explore.presentation.ExploreScreen
 import com.teamoffroad.feature.explore.presentation.model.ExploreCameraUiState
+import java.net.URLDecoder
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 fun NavController.navigateExplore(errorType: String, successImageUrl: String, navOptions: NavOptions) {
     val cameraNavOptions by lazy {
@@ -24,7 +28,9 @@ fun NavController.navigateExplore(errorType: String, successImageUrl: String, na
             restoreState = true
         }
     }
-    val route = "${MainTabRoute.Explore}/$errorType/$successImageUrl"
+    val encodedUrl = URLEncoder.encode(successImageUrl, StandardCharsets.UTF_8.toString())
+    val route = "${MainTabRoute.Explore}/$errorType/$encodedUrl"
+    Log.e("123123412341243", "navigateExplore: $route")
     navigate(route, cameraNavOptions)
 }
 
@@ -47,7 +53,9 @@ fun NavGraphBuilder.exploreNavGraph(
         )
     ) { backStackEntry ->
         val errorType = backStackEntry.arguments?.getString("errorType") ?: ExploreCameraUiState.None.toString()
-        val successImageUrl = backStackEntry.arguments?.getString("successImageUrl") ?: "None"
+        val encodedUrl = backStackEntry.arguments?.getString("successImageUrl") ?: "None"
+        val successImageUrl = URLDecoder.decode(encodedUrl, StandardCharsets.UTF_8.toString())
+        Log.e("12312321412", "exploreNavGraph: $errorType, $successImageUrl")
         ExploreScreen(errorType, successImageUrl, navigateToHome, navigateToExploreCameraScreen)
     }
 

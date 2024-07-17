@@ -26,12 +26,13 @@ class ExploreCameraViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching {
                 postExploreAuthUseCase.invoke(placeId, qr, latitude, longitude)
-            }.onSuccess {
-                when (it) {
+            }.onSuccess { exploreResult ->
+                when (exploreResult.isQRMatched) {
                     true -> {
                         _uiState.value = ExploreCameraUiState.Success
-                        _successImageUrl.value = "https://github.com/user-attachments/assets/a5895ae1-f76d-4903-8c6d-b7fac8ccabc5"
+                        _successImageUrl.value = exploreResult.characterImageUrl
                     }
+
                     false -> _uiState.value = ExploreCameraUiState.CodeError
                 }
             }.onFailure {

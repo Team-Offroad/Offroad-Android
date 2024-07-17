@@ -3,6 +3,7 @@ package com.teamoffroad.feature.explore.presentation
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.util.Log
 import android.view.Gravity
 import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
@@ -80,13 +81,13 @@ internal fun ExploreScreen(
     val uiState: ExploreUiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
+    LaunchedEffect(errorType) {
+        viewModel.updateExploreCameraUiState(uiState.getExploreCameraUiState(errorType))
+    }
+
     if (!uiState.loading && uiState.places.isEmpty()) viewModel.updatePlaces()
     if (uiState.isUpdatePlacesFailed) {
         Toast.makeText(context, stringResource(R.string.explore_places_failed), Toast.LENGTH_SHORT).show()
-    }
-
-    if (errorType != ExploreCameraUiState.None.toString() && uiState.errorType != ExploreCameraUiState.None) {
-        viewModel.updateExploreCameraUiState(uiState.getExploreCameraUiState(errorType))
     }
 
     ExploreCameraUiStateHandler(uiState, viewModel::updateExploreCameraUiState, successImageUrl, navigateToHome)
@@ -129,6 +130,7 @@ private fun ExploreCameraUiStateHandler(
     successImageUrl: String,
     navigateToHome: () -> Unit,
 ) {
+    Log.e("dsfjnaksfjklwae", "ExploreCameraUiStateHandler: ${uiState.errorType}")
     when (uiState.errorType) {
         ExploreCameraUiState.LocationError -> {
             ExploreResultDialog(
@@ -159,7 +161,7 @@ private fun ExploreCameraUiStateHandler(
 
         ExploreCameraUiState.Success -> {
             ExploreResultDialog(
-                errorType = ExploreCameraUiState.LocationError,
+                errorType = ExploreCameraUiState.Success,
                 text = stringResource(R.string.explore_dialog_success),
                 content = { ExploreSuccessDialogContent(url = successImageUrl) },
                 onDismissRequest = navigateToHome
