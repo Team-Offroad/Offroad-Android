@@ -7,6 +7,8 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.teamoffroad.core.designsystem.component.OffroadTagItem
+import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Black15
 import com.teamoffroad.core.designsystem.theme.CharacterName
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -88,59 +91,59 @@ class CharacterItem {
         val viewModel: HomeViewModel = hiltViewModel()
         val emblemState = viewModel.patchEmblemState.collectAsState(initial = UiState.Loading).value
         val selectedEmblem = viewModel.selectedEmblem.collectAsState().value
-        val customTitleDialogStateModel = remember { mutableStateOf<CustomTitleDialogStateModel?>(null) }
+        val customTitleDialogStateModel =
+            remember { mutableStateOf<CustomTitleDialogStateModel?>(null) }
+        val interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 
-        val showDialog = mutableStateOf(false)
+        val showDialog = remember { mutableStateOf(false) }
 
-        when(emblemState) {
+        when (emblemState) {
             is UiState.Success -> null
             is UiState.Failure -> {
                 Toast.makeText(context, emblemState.errorMessage, Toast.LENGTH_SHORT).show()
                 null
             }
+
             else -> null
         }
 
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = modifier
                 .padding(horizontal = 24.dp)
+                .fillMaxWidth(),
+            contentAlignment = Alignment.CenterEnd
         ) {
-            Box(
-                modifier = modifier.fillMaxWidth(),
-                contentAlignment = Alignment.CenterEnd
-            ) {
-                OffroadTagItem(
-                    text = selectedEmblem,
-                    textColor = White,
-                    style = OffroadTheme.typography.subtitle2Semibold,
-                    backgroundColor = Sub
-                )
-                IconButton(
-                    onClick = {
+            OffroadTagItem(
+                text = selectedEmblem,
+                textColor = White,
+                style = OffroadTheme.typography.subtitle2Semibold,
+                backgroundColor = Sub
+            )
+            Image(
+                painter = painterResource(id = R.drawable.ic_home_change_title),
+                contentDescription = "change title",
+                modifier = Modifier
+                    .padding(top = 4.dp, bottom = 4.dp, end = 6.dp)
+                    .clickableWithoutRipple(
+                        interactionSource
+                    ) {
                         showDialog.value = true
                     }
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_home_change_title),
-                        contentDescription = "change title",
-                    )
-                    if (showDialog.value) {
-                        OffroadDialog(
-                            showDialog,
-                            customTitleDialogStateModel,
-                            onClickCancel = {
-                                showDialog.value = false
-                                customTitleDialogStateModel.value?.onClickCancel
-                            },
-                            onCharacterChange = { emblem ->
-                                if (emblem != null) {
-                                    viewModel.patchEmblem(emblem)
-                                }
-                            }
-                        )
+            )
+            if (showDialog.value) {
+                OffroadDialog(
+                    showDialog,
+                    customTitleDialogStateModel,
+                    onClickCancel = {
+                        showDialog.value = false
+                        customTitleDialogStateModel.value?.onClickCancel
+                    },
+                    onCharacterChange = { emblem ->
+                        if (emblem != null) {
+                            viewModel.patchEmblem(emblem)
+                        }
                     }
-                }
+                )
             }
         }
     }
