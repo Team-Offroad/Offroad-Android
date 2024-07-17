@@ -15,4 +15,6 @@
     <string name="explore_camera_location_failed">탐험에 실패했어요.\n위치를 다시 한 번 확인해 주세요.</string>
     <string name="explore_camera_code_failed">탐험에 실패했어요.\nQR코드를 다시 한번 확인해 주세요.</string>
     <string name="explore_camera_etc_failed">알 수 없는 오류가 발생했어요.</string>
+    <string name="explore_dialog_success">탐험 성공</string>
+    <string name="explore_dialog_failed">탐험 실패</string>
 </resources>

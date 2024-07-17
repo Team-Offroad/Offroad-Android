@@ -104,31 +104,33 @@ internal fun ExploreScreen(
         ExploreCameraUiState.LocationError.toString() -> {
             ExploreResultDialog(
                 errorType = ExploreCameraUiState.CodeError,
-                content = { ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_location)) }) {
-                navigateToHome()
-            }
+                content = { ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_location)) },
+                onDismissRequest = {}
+            )
         }
 
         ExploreCameraUiState.CodeError.toString() -> {
             ExploreResultDialog(
                 errorType = ExploreCameraUiState.CodeError,
-                content = { ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_code)) }) {
-                navigateToHome()
-            }
+                content = { ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_code)) },
+                onDismissRequest = {}
+            )
         }
 
         ExploreCameraUiState.EtcError.toString() -> {
             ExploreResultDialog(
                 errorType = ExploreCameraUiState.EtcError,
-                content = { ExploreFailedDialogContent(painter = null) }) {
-                navigateToHome()
-            }
+                content = { ExploreFailedDialogContent(painter = null) },
+                onDismissRequest = {}
+            )
         }
 
         ExploreCameraUiState.Success.toString() -> {
-            ExploreResultDialog(errorType = ExploreCameraUiState.LocationError, content = { ExploreSuccessDialogContent(url = successImageUrl) }) {
-                navigateToHome()
-            }
+            ExploreResultDialog(
+                errorType = ExploreCameraUiState.LocationError,
+                content = { ExploreSuccessDialogContent(url = successImageUrl) },
+                onDismissRequest = navigateToHome
+            )
         }
     }
 
@@ -441,9 +443,9 @@ fun ExploreResultDialog(
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = if (errorType == ExploreCameraUiState.Success) {
-                        "탐험 성공"
+                        stringResource(R.string.explore_dialog_success)
                     } else {
-                        "탐험 실패"
+                        stringResource(R.string.explore_dialog_failed)
                     },
                     style = OffroadTheme.typography.title,
                     color = Main2,
