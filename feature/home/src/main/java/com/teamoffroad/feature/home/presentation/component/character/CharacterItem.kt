@@ -2,6 +2,7 @@ package com.teamoffroad.feature.home.presentation.component.character
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,7 +15,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -24,6 +27,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieAnimatable
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.teamoffroad.core.designsystem.component.OffroadTagItem
 import com.teamoffroad.core.designsystem.theme.Black15
 import com.teamoffroad.core.designsystem.theme.CharacterName
@@ -38,7 +47,6 @@ import com.teamoffroad.feature.home.presentation.model.CustomTitleDialogStateMod
 import com.teamoffroad.offroad.feature.home.R
 
 class CharacterItem {
-
     @Composable
     fun CharacterImage(
         imageUrl: String
@@ -49,10 +57,29 @@ class CharacterItem {
                 .padding(top = 90.dp),
             contentAlignment = Alignment.Center
         ) {
-            AsyncImage(
-                model = imageUrl,
-                contentDescription = "explorer",
-                modifier = Modifier.fillMaxSize()
+            val composition by rememberLottieComposition(
+                spec = LottieCompositionSpec.Url(imageUrl)
+            )
+
+            val progress by animateLottieCompositionAsState(
+                composition = composition,
+                iterations = 5 // 반복 횟수
+            )
+
+            val lottieAnimatable = rememberLottieAnimatable()
+
+            LaunchedEffect(composition) {
+                lottieAnimatable.animate(
+                    composition = composition,
+                    initialProgress = 0f
+                )
+            }
+
+            LottieAnimation(
+                composition = composition,
+                progress = progress,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.FillHeight
             )
         }
     }
@@ -88,17 +115,19 @@ class CharacterItem {
     ) {
         val viewModel: HomeViewModel = hiltViewModel()
         val emblemState = viewModel.patchEmblemState.collectAsState(initial = UiState.Loading).value
-        val customTitleDialogStateModel = remember { mutableStateOf<CustomTitleDialogStateModel?>(null) }
+        val customTitleDialogStateModel =
+            remember { mutableStateOf<CustomTitleDialogStateModel?>(null) }
 
         val showDialog = mutableStateOf(false)
         val selectedCharacter = remember { mutableStateOf(Emblem("", emblem)) }
 
-        when(emblemState) {
+        when (emblemState) {
             is UiState.Success -> null
             is UiState.Failure -> {
                 Toast.makeText(context, emblemState.errorMessage, Toast.LENGTH_SHORT).show()
                 null
             }
+
             else -> null
         }
 

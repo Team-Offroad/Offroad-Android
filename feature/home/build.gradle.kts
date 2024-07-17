@@ -14,5 +14,5 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.google.accompanist.permissions)
     implementation(libs.gson)
-
+    implementation(libs.lottie.compose)
 }
