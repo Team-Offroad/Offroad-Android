@@ -101,7 +101,10 @@ internal fun SetBirthDateScreen(
                 NicknameTextField(
                     value = year,
                     placeholder = "YYYY",
-                    onValueChange = { year = it },
+                    onValueChange = {
+                        year = it
+                        viewModel.updateCheckedYear(year)
+                    },
                     textAlign = Alignment.Center,
                     modifier = Modifier
                         .width(84.dp)
@@ -119,7 +122,10 @@ internal fun SetBirthDateScreen(
                         .height(43.dp),
                     placeholder = "MM",
                     value = month,
-                    onValueChange = { month = it },
+                    onValueChange = {
+                        month = it
+                        viewModel.updateCheckedMonth(month)
+                    },
                     textAlign = Alignment.Center,
                 )
                 Text(
@@ -134,7 +140,10 @@ internal fun SetBirthDateScreen(
                         .height(43.dp),
                     value = day,
                     placeholder = "DD",
-                    onValueChange = { day = it },
+                    onValueChange = {
+                        day = it
+                        viewModel.updateCheckedDate(day)
+                    },
                     textAlign = Alignment.Center,
                 )
                 Text(
