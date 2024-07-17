@@ -38,7 +38,9 @@ internal fun MainNavHost(
             )
             exploreNavGraph(
                 navigateToHome = { navigator.navigateToHome() },
-                navigateToExplore = { navigator.navigateToExplore() },
+                navigateToExplore = { errorType ->
+                    navigator.navigateToExplore(errorType)
+                },
                 navigateToExploreCameraScreen = { placeId, latitude, longitude ->
                     navigator.navigateToExploreCameraScreen(placeId, latitude, longitude)
                 }

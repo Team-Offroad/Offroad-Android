@@ -8,18 +8,25 @@ import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -28,16 +35,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -53,7 +65,10 @@ import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberFusedLocationSource
 import com.naver.maps.map.overlay.OverlayImage
 import com.teamoffroad.core.designsystem.theme.Black
+import com.teamoffroad.core.designsystem.theme.Main2
+import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub2
+import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.explore.presentation.component.ExploreAppBar
 import com.teamoffroad.feature.explore.presentation.component.ExploreInfoWindow
 import com.teamoffroad.feature.explore.presentation.component.ExploreMapBottomButton
@@ -68,6 +83,7 @@ import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 internal fun ExploreScreen(
+    errorType: String,
     navigateToHome: () -> Unit,
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
     viewModel: ExploreViewModel = hiltViewModel(),
@@ -79,17 +95,24 @@ internal fun ExploreScreen(
     if (uiState.isUpdatePlacesFailed) {
         Toast.makeText(context, stringResource(R.string.explore_places_failed), Toast.LENGTH_SHORT).show()
     }
-    when ("cameraErrorType") {
+
+    when (errorType) {
         ExploreCameraUiState.LocationError.toString() -> {
-            Toast.makeText(context, stringResource(R.string.explore_camera_location_failed), Toast.LENGTH_SHORT).show()
+            ExploreResultDialog(errorType = ExploreCameraUiState.LocationError) {
+                navigateToHome()
+            }
         }
 
         ExploreCameraUiState.CodeError.toString() -> {
-            Toast.makeText(context, stringResource(R.string.explore_camera_code_failed), Toast.LENGTH_SHORT).show()
+            ExploreResultDialog(errorType = ExploreCameraUiState.CodeError) {
+                navigateToHome()
+            }
         }
 
         ExploreCameraUiState.EtcError.toString() -> {
-            Toast.makeText(context, stringResource(R.string.explore_camera_etc_failed), Toast.LENGTH_SHORT).show()
+            ExploreResultDialog(errorType = ExploreCameraUiState.EtcError) {
+                navigateToHome()
+            }
         }
     }
 
@@ -370,4 +393,87 @@ private fun calculateMarkerOffset(location: LatLng, cameraPositionState: CameraP
             IntOffset(xOffset, yOffset)
         }
     } ?: IntOffset(0, 0)
+}
+
+@Composable
+fun ExploreResultDialog(
+    errorType: ExploreCameraUiState,
+    onDismissRequest: () -> Unit,
+) {
+    Dialog(
+        onDismissRequest = onDismissRequest,
+        properties = DialogProperties(dismissOnClickOutside = false),
+    ) {
+        Box(
+            modifier = Modifier
+                .size(320.dp, 400.dp)
+                .background(color = White, shape = RoundedCornerShape(6.dp))
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(394f / 342f)
+                    .align(Alignment.BottomCenter)
+                    .offset(y = (130).dp)
+            ) {
+                Canvas(modifier = Modifier.fillMaxSize()) {
+                    drawOval(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                Color(0x55FF8412),
+                                Color.White
+                            )
+                        )
+                    )
+                }
+            }
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp)
+            ) {
+                Spacer(modifier = Modifier.height(36.dp))
+                Text(
+                    text = if (errorType == ExploreCameraUiState.Success) {
+                        "탐험 성공"
+                    } else {
+                        "탐험 실패"
+                    },
+                    style = OffroadTheme.typography.title,
+                    color = Main2,
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = when (errorType) {
+                        ExploreCameraUiState.LocationError -> stringResource(R.string.explore_camera_location_failed)
+                        ExploreCameraUiState.CodeError -> stringResource(R.string.explore_camera_code_failed)
+                        ExploreCameraUiState.EtcError -> stringResource(R.string.explore_camera_etc_failed)
+                        else -> ""
+                    },
+                    color = Main2,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(24.dp))
+                Box(
+                    modifier = Modifier
+                        .background(
+                            color = Main2,
+                            shape = RoundedCornerShape(6.dp)
+                        )
+                        .padding(vertical = 16.dp, horizontal = 100.dp)
+                        .clickable(onClick = onDismissRequest)
+                        .fillMaxWidth()
+                ) {
+                    Text(
+                        text = "확인",
+                        style = OffroadTheme.typography.btnSmall,
+                        color = White
+                    )
+                }
+                Spacer(modifier = Modifier.height(28.dp))
+            }
+        }
+    }
 }

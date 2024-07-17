@@ -25,7 +25,7 @@ internal fun ExploreCameraScreen(
     placeId: Long,
     latitude: Double,
     longitude: Double,
-    navigateToExplore: () -> Unit,
+    navigateToExplore: (String) -> Unit,
     viewModel: ExploreCameraViewModel = hiltViewModel(),
 ) {
     val localContext = LocalContext.current
@@ -33,10 +33,10 @@ internal fun ExploreCameraScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     when (uiState) {
-        ExploreCameraUiState.Success -> navigateToExplore()
-        ExploreCameraUiState.CodeError -> navigateToExplore()
-        ExploreCameraUiState.LocationError -> navigateToExplore()
-        ExploreCameraUiState.EtcError -> navigateToExplore()
+        ExploreCameraUiState.Success -> navigateToExplore(ExploreCameraUiState.Success.toString())
+        ExploreCameraUiState.CodeError -> navigateToExplore(ExploreCameraUiState.CodeError.toString())
+        ExploreCameraUiState.LocationError -> navigateToExplore(ExploreCameraUiState.LocationError.toString())
+        ExploreCameraUiState.EtcError -> navigateToExplore(ExploreCameraUiState.EtcError.toString())
         else -> {}
     }
 
