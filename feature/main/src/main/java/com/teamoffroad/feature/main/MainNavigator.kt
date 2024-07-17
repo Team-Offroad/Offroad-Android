@@ -64,12 +64,12 @@ internal class MainNavigator(
         navController.navigateToSetNickname(navOptions)
     }
 
-    fun navigateToSetBirthDate() {
-        navController.navigateToSetBirthDate(navOptions)
+    fun navigateToSetBirthDate(nickname: String) {
+        navController.navigateToSetBirthDate(nickname, navOptions)
     }
 
-    fun navigateToSetGender() {
-        navController.navigateToSetGender(navOptions)
+    fun navigateToSetGender(nickname: String, birthDate: String?) {
+        navController.navigateToSetGender(nickname, birthDate, navOptions)
     }
 
     fun navigateToSetCharacter() {

@@ -36,7 +36,8 @@ import com.teamoffroad.feature.auth.presentation.component.NicknameTextField
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 internal fun SetBirthDateScreen(
-    navigateToSetGender: () -> Unit,
+    nickname: String,
+    navigateToSetGender: (String, String?) -> Unit,
     viewModel: SetBirthDateViewModel = hiltViewModel(),
 ) {
     val focusManager = LocalFocusManager.current
@@ -164,7 +165,14 @@ internal fun SetBirthDateScreen(
                     .width(312.dp)
                     .height(50.dp)
                     .align(Alignment.CenterHorizontally),
-                onClick = navigateToSetGender,
+                onClick = {
+                    val birthDate = if (year.isNotEmpty() && month.isNotEmpty() && day.isNotEmpty()) {
+                        "$year-$month-$day"
+                    } else {
+                        null
+                    }
+                    navigateToSetGender(nickname, birthDate)
+                },
                 isActive = true,
                 text = "다음"
             )

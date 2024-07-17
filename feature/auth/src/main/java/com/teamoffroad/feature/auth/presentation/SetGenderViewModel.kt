@@ -13,27 +13,44 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SetGenderViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
 ) : ViewModel() {
 
-    private val _isCheckedGender: MutableStateFlow<String> = MutableStateFlow("")
-    val isCheckedGender: StateFlow<String> = _isCheckedGender.asStateFlow()
+    private val _selectedGender: MutableStateFlow<String?> = MutableStateFlow(null)
+    val selectedGender: StateFlow<String?> = _selectedGender.asStateFlow()
 
     fun updateCheckedGender(gender: String) {
-        _isCheckedGender.value = gender
+        _selectedGender.value = gender
     }
 
-    fun patchUserProfile() {
-        val userProfile = UserProfile(
-            "asdasd",
-            2000,
-            2,
-            22,
-            "MALE"
-        )
+    private val _isSuccess: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isSuccess: StateFlow<Boolean> = _isSuccess.asStateFlow()
 
+    private val _isLoading: MutableStateFlow<Boolean> = MutableStateFlow(true)
+    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
+
+    private val _isError: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isError: StateFlow<Boolean> = _isError.asStateFlow()
+
+    fun fetchUserProfile(nickname: String, birthDate: String?) {
         viewModelScope.launch {
-            authRepository.patchUserProfile(userProfile)
+            runCatching {
+                authRepository.patchUserProfile(
+                    userProfile = UserProfile(
+                        nickname = nickname,
+                        year = birthDate?.split("-")?.get(0)?.toInt(),
+                        month = birthDate?.split("-")?.get(1)?.toInt(),
+                        day = birthDate?.split("-")?.get(2)?.toInt(),
+                        gender = selectedGender.value,
+                    )
+                )
+            }.onSuccess {
+                _isSuccess.value = true
+                _isLoading.value = false
+            }.onFailure {
+                _isError.value = true
+                _isLoading.value = false
+            }
         }
     }
 }

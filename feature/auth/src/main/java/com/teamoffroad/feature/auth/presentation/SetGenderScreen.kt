@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.auth.presentation
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,14 +14,16 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.OffroadBasicBtn
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -30,9 +33,16 @@ import com.teamoffroad.feature.auth.presentation.component.GenderHintButton
 
 @Composable
 internal fun SetGenderScreen(
+    nickname: String,
+    birthDate: String?,
     navigateToSetCharacter: () -> Unit,
     viewModel: SetGenderViewModel = hiltViewModel(),
 ) {
+
+    val isSuccess by viewModel.isSuccess.collectAsStateWithLifecycle()
+    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
+    val isError by viewModel.isError.collectAsStateWithLifecycle()
+
     Surface(
         modifier = Modifier
             .fillMaxSize(),
@@ -76,18 +86,21 @@ internal fun SetGenderScreen(
                     .width(312.dp)
                     .height(50.dp)
                     .align(Alignment.CenterHorizontally),
-                onClick = navigateToSetCharacter,
+                onClick = { viewModel.fetchUserProfile(nickname, birthDate) },
                 isActive = true,
                 text = "다음"
             )
             Spacer(modifier = Modifier.height(24.dp))
         }
     }
+
+    if (isSuccess) navigateToSetCharacter()
+    if (isError) Toast.makeText(LocalContext.current, "네트워크 연결을 확인해 주세요.", Toast.LENGTH_SHORT).show()
 }
 
 @Composable
 fun SetGenderButton(viewModel: SetGenderViewModel) {
-    var click by remember { mutableStateOf(0) }
+    var click by remember { mutableIntStateOf(0) }
 
     val (male, female, other) = if (click == 1) {
         Triple(true, false, false)

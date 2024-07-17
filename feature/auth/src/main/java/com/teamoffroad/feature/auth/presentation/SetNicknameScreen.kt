@@ -34,7 +34,7 @@ import com.teamoffroad.feature.auth.presentation.component.OnboardingButton
 
 @Composable
 internal fun SetNicknameScreen(
-    navigateToSetBirthDate: () -> Unit,
+    navigateToSetBirthDate: (String) -> Unit,
     viewModel: OnboardingViewModel = hiltViewModel(),
 ) {
     val focusManager = LocalFocusManager.current
@@ -102,7 +102,7 @@ internal fun SetNicknameScreen(
                     .width(312.dp)
                     .height(50.dp),
                 onClick = {
-                    navigateToSetBirthDate()
+                    navigateToSetBirthDate(text)
                     viewModel.updateNicknameValid(text)
                 },
                 isActive = isNicknameState,
