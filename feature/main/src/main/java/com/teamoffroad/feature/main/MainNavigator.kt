@@ -15,8 +15,8 @@ import com.teamoffroad.feature.auth.navigation.navigateToSetBirthDate
 import com.teamoffroad.feature.auth.navigation.navigateToSetCharacter
 import com.teamoffroad.feature.auth.navigation.navigateToSetGender
 import com.teamoffroad.feature.auth.navigation.navigateToSetNickname
-import com.teamoffroad.feature.explore.presentation.navigation.navigateExplore
-import com.teamoffroad.feature.explore.presentation.navigation.navigateToExploreCameraScreen
+import com.teamoffroad.feature.explore.navigation.navigateExplore
+import com.teamoffroad.feature.explore.navigation.navigateToExploreCameraScreen
 import com.teamoffroad.feature.home.navigation.navigateToHome
 import com.teamoffroad.feature.mypage.navigation.navigateMypage
 
