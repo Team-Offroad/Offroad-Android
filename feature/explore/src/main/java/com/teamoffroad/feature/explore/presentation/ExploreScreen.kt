@@ -3,7 +3,6 @@ package com.teamoffroad.feature.explore.presentation
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.util.Log
 import android.view.Gravity
 import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
@@ -130,7 +129,6 @@ private fun ExploreCameraUiStateHandler(
     successImageUrl: String,
     navigateToHome: () -> Unit,
 ) {
-    Log.e("dsfjnaksfjklwae", "ExploreCameraUiStateHandler: ${uiState.errorType}")
     when (uiState.errorType) {
         ExploreCameraUiState.LocationError -> {
             ExploreResultDialog(
