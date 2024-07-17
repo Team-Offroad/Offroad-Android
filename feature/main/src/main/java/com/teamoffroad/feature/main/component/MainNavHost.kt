@@ -1,5 +1,7 @@
 package com.teamoffroad.feature.main.component
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,6 +16,7 @@ import com.teamoffroad.feature.home.navigation.homeNavGraph
 import com.teamoffroad.feature.main.MainNavigator
 import com.teamoffroad.feature.mypage.navigation.mypageNavGraph
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 internal fun MainNavHost(
     modifier: Modifier = Modifier,
@@ -54,6 +57,7 @@ internal fun MainNavHost(
                     navigator.navigateToSetGender(nickname, birthDate)
                 },
                 navigateToSetCharacter = { navigator.navigateToSetCharacter() },
+                navigateToSelectCharacter = { navigator.navigateToSelectedCharacter() }
             )
         }
     }

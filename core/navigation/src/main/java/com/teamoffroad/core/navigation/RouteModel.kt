@@ -30,6 +30,9 @@ sealed interface AuthRoute : Route {
 
     @Serializable
     data object SetCharacter : AuthRoute
+
+    @Serializable
+    data object SelectedCharacter : AuthRoute
 }
 
 sealed interface ExploreRoute : Route {

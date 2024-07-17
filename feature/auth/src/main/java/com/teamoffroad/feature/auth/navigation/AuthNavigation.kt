@@ -9,6 +9,7 @@ import androidx.navigation.navArgument
 import com.teamoffroad.core.navigation.AuthRoute
 import com.teamoffroad.core.navigation.Route
 import com.teamoffroad.feature.auth.presentation.AuthScreen
+import com.teamoffroad.feature.auth.presentation.SelectedCharacterScreen
 import com.teamoffroad.feature.auth.presentation.SetBirthDateScreen
 import com.teamoffroad.feature.auth.presentation.SetCharacterScreen
 import com.teamoffroad.feature.auth.presentation.SetGenderScreen
@@ -27,7 +28,11 @@ fun NavController.navigateToSetBirthDate(nickname: String, navOptions: NavOption
     navigate(route, navOptions)
 }
 
-fun NavController.navigateToSetGender(nickname: String, birthDate: String? = null, navOptions: NavOptions? = null) {
+fun NavController.navigateToSetGender(
+    nickname: String,
+    birthDate: String? = null,
+    navOptions: NavOptions? = null
+) {
     val route = if (birthDate != null) {
         "${AuthRoute.SetGender}/$nickname?birthDate=$birthDate"
     } else {
@@ -46,6 +51,7 @@ fun NavGraphBuilder.authNavGraph(
     navigateToSetBirthDate: (String) -> Unit,
     navigateToSetGender: (String, String?) -> Unit,
     navigateToSetCharacter: () -> Unit,
+    navigateToSelectCharacter: () -> Unit,
 ) {
     composable<Route.Auth> {
         AuthScreen(
@@ -83,7 +89,12 @@ fun NavGraphBuilder.authNavGraph(
     }
     composable<AuthRoute.SetCharacter> {
         SetCharacterScreen(
-            navigateToHome,
+            navigateToSelectCharacter,
+        )
+    }
+    composable<AuthRoute.SelectedCharacter> {
+        SelectedCharacterScreen(
+            navigateToHome
         )
     }
 }

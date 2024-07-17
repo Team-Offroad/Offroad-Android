@@ -37,7 +37,7 @@ import com.teamoffroad.feature.auth.presentation.model.SetCharacterUiState
 @SuppressLint("UnrememberedMutableState")
 @Composable
 internal fun SetCharacterScreen(
-    navigateToHome: () -> Unit,
+    navigateToSelectCharacter: () -> Unit,
     viewModel: SetCharacterViewModel = hiltViewModel(),
 ) {
 
@@ -151,5 +151,5 @@ internal fun SetCharacterScreen(
         )
     }
 
-    if (uiState is SetCharacterUiState.Success) navigateToHome()
+    if (uiState is SetCharacterUiState.Success) navigateToSelectCharacter()
 }
