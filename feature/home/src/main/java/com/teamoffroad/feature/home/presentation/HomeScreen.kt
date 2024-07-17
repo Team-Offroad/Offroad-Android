@@ -80,14 +80,17 @@ private fun UsersAdventuresInformation(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel,
 ) {
-    val adventuresInformationsState = viewModel.getUsersAdventuresInformationsState.collectAsState(initial = UiState.Loading).value
+    val adventuresInformationsState =
+        viewModel.getUsersAdventuresInformationsState.collectAsState(initial = UiState.Loading).value
 
-    val adventuresInformationsData = when(adventuresInformationsState) {
+    val adventuresInformationsData = when (adventuresInformationsState) {
         is UiState.Success -> adventuresInformationsState.data
         is UiState.Failure -> {
-            Toast.makeText(context, adventuresInformationsState.errorMessage, Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, adventuresInformationsState.errorMessage, Toast.LENGTH_SHORT)
+                .show()
             null
         }
+
         else -> null
     }
 
@@ -110,7 +113,6 @@ private fun UsersAdventuresInformation(
                 imageUrl = imageUrl
             )
         }
-
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
@@ -129,6 +131,7 @@ private fun HomeBackground() {
     Image(
         painter = painterResource(id = R.drawable.img_home_stamp),
         contentDescription = "stamp",
+        modifier = Modifier.padding(top = 40.dp)
     )
 }
 
@@ -163,14 +166,20 @@ private fun UsersQuestInformation(
         RecentQuest(
             modifier = Modifier.weight(1f),
             data = HomeProgressBarModel(
-                stringResource(id = R.string.home_recent_quest_title), recentQuest.progress, recentQuest.completeCondition, recentQuest.questName
+                stringResource(id = R.string.home_recent_quest_title),
+                recentQuest.progress,
+                recentQuest.completeCondition,
+                recentQuest.questName
             )
         )
         Spacer(modifier = Modifier.padding(start = 12.dp))
         CloseCompleteRequest(
             modifier = Modifier.weight(1f),
             data = HomeProgressBarModel(
-                stringResource(id = R.string.home_close_complete_quest_title), almostQuest.progress, almostQuest.completeCondition, almostQuest.questName
+                stringResource(id = R.string.home_close_complete_quest_title),
+                almostQuest.progress,
+                almostQuest.completeCondition,
+                almostQuest.questName
             )
         )
         Spacer(modifier = Modifier.padding(end = 24.dp))
