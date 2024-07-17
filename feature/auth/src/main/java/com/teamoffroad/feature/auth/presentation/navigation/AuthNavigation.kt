@@ -12,10 +12,12 @@ fun NavController.navigateAuth(navOptions: NavOptions) {
 }
 
 fun NavGraphBuilder.authNavGraph(
+    navigateToHome: () -> Unit,
     navigateToSetNickname: () -> Unit,
 ) {
     composable<Route.Auth> {
         AuthRoute(
+            navigateToHome,
             navigateToSetNickname,
         )
     }

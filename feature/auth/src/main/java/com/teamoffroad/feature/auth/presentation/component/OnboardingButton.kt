@@ -33,7 +33,6 @@ fun OnboardingButton(
     nickname: String,
     text: String,
     isActive: Boolean,
-    onClick: () -> Unit = {},
     onButtonClick: (String) -> Unit = {}
 ) {
     val (borderLineColor, contentColor, backGroundColor) = if (isActive) {

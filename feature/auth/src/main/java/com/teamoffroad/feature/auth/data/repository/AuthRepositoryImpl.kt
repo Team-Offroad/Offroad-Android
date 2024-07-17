@@ -4,10 +4,13 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import com.teamoffroad.feature.auth.data.mapper.mapUserProfileToUpdateRequestDto
 import com.teamoffroad.feature.auth.data.mapper.toDomain
 import com.teamoffroad.feature.auth.data.remote.request.SignInInfoRequestDto
 import com.teamoffroad.feature.auth.data.remote.service.AuthService
+import com.teamoffroad.feature.auth.domain.model.Character
 import com.teamoffroad.feature.auth.domain.model.SignInInfo
+import com.teamoffroad.feature.auth.domain.model.UserProfile
 import com.teamoffroad.feature.auth.domain.model.UserToken
 import com.teamoffroad.feature.auth.domain.repository.AuthRepository
 import kotlinx.coroutines.flow.Flow
@@ -20,14 +23,14 @@ class AuthRepositoryImpl @Inject constructor(
     @Named("authDataStore") private val dataStore: DataStore<Preferences>,
 ) : AuthRepository {
 
-    override suspend fun signIn(signInInfo: SignInInfo): UserToken {
+    override suspend fun signIn(socialPlatform: String, name: String?, code: String): SignInInfo {
         val requestDto = SignInInfoRequestDto(
-            socialPlatform = signInInfo.socialPlatform,
-            name = signInInfo.name,
-            code = signInInfo.code
+            socialPlatform = socialPlatform,
+            name = name,
+            code = code
         )
         val response = authService.postSignInInfo(requestDto)
-        return response.data?.toDomain() ?: UserToken("", "")
+        return response.data?.toDomain() ?: SignInInfo(tokens = UserToken("", ""), isAlreadyExist = false)
     }
 
     override val isAutoSignInEnabled: Flow<Boolean> = dataStore.data
@@ -45,6 +48,23 @@ class AuthRepositoryImpl @Inject constructor(
         dataStore.edit { preferences ->
             preferences.remove(AUTO_LOGIN_KEY)
         }
+    }
+
+    override suspend fun getDuplicateNickname(nickname: String): Boolean =
+        authService.getDuplicateNickname(nickname).data?.isDuplicate ?: false
+
+    override suspend fun getCharacters(): List<Character> {
+        return authService.getCharacters().data?.characters?.map {
+            it.toDomain()
+        } ?: emptyList()
+    }
+
+    override suspend fun setCharacter(characterId: Int): String {
+        return authService.setCharacter(characterId).data.toString()
+    }
+
+    override suspend fun patchUserProfile(userProfile: UserProfile) {
+        authService.patchUserProfile(mapUserProfileToUpdateRequestDto(userProfile))
     }
 
     companion object {

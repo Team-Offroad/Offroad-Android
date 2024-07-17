@@ -6,10 +6,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 internal fun SetCharacterRoute(
     navigateToHome: () -> Unit,
-    onboardingViewModel: OnboardingViewModel = hiltViewModel()
+    setCharacterViewModel: SetCharacterViewModel = hiltViewModel(),
 ) {
     SetCharacterScreen(
         navigateToHome = navigateToHome,
-        viewModel = onboardingViewModel
+        viewModel = setCharacterViewModel,
     )
 }

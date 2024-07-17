@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SignInInfoResponseDto(
-    @SerialName("accessToken")
-    val accessToken: String,
-    @SerialName("refreshToken")
-    val refreshToken: String,
+    @SerialName("tokens")
+    val tokens: UserTokenResponseDto,
+    @SerialName("isAlreadyExist")
+    val isAlreadyExist: Boolean,
 )
