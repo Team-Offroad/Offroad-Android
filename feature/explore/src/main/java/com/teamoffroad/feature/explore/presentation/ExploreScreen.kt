@@ -68,7 +68,6 @@ import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 internal fun ExploreScreen(
-    cameraErrorType: String,
     navigateToHome: () -> Unit,
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
     viewModel: ExploreViewModel = hiltViewModel(),
@@ -80,7 +79,7 @@ internal fun ExploreScreen(
     if (uiState.isUpdatePlacesFailed) {
         Toast.makeText(context, stringResource(R.string.explore_places_failed), Toast.LENGTH_SHORT).show()
     }
-    when (cameraErrorType) {
+    when ("cameraErrorType") {
         ExploreCameraUiState.LocationError.toString() -> {
             Toast.makeText(context, stringResource(R.string.explore_camera_location_failed), Toast.LENGTH_SHORT).show()
         }
