@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.auth.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,16 +21,13 @@ class SetBirthDateViewModel @Inject constructor(
 
     fun updateCheckedYear(year: String) {
         _isCheckedYear.value = year.toInt()
-        Log.d("asdasd", year)
     }
 
     fun updateCheckedMonth(month: String) {
         _isCheckedMonth.value = month.toInt()
-        Log.d("asdasd", month.toString())
     }
 
     fun updateCheckedDate(day: String) {
         _isCheckedDay.value = day.toInt()
-        Log.d("asdasd", day.toString())
     }
 }

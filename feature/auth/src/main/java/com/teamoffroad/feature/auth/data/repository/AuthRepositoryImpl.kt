@@ -4,7 +4,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
-import com.teamoffroad.feature.auth.data.mapper.mapUserProfileToUpdateRequestDto
+import com.teamoffroad.feature.auth.data.mapper.toData
 import com.teamoffroad.feature.auth.data.mapper.toDomain
 import com.teamoffroad.feature.auth.data.remote.request.SignInInfoRequestDto
 import com.teamoffroad.feature.auth.data.remote.service.AuthService
@@ -64,7 +64,7 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun patchUserProfile(userProfile: UserProfile) {
-        authService.patchUserProfile(mapUserProfileToUpdateRequestDto(userProfile))
+        authService.fetchUserProfile(userProfile.toData())
     }
 
     companion object {

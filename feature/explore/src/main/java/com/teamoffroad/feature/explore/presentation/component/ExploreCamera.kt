@@ -1,7 +1,6 @@
 package com.teamoffroad.feature.explore.presentation.component
 
 import android.content.Context
-import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
@@ -14,10 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
-import com.teamoffroad.feature.explore.presentation.BarcodeAnalyzer
+import com.teamoffroad.feature.explore.presentation.model.ExploreCameraUiState
+import com.teamoffroad.feature.explore.presentation.util.BarcodeAnalyzer
 
 @Composable
 fun ExploreCamera(
+    uiState: ExploreCameraUiState,
     localContext: Context,
     placeId: Long,
     latitude: Double,
@@ -44,8 +45,9 @@ fun ExploreCamera(
                     it.setAnalyzer(
                         ContextCompat.getMainExecutor(context),
                         BarcodeAnalyzer { barcode ->
-                            Toast.makeText(context, barcode, Toast.LENGTH_SHORT).show()
-                            postExploreResult(placeId, latitude, longitude, barcode)
+                            if (uiState is ExploreCameraUiState.Loading) {
+                                postExploreResult(placeId, latitude, longitude, barcode)
+                            }
                         }
                     )
                 }
