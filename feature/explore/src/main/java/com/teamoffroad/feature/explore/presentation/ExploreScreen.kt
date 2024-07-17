@@ -60,6 +60,7 @@ import com.teamoffroad.feature.explore.presentation.component.ExploreMapBottomBu
 import com.teamoffroad.feature.explore.presentation.component.ExploreMapForeground
 import com.teamoffroad.feature.explore.presentation.component.ExploreRefreshButton
 import com.teamoffroad.feature.explore.presentation.component.ExploreTrackingButton
+import com.teamoffroad.feature.explore.presentation.model.ExploreCameraUiState
 import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
 import com.teamoffroad.feature.explore.presentation.model.LocationModel
 import com.teamoffroad.feature.explore.presentation.model.PlaceModel
@@ -67,6 +68,7 @@ import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 internal fun ExploreScreen(
+    cameraErrorType: String,
     navigateToHome: () -> Unit,
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
     viewModel: ExploreViewModel = hiltViewModel(),
@@ -74,11 +76,22 @@ internal fun ExploreScreen(
     val uiState: ExploreUiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
-    LaunchedEffect(uiState.loading) {
-        if (!uiState.loading && uiState.places.isEmpty()) viewModel.updatePlaces()
-    }
+    if (!uiState.loading && uiState.places.isEmpty()) viewModel.updatePlaces()
     if (uiState.isUpdatePlacesFailed) {
         Toast.makeText(context, stringResource(R.string.explore_places_failed), Toast.LENGTH_SHORT).show()
+    }
+    when (cameraErrorType) {
+        ExploreCameraUiState.LocationError.toString() -> {
+            Toast.makeText(context, stringResource(R.string.explore_camera_location_failed), Toast.LENGTH_SHORT).show()
+        }
+
+        ExploreCameraUiState.CodeError.toString() -> {
+            Toast.makeText(context, stringResource(R.string.explore_camera_code_failed), Toast.LENGTH_SHORT).show()
+        }
+
+        ExploreCameraUiState.EtcError.toString() -> {
+            Toast.makeText(context, stringResource(R.string.explore_camera_etc_failed), Toast.LENGTH_SHORT).show()
+        }
     }
 
     ExploreLocationPermissionHandler(

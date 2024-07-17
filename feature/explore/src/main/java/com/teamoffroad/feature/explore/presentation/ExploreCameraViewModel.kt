@@ -1,17 +1,39 @@
 package com.teamoffroad.feature.explore.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.teamoffroad.feature.explore.domain.usecase.PostExploreAuthUseCase
+import com.teamoffroad.feature.explore.presentation.model.ExploreCameraUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ExploreCameraViewModel @Inject constructor(
-
+    private val postExploreAuthUseCase: PostExploreAuthUseCase,
 ) : ViewModel() {
 
+    private val _uiState: MutableStateFlow<ExploreCameraUiState> = MutableStateFlow(ExploreCameraUiState.Loading)
+    val uiState: StateFlow<ExploreCameraUiState> = _uiState.asStateFlow()
+
     fun postExploreResult(placeId: Long, latitude: Double, longitude: Double, qr: String) {
-        // TODO: API 호출
-        Log.e("123123", "postExploreResult: $placeId, $latitude, $longitude, $qr")
+        viewModelScope.launch {
+            runCatching {
+                postExploreAuthUseCase.invoke(placeId, qr, latitude, longitude)
+            }.onSuccess {
+                when (it) {
+                    true -> _uiState.value = ExploreCameraUiState.Success
+                    false -> _uiState.value = ExploreCameraUiState.CodeError
+                }
+            }.onFailure {
+                when (it.message) {
+                    "HTTP 400" -> _uiState.value = ExploreCameraUiState.LocationError
+                    else -> _uiState.value = ExploreCameraUiState.EtcError
+                }
+            }
+        }
     }
 }

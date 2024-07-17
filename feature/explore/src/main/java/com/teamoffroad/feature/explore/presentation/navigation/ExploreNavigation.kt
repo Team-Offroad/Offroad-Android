@@ -10,6 +10,7 @@ import com.teamoffroad.core.navigation.ExploreRoute
 import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.feature.explore.presentation.ExploreCameraScreen
 import com.teamoffroad.feature.explore.presentation.ExploreScreen
+import com.teamoffroad.feature.explore.presentation.model.ExploreCameraUiState
 
 fun NavController.navigateExplore(navOptions: NavOptions) {
     navigate(MainTabRoute.Explore, navOptions)
@@ -25,9 +26,17 @@ fun NavGraphBuilder.exploreNavGraph(
     navigateToExplore: () -> Unit,
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
 ) {
-    composable<MainTabRoute.Explore> {
-        ExploreScreen(navigateToHome, navigateToExploreCameraScreen)
+
+    composable(
+        route = "${MainTabRoute.Explore}/{errorType}",
+        arguments = listOf(
+            navArgument("errorType") { type = NavType.StringType },
+        )
+    ) {
+        val errorType = it.arguments?.getString("errorType") ?: ExploreCameraUiState.Loading.toString()
+        ExploreScreen(errorType, navigateToHome, navigateToExploreCameraScreen)
     }
+
     composable(
         route = "${ExploreRoute.ExploreCameraScreen}/{placeId}/{latitude}/{longitude}",
         arguments = listOf(
