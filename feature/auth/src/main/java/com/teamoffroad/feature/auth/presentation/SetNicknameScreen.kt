@@ -42,7 +42,7 @@ internal fun SetNicknameScreen(
     val focusRequester by remember { mutableStateOf(FocusRequester()) }
 
     var text by remember { mutableStateOf("") }
-    val isNicknameValid by viewModel.isNicknameValid.collectAsState()
+    val isNicknameState by viewModel.isNicknameState.collectAsState()
 
     Surface(
         modifier = Modifier
@@ -98,13 +98,15 @@ internal fun SetNicknameScreen(
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
-            //키패드 돋보기or다음 누르면 키패드내려가게?
             OffroadBasicBtn(
                 modifier = Modifier
                     .width(312.dp)
                     .height(50.dp),
-                onClick = navigateToSetBirthDate,
-                isActive = isNicknameValid,
+                onClick = {
+                    navigateToSetBirthDate()
+                    viewModel.updateNicknameValid(text)
+                },
+                isActive = isNicknameState,
                 text = "다음"
             )
             Spacer(modifier = Modifier.height(24.dp))

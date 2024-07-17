@@ -5,6 +5,7 @@ appcompat = "1.7.0"
 coreKtx = "1.13.1"
 androidxDatastore = "1.1.1"
 gson = "2.10.1"
+kotlinxSerializationJson = "1.5.1"
 material = "1.12.0"
 
 # Testing Libraries
@@ -76,6 +77,7 @@ androidxCamera = "1.2.2"
 
 # Barcode Scanning
 barcodeScanning = "17.1.0"
+junitKtx = "1.2.1"
 
 [libraries]
 # Core Libraries
@@ -85,6 +87,7 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
 androidx-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDatastore" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+kotlinx-serialization-json-v151 = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 # Testing Libraries
@@ -170,6 +173,7 @@ camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "
 
 # Barcode Scanning
 barcode-scanning = { group = "com.google.mlkit", name = "barcode-scanning", version.ref = "barcodeScanning" }
+androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
 
 [plugins]
 # Android Application Plugin

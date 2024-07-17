@@ -1,11 +1,13 @@
 package com.teamoffroad.feature.auth.data.remote.service
 
 import com.teamoffroad.core.common.data.remote.response.BaseResponse
+import com.teamoffroad.feature.auth.data.remote.request.ProfileUpdateRequestDto
 import com.teamoffroad.feature.auth.data.remote.request.SignInInfoRequestDto
 import com.teamoffroad.feature.auth.data.remote.response.DuplicateNicknameResponseDto
 import com.teamoffroad.feature.auth.data.remote.response.SignInInfoResponseDto
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Query
 
@@ -20,4 +22,10 @@ interface AuthService {
     suspend fun getDuplicateNickname(
         @Query("nickname") nickname: String
     ): BaseResponse<DuplicateNicknameResponseDto>
+
+    @PATCH("/users/profiles")
+    suspend fun patchUserProfile(
+        @Body() request: ProfileUpdateRequestDto
+    ): BaseResponse<String>
+
 }

@@ -4,10 +4,12 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import com.teamoffroad.feature.auth.data.mapper.mapUserProfileToUpdateRequestDto
 import com.teamoffroad.feature.auth.data.mapper.toDomain
 import com.teamoffroad.feature.auth.data.remote.request.SignInInfoRequestDto
 import com.teamoffroad.feature.auth.data.remote.service.AuthService
 import com.teamoffroad.feature.auth.domain.model.SignInInfo
+import com.teamoffroad.feature.auth.domain.model.UserProfile
 import com.teamoffroad.feature.auth.domain.model.UserToken
 import com.teamoffroad.feature.auth.domain.repository.AuthRepository
 import kotlinx.coroutines.flow.Flow
@@ -50,6 +52,9 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun getDuplicateNickname(nickname: String): Boolean =
         authService.getDuplicateNickname(nickname).data?.isDuplicate ?: false
 
+    override suspend fun patchUserProfile(userProfile: UserProfile) {
+        authService.patchUserProfile(mapUserProfileToUpdateRequestDto(userProfile))
+    }
 
     companion object {
         private val AUTO_LOGIN_KEY = booleanPreferencesKey("auto_login")
