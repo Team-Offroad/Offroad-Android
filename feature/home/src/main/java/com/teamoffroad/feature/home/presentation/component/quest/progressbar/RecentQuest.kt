@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Contents1
+import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.home.presentation.component.quest.ContentsLocation
 import com.teamoffroad.feature.home.presentation.component.quest.ContentsTitle
 import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
@@ -27,7 +28,7 @@ fun RecentQuest(modifier: Modifier = Modifier, data: HomeProgressBarModel) {
     ) {
         Column {
             Row {
-                ContentsTitle(data.title)
+                ContentsTitle(data.title, Main1)
                 Spacer(modifier = Modifier.padding(start = 4.dp))
                 Image(
                     painter = painterResource(id = R.drawable.img_home_recent_quest),
@@ -39,7 +40,7 @@ fun RecentQuest(modifier: Modifier = Modifier, data: HomeProgressBarModel) {
             Spacer(modifier = Modifier.padding(top = 14.dp))
             CircleProgressBar(data)
             Spacer(modifier = Modifier.padding(top = 12.dp))
-            ContentsLocation(data.location)
+            ContentsLocation(data.location, Main1)
             Log.d("offroad data.location", data.location) //
             Spacer(modifier = Modifier.padding(bottom = 12.dp))
         }

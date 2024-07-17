@@ -18,19 +18,22 @@ import com.teamoffroad.offroad.feature.home.R
 fun NicknameText(nickname: String) {
     Text(
         modifier = Modifier.padding(start = 24.dp, top = 32.dp),
-        style = OffroadTheme.typography.subtitleReg,
+        style = OffroadTheme.typography.bothSubtitle3,
+
         text = buildAnnotatedString {
             append(stringResource(id = R.string.home_explorer))
             append(" ")
             withStyle(
                 SpanStyle(
                     fontFamily = PretendardBold,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
             ) {
                 append(nickname)
             }
             append(stringResource(id = R.string.home_explorer_suffix))
+
+
         }
     )
 }
