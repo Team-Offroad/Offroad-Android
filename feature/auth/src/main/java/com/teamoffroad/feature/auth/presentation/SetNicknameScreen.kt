@@ -1,7 +1,6 @@
 package com.teamoffroad.feature.auth.presentation
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
@@ -23,6 +22,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.OffroadBasicBtn
 import com.teamoffroad.core.designsystem.component.addFocusCleaner
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -34,9 +34,8 @@ import com.teamoffroad.feature.auth.presentation.component.OnboardingButton
 
 @Composable
 internal fun SetNicknameScreen(
-    padding: PaddingValues,
     navigateToSetBirthDate: () -> Unit,
-    viewModel: OnboardingViewModel,
+    viewModel: OnboardingViewModel = hiltViewModel(),
 ) {
     val focusManager = LocalFocusManager.current
     val focusRequester by remember { mutableStateOf(FocusRequester()) }

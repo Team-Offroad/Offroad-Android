@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.OffroadBasicBtn
 import com.teamoffroad.core.designsystem.theme.Brown
@@ -36,14 +38,17 @@ import com.teamoffroad.feature.auth.presentation.model.SetCharacterUiState
 @Composable
 internal fun SetCharacterScreen(
     navigateToHome: () -> Unit,
-    viewModel: SetCharacterViewModel,
+    viewModel: SetCharacterViewModel = hiltViewModel(),
 ) {
 
     var showDialog by remember { mutableStateOf(false) }
     val characters by viewModel.characters.collectAsStateWithLifecycle()
     val selectedCharacter by viewModel.selectedCharacter.collectAsStateWithLifecycle()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    viewModel.getCharacters()
+
+    LaunchedEffect(Unit) {
+        viewModel.getCharacters()
+    }
 
     Surface(
         modifier = Modifier
@@ -137,6 +142,7 @@ internal fun SetCharacterScreen(
 
     if (showDialog) {
         SetCharacterDialog(
+            character = selectedCharacter,
             onDismissRequest = { showDialog = false },
             onConfirm = {
                 showDialog = false

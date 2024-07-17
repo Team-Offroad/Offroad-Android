@@ -1,7 +1,6 @@
 package com.teamoffroad.feature.auth.presentation
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,6 +24,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.OffroadBasicBtn
 import com.teamoffroad.core.designsystem.component.addFocusCleaner
 import com.teamoffroad.core.designsystem.theme.Gray300
@@ -37,7 +37,7 @@ import com.teamoffroad.feature.auth.presentation.component.NicknameTextField
 @Composable
 internal fun SetBirthDateScreen(
     navigateToSetGender: () -> Unit,
-    viewModel: SetBirthDateViewModel
+    viewModel: SetBirthDateViewModel = hiltViewModel(),
 ) {
     val focusManager = LocalFocusManager.current
     val focusRequester by remember { mutableStateOf(FocusRequester()) }

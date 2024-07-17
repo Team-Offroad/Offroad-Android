@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.OffroadBasicBtn
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -30,7 +31,7 @@ import com.teamoffroad.feature.auth.presentation.component.GenderHintButton
 @Composable
 internal fun SetGenderScreen(
     navigateToSetCharacter: () -> Unit,
-    viewModel: SetGenderViewModel
+    viewModel: SetGenderViewModel = hiltViewModel(),
 ) {
     Surface(
         modifier = Modifier

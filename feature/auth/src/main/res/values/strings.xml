@@ -2,4 +2,8 @@
 <resources>
     <string name="explore_auth_kakao">Kakao로 계속하기</string>
     <string name="explore_auth_google">Google로 계속하기</string>
+    <string name="auth_character_question_title">%s와 함께하시겠어요?</string>
+    <string name="auth_character_question_label">지금 캐릭터를 선택하시면\n%s와 모험을 시작하게 돼요.</string>
+    <string name="auth_character_question_deny">아니요</string>
+    <string name="auth_character_question_accept">네,좋아요!</string>
 </resources>

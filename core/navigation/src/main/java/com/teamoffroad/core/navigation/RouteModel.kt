@@ -18,18 +18,18 @@ sealed interface MainTabRoute : Route {
     data object Mypage : MainTabRoute
 }
 
-sealed interface AuthSettingRoute : Route {
+sealed interface AuthRoute : Route {
     @Serializable
-    data object SetNickname : AuthSettingRoute
+    data object SetNickname : AuthRoute
 
     @Serializable
-    data object SetBirthDate : AuthSettingRoute
+    data object SetBirthDate : AuthRoute
 
     @Serializable
-    data object SetGender : AuthSettingRoute
+    data object SetGender : AuthRoute
 
     @Serializable
-    data object SetCharacter : AuthSettingRoute
+    data object SetCharacter : AuthRoute
 }
 
 sealed interface ExploreRoute : Route {
