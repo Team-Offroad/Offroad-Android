@@ -23,14 +23,14 @@ class AuthRepositoryImpl @Inject constructor(
     @Named("authDataStore") private val dataStore: DataStore<Preferences>,
 ) : AuthRepository {
 
-    override suspend fun signIn(signInInfo: SignInInfo): UserToken {
+    override suspend fun signIn(socialPlatform: String, name: String?, code: String): SignInInfo {
         val requestDto = SignInInfoRequestDto(
-            socialPlatform = signInInfo.socialPlatform,
-            name = signInInfo.name,
-            code = signInInfo.code
+            socialPlatform = socialPlatform,
+            name = name,
+            code = code
         )
         val response = authService.postSignInInfo(requestDto)
-        return response.data?.toDomain() ?: UserToken("", "")
+        return response.data?.toDomain() ?: SignInInfo(tokens = UserToken("", ""), isAlreadyExist = false)
     }
 
     override val isAutoSignInEnabled: Flow<Boolean> = dataStore.data
@@ -62,6 +62,7 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun setCharacter(characterId: Int): String {
         return authService.setCharacter(characterId).data.toString()
     }
+
     override suspend fun patchUserProfile(userProfile: UserProfile) {
         authService.patchUserProfile(mapUserProfileToUpdateRequestDto(userProfile))
     }

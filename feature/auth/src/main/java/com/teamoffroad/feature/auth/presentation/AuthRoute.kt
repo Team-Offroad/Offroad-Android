@@ -4,10 +4,12 @@ import androidx.compose.runtime.Composable
 
 @Composable
 internal fun AuthRoute(
-    onAuthBtnClick: () -> Unit,
+    navigateToHome: () -> Unit,
+    navigateToSetNickname: () -> Unit,
 ) {
 
     AuthScreen(
-        navigateToSetNickname = onAuthBtnClick
+        navigateToHome = navigateToHome,
+        navigateToSetNickname = navigateToSetNickname
     )
 }

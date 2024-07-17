@@ -36,7 +36,6 @@ interface AuthService {
 
     @PATCH("/users/profiles")
     suspend fun patchUserProfile(
-        @Body() request: ProfileUpdateRequestDto
+        @Body() request: ProfileUpdateRequestDto,
     ): BaseResponse<String>
-
 }
