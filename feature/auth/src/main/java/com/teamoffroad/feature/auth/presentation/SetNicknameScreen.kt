@@ -88,7 +88,7 @@ internal fun SetNicknameScreen(
                             .width(82.dp)
                             .height(42.dp),
                         nickname = text,
-                        onButtonClick = viewModel::updateNicknameValid,
+                        onButtonClick = viewModel::getDuplicateNickname,
                     )
                 }
                 Spacer(modifier = Modifier.padding(vertical = 6.dp))

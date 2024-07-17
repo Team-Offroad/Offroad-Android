@@ -9,4 +9,5 @@ interface AuthRepository {
     val isAutoSignInEnabled: Flow<Boolean>
     suspend fun setAutoSignInEnabled(enabled: Boolean)
     suspend fun clearAutoSignIn()
+    suspend fun getDuplicateNickname(nickname: String):Boolean
 }

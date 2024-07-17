@@ -2,12 +2,18 @@ package com.teamoffroad.feature.auth.presentation
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.teamoffroad.feature.auth.domain.repository.AuthRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class OnboardingViewModel @Inject constructor(
+    private val authRepository: AuthRepository
 ) : ViewModel() {
     private val _isCheckedNickname: MutableStateFlow<String> = MutableStateFlow("")
     val isCheckedNickname: StateFlow<String> = _isCheckedNickname.asStateFlow()
@@ -30,13 +36,13 @@ class OnboardingViewModel @Inject constructor(
     private val _inputNickname: MutableStateFlow<String> = MutableStateFlow("")
     val inputNickname: StateFlow<String> = _inputNickname.asStateFlow()
 
+
     fun updateNicknameValid(nickname: String) {
         _isNicknameValid.value = true
     }
 
     fun updateInputNickname(nickname: String) {
         _inputNickname.value = nickname
-        Log.e("asdasd", _inputNickname.value.toString())
     }
 
     fun updateCheckedNickname(nickname: String) {
@@ -57,5 +63,17 @@ class OnboardingViewModel @Inject constructor(
 
     fun updateCheckedGender(gender: String) {
         _isCheckedGender.value = gender
+    }
+
+    fun getDuplicateNickname(nickname: String) {
+        viewModelScope.launch {
+            runCatching { authRepository.getDuplicateNickname(nickname) }
+                .onSuccess {
+                    Log.e("asdasd", it.toString())
+                }
+                .onFailure { Log.e("asdasd", "fail") }
+        }
+
+
     }
 }

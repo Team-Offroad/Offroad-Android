@@ -47,6 +47,10 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getDuplicateNickname(nickname: String): Boolean =
+        authService.getDuplicateNickname(nickname).data?.isDuplicate ?: false
+
+
     companion object {
         private val AUTO_LOGIN_KEY = booleanPreferencesKey("auto_login")
     }
