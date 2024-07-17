@@ -174,7 +174,7 @@ private fun UsersQuestInformation(
                 recentQuest.questName
             )
         )
-        Spacer(modifier = Modifier.padding(start = 12.dp))
+        Spacer(modifier = Modifier.padding(horizontal = 6.dp))
         CloseCompleteRequest(
             modifier = Modifier.weight(1f),
             data = HomeProgressBarModel(

@@ -27,21 +27,19 @@ fun RecentQuest(modifier: Modifier = Modifier, data: HomeProgressBarModel) {
         modifier = modifier.clip(shape = RoundedCornerShape(10.dp))
     ) {
         Column {
+            Spacer(modifier = Modifier.padding(8.dp))
             Row {
                 ContentsTitle(data.title, Main1)
                 Spacer(modifier = Modifier.padding(start = 4.dp))
                 Image(
                     painter = painterResource(id = R.drawable.img_home_recent_quest),
                     contentDescription = "recent quest",
-                    modifier = Modifier
-                        .padding(top = 16.dp)
                 )
             }
             Spacer(modifier = Modifier.padding(top = 14.dp))
             CircleProgressBar(data)
             Spacer(modifier = Modifier.padding(top = 12.dp))
             ContentsLocation(data.location, Main1)
-            Log.d("offroad data.location", data.location) //
             Spacer(modifier = Modifier.padding(bottom = 12.dp))
         }
     }

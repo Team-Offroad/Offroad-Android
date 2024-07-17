@@ -18,7 +18,7 @@ fun ContentsTitle(
     Text(
         text = title,
         modifier = Modifier
-            .padding(start = 12.dp, top = 16.dp),
+            .padding(start = 14.dp),
         color = textColor,
         style = OffroadTheme.typography.textContents,
     )

@@ -30,14 +30,13 @@ fun CloseCompleteRequest(modifier: Modifier = Modifier, data: HomeProgressBarMod
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
+            Spacer(modifier = Modifier.padding(8.dp))
             Row {
                 ContentsTitle(data.title, Sub4)
                 Spacer(modifier = Modifier.padding(start = 4.dp))
                 Image(
                     painter = painterResource(id = R.drawable.img_home_close_complete),
                     contentDescription = "recent quest",
-                    modifier = Modifier
-                        .padding(top = 16.dp)
                 )
             }
             Spacer(modifier = Modifier.padding(top = 16.dp))
