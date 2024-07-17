@@ -133,7 +133,7 @@ private fun HomeBackground() {
     Image(
         painter = painterResource(id = R.drawable.img_home_stamp),
         contentDescription = "stamp",
-        modifier = Modifier.padding(top = 40.dp)
+        modifier = Modifier.padding(top = 16.dp)
     )
 }
 
