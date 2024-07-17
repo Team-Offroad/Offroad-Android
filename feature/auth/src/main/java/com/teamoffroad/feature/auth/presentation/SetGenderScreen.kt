@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.auth.presentation
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,15 +17,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.OffroadBasicBtn
+import com.teamoffroad.core.designsystem.theme.Black
+import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
+import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.auth.presentation.component.GenderHintButton
 
 @Composable
 internal fun SetGenderScreen(
-    navigateToSetCharacter: () -> Unit
+    navigateToSetCharacter: () -> Unit,
+    viewModel: OnboardingViewModel
 ) {
     Surface(
         modifier = Modifier
@@ -62,22 +67,7 @@ internal fun SetGenderScreen(
                 textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.padding(vertical = 28.dp))
-            GenderHintButton(
-                modifier = Modifier
-                    .padding(bottom = 12.dp),
-                value = "남성",
-                isActive = false
-            )
-            GenderHintButton(
-                modifier = Modifier
-                    .padding(bottom = 12.dp),
-                value = "여성",
-                isActive = false
-            )
-            GenderHintButton(
-                value = "기타",
-                isActive = false
-            )
+            SetGenderButton(viewModel)
             Spacer(modifier = Modifier.weight(1f))
             OffroadBasicBtn(
                 modifier = Modifier
@@ -90,5 +80,41 @@ internal fun SetGenderScreen(
             )
             Spacer(modifier = Modifier.height(24.dp))
         }
+    }
+}
+
+@Composable
+fun SetGenderButton(viewModel: OnboardingViewModel) {
+
+    val (male, female, other) = if (true) {
+        Triple(Black, White, Black)
+    } else {
+        Triple(Gray100, Gray300, White)
+    }
+
+    Column {
+        GenderHintButton(
+            modifier = Modifier
+                .padding(bottom = 12.dp)
+                .clickable(enabled = true,
+                    onClick = { viewModel.updateCheckedGender("남성") }),
+            value = "남성",
+            isActive = false
+        )
+        GenderHintButton(
+            modifier = Modifier
+                .padding(bottom = 12.dp)
+                .clickable(enabled = true,
+                    onClick = { viewModel.updateCheckedGender("여성") }),
+            value = "여성",
+            isActive = false
+        )
+        GenderHintButton(
+            modifier = Modifier
+                .clickable(enabled = true,
+                    onClick = { viewModel.updateCheckedGender("기타") }),
+            value = "기타",
+            isActive = false
+        )
     }
 }

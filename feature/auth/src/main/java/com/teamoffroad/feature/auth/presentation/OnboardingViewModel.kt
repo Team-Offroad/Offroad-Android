@@ -45,19 +45,14 @@ class OnboardingViewModel @Inject constructor(
 
     fun updateCheckedYear(year: String) {
         _isCheckedYear.value = year
-        Log.e("asdsad", _isCheckedYear.value)
     }
 
     fun updateCheckedMonth(month: String) {
         _isCheckedMonth.value = month
-        Log.e("asdsad", _isCheckedMonth.value)
-
     }
 
     fun updateCheckedDate(day: String) {
         _isCheckedDay.value = day
-        Log.e("asdsad", _isCheckedDay.value)
-
     }
 
     fun updateCheckedGender(gender: String) {
