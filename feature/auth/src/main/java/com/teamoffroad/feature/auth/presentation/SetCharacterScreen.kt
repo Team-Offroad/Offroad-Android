@@ -30,6 +30,7 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.auth.presentation.component.SetCharacterDialog
 import com.teamoffroad.feature.auth.presentation.component.ShowSetCharacterPager
+import com.teamoffroad.feature.auth.presentation.model.SetCharacterUiState
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
@@ -41,6 +42,7 @@ internal fun SetCharacterScreen(
     var showDialog by remember { mutableStateOf(false) }
     val characters by viewModel.characters.collectAsStateWithLifecycle()
     val selectedCharacter by viewModel.selectedCharacter.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     viewModel.getCharacters()
 
     Surface(
@@ -138,8 +140,10 @@ internal fun SetCharacterScreen(
             onDismissRequest = { showDialog = false },
             onConfirm = {
                 showDialog = false
-                navigateToHome()
+                viewModel.updateCharacter(selectedCharacter.id)
             }
         )
     }
+
+    if (uiState is SetCharacterUiState.Success) navigateToHome()
 }

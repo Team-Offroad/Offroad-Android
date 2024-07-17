@@ -6,6 +6,7 @@ import com.teamoffroad.feature.auth.domain.usecase.ClearAutoSignInUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetAutoSignInUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetCharacterListUseCase
 import com.teamoffroad.feature.auth.domain.usecase.SetAutoSignInUseCase
+import com.teamoffroad.feature.auth.domain.usecase.SetCharacterUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -54,5 +55,13 @@ object UseCaseModule {
         authRepository: AuthRepository,
     ): GetCharacterListUseCase {
         return GetCharacterListUseCase(authRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSetCharacterUseCase(
+        authRepository: AuthRepository,
+    ): SetCharacterUseCase {
+        return SetCharacterUseCase(authRepository)
     }
 }

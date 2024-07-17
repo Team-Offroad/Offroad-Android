@@ -12,4 +12,5 @@ interface AuthRepository {
     suspend fun clearAutoSignIn()
     suspend fun getDuplicateNickname(nickname: String): Boolean
     suspend fun getCharacters(): List<Character>
+    suspend fun setCharacter(characterId: Int): String
 }

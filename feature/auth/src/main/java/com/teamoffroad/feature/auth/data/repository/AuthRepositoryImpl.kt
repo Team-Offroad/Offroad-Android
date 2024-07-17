@@ -57,6 +57,10 @@ class AuthRepositoryImpl @Inject constructor(
         } ?: emptyList()
     }
 
+    override suspend fun setCharacter(characterId: Int): String {
+        return authService.setCharacter(characterId).data.toString()
+    }
+
     companion object {
         private val AUTO_LOGIN_KEY = booleanPreferencesKey("auto_login")
     }
