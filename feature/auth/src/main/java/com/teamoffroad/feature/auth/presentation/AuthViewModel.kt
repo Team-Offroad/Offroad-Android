@@ -9,7 +9,6 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.teamoffroad.core.common.domain.usecase.SaveAccessTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.SaveRefreshTokenUseCase
-import com.teamoffroad.feature.auth.domain.model.SignInInfo
 import com.teamoffroad.feature.auth.domain.usecase.AuthUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetAutoSignInUseCase
 import com.teamoffroad.feature.auth.domain.usecase.SetAutoSignInUseCase
@@ -36,17 +35,18 @@ class AuthViewModel @Inject constructor(
     private val _autoSignIn = MutableStateFlow(false)
     val autoSignIn: StateFlow<Boolean> = _autoSignIn
 
+    private val _alreadyExist = MutableStateFlow(false)
+    val alreadyExist: StateFlow<Boolean> = _alreadyExist
+
     fun performGoogleSignIn(result: Task<GoogleSignInAccount>) {
         viewModelScope.launch {
             runCatching {
                 result.getResult(ApiException::class.java)
             }.onSuccess { account ->
                 signIn(
-                    SignInInfo(
-                        SocialSignInPlatform.GOOGLE.name,
-                        null,
-                        account.serverAuthCode.toString(),
-                    )
+                    SocialSignInPlatform.GOOGLE.name,
+                    null,
+                    account.serverAuthCode.toString(),
                 )
             }.onFailure {
                 Log.e("123123", it.message.toString())
@@ -54,15 +54,16 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    private suspend fun signIn(signInInfo: SignInInfo) {
+    private suspend fun signIn(socialPlatform: String, name: String?, code: String) {
         viewModelScope.launch {
             runCatching {
-                authUseCase.invoke(signInInfo)
-            }.onSuccess { userToken ->
-                saveAccessTokenUseCase.invoke(userToken.accessToken)
-                saveRefreshTokenUseCase.invoke(userToken.refreshToken)
-                _successSignIn.value = true
+                authUseCase.invoke(socialPlatform, name, code)
+            }.onSuccess { signInInfo ->
+                saveAccessTokenUseCase.invoke(signInInfo.tokens.accessToken)
+                saveRefreshTokenUseCase.invoke(signInInfo.tokens.refreshToken)
                 setAutoSignInUseCase.invoke(true)
+                _successSignIn.value = true
+                _alreadyExist.value = signInInfo.isAlreadyExist
             }.onFailure {
                 Log.e("123123", it.message.toString())
             }
