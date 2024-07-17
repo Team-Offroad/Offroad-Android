@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.explore.presentation.navigation
+package com.teamoffroad.feature.explore.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination

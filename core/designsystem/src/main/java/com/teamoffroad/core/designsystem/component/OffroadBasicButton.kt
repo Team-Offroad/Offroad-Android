@@ -25,7 +25,7 @@ fun OffroadBasicBtn(
     shape: Shape = RoundedCornerShape(6.dp),
     text: String,
     isActive: Boolean,
-    onClick: () -> Unit = {},
+    onClick: () -> Unit,
 ) {
     val (borderLineOpacity, contentColor, backGroundOpacity) = if (isActive) {
         Triple(1.0f, White, 1.0f)

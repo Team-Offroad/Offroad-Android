@@ -28,12 +28,12 @@ fun CharacterResponseDto.toDomain(): Character {
     )
 }
 
-fun mapUserProfileToUpdateRequestDto(userProfile: UserProfile): ProfileUpdateRequestDto {
+fun UserProfile.toData(): ProfileUpdateRequestDto {
     return ProfileUpdateRequestDto(
-        nickname = userProfile.nickname,
-        year = userProfile.year.toString(),
-        month = userProfile.month.toString(),
-        day = userProfile.day.toString(),
-        gender = userProfile.gender
+        nickname = this.nickname,
+        year = this.year,
+        month = this.month,
+        day = this.day,
+        gender = this.gender,
     )
 }

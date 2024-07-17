@@ -11,12 +11,12 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.core.navigation.Route
-import com.teamoffroad.feature.auth.presentation.navigation.navigateToSetBirthDate
-import com.teamoffroad.feature.auth.presentation.navigation.navigateToSetCharacter
-import com.teamoffroad.feature.auth.presentation.navigation.navigateToSetGender
-import com.teamoffroad.feature.auth.presentation.navigation.navigateToSetNickname
-import com.teamoffroad.feature.explore.presentation.navigation.navigateExplore
-import com.teamoffroad.feature.explore.presentation.navigation.navigateToExploreCameraScreen
+import com.teamoffroad.feature.auth.navigation.navigateToSetBirthDate
+import com.teamoffroad.feature.auth.navigation.navigateToSetCharacter
+import com.teamoffroad.feature.auth.navigation.navigateToSetGender
+import com.teamoffroad.feature.auth.navigation.navigateToSetNickname
+import com.teamoffroad.feature.explore.navigation.navigateExplore
+import com.teamoffroad.feature.explore.navigation.navigateToExploreCameraScreen
 import com.teamoffroad.feature.home.navigation.navigateToHome
 import com.teamoffroad.feature.mypage.navigation.navigateMypage
 
@@ -65,12 +65,12 @@ internal class MainNavigator(
         navController.navigateToSetNickname(navOptions)
     }
 
-    fun navigateToSetBirthDate() {
-        navController.navigateToSetBirthDate(navOptions)
+    fun navigateToSetBirthDate(nickname: String) {
+        navController.navigateToSetBirthDate(nickname, navOptions)
     }
 
-    fun navigateToSetGender() {
-        navController.navigateToSetGender(navOptions)
+    fun navigateToSetGender(nickname: String, birthDate: String?) {
+        navController.navigateToSetGender(nickname, birthDate, navOptions)
     }
 
     fun navigateToSetCharacter() {
