@@ -55,11 +55,15 @@ import com.naver.maps.map.overlay.OverlayImage
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.feature.explore.presentation.component.ExploreAppBar
+import com.teamoffroad.feature.explore.presentation.component.ExploreFailedDialogContent
 import com.teamoffroad.feature.explore.presentation.component.ExploreInfoWindow
 import com.teamoffroad.feature.explore.presentation.component.ExploreMapBottomButton
 import com.teamoffroad.feature.explore.presentation.component.ExploreMapForeground
 import com.teamoffroad.feature.explore.presentation.component.ExploreRefreshButton
+import com.teamoffroad.feature.explore.presentation.component.ExploreResultDialog
+import com.teamoffroad.feature.explore.presentation.component.ExploreSuccessDialogContent
 import com.teamoffroad.feature.explore.presentation.component.ExploreTrackingButton
+import com.teamoffroad.feature.explore.presentation.model.ExploreCameraUiState
 import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
 import com.teamoffroad.feature.explore.presentation.model.LocationModel
 import com.teamoffroad.feature.explore.presentation.model.PlaceModel
@@ -67,6 +71,8 @@ import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 internal fun ExploreScreen(
+    errorType: String,
+    successImageUrl: String,
     navigateToHome: () -> Unit,
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
     viewModel: ExploreViewModel = hiltViewModel(),
@@ -74,7 +80,16 @@ internal fun ExploreScreen(
     val uiState: ExploreUiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
-    viewModel.updatePlaces()
+    if (!uiState.loading && uiState.places.isEmpty()) viewModel.updatePlaces()
+    if (uiState.isUpdatePlacesFailed) {
+        Toast.makeText(context, stringResource(R.string.explore_places_failed), Toast.LENGTH_SHORT).show()
+    }
+
+    if (errorType != ExploreCameraUiState.None.toString() && uiState.errorType != ExploreCameraUiState.None) {
+        viewModel.updateExploreCameraUiState(uiState.getExploreCameraUiState(errorType))
+    }
+
+    ExploreCameraUiStateHandler(uiState, viewModel::updateExploreCameraUiState, successImageUrl, navigateToHome)
 
     ExploreLocationPermissionHandler(
         context = context,
@@ -100,7 +115,58 @@ internal fun ExploreScreen(
             viewModel::updateLocation,
             viewModel::updateTrackingToggle,
             viewModel::updateSelectedPlace,
+            viewModel::updatePlaces,
+            viewModel::updateExploreCameraUiState,
+            viewModel::isValidDistance,
         )
+    }
+}
+
+@Composable
+private fun ExploreCameraUiStateHandler(
+    uiState: ExploreUiState,
+    updateExploreCameraUiState: (ExploreCameraUiState) -> Unit,
+    successImageUrl: String,
+    navigateToHome: () -> Unit,
+) {
+    when (uiState.errorType) {
+        ExploreCameraUiState.LocationError -> {
+            ExploreResultDialog(
+                errorType = ExploreCameraUiState.LocationError,
+                text = stringResource(R.string.explore_location_failed_label),
+                content = { ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_location)) },
+                onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
+            )
+        }
+
+        ExploreCameraUiState.CodeError -> {
+            ExploreResultDialog(
+                errorType = ExploreCameraUiState.CodeError,
+                text = stringResource(R.string.explore_code_failed_label),
+                content = { ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_code)) },
+                onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
+            )
+        }
+
+        ExploreCameraUiState.EtcError -> {
+            ExploreResultDialog(
+                errorType = ExploreCameraUiState.EtcError,
+                text = stringResource(R.string.explore_etc_failed_label),
+                content = { ExploreFailedDialogContent(painter = null) },
+                onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
+            )
+        }
+
+        ExploreCameraUiState.Success -> {
+            ExploreResultDialog(
+                errorType = ExploreCameraUiState.LocationError,
+                text = stringResource(R.string.explore_dialog_success),
+                content = { ExploreSuccessDialogContent(url = successImageUrl) },
+                onDismissRequest = navigateToHome
+            )
+        }
+
+        else -> {}
     }
 }
 
@@ -189,6 +255,9 @@ private fun ExploreNaverMap(
     updateLocation: (Double, Double) -> Unit,
     updateTrackingToggle: (Boolean) -> Unit,
     updateSelectedPlace: (PlaceModel?) -> Unit,
+    updatePlaces: (Double, Double) -> Unit,
+    updateCameraUiState: (ExploreCameraUiState) -> Unit,
+    isValidDistance: (PlaceModel, LatLng) -> Boolean,
 ) {
     val density = LocalDensity.current
     var markerOffset by remember { mutableStateOf(IntOffset.Zero) }
@@ -255,7 +324,12 @@ private fun ExploreNaverMap(
         ) {
             ExploreRefreshButton(
                 text = stringResource(R.string.explore_map_refresh),
-                onClick = {},
+                onClick = {
+                    updatePlaces(
+                        locationState.cameraPositionState.position.target.latitude,
+                        locationState.cameraPositionState.position.target.longitude,
+                    )
+                },
                 modifier = Modifier.align(Alignment.Center),
             )
             ExploreTrackingButton(
@@ -302,13 +376,19 @@ private fun ExploreNaverMap(
                         shortIntroduction = place.shortIntroduction,
                         address = place.address,
                         visitCount = place.visitCount,
-                        categoryImage = place.categoryImage,
+                        categoryImage = place.categoryImageUrl,
                         onButtonClick = {
-                            navigateToExploreCameraScreen(
-                                place.id,
-                                locationState.location.latitude,
-                                locationState.location.longitude,
-                            )
+                            when (isValidDistance(place, locationState.location)) {
+                                true -> {
+                                    navigateToExploreCameraScreen(
+                                        place.id,
+                                        locationState.location.latitude,
+                                        locationState.location.longitude,
+                                    )
+                                }
+
+                                false -> updateCameraUiState(ExploreCameraUiState.LocationError)
+                            }
                             updateSelectedPlace(null)
                         },
                         onCloseButtonClick = {

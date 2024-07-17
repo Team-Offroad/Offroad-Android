@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.explore.presentation
+package com.teamoffroad.feature.explore.presentation.util
 
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis

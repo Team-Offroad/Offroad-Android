@@ -9,6 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.core.navigation.Route
 import com.teamoffroad.feature.auth.presentation.navigation.navigateToSetBirthDate
 import com.teamoffroad.feature.auth.presentation.navigation.navigateToSetCharacter
@@ -46,7 +47,7 @@ internal class MainNavigator(
     fun navigate(tab: MainNavTab) {
         when (tab) {
             MainNavTab.HOME -> navController.navigateToHome(navOptions)
-            MainNavTab.EXPLORE -> navController.navigateExplore(navOptions)
+            MainNavTab.EXPLORE -> navController.navigateExplore("None", "None", navOptions)
             MainNavTab.MYPAGE -> navController.navigateMypage(navOptions)
         }
     }
@@ -54,7 +55,7 @@ internal class MainNavigator(
     @Composable
     fun setBottomBarVisibility() = MainNavTab.contains {
         currentDestination?.hasRoute(it::class) == true
-    }
+    } || currentDestination?.route == "${MainTabRoute.Explore}/{errorType}/{successImageUrl}"
 
     fun navigateToHome() {
         navController.navigateToHome(navOptions)
@@ -80,9 +81,9 @@ internal class MainNavigator(
         navController.navigateToExploreCameraScreen(placeId, latitude, longitude, navOptions)
     }
 
-    fun navigateToExplore() {
+    fun navigateToExplore(errorType: String, successImageUrl: String) {
         navController.popBackStack()
-        navController.navigateExplore(navOptions)
+        navController.navigateExplore(errorType, successImageUrl, navOptions)
     }
 }
 
