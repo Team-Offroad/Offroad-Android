@@ -47,7 +47,7 @@ internal class MainNavigator(
     fun navigate(tab: MainNavTab) {
         when (tab) {
             MainNavTab.HOME -> navController.navigateToHome(navOptions)
-            MainNavTab.EXPLORE -> navController.navigateExplore("None", navOptions)
+            MainNavTab.EXPLORE -> navController.navigateExplore("None", "None", navOptions)
             MainNavTab.MYPAGE -> navController.navigateMypage(navOptions)
         }
     }
@@ -55,7 +55,7 @@ internal class MainNavigator(
     @Composable
     fun setBottomBarVisibility() = MainNavTab.contains {
         currentDestination?.hasRoute(it::class) == true
-    } || currentDestination?.route == "${MainTabRoute.Explore}/{errorType}"
+    } || currentDestination?.route == "${MainTabRoute.Explore}/{errorType}/{successImageUrl}"
 
     fun navigateToHome() {
         navController.navigateToHome(navOptions)
@@ -81,9 +81,9 @@ internal class MainNavigator(
         navController.navigateToExploreCameraScreen(placeId, latitude, longitude, navOptions)
     }
 
-    fun navigateToExplore(errorType: String) {
+    fun navigateToExplore(errorType: String, successImageUrl: String) {
         navController.popBackStack()
-        navController.navigateExplore(errorType, navOptions)
+        navController.navigateExplore(errorType, successImageUrl, navOptions)
     }
 }
 

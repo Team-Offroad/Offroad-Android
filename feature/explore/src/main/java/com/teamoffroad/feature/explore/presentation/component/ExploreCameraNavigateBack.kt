@@ -26,7 +26,7 @@ import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 fun ExploreCameraNavigateBack(
-    navigateToExplore: (String) -> Unit,
+    navigateToExplore: (String, String) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -38,7 +38,7 @@ fun ExploreCameraNavigateBack(
             modifier = Modifier
                 .wrapContentSize()
                 .pointerInput(Unit) {
-                    detectTapGestures(onTap = { navigateToExplore(ExploreCameraUiState.None.toString()) })
+                    detectTapGestures(onTap = { navigateToExplore(ExploreCameraUiState.None.toString(), "None") })
                 }
         ) {
             Image(

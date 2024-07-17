@@ -14,7 +14,7 @@ import com.teamoffroad.feature.explore.presentation.ExploreCameraScreen
 import com.teamoffroad.feature.explore.presentation.ExploreScreen
 import com.teamoffroad.feature.explore.presentation.model.ExploreCameraUiState
 
-fun NavController.navigateExplore(errorType: String, navOptions: NavOptions) {
+fun NavController.navigateExplore(errorType: String, successImageUrl: String, navOptions: NavOptions) {
     val cameraNavOptions by lazy {
         navOptions {
             popUpTo(graph.findStartDestination().id) {
@@ -24,7 +24,7 @@ fun NavController.navigateExplore(errorType: String, navOptions: NavOptions) {
             restoreState = true
         }
     }
-    val route = "${MainTabRoute.Explore}/$errorType"
+    val route = "${MainTabRoute.Explore}/$errorType/$successImageUrl"
     navigate(route, cameraNavOptions)
 }
 
@@ -35,18 +35,20 @@ fun NavController.navigateToExploreCameraScreen(placeId: Long, latitude: Double,
 
 fun NavGraphBuilder.exploreNavGraph(
     navigateToHome: () -> Unit,
-    navigateToExplore: (String) -> Unit,
+    navigateToExplore: (String, String) -> Unit,
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
 ) {
 
     composable(
-        route = "${MainTabRoute.Explore}/{errorType}",
+        route = "${MainTabRoute.Explore}/{errorType}/{successImageUrl}",
         arguments = listOf(
             navArgument("errorType") { type = NavType.StringType },
+            navArgument("successImageUrl") { type = NavType.StringType },
         )
     ) { backStackEntry ->
         val errorType = backStackEntry.arguments?.getString("errorType") ?: ExploreCameraUiState.None.toString()
-        ExploreScreen(errorType, navigateToHome, navigateToExploreCameraScreen)
+        val successImageUrl = backStackEntry.arguments?.getString("successImageUrl") ?: "None"
+        ExploreScreen(errorType, successImageUrl, navigateToHome, navigateToExploreCameraScreen)
     }
 
     composable(
