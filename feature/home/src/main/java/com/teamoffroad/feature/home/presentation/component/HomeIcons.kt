@@ -29,7 +29,7 @@ import com.teamoffroad.offroad.feature.home.R
 @Composable
 fun HomeIcons(
     context: Context,
-    url: String
+    imageUrl: String
 ) {
     val scope = rememberCoroutineScope()
     val permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -60,7 +60,7 @@ fun HomeIcons(
                                 permission
                             ) == PackageManager.PERMISSION_GRANTED
                         ) {
-                            downloadImage(context, url, scope)
+                            downloadImage(context, imageUrl, scope)
                             Toast.makeText(context, "이미지 다운 완료", Toast.LENGTH_SHORT).show()
                         } else {
                             launcher.launch(permission)

@@ -1,9 +1,9 @@
 package com.teamoffroad.feature.home.data.di
 
 import com.teamoffroad.feature.home.domain.repository.DummyUserRepository
-import com.teamoffroad.feature.home.domain.repository.EmblemRepository
+import com.teamoffroad.feature.home.domain.repository.UserRepository
 import com.teamoffroad.feature.home.domain.usecase.GetDummyUserListUseCase
-import com.teamoffroad.feature.home.domain.usecase.GetEmblemListUseCase
+import com.teamoffroad.feature.home.domain.usecase.UserUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,8 +25,8 @@ class UseCaseModule {
     @Provides
     @Singleton
     fun provideGetEmblemListUseCase(
-        emblemRepository: EmblemRepository,
-    ): GetEmblemListUseCase {
-        return GetEmblemListUseCase(emblemRepository)
+        userRepository: UserRepository,
+    ): UserUseCase {
+        return UserUseCase(userRepository)
     }
 }

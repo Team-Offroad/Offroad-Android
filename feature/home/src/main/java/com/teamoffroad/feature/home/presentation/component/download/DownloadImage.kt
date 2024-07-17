@@ -21,9 +21,13 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 
-fun downloadImage(context: Context, url: String, scope: CoroutineScope) {
+fun downloadImage(
+    context: Context,
+    imageUrl: String,
+    scope: CoroutineScope
+) {
     scope.launch(Dispatchers.IO) {
-        val result = loadImage(context, url)
+        val result = loadImage(context, imageUrl)
         if (result is DownloadResult.Success) {
             val bitmap = result.data
             val saveResult = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -40,11 +44,14 @@ fun downloadImage(context: Context, url: String, scope: CoroutineScope) {
     }
 }
 
-private suspend fun loadImage(context: Context, url: String): DownloadResult<Bitmap> {
+private suspend fun loadImage(
+    context: Context,
+    imageUrl: String
+): DownloadResult<Bitmap> {
     return withContext(Dispatchers.IO) {
         val imageLoader = ImageLoader(context)
         val request = ImageRequest.Builder(context)
-            .data(url)
+            .data(imageUrl)
             .build()
 
         when (val result = imageLoader.execute(request)) {
