@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -435,7 +436,7 @@ fun ExploreResultDialog(
                 verticalArrangement = Arrangement.Bottom,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 40.dp),
+                    .padding(top = 36.dp),
             ) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
@@ -456,24 +457,36 @@ fun ExploreResultDialog(
                         else -> ""
                     },
                     color = Main2,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    style = OffroadTheme.typography.textRegular
                 )
                 Spacer(modifier = Modifier.height(14.dp))
                 content()
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .align(Alignment.BottomCenter)
+                    .padding(horizontal = 40.dp)
+                    .padding(bottom = 28.dp)
+            ) {
                 Box(
                     modifier = Modifier
                         .background(
                             color = Main2,
                             shape = RoundedCornerShape(6.dp)
                         )
-                        .padding(vertical = 16.dp, horizontal = 100.dp)
                         .clickable(onClick = onDismissRequest)
                         .fillMaxWidth()
+                        .height(44.dp)
+                        .align(Alignment.BottomCenter),
                 ) {
                     Text(
                         text = "확인",
+                        textAlign = TextAlign.Center,
                         style = OffroadTheme.typography.btnSmall,
-                        color = White
+                        color = White,
+                        modifier = Modifier.align(Alignment.Center)
                     )
                 }
             }
@@ -490,8 +503,7 @@ fun ExploreSuccessDialogContent(
         model = url,
         contentDescription = null,
         modifier = modifier
-            .fillMaxHeight()
-            .wrapContentWidth(),
+            .wrapContentSize(),
         contentScale = ContentScale.FillHeight
     )
 }
@@ -508,9 +520,8 @@ fun ExploreFailedDialogContent(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentWidth()
-                .padding(top = 4.dp)
+                .wrapContentSize()
+                .padding(top = 4.dp, bottom = 72.dp)
                 .align(Alignment.BottomCenter),
         ) {
             painter?.let { Image(painter = painter, contentDescription = "에러 이미지") }
