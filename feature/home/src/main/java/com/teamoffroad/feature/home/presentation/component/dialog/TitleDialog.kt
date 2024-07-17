@@ -148,13 +148,60 @@ fun CharacterTitle(
     val responseEmblemData = remember { mutableStateOf<Emblem?>(null) }
     val emblemDataState = rememberLazyListState()
 
-    Box {
+    Box(
+        modifier = Modifier.height(222.dp)
+    ) {
         LazyColumn(
             state = emblemDataState,
             modifier = Modifier
                 .drawScrollbar(emblemDataState),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
+            items(emblems) { data ->
+                DialogTagItem(
+                    text = data.emblemName,
+                    textColor = if (data.emblemCode == responseEmblemData.value?.emblemCode) White else Main2,
+                    style = OffroadTheme.typography.subtitle2Semibold,
+                    backgroundColor = if (data.emblemCode == responseEmblemData.value?.emblemCode) Sub else NametagInactive,
+                    borderColor = if (data.emblemCode == responseEmblemData.value?.emblemCode) Sub else NametagStroke,
+                    emblem = data,
+                    onItemClick = { clickedData: Emblem ->
+                        responseEmblemData.value =
+                            if (responseEmblemData.value?.emblemCode == clickedData.emblemCode) null else clickedData
+                        onSelectionChange(responseEmblemData.value)
+                    }
+                )
+            }
+            items(emblems) { data ->
+                DialogTagItem(
+                    text = data.emblemName,
+                    textColor = if (data.emblemCode == responseEmblemData.value?.emblemCode) White else Main2,
+                    style = OffroadTheme.typography.subtitle2Semibold,
+                    backgroundColor = if (data.emblemCode == responseEmblemData.value?.emblemCode) Sub else NametagInactive,
+                    borderColor = if (data.emblemCode == responseEmblemData.value?.emblemCode) Sub else NametagStroke,
+                    emblem = data,
+                    onItemClick = { clickedData: Emblem ->
+                        responseEmblemData.value =
+                            if (responseEmblemData.value?.emblemCode == clickedData.emblemCode) null else clickedData
+                        onSelectionChange(responseEmblemData.value)
+                    }
+                )
+            }
+            items(emblems) { data ->
+                DialogTagItem(
+                    text = data.emblemName,
+                    textColor = if (data.emblemCode == responseEmblemData.value?.emblemCode) White else Main2,
+                    style = OffroadTheme.typography.subtitle2Semibold,
+                    backgroundColor = if (data.emblemCode == responseEmblemData.value?.emblemCode) Sub else NametagInactive,
+                    borderColor = if (data.emblemCode == responseEmblemData.value?.emblemCode) Sub else NametagStroke,
+                    emblem = data,
+                    onItemClick = { clickedData: Emblem ->
+                        responseEmblemData.value =
+                            if (responseEmblemData.value?.emblemCode == clickedData.emblemCode) null else clickedData
+                        onSelectionChange(responseEmblemData.value)
+                    }
+                )
+            }
             items(emblems) { data ->
                 DialogTagItem(
                     text = data.emblemName,
