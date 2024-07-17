@@ -13,8 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
-import com.teamoffroad.feature.explore.presentation.BarcodeAnalyzer
 import com.teamoffroad.feature.explore.presentation.model.ExploreCameraUiState
+import com.teamoffroad.feature.explore.presentation.util.BarcodeAnalyzer
 
 @Composable
 fun ExploreCamera(
