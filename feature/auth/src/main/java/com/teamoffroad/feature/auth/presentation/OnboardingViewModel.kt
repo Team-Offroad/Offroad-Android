@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.auth.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.auth.domain.repository.AuthRepository
@@ -13,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
 ) : ViewModel() {
     private val _isCheckedNickname: MutableStateFlow<String> = MutableStateFlow("")
     val isCheckedNickname: StateFlow<String> = _isCheckedNickname.asStateFlow()
@@ -29,9 +28,6 @@ class OnboardingViewModel @Inject constructor(
 
     fun updateNicknameValid(nickname: String) {
         _isCheckedNickname.value = nickname
-        Log.d(
-            "asdasd", _isCheckedNickname.value
-        )
     }
 
     fun updateInputNickname(nickname: String) {
