@@ -87,7 +87,7 @@ fun OffroadDialog(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(248.dp),
+                .height(380.dp),
             shape = RoundedCornerShape(8.dp),
             colors = CardDefaults.cardColors(
                 containerColor = White
