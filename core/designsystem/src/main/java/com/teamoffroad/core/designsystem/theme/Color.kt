@@ -10,7 +10,7 @@ val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
-val Main1 = Color(0xFFFEFBF6)
+val Main1 = Color(0xFFFFF7E7)
 val Main175 = Color(0xBFFEFBF6)
 val Main2 = Color(0xFF1D1E18)
 val Main3 = Color(0xFFFFFBF4)
