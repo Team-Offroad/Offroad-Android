@@ -15,6 +15,7 @@ import javax.inject.Inject
 class SetGenderViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
+
     private val _isCheckedGender: MutableStateFlow<String> = MutableStateFlow("")
     val isCheckedGender: StateFlow<String> = _isCheckedGender.asStateFlow()
 

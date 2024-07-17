@@ -27,8 +27,6 @@ class OnboardingViewModel @Inject constructor(
     private val _inputNickname: MutableStateFlow<String> = MutableStateFlow("")
     val inputNickname: StateFlow<String> = _inputNickname.asStateFlow()
 
-
-    //검사 후 업데이트 닉네임
     fun updateNicknameValid(nickname: String) {
         _isCheckedNickname.value = nickname
         Log.d(

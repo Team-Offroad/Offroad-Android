@@ -29,6 +29,5 @@ dependencies {
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.google.play.services.auth)
     implementation(libs.retrofit.kotlinx.serialization)
-    implementation(libs.kotlinx.serialization.json.v151)
 
 }

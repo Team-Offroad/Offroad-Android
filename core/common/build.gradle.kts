@@ -25,5 +25,4 @@ dependencies {
     implementation(libs.kotlinx.serialization)
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.androidx.datastore)
-    implementation(libs.androidx.junit.ktx)
 }
