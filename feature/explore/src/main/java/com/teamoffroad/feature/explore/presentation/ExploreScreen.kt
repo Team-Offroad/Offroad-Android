@@ -8,27 +8,18 @@ import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -37,25 +28,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.compose.CameraPositionState
 import com.naver.maps.map.compose.CameraUpdateReason
@@ -68,15 +53,15 @@ import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberFusedLocationSource
 import com.naver.maps.map.overlay.OverlayImage
 import com.teamoffroad.core.designsystem.theme.Black
-import com.teamoffroad.core.designsystem.theme.Main2
-import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub2
-import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.explore.presentation.component.ExploreAppBar
+import com.teamoffroad.feature.explore.presentation.component.ExploreFailedDialogContent
 import com.teamoffroad.feature.explore.presentation.component.ExploreInfoWindow
 import com.teamoffroad.feature.explore.presentation.component.ExploreMapBottomButton
 import com.teamoffroad.feature.explore.presentation.component.ExploreMapForeground
 import com.teamoffroad.feature.explore.presentation.component.ExploreRefreshButton
+import com.teamoffroad.feature.explore.presentation.component.ExploreResultDialog
+import com.teamoffroad.feature.explore.presentation.component.ExploreSuccessDialogContent
 import com.teamoffroad.feature.explore.presentation.component.ExploreTrackingButton
 import com.teamoffroad.feature.explore.presentation.model.ExploreCameraUiState
 import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
@@ -411,129 +396,4 @@ private fun calculateMarkerOffset(location: LatLng, cameraPositionState: CameraP
             IntOffset(xOffset, yOffset)
         }
     } ?: IntOffset(0, 0)
-}
-
-@Composable
-fun ExploreResultDialog(
-    errorType: ExploreCameraUiState,
-    content: @Composable () -> Unit,
-    onDismissRequest: () -> Unit,
-) {
-    Dialog(
-        onDismissRequest = onDismissRequest,
-        properties = DialogProperties(dismissOnClickOutside = false),
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.bg_explore_dialog),
-            contentDescription = null,
-            modifier = Modifier
-                .size(312.dp, 348.dp)
-        )
-        Box(
-            modifier = Modifier
-                .size(312.dp, 348.dp)
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Bottom,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 36.dp),
-            ) {
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = if (errorType == ExploreCameraUiState.Success) {
-                        stringResource(R.string.explore_dialog_success)
-                    } else {
-                        stringResource(R.string.explore_dialog_failed)
-                    },
-                    style = OffroadTheme.typography.title,
-                    color = Main2,
-                )
-                Spacer(modifier = Modifier.height(12.dp))
-                Text(
-                    text = when (errorType) {
-                        ExploreCameraUiState.LocationError -> stringResource(R.string.explore_camera_location_failed)
-                        ExploreCameraUiState.CodeError -> stringResource(R.string.explore_camera_code_failed)
-                        ExploreCameraUiState.EtcError -> stringResource(R.string.explore_camera_etc_failed)
-                        else -> ""
-                    },
-                    color = Main2,
-                    textAlign = TextAlign.Center,
-                    style = OffroadTheme.typography.textRegular
-                )
-                Spacer(modifier = Modifier.height(14.dp))
-                content()
-            }
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .align(Alignment.BottomCenter)
-                    .padding(horizontal = 40.dp)
-                    .padding(bottom = 28.dp)
-            ) {
-                Box(
-                    modifier = Modifier
-                        .background(
-                            color = Main2,
-                            shape = RoundedCornerShape(6.dp)
-                        )
-                        .clickable(onClick = onDismissRequest)
-                        .fillMaxWidth()
-                        .height(44.dp)
-                        .align(Alignment.BottomCenter),
-                ) {
-                    Text(
-                        text = "확인",
-                        textAlign = TextAlign.Center,
-                        style = OffroadTheme.typography.btnSmall,
-                        color = White,
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun ExploreSuccessDialogContent(
-    url: String,
-    modifier: Modifier = Modifier,
-) {
-    AsyncImage(
-        model = url,
-        contentDescription = null,
-        modifier = modifier
-            .wrapContentSize(),
-        contentScale = ContentScale.FillHeight
-    )
-}
-
-@Composable
-fun ExploreFailedDialogContent(
-    painter: Painter?,
-    modifier: Modifier = Modifier,
-) {
-    Box(
-        modifier = modifier
-            .fillMaxHeight()
-            .wrapContentWidth()
-    ) {
-        Column(
-            modifier = Modifier
-                .wrapContentSize()
-                .padding(top = 4.dp, bottom = 72.dp)
-                .align(Alignment.BottomCenter),
-        ) {
-            painter?.let { Image(painter = painter, contentDescription = "에러 이미지") }
-            Image(
-                painter = painterResource(id = R.drawable.img_explore_failed_character),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(height = 112.dp, width = 96.dp)
-                    .align(Alignment.CenterHorizontally)
-            )
-        }
-    }
 }
