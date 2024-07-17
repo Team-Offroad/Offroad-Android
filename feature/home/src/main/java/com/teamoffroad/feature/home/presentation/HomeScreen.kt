@@ -99,10 +99,6 @@ private fun UsersAdventuresInformation(
     ) {
         val imageUrl = adventuresInformationsData?.characterImageUrl ?: ""
 
-        Column {
-            NicknameText(adventuresInformationsData?.nickname ?: "")
-            CharacterItem().CharacterNameText(adventuresInformationsData?.characterName ?: "")
-        }
         Box(
             modifier = Modifier.fillMaxWidth(),
             contentAlignment = Alignment.TopEnd
@@ -113,6 +109,12 @@ private fun UsersAdventuresInformation(
                 imageUrl = imageUrl
             )
         }
+
+        Column {
+            NicknameText(adventuresInformationsData?.nickname ?: "")
+            CharacterItem().CharacterNameText(adventuresInformationsData?.characterName ?: "")
+        }
+
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
