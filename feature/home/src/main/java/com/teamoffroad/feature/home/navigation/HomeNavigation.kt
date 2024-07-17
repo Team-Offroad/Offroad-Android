@@ -1,5 +1,7 @@
 package com.teamoffroad.feature.home.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -8,10 +10,14 @@ import androidx.navigation.compose.composable
 import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.feature.home.presentation.HomeRoute
 
-fun NavController.navigateToHome(navOptions: NavOptions) {
-    navigate(MainTabRoute.Home, navOptions)
+fun NavController.navigateToHome(navOptions: NavOptions? = null) {
+    val options = navOptions ?: NavOptions.Builder()
+        .setPopUpTo(graph.startDestinationId, inclusive = true)
+        .build()
+    navigate(MainTabRoute.Home, options)
 }
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun NavGraphBuilder.homeNavGraph(
     padding: PaddingValues,
 ) {
@@ -19,4 +25,3 @@ fun NavGraphBuilder.homeNavGraph(
         HomeRoute(padding)
     }
 }
-
