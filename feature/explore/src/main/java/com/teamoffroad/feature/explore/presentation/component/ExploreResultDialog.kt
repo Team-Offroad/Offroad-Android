@@ -32,6 +32,7 @@ import com.teamoffroad.offroad.feature.explore.R
 @Composable
 fun ExploreResultDialog(
     errorType: ExploreCameraUiState,
+    text: String = "",
     content: @Composable () -> Unit,
     onDismissRequest: () -> Unit,
 ) {
@@ -68,12 +69,7 @@ fun ExploreResultDialog(
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
-                    text = when (errorType) {
-                        ExploreCameraUiState.LocationError -> stringResource(R.string.explore_camera_location_failed)
-                        ExploreCameraUiState.CodeError -> stringResource(R.string.explore_camera_code_failed)
-                        ExploreCameraUiState.EtcError -> stringResource(R.string.explore_camera_etc_failed)
-                        else -> ""
-                    },
+                    text = text,
                     color = Main2,
                     textAlign = TextAlign.Center,
                     style = OffroadTheme.typography.textRegular

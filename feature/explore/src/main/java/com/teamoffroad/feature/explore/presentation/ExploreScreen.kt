@@ -85,39 +85,11 @@ internal fun ExploreScreen(
         Toast.makeText(context, stringResource(R.string.explore_places_failed), Toast.LENGTH_SHORT).show()
     }
 
-    when (errorType) {
-        ExploreCameraUiState.LocationError.toString() -> {
-            ExploreResultDialog(
-                errorType = ExploreCameraUiState.CodeError,
-                content = { ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_location)) },
-                onDismissRequest = {}
-            )
-        }
-
-        ExploreCameraUiState.CodeError.toString() -> {
-            ExploreResultDialog(
-                errorType = ExploreCameraUiState.CodeError,
-                content = { ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_code)) },
-                onDismissRequest = {}
-            )
-        }
-
-        ExploreCameraUiState.EtcError.toString() -> {
-            ExploreResultDialog(
-                errorType = ExploreCameraUiState.EtcError,
-                content = { ExploreFailedDialogContent(painter = null) },
-                onDismissRequest = {}
-            )
-        }
-
-        ExploreCameraUiState.Success.toString() -> {
-            ExploreResultDialog(
-                errorType = ExploreCameraUiState.LocationError,
-                content = { ExploreSuccessDialogContent(url = successImageUrl) },
-                onDismissRequest = navigateToHome
-            )
-        }
+    if (errorType != ExploreCameraUiState.None.toString() && uiState.errorType != ExploreCameraUiState.None) {
+        viewModel.updateExploreCameraUiState(uiState.getExploreCameraUiState(errorType))
     }
+
+    ExploreCameraUiStateHandler(uiState, viewModel::updateExploreCameraUiState, successImageUrl, navigateToHome)
 
     ExploreLocationPermissionHandler(
         context = context,
@@ -144,7 +116,57 @@ internal fun ExploreScreen(
             viewModel::updateTrackingToggle,
             viewModel::updateSelectedPlace,
             viewModel::updatePlaces,
+            viewModel::updateExploreCameraUiState,
+            viewModel::isValidDistance,
         )
+    }
+}
+
+@Composable
+private fun ExploreCameraUiStateHandler(
+    uiState: ExploreUiState,
+    updateExploreCameraUiState: (ExploreCameraUiState) -> Unit,
+    successImageUrl: String,
+    navigateToHome: () -> Unit,
+) {
+    when (uiState.errorType) {
+        ExploreCameraUiState.LocationError -> {
+            ExploreResultDialog(
+                errorType = ExploreCameraUiState.LocationError,
+                text = stringResource(R.string.explore_location_failed_label),
+                content = { ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_location)) },
+                onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
+            )
+        }
+
+        ExploreCameraUiState.CodeError -> {
+            ExploreResultDialog(
+                errorType = ExploreCameraUiState.CodeError,
+                text = stringResource(R.string.explore_code_failed_label),
+                content = { ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_code)) },
+                onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
+            )
+        }
+
+        ExploreCameraUiState.EtcError -> {
+            ExploreResultDialog(
+                errorType = ExploreCameraUiState.EtcError,
+                text = stringResource(R.string.explore_etc_failed_label),
+                content = { ExploreFailedDialogContent(painter = null) },
+                onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
+            )
+        }
+
+        ExploreCameraUiState.Success -> {
+            ExploreResultDialog(
+                errorType = ExploreCameraUiState.LocationError,
+                text = stringResource(R.string.explore_dialog_success),
+                content = { ExploreSuccessDialogContent(url = successImageUrl) },
+                onDismissRequest = navigateToHome
+            )
+        }
+
+        else -> {}
     }
 }
 
@@ -234,6 +256,8 @@ private fun ExploreNaverMap(
     updateTrackingToggle: (Boolean) -> Unit,
     updateSelectedPlace: (PlaceModel?) -> Unit,
     updatePlaces: (Double, Double) -> Unit,
+    updateCameraUiState: (ExploreCameraUiState) -> Unit,
+    isValidDistance: (PlaceModel, LatLng) -> Boolean,
 ) {
     val density = LocalDensity.current
     var markerOffset by remember { mutableStateOf(IntOffset.Zero) }
@@ -354,11 +378,17 @@ private fun ExploreNaverMap(
                         visitCount = place.visitCount,
                         categoryImage = place.categoryImageUrl,
                         onButtonClick = {
-                            navigateToExploreCameraScreen(
-                                place.id,
-                                locationState.location.latitude,
-                                locationState.location.longitude,
-                            )
+                            when (isValidDistance(place, locationState.location)) {
+                                true -> {
+                                    navigateToExploreCameraScreen(
+                                        place.id,
+                                        locationState.location.latitude,
+                                        locationState.location.longitude,
+                                    )
+                                }
+
+                                false -> updateCameraUiState(ExploreCameraUiState.LocationError)
+                            }
                             updateSelectedPlace(null)
                         },
                         onCloseButtonClick = {

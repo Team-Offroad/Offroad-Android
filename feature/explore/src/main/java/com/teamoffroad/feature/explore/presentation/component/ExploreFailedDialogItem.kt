@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
@@ -32,7 +33,14 @@ fun ExploreFailedDialogContent(
                 .padding(top = 4.dp, bottom = 72.dp)
                 .align(Alignment.BottomCenter),
         ) {
-            painter?.let { Image(painter = painter, contentDescription = "에러 이미지") }
+            Column(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                painter?.let { Image(painter = painter, contentDescription = "에러 이미지") }
+            }
             Image(
                 painter = painterResource(id = R.drawable.img_explore_failed_character),
                 contentDescription = null,

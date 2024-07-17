@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.naver.maps.geometry.LatLng
 import com.teamoffroad.feature.explore.domain.usecase.GetPlaceListUseCase
 import com.teamoffroad.feature.explore.presentation.mapper.toUi
+import com.teamoffroad.feature.explore.presentation.model.ExploreCameraUiState
 import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
+import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 import com.teamoffroad.feature.explore.presentation.model.PlaceModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -79,6 +81,23 @@ class ExploreViewModel @Inject constructor(
     fun updateSelectedPlace(place: PlaceModel?) {
         _uiState.value = uiState.value.copy(
             selectedPlace = place
+        )
+    }
+
+    fun isValidDistance(place: PlaceModel, location: LatLng): Boolean {
+        return when (place.placeCategory) {
+            PlaceCategory.CAFFE -> place.location.distanceTo(location) <= 25
+            PlaceCategory.PARK -> place.location.distanceTo(location) <= 100
+            PlaceCategory.RESTAURANT -> place.location.distanceTo(location) <= 25
+            PlaceCategory.CULTURE -> place.location.distanceTo(location) <= 25
+            PlaceCategory.SPORT -> place.location.distanceTo(location) <= 100
+            else -> false
+        }
+    }
+
+    fun updateExploreCameraUiState(errorType: ExploreCameraUiState) {
+        _uiState.value = uiState.value.copy(
+            errorType = errorType
         )
     }
 }
