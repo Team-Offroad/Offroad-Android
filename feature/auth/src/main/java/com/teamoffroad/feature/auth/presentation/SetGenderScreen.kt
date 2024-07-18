@@ -24,7 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.teamoffroad.core.designsystem.component.OffroadBasicBtn
+import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2

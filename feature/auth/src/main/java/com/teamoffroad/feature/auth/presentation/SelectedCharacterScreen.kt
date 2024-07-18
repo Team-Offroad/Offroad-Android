@@ -14,14 +14,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.teamoffroad.core.designsystem.component.OffroadBasicBtn
+import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
-import com.teamoffroad.core.designsystem.theme.selectedCharacterBackground
-import com.teamoffroad.core.designsystem.theme.selectedCharacterBottom
-import com.teamoffroad.core.designsystem.theme.selectedCharacterText
+import com.teamoffroad.core.designsystem.theme.SelectedCharacterBackground
+import com.teamoffroad.core.designsystem.theme.SelectedCharacterBottom
+import com.teamoffroad.core.designsystem.theme.SelectedCharacterText
 import com.teamoffroad.offroad.feature.auth.R
 
 @Composable
@@ -33,7 +32,7 @@ internal fun SelectedCharacterScreen(
         Column {
             Column(
                 modifier = Modifier
-                    .background(selectedCharacterBackground)
+                    .background(SelectedCharacterBackground)
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -42,20 +41,20 @@ internal fun SelectedCharacterScreen(
                     text =
                     "프로필 생성을 축하드려요!",
                     fontSize = 22.sp,
-                    color = selectedCharacterText,
+                    color = SelectedCharacterText,
                     style = OffroadTheme.typography.title
                 )
                 Text(
                     text = "지금 바로 모험을 떠나볼까요?",
                     fontSize = 22.sp,
-                    color = selectedCharacterText,
+                    color = SelectedCharacterText,
                     style = OffroadTheme.typography.title
                 )
                 Spacer(modifier = Modifier.height(330.dp))
             }
             Column(
                 modifier = Modifier
-                    .background(selectedCharacterBottom)
+                    .background(SelectedCharacterBottom)
                     .fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(
@@ -83,10 +82,4 @@ internal fun SelectedCharacterScreen(
             contentDescription = "light",
         )
     }
-}
-
-@Composable
-@Preview
-fun asdasds(){
-
 }

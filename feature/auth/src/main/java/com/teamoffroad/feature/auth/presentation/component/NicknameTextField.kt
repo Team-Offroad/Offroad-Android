@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,7 +24,6 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Gray300
@@ -120,14 +118,4 @@ fun NicknameTextField(
             }
         },
     )
-}
-
-@Preview(showBackground = true, backgroundColor = 0xFFFFFF)
-@Composable
-fun NicknameTextFieldPreview() {
-    OffroadTheme {
-        var normalValue by remember {
-            mutableStateOf("")
-        }
-    }
 }

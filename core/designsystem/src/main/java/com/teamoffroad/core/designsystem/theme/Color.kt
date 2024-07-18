@@ -39,9 +39,9 @@ val Gray200 = Color(0xFFBEBEBE)
 val Gray300 = Color(0xFFB2B2B2)
 val Gray400 = Color(0xFF7E7E7E)
 
-val selectedCharacterBackground = Color(0xFF452B0F)
-val selectedCharacterText = Color(0xFFFFF7E7)
-val selectedCharacterBottom = Color(0xFF8F705B)
+val SelectedCharacterBackground = Color(0xFF452B0F)
+val SelectedCharacterText = Color(0xFFFFF7E7)
+val SelectedCharacterBottom = Color(0xFF8F705B)
 
 val BtnInactive = Color(0xFFEBEBEB)
 val BottomBarInactive = Color(0xFFA4A099)

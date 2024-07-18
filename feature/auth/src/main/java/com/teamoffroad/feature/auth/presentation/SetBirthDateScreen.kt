@@ -22,11 +22,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.teamoffroad.core.designsystem.component.OffroadBasicBtn
+import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
 import com.teamoffroad.core.designsystem.component.addFocusCleaner
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
