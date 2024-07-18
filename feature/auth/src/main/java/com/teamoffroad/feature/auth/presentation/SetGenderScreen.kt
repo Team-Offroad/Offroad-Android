@@ -60,6 +60,9 @@ internal fun SetGenderScreen(
                     text = "건너뛰기",
                     color = Gray300,
                     style = OffroadTheme.typography.hint,
+                    modifier = Modifier.clickable{
+                        viewModel.fetchUserProfile(nickname, birthDate, null)
+                    }
                 )
             }
             Spacer(modifier = Modifier.padding(vertical = 26.dp))

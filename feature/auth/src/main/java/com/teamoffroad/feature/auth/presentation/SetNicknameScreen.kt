@@ -35,7 +35,7 @@ import com.teamoffroad.feature.auth.presentation.component.SetNicknameButton
 @Composable
 internal fun SetNicknameScreen(
     navigateToSetBirthDate: (String) -> Unit,
-    viewModel: OnboardingViewModel = hiltViewModel(),
+    viewModel: SetNicknameViewModel = hiltViewModel(),
 ) {
     val focusManager = LocalFocusManager.current
     val focusRequester by remember { mutableStateOf(FocusRequester()) }

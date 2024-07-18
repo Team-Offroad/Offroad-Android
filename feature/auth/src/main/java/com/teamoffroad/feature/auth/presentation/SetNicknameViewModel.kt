@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class OnboardingViewModel @Inject constructor(
+class SetNicknameViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
     private val _isCheckedNickname: MutableStateFlow<String> = MutableStateFlow("")

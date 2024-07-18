@@ -1,6 +1,7 @@
 package com.teamoffroad.feature.auth.presentation
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,7 +21,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -31,7 +31,8 @@ import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
-import com.teamoffroad.feature.auth.presentation.component.NicknameTextField
+import com.teamoffroad.feature.auth.presentation.component.BirthDateHintText
+import com.teamoffroad.feature.auth.presentation.component.BirthDateTextField
 import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -42,7 +43,8 @@ internal fun SetBirthDateScreen(
     viewModel: SetBirthDateViewModel = hiltViewModel(),
 ) {
     val focusManager = LocalFocusManager.current
-    val focusRequester by remember { mutableStateOf(FocusRequester()) }
+
+    var isVisible by remember { mutableStateOf(false) }
 
     var year by remember { mutableStateOf("") }
     var month by remember { mutableStateOf("") }
@@ -66,6 +68,9 @@ internal fun SetBirthDateScreen(
                     text = "건너뛰기",
                     color = Gray300,
                     style = OffroadTheme.typography.hint,
+                    modifier = Modifier.clickable{
+                        navigateToSetGender(nickname, null)
+                    }
                 )
             }
             Spacer(modifier = Modifier.padding(vertical = 26.dp))
@@ -105,14 +110,20 @@ internal fun SetBirthDateScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
                 ) {
-                    NicknameTextField(
+                    val pattern = remember { Regex("^\\d+\$") }
+
+                    BirthDateTextField(
                         value = year,
                         placeholder = "YYYY",
                         onValueChange = {
-                            year = it
+                            if (it.isEmpty() || it.matches(pattern)) {
+                                year = it
+                            }
+                            isVisible = validateYearInput(year)
                             viewModel.updateCheckedYear(year)
                         },
                         textAlign = Alignment.Center,
+                        maxLength = 4,
                         modifier = Modifier
                             .width(84.dp)
                             .height(43.dp)
@@ -123,16 +134,20 @@ internal fun SetBirthDateScreen(
                         color = Main2,
                         style = OffroadTheme.typography.subtitleReg,
                     )
-                    NicknameTextField(
+                    BirthDateTextField(
                         modifier = Modifier
                             .width(66.dp)
                             .height(43.dp),
                         placeholder = "MM",
                         value = month,
                         onValueChange = {
-                            month = it
+                            if (it.isEmpty() || it.matches(pattern)) {
+                                month = it
+                            }
+                            isVisible = validateMonthInput(month)
                             viewModel.updateCheckedMonth(month)
                         },
+                        maxLength = 2,
                         textAlign = Alignment.Center,
                     )
                     Text(
@@ -141,16 +156,20 @@ internal fun SetBirthDateScreen(
                         color = Main2,
                         style = OffroadTheme.typography.subtitleReg,
                     )
-                    NicknameTextField(
+                    BirthDateTextField(
                         modifier = Modifier
                             .width(66.dp)
                             .height(43.dp),
                         value = day,
                         placeholder = "DD",
                         onValueChange = {
-                            day = it
+                            if (it.isEmpty() || it.matches(pattern)) {
+                                day = it
+                            }
+                            isVisible = validateDayInput(day)
                             viewModel.updateCheckedDate(day)
                         },
+                        maxLength = 2,
                         textAlign = Alignment.Center,
                     )
                     Text(
@@ -161,6 +180,11 @@ internal fun SetBirthDateScreen(
                         style = OffroadTheme.typography.subtitleReg,
                     )
                 }
+                BirthDateHintText(
+                    modifier = Modifier
+                        .padding(top = 12.dp),
+                    isVisible = isVisible
+                )
             }
             Spacer(
                 modifier = Modifier
@@ -180,10 +204,30 @@ internal fun SetBirthDateScreen(
                         }
                     navigateToSetGender(nickname, birthDate)
                 },
-                isActive = true,
+                isActive = validateButtonInput(year, month, day),
                 text = "다음"
             )
             Spacer(modifier = Modifier.height(24.dp))
         }
     }
 }
+
+fun validateYearInput(year: String): Boolean {
+    return !(year.length == 4 && year.toIntOrNull() in 1900..2024)
+}
+
+fun validateMonthInput(month: String): Boolean {
+    return !(month.length <= 2 && month.toIntOrNull() in 1..12)
+}
+
+fun validateDayInput(day: String): Boolean {
+    return !(day.length <= 2 && day.toIntOrNull() in 1..31)
+}
+
+fun validateButtonInput(year: String, month: String, day: String): Boolean {
+    return (year.toIntOrNull() !in 1900..2024 ||
+            month.toIntOrNull() !in 1..12 ||
+            day.toIntOrNull() !in 1..31)
+
+}
+
