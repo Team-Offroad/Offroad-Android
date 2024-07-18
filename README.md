@@ -78,3 +78,6 @@
 </br>
 
 ## 👨‍👩‍👧‍👦 Contributers
+|<img src="https://avatars.githubusercontent.com/u/127238018?v=4" width="128" />|<img src="https://avatars.githubusercontent.com/u/81751105?v=4" width="128" />|<img src="https://avatars.githubusercontent.com/u/112953135?v=4" width="128" />|
+|:---------:|:---------:|:---------:|
+|[👑최준서](https://github.com/junseo511)|[유정현](https://github.com/OliviaYJH)|[이석찬](https://github.com/leeseokchan00)|
