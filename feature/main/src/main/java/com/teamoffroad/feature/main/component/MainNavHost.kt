@@ -44,9 +44,7 @@ internal fun MainNavHost(
                     navigator.navigateToExploreCameraScreen(placeId, latitude, longitude)
                 }
             )
-            mypageNavGraph(
-                padding = padding,
-            )
+            mypageNavGraph()
             authNavGraph(
                 navigateToHome = { navigator.navigateToHome() },
                 navigateToSetNickname = { navigator.navigateToSetNickname() },

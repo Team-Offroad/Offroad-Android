@@ -19,7 +19,6 @@ import com.teamoffroad.feature.auth.navigation.navigateToSetNickname
 import com.teamoffroad.feature.explore.navigation.navigateExplore
 import com.teamoffroad.feature.explore.navigation.navigateToExploreCameraScreen
 import com.teamoffroad.feature.home.navigation.navigateToHome
-import com.teamoffroad.feature.mypage.navigation.navigateMypage
 
 internal class MainNavigator(
     val navController: NavHostController,
@@ -49,7 +48,9 @@ internal class MainNavigator(
         when (tab) {
             MainNavTab.HOME -> navController.navigateToHome(navOptions)
             MainNavTab.EXPLORE -> navController.navigateExplore("None", "None", navOptions)
-            MainNavTab.MYPAGE -> navController.navigateMypage(navOptions)
+            MainNavTab.MYPAGE -> {}
+            // TODO: 릴리즈 이전에 MyPage로 이동하는 코드 추가
+            // MainNavTab.MYPAGE -> navController.navigateToMyPage(navOptions)
         }
     }
 
