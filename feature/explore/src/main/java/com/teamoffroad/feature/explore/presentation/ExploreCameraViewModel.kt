@@ -16,13 +16,16 @@ class ExploreCameraViewModel @Inject constructor(
     private val postExploreAuthUseCase: PostExploreAuthUseCase,
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<ExploreCameraUiState> = MutableStateFlow(ExploreCameraUiState.Loading)
+    private val _uiState: MutableStateFlow<ExploreCameraUiState> = MutableStateFlow(ExploreCameraUiState.None)
     val uiState: StateFlow<ExploreCameraUiState> = _uiState.asStateFlow()
 
     private val _successImageUrl: MutableStateFlow<String> = MutableStateFlow("None")
     val successImageUrl: StateFlow<String> = _successImageUrl.asStateFlow()
 
     fun postExploreResult(placeId: Long, latitude: Double, longitude: Double, qr: String) {
+        if (uiState.value is ExploreCameraUiState.Loading) return
+        _uiState.value = ExploreCameraUiState.Loading
+
         viewModelScope.launch {
             runCatching {
                 postExploreAuthUseCase.invoke(placeId, qr, latitude, longitude)
