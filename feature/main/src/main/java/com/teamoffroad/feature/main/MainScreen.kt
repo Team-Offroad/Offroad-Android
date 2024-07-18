@@ -4,9 +4,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.waterfallPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -41,14 +38,11 @@ private fun MainScreenContent(
                 navigator = navigator,
                 padding = padding,
                 modifier = Modifier
-                    .padding(bottom = 48.dp)
-                    .waterfallPadding()
             )
         },
         bottomBar = {
             MainBottomBar(
                 modifier = Modifier
-                    .navigationBarsPadding()
                     .height(74.dp)
                     .background(Sub4),
                 visible = navigator.setBottomBarVisibility(),

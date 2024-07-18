@@ -31,7 +31,7 @@ fun NavController.navigateToSetBirthDate(nickname: String, navOptions: NavOption
 fun NavController.navigateToSetGender(
     nickname: String,
     birthDate: String? = null,
-    navOptions: NavOptions? = null
+    navOptions: NavOptions? = null,
 ) {
     val route = if (birthDate != null) {
         "${AuthRoute.SetGender}/$nickname?birthDate=$birthDate"
@@ -47,7 +47,7 @@ fun NavController.navigateToSetCharacter(navOptions: NavOptions? = null) {
 
 fun NavController.navigateToSelectedCharacter(
     selectedCharacterUrl: String,
-    navOptions: NavOptions
+    navOptions: NavOptions,
 ) {
     val route = "${AuthRoute.SelectedCharacter}/$selectedCharacterUrl"
     navigate(route, navOptions)
@@ -105,7 +105,7 @@ fun NavGraphBuilder.authNavGraph(
         arguments = listOf(
             navArgument("selectedCharacterUrl") { type = NavType.StringType },
         )
-    ) {backStackEntry ->
+    ) { backStackEntry ->
         val selectedCharacterUrl = backStackEntry.arguments?.getString("selectedCharacterUrl") ?: ""
         SelectedCharacterScreen(
             selectedCharacterUrl,
