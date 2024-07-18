@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.home
+package com.teamoffroad.feature.home.presentation
 
 import android.content.Context
 import android.os.Build
@@ -30,8 +30,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.home.domain.model.UserQuests
-import com.teamoffroad.feature.home.presentation.HomeViewModel
-import com.teamoffroad.feature.home.presentation.UiState
 import com.teamoffroad.feature.home.presentation.component.HomeIcons
 import com.teamoffroad.feature.home.presentation.component.character.CharacterItem
 import com.teamoffroad.feature.home.presentation.component.quest.progressbar.CloseCompleteRequest
@@ -49,7 +47,8 @@ internal fun HomeScreen(
     val viewModel: HomeViewModel = hiltViewModel()
 
     LaunchedEffect(Unit) {
-        viewModel.getUsersAdventuresInformations("None")
+        viewModel.updateCategory("None") // TODO: category 넣기 - 현재는 CAFFE 인 경우
+        viewModel.getUsersAdventuresInformations(viewModel.category.value)
         viewModel.getUserQuests()
     }
 
@@ -97,7 +96,7 @@ private fun UsersAdventuresInformation(
     Box(
         modifier = modifier.fillMaxWidth()
     ) {
-        val imageUrl = adventuresInformationsData?.characterImageUrl ?: ""
+        val imageUrl = adventuresInformationsData?.baseImageUrl ?: "" // TODO: svg & lottie
 
         Box(
             modifier = Modifier.fillMaxWidth(),
@@ -121,7 +120,7 @@ private fun UsersAdventuresInformation(
                 //.fillMaxHeight()
                 .align(Alignment.BottomCenter)
         ) {
-            CharacterItem().CharacterImage(imageUrl)
+            CharacterItem().CharacterImage(viewModel, context)
         }
     }
     Spacer(modifier = Modifier.padding(18.dp))

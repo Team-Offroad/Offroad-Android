@@ -1,7 +1,5 @@
 package com.teamoffroad.feature.home.presentation
 
-import android.util.Log
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.home.domain.model.Emblem
@@ -11,7 +9,6 @@ import com.teamoffroad.feature.home.domain.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,6 +21,15 @@ class HomeViewModel @Inject constructor(
 
     private val _selectedEmblem = MutableStateFlow("")
     val selectedEmblem = _selectedEmblem.asStateFlow()
+
+    private val _baseCharacterImage = MutableStateFlow("")
+    val baseCharacterImage = _baseCharacterImage.asStateFlow()
+
+    private val _motionCharacterUrl = MutableStateFlow("")
+    val motionCharacterUrl = _motionCharacterUrl.asStateFlow()
+
+    private val _category = MutableStateFlow("CAFFE")
+    val category = _category.asStateFlow()
 
     private val _getEmblemsState = MutableStateFlow<UiState<List<Emblem>>>(UiState.Loading)
     val getEmblemsState = _getEmblemsState.asStateFlow()
@@ -41,6 +47,8 @@ class HomeViewModel @Inject constructor(
             }.onSuccess { state ->
                 _getUsersAdventuresInformationsState.emit(UiState.Success(state))
                 updateSelectedEmblem(state.emblemName)
+                updateCharacterImage(state.baseImageUrl)
+                updateMotionImageUrl(state.motionImageUrl)
             }.onFailure { t ->
                 val errorMessage = getErrorMessage(t)
                 _getUsersAdventuresInformationsState.emit(UiState.Failure(errorMessage))
@@ -50,6 +58,18 @@ class HomeViewModel @Inject constructor(
 
     fun updateSelectedEmblem(emblemName: String) {
         _selectedEmblem.value = emblemName
+    }
+
+    fun updateCharacterImage(imageUrl: String) {
+        _baseCharacterImage.value = imageUrl
+    }
+
+    fun updateMotionImageUrl(motionImageUrl: String) {
+        _motionCharacterUrl.value = motionImageUrl
+    }
+
+    fun updateCategory(category: String) {
+        _category.value = category
     }
 
     fun getEmblems() {
