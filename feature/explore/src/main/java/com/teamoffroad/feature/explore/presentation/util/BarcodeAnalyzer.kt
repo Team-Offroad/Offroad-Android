@@ -1,5 +1,7 @@
 package com.teamoffroad.feature.explore.presentation.util
 
+import android.os.Handler
+import android.os.Looper
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
@@ -17,9 +19,17 @@ class BarcodeAnalyzer(
         .build()
 
     private val scanner = BarcodeScanning.getClient(options)
+    private val handler = Handler(Looper.getMainLooper())
+    private var isAnalyzing = false
 
     @ExperimentalGetImage
     override fun analyze(imageProxy: ImageProxy) {
+        if (isAnalyzing) {
+            imageProxy.close()
+            return
+        }
+
+        isAnalyzing = true
         imageProxy.image?.let { image ->
             scanner.process(
                 InputImage.fromMediaImage(
@@ -32,6 +42,9 @@ class BarcodeAnalyzer(
                     ?.let { onBarcodeDetected(it) }
             }.addOnCompleteListener {
                 imageProxy.close()
+                handler.postDelayed({
+                    isAnalyzing = false
+                }, 1200)
             }
         }
     }

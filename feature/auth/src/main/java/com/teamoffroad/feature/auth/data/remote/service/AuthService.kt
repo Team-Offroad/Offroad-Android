@@ -34,7 +34,7 @@ interface AuthService {
         @Path("characterId") characterId: Int,
     ): BaseResponse<SettingCharacterResponseDto>
 
-    @PATCH("/users/profiles")
+    @PATCH("users/profiles")
     suspend fun fetchUserProfile(
         @Body request: ProfileUpdateRequestDto,
     ): BaseResponse<String>

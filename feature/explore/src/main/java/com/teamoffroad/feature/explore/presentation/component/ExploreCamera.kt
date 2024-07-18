@@ -1,6 +1,7 @@
 package com.teamoffroad.feature.explore.presentation.component
 
 import android.content.Context
+import android.util.Log
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
@@ -26,6 +27,7 @@ fun ExploreCamera(
     lifecycleOwner: LifecycleOwner,
     postExploreResult: (Long, Double, Double, String) -> Unit,
 ) {
+    Log.e("123123", uiState.toString())
     val cameraProviderFuture = remember {
         ProcessCameraProvider.getInstance(localContext)
     }
@@ -45,7 +47,7 @@ fun ExploreCamera(
                     it.setAnalyzer(
                         ContextCompat.getMainExecutor(context),
                         BarcodeAnalyzer { barcode ->
-                            if (uiState is ExploreCameraUiState.Loading) {
+                            if (uiState is ExploreCameraUiState.None) {
                                 postExploreResult(placeId, latitude, longitude, barcode)
                             }
                         }

@@ -80,13 +80,13 @@ internal fun ExploreScreen(
     val uiState: ExploreUiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
+    LaunchedEffect(errorType) {
+        viewModel.updateExploreCameraUiState(uiState.getExploreCameraUiState(errorType))
+    }
+
     if (!uiState.loading && uiState.places.isEmpty()) viewModel.updatePlaces()
     if (uiState.isUpdatePlacesFailed) {
         Toast.makeText(context, stringResource(R.string.explore_places_failed), Toast.LENGTH_SHORT).show()
-    }
-
-    if (errorType != ExploreCameraUiState.None.toString() && uiState.errorType != ExploreCameraUiState.None) {
-        viewModel.updateExploreCameraUiState(uiState.getExploreCameraUiState(errorType))
     }
 
     ExploreCameraUiStateHandler(uiState, viewModel::updateExploreCameraUiState, successImageUrl, navigateToHome)
@@ -159,7 +159,7 @@ private fun ExploreCameraUiStateHandler(
 
         ExploreCameraUiState.Success -> {
             ExploreResultDialog(
-                errorType = ExploreCameraUiState.LocationError,
+                errorType = ExploreCameraUiState.Success,
                 text = stringResource(R.string.explore_dialog_success),
                 content = { ExploreSuccessDialogContent(url = successImageUrl) },
                 onDismissRequest = navigateToHome

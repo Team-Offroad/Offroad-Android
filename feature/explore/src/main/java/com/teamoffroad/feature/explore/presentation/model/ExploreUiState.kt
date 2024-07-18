@@ -18,6 +18,7 @@ data class ExploreUiState(
             ExploreCameraUiState.LocationError.toString() -> ExploreCameraUiState.LocationError
             ExploreCameraUiState.CodeError.toString() -> ExploreCameraUiState.CodeError
             ExploreCameraUiState.EtcError.toString() -> ExploreCameraUiState.EtcError
+            ExploreCameraUiState.Success.toString() -> ExploreCameraUiState.Success
             else -> ExploreCameraUiState.None
         }
     }
