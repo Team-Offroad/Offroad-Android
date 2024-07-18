@@ -27,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.home.domain.model.UserQuests
@@ -61,6 +62,7 @@ internal fun HomeScreen(
         color = Main1
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
+            OffroadActionBar()
             UsersAdventuresInformation(
                 context = context,
                 modifier = Modifier.weight(1f),
@@ -140,7 +142,7 @@ private fun HomeBackground() {
 @Composable
 private fun UsersQuestInformation(
     context: Context,
-    viewModel: HomeViewModel
+    viewModel: HomeViewModel,
 ) {
     val userQuestsState =
         viewModel.getUserQuestsState.collectAsState(initial = UiState.Loading).value

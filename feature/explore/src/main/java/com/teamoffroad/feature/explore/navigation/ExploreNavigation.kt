@@ -55,7 +55,6 @@ fun NavGraphBuilder.exploreNavGraph(
         val errorType = backStackEntry.arguments?.getString("errorType") ?: ExploreCameraUiState.None.toString()
         val encodedUrl = backStackEntry.arguments?.getString("successImageUrl") ?: "None"
         val successImageUrl = URLDecoder.decode(encodedUrl, StandardCharsets.UTF_8.toString())
-        Log.e("12312321412", "exploreNavGraph: $errorType, $successImageUrl")
         ExploreScreen(errorType, successImageUrl, navigateToHome, navigateToExploreCameraScreen)
     }
 

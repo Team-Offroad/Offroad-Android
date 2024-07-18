@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.OffroadBasicBtn
 import com.teamoffroad.core.designsystem.theme.Brown
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -44,6 +45,13 @@ internal fun SetCharacterScreen(
     val selectedCharacter by viewModel.selectedCharacter.collectAsStateWithLifecycle()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    val backgroundColor = when (selectedCharacter.id) {
+        1 -> Color(0xFFFFF4CC)
+        2 -> Color(0xFFFFE1C5)
+        3 -> Color(0xFFF9E5D2)
+        else -> White
+    }
+
     LaunchedEffect(Unit) {
         viewModel.getCharacters()
     }
@@ -53,16 +61,10 @@ internal fun SetCharacterScreen(
             .fillMaxSize(),
     ) {
         Column {
+            OffroadActionBar(backgroundColor)
             Column(
                 modifier = Modifier
-                    .background(
-                        when (selectedCharacter.id) {
-                            1 -> Color(0xFFFFF4CC)
-                            2 -> Color(0xFFFFE1C5)
-                            3 -> Color(0xFFF9E5D2)
-                            else -> White
-                        }
-                    ),
+                    .background(backgroundColor),
                 verticalArrangement = Arrangement.Top
             ) {
                 Text(

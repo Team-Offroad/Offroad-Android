@@ -89,7 +89,7 @@ private fun RowScope.MainBottomBarItem(
                 Icon(
                     painter = painterResource(tab.iconResId),
                     contentDescription = tab.contentDescription,
-                    modifier = Modifier.size(49.dp)
+                    modifier = Modifier.size(50.dp)
                         .constrainAs(navBtn) {
                             start.linkTo(parent.start, margin = 48.dp)
                             top.linkTo(parent.top)
@@ -115,7 +115,7 @@ private fun RowScope.MainBottomBarItem(
                 Icon(
                     painter = painterResource(tab.iconResId),
                     contentDescription = tab.contentDescription,
-                    modifier = Modifier.size(49.dp)
+                    modifier = Modifier.size(50.dp)
                         .constrainAs(navBtn) {
                             end.linkTo(parent.end, margin = 48.dp)
                             top.linkTo(parent.top)

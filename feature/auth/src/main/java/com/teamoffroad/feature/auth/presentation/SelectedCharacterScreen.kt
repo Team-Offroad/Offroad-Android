@@ -17,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.OffroadBasicBtn
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.selectedCharacterBackground
@@ -31,6 +32,7 @@ internal fun SelectedCharacterScreen(
 ) {
     Box {
         Column {
+            OffroadActionBar(selectedCharacterBackground)
             Column(
                 modifier = Modifier
                     .background(selectedCharacterBackground)
