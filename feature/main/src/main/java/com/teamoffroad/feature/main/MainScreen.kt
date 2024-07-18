@@ -1,5 +1,7 @@
 package com.teamoffroad.feature.main
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -12,6 +14,7 @@ import com.teamoffroad.feature.main.component.MainBottomBar
 import com.teamoffroad.feature.main.component.MainNavHost
 import kotlinx.collections.immutable.toPersistentList
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 internal fun MainScreen(
     navigator: MainNavigator = rememberMainNavigator(),
@@ -23,6 +26,7 @@ internal fun MainScreen(
     )
 }
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 private fun MainScreenContent(
     modifier: Modifier = Modifier,

@@ -9,9 +9,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import com.teamoffroad.core.navigation.AuthRoute
 import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.core.navigation.Route
+import com.teamoffroad.feature.auth.navigation.navigateToSelectedCharacter
 import com.teamoffroad.feature.auth.navigation.navigateToSetBirthDate
 import com.teamoffroad.feature.auth.navigation.navigateToSetCharacter
 import com.teamoffroad.feature.auth.navigation.navigateToSetGender
@@ -75,15 +75,15 @@ internal class MainNavigator(
     }
 
     fun navigateToSetCharacter() {
-        navController.navigateToSetCharacter(navOptions)
+        navController.navigateToSetCharacter()
     }
 
     fun navigateToExploreCameraScreen(placeId: Long, latitude: Double, longitude: Double) {
         navController.navigateToExploreCameraScreen(placeId, latitude, longitude, navOptions)
     }
 
-    fun navigateToSelectedCharacter() {
-        navController.navigateToSetCharacter(navOptions)
+    fun navigateToSelectedCharacter(selectedCharacterUrl: String) {
+        navController.navigateToSelectedCharacter(selectedCharacterUrl, navOptions)
     }
 
     fun navigateToExplore(errorType: String, successImageUrl: String) {

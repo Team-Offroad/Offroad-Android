@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.auth.presentation
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,10 +33,9 @@ import com.teamoffroad.feature.auth.presentation.component.SetCharacterDialog
 import com.teamoffroad.feature.auth.presentation.component.ShowSetCharacterPager
 import com.teamoffroad.feature.auth.presentation.model.SetCharacterUiState
 
-@SuppressLint("UnrememberedMutableState")
 @Composable
 internal fun SetCharacterScreen(
-    navigateToSelectCharacter: () -> Unit,
+    navigateToSelectedCharacter: (String) -> Unit,
     viewModel: SetCharacterViewModel = hiltViewModel(),
 ) {
 
@@ -151,5 +149,5 @@ internal fun SetCharacterScreen(
         )
     }
 
-    if (uiState is SetCharacterUiState.Success) navigateToSelectCharacter()
+    if (uiState is SetCharacterUiState.Success) navigateToSelectedCharacter(selectedCharacter.characterBaseImageUrl)
 }

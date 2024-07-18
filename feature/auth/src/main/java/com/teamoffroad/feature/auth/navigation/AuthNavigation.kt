@@ -41,8 +41,16 @@ fun NavController.navigateToSetGender(
     navigate(route, navOptions)
 }
 
-fun NavController.navigateToSetCharacter(navOptions: NavOptions) {
+fun NavController.navigateToSetCharacter(navOptions: NavOptions? = null) {
     navigate(AuthRoute.SetCharacter, navOptions)
+}
+
+fun NavController.navigateToSelectedCharacter(
+    selectedCharacterUrl: String,
+    navOptions: NavOptions
+) {
+    val route = "${AuthRoute.SelectedCharacter}/$selectedCharacterUrl"
+    navigate(route, navOptions)
 }
 
 fun NavGraphBuilder.authNavGraph(
@@ -51,7 +59,7 @@ fun NavGraphBuilder.authNavGraph(
     navigateToSetBirthDate: (String) -> Unit,
     navigateToSetGender: (String, String?) -> Unit,
     navigateToSetCharacter: () -> Unit,
-    navigateToSelectCharacter: () -> Unit,
+    navigateToSelectedCharacter: (String) -> Unit,
 ) {
     composable<Route.Auth> {
         AuthScreen(
@@ -89,12 +97,19 @@ fun NavGraphBuilder.authNavGraph(
     }
     composable<AuthRoute.SetCharacter> {
         SetCharacterScreen(
-            navigateToSelectCharacter,
+            navigateToSelectedCharacter,
         )
     }
-    composable<AuthRoute.SelectedCharacter> {
+    composable(
+        route = "${AuthRoute.SelectedCharacter}/{selectedCharacterUrl}",
+        arguments = listOf(
+            navArgument("selectedCharacterUrl") { type = NavType.StringType },
+        )
+    ) {backStackEntry ->
+        val selectedCharacterUrl = backStackEntry.arguments?.getString("selectedCharacterUrl") ?: ""
         SelectedCharacterScreen(
-            navigateToHome
+            selectedCharacterUrl,
+            navigateToHome,
         )
     }
 }
