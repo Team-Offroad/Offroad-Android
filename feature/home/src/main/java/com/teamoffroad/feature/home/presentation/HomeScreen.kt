@@ -2,7 +2,6 @@ package com.teamoffroad.feature.home.presentation
 
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
@@ -48,7 +47,7 @@ internal fun HomeScreen(
     val viewModel: HomeViewModel = hiltViewModel()
 
     LaunchedEffect(Unit) {
-        viewModel.updateCategory("CAFFE") // TODO: category 넣기 - 현재는 CAFFE 인 경우
+        viewModel.updateCategory("None") // TODO: category 넣기 - 현재는 CAFFE 인 경우
         viewModel.getUsersAdventuresInformations(viewModel.category.value)
         viewModel.getUserQuests()
     }
