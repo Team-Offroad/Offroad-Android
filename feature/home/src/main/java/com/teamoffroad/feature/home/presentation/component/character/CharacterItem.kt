@@ -52,7 +52,7 @@ class CharacterItem {
     @Composable
     fun CharacterImage(
         viewModel: HomeViewModel,
-        context: Context
+        context: Context,
     ) {
         val baseCharacterImage = viewModel.baseCharacterImage.collectAsState().value
         val motionCharacterUrl = viewModel.motionCharacterUrl.collectAsState().value
@@ -63,7 +63,7 @@ class CharacterItem {
                 .fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
-            if (category == "None") {
+            if (motionCharacterUrl == null) {
                 AsyncImage(
                     model = ImageRequest.Builder(context)
                         .data(baseCharacterImage)
@@ -77,7 +77,7 @@ class CharacterItem {
                 )
             } else {
                 val composition by rememberLottieComposition(
-                    spec = LottieCompositionSpec.Url(motionCharacterUrl)
+                    spec = LottieCompositionSpec.Url(motionCharacterUrl ?: "")
                 )
 
                 val progress by animateLottieCompositionAsState(
