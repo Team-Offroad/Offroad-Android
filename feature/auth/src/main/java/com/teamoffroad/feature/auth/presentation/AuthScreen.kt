@@ -59,7 +59,7 @@ internal fun AuthScreen(
     viewModel.checkAutoSignIn()
 
     LaunchedEffect(Unit) {
-        delay(5000L)
+        delay(2500L)
         showSplash = false
     }
 
@@ -67,9 +67,8 @@ internal fun AuthScreen(
         if (isSignInSuccess && !isAlreadyExist) navigateToSetNickname()
         if (isSignInSuccess && isAlreadyExist) navigateToHome()
     }
-    LaunchedEffect(isAutoSignIn) {
-        if (isAutoSignIn && !showSplash) signInLauncher.launch(viewModel.googleSignInClient.signInIntent)
-    }
+
+    if (isAutoSignIn && !showSplash) signInLauncher.launch(viewModel.googleSignInClient.signInIntent)
 
     Surface(
         modifier = Modifier.fillMaxSize(),
