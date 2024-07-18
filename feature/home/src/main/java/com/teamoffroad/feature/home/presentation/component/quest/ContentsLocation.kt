@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -14,7 +15,10 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White25
 
 @Composable
-fun ContentsLocation(location: String) {
+fun ContentsLocation(
+    location: String,
+    textColor: Color
+) {
     Text(
         textAlign = TextAlign.Center,
         modifier = Modifier
@@ -27,6 +31,6 @@ fun ContentsLocation(location: String) {
             .padding(horizontal = 30.dp, vertical = 5.dp),
         text = location,
         style = OffroadTheme.typography.textContentsSmall,
-        color = Main1,
+        color = textColor,
     )
 }

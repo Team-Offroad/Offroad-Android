@@ -38,7 +38,8 @@ class OffroadTypography internal constructor(
     bothBottomLabel: TextStyle,
     bothRecentNum: TextStyle,
     bothUpcomingSmallNum: TextStyle,
-    bothUpcomingBigNum: TextStyle
+    bothUpcomingBigNum: TextStyle,
+    bothSubtitle3: TextStyle
 ) {
     var title: TextStyle by mutableStateOf(title)
         private set
@@ -78,6 +79,8 @@ class OffroadTypography internal constructor(
         private set
     var bothUpcomingBigNum: TextStyle by mutableStateOf(bothUpcomingBigNum)
         private set
+    var bothSubtitle3: TextStyle by mutableStateOf(bothSubtitle3)
+        private set
 
     fun copy(
         title: TextStyle = this.title,
@@ -98,7 +101,8 @@ class OffroadTypography internal constructor(
         bothBottomLabel: TextStyle = this.bothBottomLabel,
         bothRecentNum: TextStyle = this.subtitleReg,
         bothUpcomingSmallNum: TextStyle = this.bothUpcomingSmallNum,
-        bothUpcomingBigNum: TextStyle = this.bothUpcomingBigNum
+        bothUpcomingBigNum: TextStyle = this.bothUpcomingBigNum,
+        bothSubtitle3: TextStyle = this.bothSubtitle3
     ): OffroadTypography = OffroadTypography(
         title,
         subtitle2Bold,
@@ -118,7 +122,8 @@ class OffroadTypography internal constructor(
         bothBottomLabel,
         bothRecentNum,
         bothUpcomingSmallNum,
-        bothUpcomingBigNum
+        bothUpcomingBigNum,
+        bothSubtitle3
     )
 
     fun update(other: OffroadTypography) {
@@ -141,6 +146,7 @@ class OffroadTypography internal constructor(
         bothRecentNum = other.bothRecentNum
         bothUpcomingSmallNum = other.bothUpcomingSmallNum
         bothUpcomingBigNum = other.bothUpcomingBigNum
+        bothSubtitle3 = other.bothSubtitle3
     }
 }
 
@@ -244,6 +250,11 @@ fun offroadTypography(): OffroadTypography {
             fontFamily = OpticianSansRegular,
             fontWeight = FontWeight.Normal,
             fontSize = 62.sp
+        ),
+        bothSubtitle3 = TextStyle(
+            fontFamily = PretendardMedium,
+            fontWeight = FontWeight.Medium,
+            fontSize = 24.sp
         )
     )
 }

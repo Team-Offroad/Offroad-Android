@@ -7,24 +7,31 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Gray100
 
-fun Modifier.drawScrollbar(state: LazyListState): Modifier = this.then(
-    Modifier.drawBehind {
-        val totalItems = state.layoutInfo.totalItemsCount
-        val firstVisibleItemIndex = state.firstVisibleItemIndex
-        val visibleItems = state.layoutInfo.visibleItemsInfo.size
-        val fraction = firstVisibleItemIndex.toFloat() / (totalItems - visibleItems).coerceAtLeast(1).toFloat()
+fun Modifier.drawScrollbar(state: LazyListState): Modifier {
+    val totalItems = state.layoutInfo.totalItemsCount
 
-        val scrollbarHeight = (size.height / totalItems) * visibleItems
-        val scrollbarY = fraction * (size.height - scrollbarHeight)
+    return if (totalItems <= 4) {
+        this
+    } else {
+        this.then(
+            Modifier.drawBehind {
+                val firstVisibleItemIndex = state.firstVisibleItemIndex
+                val visibleItems = state.layoutInfo.visibleItemsInfo.size
+                val fraction = firstVisibleItemIndex.toFloat() / (totalItems - visibleItems).coerceAtLeast(1).toFloat()
 
-        val scrollbarWidth = 6.dp.toPx()
-        val cornerRadius = 13.dp.toPx()
+                val scrollbarHeight = (size.height / (totalItems * 2)) * visibleItems
+                val scrollbarY = fraction * (size.height - scrollbarHeight)
 
-        drawRoundRect(
-            color = Gray100,
-            topLeft = androidx.compose.ui.geometry.Offset(size.width + 6.dp.toPx(), scrollbarY),
-            size = androidx.compose.ui.geometry.Size(scrollbarWidth, scrollbarHeight),
-            cornerRadius = CornerRadius(cornerRadius, cornerRadius)
+                val scrollbarWidth = 6.dp.toPx()
+                val cornerRadius = 13.dp.toPx()
+
+                drawRoundRect(
+                    color = Gray100,
+                    topLeft = androidx.compose.ui.geometry.Offset(size.width + 6.dp.toPx(), scrollbarY),
+                    size = androidx.compose.ui.geometry.Size(scrollbarWidth, scrollbarHeight),
+                    cornerRadius = CornerRadius(cornerRadius, cornerRadius)
+                )
+            }
         )
     }
-)
+}
