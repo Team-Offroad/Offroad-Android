@@ -47,11 +47,9 @@ internal fun HomeScreen(
     val context = LocalContext.current
     val viewModel: HomeViewModel = hiltViewModel()
 
-    val category = "None" // TODO: 탐험 성공 시 category 받아오기
-
     LaunchedEffect(Unit) {
-        viewModel.updateCategory("None")
-        viewModel.getUsersAdventuresInformations(category) // TODO: category 넣기
+        viewModel.updateCategory("CAFFE") // TODO: category 넣기 - 현재는 CAFFE 인 경우
+        viewModel.getUsersAdventuresInformations(viewModel.category.value)
         viewModel.getUserQuests()
     }
 
@@ -99,7 +97,7 @@ private fun UsersAdventuresInformation(
     Box(
         modifier = modifier.fillMaxWidth()
     ) {
-        val imageUrl = adventuresInformationsData?.characterImageUrl ?: "" // TODO: svg & lottie
+        val imageUrl = adventuresInformationsData?.baseImageUrl ?: "" // TODO: svg & lottie
 
         Box(
             modifier = Modifier.fillMaxWidth(),

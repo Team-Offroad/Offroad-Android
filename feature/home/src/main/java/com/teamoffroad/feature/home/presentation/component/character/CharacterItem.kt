@@ -2,7 +2,6 @@ package com.teamoffroad.feature.home.presentation.component.character
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -31,6 +30,7 @@ import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieAnimatable
 import com.airbnb.lottie.compose.rememberLottieComposition
@@ -54,39 +54,35 @@ class CharacterItem {
         viewModel: HomeViewModel,
         context: Context
     ) {
-        val characterImage = viewModel.characterImage.collectAsState().value
+        val baseCharacterImage = viewModel.baseCharacterImage.collectAsState().value
+        val motionCharacterUrl = viewModel.motionCharacterUrl.collectAsState().value
         val category = viewModel.category.collectAsState().value
 
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 130.dp),
+                .fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
-
             if (category == "None") {
-                // TODO: 임시 캐릭터 svg 삭제
-                Log.d("offroad characterImage", characterImage)
-
                 AsyncImage(
                     model = ImageRequest.Builder(context)
-                        .data(characterImage)
+                        .data(baseCharacterImage)
                         .decoderFactory(SvgDecoder.Factory())
                         .build(),
                     contentDescription = "explorer",
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 130.dp),
                     // TODO: placeholder, error일 때
                 )
             } else {
-                // val textCharacter =
-
                 val composition by rememberLottieComposition(
-                    spec = LottieCompositionSpec.Url(characterImage) //
+                    spec = LottieCompositionSpec.Url(motionCharacterUrl)
                 )
 
                 val progress by animateLottieCompositionAsState(
                     composition = composition,
-                    iterations = 5 // 반복 횟수
+                    iterations = LottieConstants.IterateForever
                 )
 
                 val lottieAnimatable = rememberLottieAnimatable()
@@ -101,12 +97,9 @@ class CharacterItem {
                 LottieAnimation(
                     composition = composition,
                     progress = progress,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.FillHeight
+                    contentScale = ContentScale.FillWidth,
                 )
             }
-
-
         }
     }
 

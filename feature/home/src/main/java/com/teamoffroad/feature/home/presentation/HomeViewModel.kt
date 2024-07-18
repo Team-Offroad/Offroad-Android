@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.home.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.home.domain.model.Emblem
@@ -23,10 +22,13 @@ class HomeViewModel @Inject constructor(
     private val _selectedEmblem = MutableStateFlow("")
     val selectedEmblem = _selectedEmblem.asStateFlow()
 
-    private val _characterImage = MutableStateFlow("")
-    val characterImage = _characterImage.asStateFlow()
+    private val _baseCharacterImage = MutableStateFlow("")
+    val baseCharacterImage = _baseCharacterImage.asStateFlow()
 
-    private val _category = MutableStateFlow("None")
+    private val _motionCharacterUrl = MutableStateFlow("")
+    val motionCharacterUrl = _motionCharacterUrl.asStateFlow()
+
+    private val _category = MutableStateFlow("CAFFE")
     val category = _category.asStateFlow()
 
     private val _getEmblemsState = MutableStateFlow<UiState<List<Emblem>>>(UiState.Loading)
@@ -45,7 +47,8 @@ class HomeViewModel @Inject constructor(
             }.onSuccess { state ->
                 _getUsersAdventuresInformationsState.emit(UiState.Success(state))
                 updateSelectedEmblem(state.emblemName)
-                updateCharacterImage(state.characterImageUrl)
+                updateCharacterImage(state.baseImageUrl)
+                updateMotionImageUrl(state.motionImageUrl)
             }.onFailure { t ->
                 val errorMessage = getErrorMessage(t)
                 _getUsersAdventuresInformationsState.emit(UiState.Failure(errorMessage))
@@ -58,7 +61,11 @@ class HomeViewModel @Inject constructor(
     }
 
     fun updateCharacterImage(imageUrl: String) {
-        _characterImage.value = imageUrl
+        _baseCharacterImage.value = imageUrl
+    }
+
+    fun updateMotionImageUrl(motionImageUrl: String) {
+        _motionCharacterUrl.value = motionImageUrl
     }
 
     fun updateCategory(category: String) {
