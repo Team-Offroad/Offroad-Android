@@ -112,3 +112,14 @@ internal fun SetNicknameScreen(
         }
     }
 }
+
+fun checkMainLength(text: String): Boolean {
+    val koreanRegex = Regex("^[가-힣]*$")
+    val englishRegex = Regex("^[a-zA-Z]*$")
+
+    return when {
+        koreanRegex.matches(text) -> text.length in 2..8
+        englishRegex.matches(text) -> text.length in 2..16
+        else -> false
+    }
+}

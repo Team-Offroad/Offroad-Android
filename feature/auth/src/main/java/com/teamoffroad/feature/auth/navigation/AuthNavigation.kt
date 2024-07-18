@@ -9,6 +9,7 @@ import androidx.navigation.navArgument
 import com.teamoffroad.core.navigation.AuthRoute
 import com.teamoffroad.core.navigation.Route
 import com.teamoffroad.feature.auth.presentation.AuthScreen
+import com.teamoffroad.feature.auth.presentation.SelectedCharacterScreen
 import com.teamoffroad.feature.auth.presentation.SetBirthDateScreen
 import com.teamoffroad.feature.auth.presentation.SetCharacterScreen
 import com.teamoffroad.feature.auth.presentation.SetGenderScreen
@@ -27,7 +28,11 @@ fun NavController.navigateToSetBirthDate(nickname: String, navOptions: NavOption
     navigate(route, navOptions)
 }
 
-fun NavController.navigateToSetGender(nickname: String, birthDate: String? = null, navOptions: NavOptions? = null) {
+fun NavController.navigateToSetGender(
+    nickname: String,
+    birthDate: String? = null,
+    navOptions: NavOptions? = null
+) {
     val route = if (birthDate != null) {
         "${AuthRoute.SetGender}/$nickname?birthDate=$birthDate"
     } else {
@@ -36,8 +41,16 @@ fun NavController.navigateToSetGender(nickname: String, birthDate: String? = nul
     navigate(route, navOptions)
 }
 
-fun NavController.navigateToSetCharacter(navOptions: NavOptions) {
+fun NavController.navigateToSetCharacter(navOptions: NavOptions? = null) {
     navigate(AuthRoute.SetCharacter, navOptions)
+}
+
+fun NavController.navigateToSelectedCharacter(
+    selectedCharacterUrl: String,
+    navOptions: NavOptions
+) {
+    val route = "${AuthRoute.SelectedCharacter}/$selectedCharacterUrl"
+    navigate(route, navOptions)
 }
 
 fun NavGraphBuilder.authNavGraph(
@@ -46,6 +59,7 @@ fun NavGraphBuilder.authNavGraph(
     navigateToSetBirthDate: (String) -> Unit,
     navigateToSetGender: (String, String?) -> Unit,
     navigateToSetCharacter: () -> Unit,
+    navigateToSelectedCharacter: (String) -> Unit,
 ) {
     composable<Route.Auth> {
         AuthScreen(
@@ -83,6 +97,18 @@ fun NavGraphBuilder.authNavGraph(
     }
     composable<AuthRoute.SetCharacter> {
         SetCharacterScreen(
+            navigateToSelectedCharacter,
+        )
+    }
+    composable(
+        route = "${AuthRoute.SelectedCharacter}/{selectedCharacterUrl}",
+        arguments = listOf(
+            navArgument("selectedCharacterUrl") { type = NavType.StringType },
+        )
+    ) {backStackEntry ->
+        val selectedCharacterUrl = backStackEntry.arguments?.getString("selectedCharacterUrl") ?: ""
+        SelectedCharacterScreen(
+            selectedCharacterUrl,
             navigateToHome,
         )
     }
