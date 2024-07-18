@@ -2,6 +2,7 @@ package com.teamoffroad.feature.home.presentation.component.character
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -104,28 +105,15 @@ class CharacterItem {
                     )
                 }
 
-                Column(
-                    modifier = Modifier
-                        .padding(bottom = 20.dp)
-                        .fillMaxHeight()
-                        .fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Box(
+                Box{
+                    LottieAnimation(
+                        composition = composition,
+                        progress = progress,
+                        contentScale = ContentScale.FillHeight,
                         modifier = Modifier
-                            .width(230.dp)
-                            .padding(top = 172.dp, bottom = 28.dp)
-                            .fillMaxHeight()
-                    ) {
-                        LottieAnimation(
-                            composition = composition,
-                            progress = progress,
-                            contentScale = ContentScale.FillWidth,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .align(Alignment.BottomCenter)
-                        )
-                    }
+                            .fillMaxSize()
+                            .align(Alignment.BottomCenter)
+                    )
                 }
             }
         }
