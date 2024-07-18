@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -34,20 +35,20 @@ import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.White
 
 @Composable
-fun NicknameTextField(
+fun BirthDateTextField(
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(6.dp),
     placeholder: String = "",
-    labelText: String = "",
     value: String = "",
     onValueChange: (String) -> Unit = { _ -> },
-    isError: Boolean = false,
     maxLines: Int = 1,
     minLines: Int = 1,
     maxLength: Int = 10,
     textStyle: TextStyle = OffroadTheme.typography.textAuto,
     textAlign: Alignment,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(
+        keyboardType = KeyboardType.NumberPassword
+    ),
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },

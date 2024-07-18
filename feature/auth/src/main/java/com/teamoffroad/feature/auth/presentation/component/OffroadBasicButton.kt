@@ -1,4 +1,4 @@
-package com.teamoffroad.core.designsystem.component
+package com.teamoffroad.feature.auth.presentation.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

@@ -23,7 +23,6 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.teamoffroad.core.designsystem.component.OffroadBasicBtn
 import com.teamoffroad.core.designsystem.component.addFocusCleaner
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
@@ -31,11 +30,12 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.auth.presentation.component.NicknameHintText
 import com.teamoffroad.feature.auth.presentation.component.NicknameTextField
 import com.teamoffroad.feature.auth.presentation.component.OnboardingButton
+import com.teamoffroad.feature.auth.presentation.component.SetNicknameButton
 
 @Composable
 internal fun SetNicknameScreen(
     navigateToSetBirthDate: (String) -> Unit,
-    viewModel: OnboardingViewModel = hiltViewModel(),
+    viewModel: SetNicknameViewModel = hiltViewModel(),
 ) {
     val focusManager = LocalFocusManager.current
     val focusRequester by remember { mutableStateOf(FocusRequester()) }
@@ -82,7 +82,8 @@ internal fun SetNicknameScreen(
                     )
                     Spacer(modifier = Modifier.padding(horizontal = 6.dp))
                     OnboardingButton(
-                        text = "중복확인", isActive = text.isNotBlank(),
+                        text = "중복확인",
+                        isActive = checkMainLength(text),
                         modifier = Modifier
                             .width(82.dp)
                             .height(42.dp),
@@ -92,12 +93,13 @@ internal fun SetNicknameScreen(
                 }
                 Spacer(modifier = Modifier.padding(vertical = 6.dp))
                 NicknameHintText(
-                    value = "*한글 2~8자, 영어 2~16자 이내로 작성해주세요.",
-                    modifier = Modifier
+                    text = text,
+                    modifier = Modifier,
+                    isDuplicate = isNicknameState,
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
-            OffroadBasicBtn(
+            SetNicknameButton(
                 modifier = Modifier
                     .width(312.dp)
                     .height(50.dp),

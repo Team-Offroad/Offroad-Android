@@ -10,24 +10,24 @@ import javax.inject.Inject
 @HiltViewModel
 class SetBirthDateViewModel @Inject constructor(
 ) : ViewModel() {
-    private val _isCheckedYear: MutableStateFlow<Int> = MutableStateFlow(0)
-    val isCheckedYear: StateFlow<Int> = _isCheckedYear.asStateFlow()
+    private val _isCheckedYear: MutableStateFlow<String> = MutableStateFlow("")
+    val isCheckedYear: StateFlow<String> = _isCheckedYear.asStateFlow()
 
-    private val _isCheckedMonth: MutableStateFlow<Int> = MutableStateFlow(0)
-    val isCheckedMonth: StateFlow<Int> = _isCheckedMonth.asStateFlow()
+    private val _isCheckedMonth: MutableStateFlow<String> = MutableStateFlow("")
+    val isCheckedMonth: StateFlow<String> = _isCheckedMonth.asStateFlow()
 
-    private val _isCheckedDay: MutableStateFlow<Int> = MutableStateFlow(0)
-    val isCheckedDay: StateFlow<Int> = _isCheckedDay.asStateFlow()
+    private val _isCheckedDay: MutableStateFlow<String> = MutableStateFlow("")
+    val isCheckedDay: StateFlow<String> = _isCheckedDay.asStateFlow()
 
     fun updateCheckedYear(year: String) {
-        _isCheckedYear.value = year.toInt()
+        _isCheckedYear.value = year
     }
 
     fun updateCheckedMonth(month: String) {
-        _isCheckedMonth.value = month.toInt()
+        _isCheckedMonth.value = month
     }
 
     fun updateCheckedDate(day: String) {
-        _isCheckedDay.value = day.toInt()
+        _isCheckedDay.value = day
     }
 }
