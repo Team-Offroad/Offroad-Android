@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,13 +26,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
 import com.teamoffroad.core.designsystem.component.addFocusCleaner
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.auth.presentation.component.NicknameTextField
+import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
@@ -84,77 +85,82 @@ internal fun SetBirthDateScreen(
                 textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.padding(vertical = 28.dp))
-            Text(
+            Column(
                 modifier = Modifier
-                    .padding(start = 24.dp),
-                text = "생년월일 입력",
-                color = Main2,
-                fontSize = 16.sp,
-                style = OffroadTheme.typography.subtitle2Bold,
-                textAlign = TextAlign.Start
-            )
-            Row(
-                modifier = Modifier
-                    .padding(top = 12.dp)
-                    .padding(horizontal = 24.dp),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
+                    .padding(horizontal = 24.dp)
+                    .align(Alignment.CenterHorizontally)
             ) {
-                NicknameTextField(
-                    value = year,
-                    placeholder = "YYYY",
-                    onValueChange = {
-                        year = it
-                        viewModel.updateCheckedYear(year)
-                    },
-                    textAlign = Alignment.Center,
-                    modifier = Modifier
-                        .width(84.dp)
-                        .height(43.dp)
-                )
                 Text(
-                    modifier = Modifier.padding(start = 6.dp, end = 8.dp),
-                    text = "년",
+                    text = "생년월일 입력",
                     color = Main2,
-                    style = OffroadTheme.typography.subtitleReg,
+                    fontSize = 16.sp,
+                    style = OffroadTheme.typography.subtitle2Bold,
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier.align(Alignment.Start)
                 )
-                NicknameTextField(
+                Row(
                     modifier = Modifier
-                        .width(66.dp)
-                        .height(43.dp),
-                    placeholder = "MM",
-                    value = month,
-                    onValueChange = {
-                        month = it
-                        viewModel.updateCheckedMonth(month)
-                    },
-                    textAlign = Alignment.Center,
-                )
-                Text(
-                    modifier = Modifier.padding(start = 6.dp, end = 8.dp),
-                    text = "월",
-                    color = Main2,
-                    style = OffroadTheme.typography.subtitleReg,
-                )
-                NicknameTextField(
-                    modifier = Modifier
-                        .width(66.dp)
-                        .height(43.dp),
-                    value = day,
-                    placeholder = "DD",
-                    onValueChange = {
-                        day = it
-                        viewModel.updateCheckedDate(day)
-                    },
-                    textAlign = Alignment.Center,
-                )
-                Text(
-                    modifier = Modifier
-                        .padding(start = 6.dp, end = 20.dp),
-                    text = "일",
-                    color = Main2,
-                    style = OffroadTheme.typography.subtitleReg,
-                )
+                        .wrapContentWidth()
+                        .padding(top = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    NicknameTextField(
+                        value = year,
+                        placeholder = "YYYY",
+                        onValueChange = {
+                            year = it
+                            viewModel.updateCheckedYear(year)
+                        },
+                        textAlign = Alignment.Center,
+                        modifier = Modifier
+                            .width(84.dp)
+                            .height(43.dp)
+                    )
+                    Text(
+                        modifier = Modifier.padding(start = 6.dp, end = 8.dp),
+                        text = "년",
+                        color = Main2,
+                        style = OffroadTheme.typography.subtitleReg,
+                    )
+                    NicknameTextField(
+                        modifier = Modifier
+                            .width(66.dp)
+                            .height(43.dp),
+                        placeholder = "MM",
+                        value = month,
+                        onValueChange = {
+                            month = it
+                            viewModel.updateCheckedMonth(month)
+                        },
+                        textAlign = Alignment.Center,
+                    )
+                    Text(
+                        modifier = Modifier.padding(start = 6.dp, end = 8.dp),
+                        text = "월",
+                        color = Main2,
+                        style = OffroadTheme.typography.subtitleReg,
+                    )
+                    NicknameTextField(
+                        modifier = Modifier
+                            .width(66.dp)
+                            .height(43.dp),
+                        value = day,
+                        placeholder = "DD",
+                        onValueChange = {
+                            day = it
+                            viewModel.updateCheckedDate(day)
+                        },
+                        textAlign = Alignment.Center,
+                    )
+                    Text(
+                        modifier = Modifier
+                            .padding(start = 6.dp, end = 20.dp),
+                        text = "일",
+                        color = Main2,
+                        style = OffroadTheme.typography.subtitleReg,
+                    )
+                }
             }
             Spacer(
                 modifier = Modifier
@@ -166,11 +172,12 @@ internal fun SetBirthDateScreen(
                     .height(50.dp)
                     .align(Alignment.CenterHorizontally),
                 onClick = {
-                    val birthDate = if (year.isNotEmpty() && month.isNotEmpty() && day.isNotEmpty()) {
-                        "$year-$month-$day"
-                    } else {
-                        null
-                    }
+                    val birthDate =
+                        if (year.isNotEmpty() && month.isNotEmpty() && day.isNotEmpty()) {
+                            "$year-$month-$day"
+                        } else {
+                            null
+                        }
                     navigateToSetGender(nickname, birthDate)
                 },
                 isActive = true,
