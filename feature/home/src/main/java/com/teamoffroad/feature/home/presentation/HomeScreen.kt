@@ -2,13 +2,11 @@ package com.teamoffroad.feature.home.presentation
 
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -45,14 +43,14 @@ import com.teamoffroad.offroad.feature.home.R
 @Composable
 fun HomeScreen(
     //padding: PaddingValues,
-    category: String
+    category: String,
 ) {
     val context = LocalContext.current
     val viewModel: HomeViewModel = hiltViewModel()
 
     LaunchedEffect(Unit) {
-        if(category !="NONE") viewModel.updateCategory(category)
-        if(category.isBlank()) {
+        if (category != "NONE") viewModel.updateCategory(category)
+        if (category.isBlank()) {
             viewModel.getUsersAdventuresInformations("NONE")
         } else {
             viewModel.getUsersAdventuresInformations(category)
@@ -133,7 +131,7 @@ private fun UsersAdventuresInformation(
             CharacterItem().CharacterImage(viewModel, context)
         }
     }
-    Spacer(modifier = Modifier.padding(18.dp))
+    Spacer(modifier = Modifier.padding(10.dp))
     CharacterItem().EmblemNameText(context, Modifier)
 }
 

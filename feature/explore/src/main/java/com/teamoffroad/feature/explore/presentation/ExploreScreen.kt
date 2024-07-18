@@ -3,7 +3,6 @@ package com.teamoffroad.feature.explore.presentation
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.util.Log
 import android.view.Gravity
 import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
@@ -24,7 +23,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -69,6 +67,7 @@ import com.teamoffroad.feature.explore.presentation.component.ExploreTrackingBut
 import com.teamoffroad.feature.explore.presentation.model.ExploreCameraUiState
 import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
 import com.teamoffroad.feature.explore.presentation.model.LocationModel
+import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 import com.teamoffroad.feature.explore.presentation.model.PlaceModel
 import com.teamoffroad.offroad.feature.explore.R
 
@@ -81,6 +80,7 @@ internal fun ExploreScreen(
     viewModel: ExploreViewModel = hiltViewModel(),
 ) {
     val uiState: ExploreUiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val locationSuccessImageUrl: String by viewModel.successImageUrl.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
     LaunchedEffect(errorType) {
@@ -98,7 +98,8 @@ internal fun ExploreScreen(
         viewModel::updateExploreCameraUiState,
         successImageUrl,
         viewModel,
-        navigateToHome
+        navigateToHome,
+        locationSuccessImageUrl,
     )
 
     ExploreLocationPermissionHandler(
@@ -130,6 +131,7 @@ internal fun ExploreScreen(
             viewModel::updatePlaces,
             viewModel::updateExploreCameraUiState,
             viewModel::isValidDistance,
+            viewModel::postExploreResult,
         )
     }
 }
@@ -138,10 +140,14 @@ internal fun ExploreScreen(
 private fun ExploreCameraUiStateHandler(
     uiState: ExploreUiState,
     updateExploreCameraUiState: (ExploreCameraUiState) -> Unit,
-    successImageUrl: String,
+    qrSuccessImageUrl: String,
     viewModel: ExploreViewModel,
     navigateToHome: (String) -> Unit,
+    locationSuccessImageUrl: String,
 ) {
+    val imgUrl = locationSuccessImageUrl.ifBlank {
+        qrSuccessImageUrl
+    }
     when (uiState.errorType) {
         ExploreCameraUiState.LocationError -> {
             ExploreResultDialog(
@@ -176,7 +182,7 @@ private fun ExploreCameraUiStateHandler(
             ExploreResultDialog(
                 errorType = ExploreCameraUiState.Success,
                 text = stringResource(R.string.explore_dialog_success),
-                content = { ExploreSuccessDialogContent(url = successImageUrl) },
+                content = { ExploreSuccessDialogContent(url = imgUrl) },
                 onDismissRequest = { navigateToHome(category) }
             )
         }
@@ -276,6 +282,7 @@ private fun ExploreNaverMap(
     updatePlaces: (Double, Double) -> Unit,
     updateCameraUiState: (ExploreCameraUiState) -> Unit,
     isValidDistance: (PlaceModel, LatLng) -> Boolean,
+    postExploreResult: (Long, Double, Double) -> Unit,
 ) {
     val density = LocalDensity.current
     var markerOffset by remember { mutableStateOf(IntOffset.Zero) }
@@ -406,11 +413,19 @@ private fun ExploreNaverMap(
                         onButtonClick = {
                             when (isValidDistance(place, locationState.location)) {
                                 true -> {
-                                    navigateToExploreCameraScreen(
-                                        place.id,
-                                        locationState.location.latitude,
-                                        locationState.location.longitude,
-                                    )
+                                    if (selectedPlace.placeCategory == PlaceCategory.CAFFE || selectedPlace.placeCategory == PlaceCategory.RESTAURANT) {
+                                        navigateToExploreCameraScreen(
+                                            place.id,
+                                            locationState.location.latitude,
+                                            locationState.location.longitude,
+                                        )
+                                    } else {
+                                        postExploreResult(
+                                            place.id,
+                                            locationState.location.latitude,
+                                            locationState.location.longitude,
+                                        )
+                                    }
                                 }
 
                                 false -> updateCameraUiState(ExploreCameraUiState.LocationError)
@@ -432,7 +447,7 @@ private fun calculateMarkerOffset(
     location: LatLng,
     cameraPositionState: CameraPositionState,
     density: Density,
-    screenSize: IntSize
+    screenSize: IntSize,
 ): IntOffset {
     val screenPosition = cameraPositionState.projection?.toScreenLocation(location)
     return screenPosition?.let {

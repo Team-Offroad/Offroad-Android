@@ -8,9 +8,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -56,7 +59,6 @@ class CharacterItem {
     ) {
         val baseCharacterImage = viewModel.baseCharacterImage.collectAsState().value
         val motionCharacterUrl = viewModel.motionCharacterUrl.collectAsState().value
-        val category = viewModel.category.collectAsState().value
 
         Box(
             modifier = Modifier
@@ -64,20 +66,28 @@ class CharacterItem {
             contentAlignment = Alignment.Center
         ) {
             if (motionCharacterUrl == null) {
-                AsyncImage(
-                    model = ImageRequest.Builder(context)
-                        .data(baseCharacterImage)
-                        .decoderFactory(SvgDecoder.Factory())
-                        .build(),
-                    contentDescription = "explorer",
+                Box(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(top = 130.dp),
-                    // TODO: placeholder, error일 때
-                )
+                        .width(300.dp)
+                        .padding(top = 140.dp)
+                        .fillMaxHeight()
+                        .align(Alignment.BottomCenter)
+                ) {
+                    AsyncImage(
+                        model = ImageRequest.Builder(context)
+                            .data(baseCharacterImage)
+                            .decoderFactory(SvgDecoder.Factory())
+                            .build(),
+                        contentDescription = "explorer",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .align(Alignment.BottomCenter),
+                        // TODO: placeholder, error일 때
+                    )
+                }
             } else {
                 val composition by rememberLottieComposition(
-                    spec = LottieCompositionSpec.Url(motionCharacterUrl ?: "")
+                    spec = LottieCompositionSpec.Url(motionCharacterUrl)
                 )
 
                 val progress by animateLottieCompositionAsState(
@@ -94,11 +104,29 @@ class CharacterItem {
                     )
                 }
 
-                LottieAnimation(
-                    composition = composition,
-                    progress = progress,
-                    contentScale = ContentScale.FillWidth,
-                )
+                Column(
+                    modifier = Modifier
+                        .padding(bottom = 20.dp)
+                        .fillMaxHeight()
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .width(230.dp)
+                            .padding(top = 172.dp, bottom = 28.dp)
+                            .fillMaxHeight()
+                    ) {
+                        LottieAnimation(
+                            composition = composition,
+                            progress = progress,
+                            contentScale = ContentScale.FillWidth,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .align(Alignment.BottomCenter)
+                        )
+                    }
+                }
             }
         }
     }
