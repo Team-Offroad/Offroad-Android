@@ -32,7 +32,7 @@ class SetGenderViewModel @Inject constructor(
     private val _isError: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isError: StateFlow<Boolean> = _isError.asStateFlow()
 
-    fun fetchUserProfile(nickname: String, birthDate: String?) {
+    fun fetchUserProfile(nickname: String, birthDate: String?, gender: String? = selectedGender.value) {
         viewModelScope.launch {
             runCatching {
                 authRepository.patchUserProfile(
@@ -41,7 +41,7 @@ class SetGenderViewModel @Inject constructor(
                         year = birthDate?.split("-")?.get(0)?.toInt(),
                         month = birthDate?.split("-")?.get(1)?.toInt(),
                         day = birthDate?.split("-")?.get(2)?.toInt(),
-                        gender = selectedGender.value,
+                        gender = gender,
                     )
                 )
             }.onSuccess {

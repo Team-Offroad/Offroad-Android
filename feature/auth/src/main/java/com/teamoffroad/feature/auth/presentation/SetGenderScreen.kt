@@ -24,7 +24,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.OffroadBasicBtn
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -62,6 +61,9 @@ internal fun SetGenderScreen(
                     text = "건너뛰기",
                     color = Gray300,
                     style = OffroadTheme.typography.hint,
+                    modifier = Modifier.clickable{
+                        viewModel.fetchUserProfile(nickname, birthDate, null)
+                    }
                 )
             }
             Spacer(modifier = Modifier.padding(vertical = 26.dp))

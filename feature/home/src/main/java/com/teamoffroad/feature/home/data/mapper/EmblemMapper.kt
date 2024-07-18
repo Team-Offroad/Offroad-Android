@@ -36,7 +36,8 @@ fun UserQuestsResponseDto.AlmostResponseDto.toData(): UserQuestEntity.AlmostEnti
 fun UsersAdventuresInformationsResponseDto.toData(): UsersAdventuresInformationsEntity {
     return UsersAdventuresInformationsEntity(
         nickname = nickname,
-        characterImageUrl = characterImgUrl,
+        baseImageUrl = baseImageUrl,
+        motionImageUrl = motionImageUrl,
         characterName = characterName,
         emblemName = emblemName
     )
@@ -68,7 +69,8 @@ fun UserQuestEntity.AlmostEntity.toDomain(): UserQuests.UserAlmost {
 fun UsersAdventuresInformationsEntity.toDomain(): UsersAdventuresInformations {
     return UsersAdventuresInformations(
         nickname = nickname,
-        characterImageUrl = characterImageUrl,
+        baseImageUrl = baseImageUrl,
+        motionImageUrl = motionImageUrl,
         characterName = characterName,
         emblemName = emblemName
     )

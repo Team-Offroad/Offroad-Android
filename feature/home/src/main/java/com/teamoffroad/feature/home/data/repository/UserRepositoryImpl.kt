@@ -36,7 +36,7 @@ class UserRepositoryImpl @Inject constructor(
         val response = userService.getAdventuresInformations(category)
         val adventuresInformations = response.data?.toData()
         val domainAdventuresInformations = adventuresInformations?.toDomain()
-        return domainAdventuresInformations ?: UsersAdventuresInformations("", "", "", "")
+        return domainAdventuresInformations ?: UsersAdventuresInformations("", "", "", "", "")
     }
 
     override suspend fun patchEmblem(emblemCode: String) {

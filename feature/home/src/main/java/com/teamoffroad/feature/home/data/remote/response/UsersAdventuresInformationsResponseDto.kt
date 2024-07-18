@@ -11,8 +11,11 @@ data class UsersAdventuresInformationsResponseDto(
     @SerialName("emblemName")
     val emblemName: String,
 
-    @SerialName("characterImgUrl")
-    val characterImgUrl: String,
+    @SerialName("baseImageUrl")
+    val baseImageUrl: String,
+
+    @SerialName("motionImageUrl")
+    val motionImageUrl: String,
 
     @SerialName("characterName")
     val characterName: String,

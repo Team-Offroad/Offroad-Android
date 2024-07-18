@@ -3,6 +3,7 @@ package com.teamoffroad.feature.auth.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.auth.domain.repository.AuthRepository
+import com.teamoffroad.feature.auth.presentation.model.NicknameUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class OnboardingViewModel @Inject constructor(
+class SetNicknameViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
     private val _isCheckedNickname: MutableStateFlow<String> = MutableStateFlow("")
@@ -20,8 +21,8 @@ class OnboardingViewModel @Inject constructor(
     private val _isCheckedNicknameState: MutableStateFlow<Boolean> = MutableStateFlow(true)
     val isCheckedNicknameState: StateFlow<Boolean> = _isCheckedNicknameState.asStateFlow()
 
-    private val _isNicknameState: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val isNicknameState: StateFlow<Boolean> = _isNicknameState.asStateFlow()
+    private val _isNicknameState: MutableStateFlow<NicknameUiState> = MutableStateFlow(NicknameUiState.Empty)
+    val isNicknameState: StateFlow<NicknameUiState> = _isNicknameState.asStateFlow()
 
     private val _inputNickname: MutableStateFlow<String> = MutableStateFlow("")
     val inputNickname: StateFlow<String> = _inputNickname.asStateFlow()
@@ -35,7 +36,10 @@ class OnboardingViewModel @Inject constructor(
     }
 
     fun updateDuplicateState(state: Boolean) {
-        _isNicknameState.value = state
+        when(state){
+            true -> _isNicknameState.value = NicknameUiState.Duplicated
+            false -> _isNicknameState.value = NicknameUiState.UnDuplicated
+        }
     }
 
     fun updateCheckedNickname(nickname: String) {
@@ -46,7 +50,7 @@ class OnboardingViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching { authRepository.getDuplicateNickname(nickname) }
                 .onSuccess {
-                    updateDuplicateState(!it)
+                    updateDuplicateState(it)
                 }
                 .onFailure {}
         }
