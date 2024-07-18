@@ -15,4 +15,5 @@ dependencies {
     implementation(libs.google.accompanist.permissions)
     implementation(libs.gson)
     implementation(libs.lottie.compose)
+    implementation(libs.coil.svg)
 }

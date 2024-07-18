@@ -2,18 +2,17 @@ package com.teamoffroad.feature.home.presentation.component.character
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -28,9 +27,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieAnimatable
 import com.airbnb.lottie.compose.rememberLottieComposition
@@ -41,7 +41,6 @@ import com.teamoffroad.core.designsystem.theme.CharacterName
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.White
-import com.teamoffroad.feature.home.domain.model.Emblem
 import com.teamoffroad.feature.home.presentation.HomeViewModel
 import com.teamoffroad.feature.home.presentation.UiState
 import com.teamoffroad.feature.home.presentation.component.dialog.OffroadDialog
@@ -52,38 +51,62 @@ class CharacterItem {
 
     @Composable
     fun CharacterImage(
-        imageUrl: String
+        viewModel: HomeViewModel,
+        context: Context
     ) {
+        val characterImage = viewModel.characterImage.collectAsState().value
+        val category = viewModel.category.collectAsState().value
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 90.dp),
+                .padding(top = 130.dp),
             contentAlignment = Alignment.Center
         ) {
-            val composition by rememberLottieComposition(
-                spec = LottieCompositionSpec.Url(imageUrl)
-            )
 
-            val progress by animateLottieCompositionAsState(
-                composition = composition,
-                iterations = 5 // 반복 횟수
-            )
+            if (category == "None") {
+                // TODO: 임시 캐릭터 svg 삭제
+                Log.d("offroad characterImage", characterImage)
 
-            val lottieAnimatable = rememberLottieAnimatable()
+                AsyncImage(
+                    model = ImageRequest.Builder(context)
+                        .data(characterImage)
+                        .decoderFactory(SvgDecoder.Factory())
+                        .build(),
+                    contentDescription = "explorer",
+                    modifier = Modifier.fillMaxSize()
+                    // TODO: placeholder, error일 때
+                )
+            } else {
+                // val textCharacter =
 
-            LaunchedEffect(composition) {
-                lottieAnimatable.animate(
+                val composition by rememberLottieComposition(
+                    spec = LottieCompositionSpec.Url(characterImage) //
+                )
+
+                val progress by animateLottieCompositionAsState(
                     composition = composition,
-                    initialProgress = 0f
+                    iterations = 5 // 반복 횟수
+                )
+
+                val lottieAnimatable = rememberLottieAnimatable()
+
+                LaunchedEffect(composition) {
+                    lottieAnimatable.animate(
+                        composition = composition,
+                        initialProgress = 0f
+                    )
+                }
+
+                LottieAnimation(
+                    composition = composition,
+                    progress = progress,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.FillHeight
                 )
             }
 
-            LottieAnimation(
-                composition = composition,
-                progress = progress,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.FillHeight
-            )
+
         }
     }
 
@@ -124,12 +147,13 @@ class CharacterItem {
 
         val showDialog = remember { mutableStateOf(false) }
 
-        when(emblemState) {
+        when (emblemState) {
             is UiState.Success -> null
             is UiState.Failure -> {
                 Toast.makeText(context, emblemState.errorMessage, Toast.LENGTH_SHORT).show()
                 null
             }
+
             else -> null
         }
 

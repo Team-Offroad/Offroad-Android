@@ -1,7 +1,8 @@
-package com.teamoffroad.feature.home
+package com.teamoffroad.feature.home.presentation
 
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
@@ -10,7 +11,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -31,8 +31,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.home.domain.model.UserQuests
-import com.teamoffroad.feature.home.presentation.HomeViewModel
-import com.teamoffroad.feature.home.presentation.UiState
 import com.teamoffroad.feature.home.presentation.component.HomeIcons
 import com.teamoffroad.feature.home.presentation.component.character.CharacterItem
 import com.teamoffroad.feature.home.presentation.component.quest.progressbar.CloseCompleteRequest
@@ -49,8 +47,11 @@ internal fun HomeScreen(
     val context = LocalContext.current
     val viewModel: HomeViewModel = hiltViewModel()
 
+    val category = "None" // TODO: 탐험 성공 시 category 받아오기
+
     LaunchedEffect(Unit) {
-        viewModel.getUsersAdventuresInformations("None")
+        viewModel.updateCategory("None")
+        viewModel.getUsersAdventuresInformations(category) // TODO: category 넣기
         viewModel.getUserQuests()
     }
 
@@ -98,7 +99,7 @@ private fun UsersAdventuresInformation(
     Box(
         modifier = modifier.fillMaxWidth()
     ) {
-        val imageUrl = adventuresInformationsData?.characterImageUrl ?: ""
+        val imageUrl = adventuresInformationsData?.characterImageUrl ?: "" // TODO: svg & lottie
 
         Box(
             modifier = Modifier.fillMaxWidth(),
@@ -122,7 +123,7 @@ private fun UsersAdventuresInformation(
                 //.fillMaxHeight()
                 .align(Alignment.BottomCenter)
         ) {
-            CharacterItem().CharacterImage(imageUrl)
+            CharacterItem().CharacterImage(viewModel, context)
         }
     }
     Spacer(modifier = Modifier.padding(18.dp))

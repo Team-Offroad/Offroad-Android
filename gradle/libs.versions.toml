@@ -2,6 +2,7 @@
 # Android Core Libraries
 activityCompose = "1.9.0"
 appcompat = "1.7.0"
+coilSvg = "2.2.2"
 coreKtx = "1.13.1"
 androidxDatastore = "1.1.1"
 gson = "2.10.1"
@@ -85,6 +86,7 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
 androidx-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDatastore" }
+coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coilSvg" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottie" }
