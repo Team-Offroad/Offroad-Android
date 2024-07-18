@@ -2,6 +2,7 @@ package com.teamoffroad.feature.home.presentation
 
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
@@ -42,15 +43,20 @@ import com.teamoffroad.offroad.feature.home.R
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
-internal fun HomeScreen(
-    padding: PaddingValues,
+fun HomeScreen(
+    //padding: PaddingValues,
+    category: String
 ) {
     val context = LocalContext.current
     val viewModel: HomeViewModel = hiltViewModel()
 
     LaunchedEffect(Unit) {
-        viewModel.updateCategory("CAFFE") // TODO: category 넣기 - 현재는 CAFFE 인 경우
-        viewModel.getUsersAdventuresInformations(viewModel.category.value)
+        if(category !="NONE") viewModel.updateCategory(category)
+        if(category.isBlank()) {
+            viewModel.getUsersAdventuresInformations("NONE")
+        } else {
+            viewModel.getUsersAdventuresInformations(category)
+        }
         viewModel.getUserQuests()
     }
 
@@ -197,7 +203,8 @@ private fun UsersQuestInformation(
 fun HomeScreenPreview() {
     OffroadTheme {
         HomeScreen(
-            padding = PaddingValues(),
+            //padding = PaddingValues(),
+            category = "NONE"
         )
     }
 }

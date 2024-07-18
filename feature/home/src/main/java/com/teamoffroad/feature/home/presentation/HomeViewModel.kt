@@ -28,7 +28,7 @@ class HomeViewModel @Inject constructor(
     private val _motionCharacterUrl: MutableStateFlow<String?> = MutableStateFlow(null)
     val motionCharacterUrl = _motionCharacterUrl.asStateFlow()
 
-    private val _category = MutableStateFlow("CAFFE")
+    private val _category = MutableStateFlow("NONE")
     val category = _category.asStateFlow()
 
     private val _getEmblemsState = MutableStateFlow<UiState<List<Emblem>>>(UiState.Loading)

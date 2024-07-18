@@ -1,5 +1,8 @@
 package com.teamoffroad.feature.explore.navigation
 
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
@@ -9,15 +12,22 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navOptions
 import com.teamoffroad.core.navigation.ExploreRoute
+import com.teamoffroad.core.navigation.HomeRoute
 import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.feature.explore.presentation.ExploreCameraScreen
 import com.teamoffroad.feature.explore.presentation.ExploreScreen
 import com.teamoffroad.feature.explore.presentation.model.ExploreCameraUiState
+import com.teamoffroad.feature.home.presentation.HomeScreen
+import com.teamoffroad.feature.home.presentation.HomeScreenPreview
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
-fun NavController.navigateExplore(errorType: String, successImageUrl: String, navOptions: NavOptions) {
+fun NavController.navigateExplore(
+    errorType: String,
+    successImageUrl: String,
+    navOptions: NavOptions
+) {
     val cameraNavOptions by lazy {
         navOptions {
             popUpTo(graph.findStartDestination().id) {
@@ -32,13 +42,19 @@ fun NavController.navigateExplore(errorType: String, successImageUrl: String, na
     navigate(route, cameraNavOptions)
 }
 
-fun NavController.navigateToExploreCameraScreen(placeId: Long, latitude: Double, longitude: Double, navOptions: NavOptions) {
+fun NavController.navigateToExploreCameraScreen(
+    placeId: Long,
+    latitude: Double,
+    longitude: Double,
+    navOptions: NavOptions
+) {
     val route = "${ExploreRoute.ExploreCameraScreen}/$placeId/$latitude/$longitude"
     navigate(route, navOptions)
 }
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun NavGraphBuilder.exploreNavGraph(
-    navigateToHome: () -> Unit,
+    navigateToHome: (String) -> Unit,
     navigateToExplore: (String, String) -> Unit,
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
 ) {
@@ -50,7 +66,8 @@ fun NavGraphBuilder.exploreNavGraph(
             navArgument("successImageUrl") { type = NavType.StringType },
         )
     ) { backStackEntry ->
-        val errorType = backStackEntry.arguments?.getString("errorType") ?: ExploreCameraUiState.None.toString()
+        val errorType =
+            backStackEntry.arguments?.getString("errorType") ?: ExploreCameraUiState.None.toString()
         val encodedUrl = backStackEntry.arguments?.getString("successImageUrl") ?: "None"
         val successImageUrl = URLDecoder.decode(encodedUrl, StandardCharsets.UTF_8.toString())
         ExploreScreen(errorType, successImageUrl, navigateToHome, navigateToExploreCameraScreen)
@@ -68,5 +85,15 @@ fun NavGraphBuilder.exploreNavGraph(
         val latitude = backStackEntry.arguments?.getString("latitude")?.toDouble() ?: 0.0
         val longitude = backStackEntry.arguments?.getString("longitude")?.toDouble() ?: 0.0
         ExploreCameraScreen(placeId, latitude, longitude, navigateToExplore)
+    }
+
+    composable(
+        route = "${HomeRoute.SetCategory}/{category}",
+        arguments = listOf(
+            navArgument("category") { type = NavType.StringType }
+        )
+    ) { backStackEntry ->
+        val category = backStackEntry.arguments?.getString("category") ?: "NONE"
+        HomeScreen(category)
     }
 }

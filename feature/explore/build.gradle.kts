@@ -17,4 +17,5 @@ dependencies {
     implementation(libs.bundles.offroad.map)
     implementation(libs.bundles.offroad.camera)
     implementation(libs.barcode.scanning)
+    implementation(project(":feature:home"))
 }

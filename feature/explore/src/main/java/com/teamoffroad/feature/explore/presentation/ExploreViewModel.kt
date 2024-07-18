@@ -24,6 +24,13 @@ class ExploreViewModel @Inject constructor(
     private val _uiState: MutableStateFlow<ExploreUiState> = MutableStateFlow(ExploreUiState())
     val uiState: StateFlow<ExploreUiState> = _uiState.asStateFlow()
 
+    private val _category = MutableStateFlow("")
+    val category = _category.asStateFlow()
+
+    fun updateCategory(category: String) {
+        _category.value = category
+    }
+
     fun updatePermission(
         isSomePermissionRejected: Boolean?,
         isLocationPermissionGranted: Boolean,

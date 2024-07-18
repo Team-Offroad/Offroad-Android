@@ -3,6 +3,7 @@ package com.teamoffroad.feature.explore.presentation
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.util.Log
 import android.view.Gravity
 import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
@@ -23,6 +24,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -74,7 +76,7 @@ import com.teamoffroad.offroad.feature.explore.R
 internal fun ExploreScreen(
     errorType: String,
     successImageUrl: String,
-    navigateToHome: () -> Unit,
+    navigateToHome: (String) -> Unit,
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
     viewModel: ExploreViewModel = hiltViewModel(),
 ) {
@@ -87,10 +89,17 @@ internal fun ExploreScreen(
 
     if (!uiState.loading && uiState.places.isEmpty()) viewModel.updatePlaces()
     if (uiState.isUpdatePlacesFailed) {
-        Toast.makeText(context, stringResource(R.string.explore_places_failed), Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, stringResource(R.string.explore_places_failed), Toast.LENGTH_SHORT)
+            .show()
     }
 
-    ExploreCameraUiStateHandler(uiState, viewModel::updateExploreCameraUiState, successImageUrl, navigateToHome)
+    ExploreCameraUiStateHandler(
+        uiState,
+        viewModel::updateExploreCameraUiState,
+        successImageUrl,
+        viewModel,
+        navigateToHome
+    )
 
     ExploreLocationPermissionHandler(
         context = context,
@@ -102,7 +111,7 @@ internal fun ExploreScreen(
         ExplorePermissionRejectedHandler(
             context = context,
             uiState = uiState,
-            navigateToHome = navigateToHome,
+            navigateToHome = { navigateToHome("") },
             updatePermission = viewModel::updatePermission,
         )
     }
@@ -112,10 +121,12 @@ internal fun ExploreScreen(
             uiState.locationModel,
             uiState.places,
             uiState.selectedPlace,
+            navigateToHome,
             navigateToExploreCameraScreen,
             viewModel::updateLocation,
             viewModel::updateTrackingToggle,
             viewModel::updateSelectedPlace,
+            viewModel::updateCategory,
             viewModel::updatePlaces,
             viewModel::updateExploreCameraUiState,
             viewModel::isValidDistance,
@@ -128,7 +139,8 @@ private fun ExploreCameraUiStateHandler(
     uiState: ExploreUiState,
     updateExploreCameraUiState: (ExploreCameraUiState) -> Unit,
     successImageUrl: String,
-    navigateToHome: () -> Unit,
+    viewModel: ExploreViewModel,
+    navigateToHome: (String) -> Unit,
 ) {
     when (uiState.errorType) {
         ExploreCameraUiState.LocationError -> {
@@ -159,11 +171,13 @@ private fun ExploreCameraUiStateHandler(
         }
 
         ExploreCameraUiState.Success -> {
+            val category = viewModel.category.collectAsStateWithLifecycle().value
+
             ExploreResultDialog(
                 errorType = ExploreCameraUiState.Success,
                 text = stringResource(R.string.explore_dialog_success),
                 content = { ExploreSuccessDialogContent(url = successImageUrl) },
-                onDismissRequest = navigateToHome
+                onDismissRequest = { navigateToHome(category) }
             )
         }
 
@@ -208,7 +222,8 @@ private fun getPermissionsLauncher(
     return rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { isPermissionGranted ->
-        val isLocationNotGranted = isPermissionGranted[Manifest.permission.ACCESS_FINE_LOCATION] == false
+        val isLocationNotGranted =
+            isPermissionGranted[Manifest.permission.ACCESS_FINE_LOCATION] == false
         val isCameraNotGranted = isPermissionGranted[Manifest.permission.CAMERA] == false
 
         if (isPermissionGranted.values.all { it }) {
@@ -227,7 +242,7 @@ private fun getPermissionsLauncher(
 private fun ExplorePermissionRejectedHandler(
     context: Context,
     uiState: ExploreUiState,
-    navigateToHome: () -> Unit,
+    navigateToHome: (String?) -> Unit,
     updatePermission: (Boolean?, Boolean, Boolean) -> Unit,
 ) {
     val toastMessage = when {
@@ -241,7 +256,7 @@ private fun ExplorePermissionRejectedHandler(
     if (toastMessage.isNotBlank()) {
         Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show()
         updatePermission(null, false, false)
-        navigateToHome()
+        navigateToHome(null)
     }
 }
 
@@ -252,10 +267,12 @@ private fun ExploreNaverMap(
     locationState: LocationModel,
     places: List<PlaceModel>,
     selectedPlace: PlaceModel?,
+    navigateToHome: (String) -> Unit,
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
     updateLocation: (Double, Double) -> Unit,
     updateTrackingToggle: (Boolean) -> Unit,
     updateSelectedPlace: (PlaceModel?) -> Unit,
+    updateCategory: (String) -> Unit,
     updatePlaces: (Double, Double) -> Unit,
     updateCameraUiState: (ExploreCameraUiState) -> Unit,
     isValidDistance: (PlaceModel, LatLng) -> Boolean,
@@ -311,8 +328,14 @@ private fun ExploreNaverMap(
                     state = MarkerState(position = place.location),
                     icon = OverlayImage.fromResource(R.drawable.ic_explore_place_marker),
                     onClick = {
-                        markerOffset = calculateMarkerOffset(place.location, locationState.cameraPositionState, density, mapViewSize)
+                        markerOffset = calculateMarkerOffset(
+                            place.location,
+                            locationState.cameraPositionState,
+                            density,
+                            mapViewSize
+                        )
                         updateSelectedPlace(place)
+                        updateCategory(place.placeCategory.name)
                         true
                     },
                 )
@@ -405,7 +428,12 @@ private fun ExploreNaverMap(
     }
 }
 
-private fun calculateMarkerOffset(location: LatLng, cameraPositionState: CameraPositionState, density: Density, screenSize: IntSize): IntOffset {
+private fun calculateMarkerOffset(
+    location: LatLng,
+    cameraPositionState: CameraPositionState,
+    density: Density,
+    screenSize: IntSize
+): IntOffset {
     val screenPosition = cameraPositionState.projection?.toScreenLocation(location)
     return screenPosition?.let {
         with(density) {
