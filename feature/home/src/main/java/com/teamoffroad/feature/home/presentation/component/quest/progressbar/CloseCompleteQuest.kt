@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Contents2
+import com.teamoffroad.core.designsystem.theme.Sub4
 import com.teamoffroad.feature.home.presentation.component.quest.ContentsLocation
 import com.teamoffroad.feature.home.presentation.component.quest.ContentsTitle
 import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
@@ -29,20 +30,19 @@ fun CloseCompleteRequest(modifier: Modifier = Modifier, data: HomeProgressBarMod
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
+            Spacer(modifier = Modifier.padding(8.dp))
             Row {
-                ContentsTitle(title = data.title)
+                ContentsTitle(data.title, Sub4)
                 Spacer(modifier = Modifier.padding(start = 4.dp))
                 Image(
                     painter = painterResource(id = R.drawable.img_home_close_complete),
                     contentDescription = "recent quest",
-                    modifier = Modifier
-                        .padding(top = 16.dp)
                 )
             }
             Spacer(modifier = Modifier.padding(top = 16.dp))
             LinearProgressBar(data)
             Spacer(modifier = Modifier.padding(top = 20.dp))
-            ContentsLocation(data.location)
+            ContentsLocation(data.location, Sub4)
             Spacer(modifier = Modifier.padding(bottom = 12.dp))
         }
     }

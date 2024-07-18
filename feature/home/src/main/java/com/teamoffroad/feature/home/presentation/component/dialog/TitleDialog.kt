@@ -87,7 +87,7 @@ fun OffroadDialog(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(248.dp),
+                .height(380.dp),
             shape = RoundedCornerShape(8.dp),
             colors = CardDefaults.cardColors(
                 containerColor = White
@@ -148,7 +148,9 @@ fun CharacterTitle(
     val responseEmblemData = remember { mutableStateOf<Emblem?>(null) }
     val emblemDataState = rememberLazyListState()
 
-    Box {
+    Box(
+        modifier = Modifier.height(222.dp)
+    ) {
         LazyColumn(
             state = emblemDataState,
             modifier = Modifier
