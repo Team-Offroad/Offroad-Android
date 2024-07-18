@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.explore.navigation
 
-import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
@@ -30,7 +29,6 @@ fun NavController.navigateExplore(errorType: String, successImageUrl: String, na
     }
     val encodedUrl = URLEncoder.encode(successImageUrl, StandardCharsets.UTF_8.toString())
     val route = "${MainTabRoute.Explore}/$errorType/$encodedUrl"
-    Log.e("123123412341243", "navigateExplore: $route")
     navigate(route, cameraNavOptions)
 }
 
