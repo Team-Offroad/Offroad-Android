@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.home.presentation.component.quest.progressbar
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,13 +14,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Contents1
 import com.teamoffroad.core.designsystem.theme.Main1
+import com.teamoffroad.feature.home.presentation.HomeViewModel
 import com.teamoffroad.feature.home.presentation.component.quest.ContentsLocation
 import com.teamoffroad.feature.home.presentation.component.quest.ContentsTitle
 import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 import com.teamoffroad.offroad.feature.home.R
 
 @Composable
-fun RecentQuest(modifier: Modifier = Modifier, data: HomeProgressBarModel) {
+fun RecentQuest(modifier: Modifier = Modifier, data: HomeProgressBarModel, viewModel: HomeViewModel) {
+    viewModel.updateCircleProgressBar(data.amount.toFloat(), data.total.toFloat())
+
     Surface(
         color = Contents1,
         modifier = modifier.clip(shape = RoundedCornerShape(10.dp))
@@ -37,7 +39,7 @@ fun RecentQuest(modifier: Modifier = Modifier, data: HomeProgressBarModel) {
                 )
             }
             Spacer(modifier = Modifier.padding(top = 14.dp))
-            CircleProgressBar(data)
+            CircleProgressBar(data, viewModel)
             Spacer(modifier = Modifier.padding(top = 12.dp))
             ContentsLocation(data.location, Main1)
             Spacer(modifier = Modifier.padding(bottom = 12.dp))

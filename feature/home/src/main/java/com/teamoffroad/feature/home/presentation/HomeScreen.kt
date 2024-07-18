@@ -179,7 +179,8 @@ private fun UsersQuestInformation(
                 recentQuest.progress,
                 recentQuest.completeCondition,
                 recentQuest.questName
-            )
+            ),
+            viewModel
         )
         Spacer(modifier = Modifier.padding(horizontal = 6.dp))
         CloseCompleteRequest(
@@ -189,7 +190,8 @@ private fun UsersQuestInformation(
                 almostQuest.progress,
                 almostQuest.completeCondition,
                 almostQuest.questName
-            )
+            ),
+            viewModel = viewModel
         )
         Spacer(modifier = Modifier.padding(end = 24.dp))
     }
