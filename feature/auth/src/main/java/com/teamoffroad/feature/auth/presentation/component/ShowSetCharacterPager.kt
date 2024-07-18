@@ -7,26 +7,36 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.offroad.feature.auth.R
 import kotlinx.coroutines.launch
 
 @Composable
-fun ShowSetCharacterPager(imageSize: Int, characterRes: List<String>, updateSelectedCharacter: (Int) -> Unit) {
+fun ShowSetCharacterPager(
+    imageSize: Int,
+    characterRes: List<String>,
+    updateSelectedCharacter: (Int) -> Unit,
+) {
     val pagerState = rememberPagerState(pageCount = { imageSize })
     val coroutineScope = rememberCoroutineScope()
     val interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
+
+    val context = LocalContext.current
 
     Row(
         modifier = Modifier
@@ -56,15 +66,20 @@ fun ShowSetCharacterPager(imageSize: Int, characterRes: List<String>, updateSele
         HorizontalPager(
             modifier = Modifier
                 .width(132.dp)
-                .height(250.dp),
+                .align(Alignment.Bottom)
+                .height(296.dp),
             state = pagerState,
             userScrollEnabled = false,
         ) { page ->
             AsyncImage(
-                model = characterRes[page],
-                contentDescription = "",
+                model = ImageRequest.Builder(context)
+                    .data(characterRes[page])
+                    .decoderFactory(SvgDecoder.Factory())
+                    .build(),
+                contentDescription = null,
                 modifier = Modifier
-                    .size(200.dp),
+                    .wrapContentSize()
+                    .align(Alignment.Bottom),
             )
         }
         Spacer(modifier = Modifier.weight(1f))
@@ -85,6 +100,10 @@ fun ShowSetCharacterPager(imageSize: Int, characterRes: List<String>, updateSele
             contentDescription = "next_character_button"
         )
     }
-    Spacer(modifier = Modifier.padding(vertical = 20.dp))
+    Spacer(
+        modifier = Modifier
+            .height(30.dp)
+            .fillMaxWidth()
+    )
     SetCharacterIndicator(imageSize, pagerState)
 }

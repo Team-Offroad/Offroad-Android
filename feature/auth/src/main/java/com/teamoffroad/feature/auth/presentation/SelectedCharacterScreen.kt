@@ -14,25 +14,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
-import com.teamoffroad.core.designsystem.component.OffroadBasicBtn
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
-import com.teamoffroad.core.designsystem.theme.selectedCharacterBackground
-import com.teamoffroad.core.designsystem.theme.selectedCharacterBottom
-import com.teamoffroad.core.designsystem.theme.selectedCharacterText
+import com.teamoffroad.core.designsystem.theme.SelectedCharacterBackground
+import com.teamoffroad.core.designsystem.theme.SelectedCharacterBottom
+import com.teamoffroad.core.designsystem.theme.SelectedCharacterText
+import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
 import com.teamoffroad.offroad.feature.auth.R
 
 @Composable
 internal fun SelectedCharacterScreen(
     selectedCharacterUrl: String,
-    navigateToHome: () -> Unit
+    navigateToHome: () -> Unit,
 ) {
     Box {
         Column {
-            OffroadActionBar(selectedCharacterBackground)
+            OffroadActionBar(SelectedCharacterBackground)
             Column(
                 modifier = Modifier
                     .background(SelectedCharacterBackground)

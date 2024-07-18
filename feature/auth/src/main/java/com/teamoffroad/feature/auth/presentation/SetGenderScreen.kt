@@ -24,12 +24,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.teamoffroad.core.designsystem.component.OffroadBasicBtn
+import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.auth.presentation.component.GenderHintButton
+import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
 
 @Composable
 internal fun SetGenderScreen(
@@ -61,7 +62,7 @@ internal fun SetGenderScreen(
                     text = "건너뛰기",
                     color = Gray300,
                     style = OffroadTheme.typography.hint,
-                    modifier = Modifier.clickable{
+                    modifier = Modifier.clickable {
                         viewModel.fetchUserProfile(nickname, birthDate, null)
                     }
                 )
@@ -94,7 +95,7 @@ internal fun SetGenderScreen(
                 isActive = true,
                 text = "다음"
             )
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(72.dp))
         }
     }
 
