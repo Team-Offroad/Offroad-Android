@@ -14,6 +14,9 @@ import com.teamoffroad.feature.auth.presentation.SetBirthDateScreen
 import com.teamoffroad.feature.auth.presentation.SetCharacterScreen
 import com.teamoffroad.feature.auth.presentation.SetGenderScreen
 import com.teamoffroad.feature.auth.presentation.SetNicknameScreen
+import java.net.URLDecoder
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 fun NavController.navigateAuth(navOptions: NavOptions? = null) {
     navigate(Route.Auth, navOptions)
@@ -31,7 +34,7 @@ fun NavController.navigateToSetBirthDate(nickname: String, navOptions: NavOption
 fun NavController.navigateToSetGender(
     nickname: String,
     birthDate: String? = null,
-    navOptions: NavOptions? = null
+    navOptions: NavOptions? = null,
 ) {
     val route = if (birthDate != null) {
         "${AuthRoute.SetGender}/$nickname?birthDate=$birthDate"
@@ -47,9 +50,10 @@ fun NavController.navigateToSetCharacter(navOptions: NavOptions? = null) {
 
 fun NavController.navigateToSelectedCharacter(
     selectedCharacterUrl: String,
-    navOptions: NavOptions
+    navOptions: NavOptions,
 ) {
-    val route = "${AuthRoute.SelectedCharacter}/$selectedCharacterUrl"
+    val encodedUrl = URLEncoder.encode(selectedCharacterUrl, StandardCharsets.UTF_8.toString())
+    val route = "${AuthRoute.SelectedCharacter}/$encodedUrl"
     navigate(route, navOptions)
 }
 
@@ -105,8 +109,9 @@ fun NavGraphBuilder.authNavGraph(
         arguments = listOf(
             navArgument("selectedCharacterUrl") { type = NavType.StringType },
         )
-    ) {backStackEntry ->
-        val selectedCharacterUrl = backStackEntry.arguments?.getString("selectedCharacterUrl") ?: ""
+    ) { backStackEntry ->
+        val encodedUrl = backStackEntry.arguments?.getString("selectedCharacterUrl") ?: ""
+        val selectedCharacterUrl = URLDecoder.decode(encodedUrl, StandardCharsets.UTF_8.toString())
         SelectedCharacterScreen(
             selectedCharacterUrl,
             navigateToHome,

@@ -23,6 +23,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.addFocusCleaner
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
@@ -50,6 +51,7 @@ internal fun SetNicknameScreen(
         color = Main1,
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            OffroadActionBar()
             Spacer(modifier = Modifier.padding(top = 104.dp))
             Text(
                 text = "모험가 프로필 작성",
@@ -110,7 +112,7 @@ internal fun SetNicknameScreen(
                 isActive = isNicknameState,
                 text = "다음"
             )
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(72.dp))
         }
     }
 }

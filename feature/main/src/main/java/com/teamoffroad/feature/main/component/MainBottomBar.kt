@@ -3,9 +3,12 @@ package com.teamoffroad.feature.main.component
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,6 +28,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.teamoffroad.core.designsystem.theme.BottomBarInactive
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
+import com.teamoffroad.core.designsystem.theme.Sub4
 import com.teamoffroad.feature.main.MainNavTab
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
@@ -42,23 +46,31 @@ internal fun MainBottomBar(
         enter = EnterTransition.None,
         exit = ExitTransition.None,
     ) {
-        Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .height(98.dp)
-        ) {
-            tabs.forEach { tab ->
-                MainBottomBarItem(
-                    tab = tab,
-                    selected = tab == currentTab,
-                    ordinal = tab.ordinal,
-                    colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = Main1,
-                        unselectedIconColor = BottomBarInactive,
-                    ),
-                    onClick = { onTabSelected(tab) },
-                )
+        Column {
+            Row(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .height(98.dp)
+            ) {
+                tabs.forEach { tab ->
+                    MainBottomBarItem(
+                        tab = tab,
+                        selected = tab == currentTab,
+                        ordinal = tab.ordinal,
+                        colors = NavigationBarItemDefaults.colors(
+                            selectedIconColor = Main1,
+                            unselectedIconColor = BottomBarInactive,
+                        ),
+                        onClick = { onTabSelected(tab) },
+                    )
+                }
             }
+            Spacer(
+                modifier = Modifier
+                    .height(48.dp)
+                    .fillMaxWidth()
+                    .background(Sub4)
+            )
         }
     }
 }
@@ -84,25 +96,28 @@ private fun RowScope.MainBottomBarItem(
             )
     ) {
         val navBtn = createRef()
-        when(ordinal) {
+        when (ordinal) {
             0 -> {
                 Icon(
                     painter = painterResource(tab.iconResId),
                     contentDescription = tab.contentDescription,
-                    modifier = Modifier.size(49.dp)
+                    modifier = Modifier
+                        .size(50.dp)
                         .constrainAs(navBtn) {
                             start.linkTo(parent.start, margin = 48.dp)
                             top.linkTo(parent.top)
                             bottom.linkTo(parent.bottom)
                         },
-                    tint = if(selected) colors.selectedIconColor else colors.unselectedIconColor,
+                    tint = if (selected) colors.selectedIconColor else colors.unselectedIconColor,
                 )
             }
+
             1 -> {
                 Icon(
                     painter = painterResource(tab.iconResId),
                     contentDescription = tab.contentDescription,
-                    modifier = Modifier.size(78.dp)
+                    modifier = Modifier
+                        .size(78.dp)
                         .constrainAs(navBtn) {
                             bottom.linkTo(parent.bottom, margin = 20.dp)
                             start.linkTo(parent.start)
@@ -111,17 +126,19 @@ private fun RowScope.MainBottomBarItem(
                     tint = Color.Unspecified,
                 )
             }
+
             2 -> {
                 Icon(
                     painter = painterResource(tab.iconResId),
                     contentDescription = tab.contentDescription,
-                    modifier = Modifier.size(49.dp)
+                    modifier = Modifier
+                        .size(50.dp)
                         .constrainAs(navBtn) {
                             end.linkTo(parent.end, margin = 48.dp)
                             top.linkTo(parent.top)
                             bottom.linkTo(parent.bottom)
                         },
-                    tint = if(selected) colors.selectedIconColor else colors.unselectedIconColor,
+                    tint = if (selected) colors.selectedIconColor else colors.unselectedIconColor,
                 )
             }
         }

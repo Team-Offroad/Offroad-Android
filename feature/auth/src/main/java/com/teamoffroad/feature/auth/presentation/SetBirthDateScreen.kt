@@ -26,6 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.addFocusCleaner
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -57,6 +58,7 @@ internal fun SetBirthDateScreen(
         color = Main1
     ) {
         Column {
+            OffroadActionBar()
             Spacer(modifier = Modifier.padding(vertical = 22.dp))
             Row(
                 modifier = Modifier
@@ -68,7 +70,7 @@ internal fun SetBirthDateScreen(
                     text = "건너뛰기",
                     color = Gray300,
                     style = OffroadTheme.typography.hint,
-                    modifier = Modifier.clickable{
+                    modifier = Modifier.clickable {
                         navigateToSetGender(nickname, null)
                     }
                 )
@@ -204,10 +206,10 @@ internal fun SetBirthDateScreen(
                         }
                     navigateToSetGender(nickname, birthDate)
                 },
-                isActive = validateButtonInput(year, month, day),
+                isActive = true,
                 text = "다음"
             )
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(72.dp))
         }
     }
 }

@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
 ) : ViewModel() {
     private val _getUsersAdventuresInformationsState = MutableStateFlow<UiState<UsersAdventuresInformations>>(UiState.Loading)
     val getUsersAdventuresInformationsState = _getUsersAdventuresInformationsState.asStateFlow()
@@ -25,7 +25,7 @@ class HomeViewModel @Inject constructor(
     private val _baseCharacterImage = MutableStateFlow("")
     val baseCharacterImage = _baseCharacterImage.asStateFlow()
 
-    private val _motionCharacterUrl = MutableStateFlow("")
+    private val _motionCharacterUrl: MutableStateFlow<String?> = MutableStateFlow(null)
     val motionCharacterUrl = _motionCharacterUrl.asStateFlow()
 
     private val _category = MutableStateFlow("CAFFE")
@@ -64,7 +64,7 @@ class HomeViewModel @Inject constructor(
         _baseCharacterImage.value = imageUrl
     }
 
-    fun updateMotionImageUrl(motionImageUrl: String) {
+    fun updateMotionImageUrl(motionImageUrl: String?) {
         _motionCharacterUrl.value = motionImageUrl
     }
 

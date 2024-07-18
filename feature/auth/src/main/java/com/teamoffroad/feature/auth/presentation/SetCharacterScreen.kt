@@ -23,12 +23,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
+import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.theme.Brown
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
 import com.teamoffroad.feature.auth.presentation.component.SetCharacterDialog
 import com.teamoffroad.feature.auth.presentation.component.ShowSetCharacterPager
 import com.teamoffroad.feature.auth.presentation.model.SetCharacterUiState
@@ -44,6 +45,13 @@ internal fun SetCharacterScreen(
     val selectedCharacter by viewModel.selectedCharacter.collectAsStateWithLifecycle()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    val backgroundColor = when (selectedCharacter.id) {
+        1 -> Color(0xFFFFF4CC)
+        2 -> Color(0xFFFFE1C5)
+        3 -> Color(0xFFF9E5D2)
+        else -> White
+    }
+
     LaunchedEffect(Unit) {
         viewModel.getCharacters()
     }
@@ -53,16 +61,10 @@ internal fun SetCharacterScreen(
             .fillMaxSize(),
     ) {
         Column {
+            OffroadActionBar(backgroundColor)
             Column(
                 modifier = Modifier
-                    .background(
-                        when (selectedCharacter.id) {
-                            1 -> Color(0xFFFFF4CC)
-                            2 -> Color(0xFFFFE1C5)
-                            3 -> Color(0xFFF9E5D2)
-                            else -> White
-                        }
-                    ),
+                    .background(backgroundColor),
                 verticalArrangement = Arrangement.Top
             ) {
                 Text(
@@ -133,7 +135,7 @@ internal fun SetCharacterScreen(
                     isActive = true,
                     text = "선택",
                 )
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(72.dp))
             }
         }
     }

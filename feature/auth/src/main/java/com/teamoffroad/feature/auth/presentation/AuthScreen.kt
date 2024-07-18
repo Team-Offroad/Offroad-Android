@@ -46,6 +46,8 @@ internal fun AuthScreen(
     val isAutoSignIn by viewModel.autoSignIn.collectAsStateWithLifecycle()
     val isAlreadyExist by viewModel.alreadyExist.collectAsStateWithLifecycle()
 
+    var showSplash by remember { mutableStateOf(true) }
+
     val signInLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -56,13 +58,17 @@ internal fun AuthScreen(
     }
     viewModel.checkAutoSignIn()
 
+    LaunchedEffect(Unit) {
+        delay(2500L)
+        showSplash = false
+    }
+
     LaunchedEffect(isSignInSuccess) {
         if (isSignInSuccess && !isAlreadyExist) navigateToSetNickname()
         if (isSignInSuccess && isAlreadyExist) navigateToHome()
     }
-    LaunchedEffect(isAutoSignIn) {
-        if (isAutoSignIn) signInLauncher.launch(viewModel.googleSignInClient.signInIntent)
-    }
+
+    if (isAutoSignIn && !showSplash) signInLauncher.launch(viewModel.googleSignInClient.signInIntent)
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -110,6 +116,8 @@ internal fun AuthScreen(
             )
         }
     }
+
+    if (showSplash) SplashScreen()
 }
 
 @Composable

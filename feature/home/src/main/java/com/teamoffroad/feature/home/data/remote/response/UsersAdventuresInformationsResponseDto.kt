@@ -15,7 +15,7 @@ data class UsersAdventuresInformationsResponseDto(
     val baseImageUrl: String,
 
     @SerialName("motionImageUrl")
-    val motionImageUrl: String,
+    val motionImageUrl: String?,
 
     @SerialName("characterName")
     val characterName: String,

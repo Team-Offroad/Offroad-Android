@@ -4,7 +4,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,7 +17,7 @@ import kotlinx.collections.immutable.toPersistentList
 @Composable
 internal fun MainScreen(
     navigator: MainNavigator = rememberMainNavigator(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     MainScreenContent(
         navigator = navigator,
@@ -38,12 +37,12 @@ private fun MainScreenContent(
             MainNavHost(
                 navigator = navigator,
                 padding = padding,
+                modifier = Modifier
             )
         },
         bottomBar = {
             MainBottomBar(
                 modifier = Modifier
-                    .navigationBarsPadding()
                     .height(74.dp)
                     .background(Sub4),
                 visible = navigator.setBottomBarVisibility(),

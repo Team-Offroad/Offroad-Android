@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -262,6 +263,7 @@ private fun ExploreNaverMap(
     val density = LocalDensity.current
     var markerOffset by remember { mutableStateOf(IntOffset.Zero) }
     var mapViewSize by remember { mutableStateOf(IntSize.Zero) }
+    val backgroundPadding = 104
 
     LaunchedEffect(locationState.cameraPositionState.cameraUpdateReason) {
         if (locationState.cameraPositionState.cameraUpdateReason == CameraUpdateReason.GESTURE) {
@@ -273,6 +275,7 @@ private fun ExploreNaverMap(
         Modifier
             .fillMaxSize()
             .padding(bottom = 74.dp)
+            .navigationBarsPadding()
             .onGloballyPositioned { coordinates ->
                 mapViewSize = coordinates.size
             }) {
@@ -319,7 +322,7 @@ private fun ExploreNaverMap(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 96.dp)
+                .padding(top = (backgroundPadding + 18).dp)
                 .align(Alignment.TopCenter),
         ) {
             ExploreRefreshButton(
@@ -358,7 +361,7 @@ private fun ExploreNaverMap(
                 onClick = {},
             )
         }
-        ExploreAppBar()
+        ExploreAppBar(backgroundPadding)
         selectedPlace?.let { place ->
             Box(
                 modifier = Modifier

@@ -21,7 +21,9 @@ import com.teamoffroad.offroad.feature.explore.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ExploreAppBar() {
+fun ExploreAppBar(
+    topPadding: Int,
+) {
     Column {
         TopAppBar(
             colors = topAppBarColors(
@@ -36,7 +38,7 @@ fun ExploreAppBar() {
                     modifier = Modifier.padding(top = 32.dp),
                 )
             },
-            modifier = Modifier.height(70.dp),
+            modifier = Modifier.height(topPadding.dp),
         )
         HorizontalDivider(
             color = Gray100,

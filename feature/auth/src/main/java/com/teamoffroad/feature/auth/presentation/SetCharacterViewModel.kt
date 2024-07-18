@@ -46,8 +46,8 @@ class SetCharacterViewModel @Inject constructor(
             runCatching {
                 setCharacterUseCase.invoke(characterId)
             }.onSuccess { characterImgUrl ->
-                _uiState.value = SetCharacterUiState.Success(characterImgUrl)
                 updateSelectedCharacter(characterId)
+                _uiState.value = SetCharacterUiState.Success(characterImgUrl)
             }.onFailure {
                 _uiState.value = SetCharacterUiState.Error
             }

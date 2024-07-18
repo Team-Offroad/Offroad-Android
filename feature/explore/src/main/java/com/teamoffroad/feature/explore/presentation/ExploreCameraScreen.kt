@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.feature.explore.presentation.component.ExploreCamera
 import com.teamoffroad.feature.explore.presentation.component.ExploreCameraNavigateBack
@@ -61,6 +62,7 @@ internal fun ExploreCameraScreen(
             .fillMaxWidth()
             .padding(top = 20.dp)
     ) {
+        OffroadActionBar(Black.copy(alpha = 0.44f))
         ExploreCameraNavigateBack(navigateToExplore)
         ExploreCameraOverlay()
     }

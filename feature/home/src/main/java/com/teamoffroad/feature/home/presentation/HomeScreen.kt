@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -27,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.home.domain.model.UserQuests
@@ -47,7 +49,7 @@ internal fun HomeScreen(
     val viewModel: HomeViewModel = hiltViewModel()
 
     LaunchedEffect(Unit) {
-        viewModel.updateCategory("None") // TODO: category 넣기 - 현재는 CAFFE 인 경우
+        viewModel.updateCategory("CAFFE") // TODO: category 넣기 - 현재는 CAFFE 인 경우
         viewModel.getUsersAdventuresInformations(viewModel.category.value)
         viewModel.getUserQuests()
     }
@@ -55,11 +57,13 @@ internal fun HomeScreen(
     Surface(
         modifier = Modifier
             .padding(bottom = 74.dp)
+            .navigationBarsPadding()
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
         color = Main1
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
+            OffroadActionBar()
             UsersAdventuresInformation(
                 context = context,
                 modifier = Modifier.weight(1f),
@@ -139,7 +143,7 @@ private fun HomeBackground() {
 @Composable
 private fun UsersQuestInformation(
     context: Context,
-    viewModel: HomeViewModel
+    viewModel: HomeViewModel,
 ) {
     val userQuestsState =
         viewModel.getUserQuestsState.collectAsState(initial = UiState.Loading).value
