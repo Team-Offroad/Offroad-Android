@@ -114,7 +114,6 @@ class CharacterItem {
     fun EmblemNameText(
         context: Context,
         modifier: Modifier = Modifier,
-        emblem: String
     ) {
         val viewModel: HomeViewModel = hiltViewModel()
         val emblemState = viewModel.patchEmblemState.collectAsState(initial = UiState.Loading).value
