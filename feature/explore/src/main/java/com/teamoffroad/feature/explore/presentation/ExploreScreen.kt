@@ -53,7 +53,6 @@ import com.naver.maps.map.compose.MarkerState
 import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberFusedLocationSource
 import com.naver.maps.map.overlay.OverlayImage
-import com.teamoffroad.core.designsystem.component.FadeInWrapper
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.feature.explore.presentation.component.ExploreAppBar
@@ -150,33 +149,41 @@ private fun ExploreCameraUiStateHandler(
     }
     when (uiState.errorType) {
         ExploreCameraUiState.LocationError -> {
-            ExploreResultDialog(errorType = ExploreCameraUiState.LocationError,
+            ExploreResultDialog(
+                errorType = ExploreCameraUiState.LocationError,
                 text = stringResource(R.string.explore_location_failed_label),
                 content = { ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_location)) },
-                onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) })
+                onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
+            )
         }
 
         ExploreCameraUiState.CodeError -> {
-            ExploreResultDialog(errorType = ExploreCameraUiState.CodeError,
+            ExploreResultDialog(
+                errorType = ExploreCameraUiState.CodeError,
                 text = stringResource(R.string.explore_code_failed_label),
                 content = { ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_code)) },
-                onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) })
+                onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
+            )
         }
 
         ExploreCameraUiState.EtcError -> {
-            ExploreResultDialog(errorType = ExploreCameraUiState.EtcError,
+            ExploreResultDialog(
+                errorType = ExploreCameraUiState.EtcError,
                 text = stringResource(R.string.explore_etc_failed_label),
                 content = { ExploreFailedDialogContent(painter = null) },
-                onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) })
+                onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
+            )
         }
 
         ExploreCameraUiState.Success -> {
             val category = viewModel.category.collectAsStateWithLifecycle().value
 
-            ExploreResultDialog(errorType = ExploreCameraUiState.Success,
+            ExploreResultDialog(
+                errorType = ExploreCameraUiState.Success,
                 text = stringResource(R.string.explore_dialog_success),
                 content = { ExploreSuccessDialogContent(url = imgUrl) },
-                onDismissRequest = { navigateToHome(category) })
+                onDismissRequest = { navigateToHome(category) }
+            )
         }
 
         else -> {}
@@ -220,7 +227,8 @@ private fun getPermissionsLauncher(
     return rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { isPermissionGranted ->
-        val isLocationNotGranted = isPermissionGranted[Manifest.permission.ACCESS_FINE_LOCATION] == false
+        val isLocationNotGranted =
+            isPermissionGranted[Manifest.permission.ACCESS_FINE_LOCATION] == false
         val isCameraNotGranted = isPermissionGranted[Manifest.permission.CAMERA] == false
 
         if (isPermissionGranted.values.all { it }) {
@@ -383,12 +391,14 @@ private fun ExploreNaverMap(
         }
         ExploreAppBar(backgroundPadding)
         selectedPlace?.let { place ->
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .background(Black.copy(alpha = 0.25f))
-                .pointerInput(Unit) {
-                    detectTapGestures(onTap = { updateSelectedPlace(null) })
-                }) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Black.copy(alpha = 0.25f))
+                    .pointerInput(Unit) {
+                        detectTapGestures(onTap = { updateSelectedPlace(null) })
+                    }
+            ) {
                 Box(modifier = Modifier
                     .align(Alignment.TopStart)
                     .offset { markerOffset }) {

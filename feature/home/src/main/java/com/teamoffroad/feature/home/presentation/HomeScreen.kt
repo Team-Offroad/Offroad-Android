@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.FadeInWrapper
+import com.teamoffroad.core.common.util.OnBackButtonListener
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -197,6 +198,7 @@ private fun UsersQuestInformation(
         )
         Spacer(modifier = Modifier.padding(end = 24.dp))
     }
+    OnBackButtonListener()
 }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)

@@ -1,8 +1,8 @@
 package com.teamoffroad.feature.main
 
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -22,12 +22,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navigator: MainNavigator = rememberMainNavigator()
 
-            window.setFlags(
-                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-            )
-            
-            window.navigationBarColor = android.graphics.Color.TRANSPARENT
+            SetupTransparentActionBar()
 
             OffroadTheme {
                 MainScreen(
@@ -36,6 +31,16 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
+    }
+
+    @Composable
+    private fun SetupTransparentActionBar() {
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+        )
+
+        window.navigationBarColor = Color.TRANSPARENT
     }
 }
 
