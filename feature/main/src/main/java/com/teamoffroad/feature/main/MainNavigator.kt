@@ -93,7 +93,6 @@ internal class MainNavigator(
     }
 
     fun navigateToExplore(errorType: String, successImageUrl: String) {
-        navController.popBackStack()
         navController.navigateExplore(errorType, successImageUrl, navOptions)
     }
 }

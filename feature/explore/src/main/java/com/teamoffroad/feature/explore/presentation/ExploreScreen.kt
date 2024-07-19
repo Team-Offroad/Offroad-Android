@@ -53,6 +53,7 @@ import com.naver.maps.map.compose.MarkerState
 import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberFusedLocationSource
 import com.naver.maps.map.overlay.OverlayImage
+import com.teamoffroad.core.designsystem.component.FadeInWrapper
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.feature.explore.presentation.component.ExploreAppBar
@@ -89,8 +90,7 @@ internal fun ExploreScreen(
 
     if (!uiState.loading && uiState.places.isEmpty()) viewModel.updatePlaces()
     if (uiState.isUpdatePlacesFailed) {
-        Toast.makeText(context, stringResource(R.string.explore_places_failed), Toast.LENGTH_SHORT)
-            .show()
+        Toast.makeText(context, stringResource(R.string.explore_places_failed), Toast.LENGTH_SHORT).show()
     }
 
     ExploreCameraUiStateHandler(
@@ -150,41 +150,33 @@ private fun ExploreCameraUiStateHandler(
     }
     when (uiState.errorType) {
         ExploreCameraUiState.LocationError -> {
-            ExploreResultDialog(
-                errorType = ExploreCameraUiState.LocationError,
+            ExploreResultDialog(errorType = ExploreCameraUiState.LocationError,
                 text = stringResource(R.string.explore_location_failed_label),
                 content = { ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_location)) },
-                onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
-            )
+                onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) })
         }
 
         ExploreCameraUiState.CodeError -> {
-            ExploreResultDialog(
-                errorType = ExploreCameraUiState.CodeError,
+            ExploreResultDialog(errorType = ExploreCameraUiState.CodeError,
                 text = stringResource(R.string.explore_code_failed_label),
                 content = { ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_code)) },
-                onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
-            )
+                onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) })
         }
 
         ExploreCameraUiState.EtcError -> {
-            ExploreResultDialog(
-                errorType = ExploreCameraUiState.EtcError,
+            ExploreResultDialog(errorType = ExploreCameraUiState.EtcError,
                 text = stringResource(R.string.explore_etc_failed_label),
                 content = { ExploreFailedDialogContent(painter = null) },
-                onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
-            )
+                onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) })
         }
 
         ExploreCameraUiState.Success -> {
             val category = viewModel.category.collectAsStateWithLifecycle().value
 
-            ExploreResultDialog(
-                errorType = ExploreCameraUiState.Success,
+            ExploreResultDialog(errorType = ExploreCameraUiState.Success,
                 text = stringResource(R.string.explore_dialog_success),
                 content = { ExploreSuccessDialogContent(url = imgUrl) },
-                onDismissRequest = { navigateToHome(category) }
-            )
+                onDismissRequest = { navigateToHome(category) })
         }
 
         else -> {}
@@ -228,8 +220,7 @@ private fun getPermissionsLauncher(
     return rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { isPermissionGranted ->
-        val isLocationNotGranted =
-            isPermissionGranted[Manifest.permission.ACCESS_FINE_LOCATION] == false
+        val isLocationNotGranted = isPermissionGranted[Manifest.permission.ACCESS_FINE_LOCATION] == false
         val isCameraNotGranted = isPermissionGranted[Manifest.permission.CAMERA] == false
 
         if (isPermissionGranted.values.all { it }) {
@@ -303,49 +294,48 @@ private fun ExploreNaverMap(
             .onGloballyPositioned { coordinates ->
                 mapViewSize = coordinates.size
             }) {
-        NaverMap(
-            properties = locationState.mapProperties,
-            uiSettings = MapUiSettings(
-                isScaleBarEnabled = false,
-                isZoomControlEnabled = false,
-                isLogoClickEnabled = false,
-                logoGravity = Gravity.TOP,
-                // TODO: 릴리즈 이전에 로고 이미지 수정
-                logoMargin = PaddingValues(top = 0.dp, start = 22.dp),
-            ),
-            locationSource = rememberFusedLocationSource(isCompassEnabled = true),
-            cameraPositionState = locationState.cameraPositionState,
-            onLocationChange = { location ->
-                updateLocation(location.latitude, location.longitude)
-            },
-            onMapClick = { _, _ ->
-                updateSelectedPlace(null)
-            },
-        ) {
-            LocationOverlay(
-                position = locationState.location,
-                icon = OverlayImage.fromResource(R.drawable.ic_explore_location_overlay),
-                subIcon = locationState.subIcon,
-                subIconWidth = 48,
-                subIconHeight = 40,
-                circleColor = Sub2.copy(alpha = locationState.circleAlpha),
-            )
-            places.forEach { place ->
-                Marker(
-                    state = MarkerState(position = place.location),
-                    icon = OverlayImage.fromResource(R.drawable.ic_explore_place_marker),
-                    onClick = {
-                        markerOffset = calculateMarkerOffset(
-                            place.location,
-                            locationState.cameraPositionState,
-                            density,
-                            mapViewSize
-                        )
-                        updateSelectedPlace(place)
-                        updateCategory(place.placeCategory.name)
-                        true
-                    },
+        FadeInWrapper {
+            NaverMap(
+                properties = locationState.mapProperties,
+                uiSettings = MapUiSettings(
+                    isScaleBarEnabled = false,
+                    isZoomControlEnabled = false,
+                    isLogoClickEnabled = false,
+                    logoGravity = Gravity.TOP,
+                    // TODO: 릴리즈 이전에 로고 이미지 수정
+                    logoMargin = PaddingValues(top = 0.dp, start = 22.dp),
+                ),
+                locationSource = rememberFusedLocationSource(isCompassEnabled = true),
+                cameraPositionState = locationState.cameraPositionState,
+                onLocationChange = { location ->
+                    updateLocation(location.latitude, location.longitude)
+                },
+                onMapClick = { _, _ ->
+                    updateSelectedPlace(null)
+                },
+            ) {
+                LocationOverlay(
+                    position = locationState.location,
+                    icon = OverlayImage.fromResource(R.drawable.ic_explore_location_overlay),
+                    subIcon = locationState.subIcon,
+                    subIconWidth = 48,
+                    subIconHeight = 40,
+                    circleColor = Sub2.copy(alpha = locationState.circleAlpha),
                 )
+                places.forEach { place ->
+                    Marker(
+                        state = MarkerState(position = place.location),
+                        icon = OverlayImage.fromResource(R.drawable.ic_explore_place_marker),
+                        onClick = {
+                            markerOffset = calculateMarkerOffset(
+                                place.location, locationState.cameraPositionState, density, mapViewSize
+                            )
+                            updateSelectedPlace(place)
+                            updateCategory(place.placeCategory.name)
+                            true
+                        },
+                    )
+                }
             }
         }
         ExploreMapForeground()
@@ -393,14 +383,12 @@ private fun ExploreNaverMap(
         }
         ExploreAppBar(backgroundPadding)
         selectedPlace?.let { place ->
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Black.copy(alpha = 0.25f))
-                    .pointerInput(Unit) {
-                        detectTapGestures(onTap = { updateSelectedPlace(null) })
-                    }
-            ) {
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .background(Black.copy(alpha = 0.25f))
+                .pointerInput(Unit) {
+                    detectTapGestures(onTap = { updateSelectedPlace(null) })
+                }) {
                 Box(modifier = Modifier
                     .align(Alignment.TopStart)
                     .offset { markerOffset }) {
