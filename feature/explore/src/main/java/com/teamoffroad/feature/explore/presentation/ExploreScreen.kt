@@ -53,7 +53,7 @@ import com.naver.maps.map.compose.MarkerState
 import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberFusedLocationSource
 import com.naver.maps.map.overlay.OverlayImage
-import com.teamoffroad.core.common.util.OnBackButtonListener
+import com.teamoffroad.core.designsystem.component.FadeInWrapper
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.feature.explore.presentation.component.ExploreAppBar
@@ -90,8 +90,7 @@ internal fun ExploreScreen(
 
     if (!uiState.loading && uiState.places.isEmpty()) viewModel.updatePlaces()
     if (uiState.isUpdatePlacesFailed) {
-        Toast.makeText(context, stringResource(R.string.explore_places_failed), Toast.LENGTH_SHORT)
-            .show()
+        Toast.makeText(context, stringResource(R.string.explore_places_failed), Toast.LENGTH_SHORT).show()
     }
 
     ExploreCameraUiStateHandler(
@@ -135,8 +134,6 @@ internal fun ExploreScreen(
             viewModel::postExploreResult,
         )
     }
-
-    OnBackButtonListener()
 }
 
 @Composable
@@ -306,49 +303,48 @@ private fun ExploreNaverMap(
             .onGloballyPositioned { coordinates ->
                 mapViewSize = coordinates.size
             }) {
-        NaverMap(
-            properties = locationState.mapProperties,
-            uiSettings = MapUiSettings(
-                isScaleBarEnabled = false,
-                isZoomControlEnabled = false,
-                isLogoClickEnabled = false,
-                logoGravity = Gravity.TOP,
-                // TODO: 릴리즈 이전에 로고 이미지 수정
-                logoMargin = PaddingValues(top = 0.dp, start = 22.dp),
-            ),
-            locationSource = rememberFusedLocationSource(isCompassEnabled = true),
-            cameraPositionState = locationState.cameraPositionState,
-            onLocationChange = { location ->
-                updateLocation(location.latitude, location.longitude)
-            },
-            onMapClick = { _, _ ->
-                updateSelectedPlace(null)
-            },
-        ) {
-            LocationOverlay(
-                position = locationState.location,
-                icon = OverlayImage.fromResource(R.drawable.ic_explore_location_overlay),
-                subIcon = locationState.subIcon,
-                subIconWidth = 48,
-                subIconHeight = 40,
-                circleColor = Sub2.copy(alpha = locationState.circleAlpha),
-            )
-            places.forEach { place ->
-                Marker(
-                    state = MarkerState(position = place.location),
-                    icon = OverlayImage.fromResource(R.drawable.ic_explore_place_marker),
-                    onClick = {
-                        markerOffset = calculateMarkerOffset(
-                            place.location,
-                            locationState.cameraPositionState,
-                            density,
-                            mapViewSize
-                        )
-                        updateSelectedPlace(place)
-                        updateCategory(place.placeCategory.name)
-                        true
-                    },
+        FadeInWrapper {
+            NaverMap(
+                properties = locationState.mapProperties,
+                uiSettings = MapUiSettings(
+                    isScaleBarEnabled = false,
+                    isZoomControlEnabled = false,
+                    isLogoClickEnabled = false,
+                    logoGravity = Gravity.TOP,
+                    // TODO: 릴리즈 이전에 로고 이미지 수정
+                    logoMargin = PaddingValues(top = 0.dp, start = 22.dp),
+                ),
+                locationSource = rememberFusedLocationSource(isCompassEnabled = true),
+                cameraPositionState = locationState.cameraPositionState,
+                onLocationChange = { location ->
+                    updateLocation(location.latitude, location.longitude)
+                },
+                onMapClick = { _, _ ->
+                    updateSelectedPlace(null)
+                },
+            ) {
+                LocationOverlay(
+                    position = locationState.location,
+                    icon = OverlayImage.fromResource(R.drawable.ic_explore_location_overlay),
+                    subIcon = locationState.subIcon,
+                    subIconWidth = 48,
+                    subIconHeight = 40,
+                    circleColor = Sub2.copy(alpha = locationState.circleAlpha),
                 )
+                places.forEach { place ->
+                    Marker(
+                        state = MarkerState(position = place.location),
+                        icon = OverlayImage.fromResource(R.drawable.ic_explore_place_marker),
+                        onClick = {
+                            markerOffset = calculateMarkerOffset(
+                                place.location, locationState.cameraPositionState, density, mapViewSize
+                            )
+                            updateSelectedPlace(place)
+                            updateCategory(place.placeCategory.name)
+                            true
+                        },
+                    )
+                }
             }
         }
         ExploreMapForeground()

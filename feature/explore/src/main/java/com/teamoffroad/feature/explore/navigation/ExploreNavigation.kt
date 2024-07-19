@@ -1,7 +1,6 @@
 package com.teamoffroad.feature.explore.navigation
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -18,7 +17,6 @@ import com.teamoffroad.feature.explore.presentation.ExploreCameraScreen
 import com.teamoffroad.feature.explore.presentation.ExploreScreen
 import com.teamoffroad.feature.explore.presentation.model.ExploreCameraUiState
 import com.teamoffroad.feature.home.presentation.HomeScreen
-import com.teamoffroad.feature.home.presentation.HomeScreenPreview
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
@@ -26,9 +24,10 @@ import java.nio.charset.StandardCharsets
 fun NavController.navigateExplore(
     errorType: String,
     successImageUrl: String,
-    navOptions: NavOptions
+    navOptions: NavOptions,
 ) {
     val cameraNavOptions by lazy {
+        popBackStack()
         navOptions {
             popUpTo(graph.findStartDestination().id) {
                 inclusive = true
@@ -46,7 +45,7 @@ fun NavController.navigateToExploreCameraScreen(
     placeId: Long,
     latitude: Double,
     longitude: Double,
-    navOptions: NavOptions
+    navOptions: NavOptions,
 ) {
     val route = "${ExploreRoute.ExploreCameraScreen}/$placeId/$latitude/$longitude"
     navigate(route, navOptions)
