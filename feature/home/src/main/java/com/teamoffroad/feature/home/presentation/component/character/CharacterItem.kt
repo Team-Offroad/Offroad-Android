@@ -112,6 +112,7 @@ class CharacterItem {
                         contentScale = ContentScale.FillHeight,
                         modifier = Modifier
                             .fillMaxSize()
+                            .padding(top = 30.dp)
                             .align(Alignment.BottomCenter)
                     )
                 }
