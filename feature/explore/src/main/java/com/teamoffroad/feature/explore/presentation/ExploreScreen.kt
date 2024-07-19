@@ -86,6 +86,7 @@ internal fun ExploreScreen(
 
     LaunchedEffect(errorType) {
         viewModel.updateExploreCameraUiState(uiState.getExploreCameraUiState(errorType))
+        viewModel.updatePlaces()
     }
 
     if (!uiState.loading && uiState.places.isEmpty()) viewModel.updatePlaces()
