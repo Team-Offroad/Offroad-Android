@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -55,11 +56,10 @@ internal fun SelectedCharacterScreen(
                         modifier = Modifier.weight(1f)
                     )
                     OffroadBasicBtn(
-                        text =
-                        "모험 시작하기",
+                        text = "모험 시작하기",
                         isActive = true,
                         modifier = Modifier
-                            .padding(bottom = 24.dp)
+                            .padding(bottom = 72.dp)
                             .width(312.dp)
                             .height(50.dp),
                         onClick = navigateToHome
@@ -69,7 +69,7 @@ internal fun SelectedCharacterScreen(
 
             Box(
                 modifier = Modifier
-                    .padding(bottom = 116.dp)
+                    .padding(bottom = 156.dp)
                     .align(Alignment.BottomCenter)
             ) {
                 Image(
@@ -104,9 +104,11 @@ internal fun SelectedCharacterScreen(
 
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 134.dp),
-                contentAlignment = Alignment.BottomCenter
+                    .fillMaxHeight()
+                    .padding(top = 350.dp)
+                    .padding(bottom = 174.dp)
+                    .align(Alignment.BottomCenter),
+                contentAlignment = Alignment.BottomCenter,
             ) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
