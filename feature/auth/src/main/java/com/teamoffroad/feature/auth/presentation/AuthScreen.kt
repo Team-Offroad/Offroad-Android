@@ -14,9 +14,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
@@ -27,6 +24,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.teamoffroad.core.common.util.OnBackButtonListener
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Kakao
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -46,8 +44,6 @@ internal fun AuthScreen(
     val isAutoSignIn by viewModel.autoSignIn.collectAsStateWithLifecycle()
     val isAlreadyExist by viewModel.alreadyExist.collectAsStateWithLifecycle()
 
-    var showSplash by remember { mutableStateOf(true) }
-
     val signInLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -56,11 +52,10 @@ internal fun AuthScreen(
             viewModel.performGoogleSignIn(task)
         }
     }
-    viewModel.checkAutoSignIn()
 
     LaunchedEffect(Unit) {
-        delay(2500L)
-        showSplash = false
+        delay(1200L)
+        viewModel.checkAutoSignIn()
     }
 
     LaunchedEffect(isSignInSuccess) {
@@ -68,7 +63,7 @@ internal fun AuthScreen(
         if (isSignInSuccess && isAlreadyExist) navigateToHome()
     }
 
-    if (isAutoSignIn && !showSplash) signInLauncher.launch(viewModel.googleSignInClient.signInIntent)
+    if (isAutoSignIn) signInLauncher.launch(viewModel.googleSignInClient.signInIntent)
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -117,7 +112,8 @@ internal fun AuthScreen(
         }
     }
 
-    if (showSplash) SplashScreen()
+    OnBackButtonListener()
+    SplashScreen()
 }
 
 @Composable

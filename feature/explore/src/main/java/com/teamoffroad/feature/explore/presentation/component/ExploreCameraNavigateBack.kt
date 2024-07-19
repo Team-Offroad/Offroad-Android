@@ -43,7 +43,7 @@ fun ExploreCameraNavigateBack(
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_explore_navigate_back),
-                contentDescription = "이전 화면",
+                contentDescription = null,
                 modifier = Modifier
                     .padding(start = 12.dp)
                     .size(48.dp)

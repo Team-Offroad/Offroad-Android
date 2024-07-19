@@ -53,6 +53,7 @@ import com.naver.maps.map.compose.MarkerState
 import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberFusedLocationSource
 import com.naver.maps.map.overlay.OverlayImage
+import com.teamoffroad.core.designsystem.component.FadeInWrapper
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.feature.explore.presentation.component.ExploreAppBar
@@ -67,6 +68,7 @@ import com.teamoffroad.feature.explore.presentation.component.ExploreTrackingBut
 import com.teamoffroad.feature.explore.presentation.model.ExploreCameraUiState
 import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
 import com.teamoffroad.feature.explore.presentation.model.LocationModel
+import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 import com.teamoffroad.feature.explore.presentation.model.PlaceModel
 import com.teamoffroad.offroad.feature.explore.R
 
@@ -74,11 +76,12 @@ import com.teamoffroad.offroad.feature.explore.R
 internal fun ExploreScreen(
     errorType: String,
     successImageUrl: String,
-    navigateToHome: () -> Unit,
+    navigateToHome: (String) -> Unit,
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
     viewModel: ExploreViewModel = hiltViewModel(),
 ) {
     val uiState: ExploreUiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val locationSuccessImageUrl: String by viewModel.successImageUrl.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
     LaunchedEffect(errorType) {
@@ -90,7 +93,14 @@ internal fun ExploreScreen(
         Toast.makeText(context, stringResource(R.string.explore_places_failed), Toast.LENGTH_SHORT).show()
     }
 
-    ExploreCameraUiStateHandler(uiState, viewModel::updateExploreCameraUiState, successImageUrl, navigateToHome)
+    ExploreCameraUiStateHandler(
+        uiState,
+        viewModel::updateExploreCameraUiState,
+        successImageUrl,
+        viewModel,
+        navigateToHome,
+        locationSuccessImageUrl,
+    )
 
     ExploreLocationPermissionHandler(
         context = context,
@@ -102,7 +112,7 @@ internal fun ExploreScreen(
         ExplorePermissionRejectedHandler(
             context = context,
             uiState = uiState,
-            navigateToHome = navigateToHome,
+            navigateToHome = { navigateToHome("") },
             updatePermission = viewModel::updatePermission,
         )
     }
@@ -112,13 +122,16 @@ internal fun ExploreScreen(
             uiState.locationModel,
             uiState.places,
             uiState.selectedPlace,
+            navigateToHome,
             navigateToExploreCameraScreen,
             viewModel::updateLocation,
             viewModel::updateTrackingToggle,
             viewModel::updateSelectedPlace,
+            viewModel::updateCategory,
             viewModel::updatePlaces,
             viewModel::updateExploreCameraUiState,
             viewModel::isValidDistance,
+            viewModel::postExploreResult,
         )
     }
 }
@@ -127,15 +140,25 @@ internal fun ExploreScreen(
 private fun ExploreCameraUiStateHandler(
     uiState: ExploreUiState,
     updateExploreCameraUiState: (ExploreCameraUiState) -> Unit,
-    successImageUrl: String,
-    navigateToHome: () -> Unit,
+    qrSuccessImageUrl: String,
+    viewModel: ExploreViewModel,
+    navigateToHome: (String) -> Unit,
+    locationSuccessImageUrl: String,
 ) {
+    val imgUrl = locationSuccessImageUrl.ifBlank {
+        qrSuccessImageUrl
+    }
     when (uiState.errorType) {
         ExploreCameraUiState.LocationError -> {
             ExploreResultDialog(
                 errorType = ExploreCameraUiState.LocationError,
                 text = stringResource(R.string.explore_location_failed_label),
-                content = { ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_location)) },
+                content = {
+                    ExploreFailedDialogContent(
+                        painter = painterResource(R.drawable.ic_explore_error_location),
+                        stringResource(R.string.explore_failed_img)
+                    )
+                },
                 onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
             )
         }
@@ -144,7 +167,7 @@ private fun ExploreCameraUiStateHandler(
             ExploreResultDialog(
                 errorType = ExploreCameraUiState.CodeError,
                 text = stringResource(R.string.explore_code_failed_label),
-                content = { ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_code)) },
+                content = { ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_code), imgUrl) },
                 onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
             )
         }
@@ -153,17 +176,19 @@ private fun ExploreCameraUiStateHandler(
             ExploreResultDialog(
                 errorType = ExploreCameraUiState.EtcError,
                 text = stringResource(R.string.explore_etc_failed_label),
-                content = { ExploreFailedDialogContent(painter = null) },
+                content = { ExploreFailedDialogContent(painter = null, stringResource(R.string.explore_failed_img)) },
                 onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
             )
         }
 
         ExploreCameraUiState.Success -> {
+            val category = viewModel.category.collectAsStateWithLifecycle().value
+
             ExploreResultDialog(
                 errorType = ExploreCameraUiState.Success,
                 text = stringResource(R.string.explore_dialog_success),
-                content = { ExploreSuccessDialogContent(url = successImageUrl) },
-                onDismissRequest = navigateToHome
+                content = { ExploreSuccessDialogContent(url = imgUrl) },
+                onDismissRequest = { navigateToHome(category) }
             )
         }
 
@@ -208,7 +233,8 @@ private fun getPermissionsLauncher(
     return rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { isPermissionGranted ->
-        val isLocationNotGranted = isPermissionGranted[Manifest.permission.ACCESS_FINE_LOCATION] == false
+        val isLocationNotGranted =
+            isPermissionGranted[Manifest.permission.ACCESS_FINE_LOCATION] == false
         val isCameraNotGranted = isPermissionGranted[Manifest.permission.CAMERA] == false
 
         if (isPermissionGranted.values.all { it }) {
@@ -227,7 +253,7 @@ private fun getPermissionsLauncher(
 private fun ExplorePermissionRejectedHandler(
     context: Context,
     uiState: ExploreUiState,
-    navigateToHome: () -> Unit,
+    navigateToHome: (String?) -> Unit,
     updatePermission: (Boolean?, Boolean, Boolean) -> Unit,
 ) {
     val toastMessage = when {
@@ -241,7 +267,7 @@ private fun ExplorePermissionRejectedHandler(
     if (toastMessage.isNotBlank()) {
         Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show()
         updatePermission(null, false, false)
-        navigateToHome()
+        navigateToHome(null)
     }
 }
 
@@ -252,13 +278,16 @@ private fun ExploreNaverMap(
     locationState: LocationModel,
     places: List<PlaceModel>,
     selectedPlace: PlaceModel?,
+    navigateToHome: (String) -> Unit,
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
     updateLocation: (Double, Double) -> Unit,
     updateTrackingToggle: (Boolean) -> Unit,
     updateSelectedPlace: (PlaceModel?) -> Unit,
+    updateCategory: (String) -> Unit,
     updatePlaces: (Double, Double) -> Unit,
     updateCameraUiState: (ExploreCameraUiState) -> Unit,
     isValidDistance: (PlaceModel, LatLng) -> Boolean,
+    postExploreResult: (Long, Double, Double) -> Unit,
 ) {
     val density = LocalDensity.current
     var markerOffset by remember { mutableStateOf(IntOffset.Zero) }
@@ -279,43 +308,48 @@ private fun ExploreNaverMap(
             .onGloballyPositioned { coordinates ->
                 mapViewSize = coordinates.size
             }) {
-        NaverMap(
-            properties = locationState.mapProperties,
-            uiSettings = MapUiSettings(
-                isScaleBarEnabled = false,
-                isZoomControlEnabled = false,
-                isLogoClickEnabled = false,
-                logoGravity = Gravity.TOP,
-                // TODO: 릴리즈 이전에 로고 이미지 수정
-                logoMargin = PaddingValues(top = 0.dp, start = 22.dp),
-            ),
-            locationSource = rememberFusedLocationSource(isCompassEnabled = true),
-            cameraPositionState = locationState.cameraPositionState,
-            onLocationChange = { location ->
-                updateLocation(location.latitude, location.longitude)
-            },
-            onMapClick = { _, _ ->
-                updateSelectedPlace(null)
-            },
-        ) {
-            LocationOverlay(
-                position = locationState.location,
-                icon = OverlayImage.fromResource(R.drawable.ic_explore_location_overlay),
-                subIcon = locationState.subIcon,
-                subIconWidth = 48,
-                subIconHeight = 40,
-                circleColor = Sub2.copy(alpha = locationState.circleAlpha),
-            )
-            places.forEach { place ->
-                Marker(
-                    state = MarkerState(position = place.location),
-                    icon = OverlayImage.fromResource(R.drawable.ic_explore_place_marker),
-                    onClick = {
-                        markerOffset = calculateMarkerOffset(place.location, locationState.cameraPositionState, density, mapViewSize)
-                        updateSelectedPlace(place)
-                        true
-                    },
+        FadeInWrapper {
+            NaverMap(
+                properties = locationState.mapProperties,
+                uiSettings = MapUiSettings(
+                    isScaleBarEnabled = false,
+                    isZoomControlEnabled = false,
+                    isLogoClickEnabled = false,
+                    logoGravity = Gravity.TOP,
+                    // TODO: 릴리즈 이전에 로고 이미지 수정
+                    logoMargin = PaddingValues(top = 0.dp, start = 22.dp),
+                ),
+                locationSource = rememberFusedLocationSource(isCompassEnabled = true),
+                cameraPositionState = locationState.cameraPositionState,
+                onLocationChange = { location ->
+                    updateLocation(location.latitude, location.longitude)
+                },
+                onMapClick = { _, _ ->
+                    updateSelectedPlace(null)
+                },
+            ) {
+                LocationOverlay(
+                    position = locationState.location,
+                    icon = OverlayImage.fromResource(R.drawable.ic_explore_location_overlay),
+                    subIcon = locationState.subIcon,
+                    subIconWidth = 48,
+                    subIconHeight = 40,
+                    circleColor = Sub2.copy(alpha = locationState.circleAlpha),
                 )
+                places.forEach { place ->
+                    Marker(
+                        state = MarkerState(position = place.location),
+                        icon = OverlayImage.fromResource(R.drawable.ic_explore_place_marker),
+                        onClick = {
+                            markerOffset = calculateMarkerOffset(
+                                place.location, locationState.cameraPositionState, density, mapViewSize
+                            )
+                            updateSelectedPlace(place)
+                            updateCategory(place.placeCategory.name)
+                            true
+                        },
+                    )
+                }
             }
         }
         ExploreMapForeground()
@@ -383,11 +417,19 @@ private fun ExploreNaverMap(
                         onButtonClick = {
                             when (isValidDistance(place, locationState.location)) {
                                 true -> {
-                                    navigateToExploreCameraScreen(
-                                        place.id,
-                                        locationState.location.latitude,
-                                        locationState.location.longitude,
-                                    )
+                                    if (selectedPlace.placeCategory == PlaceCategory.CAFFE || selectedPlace.placeCategory == PlaceCategory.RESTAURANT) {
+                                        navigateToExploreCameraScreen(
+                                            place.id,
+                                            locationState.location.latitude,
+                                            locationState.location.longitude,
+                                        )
+                                    } else {
+                                        postExploreResult(
+                                            place.id,
+                                            locationState.location.latitude,
+                                            locationState.location.longitude,
+                                        )
+                                    }
                                 }
 
                                 false -> updateCameraUiState(ExploreCameraUiState.LocationError)
@@ -405,7 +447,12 @@ private fun ExploreNaverMap(
     }
 }
 
-private fun calculateMarkerOffset(location: LatLng, cameraPositionState: CameraPositionState, density: Density, screenSize: IntSize): IntOffset {
+private fun calculateMarkerOffset(
+    location: LatLng,
+    cameraPositionState: CameraPositionState,
+    density: Density,
+    screenSize: IntSize,
+): IntOffset {
     val screenPosition = cameraPositionState.projection?.toScreenLocation(location)
     return screenPosition?.let {
         with(density) {

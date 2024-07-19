@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.home.presentation.component.quest.progressbar
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,10 +27,14 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.teamoffroad.core.designsystem.theme.Black25
 import com.teamoffroad.core.designsystem.theme.OpticianSansRegular
 import com.teamoffroad.core.designsystem.theme.Sub4
+import com.teamoffroad.feature.home.presentation.HomeViewModel
 import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun LinearProgressBar(data: HomeProgressBarModel) {
+fun LinearProgressBar(data: HomeProgressBarModel, viewModel: HomeViewModel) {
+    val closeCompleteQuestProgress = viewModel.linearProgressBar.value
+
     ConstraintLayout {
         val text = createRef()
         Text(
@@ -68,10 +73,9 @@ fun LinearProgressBar(data: HomeProgressBarModel) {
     Spacer(modifier = Modifier.padding(top = 8.dp))
     ConstraintLayout {
         val progress = createRef()
-        var closeCompleteProgress by remember { mutableFloatStateOf((data.amount / data.total).toFloat()) }
 
         LinearProgressIndicator(
-            progress = { closeCompleteProgress },
+            progress = closeCompleteQuestProgress,
             trackColor = Black25,
             color = Sub4,
             strokeCap = StrokeCap.Round,

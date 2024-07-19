@@ -4,11 +4,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ExploreAuthRequestDto(
+data class ExploreLocationAuthRequestDto(
     @SerialName("placeId")
     val placeId: Long,
-    @SerialName("qrCode")
-    val qrCode: String,
     @SerialName("latitude")
     val latitude: Double,
     @SerialName("longitude")

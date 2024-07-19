@@ -7,7 +7,6 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,6 +27,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.teamoffroad.core.designsystem.component.FadeInWrapper
+import com.teamoffroad.core.common.util.OnBackButtonListener
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -42,36 +43,43 @@ import com.teamoffroad.offroad.feature.home.R
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
-internal fun HomeScreen(
-    padding: PaddingValues,
+fun HomeScreen(
+    category: String,
 ) {
     val context = LocalContext.current
     val viewModel: HomeViewModel = hiltViewModel()
 
     LaunchedEffect(Unit) {
-        viewModel.updateCategory("CAFFE") // TODO: category 넣기 - 현재는 CAFFE 인 경우
-        viewModel.getUsersAdventuresInformations(viewModel.category.value)
+        if (category != "NONE") viewModel.updateCategory(category)
+        if (category.isBlank()) {
+            viewModel.getUsersAdventuresInformations("NONE")
+        } else {
+            viewModel.getUsersAdventuresInformations(category)
+        }
         viewModel.getUserQuests()
     }
-
-    Surface(
-        modifier = Modifier
-            .padding(bottom = 74.dp)
-            .navigationBarsPadding()
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-        color = Main1
-    ) {
-        Column(modifier = Modifier.fillMaxWidth()) {
-            OffroadActionBar()
-            UsersAdventuresInformation(
-                context = context,
-                modifier = Modifier.weight(1f),
-                viewModel = viewModel,
-            )
-            Spacer(modifier = Modifier.padding(top = 12.dp))
-            UsersQuestInformation(context, viewModel)
-            Spacer(modifier = Modifier.padding(top = 34.dp))
+    FadeInWrapper {
+        Surface(
+            modifier = Modifier
+                .padding(bottom = 74.dp)
+                .navigationBarsPadding()
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
+            color = Main1
+        ) {
+            FadeInWrapper {
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    OffroadActionBar()
+                    UsersAdventuresInformation(
+                        context = context,
+                        modifier = Modifier.weight(1f),
+                        viewModel = viewModel,
+                    )
+                    Spacer(modifier = Modifier.padding(top = 12.dp))
+                    UsersQuestInformation(context, viewModel)
+                    Spacer(modifier = Modifier.padding(top = 34.dp))
+                }
+            }
         }
     }
 }
@@ -101,7 +109,6 @@ private fun UsersAdventuresInformation(
         modifier = modifier.fillMaxWidth()
     ) {
         val imageUrl = adventuresInformationsData?.baseImageUrl ?: "" // TODO: svg & lottie
-
         Box(
             modifier = Modifier.fillMaxWidth(),
             contentAlignment = Alignment.TopEnd
@@ -127,7 +134,7 @@ private fun UsersAdventuresInformation(
             CharacterItem().CharacterImage(viewModel, context)
         }
     }
-    Spacer(modifier = Modifier.padding(18.dp))
+    Spacer(modifier = Modifier.padding(10.dp))
     CharacterItem().EmblemNameText(context, Modifier)
 }
 
@@ -175,7 +182,8 @@ private fun UsersQuestInformation(
                 recentQuest.progress,
                 recentQuest.completeCondition,
                 recentQuest.questName
-            )
+            ),
+            viewModel
         )
         Spacer(modifier = Modifier.padding(horizontal = 6.dp))
         CloseCompleteRequest(
@@ -185,10 +193,12 @@ private fun UsersQuestInformation(
                 almostQuest.progress,
                 almostQuest.completeCondition,
                 almostQuest.questName
-            )
+            ),
+            viewModel = viewModel
         )
         Spacer(modifier = Modifier.padding(end = 24.dp))
     }
+    OnBackButtonListener()
 }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -197,7 +207,8 @@ private fun UsersQuestInformation(
 fun HomeScreenPreview() {
     OffroadTheme {
         HomeScreen(
-            padding = PaddingValues(),
+            //padding = PaddingValues(),
+            category = "NONE"
         )
     }
 }

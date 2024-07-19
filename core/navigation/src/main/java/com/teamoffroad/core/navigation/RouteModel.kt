@@ -39,3 +39,8 @@ sealed interface ExploreRoute : Route {
     @Serializable
     data object ExploreCameraScreen : ExploreRoute
 }
+
+sealed interface HomeRoute: Route {
+    @Serializable
+    data object SetCategory: HomeRoute
+}

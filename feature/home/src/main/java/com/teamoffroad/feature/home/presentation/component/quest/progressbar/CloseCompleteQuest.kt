@@ -15,13 +15,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Contents2
 import com.teamoffroad.core.designsystem.theme.Sub4
+import com.teamoffroad.feature.home.presentation.HomeViewModel
 import com.teamoffroad.feature.home.presentation.component.quest.ContentsLocation
 import com.teamoffroad.feature.home.presentation.component.quest.ContentsTitle
 import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 import com.teamoffroad.offroad.feature.home.R
 
 @Composable
-fun CloseCompleteRequest(modifier: Modifier = Modifier, data: HomeProgressBarModel) {
+fun CloseCompleteRequest(modifier: Modifier = Modifier, data: HomeProgressBarModel, viewModel: HomeViewModel) {
+    viewModel.updateLinearProgressBar(data.amount.toFloat(), data.total.toFloat())
+
     Surface(
         color = Contents2,
         modifier = modifier
@@ -40,7 +43,7 @@ fun CloseCompleteRequest(modifier: Modifier = Modifier, data: HomeProgressBarMod
                 )
             }
             Spacer(modifier = Modifier.padding(top = 16.dp))
-            LinearProgressBar(data)
+            LinearProgressBar(data, viewModel)
             Spacer(modifier = Modifier.padding(top = 20.dp))
             ContentsLocation(data.location, Sub4)
             Spacer(modifier = Modifier.padding(bottom = 12.dp))
