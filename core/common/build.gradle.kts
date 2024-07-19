@@ -4,6 +4,7 @@ import com.teamoffroad.app.setNamespace
 plugins {
     id("offroad.android.library")
     id("offroad.android.hilt")
+    id("offroad.android.compose")
     alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
@@ -25,4 +26,5 @@ dependencies {
     implementation(libs.kotlinx.serialization)
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.androidx.datastore)
+    implementation(libs.androidx.activity.compose)
 }

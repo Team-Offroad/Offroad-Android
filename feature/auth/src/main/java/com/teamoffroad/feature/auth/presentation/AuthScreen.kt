@@ -27,6 +27,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.teamoffroad.core.common.util.OnBackButtonListener
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Kakao
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -112,6 +113,7 @@ internal fun AuthScreen(
     }
 
     if (showSplash) SplashScreen()
+    OnBackButtonListener()
 }
 
 @Composable
