@@ -17,6 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,6 +41,8 @@ fun OnboardingButton(
     } else {
         Triple(Gray100, Gray300, White)
     }
+    val keyboardController = LocalSoftwareKeyboardController.current
+
 
     Box(
         modifier = modifier
@@ -52,7 +55,10 @@ fun OnboardingButton(
             )
             .padding(vertical = 8.dp, horizontal = 6.dp)
             .clickable(enabled = isActive,
-                onClick = { onButtonClick(nickname) }),
+                onClick = {
+                    onButtonClick(nickname)
+                    keyboardController?.hide()
+                }),
         contentAlignment = Alignment.Center
     ) {
         Row(
