@@ -59,8 +59,6 @@ internal fun AuthScreen(
     viewModel.checkAutoSignIn()
 
     LaunchedEffect(Unit) {
-        delay(2500L)
-        showSplash = false
     }
 
     LaunchedEffect(isSignInSuccess) {
