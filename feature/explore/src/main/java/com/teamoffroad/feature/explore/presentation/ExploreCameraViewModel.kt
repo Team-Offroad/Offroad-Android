@@ -2,7 +2,7 @@ package com.teamoffroad.feature.explore.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.teamoffroad.feature.explore.domain.usecase.PostExploreAuthUseCase
+import com.teamoffroad.feature.explore.domain.usecase.PostExploreQrAuthUseCase
 import com.teamoffroad.feature.explore.presentation.model.ExploreCameraUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ExploreCameraViewModel @Inject constructor(
-    private val postExploreAuthUseCase: PostExploreAuthUseCase,
+    private val postExploreQrAuthUseCase: PostExploreQrAuthUseCase,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<ExploreCameraUiState> = MutableStateFlow(ExploreCameraUiState.None)
@@ -28,7 +28,7 @@ class ExploreCameraViewModel @Inject constructor(
 
         viewModelScope.launch {
             runCatching {
-                postExploreAuthUseCase.invoke(placeId, qr, latitude, longitude)
+                postExploreQrAuthUseCase.invoke(placeId, qr, latitude, longitude)
             }.onSuccess { exploreResult ->
                 when (exploreResult.isQRMatched) {
                     true -> {

@@ -9,6 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import com.teamoffroad.core.navigation.HomeRoute
 import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.core.navigation.Route
 import com.teamoffroad.feature.auth.navigation.navigateToSelectedCharacter
@@ -57,10 +58,14 @@ internal class MainNavigator(
     @Composable
     fun setBottomBarVisibility() = MainNavTab.contains {
         currentDestination?.hasRoute(it::class) == true
-    } || currentDestination?.route == "${MainTabRoute.Explore}/{errorType}/{successImageUrl}"
+    } || currentDestination?.route == "${MainTabRoute.Explore}/{errorType}/{successImageUrl}" || currentDestination?.route == "${HomeRoute.SetCategory}/{category}" || currentDestination?.route == "${HomeRoute.SetCategory}/{category}"
 
     fun navigateToHome() {
         navController.navigateToHome(navOptions)
+    }
+
+    fun navigateToHome(category: String) {
+        navController.navigateToHome(category, navOptions)
     }
 
     fun navigateToSetNickname() {

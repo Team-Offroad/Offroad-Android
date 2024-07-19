@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.naver.maps.geometry.LatLng
 import com.teamoffroad.feature.explore.domain.usecase.GetPlaceListUseCase
+import com.teamoffroad.feature.explore.domain.usecase.PostExploreLocationAuthUseCase
 import com.teamoffroad.feature.explore.presentation.mapper.toUi
 import com.teamoffroad.feature.explore.presentation.model.ExploreCameraUiState
 import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
@@ -19,10 +20,21 @@ import javax.inject.Inject
 @HiltViewModel
 class ExploreViewModel @Inject constructor(
     private val getPlaceListUseCase: GetPlaceListUseCase,
+    private val postExploreLocationAuthUseCase: PostExploreLocationAuthUseCase,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<ExploreUiState> = MutableStateFlow(ExploreUiState())
     val uiState: StateFlow<ExploreUiState> = _uiState.asStateFlow()
+
+    private val _category = MutableStateFlow("")
+    val category = _category.asStateFlow()
+
+    private val _successImageUrl = MutableStateFlow("")
+    val successImageUrl = _successImageUrl.asStateFlow()
+
+    fun updateCategory(category: String) {
+        _category.value = category
+    }
 
     fun updatePermission(
         isSomePermissionRejected: Boolean?,
@@ -99,5 +111,22 @@ class ExploreViewModel @Inject constructor(
         _uiState.value = uiState.value.copy(
             errorType = errorType
         )
+    }
+
+    fun postExploreResult(placeId: Long, latitude: Double, longitude: Double) {
+        viewModelScope.launch {
+            runCatching {
+                postExploreLocationAuthUseCase(placeId, latitude, longitude)
+            }.onSuccess { exploreResult ->
+                if (exploreResult.isValidPosition) {
+                    updateExploreCameraUiState(ExploreCameraUiState.Success)
+                    _successImageUrl.value = exploreResult.successCharacterImageUrl
+                } else {
+                    updateExploreCameraUiState(ExploreCameraUiState.LocationError)
+                }
+            }.onFailure {
+                updateExploreCameraUiState(ExploreCameraUiState.EtcError)
+            }
+        }
     }
 }

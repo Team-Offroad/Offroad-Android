@@ -11,6 +11,7 @@ internal fun HomeRoute(
     padding: PaddingValues,
 ) {
     HomeScreen(
-        padding = padding,
+        //padding = padding,
+        category = ""
     )
 }

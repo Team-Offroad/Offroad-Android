@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ExploreAuthResponseDto(
+data class ExploreQrAuthResponseDto(
     @SerialName("isQRMatched")
     val isQRMatched: Boolean = false,
     @SerialName("characterImageUrl")

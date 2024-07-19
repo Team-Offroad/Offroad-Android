@@ -36,7 +36,8 @@ internal fun MainNavHost(
                 padding = padding,
             )
             exploreNavGraph(
-                navigateToHome = { navigator.navigateToHome() },
+                navigateToHome = { category ->
+                    navigator.navigateToHome(category) },
                 navigateToExplore = { errorType, successImageUrl ->
                     navigator.navigateToExplore(errorType, successImageUrl)
                 },
