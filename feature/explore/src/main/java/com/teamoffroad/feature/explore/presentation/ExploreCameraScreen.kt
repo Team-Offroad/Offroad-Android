@@ -3,9 +3,9 @@ package com.teamoffroad.feature.explore.presentation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.feature.explore.presentation.component.ExploreCamera
 import com.teamoffroad.feature.explore.presentation.component.ExploreCameraNavigateBack
@@ -51,18 +50,16 @@ internal fun ExploreCameraScreen(
         lifecycleOwner = lifecycleOwner,
         postExploreResult = viewModel::postExploreResult
     )
-    Spacer(
-        modifier = Modifier
-            .height(20.dp)
-            .fillMaxWidth()
-            .background(Black.copy(alpha = 0.44f))
-    )
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 20.dp)
+            .fillMaxSize()
     ) {
-        OffroadActionBar(Black.copy(alpha = 0.44f))
+        Spacer(
+            modifier = Modifier
+                .height(38.dp)
+                .fillMaxWidth()
+                .background(Black.copy(alpha = 0.44f))
+        )
         ExploreCameraNavigateBack(navigateToExplore)
         ExploreCameraOverlay()
     }
