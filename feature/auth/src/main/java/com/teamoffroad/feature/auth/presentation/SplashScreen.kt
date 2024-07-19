@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.auth.presentation
 
-import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.core.Animatable
@@ -41,7 +40,6 @@ fun SplashScreen() {
         delay(300L)
         launch {
             delay(600L)
-            // 크기 조절
             scale.animateTo(
                 targetValue = 0.8f,
                 animationSpec = tween(
@@ -52,7 +50,7 @@ fun SplashScreen() {
         launch {
             delay(800L)
             offsetY.animateTo(
-                targetValue = -320f, // Target offsetY value (0f) to end animation at the top
+                targetValue = -320f,
                 animationSpec = tween(
                     durationMillis = 750,
                 )
@@ -60,7 +58,7 @@ fun SplashScreen() {
         }
 
         launch {
-            delay(800L) // 크기 조절과 위치 이동 애니메이션이 시작된 후에 페이드아웃을 시작합니다.
+            delay(800L)
             alpha.animateTo(
                 targetValue = 0f,
                 animationSpec = tween(
@@ -85,9 +83,10 @@ fun SplashScreen() {
                         this.alpha = alpha.value
                     },
             ) {
-                Box(modifier = Modifier
-                    .fillMaxSize()
-                    .background(Main2)
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Main2)
                 )
                 Image(
                     modifier = Modifier
