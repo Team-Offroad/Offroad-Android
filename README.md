@@ -1,7 +1,7 @@
 # 📗 OFFROAD-Android
-<img src="https://avatars.githubusercontent.com/u/173294718?s=400&u=72445520f6dba42246c1a4ea0d2f42c9d2902e83&v=4" width="500">
+<img src="https://github.com/user-attachments/assets/3d153cb7-f0e7-410a-baa3-9fb3ca21ae82" width="500">
 
-> 일상을 모험하는 온오프라인 연계형 어드벤처 게임
+> 오프로드, 일상을 모험하는 온오프라인 연계형 어드벤처 게임
 </br>
 
 ## 💻 IDE
