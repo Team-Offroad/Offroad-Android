@@ -153,7 +153,12 @@ private fun ExploreCameraUiStateHandler(
             ExploreResultDialog(
                 errorType = ExploreCameraUiState.LocationError,
                 text = stringResource(R.string.explore_location_failed_label),
-                content = { ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_location)) },
+                content = {
+                    ExploreFailedDialogContent(
+                        painter = painterResource(R.drawable.ic_explore_error_location),
+                        stringResource(R.string.explore_failed_img)
+                    )
+                },
                 onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
             )
         }
@@ -162,7 +167,7 @@ private fun ExploreCameraUiStateHandler(
             ExploreResultDialog(
                 errorType = ExploreCameraUiState.CodeError,
                 text = stringResource(R.string.explore_code_failed_label),
-                content = { ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_code)) },
+                content = { ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_code), imgUrl) },
                 onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
             )
         }
@@ -171,7 +176,7 @@ private fun ExploreCameraUiStateHandler(
             ExploreResultDialog(
                 errorType = ExploreCameraUiState.EtcError,
                 text = stringResource(R.string.explore_etc_failed_label),
-                content = { ExploreFailedDialogContent(painter = null) },
+                content = { ExploreFailedDialogContent(painter = null, stringResource(R.string.explore_failed_img)) },
                 onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
             )
         }

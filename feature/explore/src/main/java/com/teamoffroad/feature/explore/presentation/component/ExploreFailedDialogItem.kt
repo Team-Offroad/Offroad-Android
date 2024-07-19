@@ -13,13 +13,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.teamoffroad.offroad.feature.explore.R
+import coil.compose.AsyncImage
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 
 @Composable
 fun ExploreFailedDialogContent(
     painter: Painter?,
+    imageUrl: String,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -30,7 +33,7 @@ fun ExploreFailedDialogContent(
         Column(
             modifier = Modifier
                 .wrapContentSize()
-                .padding(top = 4.dp, bottom = 72.dp)
+                .padding(top = 4.dp, bottom = 62.dp)
                 .align(Alignment.BottomCenter),
         ) {
             Column(
@@ -41,8 +44,11 @@ fun ExploreFailedDialogContent(
             ) {
                 painter?.let { Image(painter = painter, contentDescription = "에러 이미지") }
             }
-            Image(
-                painter = painterResource(id = R.drawable.img_explore_failed_character),
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(imageUrl)
+                    .decoderFactory(SvgDecoder.Factory())
+                    .build(),
                 contentDescription = null,
                 modifier = Modifier
                     .size(height = 112.dp, width = 96.dp)
