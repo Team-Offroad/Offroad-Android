@@ -1,7 +1,6 @@
 package com.teamoffroad.feature.explore.presentation.component
 
 import android.content.Context
-import android.util.Log
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
@@ -27,7 +26,6 @@ fun ExploreCamera(
     lifecycleOwner: LifecycleOwner,
     postExploreResult: (Long, Double, Double, String) -> Unit,
 ) {
-    Log.e("123123", uiState.toString())
     val cameraProviderFuture = remember {
         ProcessCameraProvider.getInstance(localContext)
     }
