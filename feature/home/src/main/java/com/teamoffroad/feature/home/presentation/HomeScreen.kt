@@ -27,6 +27,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.teamoffroad.core.designsystem.component.FadeInWrapper
+import com.teamoffroad.core.common.util.OnBackButtonListener
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -42,7 +44,6 @@ import com.teamoffroad.offroad.feature.home.R
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun HomeScreen(
-    //padding: PaddingValues,
     category: String,
 ) {
     val context = LocalContext.current
@@ -57,25 +58,28 @@ fun HomeScreen(
         }
         viewModel.getUserQuests()
     }
-
-    Surface(
-        modifier = Modifier
-            .padding(bottom = 74.dp)
-            .navigationBarsPadding()
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-        color = Main1
-    ) {
-        Column(modifier = Modifier.fillMaxWidth()) {
-            OffroadActionBar()
-            UsersAdventuresInformation(
-                context = context,
-                modifier = Modifier.weight(1f),
-                viewModel = viewModel,
-            )
-            Spacer(modifier = Modifier.padding(top = 12.dp))
-            UsersQuestInformation(context, viewModel)
-            Spacer(modifier = Modifier.padding(top = 34.dp))
+    FadeInWrapper {
+        Surface(
+            modifier = Modifier
+                .padding(bottom = 74.dp)
+                .navigationBarsPadding()
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
+            color = Main1
+        ) {
+            FadeInWrapper {
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    OffroadActionBar()
+                    UsersAdventuresInformation(
+                        context = context,
+                        modifier = Modifier.weight(1f),
+                        viewModel = viewModel,
+                    )
+                    Spacer(modifier = Modifier.padding(top = 12.dp))
+                    UsersQuestInformation(context, viewModel)
+                    Spacer(modifier = Modifier.padding(top = 34.dp))
+                }
+            }
         }
     }
 }
@@ -105,7 +109,6 @@ private fun UsersAdventuresInformation(
         modifier = modifier.fillMaxWidth()
     ) {
         val imageUrl = adventuresInformationsData?.baseImageUrl ?: "" // TODO: svg & lottie
-
         Box(
             modifier = Modifier.fillMaxWidth(),
             contentAlignment = Alignment.TopEnd
@@ -195,6 +198,7 @@ private fun UsersQuestInformation(
         )
         Spacer(modifier = Modifier.padding(end = 24.dp))
     }
+    OnBackButtonListener()
 }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)

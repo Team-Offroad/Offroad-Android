@@ -2,14 +2,12 @@ package com.teamoffroad.feature.home.presentation.component.character
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -105,13 +103,14 @@ class CharacterItem {
                     )
                 }
 
-                Box{
+                Box {
                     LottieAnimation(
                         composition = composition,
                         progress = progress,
                         contentScale = ContentScale.FillHeight,
                         modifier = Modifier
                             .fillMaxSize()
+                            .padding(top = 30.dp)
                             .align(Alignment.BottomCenter)
                     )
                 }

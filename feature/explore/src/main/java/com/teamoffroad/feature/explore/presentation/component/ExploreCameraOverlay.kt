@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,7 +36,7 @@ fun ExploreCameraOverlay() {
     }
     Spacer(
         modifier = Modifier
-            .height(16.dp)
+            .height(58.dp)
             .fillMaxWidth()
             .background(Black.copy(alpha = 0.44f))
     )
@@ -69,8 +68,12 @@ fun ExploreCameraOverlay() {
         modifier = Modifier
             .fillMaxSize()
             .background(Black.copy(alpha = 0.44f))
-            .padding(top = 40.dp),
     ) {
+        Spacer(
+            modifier = Modifier
+                .height(40.dp)
+                .fillMaxWidth()
+        )
         Image(
             painter = painterResource(id = R.drawable.ic_explore_qr),
             contentDescription = "QR 코드 스캔 아이콘",
