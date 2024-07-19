@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import com.teamoffroad.core.common.util.OnBackButtonListener
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 
 @Composable
@@ -18,4 +19,5 @@ internal fun MypageScreen() {
             textAlign = TextAlign.Center
         )
     }
+    OnBackButtonListener()
 }
