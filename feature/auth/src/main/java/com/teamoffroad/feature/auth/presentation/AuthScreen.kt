@@ -34,7 +34,6 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.offroad.feature.auth.R
-import kotlinx.coroutines.delay
 
 @Composable
 internal fun AuthScreen(
@@ -57,11 +56,6 @@ internal fun AuthScreen(
         }
     }
     viewModel.checkAutoSignIn()
-
-    LaunchedEffect(Unit) {
-        delay(2500L)
-        showSplash = false
-    }
 
     LaunchedEffect(isSignInSuccess) {
         if (isSignInSuccess && !isAlreadyExist) navigateToSetNickname()
