@@ -9,10 +9,11 @@ import androidx.compose.ui.Modifier
 @Composable
 fun StaticAnimationWrapper(
     modifier: Modifier = Modifier,
+    visible: Boolean = true,
     content: @Composable () -> Unit,
 ) {
     AnimatedVisibility(
-        visible = true,
+        visible = visible,
         enter = EnterTransition.None,
         exit = ExitTransition.None,
     ) {
