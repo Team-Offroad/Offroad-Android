@@ -360,16 +360,18 @@ private fun ExploreNaverMap(
                 .padding(top = (backgroundPadding + 18).dp)
                 .align(Alignment.TopCenter),
         ) {
-            ExploreRefreshButton(
-                text = stringResource(R.string.explore_map_refresh),
-                onClick = {
-                    updatePlaces(
-                        locationState.cameraPositionState.position.target.latitude,
-                        locationState.cameraPositionState.position.target.longitude,
-                    )
-                },
-                modifier = Modifier.align(Alignment.Center),
-            )
+            if (locationState.isUserTrackingEnabled.not()) {
+                ExploreRefreshButton(
+                    text = stringResource(R.string.explore_map_refresh),
+                    onClick = {
+                        updatePlaces(
+                            locationState.cameraPositionState.position.target.latitude,
+                            locationState.cameraPositionState.position.target.longitude,
+                        )
+                    },
+                    modifier = Modifier.align(Alignment.Center),
+                )
+            }
             ExploreTrackingButton(
                 isTrackingEnabled = locationState.isUserTrackingEnabled,
                 onClick = updateTrackingToggle,
