@@ -9,14 +9,13 @@ import androidx.compose.ui.graphics.Color
 import com.teamoffroad.core.designsystem.theme.Error
 import com.teamoffroad.core.designsystem.theme.Gray400
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
-import com.teamoffroad.feature.auth.presentation.model.NicknameUiState
 
 @Composable
 fun NicknameHintText(
     modifier: Modifier = Modifier,
     value: String = "*한글 2~8자, 영어 2~16자 이내로 작성해주세요.",
     text: String,
-    isDuplicate: NicknameUiState
+    isDuplicate: ValidateResult
 ) {
     Column(
         horizontalAlignment = Alignment.Start,
@@ -24,7 +23,7 @@ fun NicknameHintText(
         Text(
             text = value,
             style = OffroadTheme.typography.hint,
-            color = if (isDuplicate==NicknameUiState.Duplicated) {
+            color = if (isDuplicate == ValidateResult.Duplicate) {
                 Error
             } else {
                 checkNicknameHint(text)
