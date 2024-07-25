@@ -1,4 +1,4 @@
-import com.teamoffroad.app.getApiKey
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.teamoffroad.app.setNamespace
 
 plugins {
@@ -12,7 +12,7 @@ android {
     setNamespace("core.common")
 
     defaultConfig {
-        buildConfigField("String", "BASE_URL", getApiKey("base.url"))
+        buildConfigField("String", "BASE_URL", gradleLocalProperties(rootDir, providers).getProperty("base.url"))
     }
 
     buildFeatures {

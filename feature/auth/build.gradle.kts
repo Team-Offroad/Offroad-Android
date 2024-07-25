@@ -1,4 +1,4 @@
-import com.teamoffroad.app.getApiKey
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.teamoffroad.app.setNamespace
 
 plugins {
@@ -12,7 +12,7 @@ android {
     setNamespace("feature.auth")
 
     defaultConfig {
-        buildConfigField("String", "GOOGLE_CLIENT_ID", getApiKey("google.client.id"))
+        buildConfigField("String", "GOOGLE_CLIENT_ID", gradleLocalProperties(rootDir, providers).getProperty("google.client.id"))
     }
 
     buildFeatures {
