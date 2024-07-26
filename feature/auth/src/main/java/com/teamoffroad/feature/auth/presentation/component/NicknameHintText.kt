@@ -13,15 +13,19 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 @Composable
 fun NicknameHintText(
     modifier: Modifier = Modifier,
-    value: String = "*한글 2~8자, 영어 2~16자 이내로 작성해주세요.",
     text: String,
     isDuplicate: ValidateResult
 ) {
+
+
     Column(
         horizontalAlignment = Alignment.Start,
     ) {
         Text(
-            text = value,
+            text = when (isDuplicate) {
+                ValidateResult.Duplicate -> "중복된 닉네임이에요. 다른 멋진 이름이 있으신가요?"
+                else -> "*한글 2~8자, 영어 2~16자 이내로 작성해주세요."
+            },
             style = OffroadTheme.typography.hint,
             color = if (isDuplicate == ValidateResult.Duplicate) {
                 Error

@@ -43,7 +43,7 @@ fun NicknameTextField(
     onValueChange: (String) -> Unit = { _ -> },
     maxLines: Int = 1,
     minLines: Int = 1,
-    maxLength: Int = 10,
+    maxLength: Int = 16,
     textStyle: TextStyle = OffroadTheme.typography.textAuto,
     textAlign: Alignment,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -73,7 +73,16 @@ fun NicknameTextField(
         modifier = modifier,
         value = value,
         onValueChange = { newValue ->
-            if (newValue.replace(" ", "").length <= maxLength) onValueChange(newValue)
+            val englishText = newValue.filter { it.isEnglish() }
+            val koreanText = newValue.filter { it.isKorean() }
+
+            val isEnglishValid = englishText.length <= 16
+            val isKoreanValid = koreanText.length <= 8
+
+            if (isEnglishValid || isKoreanValid) {
+                if (newValue.replace(" ", "").length <= maxLength) onValueChange(newValue)
+
+            }
         },
         singleLine = maxLines == 1,
         textStyle = updatedTextStyle,
@@ -117,4 +126,13 @@ fun NicknameTextField(
             }
         },
     )
+}
+
+
+fun Char.isEnglish(): Boolean {
+    return this in 'A'..'Z' || this in 'a'..'z'
+}
+
+fun Char.isKorean(): Boolean {
+    return this in '\uAC00'..'\uD7A3'
 }
