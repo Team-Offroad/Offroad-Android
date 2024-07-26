@@ -1,6 +1,7 @@
 package com.teamoffroad.feature.home.presentation.component.dialog
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -42,13 +43,14 @@ import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.home.domain.model.Emblem
 import com.teamoffroad.feature.home.presentation.HomeViewModel
 import com.teamoffroad.feature.home.presentation.UiState
-import com.teamoffroad.feature.home.presentation.model.CustomTitleDialogStateModel
+import com.teamoffroad.feature.home.presentation.model.UserChangeEmblemDialogStateModel
 import com.teamoffroad.offroad.feature.home.R
 
 @Composable
-fun OffroadDialog(
+fun ChangeEmblemDialog(
     showDialog: MutableState<Boolean>,
-    customTitleDialogStateModel: MutableState<CustomTitleDialogStateModel?>,
+    userChangeEmblemDialogStateModel: MutableState<UserChangeEmblemDialogStateModel?>,
+    originEmblem: String,
     onClickCancel: () -> Unit,
     onCharacterChange: (Emblem?) -> Unit,
 ) {
@@ -61,7 +63,7 @@ fun OffroadDialog(
         viewModel.getEmblems()
     }
 
-    val emblem = when (emblemListState) {
+    val emblemsData = when (emblemListState) {
         is UiState.Success -> {
             emblemListState.data
         }
@@ -73,7 +75,6 @@ fun OffroadDialog(
 
         else -> null
     }
-
 
     Dialog(
         onDismissRequest = {
@@ -97,7 +98,7 @@ fun OffroadDialog(
                 CloseDialog(
                     onClickCancel = {
                         showDialog.value = false
-                        customTitleDialogStateModel.value?.onClickCancel
+                        userChangeEmblemDialogStateModel.value?.onClickCancel
                     }
                 )
 
@@ -109,18 +110,25 @@ fun OffroadDialog(
                     Spacer(modifier = Modifier.padding(top = 30.dp))
                     DialogTitle()
                     Spacer(modifier = Modifier.padding(top = 22.dp))
-                    if (emblem != null) {
-                        CharacterTitle(emblems = emblem) { itemSelected ->
+                    if (emblemsData != null) {
+                        CharacterTitle(
+                            emblems = emblemsData,
+                            originEmblem = originEmblem
+                        ) { itemSelected ->
                             selectedItem.value = itemSelected
                         }
                     }
-                    Spacer(modifier = Modifier.padding(top = 12.dp).weight(1f))
+                    Spacer(
+                        modifier = Modifier
+                            .padding(top = 12.dp)
+                            .weight(1f)
+                    )
                     ChangeCharacterTitle(
                         isSelected = selectedItem.value != null,
                         onClickChange = {
                             onCharacterChange(selectedItem.value)
                             showDialog.value = false
-                            customTitleDialogStateModel.value?.onClickCancel
+                            userChangeEmblemDialogStateModel.value?.onClickCancel
                         }
                     )
                 }
@@ -130,7 +138,7 @@ fun OffroadDialog(
 }
 
 @Composable
-fun DialogTitle() {
+private fun DialogTitle() {
     Text(
         modifier = Modifier.fillMaxWidth(),
         text = stringResource(id = R.string.home_collected_character_name),
@@ -141,11 +149,13 @@ fun DialogTitle() {
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun CharacterTitle(
+private fun CharacterTitle(
     emblems: List<Emblem>,
+    originEmblem: String,
     onSelectionChange: (Emblem?) -> Unit
 ) {
-    val responseEmblemData = remember { mutableStateOf<Emblem?>(null) }
+    val selectedEmblemData = remember { mutableStateOf<Emblem?>(null) }
+    val clickedOriginEmblem = remember { mutableStateOf(false) }
     val emblemDataState = rememberLazyListState()
 
     Box(
@@ -157,18 +167,55 @@ fun CharacterTitle(
                 .drawScrollbar(emblemDataState),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            items(emblems) { data ->
+            items(emblems, key = { it.emblemName }) { emblem ->
+                val selectedChangeEmblemState = when (emblem.emblemName) {
+                    originEmblem -> SelectedEmblemState.SAME_WITH_ORIGIN_EMBLEM
+                    selectedEmblemData.value?.emblemName -> SelectedEmblemState.SAME_WITH_SELECTED_CHANGE_EMBLEM
+                    else -> SelectedEmblemState.SELECTED_CHANGE_EMBLEM
+                }
+
                 DialogTagItem(
-                    text = data.emblemName,
-                    textColor = if (data.emblemCode == responseEmblemData.value?.emblemCode) White else Main2,
+                    text = emblem.emblemName,
+                    textColor =
+                    when (selectedChangeEmblemState) {
+                        SelectedEmblemState.SAME_WITH_ORIGIN_EMBLEM -> if (clickedOriginEmblem.value) Main2 else White
+                        SelectedEmblemState.SAME_WITH_SELECTED_CHANGE_EMBLEM -> White
+                        SelectedEmblemState.SELECTED_CHANGE_EMBLEM -> Main2
+                    },
                     style = OffroadTheme.typography.subtitle2Semibold,
-                    backgroundColor = if (data.emblemCode == responseEmblemData.value?.emblemCode) Sub else NametagInactive,
-                    borderColor = if (data.emblemCode == responseEmblemData.value?.emblemCode) Sub else NametagStroke,
-                    emblem = data,
+                    backgroundColor =
+                    when (selectedChangeEmblemState) {
+                        SelectedEmblemState.SAME_WITH_ORIGIN_EMBLEM -> if (clickedOriginEmblem.value) NametagInactive else Sub
+                        SelectedEmblemState.SAME_WITH_SELECTED_CHANGE_EMBLEM -> Sub
+                        SelectedEmblemState.SELECTED_CHANGE_EMBLEM -> NametagInactive
+                    },
+                    borderColor =
+                    when (selectedChangeEmblemState) {
+                        SelectedEmblemState.SAME_WITH_ORIGIN_EMBLEM -> if (clickedOriginEmblem.value) NametagStroke else Sub
+                        SelectedEmblemState.SAME_WITH_SELECTED_CHANGE_EMBLEM -> Sub
+                        SelectedEmblemState.SELECTED_CHANGE_EMBLEM -> NametagStroke
+                    },
+                    emblem = emblem,
                     onItemClick = { clickedData: Emblem ->
-                        responseEmblemData.value =
-                            if (responseEmblemData.value?.emblemCode == clickedData.emblemCode) null else clickedData
-                        onSelectionChange(responseEmblemData.value)
+                        when (selectedChangeEmblemState) {
+                            SelectedEmblemState.SAME_WITH_ORIGIN_EMBLEM -> {
+                                selectedEmblemData.value = null
+                                clickedOriginEmblem.value = clickedOriginEmblem.value.not() // 아닌거 클릭 후 origin emblem 클릭하면 둘다 활성화
+                            }
+
+                            SelectedEmblemState.SAME_WITH_SELECTED_CHANGE_EMBLEM -> {
+                                selectedEmblemData.value = null
+                                clickedOriginEmblem.value = true
+                            }
+
+                            SelectedEmblemState.SELECTED_CHANGE_EMBLEM -> {
+                                selectedEmblemData.value = clickedData
+                                clickedOriginEmblem.value = true
+                            }
+
+                        }
+
+                        onSelectionChange(selectedEmblemData.value)
                     }
                 )
             }
@@ -183,12 +230,12 @@ fun ChangeCharacterTitle(
 ) {
     DialogChangeButton(
         text = stringResource(id = R.string.home_change_character_txt),
-        textColor =  if (isSelected) White else Gray400,
+        textColor = if (isSelected) White else Gray400,
         style = OffroadTheme.typography.textRegular,
         backgroundColor = if (isSelected) Main2 else Black15,
         borderColor = if (isSelected) Main2 else Black25,
         onItemClick = {
-            onClickChange()
+            if (isSelected) onClickChange()
         }
     )
 }

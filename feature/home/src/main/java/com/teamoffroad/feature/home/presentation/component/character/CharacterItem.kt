@@ -45,8 +45,8 @@ import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.home.presentation.HomeViewModel
 import com.teamoffroad.feature.home.presentation.UiState
-import com.teamoffroad.feature.home.presentation.component.dialog.OffroadDialog
-import com.teamoffroad.feature.home.presentation.model.CustomTitleDialogStateModel
+import com.teamoffroad.feature.home.presentation.component.dialog.ChangeEmblemDialog
+import com.teamoffroad.feature.home.presentation.model.UserChangeEmblemDialogStateModel
 import com.teamoffroad.offroad.feature.home.R
 
 class CharacterItem {
@@ -148,12 +148,12 @@ class CharacterItem {
     ) {
         val viewModel: HomeViewModel = hiltViewModel()
         val emblemState = viewModel.patchEmblemState.collectAsState(initial = UiState.Loading).value
-        val selectedEmblem = viewModel.selectedEmblem.collectAsState().value
-        val customTitleDialogStateModel =
-            remember { mutableStateOf<CustomTitleDialogStateModel?>(null) }
+        val userEmblem = viewModel.selectedEmblem.collectAsState().value
+        val userChangeEmblemDialogStateModel =
+            remember { mutableStateOf<UserChangeEmblemDialogStateModel?>(null) }
         val interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 
-        val showDialog = remember { mutableStateOf(false) }
+        val showChangeEmblemDialog = remember { mutableStateOf(false) }
 
         when (emblemState) {
             is UiState.Success -> null
@@ -172,7 +172,7 @@ class CharacterItem {
             contentAlignment = Alignment.CenterEnd
         ) {
             OffroadTagItem(
-                text = selectedEmblem,
+                text = userEmblem,
                 textColor = White,
                 style = OffroadTheme.typography.subtitle2Semibold,
                 backgroundColor = Sub
@@ -185,16 +185,18 @@ class CharacterItem {
                     .clickableWithoutRipple(
                         interactionSource
                     ) {
-                        showDialog.value = true
+                        showChangeEmblemDialog.value = true
                     }
             )
-            if (showDialog.value) {
-                OffroadDialog(
-                    showDialog,
-                    customTitleDialogStateModel,
+
+            if (showChangeEmblemDialog.value) {
+                ChangeEmblemDialog(
+                    showDialog = showChangeEmblemDialog,
+                    userChangeEmblemDialogStateModel = userChangeEmblemDialogStateModel,
+                    originEmblem = userEmblem,
                     onClickCancel = {
-                        showDialog.value = false
-                        customTitleDialogStateModel.value?.onClickCancel
+                        showChangeEmblemDialog.value = false
+                        userChangeEmblemDialogStateModel.value?.onClickCancel
                     },
                     onCharacterChange = { emblem ->
                         if (emblem != null) {
