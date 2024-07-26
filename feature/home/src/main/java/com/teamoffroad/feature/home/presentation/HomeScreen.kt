@@ -59,6 +59,7 @@ fun HomeScreen(
         Surface(
             modifier = Modifier
                 .padding(bottom = 74.dp)
+                .navigationBarsPadding()
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
             color = Main1
