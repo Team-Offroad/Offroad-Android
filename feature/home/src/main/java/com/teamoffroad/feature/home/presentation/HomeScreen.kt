@@ -50,19 +50,15 @@ fun HomeScreen(
     val viewModel: HomeViewModel = hiltViewModel()
 
     LaunchedEffect(Unit) {
-        if (category != "NONE") viewModel.updateCategory(category)
-        if (category.isBlank()) {
-            viewModel.getUsersAdventuresInformations("NONE")
-        } else {
-            viewModel.getUsersAdventuresInformations(category)
-        }
+        viewModel.updateCategory(category.ifBlank { "NONE" })
+        viewModel.getUsersAdventuresInformations(viewModel.category.value)
         viewModel.getUserQuests()
     }
+
     FadeInWrapper {
         Surface(
             modifier = Modifier
                 .padding(bottom = 74.dp)
-                .navigationBarsPadding()
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
             color = Main1
