@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.auth.presentation
+package com.teamoffroad.feature.auth.presentation.model
 
 import com.teamoffroad.feature.auth.presentation.component.ValidateResult
 

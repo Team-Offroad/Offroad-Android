@@ -24,6 +24,7 @@ fun NicknameHintText(
         Text(
             text = when (isDuplicate) {
                 ValidateResult.Duplicate -> "중복된 닉네임이에요. 다른 멋진 이름이 있으신가요?"
+                ValidateResult.ValidateFailure -> "한글 2~8자, 영어 2~16자 이내로 다시 말씀해주세요."
                 else -> "*한글 2~8자, 영어 2~16자 이내로 작성해주세요."
             },
             style = OffroadTheme.typography.hint,

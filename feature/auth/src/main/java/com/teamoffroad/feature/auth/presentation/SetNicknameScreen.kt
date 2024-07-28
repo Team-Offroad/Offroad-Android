@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.auth.presentation
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -38,6 +39,8 @@ internal fun SetNicknameScreen(
     navigateToSetBirthDate: (String) -> Unit,
     viewModel: SetNicknameViewModel = hiltViewModel(),
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+
     val focusManager = LocalFocusManager.current
     val focusRequester by remember { mutableStateOf(FocusRequester()) }
 
@@ -79,7 +82,8 @@ internal fun SetNicknameScreen(
                             .height(43.dp)
                             .focusRequester(focusRequester = focusRequester)
                             .padding(end = 6.dp),
-                        validateResult = isNicknameState.validateResult
+                        validateResult = isNicknameState.validateResult,
+                        interactionSource = interactionSource
                     )
                     OnboardingButton(
                         text = "중복확인",
@@ -87,7 +91,10 @@ internal fun SetNicknameScreen(
                         modifier = Modifier
                             .width(82.dp)
                             .height(42.dp),
-                        onButtonClick = { viewModel.getDuplicateNickname() },
+                        onButtonClick = {
+                            viewModel.getDuplicateNickname()
+                            focusManager.clearFocus()
+                        },
                     )
                 }
                 Spacer(modifier = Modifier.padding(vertical = 6.dp))

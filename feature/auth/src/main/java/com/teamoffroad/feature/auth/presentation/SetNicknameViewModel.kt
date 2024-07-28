@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.auth.domain.repository.AuthRepository
 import com.teamoffroad.feature.auth.domain.usecase.GetNicknameValidateUseCase
 import com.teamoffroad.feature.auth.presentation.component.ValidateResult
+import com.teamoffroad.feature.auth.presentation.model.SetNicknameUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -37,10 +38,8 @@ class SetNicknameViewModel @Inject constructor(
                         SetNicknameUiState(_nicknameUiState.value.nickname, ValidateResult.Success)
                 }
                 .onFailure {
-                    _nicknameUiState.value = SetNicknameUiState(
-                        _nicknameUiState.value.nickname,
-                        ValidateResult.Duplicate
-                    )
+                    _nicknameUiState.value =
+                        SetNicknameUiState(_nicknameUiState.value.nickname, ValidateResult.Duplicate)
                 }
         }
     }
