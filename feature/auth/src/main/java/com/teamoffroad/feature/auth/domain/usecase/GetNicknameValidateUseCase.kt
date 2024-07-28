@@ -1,13 +1,13 @@
 package com.teamoffroad.feature.auth.domain.usecase
 
-import com.teamoffroad.feature.auth.presentation.component.ValidateResult
+import com.teamoffroad.feature.auth.presentation.component.NicknameValidateResult
 
 class GetNicknameValidateUseCase {
-    suspend operator fun invoke(nickname: String): ValidateResult {
+    suspend operator fun invoke(nickname: String): NicknameValidateResult {
 
         when (checkMainLength(nickname)) {
-            true -> return ValidateResult.ValidateSuccess
-            false -> return ValidateResult.ValidateFailure
+            true -> return NicknameValidateResult.NicknameValidateSuccess
+            false -> return NicknameValidateResult.NicknameValidateFailure
         }
     }
 

@@ -114,7 +114,6 @@ internal fun SetBirthDateScreen(
                     horizontalArrangement = Arrangement.Center,
                 ) {
                     val pattern = remember { Regex("^\\d+\$") }
-
                     BirthDateTextField(
                         value = year,
                         placeholder = "YYYY",

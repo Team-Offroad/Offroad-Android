@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.teamoffroad.core.designsystem.theme.Error
 import com.teamoffroad.core.designsystem.theme.Gray400
@@ -13,19 +12,19 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 @Composable
 fun NicknameHintText(
     text: String,
-    isDuplicate: ValidateResult
+    isDuplicate: NicknameValidateResult
 ) {
     Column(
         horizontalAlignment = Alignment.Start,
     ) {
         Text(
             text = when (isDuplicate) {
-                ValidateResult.Duplicate -> "중복된 닉네임이에요. 다른 멋진 이름이 있으신가요?"
-                ValidateResult.ValidateFailure -> "한글 2~8자, 영어 2~16자 이내로 다시 말씀해주세요."
+                NicknameValidateResult.Duplicate -> "중복된 닉네임이에요. 다른 멋진 이름이 있으신가요?"
+                NicknameValidateResult.NicknameValidateFailure -> "한글 2~8자, 영어 2~16자 이내로 다시 말씀해주세요."
                 else -> "*한글 2~8자, 영어 2~16자 이내로 작성해주세요."
             },
             style = OffroadTheme.typography.hint,
-            color = if (isDuplicate == ValidateResult.Duplicate) {
+            color = if (isDuplicate == NicknameValidateResult.Duplicate) {
                 Error
             } else {
                 checkNicknameHint(text)

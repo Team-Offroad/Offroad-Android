@@ -82,12 +82,12 @@ internal fun SetNicknameScreen(
                             .height(43.dp)
                             .focusRequester(focusRequester = focusRequester)
                             .padding(end = 6.dp),
-                        validateResult = isNicknameState.validateResult,
+                        nicknameValidateResult = isNicknameState.nicknameValidateResult,
                         interactionSource = interactionSource
                     )
                     OnboardingButton(
                         text = "중복확인",
-                        isActive = isNicknameState.validateResult,
+                        isActive = isNicknameState.nicknameValidateResult,
                         modifier = Modifier
                             .width(82.dp)
                             .height(42.dp),
@@ -100,7 +100,7 @@ internal fun SetNicknameScreen(
                 Spacer(modifier = Modifier.padding(vertical = 6.dp))
                 NicknameHintText(
                     text = text,
-                    isDuplicate = isNicknameState.validateResult,
+                    isDuplicate = isNicknameState.nicknameValidateResult,
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
@@ -112,7 +112,7 @@ internal fun SetNicknameScreen(
                 onClick = {
                     navigateToSetBirthDate(isNicknameState.nickname)
                 },
-                isActive = isNicknameState.validateResult,
+                isActive = isNicknameState.nicknameValidateResult,
                 text = "다음"
             )
         }

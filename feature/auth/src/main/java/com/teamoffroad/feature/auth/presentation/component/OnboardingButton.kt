@@ -32,10 +32,10 @@ fun OnboardingButton(
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(6.dp),
     text: String,
-    isActive: ValidateResult,
+    isActive: NicknameValidateResult,
     onButtonClick: () -> Unit,
 ) {
-    val (borderLineColor, contentColor, backGroundColor) = if (isActive == ValidateResult.ValidateSuccess) {
+    val (borderLineColor, contentColor, backGroundColor) = if (isActive == NicknameValidateResult.NicknameValidateSuccess) {
         Triple(Black, White, Black)
     } else {
         Triple(Gray100, Gray300, White)
@@ -49,11 +49,11 @@ fun OnboardingButton(
             .background(backGroundColor, shape = shape)
             .border(
                 width = 1.dp,
-                color = if (isActive == ValidateResult.ValidateSuccess) borderLineColor else borderLineColor,
+                color = if (isActive == NicknameValidateResult.NicknameValidateSuccess) borderLineColor else borderLineColor,
                 shape = shape
             )
             .padding(vertical = 8.dp, horizontal = 6.dp)
-            .clickable(enabled = isActive == ValidateResult.ValidateSuccess,
+            .clickable(enabled = isActive == NicknameValidateResult.NicknameValidateSuccess,
                 onClick = {
                     onButtonClick()
                     keyboardController?.hide()
@@ -66,7 +66,7 @@ fun OnboardingButton(
             Text(
                 fontSize = 13.sp,
                 text = text,
-                color = if (isActive == ValidateResult.ValidateSuccess) contentColor else contentColor,
+                color = if (isActive == NicknameValidateResult.NicknameValidateSuccess) contentColor else contentColor,
             )
         }
     }

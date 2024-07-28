@@ -39,7 +39,7 @@ fun NicknameTextField(
     shape: Shape = RoundedCornerShape(6.dp),
     placeholder: String = "",
     value: String = "",
-    validateResult: ValidateResult,
+    nicknameValidateResult: NicknameValidateResult,
     onValueChange: (String) -> Unit = { _ -> },
     maxLines: Int = 1,
     minLines: Int = 1,
