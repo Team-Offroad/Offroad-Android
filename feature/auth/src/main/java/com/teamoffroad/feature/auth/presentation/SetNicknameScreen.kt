@@ -100,7 +100,6 @@ internal fun SetNicknameScreen(
                 Spacer(modifier = Modifier.padding(vertical = 6.dp))
                 NicknameHintText(
                     text = text,
-                    modifier = Modifier,
                     isDuplicate = isNicknameState.validateResult,
                 )
             }

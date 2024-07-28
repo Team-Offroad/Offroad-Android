@@ -34,12 +34,27 @@ class SetNicknameViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching { authRepository.getDuplicateNickname(_nicknameUiState.value.nickname) }
                 .onSuccess {
-                    _nicknameUiState.value =
-                        SetNicknameUiState(_nicknameUiState.value.nickname, ValidateResult.Success)
+                    when (it) {
+                        true -> {
+                            _nicknameUiState.value =
+                                SetNicknameUiState(
+                                    _nicknameUiState.value.nickname,
+                                    ValidateResult.Duplicate
+                                )
+                        }
+
+                        false -> {
+                            _nicknameUiState.value =
+                                SetNicknameUiState(
+                                    _nicknameUiState.value.nickname,
+                                    ValidateResult.Success
+                                )
+                        }
+                    }
                 }
                 .onFailure {
                     _nicknameUiState.value =
-                        SetNicknameUiState(_nicknameUiState.value.nickname, ValidateResult.Duplicate)
+                        _nicknameUiState.value.copy(validateResult = ValidateResult.Error)
                 }
         }
     }

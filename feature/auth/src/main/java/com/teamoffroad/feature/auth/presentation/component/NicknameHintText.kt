@@ -12,12 +12,9 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 
 @Composable
 fun NicknameHintText(
-    modifier: Modifier = Modifier,
     text: String,
     isDuplicate: ValidateResult
 ) {
-
-
     Column(
         horizontalAlignment = Alignment.Start,
     ) {
