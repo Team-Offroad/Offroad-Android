@@ -53,7 +53,7 @@ import com.naver.maps.map.compose.MarkerState
 import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberFusedLocationSource
 import com.naver.maps.map.overlay.OverlayImage
-import com.teamoffroad.core.designsystem.component.FadeInWrapper
+import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.feature.explore.presentation.component.ExploreAppBar
@@ -309,7 +309,7 @@ private fun ExploreNaverMap(
             .onGloballyPositioned { coordinates ->
                 mapViewSize = coordinates.size
             }) {
-        FadeInWrapper {
+        StaticAnimationWrapper {
             NaverMap(
                 properties = locationState.mapProperties,
                 uiSettings = MapUiSettings(
