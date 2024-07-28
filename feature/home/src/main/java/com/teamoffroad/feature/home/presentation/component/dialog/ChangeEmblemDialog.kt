@@ -1,7 +1,6 @@
 package com.teamoffroad.feature.home.presentation.component.dialog
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -200,7 +199,7 @@ private fun CharacterTitle(
                         when (selectedChangeEmblemState) {
                             SelectedEmblemState.SAME_WITH_ORIGIN_EMBLEM -> {
                                 selectedEmblemData.value = null
-                                clickedOriginEmblem.value = clickedOriginEmblem.value.not() // 아닌거 클릭 후 origin emblem 클릭하면 둘다 활성화
+                                clickedOriginEmblem.value = clickedOriginEmblem.value.not()
                             }
 
                             SelectedEmblemState.SAME_WITH_SELECTED_CHANGE_EMBLEM -> {
