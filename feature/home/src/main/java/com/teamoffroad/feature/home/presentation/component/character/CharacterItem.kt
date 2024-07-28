@@ -44,7 +44,7 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.home.presentation.HomeViewModel
-import com.teamoffroad.feature.home.presentation.UiState
+import com.teamoffroad.feature.home.presentation.component.UiState
 import com.teamoffroad.feature.home.presentation.component.dialog.ChangeEmblemDialog
 import com.teamoffroad.feature.home.presentation.model.UserChangeEmblemDialogStateModel
 import com.teamoffroad.offroad.feature.home.R
@@ -153,7 +153,7 @@ class CharacterItem {
             remember { mutableStateOf<UserChangeEmblemDialogStateModel?>(null) }
         val interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 
-        val showChangeEmblemDialog = remember { mutableStateOf(false) }
+        val isChangeEmblemDialogShown = remember { mutableStateOf(false) }
 
         when (emblemState) {
             is UiState.Success -> null
@@ -185,17 +185,17 @@ class CharacterItem {
                     .clickableWithoutRipple(
                         interactionSource
                     ) {
-                        showChangeEmblemDialog.value = true
+                        isChangeEmblemDialogShown.value = true
                     }
             )
 
-            if (showChangeEmblemDialog.value) {
+            if (isChangeEmblemDialogShown.value) {
                 ChangeEmblemDialog(
-                    showDialog = showChangeEmblemDialog,
+                    showDialog = isChangeEmblemDialogShown,
                     userChangeEmblemDialogStateModel = userChangeEmblemDialogStateModel,
                     originEmblem = userEmblem,
                     onClickCancel = {
-                        showChangeEmblemDialog.value = false
+                        isChangeEmblemDialogShown.value = false
                         userChangeEmblemDialogStateModel.value?.onClickCancel
                     },
                     onCharacterChange = { emblem ->

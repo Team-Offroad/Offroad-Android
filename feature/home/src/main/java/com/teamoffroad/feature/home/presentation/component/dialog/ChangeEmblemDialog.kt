@@ -41,7 +41,7 @@ import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.home.domain.model.Emblem
 import com.teamoffroad.feature.home.presentation.HomeViewModel
-import com.teamoffroad.feature.home.presentation.UiState
+import com.teamoffroad.feature.home.presentation.component.UiState
 import com.teamoffroad.feature.home.presentation.model.UserChangeEmblemDialogStateModel
 import com.teamoffroad.offroad.feature.home.R
 
