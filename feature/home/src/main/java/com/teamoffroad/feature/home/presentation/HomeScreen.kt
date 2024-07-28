@@ -27,9 +27,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.teamoffroad.core.designsystem.component.FadeInWrapper
 import com.teamoffroad.core.common.util.OnBackButtonListener
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.home.domain.model.UserQuests
@@ -58,7 +58,7 @@ fun HomeScreen(
         }
         viewModel.getUserQuests()
     }
-    FadeInWrapper {
+    StaticAnimationWrapper {
         Surface(
             modifier = Modifier
                 .padding(bottom = 74.dp)
@@ -67,7 +67,7 @@ fun HomeScreen(
                 .verticalScroll(rememberScrollState()),
             color = Main1
         ) {
-            FadeInWrapper {
+            StaticAnimationWrapper {
                 Column(modifier = Modifier.fillMaxWidth()) {
                     OffroadActionBar()
                     UsersAdventuresInformation(
