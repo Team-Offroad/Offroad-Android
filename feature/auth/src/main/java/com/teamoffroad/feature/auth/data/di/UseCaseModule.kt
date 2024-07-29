@@ -4,6 +4,7 @@ import com.teamoffroad.feature.auth.domain.repository.AuthRepository
 import com.teamoffroad.feature.auth.domain.usecase.AuthUseCase
 import com.teamoffroad.feature.auth.domain.usecase.ClearAutoSignInUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetAutoSignInUseCase
+import com.teamoffroad.feature.auth.domain.usecase.GetBirthDateValidateUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetCharacterListUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetNicknameValidateUseCase
 import com.teamoffroad.feature.auth.domain.usecase.SetAutoSignInUseCase
@@ -70,5 +71,11 @@ object UseCaseModule {
     @Singleton
     fun provideGetNicknameValidateUseCase(): GetNicknameValidateUseCase {
         return GetNicknameValidateUseCase()
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetBirthDateValidateUseCase(): GetBirthDateValidateUseCase {
+        return GetBirthDateValidateUseCase()
     }
 }

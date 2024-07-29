@@ -1,7 +1,6 @@
 package com.teamoffroad.feature.auth.presentation
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +15,7 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,6 +35,7 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.auth.presentation.component.BirthDateHintText
 import com.teamoffroad.feature.auth.presentation.component.BirthDateTextField
+import com.teamoffroad.feature.auth.presentation.component.BirthDateValidateResult
 import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -46,11 +47,10 @@ internal fun SetBirthDateScreen(
 ) {
     val focusManager = LocalFocusManager.current
 
-    var isVisible by remember { mutableStateOf(false) }
-
     var year by remember { mutableStateOf("") }
     var month by remember { mutableStateOf("") }
     var day by remember { mutableStateOf("") }
+    val isBirthDateState by viewModel.birthDateUiState.collectAsState()
 
     Surface(
         modifier = Modifier
@@ -121,7 +121,6 @@ internal fun SetBirthDateScreen(
                             if (it.isEmpty() || it.matches(pattern)) {
                                 year = it
                             }
-                            isVisible = validateYearInput(year)
                             viewModel.updateCheckedYear(year)
                         },
                         textAlign = Alignment.Center,
@@ -146,7 +145,7 @@ internal fun SetBirthDateScreen(
                             if (it.isEmpty() || it.matches(pattern)) {
                                 month = it
                             }
-                            isVisible = validateMonthInput(month)
+                            //isVisible = validateMonthInput(month)
                             viewModel.updateCheckedMonth(month)
                         },
                         maxLength = 2,
@@ -168,7 +167,7 @@ internal fun SetBirthDateScreen(
                             if (it.isEmpty() || it.matches(pattern)) {
                                 day = it
                             }
-                            isVisible = validateDayInput(day)
+                            //isVisible = validateDayInput(day)
                             viewModel.updateCheckedDate(day)
                         },
                         maxLength = 2,
@@ -185,7 +184,7 @@ internal fun SetBirthDateScreen(
                 BirthDateHintText(
                     modifier = Modifier
                         .padding(top = 12.dp),
-                    isVisible = isVisible
+                    isVisible = isBirthDateState.birthDateValidateResult
                 )
             }
             Spacer(
@@ -206,30 +205,10 @@ internal fun SetBirthDateScreen(
                         }
                     navigateToSetGender(nickname, birthDate)
                 },
-                isActive = true,
+                isActive = isBirthDateState.birthDateValidateResult == BirthDateValidateResult.Success,
                 text = "다음"
             )
             Spacer(modifier = Modifier.height(72.dp))
         }
     }
 }
-
-fun validateYearInput(year: String): Boolean {
-    return !(year.length == 4 && year.toIntOrNull() in 1900..2024)
-}
-
-fun validateMonthInput(month: String): Boolean {
-    return !(month.length <= 2 && month.toIntOrNull() in 1..12)
-}
-
-fun validateDayInput(day: String): Boolean {
-    return !(day.length <= 2 && day.toIntOrNull() in 1..31)
-}
-
-fun validateButtonInput(year: String, month: String, day: String): Boolean {
-    return (year.toIntOrNull() !in 1900..2024 ||
-            month.toIntOrNull() !in 1..12 ||
-            day.toIntOrNull() !in 1..31)
-
-}
-

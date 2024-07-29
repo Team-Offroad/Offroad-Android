@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Gray100
@@ -44,7 +45,7 @@ fun BirthDateTextField(
     maxLines: Int = 1,
     minLines: Int = 1,
     maxLength: Int = 10,
-    textStyle: TextStyle = OffroadTheme.typography.textAuto,
+    textStyle: TextStyle = OffroadTheme.typography.textAuto.copy(textAlign = TextAlign.Center),
     textAlign: Alignment,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(
         keyboardType = KeyboardType.NumberPassword

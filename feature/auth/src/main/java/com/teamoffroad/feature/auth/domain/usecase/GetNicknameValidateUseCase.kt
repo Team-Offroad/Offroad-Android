@@ -5,14 +5,14 @@ import com.teamoffroad.feature.auth.presentation.component.NicknameValidateResul
 class GetNicknameValidateUseCase {
     suspend operator fun invoke(nickname: String): NicknameValidateResult {
 
-        when (checkMainLength(nickname)) {
+        when (checkInValidNickname(nickname)) {
             true -> return NicknameValidateResult.NicknameValidateSuccess
             false -> return NicknameValidateResult.NicknameValidateFailure
         }
     }
 
 
-    private fun checkMainLength(text: String): Boolean {
+    private fun checkInValidNickname(text: String): Boolean {
         val koreanRegex = Regex("^[가-힣]*$")
         val englishRegex = Regex("^[a-zA-Z]*$")
 
