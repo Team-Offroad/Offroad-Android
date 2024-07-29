@@ -27,13 +27,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.teamoffroad.core.designsystem.component.FadeInWrapper
 import com.teamoffroad.core.common.util.OnBackButtonListener
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.home.domain.model.UserQuests
 import com.teamoffroad.feature.home.presentation.component.HomeIcons
+import com.teamoffroad.feature.home.presentation.component.UiState
 import com.teamoffroad.feature.home.presentation.component.character.CharacterItem
 import com.teamoffroad.feature.home.presentation.component.quest.progressbar.CloseCompleteRequest
 import com.teamoffroad.feature.home.presentation.component.quest.progressbar.RecentQuest
@@ -50,15 +51,11 @@ fun HomeScreen(
     val viewModel: HomeViewModel = hiltViewModel()
 
     LaunchedEffect(Unit) {
-        if (category != "NONE") viewModel.updateCategory(category)
-        if (category.isBlank()) {
-            viewModel.getUsersAdventuresInformations("NONE")
-        } else {
-            viewModel.getUsersAdventuresInformations(category)
-        }
+        viewModel.updateCategory(category.ifBlank { "NONE" })
+        viewModel.getUsersAdventuresInformations(viewModel.category.value)
         viewModel.getUserQuests()
     }
-    FadeInWrapper {
+    StaticAnimationWrapper {
         Surface(
             modifier = Modifier
                 .padding(bottom = 74.dp)
@@ -67,7 +64,7 @@ fun HomeScreen(
                 .verticalScroll(rememberScrollState()),
             color = Main1
         ) {
-            FadeInWrapper {
+            StaticAnimationWrapper {
                 Column(modifier = Modifier.fillMaxWidth()) {
                     OffroadActionBar()
                     UsersAdventuresInformation(

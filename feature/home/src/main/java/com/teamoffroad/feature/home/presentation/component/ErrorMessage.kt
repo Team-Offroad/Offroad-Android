@@ -1,6 +1,7 @@
-package com.teamoffroad.feature.home.presentation
+package com.teamoffroad.feature.home.presentation.component
 
 import com.google.gson.Gson
+import com.teamoffroad.feature.home.presentation.model.ErrorMessageModel
 import retrofit2.HttpException
 
 fun getErrorMessage(t: Any): String {
