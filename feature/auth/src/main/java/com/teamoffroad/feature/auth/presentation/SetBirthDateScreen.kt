@@ -145,7 +145,6 @@ internal fun SetBirthDateScreen(
                             if (it.isEmpty() || it.matches(pattern)) {
                                 month = it
                             }
-                            //isVisible = validateMonthInput(month)
                             viewModel.updateCheckedMonth(month)
                         },
                         maxLength = 2,
@@ -167,7 +166,6 @@ internal fun SetBirthDateScreen(
                             if (it.isEmpty() || it.matches(pattern)) {
                                 day = it
                             }
-                            //isVisible = validateDayInput(day)
                             viewModel.updateCheckedDate(day)
                         },
                         maxLength = 2,
