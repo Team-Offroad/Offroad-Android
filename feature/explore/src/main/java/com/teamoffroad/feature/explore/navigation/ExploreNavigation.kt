@@ -2,6 +2,8 @@ package com.teamoffroad.feature.explore.navigation
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
@@ -78,7 +80,13 @@ fun NavGraphBuilder.exploreNavGraph(
             navArgument("placeId") { type = NavType.LongType },
             navArgument("latitude") { type = NavType.StringType },
             navArgument("longitude") { type = NavType.StringType },
-        )
+        ),
+        enterTransition = {
+            slideIntoContainer(
+                AnimatedContentTransitionScope.SlideDirection.Left,
+                animationSpec = tween(200)
+            )
+        }
     ) { backStackEntry ->
         val placeId = backStackEntry.arguments?.getLong("placeId") ?: 0
         val latitude = backStackEntry.arguments?.getString("latitude")?.toDouble() ?: 0.0
