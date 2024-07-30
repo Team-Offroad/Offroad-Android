@@ -3,7 +3,6 @@ package com.teamoffroad.feature.explore.presentation
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.util.Log
 import android.view.Gravity
 import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
@@ -54,7 +53,8 @@ import com.naver.maps.map.compose.MarkerState
 import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberFusedLocationSource
 import com.naver.maps.map.overlay.OverlayImage
-import com.teamoffroad.core.designsystem.component.FadeInWrapper
+import com.teamoffroad.core.common.util.OnBackButtonListener
+import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.feature.explore.presentation.component.ExploreAppBar
@@ -75,8 +75,8 @@ import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 internal fun ExploreScreen(
-    errorType: String,
-    successImageUrl: String,
+    errorType: String?,
+    qrSuccessImageUrl: String?,
     navigateToHome: (String) -> Unit,
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
     exploreViewModel: ExploreViewModel = hiltViewModel(),
@@ -86,8 +86,10 @@ internal fun ExploreScreen(
     val context = LocalContext.current
 
     LaunchedEffect(errorType) {
+        if (errorType != null) {
         exploreViewModel.updateExploreCameraUiState(uiState.getExploreCameraUiState(errorType))
         exploreViewModel.updatePlaces()
+            }
     }
 
     if (!uiState.loading && uiState.places.isEmpty()) exploreViewModel.updatePlaces()
@@ -98,7 +100,7 @@ internal fun ExploreScreen(
     ExploreCameraUiStateHandler(
         uiState,
         exploreViewModel::updateExploreCameraUiState,
-        successImageUrl,
+        qrSuccessImageUrl,
         exploreViewModel,
         navigateToHome,
         locationSuccessImageUrl,
@@ -141,12 +143,12 @@ internal fun ExploreScreen(
 private fun ExploreCameraUiStateHandler(
     uiState: ExploreUiState,
     updateExploreCameraUiState: (ExploreCameraUiState) -> Unit,
-    qrSuccessImageUrl: String,
+    qrSuccessImageUrl: String?,
     viewModel: ExploreViewModel,
     navigateToHome: (String) -> Unit,
     locationSuccessImageUrl: String,
 ) {
-    val imgUrl = locationSuccessImageUrl.ifBlank {
+    val imageUrl = locationSuccessImageUrl.ifBlank {
         qrSuccessImageUrl
     }
     when (uiState.errorType) {
@@ -157,7 +159,7 @@ private fun ExploreCameraUiStateHandler(
                 content = {
                     ExploreFailedDialogContent(
                         painter = painterResource(R.drawable.ic_explore_error_location),
-                        stringResource(R.string.explore_failed_img)
+                        imageUrl = stringResource(R.string.explore_failed_img)
                     )
                 },
                 onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
@@ -168,10 +170,7 @@ private fun ExploreCameraUiStateHandler(
             ExploreResultDialog(
                 errorType = ExploreCameraUiState.CodeError,
                 text = stringResource(R.string.explore_code_failed_label),
-                content = {
-                    ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_code), imgUrl)
-                    Log.e("123123", imgUrl)
-                },
+                content = { ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_code), imageUrl = imageUrl) },
                 onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
             )
         }
@@ -180,7 +179,7 @@ private fun ExploreCameraUiStateHandler(
             ExploreResultDialog(
                 errorType = ExploreCameraUiState.EtcError,
                 text = stringResource(R.string.explore_etc_failed_label),
-                content = { ExploreFailedDialogContent(painter = null, stringResource(R.string.explore_failed_img)) },
+                content = { ExploreFailedDialogContent(painter = null, imageUrl = stringResource(R.string.explore_failed_img)) },
                 onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
             )
         }
@@ -191,7 +190,7 @@ private fun ExploreCameraUiStateHandler(
             ExploreResultDialog(
                 errorType = ExploreCameraUiState.Success,
                 text = stringResource(R.string.explore_dialog_success),
-                content = { ExploreSuccessDialogContent(url = imgUrl) },
+                content = { ExploreSuccessDialogContent(url = imageUrl) },
                 onDismissRequest = { navigateToHome(category) }
             )
         }
@@ -311,7 +310,7 @@ private fun ExploreNaverMap(
             .onGloballyPositioned { coordinates ->
                 mapViewSize = coordinates.size
             }) {
-        FadeInWrapper {
+        StaticAnimationWrapper {
             NaverMap(
                 properties = locationState.mapProperties,
                 uiSettings = MapUiSettings(
@@ -450,6 +449,7 @@ private fun ExploreNaverMap(
             }
         }
     }
+    OnBackButtonListener()
 }
 
 private fun calculateMarkerOffset(

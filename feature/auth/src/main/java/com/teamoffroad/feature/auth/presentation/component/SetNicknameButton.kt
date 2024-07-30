@@ -18,17 +18,16 @@ import androidx.compose.ui.unit.sp
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Gray400
 import com.teamoffroad.core.designsystem.theme.White
-import com.teamoffroad.feature.auth.presentation.model.NicknameUiState
 
 @Composable
 fun SetNicknameButton(
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(6.dp),
     text: String,
-    isActive: NicknameUiState,
+    isActive: NicknameValidateResult,
     onClick: () -> Unit,
 ) {
-    val (borderLineOpacity, contentColor, backGroundOpacity) = if (isActive == NicknameUiState.UnDuplicated) {
+    val (borderLineOpacity, contentColor, backGroundOpacity) = if (isActive == NicknameValidateResult.Success) {
         Triple(1.0f, White, 1.0f)
     } else {
         Triple(0.25f, Gray400, 0.15f)
@@ -45,9 +44,9 @@ fun SetNicknameButton(
             )
             .padding(vertical = 8.dp, horizontal = 6.dp)
             .clickable(
-                enabled = isActive == NicknameUiState.UnDuplicated,
+                enabled = isActive == NicknameValidateResult.Success,
                 onClick = {
-                    if (isActive == NicknameUiState.UnDuplicated) {
+                    if (isActive == NicknameValidateResult.Success) {
                         onClick()
                     }
                 }

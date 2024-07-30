@@ -6,4 +6,7 @@
     <string name="auth_character_question_label">지금 캐릭터를 선택하시면\n%s와 모험을 시작하게 돼요.</string>
     <string name="auth_character_question_deny">아니요</string>
     <string name="auth_character_question_accept">네,좋아요!</string>
+    <string name="auth_duplicated_nickname">중복된 닉네임이에요. 다른 멋진 이름이 있으신가요?</string>
+    <string name="auth_invalid_nickname">한글 2~8자, 영어 2~16자 이내로 다시 말씀해주세요.</string>
+    <string name="auth_empty_nickname">*한글 2~8자, 영어 2~16자 이내로 작성해주세요.</string>
 </resources>

@@ -4,27 +4,29 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import com.teamoffroad.core.designsystem.theme.Error
 import com.teamoffroad.core.designsystem.theme.Gray400
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
-import com.teamoffroad.feature.auth.presentation.model.NicknameUiState
+import com.teamoffroad.offroad.feature.auth.R
 
 @Composable
 fun NicknameHintText(
-    modifier: Modifier = Modifier,
-    value: String = "*한글 2~8자, 영어 2~16자 이내로 작성해주세요.",
     text: String,
-    isDuplicate: NicknameUiState
+    isDuplicate: NicknameValidateResult
 ) {
     Column(
         horizontalAlignment = Alignment.Start,
     ) {
         Text(
-            text = value,
+            text = when (isDuplicate) {
+                NicknameValidateResult.Duplicate -> stringResource(R.string.auth_duplicated_nickname)
+                NicknameValidateResult.NicknameValidateFailure -> stringResource(id = R.string.auth_invalid_nickname)
+                else -> stringResource(R.string.auth_empty_nickname)
+            },
             style = OffroadTheme.typography.hint,
-            color = if (isDuplicate==NicknameUiState.Duplicated) {
+            color = if (isDuplicate == NicknameValidateResult.Duplicate) {
                 Error
             } else {
                 checkNicknameHint(text)

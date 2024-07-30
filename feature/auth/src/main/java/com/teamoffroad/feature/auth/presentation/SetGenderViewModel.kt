@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.auth.domain.model.UserProfile
 import com.teamoffroad.feature.auth.domain.repository.AuthRepository
+import com.teamoffroad.feature.auth.presentation.model.SetGenderUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,23 +17,21 @@ class SetGenderViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
-    private val _selectedGender: MutableStateFlow<String?> = MutableStateFlow(null)
-    val selectedGender: StateFlow<String?> = _selectedGender.asStateFlow()
+    private val _genderUiState = MutableStateFlow<SetGenderUiState>(SetGenderUiState.Loading)
+    val genderUiState: StateFlow<SetGenderUiState> = _genderUiState.asStateFlow()
 
     fun updateCheckedGender(gender: String) {
-        _selectedGender.value = gender
+        _genderUiState.value = SetGenderUiState.Select(gender)
     }
 
-    private val _isSuccess: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val isSuccess: StateFlow<Boolean> = _isSuccess.asStateFlow()
-
-    private val _isLoading: MutableStateFlow<Boolean> = MutableStateFlow(true)
-    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
-
-    private val _isError: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val isError: StateFlow<Boolean> = _isError.asStateFlow()
-
-    fun fetchUserProfile(nickname: String, birthDate: String?, gender: String? = selectedGender.value) {
+    fun fetchUserProfile(
+        nickname: String,
+        birthDate: String?,
+        gender: String? = when (val state = genderUiState.value) {
+            is SetGenderUiState.Select -> state.selectedGender
+            else -> null
+        }
+    ) {
         viewModelScope.launch {
             runCatching {
                 authRepository.patchUserProfile(
@@ -45,11 +44,9 @@ class SetGenderViewModel @Inject constructor(
                     )
                 )
             }.onSuccess {
-                _isSuccess.value = true
-                _isLoading.value = false
+                _genderUiState.value = SetGenderUiState.Success
             }.onFailure {
-                _isError.value = true
-                _isLoading.value = false
+                _genderUiState.value = SetGenderUiState.Error
             }
         }
     }

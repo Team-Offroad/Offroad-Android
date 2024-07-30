@@ -46,7 +46,7 @@ retrofit = "2.9.0"
 kotlinCoroutines = "1.9.0-RC"
 
 # Navigation
-navigation = "2.8.0-beta02"
+navigation = "2.8.0-beta06"
 
 # Kotlin Serialization
 kotlinxSerialization = "1.7.1"

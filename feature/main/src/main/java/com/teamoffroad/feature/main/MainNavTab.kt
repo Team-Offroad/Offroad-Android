@@ -13,17 +13,17 @@ internal enum class MainNavTab(
     HOME(
         iconResId = R.drawable.ic_main_home,
         contentDescription = "홈",
-        MainTabRoute.Home,
+        MainTabRoute.Home(),
     ),
     EXPLORE(
         iconResId = R.drawable.ic_main_explore,
         contentDescription = "탐험",
-        MainTabRoute.Explore,
+        MainTabRoute.Explore(),
     ),
     MYPAGE(
         iconResId = R.drawable.ic_main_mypage,
         contentDescription = "마이페이지",
-        MainTabRoute.Mypage,
+        MainTabRoute.MyPage,
     );
 
     companion object {

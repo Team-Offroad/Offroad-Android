@@ -6,6 +6,8 @@ import com.teamoffroad.feature.home.domain.model.Emblem
 import com.teamoffroad.feature.home.domain.model.UserQuests
 import com.teamoffroad.feature.home.domain.model.UsersAdventuresInformations
 import com.teamoffroad.feature.home.domain.repository.UserRepository
+import com.teamoffroad.feature.home.presentation.component.UiState
+import com.teamoffroad.feature.home.presentation.component.getErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +18,8 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val userRepository: UserRepository,
 ) : ViewModel() {
-    private val _getUsersAdventuresInformationsState = MutableStateFlow<UiState<UsersAdventuresInformations>>(UiState.Loading)
+    private val _getUsersAdventuresInformationsState = MutableStateFlow<UiState<UsersAdventuresInformations>>(
+        UiState.Loading)
     val getUsersAdventuresInformationsState = _getUsersAdventuresInformationsState.asStateFlow()
 
     private val _selectedEmblem = MutableStateFlow("")

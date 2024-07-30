@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.home.presentation
+package com.teamoffroad.feature.home.presentation.component
 
 sealed interface UiState<out T> {
 

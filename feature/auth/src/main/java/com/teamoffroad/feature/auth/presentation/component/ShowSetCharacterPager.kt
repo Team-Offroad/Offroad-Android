@@ -69,7 +69,7 @@ fun ShowSetCharacterPager(
                 .align(Alignment.Bottom)
                 .height(296.dp),
             state = pagerState,
-            userScrollEnabled = false,
+            userScrollEnabled = true,
         ) { page ->
             AsyncImage(
                 model = ImageRequest.Builder(context)

@@ -1,9 +1,7 @@
 package com.teamoffroad.feature.main
 
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
@@ -11,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
+import com.teamoffroad.feature.main.component.MainTransparentActionBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,8 +21,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navigator: MainNavigator = rememberMainNavigator()
 
-            SetupTransparentActionBar()
-
+            MainTransparentActionBar(window)
             OffroadTheme {
                 MainScreen(
                     navigator = navigator,
@@ -31,16 +29,6 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
-    }
-
-    @Composable
-    private fun SetupTransparentActionBar() {
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-        )
-
-        window.navigationBarColor = Color.TRANSPARENT
     }
 }
 
