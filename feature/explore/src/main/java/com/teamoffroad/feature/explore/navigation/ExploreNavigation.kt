@@ -84,7 +84,7 @@ fun NavGraphBuilder.exploreNavGraph(
         enterTransition = {
             slideIntoContainer(
                 AnimatedContentTransitionScope.SlideDirection.Left,
-                animationSpec = tween(200)
+                animationSpec = tween(400)
             )
         }
     ) { backStackEntry ->
