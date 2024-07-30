@@ -9,20 +9,24 @@ class GetBirthDateValidateUseCase {
         month: String = "",
         day: String = "",
     ): BirthDateValidateResult {
-        if (birthDate == "year") {
-            when (checkInValidYear(year.toInt())) {
-                true -> return BirthDateValidateResult.Success
-                false -> return BirthDateValidateResult.Error
+        when (birthDate) {
+            "year" -> {
+                return when (checkInValidYear(year.toInt())) {
+                    true -> BirthDateValidateResult.Success
+                    false -> BirthDateValidateResult.Error
+                }
             }
-        } else if (birthDate == "month") {
-            when (checkInValidMonth(month.toInt())) {
-                true -> return BirthDateValidateResult.Success
-                false -> return BirthDateValidateResult.Error
+            "month" -> {
+                return when (checkInValidMonth(month.toInt())) {
+                    true -> BirthDateValidateResult.Success
+                    false -> BirthDateValidateResult.Error
+                }
             }
-        } else {
-            when (checkInValidDay(year.toInt(), month.toInt(), day.toInt())) {
-                true -> return BirthDateValidateResult.Success
-                false -> return BirthDateValidateResult.Error
+            else -> {
+                return when (checkInValidDay(year.toInt(), month.toInt(), day.toInt())) {
+                    true -> BirthDateValidateResult.Success
+                    false -> BirthDateValidateResult.Error
+                }
             }
         }
     }

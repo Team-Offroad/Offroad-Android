@@ -118,7 +118,7 @@ internal fun SetBirthDateScreen(
                         value = year,
                         placeholder = "YYYY",
                         onValueChange = {
-                            if (it.isEmpty() || it.matches(pattern)) {
+                            if (it.isBlank() || it.matches(pattern)) {
                                 year = it
                             }
                             viewModel.updateCheckedYear(year)
@@ -142,7 +142,7 @@ internal fun SetBirthDateScreen(
                         placeholder = "MM",
                         value = month,
                         onValueChange = {
-                            if (it.isEmpty() || it.matches(pattern)) {
+                            if (it.isBlank() || it.matches(pattern)) {
                                 month = it
                             }
                             viewModel.updateCheckedMonth(month)
@@ -163,7 +163,7 @@ internal fun SetBirthDateScreen(
                         value = day,
                         placeholder = "DD",
                         onValueChange = {
-                            if (it.isEmpty() || it.matches(pattern)) {
+                            if (it.isBlank() || it.matches(pattern)) {
                                 day = it
                             }
                             viewModel.updateCheckedDate(day)
