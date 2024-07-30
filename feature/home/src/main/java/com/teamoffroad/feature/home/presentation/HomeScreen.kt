@@ -5,6 +5,7 @@ import android.os.Build
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -55,30 +56,31 @@ fun HomeScreen(
         viewModel.getUsersAdventuresInformations(viewModel.category.value)
         viewModel.getUserQuests()
     }
-    StaticAnimationWrapper {
+
+    StaticAnimationWrapper{
         Surface(
             modifier = Modifier
                 .padding(bottom = 74.dp)
                 .navigationBarsPadding()
                 .fillMaxSize()
+                .background(Main1)
                 .verticalScroll(rememberScrollState()),
             color = Main1
         ) {
-            StaticAnimationWrapper {
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    OffroadActionBar()
-                    UsersAdventuresInformation(
-                        context = context,
-                        modifier = Modifier.weight(1f),
-                        viewModel = viewModel,
-                    )
-                    Spacer(modifier = Modifier.padding(top = 12.dp))
-                    UsersQuestInformation(context, viewModel)
-                    Spacer(modifier = Modifier.padding(top = 34.dp))
-                }
+            Column(modifier = Modifier.fillMaxWidth()) {
+                OffroadActionBar()
+                UsersAdventuresInformation(
+                    context = context,
+                    modifier = Modifier.weight(1f),
+                    viewModel = viewModel,
+                )
+                Spacer(modifier = Modifier.padding(top = 12.dp))
+                UsersQuestInformation(context, viewModel)
+                Spacer(modifier = Modifier.padding(top = 34.dp))
             }
         }
     }
+
 }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
