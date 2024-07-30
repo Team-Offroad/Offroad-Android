@@ -18,7 +18,7 @@ internal enum class MainNavTab(
     EXPLORE(
         iconResId = R.drawable.ic_main_explore,
         contentDescription = "탐험",
-        MainTabRoute.Explore,
+        MainTabRoute.Explore(),
     ),
     MYPAGE(
         iconResId = R.drawable.ic_main_mypage,

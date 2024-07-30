@@ -12,7 +12,7 @@ sealed interface MainTabRoute : Route {
     data object Home : MainTabRoute
 
     @Serializable
-    data object Explore : MainTabRoute
+    data class Explore(val errorType: String? = null, val imageUrl: String? = null) : MainTabRoute
 
     @Serializable
     data object Mypage : MainTabRoute

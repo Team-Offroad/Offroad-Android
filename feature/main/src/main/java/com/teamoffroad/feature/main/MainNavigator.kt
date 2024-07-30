@@ -9,8 +9,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import com.teamoffroad.core.navigation.HomeRoute
-import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.core.navigation.Route
 import com.teamoffroad.feature.auth.navigation.navigateToSelectedCharacter
 import com.teamoffroad.feature.auth.navigation.navigateToSetBirthDate
@@ -48,7 +46,7 @@ internal class MainNavigator(
     fun navigate(tab: MainNavTab) {
         when (tab) {
             MainNavTab.HOME -> navController.navigateToHome(navOptions)
-            MainNavTab.EXPLORE -> navController.navigateExplore("None", "None", navOptions)
+            MainNavTab.EXPLORE -> navController.navigateExplore(navOptions = navOptions)
             MainNavTab.MYPAGE -> {}
             // TODO: 릴리즈 이전에 MyPage로 이동하는 코드 추가
             // MainNavTab.MYPAGE -> navController.navigateToMyPage(navOptions)
@@ -58,7 +56,7 @@ internal class MainNavigator(
     @Composable
     fun setBottomBarVisibility() = MainNavTab.contains {
         currentDestination?.hasRoute(it::class) == true
-    } || currentDestination?.route == "${MainTabRoute.Explore}/{errorType}/{successImageUrl}" || currentDestination?.route == "${HomeRoute.SetCategory}/{category}" || currentDestination?.route == "${HomeRoute.SetCategory}/{category}"
+    }
 
     fun navigateToHome() {
         navController.navigateToHome(navOptions)

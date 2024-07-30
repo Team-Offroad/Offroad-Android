@@ -16,15 +16,11 @@ import com.teamoffroad.core.navigation.HomeRoute
 import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.feature.explore.presentation.ExploreCameraScreen
 import com.teamoffroad.feature.explore.presentation.ExploreScreen
-import com.teamoffroad.feature.explore.presentation.model.ExploreCameraUiState
 import com.teamoffroad.feature.home.presentation.HomeScreen
-import java.net.URLDecoder
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 
 fun NavController.navigateExplore(
-    errorType: String,
-    successImageUrl: String,
+    errorType: String? = null,
+    imageUrl: String? = null,
     navOptions: NavOptions,
 ) {
     val cameraNavOptions by lazy {
@@ -37,9 +33,7 @@ fun NavController.navigateExplore(
             restoreState = true
         }
     }
-    val encodedUrl = URLEncoder.encode(successImageUrl, StandardCharsets.UTF_8.toString())
-    val route = "${MainTabRoute.Explore}/$errorType/$encodedUrl"
-    navigate(route, cameraNavOptions)
+    navigate(MainTabRoute.Explore(errorType, imageUrl), cameraNavOptions)
 }
 
 fun NavController.navigateToExploreCameraScreen(
@@ -58,18 +52,10 @@ fun NavGraphBuilder.exploreNavGraph(
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
 ) {
 
-    composable(
-        route = "${MainTabRoute.Explore}/{errorType}/{successImageUrl}",
-        arguments = listOf(
-            navArgument("errorType") { type = NavType.StringType },
-            navArgument("successImageUrl") { type = NavType.StringType },
-        )
-    ) { backStackEntry ->
-        val errorType =
-            backStackEntry.arguments?.getString("errorType") ?: ExploreCameraUiState.None.toString()
-        val encodedUrl = backStackEntry.arguments?.getString("successImageUrl") ?: "None"
-        val successImageUrl = URLDecoder.decode(encodedUrl, StandardCharsets.UTF_8.toString())
-        ExploreScreen(errorType, successImageUrl, navigateToHome, navigateToExploreCameraScreen)
+    composable<MainTabRoute.Explore> { backStackEntry ->
+        val errorType = backStackEntry.toRoute<MainTabRoute.Explore>().errorType
+        val imageUrl = backStackEntry.toRoute<MainTabRoute.Explore>().imageUrl
+        ExploreScreen(errorType, imageUrl, navigateToHome, navigateToExploreCameraScreen)
     }
 
     composable<ExploreRoute.ExploreCameraScreen> { backStackEntry ->

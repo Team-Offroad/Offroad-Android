@@ -74,8 +74,8 @@ import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 internal fun ExploreScreen(
-    errorType: String,
-    successImageUrl: String,
+    errorType: String?,
+    qrSuccessImageUrl: String?,
     navigateToHome: (String) -> Unit,
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
     viewModel: ExploreViewModel = hiltViewModel(),
@@ -85,8 +85,10 @@ internal fun ExploreScreen(
     val context = LocalContext.current
 
     LaunchedEffect(errorType) {
-        viewModel.updateExploreCameraUiState(uiState.getExploreCameraUiState(errorType))
-        viewModel.updatePlaces()
+        if (errorType != null) {
+            viewModel.updateExploreCameraUiState(uiState.getExploreCameraUiState(errorType))
+            viewModel.updatePlaces()
+        }
     }
 
     if (!uiState.loading && uiState.places.isEmpty()) viewModel.updatePlaces()
@@ -97,7 +99,7 @@ internal fun ExploreScreen(
     ExploreCameraUiStateHandler(
         uiState,
         viewModel::updateExploreCameraUiState,
-        successImageUrl,
+        qrSuccessImageUrl,
         viewModel,
         navigateToHome,
         locationSuccessImageUrl,
@@ -141,12 +143,12 @@ internal fun ExploreScreen(
 private fun ExploreCameraUiStateHandler(
     uiState: ExploreUiState,
     updateExploreCameraUiState: (ExploreCameraUiState) -> Unit,
-    qrSuccessImageUrl: String,
+    qrSuccessImageUrl: String?,
     viewModel: ExploreViewModel,
     navigateToHome: (String) -> Unit,
     locationSuccessImageUrl: String,
 ) {
-    val imgUrl = locationSuccessImageUrl.ifBlank {
+    val imageUrl = locationSuccessImageUrl.ifBlank {
         qrSuccessImageUrl
     }
     when (uiState.errorType) {
@@ -157,7 +159,7 @@ private fun ExploreCameraUiStateHandler(
                 content = {
                     ExploreFailedDialogContent(
                         painter = painterResource(R.drawable.ic_explore_error_location),
-                        stringResource(R.string.explore_failed_img)
+                        imageUrl = stringResource(R.string.explore_failed_img)
                     )
                 },
                 onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
@@ -168,7 +170,7 @@ private fun ExploreCameraUiStateHandler(
             ExploreResultDialog(
                 errorType = ExploreCameraUiState.CodeError,
                 text = stringResource(R.string.explore_code_failed_label),
-                content = { ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_code), imgUrl) },
+                content = { ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_code), imageUrl = imageUrl) },
                 onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
             )
         }
@@ -177,7 +179,7 @@ private fun ExploreCameraUiStateHandler(
             ExploreResultDialog(
                 errorType = ExploreCameraUiState.EtcError,
                 text = stringResource(R.string.explore_etc_failed_label),
-                content = { ExploreFailedDialogContent(painter = null, stringResource(R.string.explore_failed_img)) },
+                content = { ExploreFailedDialogContent(painter = null, imageUrl = stringResource(R.string.explore_failed_img)) },
                 onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
             )
         }
@@ -188,7 +190,7 @@ private fun ExploreCameraUiStateHandler(
             ExploreResultDialog(
                 errorType = ExploreCameraUiState.Success,
                 text = stringResource(R.string.explore_dialog_success),
-                content = { ExploreSuccessDialogContent(url = imgUrl) },
+                content = { ExploreSuccessDialogContent(url = imageUrl) },
                 onDismissRequest = { navigateToHome(category) }
             )
         }
