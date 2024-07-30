@@ -1,7 +1,6 @@
 package com.teamoffroad.feature.explore.navigation
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -52,7 +51,6 @@ fun NavGraphBuilder.exploreNavGraph(
         val errorType = backStackEntry.toRoute<MainTabRoute.Explore>().errorType
         val imageUrl = backStackEntry.toRoute<MainTabRoute.Explore>().imageUrl
         ExploreScreen(errorType, imageUrl, navigateToHome, navigateToExploreCameraScreen)
-        Log.e("123123", errorType.toString())
     }
 
     composable<ExploreRoute.ExploreCameraScreen> { backStackEntry ->
