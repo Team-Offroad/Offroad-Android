@@ -1,22 +1,18 @@
 package com.teamoffroad.feature.explore.navigation
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
-import androidx.navigation.navOptions
 import androidx.navigation.toRoute
 import com.teamoffroad.core.navigation.ExploreRoute
-import com.teamoffroad.core.navigation.HomeRoute
 import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.feature.explore.presentation.ExploreCameraScreen
 import com.teamoffroad.feature.explore.presentation.ExploreScreen
-import com.teamoffroad.feature.home.presentation.HomeScreen
 
 fun NavController.navigateExplore(
     errorType: String? = null,
@@ -25,7 +21,7 @@ fun NavController.navigateExplore(
 ) {
     val cameraNavOptions by lazy {
         popBackStack()
-        navOptions {
+        androidx.navigation.navOptions {
             popUpTo(graph.findStartDestination().id) {
                 inclusive = true
             }
@@ -50,12 +46,13 @@ fun NavGraphBuilder.exploreNavGraph(
     navigateToHome: (String) -> Unit,
     navigateToExplore: (String, String) -> Unit,
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
+    onBackClick: () -> Unit,
 ) {
-
     composable<MainTabRoute.Explore> { backStackEntry ->
         val errorType = backStackEntry.toRoute<MainTabRoute.Explore>().errorType
         val imageUrl = backStackEntry.toRoute<MainTabRoute.Explore>().imageUrl
         ExploreScreen(errorType, imageUrl, navigateToHome, navigateToExploreCameraScreen)
+        Log.e("123123", errorType.toString())
     }
 
     composable<ExploreRoute.ExploreCameraScreen> { backStackEntry ->
@@ -63,15 +60,5 @@ fun NavGraphBuilder.exploreNavGraph(
         val latitude = backStackEntry.toRoute<ExploreRoute.ExploreCameraScreen>().latitude
         val longitude = backStackEntry.toRoute<ExploreRoute.ExploreCameraScreen>().longitude
         ExploreCameraScreen(placeId, latitude.toDouble(), longitude.toDouble(), navigateToExplore)
-    }
-
-    composable(
-        route = "${HomeRoute.SetCategory}/{category}",
-        arguments = listOf(
-            navArgument("category") { type = NavType.StringType }
-        )
-    ) { backStackEntry ->
-        val category = backStackEntry.arguments?.getString("category") ?: "NONE"
-        HomeScreen(category)
     }
 }

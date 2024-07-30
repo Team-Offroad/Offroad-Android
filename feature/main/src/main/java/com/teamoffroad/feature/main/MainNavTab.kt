@@ -13,7 +13,7 @@ internal enum class MainNavTab(
     HOME(
         iconResId = R.drawable.ic_main_home,
         contentDescription = "홈",
-        MainTabRoute.Home,
+        MainTabRoute.Home(),
     ),
     EXPLORE(
         iconResId = R.drawable.ic_main_explore,
@@ -23,7 +23,7 @@ internal enum class MainNavTab(
     MYPAGE(
         iconResId = R.drawable.ic_main_mypage,
         contentDescription = "마이페이지",
-        MainTabRoute.Mypage,
+        MainTabRoute.MyPage,
     );
 
     companion object {

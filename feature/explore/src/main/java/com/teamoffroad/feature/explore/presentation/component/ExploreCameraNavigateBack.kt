@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.sp
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
-import com.teamoffroad.feature.explore.presentation.model.ExploreCameraUiState
 import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
@@ -38,7 +37,7 @@ fun ExploreCameraNavigateBack(
             modifier = Modifier
                 .wrapContentSize()
                 .pointerInput(Unit) {
-                    detectTapGestures(onTap = { navigateToExplore(ExploreCameraUiState.None.toString(), "None") })
+                    detectTapGestures(onTap = { navigateToExplore("", "") })
                 }
         ) {
             Image(

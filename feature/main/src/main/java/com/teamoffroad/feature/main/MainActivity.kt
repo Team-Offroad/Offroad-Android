@@ -22,7 +22,6 @@ class MainActivity : ComponentActivity() {
             val navigator: MainNavigator = rememberMainNavigator()
 
             MainTransparentActionBar(window)
-
             OffroadTheme {
                 MainScreen(
                     navigator = navigator,
