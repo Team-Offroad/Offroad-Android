@@ -17,9 +17,15 @@ class GetNicknameValidateUseCase {
         val englishRegex = Regex("^[a-zA-Z]*$")
 
         return when {
-            koreanRegex.matches(text) -> text.length in 2..8
-            englishRegex.matches(text) -> text.length in 2..16
+            koreanRegex.matches(text) -> text.length in MIN_LENGTH_NICKNAME..MAX_LENGTH_KOR_NICKNAME
+            englishRegex.matches(text) -> text.length in MIN_LENGTH_NICKNAME..MAX_LENGTH_ENG_NICKNAME
             else -> false
         }
+    }
+
+    companion object {
+        const val MIN_LENGTH_NICKNAME = 2
+        const val MAX_LENGTH_KOR_NICKNAME = 8
+        const val MAX_LENGTH_ENG_NICKNAME = 16
     }
 }
