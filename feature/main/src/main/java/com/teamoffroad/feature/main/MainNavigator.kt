@@ -35,7 +35,7 @@ internal class MainNavigator(
             currentDestination?.hasRoute(tab::class) == true
         }
 
-    val navOptions by lazy {
+    private val navOptions by lazy {
         navOptions {
             popUpTo(navController.graph.findStartDestination().id) {
                 saveState = true
