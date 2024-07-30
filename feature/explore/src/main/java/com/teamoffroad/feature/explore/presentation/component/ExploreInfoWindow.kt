@@ -24,12 +24,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.teamoffroad.core.designsystem.theme.Gray400
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
@@ -88,7 +91,10 @@ fun ExploreInfoWindow(
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     AsyncImage(
-                        model = categoryImage,
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(categoryImage)
+                            .decoderFactory(SvgDecoder.Factory())
+                            .build(),
                         contentDescription = "Category Image",
                         modifier = Modifier
                             .size(width = 32.dp, height = 18.dp)
