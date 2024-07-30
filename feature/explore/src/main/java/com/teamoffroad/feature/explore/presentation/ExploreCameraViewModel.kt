@@ -19,8 +19,8 @@ class ExploreCameraViewModel @Inject constructor(
     private val _uiState: MutableStateFlow<ExploreCameraUiState> = MutableStateFlow(ExploreCameraUiState.None)
     val uiState: StateFlow<ExploreCameraUiState> = _uiState.asStateFlow()
 
-    private val _successImageUrl: MutableStateFlow<String> = MutableStateFlow("None")
-    val successImageUrl: StateFlow<String> = _successImageUrl.asStateFlow()
+    private val _resultImageUrl: MutableStateFlow<String> = MutableStateFlow("")
+    val resultImageUrl: StateFlow<String> = _resultImageUrl.asStateFlow()
 
     fun postExploreResult(placeId: Long, latitude: Double, longitude: Double, qr: String) {
         if (uiState.value is ExploreCameraUiState.Loading) return
@@ -32,11 +32,14 @@ class ExploreCameraViewModel @Inject constructor(
             }.onSuccess { exploreResult ->
                 when (exploreResult.isQRMatched) {
                     true -> {
+                        _resultImageUrl.value = exploreResult.characterImageUrl
                         _uiState.value = ExploreCameraUiState.Success
-                        _successImageUrl.value = exploreResult.characterImageUrl
                     }
 
-                    false -> _uiState.value = ExploreCameraUiState.CodeError
+                    false -> {
+                        _resultImageUrl.value = exploreResult.characterImageUrl
+                        _uiState.value = ExploreCameraUiState.CodeError
+                    }
                 }
             }.onFailure {
                 when (it.message) {

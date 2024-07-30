@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -32,18 +33,20 @@ internal fun ExploreCameraScreen(
     val localContext = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val uiState by exploreCameraViewModel.uiState.collectAsStateWithLifecycle()
-    val successImageUrl by exploreCameraViewModel.successImageUrl.collectAsStateWithLifecycle()
+    val resultImageUrl by exploreCameraViewModel.resultImageUrl.collectAsStateWithLifecycle()
 
     BackHandler {
         navigateToExplore("", "")
     }
 
-    when (uiState) {
-        ExploreCameraUiState.Success -> navigateToExplore(ExploreCameraUiState.Success.toString(), successImageUrl)
-        ExploreCameraUiState.CodeError -> navigateToExplore(ExploreCameraUiState.CodeError.toString(), successImageUrl)
-        ExploreCameraUiState.LocationError -> navigateToExplore(ExploreCameraUiState.LocationError.toString(), successImageUrl)
-        ExploreCameraUiState.EtcError -> navigateToExplore(ExploreCameraUiState.EtcError.toString(), successImageUrl)
-        else -> {}
+    LaunchedEffect(uiState) {
+        when (uiState) {
+            ExploreCameraUiState.Success -> navigateToExplore(ExploreCameraUiState.Success.toString(), resultImageUrl)
+            ExploreCameraUiState.CodeError -> navigateToExplore(ExploreCameraUiState.CodeError.toString(), resultImageUrl)
+            ExploreCameraUiState.LocationError -> navigateToExplore(ExploreCameraUiState.LocationError.toString(), resultImageUrl)
+            ExploreCameraUiState.EtcError -> navigateToExplore(ExploreCameraUiState.EtcError.toString(), resultImageUrl)
+            else -> {}
+        }
     }
 
     ExploreCamera(

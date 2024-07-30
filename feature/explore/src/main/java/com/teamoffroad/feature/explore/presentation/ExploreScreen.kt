@@ -75,21 +75,21 @@ import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 internal fun ExploreScreen(
-    errorType: String?,
-    qrSuccessImageUrl: String?,
+    authResultType: String?,
+    qrResultImageUrl: String?,
     navigateToHome: (String) -> Unit,
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
     exploreViewModel: ExploreViewModel = hiltViewModel(),
 ) {
     val uiState: ExploreUiState by exploreViewModel.uiState.collectAsStateWithLifecycle()
-    val locationSuccessImageUrl: String by exploreViewModel.successImageUrl.collectAsStateWithLifecycle()
+    val locationResultImageUrl: String by exploreViewModel.successImageUrl.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
-    LaunchedEffect(errorType) {
-        if (errorType != null) {
-        exploreViewModel.updateExploreCameraUiState(uiState.getExploreCameraUiState(errorType))
-        exploreViewModel.updatePlaces()
-            }
+    LaunchedEffect(authResultType) {
+        if (authResultType != null) {
+            exploreViewModel.updateExploreCameraUiState(uiState.getExploreCameraUiState(authResultType))
+            exploreViewModel.updatePlaces()
+        }
     }
 
     if (!uiState.loading && uiState.places.isEmpty()) exploreViewModel.updatePlaces()
@@ -100,10 +100,10 @@ internal fun ExploreScreen(
     ExploreCameraUiStateHandler(
         uiState,
         exploreViewModel::updateExploreCameraUiState,
-        qrSuccessImageUrl,
+        qrResultImageUrl,
         exploreViewModel,
+        locationResultImageUrl,
         navigateToHome,
-        locationSuccessImageUrl,
     )
 
     ExploreLocationPermissionHandler(
@@ -143,22 +143,21 @@ internal fun ExploreScreen(
 private fun ExploreCameraUiStateHandler(
     uiState: ExploreUiState,
     updateExploreCameraUiState: (ExploreCameraUiState) -> Unit,
-    qrSuccessImageUrl: String?,
+    qrResultImageUrl: String?,
     viewModel: ExploreViewModel,
+    locationResultImageUrl: String,
     navigateToHome: (String) -> Unit,
-    locationSuccessImageUrl: String,
 ) {
-    val imageUrl = locationSuccessImageUrl.ifBlank {
-        qrSuccessImageUrl
+    val imageUrl = locationResultImageUrl.ifBlank {
+        qrResultImageUrl
     }
-    when (uiState.errorType) {
+    when (uiState.authResultType) {
         ExploreCameraUiState.LocationError -> {
             ExploreResultDialog(
                 errorType = ExploreCameraUiState.LocationError,
                 text = stringResource(R.string.explore_location_failed_label),
                 content = {
                     ExploreFailedDialogContent(
-                        painter = painterResource(R.drawable.ic_explore_error_location),
                         imageUrl = stringResource(R.string.explore_failed_img)
                     )
                 },
@@ -170,7 +169,7 @@ private fun ExploreCameraUiStateHandler(
             ExploreResultDialog(
                 errorType = ExploreCameraUiState.CodeError,
                 text = stringResource(R.string.explore_code_failed_label),
-                content = { ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_code), imageUrl = imageUrl) },
+                content = { ExploreFailedDialogContent(imageUrl = imageUrl) },
                 onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
             )
         }
@@ -179,7 +178,7 @@ private fun ExploreCameraUiStateHandler(
             ExploreResultDialog(
                 errorType = ExploreCameraUiState.EtcError,
                 text = stringResource(R.string.explore_etc_failed_label),
-                content = { ExploreFailedDialogContent(painter = null, imageUrl = stringResource(R.string.explore_failed_img)) },
+                content = { ExploreFailedDialogContent(imageUrl = stringResource(R.string.explore_failed_img)) },
                 onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
             )
         }
@@ -191,7 +190,10 @@ private fun ExploreCameraUiStateHandler(
                 errorType = ExploreCameraUiState.Success,
                 text = stringResource(R.string.explore_dialog_success),
                 content = { ExploreSuccessDialogContent(url = imageUrl) },
-                onDismissRequest = { navigateToHome(category) }
+                onDismissRequest = {
+                    updateExploreCameraUiState(ExploreCameraUiState.None)
+                    navigateToHome(category)
+                }
             )
         }
 

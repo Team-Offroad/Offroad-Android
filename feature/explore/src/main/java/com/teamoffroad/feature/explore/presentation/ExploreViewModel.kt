@@ -109,7 +109,7 @@ class ExploreViewModel @Inject constructor(
 
     fun updateExploreCameraUiState(errorType: ExploreCameraUiState) {
         _uiState.value = uiState.value.copy(
-            errorType = errorType
+            authResultType = errorType
         )
     }
 

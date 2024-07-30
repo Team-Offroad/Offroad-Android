@@ -18,7 +18,7 @@
     <string name="explore_dialog_success">탐험 성공</string>
     <string name="explore_dialog_failed">탐험 실패</string>
     <string name="explore_dialog_success_label">탐험에 성공했어요!\n이곳에 무엇이 있는지 천천히 살펴볼까요?</string>
-    <string name="explore_failed_img">https://github.com/user-attachments/assets/08274770-9d4e-4170-b829-f78e20010c7a</string>
+    <string name="explore_failed_img">https://github.com/user-attachments/assets/6a7f99ed-113d-4708-9210-23eea5487121</string>
     <string name="explore_dialog_success_button">홈으로</string>
     <string name="explore_dialog_failed_button">확인</string>
 </resources>
