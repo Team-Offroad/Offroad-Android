@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.auth.presentation
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -38,11 +39,13 @@ internal fun SetNicknameScreen(
     navigateToSetBirthDate: (String) -> Unit,
     viewModel: SetNicknameViewModel = hiltViewModel(),
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+
     val focusManager = LocalFocusManager.current
     val focusRequester by remember { mutableStateOf(FocusRequester()) }
 
     var text by remember { mutableStateOf("") }
-    val isNicknameState by viewModel.isNicknameState.collectAsState()
+    val isNicknameState by viewModel.nicknameUiState.collectAsState()
 
     Surface(
         modifier = Modifier
@@ -52,21 +55,18 @@ internal fun SetNicknameScreen(
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             OffroadActionBar()
-            Spacer(modifier = Modifier.padding(top = 104.dp))
             Text(
                 text = "모험가 프로필 작성",
                 color = Main2,
                 style = OffroadTheme.typography.profileTitle,
-                modifier = Modifier
+                modifier = Modifier.padding(top = 104.dp, bottom = 6.dp)
             )
-            Spacer(modifier = Modifier.padding(vertical = 6.dp))
             Text(
                 text = "어떤 이름으로 불러드리면 될까요?",
                 color = Main2,
                 style = OffroadTheme.typography.subtitleReg,
-                modifier = Modifier
+                modifier = Modifier.padding(bottom = 56.dp)
             )
-            Spacer(modifier = Modifier.padding(vertical = 28.dp))
             Column {
                 Row {
                     NicknameTextField(
@@ -74,56 +74,47 @@ internal fun SetNicknameScreen(
                         placeholder = "닉네임 입력",
                         onValueChange = {
                             text = it
-                            viewModel.updateInputNickname(it)
+                            viewModel.updateNicknamesValid(it)
                         },
                         textAlign = Alignment.CenterStart,
                         modifier = Modifier
                             .defaultMinSize(minWidth = 218.dp)
                             .height(43.dp)
-                            .focusRequester(focusRequester = focusRequester),
+                            .focusRequester(focusRequester = focusRequester)
+                            .padding(end = 6.dp),
+                        nicknameValidateResult = isNicknameState.nicknameValidateResult,
+                        interactionSource = interactionSource
                     )
-                    Spacer(modifier = Modifier.padding(horizontal = 6.dp))
                     OnboardingButton(
                         text = "중복확인",
-                        isActive = checkMainLength(text),
+                        isActive = isNicknameState.nicknameValidateResult,
                         modifier = Modifier
                             .width(82.dp)
                             .height(42.dp),
-                        nickname = text,
-                        onButtonClick = viewModel::getDuplicateNickname,
+                        onButtonClick = {
+                            viewModel.getDuplicateNickname()
+                            focusManager.clearFocus()
+                        },
                     )
                 }
                 Spacer(modifier = Modifier.padding(vertical = 6.dp))
                 NicknameHintText(
                     text = text,
-                    modifier = Modifier,
-                    isDuplicate = isNicknameState,
+                    isDuplicate = isNicknameState.nicknameValidateResult,
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
             SetNicknameButton(
                 modifier = Modifier
-                    .width(312.dp)
+                    .padding(horizontal = 24.dp)
+                    .padding(bottom = 72.dp)
                     .height(50.dp),
                 onClick = {
-                    navigateToSetBirthDate(text)
-                    viewModel.updateNicknameValid(text)
+                    navigateToSetBirthDate(isNicknameState.nickname)
                 },
-                isActive = isNicknameState,
+                isActive = isNicknameState.nicknameValidateResult,
                 text = "다음"
             )
-            Spacer(modifier = Modifier.height(72.dp))
         }
-    }
-}
-
-fun checkMainLength(text: String): Boolean {
-    val koreanRegex = Regex("^[가-힣]*$")
-    val englishRegex = Regex("^[a-zA-Z]*$")
-
-    return when {
-        koreanRegex.matches(text) -> text.length in 2..8
-        englishRegex.matches(text) -> text.length in 2..16
-        else -> false
     }
 }

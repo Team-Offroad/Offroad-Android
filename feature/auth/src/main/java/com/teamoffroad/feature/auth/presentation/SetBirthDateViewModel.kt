@@ -1,33 +1,63 @@
 package com.teamoffroad.feature.auth.presentation
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.teamoffroad.feature.auth.domain.usecase.GetBirthDateValidateUseCase
+import com.teamoffroad.feature.auth.presentation.model.SetBirthDateUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SetBirthDateViewModel @Inject constructor(
+    private val getBirthDateValidateUseCase: GetBirthDateValidateUseCase
 ) : ViewModel() {
-    private val _isCheckedYear: MutableStateFlow<String> = MutableStateFlow("")
-    val isCheckedYear: StateFlow<String> = _isCheckedYear.asStateFlow()
-
-    private val _isCheckedMonth: MutableStateFlow<String> = MutableStateFlow("")
-    val isCheckedMonth: StateFlow<String> = _isCheckedMonth.asStateFlow()
-
-    private val _isCheckedDay: MutableStateFlow<String> = MutableStateFlow("")
-    val isCheckedDay: StateFlow<String> = _isCheckedDay.asStateFlow()
+    private val _birthDateUiState: MutableStateFlow<SetBirthDateUiState> = MutableStateFlow(
+        SetBirthDateUiState()
+    )
+    val birthDateUiState: StateFlow<SetBirthDateUiState> = _birthDateUiState.asStateFlow()
 
     fun updateCheckedYear(year: String) {
-        _isCheckedYear.value = year
+        viewModelScope.launch {
+            _birthDateUiState.value =
+                _birthDateUiState.value.copy(
+                    year = year,
+                    birthDateValidateResult = getBirthDateValidateUseCase.invoke(
+                        "year",
+                        year = year
+                    )
+                )
+        }
     }
 
     fun updateCheckedMonth(month: String) {
-        _isCheckedMonth.value = month
+        viewModelScope.launch {
+            _birthDateUiState.value =
+                _birthDateUiState.value.copy(
+                    month = month,
+                    birthDateValidateResult = getBirthDateValidateUseCase.invoke(
+                        "month",
+                        month = month
+                    )
+                )
+        }
     }
 
     fun updateCheckedDate(day: String) {
-        _isCheckedDay.value = day
+        viewModelScope.launch {
+            _birthDateUiState.value =
+                _birthDateUiState.value.copy(
+                    day = day,
+                    birthDateValidateResult = getBirthDateValidateUseCase.invoke(
+                        birthDate = "day",
+                        year = _birthDateUiState.value.year,
+                        month = _birthDateUiState.value.month,
+                        day = day
+                    )
+                )
+        }
     }
 }
