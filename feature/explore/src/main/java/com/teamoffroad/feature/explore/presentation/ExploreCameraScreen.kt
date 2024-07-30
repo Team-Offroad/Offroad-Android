@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.explore.presentation
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -39,7 +38,6 @@ internal fun ExploreCameraScreen(
         navigateToExplore("", "")
     }
 
-    Log.e("123123", uiState.toString())
     when (uiState) {
         ExploreCameraUiState.Success -> navigateToExplore(ExploreCameraUiState.Success.toString(), successImageUrl)
         ExploreCameraUiState.CodeError -> navigateToExplore(ExploreCameraUiState.CodeError.toString(), successImageUrl)
