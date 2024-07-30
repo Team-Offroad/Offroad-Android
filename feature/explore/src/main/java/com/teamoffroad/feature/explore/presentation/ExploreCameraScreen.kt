@@ -26,12 +26,12 @@ internal fun ExploreCameraScreen(
     latitude: Double,
     longitude: Double,
     navigateToExplore: (String, String) -> Unit,
-    viewModel: ExploreCameraViewModel = hiltViewModel(),
+    exploreCameraViewModel: ExploreCameraViewModel = hiltViewModel(),
 ) {
     val localContext = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val successImageUrl by viewModel.successImageUrl.collectAsStateWithLifecycle()
+    val uiState by exploreCameraViewModel.uiState.collectAsStateWithLifecycle()
+    val successImageUrl by exploreCameraViewModel.successImageUrl.collectAsStateWithLifecycle()
 
     when (uiState) {
         ExploreCameraUiState.Success -> navigateToExplore(ExploreCameraUiState.Success.toString(), successImageUrl)
@@ -48,7 +48,7 @@ internal fun ExploreCameraScreen(
         latitude = latitude,
         longitude = longitude,
         lifecycleOwner = lifecycleOwner,
-        postExploreResult = viewModel::postExploreResult
+        postExploreResult = exploreCameraViewModel::postExploreResult
     )
     Column(
         modifier = Modifier

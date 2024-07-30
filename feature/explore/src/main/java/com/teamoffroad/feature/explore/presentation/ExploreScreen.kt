@@ -3,6 +3,7 @@ package com.teamoffroad.feature.explore.presentation
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.util.Log
 import android.view.Gravity
 import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
@@ -78,27 +79,27 @@ internal fun ExploreScreen(
     successImageUrl: String,
     navigateToHome: (String) -> Unit,
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
-    viewModel: ExploreViewModel = hiltViewModel(),
+    exploreViewModel: ExploreViewModel = hiltViewModel(),
 ) {
-    val uiState: ExploreUiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val locationSuccessImageUrl: String by viewModel.successImageUrl.collectAsStateWithLifecycle()
+    val uiState: ExploreUiState by exploreViewModel.uiState.collectAsStateWithLifecycle()
+    val locationSuccessImageUrl: String by exploreViewModel.successImageUrl.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
     LaunchedEffect(errorType) {
-        viewModel.updateExploreCameraUiState(uiState.getExploreCameraUiState(errorType))
-        viewModel.updatePlaces()
+        exploreViewModel.updateExploreCameraUiState(uiState.getExploreCameraUiState(errorType))
+        exploreViewModel.updatePlaces()
     }
 
-    if (!uiState.loading && uiState.places.isEmpty()) viewModel.updatePlaces()
+    if (!uiState.loading && uiState.places.isEmpty()) exploreViewModel.updatePlaces()
     if (uiState.isUpdatePlacesFailed) {
         Toast.makeText(context, stringResource(R.string.explore_places_failed), Toast.LENGTH_SHORT).show()
     }
 
     ExploreCameraUiStateHandler(
         uiState,
-        viewModel::updateExploreCameraUiState,
+        exploreViewModel::updateExploreCameraUiState,
         successImageUrl,
-        viewModel,
+        exploreViewModel,
         navigateToHome,
         locationSuccessImageUrl,
     )
@@ -106,7 +107,7 @@ internal fun ExploreScreen(
     ExploreLocationPermissionHandler(
         context = context,
         uiState = uiState,
-        updatePermission = viewModel::updatePermission,
+        updatePermission = exploreViewModel::updatePermission,
     )
 
     if (uiState.isSomePermissionRejected == true) {
@@ -114,7 +115,7 @@ internal fun ExploreScreen(
             context = context,
             uiState = uiState,
             navigateToHome = { navigateToHome("") },
-            updatePermission = viewModel::updatePermission,
+            updatePermission = exploreViewModel::updatePermission,
         )
     }
 
@@ -124,14 +125,14 @@ internal fun ExploreScreen(
             uiState.places,
             uiState.selectedPlace,
             navigateToExploreCameraScreen,
-            viewModel::updateLocation,
-            viewModel::updateTrackingToggle,
-            viewModel::updateSelectedPlace,
-            viewModel::updateCategory,
-            viewModel::updatePlaces,
-            viewModel::updateExploreCameraUiState,
-            viewModel::isValidDistance,
-            viewModel::postExploreResult,
+            exploreViewModel::updateLocation,
+            exploreViewModel::updateTrackingToggle,
+            exploreViewModel::updateSelectedPlace,
+            exploreViewModel::updateCategory,
+            exploreViewModel::updatePlaces,
+            exploreViewModel::updateExploreCameraUiState,
+            exploreViewModel::isValidDistance,
+            exploreViewModel::postExploreResult,
         )
     }
 }
@@ -167,7 +168,10 @@ private fun ExploreCameraUiStateHandler(
             ExploreResultDialog(
                 errorType = ExploreCameraUiState.CodeError,
                 text = stringResource(R.string.explore_code_failed_label),
-                content = { ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_code), imgUrl) },
+                content = {
+                    ExploreFailedDialogContent(painter = painterResource(R.drawable.ic_explore_error_code), imgUrl)
+                    Log.e("123123", imgUrl)
+                },
                 onDismissRequest = { updateExploreCameraUiState(ExploreCameraUiState.None) }
             )
         }
