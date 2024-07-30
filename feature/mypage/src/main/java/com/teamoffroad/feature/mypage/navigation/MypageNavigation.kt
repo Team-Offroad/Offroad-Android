@@ -8,11 +8,13 @@ import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.feature.mypage.MypageScreen
 
 fun NavController.navigateToMyPage(navOptions: NavOptions) {
-    navigate(MainTabRoute.Mypage, navOptions)
+    navigate(MainTabRoute.MyPage, navOptions)
 }
 
-fun NavGraphBuilder.mypageNavGraph() {
-    composable<MainTabRoute.Mypage> {
+fun NavGraphBuilder.mypageNavGraph(
+    onBackClick: () -> Unit,
+) {
+    composable<MainTabRoute.MyPage> {
         MypageScreen()
     }
 }

@@ -2,35 +2,27 @@ package com.teamoffroad.feature.home.navigation
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.teamoffroad.core.navigation.HomeRoute
+import androidx.navigation.toRoute
 import com.teamoffroad.core.navigation.MainTabRoute
-import com.teamoffroad.feature.home.presentation.HomeRoute
+import com.teamoffroad.feature.home.presentation.HomeScreen
 
-fun NavController.navigateToHome(navOptions: NavOptions? = null) {
+fun NavController.navigateToHome(category: String? = null, navOptions: NavOptions? = null) {
     val options = navOptions ?: NavOptions.Builder()
         .setPopUpTo(graph.startDestinationId, inclusive = true)
         .build()
-    navigate(MainTabRoute.Home, options)
+    navigate(MainTabRoute.Home(category = category), navOptions = options)
 }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun NavGraphBuilder.homeNavGraph(
-    padding: PaddingValues,
+    onBackClick: () -> Unit,
 ) {
-    composable<MainTabRoute.Home> {
-        HomeRoute()
+    composable<MainTabRoute.Home> { backStackEntry ->
+        val category = backStackEntry.toRoute<MainTabRoute.Home>().category
+        HomeScreen(category = category)
     }
-}
-
-fun NavController.navigateToHome(
-    category: String,
-    navOptions: NavOptions? = null,
-) {
-    val route = "${HomeRoute.SetCategory}/$category"
-    navigate(route, navOptions)
 }

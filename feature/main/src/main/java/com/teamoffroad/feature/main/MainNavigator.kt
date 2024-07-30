@@ -9,7 +9,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import com.teamoffroad.core.navigation.HomeRoute
 import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.core.navigation.Route
 import com.teamoffroad.feature.auth.navigation.navigateToSelectedCharacter
@@ -20,6 +19,7 @@ import com.teamoffroad.feature.auth.navigation.navigateToSetNickname
 import com.teamoffroad.feature.explore.navigation.navigateExplore
 import com.teamoffroad.feature.explore.navigation.navigateToExploreCameraScreen
 import com.teamoffroad.feature.home.navigation.navigateToHome
+import com.teamoffroad.feature.mypage.navigation.navigateToMyPage
 
 internal class MainNavigator(
     val navController: NavHostController,
@@ -35,7 +35,7 @@ internal class MainNavigator(
             currentDestination?.hasRoute(tab::class) == true
         }
 
-    val navOptions by lazy {
+    private val navOptions by lazy {
         navOptions {
             popUpTo(navController.graph.findStartDestination().id) {
                 saveState = true
@@ -46,25 +46,35 @@ internal class MainNavigator(
     }
 
     fun navigate(tab: MainNavTab) {
+        if (isSameCurrentDestination<MainTabRoute.Explore>() && tab == MainNavTab.EXPLORE) return
         when (tab) {
-            MainNavTab.HOME -> navController.navigateToHome(navOptions)
-            MainNavTab.EXPLORE -> navController.navigateExplore("None", "None", navOptions)
-            MainNavTab.MYPAGE -> {}
-            // TODO: 릴리즈 이전에 MyPage로 이동하는 코드 추가
-            // MainNavTab.MYPAGE -> navController.navigateToMyPage(navOptions)
+            MainNavTab.HOME -> navController.navigateToHome(navOptions = navOptions)
+            MainNavTab.EXPLORE -> navController.navigateExplore(navOptions = navOptions)
+            MainNavTab.MYPAGE -> navController.navigateToMyPage(navOptions = navOptions)
         }
+    }
+
+    private fun popBackStack() {
+        navController.popBackStack()
+    }
+
+    fun popBackStackIfNotMain() {
+        if (!isSameCurrentDestination<MainTabRoute.Home>() &&
+            !isSameCurrentDestination<MainTabRoute.Explore>() &&
+            !isSameCurrentDestination<MainTabRoute.MyPage>()
+        ) popBackStack()
+    }
+
+    private inline fun <reified T : Route> isSameCurrentDestination(): Boolean {
+        return navController.currentDestination?.hasRoute<T>() == true
     }
 
     @Composable
     fun setBottomBarVisibility() = MainNavTab.contains {
         currentDestination?.hasRoute(it::class) == true
-    } || currentDestination?.route == "${MainTabRoute.Explore}/{errorType}/{successImageUrl}" || currentDestination?.route == "${HomeRoute.SetCategory}/{category}" || currentDestination?.route == "${HomeRoute.SetCategory}/{category}"
-
-    fun navigateToHome() {
-        navController.navigateToHome(navOptions)
     }
 
-    fun navigateToHome(category: String) {
+    fun navigateToHome(category: String? = null) {
         navController.navigateToHome(category, navOptions)
     }
 

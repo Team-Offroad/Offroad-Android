@@ -9,13 +9,13 @@ sealed interface Route {
 
 sealed interface MainTabRoute : Route {
     @Serializable
-    data object Home : MainTabRoute
+    data class Home(val category: String? = null) : MainTabRoute
 
     @Serializable
-    data object Explore : MainTabRoute
+    data class Explore(val errorType: String? = null, val imageUrl: String? = null) : MainTabRoute
 
     @Serializable
-    data object Mypage : MainTabRoute
+    data object MyPage : MainTabRoute
 }
 
 sealed interface AuthRoute : Route {
@@ -37,10 +37,5 @@ sealed interface AuthRoute : Route {
 
 sealed interface ExploreRoute : Route {
     @Serializable
-    data object ExploreCameraScreen : ExploreRoute
-}
-
-sealed interface HomeRoute: Route {
-    @Serializable
-    data object SetCategory: HomeRoute
+    data class ExploreCameraScreen(val placeId: Long, val latitude: String, val longitude: String) : ExploreRoute
 }

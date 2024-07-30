@@ -45,13 +45,13 @@ import com.teamoffroad.offroad.feature.home.R
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun HomeScreen(
-    category: String,
+    category: String?,
 ) {
     val context = LocalContext.current
     val viewModel: HomeViewModel = hiltViewModel()
 
     LaunchedEffect(Unit) {
-        viewModel.updateCategory(category.ifBlank { "NONE" })
+        viewModel.updateCategory(if (category.isNullOrEmpty()) "NONE" else category)
         viewModel.getUsersAdventuresInformations(viewModel.category.value)
         viewModel.getUserQuests()
     }

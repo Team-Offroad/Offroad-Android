@@ -18,5 +18,4 @@ dependencies {
     implementation(libs.bundles.offroad.camera)
     implementation(libs.barcode.scanning)
     implementation(libs.coil.svg)
-    implementation(project(":feature:home"))
 }
