@@ -10,6 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navOptions
+import androidx.navigation.toRoute
 import com.teamoffroad.core.navigation.ExploreRoute
 import com.teamoffroad.core.navigation.HomeRoute
 import com.teamoffroad.core.navigation.MainTabRoute
@@ -47,8 +48,7 @@ fun NavController.navigateToExploreCameraScreen(
     longitude: Double,
     navOptions: NavOptions,
 ) {
-    val route = "${ExploreRoute.ExploreCameraScreen}/$placeId/$latitude/$longitude"
-    navigate(route, navOptions)
+    navigate(ExploreRoute.ExploreCameraScreen(placeId, latitude.toString(), longitude.toString()), navOptions)
 }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -72,18 +72,11 @@ fun NavGraphBuilder.exploreNavGraph(
         ExploreScreen(errorType, successImageUrl, navigateToHome, navigateToExploreCameraScreen)
     }
 
-    composable(
-        route = "${ExploreRoute.ExploreCameraScreen}/{placeId}/{latitude}/{longitude}",
-        arguments = listOf(
-            navArgument("placeId") { type = NavType.LongType },
-            navArgument("latitude") { type = NavType.StringType },
-            navArgument("longitude") { type = NavType.StringType },
-        )
-    ) { backStackEntry ->
-        val placeId = backStackEntry.arguments?.getLong("placeId") ?: 0
-        val latitude = backStackEntry.arguments?.getString("latitude")?.toDouble() ?: 0.0
-        val longitude = backStackEntry.arguments?.getString("longitude")?.toDouble() ?: 0.0
-        ExploreCameraScreen(placeId, latitude, longitude, navigateToExplore)
+    composable<ExploreRoute.ExploreCameraScreen> { backStackEntry ->
+        val placeId = backStackEntry.toRoute<ExploreRoute.ExploreCameraScreen>().placeId
+        val latitude = backStackEntry.toRoute<ExploreRoute.ExploreCameraScreen>().latitude
+        val longitude = backStackEntry.toRoute<ExploreRoute.ExploreCameraScreen>().longitude
+        ExploreCameraScreen(placeId, latitude.toDouble(), longitude.toDouble(), navigateToExplore)
     }
 
     composable(

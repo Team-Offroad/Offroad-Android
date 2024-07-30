@@ -37,10 +37,10 @@ sealed interface AuthRoute : Route {
 
 sealed interface ExploreRoute : Route {
     @Serializable
-    data object ExploreCameraScreen : ExploreRoute
+    data class ExploreCameraScreen(val placeId: Long, val latitude: String, val longitude: String) : ExploreRoute
 }
 
-sealed interface HomeRoute: Route {
+sealed interface HomeRoute : Route {
     @Serializable
-    data object SetCategory: HomeRoute
+    data object SetCategory : HomeRoute
 }
