@@ -96,10 +96,9 @@ fun ExploreResultDialog(
                         .align(Alignment.BottomCenter),
                 ) {
                     Text(
-                        text = if (errorType == ExploreCameraUiState.Success) {
-                            "홈으로"
-                        } else {
-                            "확인"
+                        text = when (errorType) {
+                            ExploreCameraUiState.Success -> stringResource(R.string.explore_dialog_success_button)
+                            else -> stringResource(R.string.explore_dialog_failed_button)
                         },
                         textAlign = TextAlign.Center,
                         style = OffroadTheme.typography.btnSmall,

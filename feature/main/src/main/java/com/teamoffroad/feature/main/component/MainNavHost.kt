@@ -33,19 +33,23 @@ internal fun MainNavHost(
             startDestination = navigator.startDestination,
         ) {
             homeNavGraph(
-                padding = padding,
+                onBackClick = navigator::popBackStackIfNotMain,
             )
             exploreNavGraph(
                 navigateToHome = { category ->
-                    navigator.navigateToHome(category) },
+                    navigator.navigateToHome(category)
+                },
                 navigateToExplore = { errorType, successImageUrl ->
                     navigator.navigateToExplore(errorType, successImageUrl)
                 },
                 navigateToExploreCameraScreen = { placeId, latitude, longitude ->
                     navigator.navigateToExploreCameraScreen(placeId, latitude, longitude)
-                }
+                },
+                onBackClick = navigator::popBackStackIfNotMain,
             )
-            mypageNavGraph()
+            mypageNavGraph(
+                onBackClick = navigator::popBackStackIfNotMain,
+            )
             authNavGraph(
                 navigateToHome = { navigator.navigateToHome() },
                 navigateToSetNickname = { navigator.navigateToSetNickname() },
@@ -61,6 +65,7 @@ internal fun MainNavHost(
                 navigateToSelectedCharacter = { selectedCharacterUrl ->
                     navigator.navigateToSelectedCharacter(selectedCharacterUrl)
                 },
+                onBackClick = navigator::popBackStackIfNotMain,
             )
         }
     }

@@ -64,6 +64,7 @@ fun NavGraphBuilder.authNavGraph(
     navigateToSetGender: (String, String?) -> Unit,
     navigateToSetCharacter: () -> Unit,
     navigateToSelectedCharacter: (String) -> Unit,
+    onBackClick: () -> Unit,
 ) {
     composable<Route.Auth> {
         AuthScreen(
