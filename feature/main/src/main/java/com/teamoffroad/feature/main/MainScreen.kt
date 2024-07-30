@@ -16,8 +16,8 @@ import kotlinx.collections.immutable.toPersistentList
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 internal fun MainScreen(
-    navigator: MainNavigator = rememberMainNavigator(),
     modifier: Modifier = Modifier,
+    navigator: MainNavigator = rememberMainNavigator(),
 ) {
     MainScreenContent(
         navigator = navigator,
