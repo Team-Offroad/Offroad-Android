@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,7 +24,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -46,6 +52,9 @@ internal fun SetBirthDateScreen(
     viewModel: SetBirthDateViewModel = hiltViewModel(),
 ) {
     val focusManager = LocalFocusManager.current
+    val yearFocusRequester = remember { FocusRequester() }
+    val monthFocusRequester = remember { FocusRequester() }
+    val dayFocusRequester = remember { FocusRequester() }
 
     var year by remember { mutableStateOf("") }
     var month by remember { mutableStateOf("") }
@@ -128,6 +137,14 @@ internal fun SetBirthDateScreen(
                         modifier = Modifier
                             .width(84.dp)
                             .height(43.dp)
+                            .focusRequester(yearFocusRequester),
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            imeAction = ImeAction.Next,
+                            keyboardType = KeyboardType.NumberPassword
+                        ),
+                        keyboardActions = KeyboardActions(
+                            onNext = { monthFocusRequester.requestFocus() }
+                        ),
                     )
                     Text(
                         modifier = Modifier.padding(start = 6.dp, end = 8.dp),
@@ -138,7 +155,8 @@ internal fun SetBirthDateScreen(
                     BirthDateTextField(
                         modifier = Modifier
                             .width(66.dp)
-                            .height(43.dp),
+                            .height(43.dp)
+                            .focusRequester(monthFocusRequester),
                         placeholder = "MM",
                         value = month,
                         onValueChange = {
@@ -149,6 +167,13 @@ internal fun SetBirthDateScreen(
                         },
                         maxLength = 2,
                         textAlign = Alignment.Center,
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            imeAction = ImeAction.Next,
+                            keyboardType = KeyboardType.NumberPassword
+                        ),
+                        keyboardActions = KeyboardActions(
+                            onNext = { dayFocusRequester.requestFocus() }
+                        ),
                     )
                     Text(
                         modifier = Modifier.padding(start = 6.dp, end = 8.dp),
@@ -159,7 +184,8 @@ internal fun SetBirthDateScreen(
                     BirthDateTextField(
                         modifier = Modifier
                             .width(66.dp)
-                            .height(43.dp),
+                            .height(43.dp)
+                            .focusRequester(dayFocusRequester),
                         value = day,
                         placeholder = "DD",
                         onValueChange = {
@@ -170,6 +196,13 @@ internal fun SetBirthDateScreen(
                         },
                         maxLength = 2,
                         textAlign = Alignment.Center,
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            imeAction = ImeAction.Done,
+                            keyboardType = KeyboardType.NumberPassword
+                        ),
+                        keyboardActions = KeyboardActions(
+                            onDone = { focusManager.clearFocus() }
+                        )
                     )
                     Text(
                         modifier = Modifier
