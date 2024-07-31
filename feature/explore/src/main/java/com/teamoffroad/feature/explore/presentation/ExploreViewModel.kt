@@ -6,7 +6,7 @@ import com.naver.maps.geometry.LatLng
 import com.teamoffroad.feature.explore.domain.usecase.GetPlaceListUseCase
 import com.teamoffroad.feature.explore.domain.usecase.PostExploreLocationAuthUseCase
 import com.teamoffroad.feature.explore.presentation.mapper.toUi
-import com.teamoffroad.feature.explore.presentation.model.ExploreCameraUiState
+import com.teamoffroad.feature.explore.presentation.model.ExploreResultState
 import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
 import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 import com.teamoffroad.feature.explore.presentation.model.PlaceModel
@@ -107,7 +107,7 @@ class ExploreViewModel @Inject constructor(
         }
     }
 
-    fun updateExploreCameraUiState(errorType: ExploreCameraUiState) {
+    fun updateExploreCameraUiState(errorType: ExploreResultState) {
         _uiState.value = uiState.value.copy(
             authResultType = errorType
         )
@@ -119,13 +119,13 @@ class ExploreViewModel @Inject constructor(
                 postExploreLocationAuthUseCase(placeId, latitude, longitude)
             }.onSuccess { exploreResult ->
                 if (exploreResult.isValidPosition) {
-                    updateExploreCameraUiState(ExploreCameraUiState.Success)
+                    updateExploreCameraUiState(ExploreResultState.Success)
                     _successImageUrl.value = exploreResult.successCharacterImageUrl
                 } else {
-                    updateExploreCameraUiState(ExploreCameraUiState.LocationError)
+                    updateExploreCameraUiState(ExploreResultState.LocationError)
                 }
             }.onFailure {
-                updateExploreCameraUiState(ExploreCameraUiState.EtcError)
+                updateExploreCameraUiState(ExploreResultState.EtcError)
             }
         }
     }

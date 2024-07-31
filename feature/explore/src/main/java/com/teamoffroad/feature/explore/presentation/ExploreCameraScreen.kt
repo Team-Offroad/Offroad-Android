@@ -20,7 +20,7 @@ import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.feature.explore.presentation.component.ExploreCamera
 import com.teamoffroad.feature.explore.presentation.component.ExploreCameraNavigateBack
 import com.teamoffroad.feature.explore.presentation.component.ExploreCameraOverlay
-import com.teamoffroad.feature.explore.presentation.model.ExploreCameraUiState
+import com.teamoffroad.feature.explore.presentation.model.ExploreResultState
 
 @Composable
 internal fun ExploreCameraScreen(
@@ -32,7 +32,7 @@ internal fun ExploreCameraScreen(
 ) {
     val localContext = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val uiState by exploreCameraViewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by exploreCameraViewModel.exploreResultState.collectAsStateWithLifecycle()
     val resultImageUrl by exploreCameraViewModel.resultImageUrl.collectAsStateWithLifecycle()
 
     BackHandler {
@@ -41,10 +41,10 @@ internal fun ExploreCameraScreen(
 
     LaunchedEffect(uiState) {
         when (uiState) {
-            ExploreCameraUiState.Success -> navigateToExplore(ExploreCameraUiState.Success.toString(), resultImageUrl)
-            ExploreCameraUiState.CodeError -> navigateToExplore(ExploreCameraUiState.CodeError.toString(), resultImageUrl)
-            ExploreCameraUiState.LocationError -> navigateToExplore(ExploreCameraUiState.LocationError.toString(), resultImageUrl)
-            ExploreCameraUiState.EtcError -> navigateToExplore(ExploreCameraUiState.EtcError.toString(), resultImageUrl)
+            ExploreResultState.Success -> navigateToExplore(ExploreResultState.Success.toString(), resultImageUrl)
+            ExploreResultState.CodeError -> navigateToExplore(ExploreResultState.CodeError.toString(), resultImageUrl)
+            ExploreResultState.LocationError -> navigateToExplore(ExploreResultState.LocationError.toString(), resultImageUrl)
+            ExploreResultState.EtcError -> navigateToExplore(ExploreResultState.EtcError.toString(), resultImageUrl)
             else -> {}
         }
     }
