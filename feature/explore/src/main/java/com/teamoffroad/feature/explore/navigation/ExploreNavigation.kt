@@ -2,6 +2,8 @@ package com.teamoffroad.feature.explore.navigation
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -44,7 +46,14 @@ fun NavGraphBuilder.exploreNavGraph(
         ExploreScreen(errorType, imageUrl, navigateToHome, navigateToExploreCameraScreen)
     }
 
-    composable<ExploreRoute.ExploreCameraScreen> { backStackEntry ->
+    composable<ExploreRoute.ExploreCameraScreen>(
+        enterTransition = {
+            slideIntoContainer(
+                AnimatedContentTransitionScope.SlideDirection.Left,
+                animationSpec = tween(400)
+            )
+        }
+    ) { backStackEntry ->
         val placeId = backStackEntry.toRoute<ExploreRoute.ExploreCameraScreen>().placeId
         val latitude = backStackEntry.toRoute<ExploreRoute.ExploreCameraScreen>().latitude
         val longitude = backStackEntry.toRoute<ExploreRoute.ExploreCameraScreen>().longitude
