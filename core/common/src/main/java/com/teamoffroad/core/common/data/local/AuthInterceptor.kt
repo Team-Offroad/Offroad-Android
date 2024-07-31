@@ -22,10 +22,10 @@ class AuthInterceptor @Inject constructor(
             tokenManager.getAccessToken().first()
         }
 
+        if (token.isNullOrEmpty()) return errorResponse(chain.request())
+
         val requestBuilder = chain.request().newBuilder()
-        token?.let {
-            requestBuilder.header(AUTHORIZATION, "Bearer $it")
-        }
+        requestBuilder.header(AUTHORIZATION, "Bearer $token")
 
         val request = requestBuilder.build()
         val response = chain.proceed(request)
@@ -40,6 +40,8 @@ class AuthInterceptor @Inject constructor(
                     }
                 }
             }
+        } else if (response.code == NETWORK_ERROR_CODE) {
+            return errorResponse(request)
         }
 
         return response
