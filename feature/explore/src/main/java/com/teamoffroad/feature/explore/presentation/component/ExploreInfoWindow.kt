@@ -2,7 +2,6 @@ package com.teamoffroad.feature.explore.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,13 +14,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.paint
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -54,38 +53,36 @@ fun ExploreInfoWindow(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Card(
-            modifier = modifier
+        Box(
+            Modifier
+                .background(color = Main3, shape = RoundedCornerShape(8.dp))
                 .width(230.dp)
-                .height(174.dp)
-                .background(
-                    color = Main3,
-                    shape = RoundedCornerShape(8.dp),
-                ),
+                .wrapContentHeight()
+                .clip(RoundedCornerShape(8.dp))
         ) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_explore_info_window_logo),
+                contentDescription = null,
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .size(98.dp)
+                    .offset(x = 24.dp, y = (-24).dp)
+            )
+
             Column(
                 modifier = Modifier
-                    .background(color = Main3)
-                    .paint(painterResource(id = R.drawable.bg_explore_info_window))
-                    .border(
-                        width = 1.dp,
-                        color = Main3,
-                        shape = RoundedCornerShape(8.dp),
-                    )
-                    .padding(top = 0.dp, bottom = 14.dp, start = 14.dp, end = 14.dp)
+                    .padding(top = 2.dp, bottom = 14.dp, start = 14.dp, end = 14.dp)
             ) {
-                Spacer(modifier = Modifier.height(2.dp))
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp),
                 ) {
                     Text(
                         text = title,
                         color = Main2,
-                        fontSize = 17.sp,
-                        modifier = Modifier.widthIn(max = 122.dp),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.widthIn(max = 136.dp),
                         style = OffroadTheme.typography.tooltipTitle,
                     )
                     Spacer(modifier = Modifier.width(4.dp))
@@ -98,26 +95,23 @@ fun ExploreInfoWindow(
                         modifier = Modifier
                             .size(width = 32.dp, height = 18.dp)
                             .padding(start = 4.dp, end = 8.dp),
-                        contentScale = ContentScale.Crop,
+                        contentScale = ContentScale.FillWidth,
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     Image(
                         painter = painterResource(id = R.drawable.ic_explore_info_window_close),
                         contentDescription = "Close",
                         modifier = Modifier
-                            .size(44.dp)
-                            .padding(14.dp)
-                            .offset(x = 14.dp)
+                            .height(44.dp)
                             .clickable { onCloseButtonClick() },
+                        contentScale = ContentScale.Fit,
                     )
                 }
-                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = shortIntroduction,
                     color = Main2,
                     style = OffroadTheme.typography.textContents,
                     fontSize = 13.sp,
-                    maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.padding(vertical = 2.dp),
                 )
@@ -125,16 +119,12 @@ fun ExploreInfoWindow(
                     text = address,
                     color = Gray400,
                     style = OffroadTheme.typography.textContentsSmall,
-                    fontSize = 11.sp,
-                    maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.padding(vertical = 2.dp),
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
                     text = stringResource(R.string.explore_visit_count, visitCount),
-                    fontSize = 11.sp,
-                    maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     style = OffroadTheme.typography.tooltipNumber,
                     color = Main2,

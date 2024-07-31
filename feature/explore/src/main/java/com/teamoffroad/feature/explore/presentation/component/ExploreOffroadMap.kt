@@ -1,6 +1,8 @@
 package com.teamoffroad.feature.explore.presentation.component
 
 import android.view.Gravity
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -28,6 +30,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -72,11 +75,26 @@ fun ExploreOffroadMap(
     val density = LocalDensity.current
     var markerOffset by remember { mutableStateOf(IntOffset.Zero) }
     var mapViewSize by remember { mutableStateOf(IntSize.Zero) }
+    var infoWindowHeight by remember { mutableStateOf(182.dp) }
+    val animatedInfoWindowHeight by animateDpAsState(
+        targetValue = infoWindowHeight,
+        animationSpec = tween(durationMillis = 500),
+        label = "",
+    )
     val backgroundPadding = 104
 
     LaunchedEffect(locationState.cameraPositionState.cameraUpdateReason) {
         if (locationState.cameraPositionState.cameraUpdateReason == CameraUpdateReason.GESTURE) {
             updateTrackingToggle(true)
+        }
+    }
+
+    LaunchedEffect(animatedInfoWindowHeight) {
+        if (selectedPlace != null) {
+            val offsetResult = getMarkerOffset(
+                selectedPlace.location, locationState.cameraPositionState, density, mapViewSize, animatedInfoWindowHeight,
+            )
+            markerOffset = offsetResult.first
         }
     }
 
@@ -121,14 +139,12 @@ fun ExploreOffroadMap(
                         state = MarkerState(position = place.location),
                         icon = OverlayImage.fromResource(R.drawable.ic_explore_place_marker),
                         onClick = {
-                            val offsetResult = calculateMarkerOffset(
-                                place.location, locationState.cameraPositionState, density, mapViewSize
+                            val offsetResult = getMarkerOffset(
+                                place.location, locationState.cameraPositionState, density, mapViewSize, infoWindowHeight,
                             )
                             markerOffset = offsetResult.first
-                            val newLatLng = adjustCameraPositionIfNeeded(
-                                offsetResult.second,
-                                locationState.cameraPositionState,
-                                mapViewSize,
+                            val newLatLng = getAdjustedLocationFromMarkerOffset(
+                                offsetResult.second, locationState.cameraPositionState, mapViewSize,
                             )
                             newLatLng?.let {
                                 locationState.cameraPositionState.move(CameraUpdate.scrollTo(it).animate(CameraAnimation.Easing, 500))
@@ -197,7 +213,12 @@ fun ExploreOffroadMap(
                 ) {
                     Box(modifier = Modifier
                         .align(Alignment.TopStart)
-                        .offset { markerOffset }) {
+                        .offset { markerOffset }
+                        .onGloballyPositioned { coordinates ->
+                            with(density) {
+                                infoWindowHeight = coordinates.size.height.toDp() - 20.dp
+                            }
+                        }) {
                         ExploreInfoWindow(
                             title = place.name,
                             shortIntroduction = place.shortIntroduction,
@@ -229,7 +250,8 @@ fun ExploreOffroadMap(
                             onCloseButtonClick = {
                                 updateSelectedPlace(null)
                             },
-                            modifier = Modifier.align(Alignment.TopCenter),
+                            modifier = Modifier
+                                .align(Alignment.TopCenter),
                         )
                     }
                 }
@@ -238,15 +260,15 @@ fun ExploreOffroadMap(
     }
 }
 
-private fun calculateMarkerOffset(
+private fun getMarkerOffset(
     location: LatLng,
     cameraPositionState: CameraPositionState,
     density: Density,
     screenSize: IntSize,
+    infoWindowHeight: Dp,
 ): Pair<IntOffset, IntOffset> {
     val screenPosition = cameraPositionState.projection?.toScreenLocation(location)
     val infoWindowWith = 230.dp
-    val infoWindowHeight = 174.dp
 
     return screenPosition?.let {
         with(density) {
@@ -279,7 +301,7 @@ private fun calculateMarkerOffset(
     } ?: Pair(IntOffset(0, 0), IntOffset(0, 0))
 }
 
-private fun adjustCameraPositionIfNeeded(
+private fun getAdjustedLocationFromMarkerOffset(
     offset: IntOffset,
     cameraPositionState: CameraPositionState,
     screenSize: IntSize,
