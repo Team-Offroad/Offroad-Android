@@ -46,7 +46,7 @@ internal class MainNavigator(
     }
 
     private var lastNavigationTime = System.currentTimeMillis()
-    private val navigationDelayMillis = 500L
+    private val navigationDelayMillis = 800L
 
     fun navigate(tab: MainNavTab) {
         val currentTime = System.currentTimeMillis()
