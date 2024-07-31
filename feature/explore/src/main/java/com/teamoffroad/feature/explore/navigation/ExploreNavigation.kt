@@ -19,7 +19,7 @@ fun NavController.navigateToExplore(
     imageUrl: String? = null,
     navOptions: NavOptions,
 ) {
-    popBackStack()
+    repeat(2) { popBackStack() }
     navigate(MainTabRoute.Explore(authResultType, imageUrl), navOptions)
 }
 
@@ -29,7 +29,6 @@ fun NavController.navigateToExploreCameraScreen(
     longitude: Double,
     navOptions: NavOptions,
 ) {
-    popBackStack()
     navigate(ExploreRoute.ExploreCameraScreen(placeId, latitude.toString(), longitude.toString()), navOptions)
 }
 
