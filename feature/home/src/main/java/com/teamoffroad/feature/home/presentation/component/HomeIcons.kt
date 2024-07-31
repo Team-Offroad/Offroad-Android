@@ -32,15 +32,19 @@ fun HomeIcons(
     imageUrl: String
 ) {
     val scope = rememberCoroutineScope()
-    val permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
+    val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        listOf(Manifest.permission.READ_MEDIA_IMAGES)
+    } else {
+        listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+    }
 
     val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (isGranted) {
-            Toast.makeText(context, "권한이 허용되었습니다.", Toast.LENGTH_SHORT).show()
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        if (permissions.values.all { it }) {
+            Toast.makeText(context, context.getString(R.string.allowed_permissions), Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(context, "권한이 허용되지 않았습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.not_allowed_permissions), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -55,15 +59,13 @@ fun HomeIcons(
                 contentDescription = "download",
                 modifier = Modifier
                     .clickableWithoutRipple(downloadInteractionSource) {
-                        if (ContextCompat.checkSelfPermission(
-                                context,
-                                permission
-                            ) == PackageManager.PERMISSION_GRANTED
-                        ) {
+                        val allPermissionsGranted = permissions.all {
+                            ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
+                        }
+                        if (allPermissionsGranted) {
                             downloadImage(context, imageUrl, scope)
-                            Toast.makeText(context, "이미지 다운 완료", Toast.LENGTH_SHORT).show()
                         } else {
-                            launcher.launch(permission)
+                            launcher.launch(permissions.toTypedArray())
                         }
                     }
             )
