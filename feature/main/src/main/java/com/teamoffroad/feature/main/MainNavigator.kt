@@ -45,13 +45,7 @@ internal class MainNavigator(
         }
     }
 
-    private var lastNavigationTime = System.currentTimeMillis()
-    private val navigationDelayMillis = 800L
-
     fun navigate(tab: MainNavTab) {
-        val currentTime = System.currentTimeMillis()
-        if (currentTime - lastNavigationTime < navigationDelayMillis && tab == MainNavTab.EXPLORE) return
-        lastNavigationTime = currentTime
         when (tab) {
             MainNavTab.HOME -> navController.navigateToHome(navOptions = navOptions)
             MainNavTab.EXPLORE -> navController.navigateToExplore(navOptions = navOptions)
