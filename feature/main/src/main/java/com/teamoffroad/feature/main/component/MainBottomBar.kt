@@ -5,10 +5,11 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.Icon
@@ -18,10 +19,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.google.accompanist.insets.ProvideWindowInsets
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.core.designsystem.theme.BottomBarInactive
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -39,32 +42,39 @@ internal fun MainBottomBar(
     currentTab: MainNavTab?,
     onTabSelected: (MainNavTab) -> Unit,
 ) {
-    StaticAnimationWrapper(visible = visible) {
-        Column {
-            Row(
+    val view = LocalView.current
+    val isGestureNavigation = remember {
+        val resourceId = view.context.resources.getIdentifier("config_navBarInteractionMode", "integer", "android")
+        resourceId > 0 && view.context.resources.getInteger(resourceId) == 2
+    }
+
+    ProvideWindowInsets {
+        StaticAnimationWrapper(visible = visible) {
+            Column(
                 modifier = modifier
                     .fillMaxWidth()
-                    .height(98.dp)
+                    .background(Sub4)
+                    .then(if (!isGestureNavigation) Modifier.navigationBarsPadding() else Modifier.padding(bottom = 14.dp))
             ) {
-                tabs.forEach { tab ->
-                    MainBottomBarItem(
-                        tab = tab,
-                        selected = tab == currentTab,
-                        ordinal = tab.ordinal,
-                        colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = Main1,
-                            unselectedIconColor = BottomBarInactive,
-                        ),
-                        onClick = { onTabSelected(tab) },
-                    )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(74.dp)
+                ) {
+                    tabs.forEach { tab ->
+                        MainBottomBarItem(
+                            tab = tab,
+                            selected = tab == currentTab,
+                            ordinal = tab.ordinal,
+                            colors = NavigationBarItemDefaults.colors(
+                                selectedIconColor = Main1,
+                                unselectedIconColor = BottomBarInactive,
+                            ),
+                            onClick = { onTabSelected(tab) },
+                        )
+                    }
                 }
             }
-            Spacer(
-                modifier = Modifier
-                    .height(48.dp)
-                    .fillMaxWidth()
-                    .background(Sub4)
-            )
         }
     }
 }
