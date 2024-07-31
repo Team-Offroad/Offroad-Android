@@ -90,6 +90,7 @@ private fun UsersAdventuresInformation(
 ) {
     val adventuresInformationsState =
         viewModel.getUsersAdventuresInformationsState.collectAsState(initial = UiState.Loading).value
+    val category = viewModel.category.collectAsState().value
 
     val adventuresInformationsData = when (adventuresInformationsState) {
         is UiState.Success -> adventuresInformationsState.data
@@ -105,7 +106,9 @@ private fun UsersAdventuresInformation(
     Box(
         modifier = modifier.fillMaxWidth()
     ) {
-        val imageUrl = adventuresInformationsData?.baseImageUrl ?: "" // TODO: svg & lottie
+        val imageUrl = if (category == "NONE") adventuresInformationsData?.baseImageUrl ?: ""
+            else adventuresInformationsData?.motionImageUrl ?: ""
+
         Box(
             modifier = Modifier.fillMaxWidth(),
             contentAlignment = Alignment.TopEnd
@@ -113,7 +116,8 @@ private fun UsersAdventuresInformation(
             HomeBackground()
             HomeIcons(
                 context = context,
-                imageUrl = imageUrl
+                imageUrl = imageUrl,
+                category = category
             )
         }
 

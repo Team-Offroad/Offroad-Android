@@ -18,10 +18,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
+import com.teamoffroad.feature.home.presentation.component.download.captureAndSaveScreen
 import com.teamoffroad.feature.home.presentation.component.download.downloadImage
 import com.teamoffroad.offroad.feature.home.R
 
@@ -29,9 +31,12 @@ import com.teamoffroad.offroad.feature.home.R
 @Composable
 fun HomeIcons(
     context: Context,
-    imageUrl: String
+    imageUrl: String,
+    category: String
 ) {
     val scope = rememberCoroutineScope()
+    val localView = LocalView.current
+
     val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         listOf(Manifest.permission.READ_MEDIA_IMAGES)
     } else {
@@ -63,7 +68,8 @@ fun HomeIcons(
                             ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
                         }
                         if (allPermissionsGranted) {
-                            downloadImage(context, imageUrl, scope)
+                            if (category == "NONE") downloadImage(context, imageUrl, scope)
+                            else captureAndSaveScreen(context, localView, scope)
                         } else {
                             launcher.launch(permissions.toTypedArray())
                         }
