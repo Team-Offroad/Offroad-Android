@@ -32,6 +32,8 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraAnimation
+import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.compose.CameraPositionState
 import com.naver.maps.map.compose.CameraUpdateReason
 import com.naver.maps.map.compose.ExperimentalNaverMapApi
@@ -119,9 +121,18 @@ fun ExploreOffroadMap(
                         state = MarkerState(position = place.location),
                         icon = OverlayImage.fromResource(R.drawable.ic_explore_place_marker),
                         onClick = {
-                            markerOffset = calculateMarkerOffset(
+                            val offsetResult = calculateMarkerOffset(
                                 place.location, locationState.cameraPositionState, density, mapViewSize
                             )
+                            markerOffset = offsetResult.first
+                            val newLatLng = adjustCameraPositionIfNeeded(
+                                offsetResult.second,
+                                locationState.cameraPositionState,
+                                mapViewSize,
+                            )
+                            newLatLng?.let {
+                                locationState.cameraPositionState.move(CameraUpdate.scrollTo(it).animate(CameraAnimation.Easing, 500))
+                            }
                             updateSelectedPlace(place)
                             updateCategory(place.placeCategory.name)
                             true
@@ -232,28 +243,67 @@ private fun calculateMarkerOffset(
     cameraPositionState: CameraPositionState,
     density: Density,
     screenSize: IntSize,
-): IntOffset {
+): Pair<IntOffset, IntOffset> {
     val screenPosition = cameraPositionState.projection?.toScreenLocation(location)
+    val infoWindowWith = 230.dp
+    val infoWindowHeight = 174.dp
+
     return screenPosition?.let {
         with(density) {
-            var xOffset = (it.x.toDp() - 115.dp).roundToPx()
-            var yOffset = (it.y.toDp() - 224.dp).roundToPx()
+            var xOffset = (it.x.toDp() - infoWindowWith / 2).roundToPx()
+            var yOffset = (it.y.toDp() - infoWindowHeight - 50.dp).roundToPx()
+
+            var xCameraMove = 0
+            var yCameraMove = 0
 
             if (xOffset < 0) {
+                xCameraMove = xOffset - 11.dp.roundToPx()
                 xOffset = 28
             }
-            if (xOffset + 230.dp.roundToPx() > screenSize.width) {
-                xOffset = screenSize.width - 714
+            if (xOffset + infoWindowWith.roundToPx() > screenSize.width) {
+                xCameraMove = (xOffset + infoWindowWith.roundToPx() + 10.dp.roundToPx()) - screenSize.width
+                xOffset = screenSize.width - infoWindowWith.roundToPx() - 10.dp.roundToPx()
             }
 
             if (yOffset < 120.dp.roundToPx()) {
+                yCameraMove = yOffset - 88.dp.roundToPx()
                 yOffset = 232
             }
-            if (yOffset + 174.dp.roundToPx() > screenSize.height) {
-                yOffset = screenSize.height - 174
+            if (yOffset + infoWindowHeight.roundToPx() > screenSize.height) {
+                yCameraMove = (yOffset + infoWindowHeight.roundToPx()) - screenSize.height
+                yOffset = screenSize.height - infoWindowHeight.roundToPx()
             }
 
-            IntOffset(xOffset, yOffset)
+            Pair(IntOffset(xOffset, yOffset), IntOffset(xCameraMove, yCameraMove))
         }
-    } ?: IntOffset(0, 0)
+    } ?: Pair(IntOffset(0, 0), IntOffset(0, 0))
+}
+
+private fun adjustCameraPositionIfNeeded(
+    offset: IntOffset,
+    cameraPositionState: CameraPositionState,
+    screenSize: IntSize,
+): LatLng? {
+    val contentBounds = cameraPositionState.contentBounds ?: return null
+    val targetPosition = cameraPositionState.position.target
+
+    val northEast = contentBounds.northEast
+    val southWest = contentBounds.southWest
+
+    var lat = targetPosition.latitude
+    var lng = targetPosition.longitude
+
+    if (offset.x != 0) {
+        val lngPerPixel = (northEast.longitude - southWest.longitude) / screenSize.width
+        lng += lngPerPixel * offset.x
+    }
+
+    if (offset.y != 0) {
+        val latPerPixel = (northEast.latitude - southWest.latitude) / screenSize.height
+        lat -= latPerPixel * offset.y
+    }
+
+    return if (lat != targetPosition.latitude || lng != targetPosition.longitude) {
+        LatLng(lat, lng)
+    } else null
 }
