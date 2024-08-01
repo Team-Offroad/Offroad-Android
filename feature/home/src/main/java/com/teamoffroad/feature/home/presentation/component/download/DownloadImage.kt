@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import coil.ImageLoader
@@ -29,13 +30,12 @@ fun downloadImage(
     scope.launch(Dispatchers.IO) {
         val result = loadImage(context, imageUrl)
         if (result is DownloadResult.Success) {
-            val bitmap = result.data
-            val saveResult = saveImageToMediaStore(context, bitmap)
+            val saveResult = saveImageToMediaStore(context, result.data)
             if (saveResult is DownloadResult.Error) {
-                showToast(context, saveResult.message)
-            } else {
-                showToast(context, context.getString(R.string.success_download_image))
+                Log.d("DownloadResult Error", saveResult.message)
+                showToast(context, context.getString(R.string.fail_download_image))
             }
+            else showToast(context, context.getString(R.string.success_download_image))
         } else if (result is DownloadResult.Error) {
             showToast(context, context.getString(R.string.fail_download_image))
         }
@@ -48,9 +48,7 @@ private suspend fun loadImage(
 ): DownloadResult<Bitmap> {
     return withContext(Dispatchers.IO) {
         val imageLoader = ImageLoader.Builder(context)
-            .components {
-                add(SvgDecoder.Factory())
-            }
+            .components { add(SvgDecoder.Factory()) }
             .build()
 
         val request = ImageRequest.Builder(context)
@@ -59,13 +57,9 @@ private suspend fun loadImage(
 
         when (val result = imageLoader.execute(request)) {
             is SuccessResult -> {
-                val drawable = result.drawable
-                val bitmap = (drawable as? BitmapDrawable)?.bitmap
-                if (bitmap != null) {
-                    DownloadResult.Success(bitmap)
-                } else {
-                    DownloadResult.Error(context.getString(R.string.fail_convert_image_to_bitmap))
-                }
+                val bitmap = (result.drawable as? BitmapDrawable)?.bitmap
+                if (bitmap != null) DownloadResult.Success(bitmap)
+                else DownloadResult.Error(context.getString(R.string.fail_convert_image_to_bitmap))
             }
             is ErrorResult -> DownloadResult.Error("${result.throwable.message}")
             else -> DownloadResult.Error(context.getString(R.string.fail_request))

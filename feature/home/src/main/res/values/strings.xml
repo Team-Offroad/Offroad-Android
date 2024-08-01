@@ -12,7 +12,7 @@
     <string name="allowed_permissions">권한이 허용되었습니다.</string>
     <string name="not_allowed_permissions">권한이 허용되지 않았습니다.</string>
     <string name="success_download_image">이미지를 저장했습니다.</string>
-    <string name="fail_download_image">이미지 다운로드 실패:</string>
+    <string name="fail_download_image">이미지 다운로드 실패</string>
     <string name="fail_convert_image_to_bitmap">Bitmap 변환 실패</string>
     <string name="fail_request">요청 실패</string>
     <string name="fail_create_outputstream">OutputStream 생성 실패</string>
