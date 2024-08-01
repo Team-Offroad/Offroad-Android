@@ -102,7 +102,7 @@ fun ExploreOffroadMap(
         Box(
             Modifier
                 .fillMaxSize()
-                .padding(bottom = 74.dp)
+                .padding(bottom = 72.dp)
                 .navigationBarsPadding()
                 .onGloballyPositioned { coordinates ->
                     mapViewSize = coordinates.size
