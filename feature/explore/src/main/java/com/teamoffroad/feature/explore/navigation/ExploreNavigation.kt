@@ -2,8 +2,9 @@ package com.teamoffroad.feature.explore.navigation
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
@@ -13,22 +14,13 @@ import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.feature.explore.presentation.ExploreCameraScreen
 import com.teamoffroad.feature.explore.presentation.ExploreScreen
 
-fun NavController.navigateExplore(
-    errorType: String? = null,
+fun NavController.navigateToExplore(
+    authResultType: String? = null,
     imageUrl: String? = null,
     navOptions: NavOptions,
 ) {
-    val cameraNavOptions by lazy {
-        popBackStack()
-        androidx.navigation.navOptions {
-            popUpTo(graph.findStartDestination().id) {
-                inclusive = true
-            }
-            launchSingleTop = true
-            restoreState = true
-        }
-    }
-    navigate(MainTabRoute.Explore(errorType, imageUrl), cameraNavOptions)
+    repeat(2) { popBackStack() }
+    navigate(MainTabRoute.Explore(authResultType, imageUrl), navOptions)
 }
 
 fun NavController.navigateToExploreCameraScreen(
@@ -48,12 +40,19 @@ fun NavGraphBuilder.exploreNavGraph(
     onBackClick: () -> Unit,
 ) {
     composable<MainTabRoute.Explore> { backStackEntry ->
-        val errorType = backStackEntry.toRoute<MainTabRoute.Explore>().errorType
+        val errorType = backStackEntry.toRoute<MainTabRoute.Explore>().authResultType
         val imageUrl = backStackEntry.toRoute<MainTabRoute.Explore>().imageUrl
         ExploreScreen(errorType, imageUrl, navigateToHome, navigateToExploreCameraScreen)
     }
 
-    composable<ExploreRoute.ExploreCameraScreen> { backStackEntry ->
+    composable<ExploreRoute.ExploreCameraScreen>(
+        enterTransition = {
+            slideIntoContainer(
+                AnimatedContentTransitionScope.SlideDirection.Left,
+                animationSpec = tween(400)
+            )
+        }
+    ) { backStackEntry ->
         val placeId = backStackEntry.toRoute<ExploreRoute.ExploreCameraScreen>().placeId
         val latitude = backStackEntry.toRoute<ExploreRoute.ExploreCameraScreen>().latitude
         val longitude = backStackEntry.toRoute<ExploreRoute.ExploreCameraScreen>().longitude

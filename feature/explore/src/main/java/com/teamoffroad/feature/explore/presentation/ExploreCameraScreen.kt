@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -19,7 +20,7 @@ import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.feature.explore.presentation.component.ExploreCamera
 import com.teamoffroad.feature.explore.presentation.component.ExploreCameraNavigateBack
 import com.teamoffroad.feature.explore.presentation.component.ExploreCameraOverlay
-import com.teamoffroad.feature.explore.presentation.model.ExploreCameraUiState
+import com.teamoffroad.feature.explore.presentation.model.ExploreResultState
 
 @Composable
 internal fun ExploreCameraScreen(
@@ -27,23 +28,25 @@ internal fun ExploreCameraScreen(
     latitude: Double,
     longitude: Double,
     navigateToExplore: (String, String) -> Unit,
-    viewModel: ExploreCameraViewModel = hiltViewModel(),
+    exploreCameraViewModel: ExploreCameraViewModel = hiltViewModel(),
 ) {
     val localContext = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val successImageUrl by viewModel.successImageUrl.collectAsStateWithLifecycle()
+    val uiState by exploreCameraViewModel.exploreResultState.collectAsStateWithLifecycle()
+    val resultImageUrl by exploreCameraViewModel.resultImageUrl.collectAsStateWithLifecycle()
 
     BackHandler {
         navigateToExplore("", "")
     }
 
-    when (uiState) {
-        ExploreCameraUiState.Success -> navigateToExplore(ExploreCameraUiState.Success.toString(), successImageUrl)
-        ExploreCameraUiState.CodeError -> navigateToExplore(ExploreCameraUiState.CodeError.toString(), successImageUrl)
-        ExploreCameraUiState.LocationError -> navigateToExplore(ExploreCameraUiState.LocationError.toString(), successImageUrl)
-        ExploreCameraUiState.EtcError -> navigateToExplore(ExploreCameraUiState.EtcError.toString(), successImageUrl)
-        else -> {}
+    LaunchedEffect(uiState) {
+        when (uiState) {
+            ExploreResultState.Success -> navigateToExplore(ExploreResultState.Success.toString(), resultImageUrl)
+            ExploreResultState.CodeError -> navigateToExplore(ExploreResultState.CodeError.toString(), resultImageUrl)
+            ExploreResultState.LocationError -> navigateToExplore(ExploreResultState.LocationError.toString(), resultImageUrl)
+            ExploreResultState.EtcError -> navigateToExplore(ExploreResultState.EtcError.toString(), resultImageUrl)
+            else -> {}
+        }
     }
 
     ExploreCamera(
@@ -53,7 +56,7 @@ internal fun ExploreCameraScreen(
         latitude = latitude,
         longitude = longitude,
         lifecycleOwner = lifecycleOwner,
-        postExploreResult = viewModel::postExploreResult
+        postExploreResult = exploreCameraViewModel::postExploreResult
     )
     Column(
         modifier = Modifier

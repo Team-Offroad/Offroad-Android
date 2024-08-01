@@ -16,7 +16,7 @@ import com.teamoffroad.feature.auth.navigation.navigateToSetBirthDate
 import com.teamoffroad.feature.auth.navigation.navigateToSetCharacter
 import com.teamoffroad.feature.auth.navigation.navigateToSetGender
 import com.teamoffroad.feature.auth.navigation.navigateToSetNickname
-import com.teamoffroad.feature.explore.navigation.navigateExplore
+import com.teamoffroad.feature.explore.navigation.navigateToExplore
 import com.teamoffroad.feature.explore.navigation.navigateToExploreCameraScreen
 import com.teamoffroad.feature.home.navigation.navigateToHome
 import com.teamoffroad.feature.mypage.navigation.navigateToMyPage
@@ -46,15 +46,14 @@ internal class MainNavigator(
     }
 
     fun navigate(tab: MainNavTab) {
-        if (isSameCurrentDestination<MainTabRoute.Explore>() && tab == MainNavTab.EXPLORE) return
         when (tab) {
             MainNavTab.HOME -> navController.navigateToHome(navOptions = navOptions)
-            MainNavTab.EXPLORE -> navController.navigateExplore(navOptions = navOptions)
+            MainNavTab.EXPLORE -> navController.navigateToExplore(navOptions = navOptions)
             MainNavTab.MYPAGE -> navController.navigateToMyPage(navOptions = navOptions)
         }
     }
 
-    private fun popBackStack() {
+    fun popBackStack() {
         navController.popBackStack()
     }
 
@@ -102,8 +101,8 @@ internal class MainNavigator(
         navController.navigateToSelectedCharacter(selectedCharacterUrl, navOptions)
     }
 
-    fun navigateToExplore(errorType: String, successImageUrl: String) {
-        navController.navigateExplore(errorType, successImageUrl, navOptions)
+    fun navigateToExplore(authResultType: String, imageUrl: String) {
+        navController.navigateToExplore(authResultType, imageUrl, navOptions)
     }
 }
 

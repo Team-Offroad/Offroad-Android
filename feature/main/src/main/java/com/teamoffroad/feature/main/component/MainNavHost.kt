@@ -37,6 +37,7 @@ internal fun MainNavHost(
             )
             exploreNavGraph(
                 navigateToHome = { category ->
+                    navigator.popBackStack()
                     navigator.navigateToHome(category)
                 },
                 navigateToExplore = { errorType, successImageUrl ->

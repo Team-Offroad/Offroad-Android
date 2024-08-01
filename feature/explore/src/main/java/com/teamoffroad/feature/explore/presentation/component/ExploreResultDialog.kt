@@ -26,12 +26,12 @@ import androidx.compose.ui.window.DialogProperties
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
-import com.teamoffroad.feature.explore.presentation.model.ExploreCameraUiState
+import com.teamoffroad.feature.explore.presentation.model.ExploreResultState
 import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 fun ExploreResultDialog(
-    errorType: ExploreCameraUiState,
+    errorType: ExploreResultState,
     text: String = "",
     content: @Composable () -> Unit,
     onDismissRequest: () -> Unit,
@@ -59,7 +59,7 @@ fun ExploreResultDialog(
             ) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = if (errorType == ExploreCameraUiState.Success) {
+                    text = if (errorType == ExploreResultState.Success) {
                         stringResource(R.string.explore_dialog_success)
                     } else {
                         stringResource(R.string.explore_dialog_failed)
@@ -97,7 +97,7 @@ fun ExploreResultDialog(
                 ) {
                     Text(
                         text = when (errorType) {
-                            ExploreCameraUiState.Success -> stringResource(R.string.explore_dialog_success_button)
+                            ExploreResultState.Success -> stringResource(R.string.explore_dialog_success_button)
                             else -> stringResource(R.string.explore_dialog_failed_button)
                         },
                         textAlign = TextAlign.Center,

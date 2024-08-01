@@ -6,7 +6,7 @@ import com.naver.maps.geometry.LatLng
 import com.teamoffroad.feature.explore.domain.usecase.GetPlaceListUseCase
 import com.teamoffroad.feature.explore.domain.usecase.PostExploreLocationAuthUseCase
 import com.teamoffroad.feature.explore.presentation.mapper.toUi
-import com.teamoffroad.feature.explore.presentation.model.ExploreCameraUiState
+import com.teamoffroad.feature.explore.presentation.model.ExploreResultState
 import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
 import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 import com.teamoffroad.feature.explore.presentation.model.PlaceModel
@@ -98,18 +98,18 @@ class ExploreViewModel @Inject constructor(
 
     fun isValidDistance(place: PlaceModel, location: LatLng): Boolean {
         return when (place.placeCategory) {
-            PlaceCategory.CAFFE -> place.location.distanceTo(location) <= 25
-            PlaceCategory.PARK -> place.location.distanceTo(location) <= 100
-            PlaceCategory.RESTAURANT -> place.location.distanceTo(location) <= 25
-            PlaceCategory.CULTURE -> place.location.distanceTo(location) <= 25
-            PlaceCategory.SPORT -> place.location.distanceTo(location) <= 100
+            PlaceCategory.CAFFE -> place.location.distanceTo(location) <= 45
+            PlaceCategory.PARK -> place.location.distanceTo(location) <= 120
+            PlaceCategory.RESTAURANT -> place.location.distanceTo(location) <= 45
+            PlaceCategory.CULTURE -> place.location.distanceTo(location) <= 45
+            PlaceCategory.SPORT -> place.location.distanceTo(location) <= 120
             else -> false
         }
     }
 
-    fun updateExploreCameraUiState(errorType: ExploreCameraUiState) {
+    fun updateExploreCameraUiState(errorType: ExploreResultState) {
         _uiState.value = uiState.value.copy(
-            errorType = errorType
+            authResultType = errorType
         )
     }
 
@@ -119,13 +119,13 @@ class ExploreViewModel @Inject constructor(
                 postExploreLocationAuthUseCase(placeId, latitude, longitude)
             }.onSuccess { exploreResult ->
                 if (exploreResult.isValidPosition) {
-                    updateExploreCameraUiState(ExploreCameraUiState.Success)
+                    updateExploreCameraUiState(ExploreResultState.Success)
                     _successImageUrl.value = exploreResult.successCharacterImageUrl
                 } else {
-                    updateExploreCameraUiState(ExploreCameraUiState.LocationError)
+                    updateExploreCameraUiState(ExploreResultState.LocationError)
                 }
             }.onFailure {
-                updateExploreCameraUiState(ExploreCameraUiState.EtcError)
+                updateExploreCameraUiState(ExploreResultState.EtcError)
             }
         }
     }

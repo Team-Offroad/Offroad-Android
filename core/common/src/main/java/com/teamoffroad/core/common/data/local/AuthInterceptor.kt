@@ -6,11 +6,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.Protocol
-import okhttp3.Request
 import okhttp3.Response
-import okhttp3.ResponseBody.Companion.toResponseBody
 import java.net.HttpURLConnection.HTTP_OK
 import javax.inject.Inject
 
@@ -45,16 +41,7 @@ class AuthInterceptor @Inject constructor(
         return response
     }
 
-    private fun errorResponse(request: Request): Response = Response.Builder()
-        .request(request)
-        .protocol(Protocol.HTTP_2)
-        .code(NETWORK_ERROR_CODE)
-        .message("Unauthorized token")
-        .body("Unauthorized".toResponseBody("text/plain".toMediaType()))
-        .build()
-
     companion object {
         private const val AUTHORIZATION = "Authorization"
-        private const val NETWORK_ERROR_CODE = 401
     }
 }

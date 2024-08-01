@@ -3,11 +3,10 @@ package com.teamoffroad.feature.main
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Sub4
 import com.teamoffroad.feature.main.component.MainBottomBar
 import com.teamoffroad.feature.main.component.MainNavHost
@@ -43,7 +42,7 @@ private fun MainScreenContent(
         bottomBar = {
             MainBottomBar(
                 modifier = Modifier
-                    .height(74.dp)
+                    .wrapContentHeight()
                     .background(Sub4),
                 visible = navigator.setBottomBarVisibility(),
                 tabs = MainNavTab.entries.toPersistentList(),
