@@ -106,8 +106,7 @@ private fun UsersAdventuresInformation(
     Box(
         modifier = modifier.fillMaxWidth()
     ) {
-        val imageUrl = if (category == "NONE") adventuresInformationsData?.baseImageUrl ?: ""
-            else adventuresInformationsData?.motionImageUrl ?: ""
+        val imageUrl = adventuresInformationsData?.baseImageUrl ?: ""
 
         Box(
             modifier = Modifier.fillMaxWidth(),

@@ -34,7 +34,6 @@ fun HomeIcons(
     category: String
 ) {
     val scope = rememberCoroutineScope()
-    val localView = LocalView.current
 
     val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         listOf(Manifest.permission.READ_MEDIA_IMAGES)
