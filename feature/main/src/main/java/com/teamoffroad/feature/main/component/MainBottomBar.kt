@@ -44,8 +44,8 @@ internal fun MainBottomBar(
 ) {
     val view = LocalView.current
     val isGestureNavigation = remember {
-        val resourceId = view.context.resources.getIdentifier("config_navBarInteractionMode", "integer", "android")
-        resourceId > 0 && view.context.resources.getInteger(resourceId) == 2
+        val systemBottomNavigationSetting = view.context.resources.getIdentifier("config_navBarInteractionMode", "integer", "android")
+        systemBottomNavigationSetting > UNAVAILABLE_RESOURCE_ID && view.context.resources.getInteger(systemBottomNavigationSetting) == GESTURE_NAVIGATION
     }
 
     ProvideWindowInsets {
@@ -101,7 +101,7 @@ private fun RowScope.MainBottomBarItem(
     ) {
         val navBtn = createRef()
         when (ordinal) {
-            0 -> {
+            HOME_TAB -> {
                 Icon(
                     painter = painterResource(tab.iconResId),
                     contentDescription = tab.contentDescription,
@@ -116,7 +116,7 @@ private fun RowScope.MainBottomBarItem(
                 )
             }
 
-            1 -> {
+            EXPLORE_TAB -> {
                 Icon(
                     painter = painterResource(tab.iconResId),
                     contentDescription = tab.contentDescription,
@@ -131,7 +131,7 @@ private fun RowScope.MainBottomBarItem(
                 )
             }
 
-            2 -> {
+            MY_PAGE_TAB -> {
                 Icon(
                     painter = painterResource(tab.iconResId),
                     contentDescription = tab.contentDescription,
@@ -162,3 +162,10 @@ private fun MainBottomBarPreview() {
         )
     }
 }
+
+private const val GESTURE_NAVIGATION = 2
+private const val UNAVAILABLE_RESOURCE_ID = 0
+
+private const val HOME_TAB = 0
+private const val EXPLORE_TAB = 1
+private const val MY_PAGE_TAB = 2
