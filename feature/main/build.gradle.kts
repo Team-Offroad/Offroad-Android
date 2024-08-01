@@ -26,4 +26,5 @@ dependencies {
     implementation(libs.kotlinx.immutable)
 
     implementation(libs.androidx.constraintlayout.compose)
+    implementation(libs.accompanist.insets)
 }
