@@ -23,7 +23,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
-import com.teamoffroad.feature.home.presentation.component.download.captureAndSaveScreen
 import com.teamoffroad.feature.home.presentation.component.download.downloadImage
 import com.teamoffroad.offroad.feature.home.R
 
@@ -68,8 +67,7 @@ fun HomeIcons(
                             ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
                         }
                         if (allPermissionsGranted) {
-                            if (category == "NONE") downloadImage(context, imageUrl, scope)
-                            else captureAndSaveScreen(context, localView, scope)
+                            downloadImage(context, imageUrl, scope)
                         } else {
                             launcher.launch(permissions.toTypedArray())
                         }
