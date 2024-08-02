@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -129,7 +130,7 @@ internal fun SetBirthDateScreen(
                         onValueChange = {
                             if (it.isBlank() || it.matches(pattern)) {
                                 year = it
-                                if (it.length==4){
+                                if (it.length == 4) {
                                     monthFocusRequester.requestFocus()
                                 }
                             }
@@ -159,13 +160,18 @@ internal fun SetBirthDateScreen(
                         modifier = Modifier
                             .width(66.dp)
                             .height(43.dp)
-                            .focusRequester(monthFocusRequester),
+                            .focusRequester(monthFocusRequester)
+                            .onFocusChanged {
+                                if (month.length == 1) {
+                                    month = "0$month"
+                                }
+                            },
                         placeholder = "MM",
                         value = month,
                         onValueChange = {
                             if (it.isBlank() || it.matches(pattern)) {
                                 month = it
-                                if (it.length==2){
+                                if (it.length == 2) {
                                     dayFocusRequester.requestFocus()
                                 }
                             }
@@ -191,13 +197,18 @@ internal fun SetBirthDateScreen(
                         modifier = Modifier
                             .width(66.dp)
                             .height(43.dp)
-                            .focusRequester(dayFocusRequester),
+                            .focusRequester(dayFocusRequester)
+                            .onFocusChanged {
+                                if (day.length == 1) {
+                                    day = "0$day"
+                                }
+                            },
                         value = day,
                         placeholder = "DD",
                         onValueChange = {
                             if (it.isBlank() || it.matches(pattern)) {
                                 day = it
-                                if (it.length==2){
+                                if (it.length == 2) {
                                     focusManager.clearFocus()
                                 }
                             }
