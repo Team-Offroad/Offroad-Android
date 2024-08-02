@@ -61,7 +61,7 @@ suspend fun downloadAndConvertImage(context: Context, imageUrl: String): Uri? {
                     if (bitmap != null) {
                         val file = File(
                             context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                            "shared_image.png"
+                            "upload_image.png"
                         )
                         FileOutputStream(file).use { outputStream ->
                             bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
