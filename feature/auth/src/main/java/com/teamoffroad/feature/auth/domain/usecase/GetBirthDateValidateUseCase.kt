@@ -1,6 +1,7 @@
 package com.teamoffroad.feature.auth.domain.usecase
 
 import com.teamoffroad.feature.auth.presentation.component.BirthDateValidateResult
+import java.time.LocalDate
 
 class GetBirthDateValidateUseCase {
     suspend operator fun invoke(
@@ -32,7 +33,7 @@ class GetBirthDateValidateUseCase {
     }
 
     private fun checkInValidYear(year: Int): Boolean {
-        return year in 1900..2024
+        return year in 1900..LocalDate.now().year
     }
 
     private fun checkInValidMonth(month: Int): Boolean {
