@@ -26,6 +26,7 @@ import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.feature.home.presentation.component.download.downloadImage
 import com.teamoffroad.feature.home.presentation.component.upload.uploadImage
 import com.teamoffroad.offroad.feature.home.R
+import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
@@ -74,17 +75,25 @@ fun HomeIcons(
                     }
             )
 
-            val uploadInteractionSourece = remember {
-                MutableInteractionSource()
-            }
+            val uploadInteractionSource = remember { MutableInteractionSource() }
             Image(
                 painter = painterResource(id = R.drawable.ic_home_upload),
                 contentDescription = "upload",
                 modifier = Modifier
-                    .clickableWithoutRipple(uploadInteractionSourece) {
-                        uploadImage(scope, context, imageUrl)
+                    .clickableWithoutRipple(uploadInteractionSource) {
+                        val allPermissionsGranted = permissions.all {
+                            ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                        }
+                        if (allPermissionsGranted) {
+                            scope.launch {
+                                uploadImage(context, imageUrl)
+                            }
+                        } else {
+                            launcher.launch(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE))
+                        }
                     }
             )
+
             Image(
                 painter = painterResource(id = R.drawable.ic_home_change),
                 contentDescription = "change",

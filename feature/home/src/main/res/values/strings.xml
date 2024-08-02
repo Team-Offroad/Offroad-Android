@@ -17,4 +17,5 @@
     <string name="fail_request">요청 실패</string>
     <string name="fail_create_outputstream">OutputStream 생성 실패</string>
     <string name="fail_create_uri">URI 생성 실패</string>
+    <string name="success_upload_image">이미지 업로드에 성공했습니다.</string>
 </resources>
