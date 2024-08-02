@@ -129,6 +129,9 @@ internal fun SetBirthDateScreen(
                         onValueChange = {
                             if (it.isBlank() || it.matches(pattern)) {
                                 year = it
+                                if (it.length==4){
+                                    monthFocusRequester.requestFocus()
+                                }
                             }
                             viewModel.updateCheckedYear(year)
                         },
@@ -162,6 +165,9 @@ internal fun SetBirthDateScreen(
                         onValueChange = {
                             if (it.isBlank() || it.matches(pattern)) {
                                 month = it
+                                if (it.length==2){
+                                    dayFocusRequester.requestFocus()
+                                }
                             }
                             viewModel.updateCheckedMonth(month)
                         },
@@ -191,6 +197,9 @@ internal fun SetBirthDateScreen(
                         onValueChange = {
                             if (it.isBlank() || it.matches(pattern)) {
                                 day = it
+                                if (it.length==2){
+                                    focusManager.clearFocus()
+                                }
                             }
                             viewModel.updateCheckedDate(day)
                         },
