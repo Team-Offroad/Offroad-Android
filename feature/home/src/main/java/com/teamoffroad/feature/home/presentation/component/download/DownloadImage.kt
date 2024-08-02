@@ -32,7 +32,7 @@ fun downloadImage(
         if (result is DownloadResult.Success) {
             val saveResult = saveImageToMediaStore(context, result.data)
             if (saveResult is DownloadResult.Error) {
-                Log.d("DownloadResult Error", saveResult.message)
+                Log.d("Download Image Result Error", saveResult.message)
                 showToast(context, context.getString(R.string.fail_download_image))
             }
             else showToast(context, context.getString(R.string.success_download_image))
