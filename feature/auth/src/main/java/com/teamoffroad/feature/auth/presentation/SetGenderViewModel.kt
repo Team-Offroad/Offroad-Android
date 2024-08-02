@@ -20,6 +20,10 @@ class SetGenderViewModel @Inject constructor(
     private val _genderUiState = MutableStateFlow<SetGenderUiState>(SetGenderUiState.Loading)
     val genderUiState: StateFlow<SetGenderUiState> = _genderUiState.asStateFlow()
 
+    fun updateGenderEmpty() {
+        _genderUiState.value = SetGenderUiState.Loading
+    }
+
     fun updateCheckedGender(gender: String) {
         _genderUiState.value = SetGenderUiState.Select(gender)
     }

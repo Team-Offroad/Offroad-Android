@@ -40,10 +40,8 @@ internal fun SetNicknameScreen(
     viewModel: SetNicknameViewModel = hiltViewModel(),
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-
     val focusManager = LocalFocusManager.current
     val focusRequester by remember { mutableStateOf(FocusRequester()) }
-
     var text by remember { mutableStateOf("") }
     val isNicknameState by viewModel.nicknameUiState.collectAsState()
 
