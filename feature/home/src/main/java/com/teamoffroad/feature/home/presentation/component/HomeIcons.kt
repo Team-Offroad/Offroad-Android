@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.feature.home.presentation.component.download.downloadImage
+import com.teamoffroad.feature.home.presentation.component.upload.uploadImage
 import com.teamoffroad.offroad.feature.home.R
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -73,9 +74,16 @@ fun HomeIcons(
                     }
             )
 
+            val uploadInteractionSourece = remember {
+                MutableInteractionSource()
+            }
             Image(
                 painter = painterResource(id = R.drawable.ic_home_upload),
                 contentDescription = "upload",
+                modifier = Modifier
+                    .clickableWithoutRipple(uploadInteractionSourece) {
+                        uploadImage(scope, context, imageUrl)
+                    }
             )
             Image(
                 painter = painterResource(id = R.drawable.ic_home_change),
