@@ -4,11 +4,18 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.PictureDrawable
 import android.net.Uri
 import android.os.Environment
+import android.util.Log
 import android.widget.Toast
 import androidx.core.content.FileProvider
+import coil.ImageLoader
+import coil.decode.SvgDecoder
+import coil.request.ErrorResult
+import coil.request.ImageRequest
+import coil.request.SuccessResult
 import com.caverock.androidsvg.SVG
 import com.teamoffroad.feature.home.presentation.component.download.downloadImage
 import com.teamoffroad.offroad.core.common.BuildConfig
@@ -40,39 +47,50 @@ suspend fun uploadImage(context: Context, imageUrl: String) {
 suspend fun downloadAndConvertImage(context: Context, imageUrl: String): Uri? {
     return withContext(Dispatchers.IO) {
         try {
-            val connection: HttpURLConnection = URL(imageUrl).openConnection() as HttpURLConnection
-            connection.connect()
+            val imageLoader = ImageLoader.Builder(context)
+                .components { add(SvgDecoder.Factory()) }
+                .build()
 
-            val inputStream: InputStream = connection.inputStream
+            val request = ImageRequest.Builder(context)
+                .data(imageUrl)
+                .build()
 
-            val pictureDrawable =
-                PictureDrawable(SVG.getFromInputStream(inputStream).renderToPicture())
-            val bitmap = Bitmap.createBitmap(
-                pictureDrawable.intrinsicWidth,
-                pictureDrawable.intrinsicHeight,
-                Bitmap.Config.ARGB_8888
-            )
-            val canvas = Canvas(bitmap)
-            canvas.drawPicture(pictureDrawable.picture)
+            when (val result = imageLoader.execute(request)) {
+                is SuccessResult -> {
+                    val bitmap = (result.drawable as? BitmapDrawable)?.bitmap
+                    if (bitmap != null) {
+                        val file = File(
+                            context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                            "shared_image.png"
+                        )
+                        FileOutputStream(file).use { outputStream ->
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+                        }
 
-            val file = File(
-                context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                "shared_image.png"
-            )
-            val outputStream = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-            outputStream.close()
-            inputStream.close()
-
-            FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
+                        FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
+                    } else {
+                        Log.d("Upload Image ErrorResult", context.getString(R.string.fail_convert_image_to_bitmap))
+                        showToast(context, context.getString(R.string.fail_upload_image))
+                        null
+                    }
+                }
+                is ErrorResult -> {
+                    Log.d("Upload Image ErrorResult", "${result.throwable.message}")
+                    showToast(context, context.getString(R.string.fail_upload_image))
+                    null
+                }
+                else -> {
+                    showToast(context, context.getString(R.string.fail_request))
+                    null
+                }
+            }
         } catch (e: Exception) {
             e.printStackTrace()
-            showToast(context, context.getString(R.string.success_upload_image))
+            showToast(context, context.getString(R.string.fail_upload_image))
             null
         }
     }
 }
-
 private suspend fun showToast(context: Context, message: String) {
     withContext(Dispatchers.Main) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
