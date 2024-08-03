@@ -68,6 +68,6 @@ fun NavGraphBuilder.exploreNavGraph(
     }
 
     composable<ExploreRoute.PlaceScreen> {
-        PlaceScreen()
+        PlaceScreen(navigateToExplore)
     }
 }
