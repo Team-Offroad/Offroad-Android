@@ -16,9 +16,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.theme.Black
+import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.explore.presentation.component.ExploreCamera
-import com.teamoffroad.feature.explore.presentation.component.ExploreCameraNavigateBack
 import com.teamoffroad.feature.explore.presentation.component.ExploreCameraOverlay
 import com.teamoffroad.feature.explore.presentation.model.ExploreResultState
 
@@ -68,7 +69,12 @@ internal fun ExploreCameraScreen(
                 .fillMaxWidth()
                 .background(Black.copy(alpha = 0.44f))
         )
-        ExploreCameraNavigateBack(navigateToExplore)
+        NavigateBackAppBar(
+            mainColor = White,
+            backgroundColor = Black.copy(alpha = 0.44f),
+        ) {
+            navigateToExplore("", "")
+        }
         ExploreCameraOverlay()
     }
 }
