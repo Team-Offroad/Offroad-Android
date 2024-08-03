@@ -56,7 +56,7 @@ fun NicknameTextField(
     val borderLineColor = remember { mutableStateOf(Gray100) }
     val textColor = remember { mutableStateOf(Gray300) }
 
-    if (isFocused) {
+    if (isFocused||value.isNotBlank()) {
         borderLineColor.value = Sub
         textColor.value = Main2
     } else {

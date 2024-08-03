@@ -27,11 +27,7 @@ fun NicknameHintText(
                 else -> stringResource(R.string.auth_empty_nickname)
             },
             style = OffroadTheme.typography.hint,
-            color = if (isDuplicate == NicknameValidateResult.Duplicate) {
-                Error
-            } else {
-                checkNicknameHint(text)
-            },
+            color = checkNicknameHint(text),
         )
     }
 }
