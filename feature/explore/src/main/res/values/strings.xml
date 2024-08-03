@@ -22,4 +22,5 @@
     <string name="explore_dialog_success_button">홈으로</string>
     <string name="explore_dialog_failed_button">확인</string>
     <string name="explore_explore">탐험</string>
+    <string name="explore_navigate_back">이전 화면</string>
 </resources>

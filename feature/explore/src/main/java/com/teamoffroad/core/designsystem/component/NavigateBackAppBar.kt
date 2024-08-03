@@ -18,17 +18,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
-import com.teamoffroad.offroad.feature.explore.R
+import com.teamoffroad.offroad.core.designsystem.R
 
 @Composable
 fun NavigateBackAppBar(
     mainColor: Color = Main2,
     backgroundColor: Color = Main1,
+    text: String,
     navigateToExplore: () -> Unit,
 ) {
     Box(
@@ -45,7 +45,7 @@ fun NavigateBackAppBar(
                 }
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_explore_navigate_back),
+                painter = painterResource(id = R.drawable.ic_navigate_back),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(mainColor),
                 modifier = Modifier
@@ -54,7 +54,7 @@ fun NavigateBackAppBar(
                     .padding(12.dp),
             )
             Text(
-                text = stringResource(R.string.explore_explore),
+                text = text,
                 style = OffroadTheme.typography.textRegular,
                 color = mainColor,
                 modifier = Modifier.align(Alignment.CenterVertically),

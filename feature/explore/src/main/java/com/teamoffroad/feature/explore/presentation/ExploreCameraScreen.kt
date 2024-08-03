@@ -12,6 +12,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -22,6 +23,7 @@ import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.explore.presentation.component.ExploreCamera
 import com.teamoffroad.feature.explore.presentation.component.ExploreCameraOverlay
 import com.teamoffroad.feature.explore.presentation.model.ExploreResultState
+import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 internal fun ExploreCameraScreen(
@@ -72,6 +74,7 @@ internal fun ExploreCameraScreen(
         NavigateBackAppBar(
             mainColor = White,
             backgroundColor = Black.copy(alpha = 0.44f),
+            text = stringResource(R.string.explore_navigate_back),
         ) {
             navigateToExplore("", "")
         }
