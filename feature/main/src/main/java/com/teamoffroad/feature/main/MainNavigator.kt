@@ -17,7 +17,8 @@ import com.teamoffroad.feature.auth.navigation.navigateToSetCharacter
 import com.teamoffroad.feature.auth.navigation.navigateToSetGender
 import com.teamoffroad.feature.auth.navigation.navigateToSetNickname
 import com.teamoffroad.feature.explore.navigation.navigateToExplore
-import com.teamoffroad.feature.explore.navigation.navigateToExploreCameraScreen
+import com.teamoffroad.feature.explore.navigation.navigateToExploreCamera
+import com.teamoffroad.feature.explore.navigation.navigateToPlace
 import com.teamoffroad.feature.home.navigation.navigateToHome
 import com.teamoffroad.feature.mypage.navigation.navigateToMyPage
 
@@ -94,7 +95,7 @@ internal class MainNavigator(
     }
 
     fun navigateToExploreCameraScreen(placeId: Long, latitude: Double, longitude: Double) {
-        navController.navigateToExploreCameraScreen(placeId, latitude, longitude, navOptions)
+        navController.navigateToExploreCamera(placeId, latitude, longitude, navOptions)
     }
 
     fun navigateToSelectedCharacter(selectedCharacterUrl: String) {
@@ -103,6 +104,10 @@ internal class MainNavigator(
 
     fun navigateToExplore(authResultType: String, imageUrl: String) {
         navController.navigateToExplore(authResultType, imageUrl, navOptions)
+    }
+
+    fun navigateToPlace() {
+        navController.navigateToPlace(navOptions)
     }
 }
 

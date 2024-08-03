@@ -43,8 +43,11 @@ internal fun MainNavHost(
                 navigateToExplore = { errorType, successImageUrl ->
                     navigator.navigateToExplore(errorType, successImageUrl)
                 },
-                navigateToExploreCameraScreen = { placeId, latitude, longitude ->
+                navigateToExploreCamera = { placeId, latitude, longitude ->
                     navigator.navigateToExploreCameraScreen(placeId, latitude, longitude)
+                },
+                navigateToPlace = {
+                    navigator.navigateToPlace()
                 },
                 onBackClick = navigator::popBackStackIfNotMain,
             )

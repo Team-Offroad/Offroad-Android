@@ -63,6 +63,7 @@ fun ExploreOffroadMap(
     places: List<PlaceModel>,
     selectedPlace: PlaceModel?,
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
+    navigateToPlace: () -> Unit,
     updateLocation: (Double, Double) -> Unit,
     updateTrackingToggle: (Boolean) -> Unit,
     updateSelectedPlace: (PlaceModel?) -> Unit,
@@ -192,7 +193,7 @@ fun ExploreOffroadMap(
                 ExploreMapBottomButton(
                     painter = painterResource(R.drawable.ic_explore_quest_list),
                     text = stringResource(R.string.explore_quests),
-                    onClick = {},
+                    onClick = { navigateToPlace() },
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 ExploreMapBottomButton(
