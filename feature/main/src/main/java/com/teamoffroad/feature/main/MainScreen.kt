@@ -36,7 +36,6 @@ private fun MainScreenContent(
             MainNavHost(
                 navigator = navigator,
                 padding = padding,
-                modifier = Modifier,
             )
         },
         bottomBar = {

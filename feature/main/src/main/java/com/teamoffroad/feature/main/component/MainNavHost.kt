@@ -6,10 +6,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
+import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.auth.navigation.authNavGraph
 import com.teamoffroad.feature.explore.navigation.exploreNavGraph
 import com.teamoffroad.feature.home.navigation.homeNavGraph
@@ -26,7 +26,7 @@ internal fun MainNavHost(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surfaceDim)
+            .background(Main1)
     ) {
         NavHost(
             navController = navigator.navController,

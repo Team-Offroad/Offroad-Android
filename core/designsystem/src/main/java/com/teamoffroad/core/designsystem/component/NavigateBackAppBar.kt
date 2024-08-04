@@ -26,13 +26,14 @@ import com.teamoffroad.offroad.core.designsystem.R
 
 @Composable
 fun NavigateBackAppBar(
+    modifier: Modifier = Modifier,
     mainColor: Color = Main2,
     backgroundColor: Color = Main1,
     text: String,
     navigateToExplore: () -> Unit,
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .background(backgroundColor)
