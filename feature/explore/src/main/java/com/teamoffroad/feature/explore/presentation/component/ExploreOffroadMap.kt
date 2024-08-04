@@ -50,27 +50,27 @@ import com.naver.maps.map.overlay.OverlayImage
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Sub2
+import com.teamoffroad.feature.explore.presentation.model.ExplorePlaceModel
 import com.teamoffroad.feature.explore.presentation.model.ExploreResultState
 import com.teamoffroad.feature.explore.presentation.model.LocationModel
 import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
-import com.teamoffroad.feature.explore.presentation.model.PlaceModel
 import com.teamoffroad.offroad.feature.explore.R
 
 @OptIn(ExperimentalNaverMapApi::class)
 @Composable
 fun ExploreOffroadMap(
     locationState: LocationModel,
-    places: List<PlaceModel>,
-    selectedPlace: PlaceModel?,
+    places: List<ExplorePlaceModel>,
+    selectedPlace: ExplorePlaceModel?,
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
     navigateToPlace: () -> Unit,
     updateLocation: (Double, Double) -> Unit,
     updateTrackingToggle: (Boolean) -> Unit,
-    updateSelectedPlace: (PlaceModel?) -> Unit,
+    updateSelectedPlace: (ExplorePlaceModel?) -> Unit,
     updateCategory: (String) -> Unit,
     updatePlaces: (Double, Double) -> Unit,
     updateCameraUiState: (ExploreResultState) -> Unit,
-    isValidDistance: (PlaceModel, LatLng) -> Boolean,
+    isValidDistance: (ExplorePlaceModel, LatLng) -> Boolean,
     postExploreResult: (Long, Double, Double) -> Unit,
 ) {
     val density = LocalDensity.current

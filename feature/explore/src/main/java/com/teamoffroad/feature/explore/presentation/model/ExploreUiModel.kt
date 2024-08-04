@@ -83,7 +83,7 @@ data class LocationModel(
     }
 }
 
-data class PlaceModel(
+data class ExplorePlaceModel(
     val id: Long,
     val name: String,
     val address: String,
