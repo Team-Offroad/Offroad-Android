@@ -23,7 +23,7 @@ fun SetCharacterIndicator(imageSize: Int, pagerState: PagerState) {
         horizontalArrangement = Arrangement.Center
     ) {
         for (indicator in 1..imageSize) {
-            val indicatorOpacity = if (indicator == pagerState.currentPage + 1) 1.0f else 0.4f
+            val indicatorOpacity = if (indicator == (pagerState.currentPage)%imageSize + 1) 1.0f else 0.4f
             Box(
                 modifier = Modifier
                     .width(18.dp)

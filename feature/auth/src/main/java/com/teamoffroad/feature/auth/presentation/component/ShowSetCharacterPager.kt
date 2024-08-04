@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -32,10 +33,13 @@ fun ShowSetCharacterPager(
     characterRes: List<String>,
     updateSelectedCharacter: (Int) -> Unit,
 ) {
-    val pagerState = rememberPagerState(pageCount = { imageSize })
+    val pagerState = rememberPagerState(pageCount = { Int.MAX_VALUE })
+
     val coroutineScope = rememberCoroutineScope()
     val interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
-
+    LaunchedEffect(true) {
+        pagerState.scrollToPage(Int.MAX_VALUE/2)
+    }
     val context = LocalContext.current
 
     Row(
@@ -54,7 +58,7 @@ fun ShowSetCharacterPager(
                                 pagerState.currentPage - 1
                             }
                             pagerState.animateScrollToPage(previousPage)
-                            updateSelectedCharacter(previousPage + 1)
+                            updateSelectedCharacter((previousPage)%imageSize + 1)
                         }
                     }
                 )
@@ -73,7 +77,7 @@ fun ShowSetCharacterPager(
         ) { page ->
             AsyncImage(
                 model = ImageRequest.Builder(context)
-                    .data(characterRes[page])
+                    .data(characterRes[page%imageSize])
                     .decoderFactory(SvgDecoder.Factory())
                     .build(),
                 contentDescription = null,
@@ -88,11 +92,11 @@ fun ShowSetCharacterPager(
                 .clickableWithoutRipple(interactionSource, onClick = {
                     coroutineScope.launch {
                         val nextPage =
-                            ((pagerState.currentPage + 1) % imageSize).coerceAtMost(
+                            ((pagerState.currentPage + 1)).coerceAtMost(
                                 pagerState.pageCount - 1
                             )
                         pagerState.animateScrollToPage(nextPage)
-                        updateSelectedCharacter(nextPage + 1)
+                        updateSelectedCharacter((nextPage)%imageSize + 1)
                     }
                 })
                 .padding(top = 126.dp, bottom = 92.dp),
