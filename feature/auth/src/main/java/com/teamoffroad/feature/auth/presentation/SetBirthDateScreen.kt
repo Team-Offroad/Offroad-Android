@@ -1,6 +1,7 @@
 package com.teamoffroad.feature.auth.presentation
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -125,16 +126,15 @@ internal fun SetBirthDateScreen(
                 ) {
                     val pattern = remember { Regex("^\\d+\$") }
                     BirthDateTextField(
-                        value = year,
+                        value = isBirthDateState.year,
                         placeholder = "YYYY",
                         onValueChange = {
                             if (it.isBlank() || it.matches(pattern)) {
-                                year = it
+                                viewModel.updateCheckedYear(it)
                                 if (it.length == 4) {
                                     monthFocusRequester.requestFocus()
                                 }
                             }
-                            viewModel.updateCheckedYear(year)
                         },
                         textAlign = Alignment.Center,
                         maxLength = 4,
@@ -162,20 +162,17 @@ internal fun SetBirthDateScreen(
                             .height(43.dp)
                             .focusRequester(monthFocusRequester)
                             .onFocusChanged {
-                                if (month.length == 1) {
-                                    month = "0$month"
-                                }
+                                viewModel.updateMonthLength()
                             },
                         placeholder = "MM",
-                        value = month,
+                        value = isBirthDateState.month,
                         onValueChange = {
                             if (it.isBlank() || it.matches(pattern)) {
-                                month = it
+                                viewModel.updateCheckedMonth(it)
                                 if (it.length == 2) {
                                     dayFocusRequester.requestFocus()
                                 }
                             }
-                            viewModel.updateCheckedMonth(month)
                         },
                         maxLength = 2,
                         textAlign = Alignment.Center,
@@ -199,20 +196,17 @@ internal fun SetBirthDateScreen(
                             .height(43.dp)
                             .focusRequester(dayFocusRequester)
                             .onFocusChanged {
-                                if (day.length == 1) {
-                                    day = "0$day"
-                                }
+                                viewModel.updateDayLength()
                             },
-                        value = day,
+                        value = isBirthDateState.day,
                         placeholder = "DD",
                         onValueChange = {
                             if (it.isBlank() || it.matches(pattern)) {
-                                day = it
+                                viewModel.updateCheckedDate(it)
                                 if (it.length == 2) {
                                     focusManager.clearFocus()
                                 }
                             }
-                            viewModel.updateCheckedDate(day)
                         },
                         maxLength = 2,
                         textAlign = Alignment.Center,
@@ -244,22 +238,23 @@ internal fun SetBirthDateScreen(
             )
             OffroadBasicBtn(
                 modifier = Modifier
-                    .width(312.dp)
+                    .padding(horizontal = 24.dp)
+                    .padding(bottom = 72.dp)
                     .height(50.dp)
                     .align(Alignment.CenterHorizontally),
                 onClick = {
                     val birthDate =
-                        if (year.isNotEmpty() && month.isNotEmpty() && day.isNotEmpty()) {
-                            "$year-$month-$day"
+                        if (isBirthDateState.year.isNotEmpty() && isBirthDateState.month.isNotEmpty() && isBirthDateState.day.isNotEmpty()) {
+                            "${isBirthDateState.year}-${isBirthDateState.month}-${isBirthDateState.day}"
                         } else {
                             null
                         }
+                    Log.d("asdasd", birthDate.toString())
                     navigateToSetGender(nickname, birthDate)
                 },
                 isActive = isBirthDateState.birthDateValidateResult == BirthDateValidateResult.Success,
                 text = "다음"
             )
-            Spacer(modifier = Modifier.height(72.dp))
         }
     }
 }

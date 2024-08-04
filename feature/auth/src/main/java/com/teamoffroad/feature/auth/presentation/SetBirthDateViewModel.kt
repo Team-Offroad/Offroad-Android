@@ -83,4 +83,18 @@ class SetBirthDateViewModel @Inject constructor(
             }
         }
     }
+
+    fun updateMonthLength() {
+        if (_birthDateUiState.value.month.length == 1) {
+            _birthDateUiState.value =
+                _birthDateUiState.value.copy(month = "0${_birthDateUiState.value.month.length}")
+        }
+    }
+
+    fun updateDayLength() {
+        if (_birthDateUiState.value.day.length == 1) {
+            _birthDateUiState.value =
+                _birthDateUiState.value.copy(day = "0${_birthDateUiState.value.day.length}")
+        }
+    }
 }
