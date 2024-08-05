@@ -240,8 +240,8 @@ fun offroadTypography(): OffroadTypography {
             fontSize = 11.sp
         ),
         textContents = TextStyle(
-            fontFamily = PretendardMedium,
-            fontWeight = FontWeight.Medium,
+            fontFamily = PretendardSemiBold,
+            fontWeight = FontWeight.SemiBold,
             fontSize = 13.sp
         ),
         profileTitle = TextStyle(
