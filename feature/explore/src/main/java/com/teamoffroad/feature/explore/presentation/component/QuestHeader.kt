@@ -2,6 +2,7 @@ package com.teamoffroad.feature.explore.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.HorizontalDivider
@@ -13,11 +14,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Gray100
+import com.teamoffroad.core.designsystem.theme.Gray400
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
-fun QuestHeader() {
+fun QuestHeader(
+    isChecked: Boolean,
+    updateProceedingToggle: () -> Unit,
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -35,6 +40,17 @@ fun QuestHeader() {
                 .padding(start = 8.dp)
                 .padding(vertical = 10.dp)
                 .size(24.dp),
+        )
+        Spacer(modifier = Modifier.weight(1f))
+        Text(
+            text = "진행 중",
+            color = Gray400,
+            style = OffroadTheme.typography.textContents,
+        )
+        ExploreSwitch(
+            isChecked = isChecked,
+            onCheckedChange = { updateProceedingToggle() },
+            modifier = Modifier.padding(start = 8.dp),
         )
     }
     HorizontalDivider(

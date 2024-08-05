@@ -24,4 +24,10 @@ class QuestViewModel @Inject constructor(
             error = false,
         )
     }
+
+    fun updateProceedingToggle() {
+        _uiState.value = uiState.value.copy(
+            isProceedingToggle = !uiState.value.isProceedingToggle
+        )
+    }
 }

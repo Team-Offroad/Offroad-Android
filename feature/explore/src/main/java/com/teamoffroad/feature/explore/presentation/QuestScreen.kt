@@ -31,7 +31,10 @@ fun QuestScreen(
             text = stringResource(id = R.string.explore_explore),
             modifier = Modifier.padding(top = 20.dp)
         ) { navigateToExplore("", "") }
-        QuestHeader()
+        QuestHeader(
+            uiState.value.isProceedingToggle,
+            questViewModel::updateProceedingToggle
+        )
         QuestItems(quests = uiState.value.quests)
     }
 }
