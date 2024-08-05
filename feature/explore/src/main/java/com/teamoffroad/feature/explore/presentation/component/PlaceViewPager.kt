@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.explore.presentation.component
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -74,7 +75,10 @@ fun PlaceViewPager() {
                     unselectedContentColor = Gray100,
                     onClick = {
                         coroutineScope.launch {
-                            pagerState.scrollToPage(index)
+                            pagerState.animateScrollToPage(
+                                page = index,
+                                animationSpec = tween(durationMillis = 200)
+                            )
                         }
                     }
                 )
