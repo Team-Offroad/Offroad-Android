@@ -17,17 +17,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.theme.Ground
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
-import com.teamoffroad.core.designsystem.theme.SelectedCharacterBackground
-import com.teamoffroad.core.designsystem.theme.SelectedCharacterBottom
 import com.teamoffroad.core.designsystem.theme.SelectedCharacterText
+import com.teamoffroad.core.designsystem.theme.Wall
 import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
 import com.teamoffroad.offroad.feature.auth.R
 
@@ -41,14 +40,14 @@ internal fun SelectedCharacterScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(SelectedCharacterBackground),
+                    .background(Wall),
             ) {
-                OffroadActionBar(SelectedCharacterBackground)
+                OffroadActionBar(Wall)
                 Spacer(modifier = Modifier.padding(270.dp))
                 Column(
                     modifier = Modifier
                         .weight(1f)
-                        .background(SelectedCharacterBottom)
+                        .background(Ground)
                         .fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {

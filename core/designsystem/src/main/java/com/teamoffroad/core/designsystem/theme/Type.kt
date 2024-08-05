@@ -34,12 +34,15 @@ class OffroadTypography internal constructor(
     textContentsSmall: TextStyle,
     textContents: TextStyle,
     profileTitle: TextStyle,
-    bothLogin: TextStyle,
-    bothBottomLabel: TextStyle,
-    bothRecentNum: TextStyle,
-    bothUpcomingSmallNum: TextStyle,
-    bothUpcomingBigNum: TextStyle,
-    bothSubtitle3: TextStyle
+    login: TextStyle,
+    bottomLabel: TextStyle,
+    recentNum: TextStyle,
+    upcomingSmallNum: TextStyle,
+    upcomingBigNum: TextStyle,
+    subtitle3: TextStyle,
+    tabBarMedi: TextStyle,
+    boxMedi: TextStyle,
+    marketing: TextStyle,
 ) {
     var title: TextStyle by mutableStateOf(title)
         private set
@@ -69,17 +72,23 @@ class OffroadTypography internal constructor(
         private set
     var profileTitle: TextStyle by mutableStateOf(profileTitle)
         private set
-    var bothLogin: TextStyle by mutableStateOf(bothLogin)
+    var bothLogin: TextStyle by mutableStateOf(login)
         private set
-    var bothBottomLabel: TextStyle by mutableStateOf(bothBottomLabel)
+    var bothBottomLabel: TextStyle by mutableStateOf(bottomLabel)
         private set
-    var bothRecentNum: TextStyle by mutableStateOf(bothRecentNum)
+    var bothRecentNum: TextStyle by mutableStateOf(recentNum)
         private set
-    var bothUpcomingSmallNum: TextStyle by mutableStateOf(bothUpcomingSmallNum)
+    var bothUpcomingSmallNum: TextStyle by mutableStateOf(upcomingSmallNum)
         private set
-    var bothUpcomingBigNum: TextStyle by mutableStateOf(bothUpcomingBigNum)
+    var bothUpcomingBigNum: TextStyle by mutableStateOf(upcomingBigNum)
         private set
-    var bothSubtitle3: TextStyle by mutableStateOf(bothSubtitle3)
+    var bothSubtitle3: TextStyle by mutableStateOf(subtitle3)
+        private set
+    var tabBarMedi: TextStyle by mutableStateOf(tabBarMedi)
+        private set
+    var boxMedi: TextStyle by mutableStateOf(boxMedi)
+        private set
+    var marketing: TextStyle by mutableStateOf(marketing)
         private set
 
     fun copy(
@@ -102,7 +111,10 @@ class OffroadTypography internal constructor(
         bothRecentNum: TextStyle = this.subtitleReg,
         bothUpcomingSmallNum: TextStyle = this.bothUpcomingSmallNum,
         bothUpcomingBigNum: TextStyle = this.bothUpcomingBigNum,
-        bothSubtitle3: TextStyle = this.bothSubtitle3
+        bothSubtitle3: TextStyle = this.bothSubtitle3,
+        boxMedi: TextStyle = this.boxMedi,
+        marketing: TextStyle = this.marketing,
+        tabBarMedi: TextStyle = this.tabBarMedi,
     ): OffroadTypography = OffroadTypography(
         title,
         subtitle2Bold,
@@ -123,7 +135,10 @@ class OffroadTypography internal constructor(
         bothRecentNum,
         bothUpcomingSmallNum,
         bothUpcomingBigNum,
-        bothSubtitle3
+        bothSubtitle3,
+        boxMedi,
+        marketing,
+        tabBarMedi,
     )
 
     fun update(other: OffroadTypography) {
@@ -147,6 +162,9 @@ class OffroadTypography internal constructor(
         bothUpcomingSmallNum = other.bothUpcomingSmallNum
         bothUpcomingBigNum = other.bothUpcomingBigNum
         bothSubtitle3 = other.bothSubtitle3
+        boxMedi = other.boxMedi
+        marketing = other.marketing
+        tabBarMedi = other.tabBarMedi
     }
 }
 
@@ -225,36 +243,50 @@ fun offroadTypography(): OffroadTypography {
             fontWeight = FontWeight.Bold,
             fontSize = 24.sp
         ),
-        bothLogin = TextStyle(
+        login = TextStyle(
             fontFamily = PretendardSemiBold,
             fontWeight = FontWeight.SemiBold,
             fontSize = 15.sp
         ),
-
-        bothBottomLabel = TextStyle(
+        bottomLabel = TextStyle(
             fontFamily = OpticianSansRegular,
             fontWeight = FontWeight.Normal,
             fontSize = 14.sp
         ),
-        bothRecentNum = TextStyle(
+        recentNum = TextStyle(
             fontFamily = OpticianSansRegular,
             fontWeight = FontWeight.Normal,
             fontSize = 24.sp
         ),
-        bothUpcomingSmallNum = TextStyle(
+        upcomingSmallNum = TextStyle(
             fontFamily = OpticianSansRegular,
             fontWeight = FontWeight.Normal,
             fontSize = 30.sp
         ),
-        bothUpcomingBigNum = TextStyle(
+        upcomingBigNum = TextStyle(
             fontFamily = OpticianSansRegular,
             fontWeight = FontWeight.Normal,
             fontSize = 62.sp
         ),
-        bothSubtitle3 = TextStyle(
+        subtitle3 = TextStyle(
             fontFamily = PretendardMedium,
             fontWeight = FontWeight.Medium,
             fontSize = 24.sp
-        )
+        ),
+        tabBarMedi = TextStyle(
+            fontFamily = PretendardMedium,
+            fontWeight = FontWeight.Medium,
+            fontSize = 17.sp
+        ),
+        boxMedi = TextStyle(
+            fontFamily = PretendardMedium,
+            fontWeight = FontWeight.Medium,
+            fontSize = 12.sp
+        ),
+        marketing = TextStyle(
+            fontFamily = PretendardRegular,
+            fontWeight = FontWeight.Normal,
+            fontSize = 12.sp
+        ),
     )
 }

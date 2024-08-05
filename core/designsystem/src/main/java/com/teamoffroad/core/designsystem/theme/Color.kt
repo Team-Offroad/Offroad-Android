@@ -21,6 +21,7 @@ val Sub4 = Color(0xFF353028)
 
 val White = Color(0xFFFFFFFF)
 val Black = Color(0xFF000000)
+val Transparent = Color(0x00000000)
 
 val Error = Color(0xFFF04452)
 val Kakao = Color(0xFFFEE500)
@@ -39,9 +40,9 @@ val Gray200 = Color(0xFFBEBEBE)
 val Gray300 = Color(0xFFB2B2B2)
 val Gray400 = Color(0xFF7E7E7E)
 
-val SelectedCharacterBackground = Color(0xFF452B0F)
+val Wall = Color(0xFF452B0F)
+val Ground = Color(0xFF685440)
 val SelectedCharacterText = Color(0xFFFFF7E7)
-val SelectedCharacterBottom = Color(0xFF8F705B)
 
 val BtnInactive = Color(0xFFEBEBEB)
 val BottomBarInactive = Color(0xFFA4A099)
@@ -55,3 +56,11 @@ val Contents1GraphMain = Color(0xFFFED761)
 val Contents1GraphSub = Color(0xFFBBAC57)
 val Contents2 = Color(0xFFE6CEAA)
 val CharacterName = Color(0x738B6546)
+
+val CharacterSelectBg1 = Color(0xFFFFF4CC)
+val CharacterSelectBg2 = Color(0xFFFFE1C5)
+val CharacterSelectBg3 = Color(0xFFF9E5D2)
+
+val ListBg = Color(0xFFF6EEDF)
+val BoxInfo = Color(0xFFFFF5EA)
+val GetCharacter = Color(0xFFFFB141)
