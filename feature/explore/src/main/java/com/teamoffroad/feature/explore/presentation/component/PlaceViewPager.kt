@@ -27,8 +27,7 @@ import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
-import com.teamoffroad.feature.explore.presentation.TotalPlaceScreen
-import com.teamoffroad.feature.explore.presentation.UnvisitedPlaceScreen
+import com.teamoffroad.feature.explore.presentation.model.FakePlaceModel
 import com.teamoffroad.offroad.feature.explore.R
 import kotlinx.coroutines.launch
 
@@ -82,16 +81,16 @@ fun PlaceViewPager() {
             }
         }
         HorizontalDivider(
-            modifier = Modifier.padding(bottom = 20.dp),
             color = Gray100,
         )
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.fillMaxSize(),
         ) { page ->
+            val dummyPlaces = FakePlaceModel.dummyPlaces
             when (page) {
-                0 -> UnvisitedPlaceScreen()
-                1 -> TotalPlaceScreen()
+                0 -> PlaceItems(dummyPlaces)
+                1 -> PlaceItems(dummyPlaces)
             }
         }
     }
