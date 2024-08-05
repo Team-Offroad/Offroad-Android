@@ -15,9 +15,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -30,6 +28,8 @@ import com.teamoffroad.offroad.core.designsystem.R
 @Composable
 fun ExpandableItem(
     modifier: Modifier = Modifier,
+    isExpanded: Boolean,
+    onExpandClick: () -> Unit,
     defaultContent: @Composable (Boolean) -> Unit,
     extraContent: @Composable () -> Unit = {},
     backgroundColor: Color = Main3,
@@ -37,7 +37,6 @@ fun ExpandableItem(
     verticalPadding: Int = 16,
     horizontalPadding: Int = 18,
 ) {
-    var isExpanded by remember { mutableStateOf(false) }
     val rotationAngle by animateFloatAsState(targetValue = if (isExpanded) 180f else 0f, label = "")
 
     Column(
@@ -59,7 +58,7 @@ fun ExpandableItem(
                     .rotate(rotationAngle)
                     .clickableWithoutRipple(interactionSource = remember {
                         MutableInteractionSource()
-                    }) { isExpanded = !isExpanded },
+                    }) { onExpandClick() },
             )
         }
         AnimatedVisibility(visible = isExpanded) {
