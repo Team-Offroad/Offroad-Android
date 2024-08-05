@@ -19,12 +19,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.theme.Brown
+import com.teamoffroad.core.designsystem.theme.CharacterSelectBg1
+import com.teamoffroad.core.designsystem.theme.CharacterSelectBg2
+import com.teamoffroad.core.designsystem.theme.CharacterSelectBg3
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -46,9 +48,9 @@ internal fun SetCharacterScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val backgroundColor = when (selectedCharacter.id) {
-        1 -> Color(0xFFFFF4CC)
-        2 -> Color(0xFFFFE1C5)
-        3 -> Color(0xFFF9E5D2)
+        1 -> CharacterSelectBg1
+        2 -> CharacterSelectBg2
+        3 -> CharacterSelectBg3
         else -> White
     }
 
