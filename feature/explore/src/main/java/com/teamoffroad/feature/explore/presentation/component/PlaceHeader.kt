@@ -27,7 +27,7 @@ fun PlaceHeader() {
             style = OffroadTheme.typography.title,
         )
         Image(
-            painter = painterResource(id = R.drawable.ic_explore_place),
+            painter = painterResource(id = R.drawable.ic_explore_scroll),
             contentDescription = null,
             modifier = Modifier
                 .padding(start = 8.dp)
