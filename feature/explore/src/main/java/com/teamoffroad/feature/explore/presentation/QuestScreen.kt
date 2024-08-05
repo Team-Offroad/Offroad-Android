@@ -13,6 +13,7 @@ import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.explore.presentation.component.QuestHeader
+import com.teamoffroad.feature.explore.presentation.component.QuestItems
 import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
@@ -31,5 +32,6 @@ fun QuestScreen(
             modifier = Modifier.padding(top = 20.dp)
         ) { navigateToExplore("", "") }
         QuestHeader()
+        QuestItems(quests = uiState.value.quests)
     }
 }

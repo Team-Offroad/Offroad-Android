@@ -15,15 +15,28 @@ data class FakeQuestModel(
             reward = "포인트 100원 적립",
             questProgressModel = QuestProgressModel(
                 progress = 108,
-                total = 178
+                total = 178,
             )
         )
 
-        val dummyQuests = List(10) { dummyQuest }
+        private val dummyQuest2 = FakeQuestModel(
+            name = "미술관 속 숨바꼭질",
+            description = "도심 속 미술관에서 숨겨진 보물을 찾아 떠나는 여정! 다양한 전시회를 탐방하며 정보를 모으세요.",
+            task = "도심 미술관 5곳 방문하여 숨겨진 QR코드 스캔",
+            reward = "무료 전시회 입장권 1매",
+            questProgressModel = QuestProgressModel(
+                progress = 30,
+                total = 30,
+            )
+        )
+
+        val dummyQuests =
+            listOf(dummyQuest, dummyQuest2, dummyQuest, dummyQuest2, dummyQuest, dummyQuest2, dummyQuest, dummyQuest2, dummyQuest, dummyQuest2)
     }
 }
 
 data class QuestProgressModel(
     val progress: Int,
     val total: Int,
+    val isCompleted: Boolean = progress == total,
 )

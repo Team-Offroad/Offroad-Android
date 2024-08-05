@@ -27,4 +27,5 @@
     <string name="explore_unvisited_place">안 가본 곳</string>
     <string name="explore_total_place">전체</string>
     <string name="explore_quest_list">퀘스트 목록</string>
+    <string name="explore_quest_achivement_rate">"달성도 "</string>
 </resources>
