@@ -13,7 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.ExpandableItem
-import com.teamoffroad.core.designsystem.theme.Black
+import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.feature.explore.presentation.model.FakePlaceModel
 
 @Composable
@@ -23,7 +23,7 @@ fun PlaceItems(places: List<FakePlaceModel>) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(Black)
+            .background(ListBg)
             .padding(horizontal = 24.dp),
         contentPadding = PaddingValues(vertical = 18.dp),
     ) {

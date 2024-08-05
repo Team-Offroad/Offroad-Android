@@ -20,7 +20,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
-import com.teamoffroad.core.designsystem.theme.Gray100
+import com.teamoffroad.core.designsystem.theme.BoxInfo
+import com.teamoffroad.core.designsystem.theme.CharacterSelectBg3
 import com.teamoffroad.core.designsystem.theme.Gray400
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.NametagInactive
@@ -71,7 +72,7 @@ fun PlaceExtraItem(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 14.dp)
-            .background(color = Gray100, shape = RoundedCornerShape(4.dp)) // TODO: 색상 변경
+            .background(color = BoxInfo, shape = RoundedCornerShape(4.dp))
             .padding(vertical = 6.dp, horizontal = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -95,8 +96,7 @@ fun PlaceExtraItem(
         )
         if (placeModel.visitCount > 0) {
             VerticalDivider(
-                color = Sub2, // TODO: 색상 변경
-                thickness = 2.dp,
+                color = CharacterSelectBg3,
                 modifier = Modifier
                     .padding(start = 8.dp, end = 6.dp)
                     .requiredHeight(20.dp)
