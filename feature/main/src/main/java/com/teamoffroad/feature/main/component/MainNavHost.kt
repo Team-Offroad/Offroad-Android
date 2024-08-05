@@ -49,6 +49,9 @@ internal fun MainNavHost(
                 navigateToPlace = {
                     navigator.navigateToPlace()
                 },
+                navigateToQuest = {
+                    navigator.navigateToQuest()
+                },
                 onBackClick = navigator::popBackStackIfNotMain,
             )
             mypageNavGraph(

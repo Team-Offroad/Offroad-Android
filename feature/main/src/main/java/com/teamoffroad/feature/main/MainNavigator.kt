@@ -19,6 +19,7 @@ import com.teamoffroad.feature.auth.navigation.navigateToSetNickname
 import com.teamoffroad.feature.explore.navigation.navigateToExplore
 import com.teamoffroad.feature.explore.navigation.navigateToExploreCamera
 import com.teamoffroad.feature.explore.navigation.navigateToPlace
+import com.teamoffroad.feature.explore.navigation.navigateToQuest
 import com.teamoffroad.feature.home.navigation.navigateToHome
 import com.teamoffroad.feature.mypage.navigation.navigateToMyPage
 
@@ -108,6 +109,10 @@ internal class MainNavigator(
 
     fun navigateToPlace() {
         navController.navigateToPlace(navOptions)
+    }
+
+    fun navigateToQuest() {
+        navController.navigateToQuest(navOptions)
     }
 }
 
