@@ -22,6 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Contents2
@@ -107,19 +108,18 @@ fun UserAdventureInfo() {
                 .fillMaxWidth()
                 .clip(shape = RoundedCornerShape(10.dp))
         ) {
-            Column {
+            Column{
                 Spacer(modifier = Modifier.padding(vertical = 7.dp))
-                Row {
-                    Box(modifier = Modifier.weight(1f)) {
+                Row{
+                    Box(modifier = Modifier.weight(1f).align(Alignment.CenterVertically)) {
                         QuestAchievement()
                     }
                     Spacer(modifier = Modifier
                         .height(18.dp)
                         .width(1.dp)
                         .background(Contents2)
-                        .align(Alignment.CenterVertically)
                     )
-                    Box(modifier = Modifier.weight(1f)) {
+                    Box(modifier = Modifier.weight(1f).align(Alignment.CenterVertically)) {
                         VisitedPlace()
                     }
                 }
@@ -179,7 +179,9 @@ fun UserEmblem() {
             text = "상수 고수 악수 박수",
             color = Sub,
             style = OffroadTheme.typography.textContents,
-            modifier = Modifier.padding(start = 10.dp, top = 6.dp, bottom = 6.dp)
+            modifier = Modifier
+                .padding(start = 10.dp, top = 6.dp, bottom = 6.dp)
+                .align(Alignment.CenterStart)
         )
     }
 }
@@ -200,9 +202,9 @@ fun QuestAchievement() {
                         color = Sub2
                     )
                 ) {
-                    append("34246")
+                    append("3")
                 }
-            }
+            },
         )
         Spacer(modifier = Modifier.weight(1f))
     }
