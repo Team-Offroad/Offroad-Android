@@ -7,6 +7,6 @@
     <string name="mypage_visit_place_amount">방문 장소 수&#160;</string>
     <string name="acquire_character">획득 캐릭터</string>
     <string name="acquire_coupon">획득 쿠폰</string>
-    <string name="acquire_emblem">호기득 칭호</string>
+    <string name="acquire_emblem">획득 칭호</string>
     <string name="settings">설정</string>
 </resources>
