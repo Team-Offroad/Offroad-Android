@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.mypage
+package com.teamoffroad.feature.mypage.presentation
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
