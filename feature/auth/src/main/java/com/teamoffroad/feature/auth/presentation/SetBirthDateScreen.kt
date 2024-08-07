@@ -20,9 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -57,10 +55,6 @@ internal fun SetBirthDateScreen(
     val yearFocusRequester = remember { FocusRequester() }
     val monthFocusRequester = remember { FocusRequester() }
     val dayFocusRequester = remember { FocusRequester() }
-
-    var year by remember { mutableStateOf("") }
-    var month by remember { mutableStateOf("") }
-    var day by remember { mutableStateOf("") }
     val isBirthDateState by viewModel.birthDateUiState.collectAsState()
 
     Surface(
@@ -249,7 +243,6 @@ internal fun SetBirthDateScreen(
                         } else {
                             null
                         }
-                    Log.d("asdasd", birthDate.toString())
                     navigateToSetGender(nickname, birthDate)
                 },
                 isActive = isBirthDateState.birthDateValidateResult == BirthDateValidateResult.Success,

@@ -42,7 +42,6 @@ internal fun SetGenderScreen(
 ) {
     val isGenderState by viewModel.genderUiState.collectAsState()
     val interactionSource = remember { MutableInteractionSource() }
-
     Surface(
         modifier = Modifier
             .fillMaxSize()
