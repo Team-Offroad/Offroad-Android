@@ -12,21 +12,35 @@ class GetBirthDateValidateUseCase {
     ): BirthDateValidateResult {
         when (birthDate) {
             "year" -> {
-                return when (checkInValidYear(year.toInt())) {
+                return when (year.toIntOrNull()?.let { checkInValidYear(it) }) {
                     true -> BirthDateValidateResult.Success
                     false -> BirthDateValidateResult.Error
+                    null -> BirthDateValidateResult.Error
                 }
             }
+
             "month" -> {
-                return when (checkInValidMonth(month.toInt())) {
+                return when (month.toIntOrNull()?.let {
+                    checkInValidMonth(it)
+                }) {
                     true -> BirthDateValidateResult.Success
                     false -> BirthDateValidateResult.Error
+                    null -> BirthDateValidateResult.Error
                 }
             }
+
             else -> {
-                return when (checkInValidDay(year.toInt(), month.toInt(), day.toInt())) {
+                return when (year.toIntOrNull()
+                    ?.let {
+                        month.toIntOrNull()
+                            ?.let { it1 ->
+                                day.toIntOrNull()
+                                    ?.let { it2 -> checkInValidDay(it, it1, it2) }
+                            }
+                    }) {
                     true -> BirthDateValidateResult.Success
                     false -> BirthDateValidateResult.Error
+                    null -> BirthDateValidateResult.Error
                 }
             }
         }

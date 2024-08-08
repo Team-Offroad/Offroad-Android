@@ -17,9 +17,12 @@ import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.White
 
 @Composable
-fun SetCharacterIndicator(imageSize: Int, pagerState: PagerState) {
+fun SetCharacterIndicator(
+    modifier: Modifier = Modifier,
+    imageSize: Int,
+    pagerState: PagerState) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
     ) {
         for (indicator in 1..imageSize) {
