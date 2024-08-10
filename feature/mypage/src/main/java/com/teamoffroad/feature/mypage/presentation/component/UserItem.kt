@@ -22,7 +22,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Contents2
@@ -32,6 +31,7 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.PretendardBold
 import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.Sub2
+import com.teamoffroad.feature.mypage.presentation.model.FakeUserModel
 import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
@@ -69,7 +69,7 @@ fun UserNickname(nickname: String) {
 }
 
 @Composable
-fun UserAdventureInfo() {
+fun UserAdventureInfo(userData: FakeUserModel) {
     Column {
         Surface(
             color = Main1,
@@ -83,7 +83,7 @@ fun UserAdventureInfo() {
                     Spacer(modifier = Modifier.padding(horizontal = 10.dp))
                     UserImage()
                     Spacer(modifier = Modifier.padding(horizontal = 15.dp))
-                    UserInfo()
+                    UserInfo(userData.date, userData.emblem)
                 }
                 Spacer(modifier = Modifier.padding(vertical = 9.dp))
             }
@@ -112,7 +112,7 @@ fun UserAdventureInfo() {
                 Spacer(modifier = Modifier.padding(vertical = 7.dp))
                 Row{
                     Box(modifier = Modifier.weight(1f).align(Alignment.CenterVertically)) {
-                        QuestAchievement()
+                        QuestAchievement(userData.acquireQuest)
                     }
                     Spacer(modifier = Modifier
                         .height(18.dp)
@@ -120,7 +120,7 @@ fun UserAdventureInfo() {
                         .background(Contents2)
                     )
                     Box(modifier = Modifier.weight(1f).align(Alignment.CenterVertically)) {
-                        VisitedPlace()
+                        VisitedPlace(userData.visitPlace)
                     }
                 }
                 Spacer(modifier = Modifier.padding(vertical = 7.dp))
@@ -130,12 +130,12 @@ fun UserAdventureInfo() {
 }
 
 @Composable
-fun UserInfo() {
+fun UserInfo(date: Int, emblem: String) {
     Column {
         Spacer(modifier = Modifier.padding(vertical = 6.dp))
-        UserAdventureDate()
+        UserAdventureDate(date)
         Spacer(modifier = Modifier.padding(vertical = 5.dp))
-        UserEmblem()
+        UserEmblem(emblem)
         Spacer(modifier = Modifier.padding(vertical = 6.dp))
     }
 }
@@ -149,7 +149,7 @@ fun UserImage() {
 }
 
 @Composable
-fun UserAdventureDate() {
+fun UserAdventureDate(date: Int) {
     Text(
         style = OffroadTheme.typography.btnSmall,
         color = Main2,
@@ -161,7 +161,7 @@ fun UserAdventureDate() {
                     color = Sub2
                 )
             ) {
-                append("6887")
+                append(date.toString())
             }
             append(stringResource(id = R.string.mypage_adventure_date))
         }
@@ -169,14 +169,14 @@ fun UserAdventureDate() {
 }
 
 @Composable
-fun UserEmblem() {
+fun UserEmblem(emblem: String) {
     Box {
         Image(
             painterResource(id = R.drawable.img_emblem_tag),
             contentDescription = "emblem tag"
         )
         Text(
-            text = "상수 고수 악수 박수",
+            text = emblem,
             color = Sub,
             style = OffroadTheme.typography.textContents,
             modifier = Modifier
@@ -187,7 +187,7 @@ fun UserEmblem() {
 }
 
 @Composable
-fun QuestAchievement() {
+fun QuestAchievement(achieveQuest: Int) {
     Row {
         Spacer(modifier = Modifier.weight(1f))
         Text(
@@ -202,7 +202,7 @@ fun QuestAchievement() {
                         color = Sub2
                     )
                 ) {
-                    append("3")
+                    append(achieveQuest.toString())
                 }
             },
         )
@@ -211,7 +211,7 @@ fun QuestAchievement() {
 }
 
 @Composable
-fun VisitedPlace() {
+fun VisitedPlace(visitPlace: Int) {
     Row {
         Spacer(modifier = Modifier.weight(1f))
         Text(
@@ -226,7 +226,7 @@ fun VisitedPlace() {
                         color = Sub2
                     )
                 ) {
-                    append("34")
+                    append(visitPlace.toString())
                 }
             }
         )

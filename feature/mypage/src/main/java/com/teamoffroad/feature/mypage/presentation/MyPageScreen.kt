@@ -13,6 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.common.util.OnBackButtonListener
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.theme.ListBg
@@ -25,7 +27,11 @@ import com.teamoffroad.feature.mypage.presentation.component.UserAdventureInfo
 import com.teamoffroad.feature.mypage.presentation.component.UserNickname
 
 @Composable
-internal fun MyPageScreen() {
+internal fun MyPageScreen(
+    myPageViewModel: MyPageViewModel = hiltViewModel(),
+) {
+    val uiState = myPageViewModel.uiState.collectAsStateWithLifecycle()
+
     Box(
         modifier = Modifier
             .background(ListBg)
@@ -37,9 +43,9 @@ internal fun MyPageScreen() {
     ) {
         Column {
             OffroadActionBar(Color.Transparent)
-            UserNickname("비포장도로로로롱")
+            UserNickname(uiState.value.userData.nickname)
             Spacer(modifier = Modifier.padding(vertical = 13.dp))
-            UserAdventureInfo()
+            UserAdventureInfo(uiState.value.userData)
             Spacer(modifier = Modifier.padding(vertical = 8.dp))
             Row(
                 modifier = Modifier.weight(1f)
