@@ -42,7 +42,7 @@ fun Settings() {
                 contentAlignment = Alignment.BottomEnd
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.img_acquire_character),
+                    painter = painterResource(id = R.drawable.img_settings),
                     contentDescription = "settings",
                 )
             }

@@ -38,11 +38,11 @@ fun AcquireEmblem() {
                     .padding(start = 16.dp, top = 16.dp)
             )
             Box(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize().padding(top = 42.dp, start = 32.dp, end = 4.dp),
                 contentAlignment = Alignment.BottomEnd
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.img_acquire_character),
+                    painter = painterResource(id = R.drawable.img_acquire_emblem),
                     contentDescription = "acquire emblem",
                 )
             }

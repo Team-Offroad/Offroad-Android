@@ -39,7 +39,7 @@ fun AcquireCharacter() {
                     .padding(start = 16.dp, top = 16.dp)
             )
             Box(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize().padding(top = 46.dp, start = 42.dp, end = 10.dp),
                 contentAlignment = Alignment.BottomEnd
             ) {
                 Image(
