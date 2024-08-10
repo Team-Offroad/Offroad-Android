@@ -49,6 +49,12 @@ internal fun MainNavHost(
                 onBackClick = navigator::popBackStackIfNotMain,
             )
             mypageNavGraph(
+                navigateToMyPage = {
+                    navigator.navigateToMyPage()
+                },
+                navigateToAcquireCoupon = {
+                    navigator.navigateToAcquireCoupon()
+                },
                 onBackClick = navigator::popBackStackIfNotMain,
             )
             authNavGraph(

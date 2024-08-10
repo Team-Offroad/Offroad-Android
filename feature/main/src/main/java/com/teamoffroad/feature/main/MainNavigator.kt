@@ -19,6 +19,7 @@ import com.teamoffroad.feature.auth.navigation.navigateToSetNickname
 import com.teamoffroad.feature.explore.navigation.navigateToExplore
 import com.teamoffroad.feature.explore.navigation.navigateToExploreCameraScreen
 import com.teamoffroad.feature.home.navigation.navigateToHome
+import com.teamoffroad.feature.mypage.navigation.navigateToAcquireCoupon
 import com.teamoffroad.feature.mypage.navigation.navigateToMyPage
 
 internal class MainNavigator(
@@ -99,6 +100,14 @@ internal class MainNavigator(
 
     fun navigateToSelectedCharacter(selectedCharacterUrl: String) {
         navController.navigateToSelectedCharacter(selectedCharacterUrl, navOptions)
+    }
+
+    fun navigateToMyPage() {
+        navController.navigateToMyPage(navOptions)
+    }
+
+    fun navigateToAcquireCoupon() {
+        navController.navigateToAcquireCoupon(navOptions)
     }
 
     fun navigateToExplore(authResultType: String, imageUrl: String) {
