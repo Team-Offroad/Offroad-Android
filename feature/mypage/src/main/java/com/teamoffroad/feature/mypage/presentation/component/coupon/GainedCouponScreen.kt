@@ -27,6 +27,7 @@ import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub4
+import com.teamoffroad.feature.mypage.presentation.component.coupon.model.FakeGainedCouponModel
 import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
@@ -59,7 +60,7 @@ internal fun GainedCouponScreen(
                 GainedCouponHeader()
             }
             Spacer(modifier = Modifier.padding(vertical = 10.dp))
-            GainedCouponViewPager()
+            GainedCouponViewPager(FakeGainedCouponModel.dummyGainedCoupons)
         }
     }
 }
