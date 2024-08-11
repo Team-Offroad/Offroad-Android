@@ -18,9 +18,9 @@ import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
-internal fun AcquireCouponScreen(
+internal fun GainedCouponScreen(
     navigateToMyPage: () -> Unit,
-    acquireCouponViewModel: AcquireCouponViewModel = hiltViewModel()
+    gainedCouponViewModel: GainedCouponViewModel = hiltViewModel()
 ) {
     Column(
         modifier = Modifier
@@ -40,6 +40,6 @@ internal fun AcquireCouponScreen(
 @Composable
 fun AcquireCouponScreenPreview() {
     OffroadTheme {
-        AcquireCouponScreen(navigateToMyPage = { })
+        GainedCouponScreen(navigateToMyPage = { })
     }
 }
