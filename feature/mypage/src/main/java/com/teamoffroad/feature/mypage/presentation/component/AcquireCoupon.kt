@@ -42,7 +42,7 @@ fun AcquireCoupon() {
                 contentAlignment = Alignment.BottomEnd
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.img_acquire_coupon),
+                    painter = painterResource(id = R.drawable.img_mypage_acquire_coupon),
                     contentDescription = "acquire coupon",
                 )
             }

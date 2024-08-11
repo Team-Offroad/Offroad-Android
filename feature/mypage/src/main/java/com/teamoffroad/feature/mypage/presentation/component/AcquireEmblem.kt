@@ -42,7 +42,7 @@ fun AcquireEmblem() {
                 contentAlignment = Alignment.BottomEnd
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.img_acquire_emblem),
+                    painter = painterResource(id = R.drawable.img_mypage_acquire_emblem),
                     contentDescription = "acquire emblem",
                 )
             }
