@@ -16,7 +16,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -40,11 +39,8 @@ internal fun SetNicknameScreen(
     viewModel: SetNicknameViewModel = hiltViewModel(),
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-
     val focusManager = LocalFocusManager.current
     val focusRequester by remember { mutableStateOf(FocusRequester()) }
-
-    var text by remember { mutableStateOf("") }
     val isNicknameState by viewModel.nicknameUiState.collectAsState()
 
     Surface(
@@ -70,10 +66,9 @@ internal fun SetNicknameScreen(
             Column {
                 Row {
                     NicknameTextField(
-                        value = text,
+                        value = isNicknameState.nickname,
                         placeholder = "닉네임 입력",
                         onValueChange = {
-                            text = it
                             viewModel.updateNicknamesValid(it)
                         },
                         textAlign = Alignment.CenterStart,
@@ -99,7 +94,7 @@ internal fun SetNicknameScreen(
                 }
                 Spacer(modifier = Modifier.padding(vertical = 6.dp))
                 NicknameHintText(
-                    text = text,
+                    text = isNicknameState.nickname,
                     isDuplicate = isNicknameState.nicknameValidateResult,
                 )
             }

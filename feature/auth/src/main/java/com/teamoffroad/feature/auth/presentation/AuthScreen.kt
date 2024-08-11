@@ -14,6 +14,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
@@ -43,7 +46,7 @@ internal fun AuthScreen(
     val isSignInSuccess by viewModel.successSignIn.collectAsStateWithLifecycle()
     val isAutoSignIn by viewModel.autoSignIn.collectAsStateWithLifecycle()
     val isAlreadyExist by viewModel.alreadyExist.collectAsStateWithLifecycle()
-
+    var signInLauncherInitialized by remember { mutableStateOf(false) }
     val signInLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -52,7 +55,9 @@ internal fun AuthScreen(
             viewModel.performGoogleSignIn(task)
         }
     }
-
+    LaunchedEffect(Unit) {
+        signInLauncherInitialized = true
+    }
     LaunchedEffect(Unit) {
         delay(1200L)
         viewModel.checkAutoSignIn()
@@ -62,8 +67,11 @@ internal fun AuthScreen(
         if (isSignInSuccess && !isAlreadyExist) navigateToSetNickname()
         if (isSignInSuccess && isAlreadyExist) navigateToHome()
     }
-
-    if (isAutoSignIn) signInLauncher.launch(viewModel.googleSignInClient.signInIntent)
+    LaunchedEffect(isAutoSignIn, signInLauncherInitialized) {
+        if (isAutoSignIn && signInLauncherInitialized) {
+            signInLauncher.launch(viewModel.googleSignInClient.signInIntent)
+        }
+    }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
