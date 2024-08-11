@@ -143,6 +143,7 @@ internal fun SetBirthDateScreen(
                         keyboardActions = KeyboardActions(
                             onNext = { monthFocusRequester.requestFocus() }
                         ),
+                        isBirthDateValidateResult = isBirthDateState.birthDateValidateResult
                     )
                     Text(
                         modifier = Modifier.padding(start = 6.dp, end = 8.dp),
@@ -177,6 +178,7 @@ internal fun SetBirthDateScreen(
                         keyboardActions = KeyboardActions(
                             onNext = { dayFocusRequester.requestFocus() }
                         ),
+                        isBirthDateValidateResult = isBirthDateState.birthDateValidateResult
                     )
                     Text(
                         modifier = Modifier.padding(start = 6.dp, end = 8.dp),
@@ -210,7 +212,8 @@ internal fun SetBirthDateScreen(
                         ),
                         keyboardActions = KeyboardActions(
                             onDone = { focusManager.clearFocus() }
-                        )
+                        ),
+                        isBirthDateValidateResult = isBirthDateState.birthDateValidateResult,
                     )
                     Text(
                         modifier = Modifier

@@ -26,7 +26,6 @@ class SetBirthDateViewModel @Inject constructor(
             if (year.isBlank()) {
                 _birthDateUiState.value =
                     _birthDateUiState.value.copy(
-                        year = "",
                         birthDateValidateResult = BirthDateValidateResult.Empty
                     )
             } else {
