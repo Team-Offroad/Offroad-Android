@@ -19,13 +19,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -55,10 +54,6 @@ internal fun SetBirthDateScreen(
     val yearFocusRequester = remember { FocusRequester() }
     val monthFocusRequester = remember { FocusRequester() }
     val dayFocusRequester = remember { FocusRequester() }
-
-    var year by remember { mutableStateOf("") }
-    var month by remember { mutableStateOf("") }
-    var day by remember { mutableStateOf("") }
     val isBirthDateState by viewModel.birthDateUiState.collectAsState()
 
     Surface(
@@ -124,13 +119,15 @@ internal fun SetBirthDateScreen(
                 ) {
                     val pattern = remember { Regex("^\\d+\$") }
                     BirthDateTextField(
-                        value = year,
+                        value = isBirthDateState.year,
                         placeholder = "YYYY",
                         onValueChange = {
                             if (it.isBlank() || it.matches(pattern)) {
-                                year = it
+                                viewModel.updateCheckedYear(it)
+                                if (it.length == 4) {
+                                    monthFocusRequester.requestFocus()
+                                }
                             }
-                            viewModel.updateCheckedYear(year)
                         },
                         textAlign = Alignment.Center,
                         maxLength = 4,
@@ -156,14 +153,19 @@ internal fun SetBirthDateScreen(
                         modifier = Modifier
                             .width(66.dp)
                             .height(43.dp)
-                            .focusRequester(monthFocusRequester),
+                            .focusRequester(monthFocusRequester)
+                            .onFocusChanged {
+                                viewModel.updateMonthLength()
+                            },
                         placeholder = "MM",
-                        value = month,
+                        value = isBirthDateState.month,
                         onValueChange = {
                             if (it.isBlank() || it.matches(pattern)) {
-                                month = it
+                                viewModel.updateCheckedMonth(it)
+                                if (it.length == 2) {
+                                    dayFocusRequester.requestFocus()
+                                }
                             }
-                            viewModel.updateCheckedMonth(month)
                         },
                         maxLength = 2,
                         textAlign = Alignment.Center,
@@ -185,14 +187,19 @@ internal fun SetBirthDateScreen(
                         modifier = Modifier
                             .width(66.dp)
                             .height(43.dp)
-                            .focusRequester(dayFocusRequester),
-                        value = day,
+                            .focusRequester(dayFocusRequester)
+                            .onFocusChanged {
+                                viewModel.updateDayLength()
+                            },
+                        value = isBirthDateState.day,
                         placeholder = "DD",
                         onValueChange = {
                             if (it.isBlank() || it.matches(pattern)) {
-                                day = it
+                                viewModel.updateCheckedDate(it)
+                                if (it.length == 2) {
+                                    focusManager.clearFocus()
+                                }
                             }
-                            viewModel.updateCheckedDate(day)
                         },
                         maxLength = 2,
                         textAlign = Alignment.Center,
@@ -202,7 +209,7 @@ internal fun SetBirthDateScreen(
                         ),
                         keyboardActions = KeyboardActions(
                             onDone = { focusManager.clearFocus() }
-                        )
+                        ),
                     )
                     Text(
                         modifier = Modifier
@@ -224,13 +231,14 @@ internal fun SetBirthDateScreen(
             )
             OffroadBasicBtn(
                 modifier = Modifier
-                    .width(312.dp)
+                    .padding(horizontal = 24.dp)
+                    .padding(bottom = 72.dp)
                     .height(50.dp)
                     .align(Alignment.CenterHorizontally),
                 onClick = {
                     val birthDate =
-                        if (year.isNotEmpty() && month.isNotEmpty() && day.isNotEmpty()) {
-                            "$year-$month-$day"
+                        if (isBirthDateState.year.isNotEmpty() && isBirthDateState.month.isNotEmpty() && isBirthDateState.day.isNotEmpty()) {
+                            "${isBirthDateState.year}-${isBirthDateState.month}-${isBirthDateState.day}"
                         } else {
                             null
                         }
@@ -239,7 +247,6 @@ internal fun SetBirthDateScreen(
                 isActive = isBirthDateState.birthDateValidateResult == BirthDateValidateResult.Success,
                 text = "다음"
             )
-            Spacer(modifier = Modifier.height(72.dp))
         }
     }
 }
