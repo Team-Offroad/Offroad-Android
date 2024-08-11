@@ -22,7 +22,7 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.mypage.presentation.component.AcquireCharacter
 import com.teamoffroad.feature.mypage.presentation.component.AcquireCoupon
 import com.teamoffroad.feature.mypage.presentation.component.AcquireEmblem
-import com.teamoffroad.feature.mypage.presentation.component.Settings
+import com.teamoffroad.feature.mypage.presentation.component.UserSettings
 import com.teamoffroad.feature.mypage.presentation.component.UserAdventureInfo
 import com.teamoffroad.feature.mypage.presentation.component.UserNickname
 
@@ -61,7 +61,7 @@ internal fun MyPageScreen(
             ) {
                 Box(modifier = Modifier.weight(1f)) { AcquireEmblem() }
                 Spacer(modifier = Modifier.padding(horizontal = 6.dp))
-                Box(modifier = Modifier.weight(1f)) { Settings() }
+                Box(modifier = Modifier.weight(1f)) { UserSettings() }
             }
             Spacer(modifier = Modifier.padding(vertical = 28.dp))
         }

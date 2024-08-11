@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
@@ -39,11 +38,13 @@ fun AcquireCharacter() {
                     .padding(start = 16.dp, top = 16.dp)
             )
             Box(
-                modifier = Modifier.fillMaxSize().padding(top = 46.dp, start = 42.dp, end = 10.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 46.dp, start = 42.dp, end = 10.dp),
                 contentAlignment = Alignment.BottomEnd
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.img_acquire_character),
+                    painter = painterResource(id = R.drawable.img_mypage_acquire_character),
                     contentDescription = "acquire character",
                 )
             }

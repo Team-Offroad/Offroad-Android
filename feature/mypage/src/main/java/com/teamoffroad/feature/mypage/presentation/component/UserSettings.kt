@@ -21,7 +21,7 @@ import com.teamoffroad.core.designsystem.theme.Sub4
 import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
-fun Settings() {
+fun UserSettings() {
     Surface(
         modifier = Modifier
             .clip(shape = RoundedCornerShape(10.dp))
@@ -42,7 +42,7 @@ fun Settings() {
                 contentAlignment = Alignment.BottomEnd
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.img_settings),
+                    painter = painterResource(id = R.drawable.img_mypage_user_settings),
                     contentDescription = "settings",
                 )
             }
