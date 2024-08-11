@@ -37,7 +37,7 @@ fun AcquireCoupon(navigateToAcquireCoupon: () -> Unit) {
             modifier = Modifier.background(Color(0xFFF1DCBB))
         ) {
             Text(
-                text = stringResource(id = R.string.acquire_coupon),
+                text = stringResource(id = R.string.gained_coupon),
                 style = OffroadTheme.typography.textBold,
                 color = Sub4,
                 modifier = Modifier
