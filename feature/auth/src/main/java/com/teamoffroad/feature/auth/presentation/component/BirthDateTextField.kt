@@ -26,6 +26,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.teamoffroad.core.designsystem.theme.Error
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -56,8 +57,8 @@ fun BirthDateTextField(
     val borderLineColor = remember { mutableStateOf(Gray100) }
     val textColor = remember { mutableStateOf(Gray300) }
 
-    if (isFocused) {
-        borderLineColor.value = Sub
+    if (isFocused || value.isNotBlank()) {
+        borderLineColor.value = Error
         textColor.value = Main2
     } else {
         borderLineColor.value = Gray100
