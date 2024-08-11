@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Gray100
@@ -89,8 +90,8 @@ fun GainedCouponViewPager() {
             modifier = Modifier.fillMaxSize()
         ) { page ->
             when(page) {
-                0 -> GainedAvailableCouponItems(coupons = FakeGainedCouponModel.dummyGainedCoupons.availableCoupons)
-                1 -> GainedUsedCouponItems(coupons = FakeGainedCouponModel.dummyGainedCoupons.usedCoupons)
+                0 -> GainedAvailableCouponItems(coupons = FakeGainedCouponModel.dummyGainedCoupons.availableCoupons,  LocalContext.current)
+                1 -> GainedUsedCouponItems(coupons = FakeGainedCouponModel.dummyGainedCoupons.usedCoupons, LocalContext.current)
             }
 
         }
