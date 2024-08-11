@@ -23,14 +23,14 @@ fun NicknameHintText(
             text = when (isDuplicate) {
                 NicknameValidateResult.Duplicate -> stringResource(R.string.auth_duplicated_nickname)
                 NicknameValidateResult.NicknameValidateFailure -> stringResource(id = R.string.auth_invalid_nickname)
+                NicknameValidateResult.Success -> "좋은 닉네임이에요"
                 else -> stringResource(R.string.auth_empty_nickname)
             },
             style = OffroadTheme.typography.hint,
-            color = if (isDuplicate == NicknameValidateResult.Duplicate) {
-                Error
-            } else {
-                checkNicknameHint(text)
-            },
+            color = when (isDuplicate) {
+                NicknameValidateResult.Duplicate -> Error
+                else -> checkNicknameHint(text)
+            }
         )
     }
 }
