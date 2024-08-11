@@ -31,11 +31,17 @@ class GetBirthDateValidateUseCase {
 
             else -> {
                 return when (year.toIntOrNull()
-                    ?.let {
+                    ?.let { checkYear ->
                         month.toIntOrNull()
-                            ?.let { it1 ->
+                            ?.let { checkMonth ->
                                 day.toIntOrNull()
-                                    ?.let { it2 -> checkInValidDay(it, it1, it2) }
+                                    ?.let { checkDay ->
+                                        checkInValidDay(
+                                            checkYear,
+                                            checkMonth,
+                                            checkDay
+                                        )
+                                    }
                             }
                     }) {
                     true -> BirthDateValidateResult.Success

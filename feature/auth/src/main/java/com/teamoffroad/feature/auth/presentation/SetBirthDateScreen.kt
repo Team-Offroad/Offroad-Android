@@ -1,7 +1,6 @@
 package com.teamoffroad.feature.auth.presentation
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -143,7 +142,6 @@ internal fun SetBirthDateScreen(
                         keyboardActions = KeyboardActions(
                             onNext = { monthFocusRequester.requestFocus() }
                         ),
-                        isBirthDateValidateResult = isBirthDateState.birthDateValidateResult
                     )
                     Text(
                         modifier = Modifier.padding(start = 6.dp, end = 8.dp),
@@ -178,7 +176,6 @@ internal fun SetBirthDateScreen(
                         keyboardActions = KeyboardActions(
                             onNext = { dayFocusRequester.requestFocus() }
                         ),
-                        isBirthDateValidateResult = isBirthDateState.birthDateValidateResult
                     )
                     Text(
                         modifier = Modifier.padding(start = 6.dp, end = 8.dp),
@@ -213,7 +210,6 @@ internal fun SetBirthDateScreen(
                         keyboardActions = KeyboardActions(
                             onDone = { focusManager.clearFocus() }
                         ),
-                        isBirthDateValidateResult = isBirthDateState.birthDateValidateResult,
                     )
                     Text(
                         modifier = Modifier

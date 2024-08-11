@@ -51,7 +51,6 @@ fun BirthDateTextField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    isBirthDateValidateResult: BirthDateValidateResult,
 ) {
     val isFocused by interactionSource.collectIsFocusedAsState()
 

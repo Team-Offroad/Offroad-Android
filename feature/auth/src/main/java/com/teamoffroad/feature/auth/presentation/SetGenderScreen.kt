@@ -29,6 +29,7 @@ import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
+import com.teamoffroad.feature.auth.domain.model.UserGender
 import com.teamoffroad.feature.auth.presentation.component.GenderHintButton
 import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
 import com.teamoffroad.feature.auth.presentation.model.SetGenderUiState
@@ -112,17 +113,16 @@ fun SetGenderButton(
     isGenderState: SetGenderUiState,
     interactionSource: MutableInteractionSource
 ) {
-
     val (male, female, other) = when (isGenderState) {
-        SetGenderUiState.Select("MALE") -> {
+        SetGenderUiState.Select(UserGender.MALE.name) -> {
             Triple(true, false, false)
         }
 
-        SetGenderUiState.Select("FEMALE") -> {
+        SetGenderUiState.Select(UserGender.FEMALE.name) -> {
             Triple(false, true, false)
         }
 
-        SetGenderUiState.Select("OTHER") -> {
+        SetGenderUiState.Select(UserGender.OTHER.name) -> {
             Triple(false, false, true)
         }
 
@@ -130,7 +130,6 @@ fun SetGenderButton(
             Triple(false, false, false)
         }
     }
-
     Column {
         GenderHintButton(
             modifier = Modifier
