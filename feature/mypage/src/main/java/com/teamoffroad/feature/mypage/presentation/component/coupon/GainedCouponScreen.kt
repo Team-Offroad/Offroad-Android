@@ -48,22 +48,27 @@ internal fun GainedCouponScreen(
         Row(
             modifier = Modifier.padding(start = 24.dp, top = 28.dp)
         ) {
-            Text(
-                text = stringResource(id = R.string.gained_coupon),
-                style = OffroadTheme.typography.title,
-                color = Main2,
-            )
-            Image(
-                painter = painterResource(id = R.drawable.img_mypage_coupon),
-                contentDescription = "coupon",
-                modifier = Modifier
-                    .padding(start = 6.dp)
-                    .size(24.dp)
-            )
+            GainedCouponHeader()
         }
         Spacer(modifier = Modifier.padding(vertical = 10.dp))
         GainedCouponViewPager()
     }
+}
+
+@Composable
+private fun GainedCouponHeader() {
+    Text(
+        text = stringResource(id = R.string.gained_coupon),
+        style = OffroadTheme.typography.title,
+        color = Main2,
+    )
+    Image(
+        painter = painterResource(id = R.drawable.img_mypage_coupon),
+        contentDescription = "coupon",
+        modifier = Modifier
+            .padding(start = 6.dp)
+            .size(24.dp)
+    )
 }
 
 @Preview(showBackground = true)

@@ -25,10 +25,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.ListBg
-import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
+import com.teamoffroad.feature.mypage.presentation.component.coupon.model.FakeGainedCouponModel
 import com.teamoffroad.offroad.feature.mypage.R
 import kotlinx.coroutines.launch
 
@@ -88,7 +88,10 @@ fun GainedCouponViewPager() {
             state = pagerState,
             modifier = Modifier.fillMaxSize()
         ) { page ->
-            //val dummy
+            when(page) {
+                0 -> GainedAvailableCouponItems(coupons = FakeGainedCouponModel.dummyGainedCoupons.availableCoupons)
+                1 -> GainedUsedCouponItems(coupons = FakeGainedCouponModel.dummyGainedCoupons.usedCoupons)
+            }
 
         }
     }
