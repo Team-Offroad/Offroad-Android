@@ -1,15 +1,19 @@
 package com.teamoffroad.feature.mypage.presentation.component.coupon
 
 import android.content.Context
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,16 +23,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.teamoffroad.core.designsystem.theme.Black
+import com.teamoffroad.core.designsystem.theme.Black25
 import com.teamoffroad.core.designsystem.theme.Contents2
+import com.teamoffroad.core.designsystem.theme.Kakao
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.mypage.presentation.component.coupon.model.FakeGainedCouponModel
+import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
-fun GainedAvailableCouponItems(
+fun AvailableCouponItems(
     coupons: List<FakeGainedCouponModel.FakeAvailableCouponsModel>,
     context: Context
 ) {
@@ -42,18 +51,19 @@ fun GainedAvailableCouponItems(
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(coupons.size) { index ->
-            GainedAvailableCouponItem(coupons[index], context)
+            AvailableCouponItem(coupons[index], context)
         }
     }
 }
 
 @Composable
-fun GainedAvailableCouponItem(
+fun AvailableCouponItem(
     coupon: FakeGainedCouponModel.FakeAvailableCouponsModel,
     context: Context
 ) {
     Box(
         modifier = Modifier
+            .aspectRatio(142f / 176f)
             .border(
                 width = 1.dp,
                 shape = RoundedCornerShape(12.dp),
@@ -62,42 +72,110 @@ fun GainedAvailableCouponItem(
             .clip(shape = RoundedCornerShape(12.dp))
             .padding(start = 8.dp, top = 8.dp, end = 8.dp)
     ) {
-        Column {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             AsyncImage(
                 model = coupon.couponImageUrl,
                 contentDescription = "couponImageUrl",
                 modifier = Modifier
                     .clip(shape = RoundedCornerShape(12.dp))
-                    .fillMaxSize(),
-                contentScale = ContentScale.Crop
+                    .fillMaxWidth(),
             )
             Text(
                 text = coupon.name,
                 modifier = Modifier
-                    .padding(top = 12.dp, bottom = 12.dp)
-                    .align(Alignment.CenterHorizontally),
+                    .wrapContentHeight()
+                    .weight(1f),
                 color = Main2,
-                style = OffroadTheme.typography.textContentsSmall
+                style = OffroadTheme.typography.textContentsSmall,
             )
         }
     }
-
 }
 
 @Composable
-fun GainedUsedCouponItems(
+fun UsedCouponItems(
     coupons: List<FakeGainedCouponModel.FakeUsedCouponsModel>,
     context: Context
 ) {
-    LazyColumn(
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
         modifier = Modifier
             .fillMaxSize()
             .background(ListBg)
             .padding(horizontal = 24.dp),
-        contentPadding = PaddingValues(vertical = 18.dp)
+        contentPadding = PaddingValues(vertical = 18.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(coupons.size) { index ->
-            Text(text = coupons[index].name)
+            UsedCouponItem(coupons[index], context)
         }
+    }
+}
+
+@Composable
+fun UsedCouponItem(
+    coupon: FakeGainedCouponModel.FakeUsedCouponsModel,
+    context: Context
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .aspectRatio(142f / 176)
+            .border(
+                width = 1.dp,
+                shape = RoundedCornerShape(12.dp),
+                color = Contents2
+            )
+            .clip(shape = RoundedCornerShape(12.dp))
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            AsyncImage(
+                model = coupon.couponImageUrl,
+                contentDescription = "couponImageUrl",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 8.dp, top = 8.dp, end = 8.dp)
+                    .clip(shape = RoundedCornerShape(12.dp)),
+                )
+            Text(
+                text = coupon.name,
+                modifier = Modifier
+                    .wrapContentHeight()
+                    .weight(1f),
+                color = Main2,
+                style = OffroadTheme.typography.textContentsSmall
+            )
+        }
+
+        GainedCouponLockedCover()
+    }
+}
+
+@Composable
+private fun GainedCouponLockedCover() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                color = Black25,
+                shape = RoundedCornerShape(size = 10.dp)
+            )
+            .padding(horizontal = 60.dp)
+            .padding(top = 60.dp, bottom = 88.dp)
+    ) {
+        Image(
+            modifier = Modifier.fillMaxSize(),
+            painter = painterResource(id = R.drawable.ic_my_page_coupon_locked),
+            contentDescription = "locked",
+            alignment = Alignment.Center,
+        )
     }
 }

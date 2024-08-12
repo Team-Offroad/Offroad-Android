@@ -91,12 +91,12 @@ fun GainedCouponViewPager(coupons: FakeGainedCouponModel) {
             modifier = Modifier.fillMaxSize()
         ) { page ->
             when (page) {
-                0 -> GainedAvailableCouponItems(
+                0 -> AvailableCouponItems(
                     coupons = coupons.availableCoupons,
                     context = LocalContext.current
                 )
 
-                1 -> GainedUsedCouponItems(coupons = coupons.usedCoupons, LocalContext.current)
+                1 -> UsedCouponItems(coupons = coupons.usedCoupons, LocalContext.current)
             }
 
         }
