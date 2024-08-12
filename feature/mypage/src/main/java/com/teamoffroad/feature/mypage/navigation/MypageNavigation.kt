@@ -13,13 +13,11 @@ fun NavController.navigateToMyPage(navOptions: NavOptions) {
     navigate(MainTabRoute.MyPage, navOptions)
 }
 
-fun NavController.navigateToGainedCharacter(
-    navOptions: NavOptions,
-) {
-    navigate(MyPageRoute.GainedCharacter, navOptions)
+fun NavController.navigateToGainedCharacter() {
+    navigate(MyPageRoute.GainedCharacter)
 }
 
-fun NavGraphBuilder.mypageNavGraph(
+fun NavGraphBuilder.myPageNavGraph(
     navigateToGainedCharacter: (Int) -> Unit,
     navigateToBack: () -> Unit,
 ) {
@@ -27,6 +25,6 @@ fun NavGraphBuilder.mypageNavGraph(
         MypageScreen(navigateToGainedCharacter)
     }
     composable<MyPageRoute.GainedCharacter> {
-        GainedCharacterScreen()
+        GainedCharacterScreen(navigateToBack)
     }
 }

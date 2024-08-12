@@ -112,7 +112,7 @@ internal class MainNavigator(
     }
 
     fun navigateToGainedCharacter() {
-        navController.navigateToGainedCharacter(navOptions)
+        navController.navigateToGainedCharacter()
     }
 }
 

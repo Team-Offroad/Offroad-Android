@@ -27,7 +27,9 @@ import com.teamoffroad.feature.mypage.presentation.model.CharacterModel.Characte
 import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
-fun GainedCharacterScreen() {
+fun GainedCharacterScreen(
+    navigateToMyPage: () -> Unit,
+) {
     Column(
         modifier = Modifier.background(Main1)
     ) {
@@ -36,7 +38,7 @@ fun GainedCharacterScreen() {
             text = stringResource(R.string.my_page_my_page),
             modifier = Modifier.padding(top = 20.dp)
         ) {
-            // TODO: 마이페이지 이동 추가
+            navigateToMyPage()
         }
         GainedCharacterHeader()
         GainedCharacterItems(CharacterThumbnailModel.dummyCharacters)
@@ -84,6 +86,6 @@ fun GainedCharacterItems(
 @Composable
 fun GainedCharacterScreenPreview() {
     OffroadTheme {
-        GainedCharacterScreen()
+        GainedCharacterScreen({})
     }
 }

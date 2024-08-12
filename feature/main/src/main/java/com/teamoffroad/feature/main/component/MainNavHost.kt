@@ -14,7 +14,7 @@ import com.teamoffroad.feature.auth.navigation.authNavGraph
 import com.teamoffroad.feature.explore.navigation.exploreNavGraph
 import com.teamoffroad.feature.home.navigation.homeNavGraph
 import com.teamoffroad.feature.main.MainNavigator
-import com.teamoffroad.feature.mypage.navigation.mypageNavGraph
+import com.teamoffroad.feature.mypage.navigation.myPageNavGraph
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
@@ -51,7 +51,7 @@ internal fun MainNavHost(
                 },
                 navigateToBack = navigator::popBackStackIfNotMain,
             )
-            mypageNavGraph(
+            myPageNavGraph(
                 navigateToGainedCharacter = {
                     navigator.navigateToGainedCharacter()
                 },
