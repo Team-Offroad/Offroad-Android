@@ -38,6 +38,7 @@ import com.teamoffroad.offroad.feature.mypage.R
 @Composable
 fun AvailableCouponItems(
     coupons: List<FakeGainedCouponModel.FakeAvailableCouponsModel>,
+    navigateToAvailableCouponDetail: () -> Unit,
     context: Context
 ) {
     LazyVerticalGrid(
@@ -51,7 +52,7 @@ fun AvailableCouponItems(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(coupons.size) { index ->
-            AvailableCouponItem(coupons[index], context)
+            AvailableCouponItem(coupons[index], navigateToAvailableCouponDetail, context)
         }
     }
 }
@@ -59,6 +60,7 @@ fun AvailableCouponItems(
 @Composable
 fun AvailableCouponItem(
     coupon: FakeGainedCouponModel.FakeAvailableCouponsModel,
+    navigateToAvailableCouponDetail: () -> Unit,
     context: Context
 ) {
     Box(
@@ -74,7 +76,7 @@ fun AvailableCouponItem(
             .clickableWithoutRipple(interactionSource = remember {
                 MutableInteractionSource()
             }) {
-                // open
+                navigateToAvailableCouponDetail()
             }
     ) {
         Column(

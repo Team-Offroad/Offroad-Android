@@ -19,8 +19,10 @@ import com.teamoffroad.feature.auth.navigation.navigateToSetNickname
 import com.teamoffroad.feature.explore.navigation.navigateToExplore
 import com.teamoffroad.feature.explore.navigation.navigateToExploreCameraScreen
 import com.teamoffroad.feature.home.navigation.navigateToHome
-import com.teamoffroad.feature.mypage.navigation.navigateToAcquireCoupon
+import com.teamoffroad.feature.mypage.navigation.navigateToAvailableCouponDetail
+import com.teamoffroad.feature.mypage.navigation.navigateToGainedCoupon
 import com.teamoffroad.feature.mypage.navigation.navigateToMyPage
+import com.teamoffroad.feature.mypage.presentation.model.FakeGainedCouponModel
 
 internal class MainNavigator(
     val navController: NavHostController,
@@ -106,8 +108,12 @@ internal class MainNavigator(
         navController.navigateToMyPage(navOptions)
     }
 
-    fun navigateToAcquireCoupon() {
-        navController.navigateToAcquireCoupon(navOptions)
+    fun navigateToGainedCoupon() {
+        navController.navigateToGainedCoupon(navOptions)
+    }
+
+    fun navigateToAvailableCouponDetail() {
+        navController.navigateToAvailableCouponDetail(navOptions)
     }
 
     fun navigateToExplore(authResultType: String, imageUrl: String) {

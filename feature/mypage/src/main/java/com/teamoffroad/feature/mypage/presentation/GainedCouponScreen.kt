@@ -34,12 +34,17 @@ import com.teamoffroad.offroad.feature.mypage.R
 @Composable
 internal fun GainedCouponScreen(
     navigateToMyPage: () -> Unit,
+    navigateToAvailableCouponDetail: () -> Unit,
     gainedCouponViewModel: GainedCouponViewModel = hiltViewModel()
 ) {
     Box(
         modifier = Modifier
             .background(Sub4)
-            .then(if (!checkNavigationBar(LocalView.current)) Modifier.navigationBarsPadding() else Modifier.padding(bottom = 14.dp))
+            .then(
+                if (!checkNavigationBar(LocalView.current)) Modifier.navigationBarsPadding() else Modifier.padding(
+                    bottom = 14.dp
+                )
+            )
     ) {
         Column(
             modifier = Modifier
@@ -61,7 +66,7 @@ internal fun GainedCouponScreen(
                 GainedCouponHeader()
             }
             Spacer(modifier = Modifier.padding(vertical = 10.dp))
-            GainedCouponViewPager(FakeGainedCouponModel.dummyGainedCoupons)
+            GainedCouponViewPager(FakeGainedCouponModel.dummyGainedCoupons, navigateToAvailableCouponDetail)
         }
     }
 }
@@ -84,9 +89,9 @@ private fun GainedCouponHeader() {
 
 @Preview(showBackground = true)
 @Composable
-fun AcquireCouponScreenPreview() {
+fun GainedCouponScreenPreview() {
     OffroadTheme {
-        GainedCouponScreen(navigateToMyPage = { })
+        GainedCouponScreen(navigateToMyPage = { }, navigateToAvailableCouponDetail = { })
     }
 }
 

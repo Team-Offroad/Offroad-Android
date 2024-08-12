@@ -15,6 +15,7 @@ import com.teamoffroad.feature.explore.navigation.exploreNavGraph
 import com.teamoffroad.feature.home.navigation.homeNavGraph
 import com.teamoffroad.feature.main.MainNavigator
 import com.teamoffroad.feature.mypage.navigation.mypageNavGraph
+import com.teamoffroad.feature.mypage.presentation.model.FakeGainedCouponModel
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
@@ -52,8 +53,11 @@ internal fun MainNavHost(
                 navigateToMyPage = {
                     navigator.navigateToMyPage()
                 },
-                navigateToAcquireCoupon = {
-                    navigator.navigateToAcquireCoupon()
+                navigateToGainedCoupon = {
+                    navigator.navigateToGainedCoupon()
+                },
+                navigateToAvailableCouponDetail = {
+                    navigator.navigateToAvailableCouponDetail()
                 },
                 onBackClick = navigator::popBackStackIfNotMain,
             )

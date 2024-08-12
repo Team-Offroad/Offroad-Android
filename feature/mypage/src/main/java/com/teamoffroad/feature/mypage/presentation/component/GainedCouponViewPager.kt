@@ -34,7 +34,10 @@ import com.teamoffroad.offroad.feature.mypage.R
 import kotlinx.coroutines.launch
 
 @Composable
-fun GainedCouponViewPager(coupons: FakeGainedCouponModel) {
+fun GainedCouponViewPager(
+    coupons: FakeGainedCouponModel,
+    navigateToAvailableCouponDetail: () -> Unit
+) {
     val tabTitles = listOf(
         stringResource(id = R.string.gained_coupon_available),
         stringResource(id = R.string.gained_coupon_used)
@@ -93,7 +96,8 @@ fun GainedCouponViewPager(coupons: FakeGainedCouponModel) {
             when (page) {
                 0 -> AvailableCouponItems(
                     coupons = coupons.availableCoupons,
-                    context = LocalContext.current
+                    navigateToAvailableCouponDetail = navigateToAvailableCouponDetail,
+                    context = LocalContext.current,
                 )
 
                 1 -> UsedCouponItems(coupons = coupons.usedCoupons, LocalContext.current)
