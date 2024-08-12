@@ -36,7 +36,7 @@ import com.teamoffroad.offroad.feature.mypage.R
 @Composable
 fun CharacterFrameItem(
     modifier: Modifier = Modifier,
-    characterName: String = "",
+    characterLabel: String = "",
     characterMainColor: Long = 0,
     characterFrameColor: Long = 0,
     characterThumbnailImageUrl: String = "",
@@ -63,45 +63,31 @@ fun CharacterFrameItem(
                         shape = RoundedCornerShape(size = 10.dp)
                     )
             ) {
-                val composition by rememberLottieComposition(
-                    spec = LottieCompositionSpec.Url(characterThumbnailImageUrl)
-                )
-
-                val progress by animateLottieCompositionAsState(
-                    composition = composition,
-                    iterations = LottieConstants.IterateForever
-                )
 
                 when (isLottieImage) {
-                    true -> {
-                        LottieAnimation(
-                            composition = composition,
-                            progress = progress,
-                            contentScale = ContentScale.FillHeight,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(top = 30.dp)
-                                .align(Alignment.BottomCenter)
-                        )
-                    }
+                    true -> MotionCharacterThumbnail(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = 30.dp)
+                            .align(Alignment.BottomCenter),
+                        characterThumbnailImageUrl,
+                    )
 
-                    false -> {
-                        AsyncImage(
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(characterThumbnailImageUrl)
-                                .decoderFactory(SvgDecoder.Factory())
-                                .build(),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(horizontal = 28.dp)
-                                .padding(bottom = 12.dp)
-                                .fillMaxWidth(),
-                        )
-                    }
+                    false -> AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(characterThumbnailImageUrl)
+                            .decoderFactory(SvgDecoder.Factory())
+                            .build(),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(horizontal = 28.dp)
+                            .padding(bottom = 12.dp)
+                            .fillMaxWidth(),
+                    )
                 }
             }
             Text(
-                text = characterName,
+                text = characterLabel,
                 style = OffroadTheme.typography.textContents,
                 color = White,
                 modifier = Modifier
@@ -113,6 +99,28 @@ fun CharacterFrameItem(
             CharacterLockedCover()
         }
     }
+}
+
+@Composable
+private fun MotionCharacterThumbnail(
+    modifier: Modifier = Modifier,
+    characterThumbnailImageUrl: String,
+) {
+    val composition by rememberLottieComposition(
+        spec = LottieCompositionSpec.Url(characterThumbnailImageUrl)
+    )
+
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+        iterations = LottieConstants.IterateForever
+    )
+
+    LottieAnimation(
+        composition = composition,
+        progress = progress,
+        contentScale = ContentScale.FillHeight,
+        modifier = modifier
+    )
 }
 
 @Composable

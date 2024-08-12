@@ -66,7 +66,7 @@ fun GainedCharacterItems(
                         modifier = Modifier
                             .weight(1f)
                             .padding(10.dp),
-                        characterName = character.characterName,
+                        characterLabel = character.characterName,
                         characterMainColor = character.characterMainColorCode,
                         characterFrameColor = character.characterFrameColorCode,
                         characterThumbnailImageUrl = character.characterThumbnailImageUrl,
