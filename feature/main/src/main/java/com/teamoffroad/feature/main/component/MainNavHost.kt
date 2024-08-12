@@ -56,8 +56,8 @@ internal fun MainNavHost(
                 navigateToGainedCoupon = {
                     navigator.navigateToGainedCoupon()
                 },
-                navigateToAvailableCouponDetail = {
-                    navigator.navigateToAvailableCouponDetail()
+                navigateToAvailableCouponDetail = { id, name, couponImageUrl, description ->
+                    navigator.navigateToAvailableCouponDetail(id, name,couponImageUrl, description)
                 },
                 onBackClick = navigator::popBackStackIfNotMain,
             )

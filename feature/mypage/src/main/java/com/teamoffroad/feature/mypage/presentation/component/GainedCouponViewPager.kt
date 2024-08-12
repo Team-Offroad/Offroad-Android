@@ -36,7 +36,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun GainedCouponViewPager(
     coupons: FakeGainedCouponModel,
-    navigateToAvailableCouponDetail: () -> Unit
+    navigateToAvailableCouponDetail: (Int, String, String, String) -> Unit
 ) {
     val tabTitles = listOf(
         stringResource(id = R.string.gained_coupon_available),

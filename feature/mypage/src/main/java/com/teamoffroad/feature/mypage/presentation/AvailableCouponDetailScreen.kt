@@ -1,24 +1,23 @@
 package com.teamoffroad.feature.mypage.presentation
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.teamoffroad.core.designsystem.theme.OffroadTheme
 
 @Composable
 fun AvailableCouponDetailScreen(
+    id: Int,
+    name: String,
+    couponImageUrl: String,
+    description: String,
     navigateToGainedCoupon: () -> Unit,
     availableCouponDetailViewModel: AvailableCouponDetailViewModel = hiltViewModel()
 ) {
-    Text(text = "available coupon detail screen")
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun AvailableCouponDetailScreenPreview() {
-    OffroadTheme {
-        AvailableCouponDetailScreen(navigateToGainedCoupon = { })
+    Column {
+        Text(text = "$id")
+        Text(text = name)
+        Text(text = "$couponImageUrl")
+        Text(text = "$description")
     }
 }
