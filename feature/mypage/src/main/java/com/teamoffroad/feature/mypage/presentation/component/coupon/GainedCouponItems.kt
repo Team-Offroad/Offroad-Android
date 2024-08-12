@@ -48,7 +48,8 @@ fun AvailableCouponItems(
             .background(ListBg)
             .padding(horizontal = 24.dp),
         contentPadding = PaddingValues(vertical = 18.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(coupons.size) { index ->
             AvailableCouponItem(coupons[index], context)
@@ -108,7 +109,8 @@ fun UsedCouponItems(
             .background(ListBg)
             .padding(horizontal = 24.dp),
         contentPadding = PaddingValues(vertical = 18.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(coupons.size) { index ->
             UsedCouponItem(coupons[index], context)
