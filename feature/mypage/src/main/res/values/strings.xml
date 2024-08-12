@@ -10,8 +10,12 @@
     <string name="acquire_emblem">획득 칭호</string>
     <string name="settings">설정</string>
     <string name="mypage_mypage">마이페이지</string>
-    
+
     <!-- gained coupon -->
     <string name="gained_coupon_available">사용 가능</string>
     <string name="gained_coupon_used">사용 완료</string>
+    <string name="gained_coupon_way_of_use">사용방법</string>
+    <string name="gained_coupon_way_of_use_description">매장에 게시되어 있거나 매장 직원에게 전달받은
+고유 코드를 입력한 후 제시해 사용해 주세요.</string>
+    <string name="gained_coupon_use_available_coupon">사용하기</string>
 </resources>
