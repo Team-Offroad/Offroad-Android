@@ -4,17 +4,32 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.teamoffroad.core.navigation.MainTabRoute
+import com.teamoffroad.core.navigation.MyPageRoute
+import com.teamoffroad.feature.mypage.presentation.GainedCharacterScreen
 import com.teamoffroad.feature.mypage.presentation.MypageScreen
 
 fun NavController.navigateToMyPage(navOptions: NavOptions) {
     navigate(MainTabRoute.MyPage, navOptions)
 }
 
+fun NavController.navigateToGainedCharacter(
+    characterId: Int,
+    navOptions: NavOptions,
+) {
+    navigate(MyPageRoute.GainedCharacter(characterId), navOptions)
+}
+
 fun NavGraphBuilder.mypageNavGraph(
-    onBackClick: () -> Unit,
+    navigateToGainedCharacter: (Int) -> Unit,
+    navigateToBack: () -> Unit,
 ) {
     composable<MainTabRoute.MyPage> {
-        MypageScreen()
+        MypageScreen(navigateToGainedCharacter)
+    }
+    composable<MyPageRoute.GainedCharacter> { backStackEntry ->
+        val characterId = backStackEntry.toRoute<MyPageRoute.GainedCharacter>().characterId
+        GainedCharacterScreen(characterId)
     }
 }
