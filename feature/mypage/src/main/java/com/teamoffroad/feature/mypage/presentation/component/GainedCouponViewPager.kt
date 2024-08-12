@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.mypage.presentation.component.coupon
+package com.teamoffroad.feature.mypage.presentation.component
 
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -29,7 +29,7 @@ import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
-import com.teamoffroad.feature.mypage.presentation.component.coupon.model.FakeGainedCouponModel
+import com.teamoffroad.feature.mypage.presentation.model.FakeGainedCouponModel
 import com.teamoffroad.offroad.feature.mypage.R
 import kotlinx.coroutines.launch
 

@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.mypage.presentation.component.coupon
+package com.teamoffroad.feature.mypage.presentation
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

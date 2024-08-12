@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.mypage.presentation.component.coupon
+package com.teamoffroad.feature.mypage.presentation
 
 import android.view.View
 import androidx.compose.foundation.Image
@@ -27,7 +27,8 @@ import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub4
-import com.teamoffroad.feature.mypage.presentation.component.coupon.model.FakeGainedCouponModel
+import com.teamoffroad.feature.mypage.presentation.component.GainedCouponViewPager
+import com.teamoffroad.feature.mypage.presentation.model.FakeGainedCouponModel
 import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable

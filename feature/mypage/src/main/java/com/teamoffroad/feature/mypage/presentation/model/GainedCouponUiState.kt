@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.mypage.presentation.component.coupon.model
+package com.teamoffroad.feature.mypage.presentation.model
 
 
 data class GainedCouponUiState(

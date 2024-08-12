@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.core.navigation.MyPageRoute
 import com.teamoffroad.feature.mypage.presentation.MyPageScreen
-import com.teamoffroad.feature.mypage.presentation.component.coupon.GainedCouponScreen
+import com.teamoffroad.feature.mypage.presentation.GainedCouponScreen
 
 fun NavController.navigateToMyPage(navOptions: NavOptions) {
     navigate(MainTabRoute.MyPage, navOptions)
