@@ -16,7 +16,7 @@ fun NavController.navigateToMyPage(navOptions: NavOptions) {
 fun NavController.navigateToAcquireCoupon(
     navOptions: NavOptions,
 ) {
-    navigate(MyPageRoute.AcquireCoupon, navOptions)
+    navigate(MyPageRoute.GainedCouponScreen, navOptions)
 }
 
 fun NavGraphBuilder.mypageNavGraph(
@@ -28,7 +28,7 @@ fun NavGraphBuilder.mypageNavGraph(
         MyPageScreen(navigateToAcquireCoupon)
     }
 
-    composable<MyPageRoute.AcquireCoupon> {
+    composable<MyPageRoute.GainedCouponScreen> {
         GainedCouponScreen(navigateToMyPage)
     }
 }

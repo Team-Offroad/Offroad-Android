@@ -44,5 +44,8 @@ sealed interface ExploreRoute : Route {
 
 sealed interface MyPageRoute : Route {
     @Serializable
-    data object AcquireCoupon : MyPageRoute
+    data object GainedCouponScreen : MyPageRoute
+
+    @Serializable
+    data object AvailableCouponScreen: MyPageRoute
 }
