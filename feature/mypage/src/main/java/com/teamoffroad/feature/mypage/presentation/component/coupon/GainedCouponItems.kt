@@ -130,7 +130,7 @@ fun UsedCouponItem(
             .border(
                 width = 1.dp,
                 shape = RoundedCornerShape(12.dp),
-                color = Contents2
+                color = Contents2.copy(alpha = 0.25f)
             )
             .clip(shape = RoundedCornerShape(12.dp))
     ) {
