@@ -33,7 +33,7 @@ internal fun MainNavHost(
             startDestination = navigator.startDestination,
         ) {
             homeNavGraph(
-                onBackClick = navigator::popBackStackIfNotMain,
+                navigateToBack = navigator::popBackStackIfNotMain,
             )
             exploreNavGraph(
                 navigateToHome = { category ->
@@ -49,10 +49,10 @@ internal fun MainNavHost(
                 navigateToPlace = {
                     navigator.navigateToPlace()
                 },
-                onBackClick = navigator::popBackStackIfNotMain,
+                navigateToBack = navigator::popBackStackIfNotMain,
             )
             mypageNavGraph(
-                onBackClick = navigator::popBackStackIfNotMain,
+                navigateToBack = navigator::popBackStackIfNotMain,
             )
             authNavGraph(
                 navigateToHome = { navigator.navigateToHome() },
@@ -69,7 +69,7 @@ internal fun MainNavHost(
                 navigateToSelectedCharacter = { selectedCharacterUrl ->
                     navigator.navigateToSelectedCharacter(selectedCharacterUrl)
                 },
-                onBackClick = navigator::popBackStackIfNotMain,
+                navigateToBack = navigator::popBackStackIfNotMain,
             )
         }
     }

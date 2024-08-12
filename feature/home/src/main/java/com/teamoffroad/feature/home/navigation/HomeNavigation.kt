@@ -16,7 +16,7 @@ fun NavController.navigateToHome(category: String? = null, navOptions: NavOption
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun NavGraphBuilder.homeNavGraph(
-    onBackClick: () -> Unit,
+    navigateToBack: () -> Unit,
 ) {
     composable<MainTabRoute.Home> { backStackEntry ->
         val category = backStackEntry.toRoute<MainTabRoute.Home>().category
