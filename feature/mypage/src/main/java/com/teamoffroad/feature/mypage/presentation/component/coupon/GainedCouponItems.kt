@@ -64,7 +64,7 @@ fun AvailableCouponItem(
 ) {
     Box(
         modifier = Modifier
-            .aspectRatio(142f / 176f)
+            .aspectRatio(148f / 176f)
             .border(
                 width = 1.dp,
                 shape = RoundedCornerShape(12.dp),
@@ -126,7 +126,7 @@ fun UsedCouponItem(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .aspectRatio(142f / 176)
+            .aspectRatio(148f / 176)
             .border(
                 width = 1.dp,
                 shape = RoundedCornerShape(12.dp),
@@ -170,8 +170,7 @@ private fun GainedCouponLockedCover() {
                 color = Black25,
                 shape = RoundedCornerShape(size = 10.dp)
             )
-            .padding(horizontal = 60.dp)
-            .padding(top = 60.dp, bottom = 88.dp)
+            .padding(start = 60.dp, end = 60.dp, top = 60.dp, bottom = 88.dp)
     ) {
         Image(
             modifier = Modifier.fillMaxSize(),

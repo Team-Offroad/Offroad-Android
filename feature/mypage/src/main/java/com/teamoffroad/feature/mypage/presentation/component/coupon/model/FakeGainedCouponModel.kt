@@ -40,7 +40,7 @@ data class FakeGainedCouponModel(
 
         val dummyGainedCoupons = FakeGainedCouponModel(
             listOf(dummyGainedAvailableCoupon1, dummyGainedAvailableCoupon2, dummyGainedAvailableCoupon1, dummyGainedAvailableCoupon2, dummyGainedAvailableCoupon1, dummyGainedAvailableCoupon2, dummyGainedAvailableCoupon1, dummyGainedAvailableCoupon2),
-            listOf(dummyGainedUsedCoupon1, dummyGainedUsedCoupon2)
+            listOf(dummyGainedUsedCoupon1, dummyGainedUsedCoupon2, dummyGainedUsedCoupon1, dummyGainedUsedCoupon2, dummyGainedUsedCoupon1, dummyGainedUsedCoupon2)
         )
     }
 }
