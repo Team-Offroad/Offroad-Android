@@ -1,7 +1,6 @@
 package com.teamoffroad.feature.mypage.presentation
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -21,9 +20,6 @@ internal fun MypageScreen(
             fontSize = 40.sp,
             textAlign = TextAlign.Center
         )
-        Button(onClick = { navigateToGainedCharacter(1) }) {
-            Text("Gained Character")
-        }
     }
     OnBackButtonListener()
 }
