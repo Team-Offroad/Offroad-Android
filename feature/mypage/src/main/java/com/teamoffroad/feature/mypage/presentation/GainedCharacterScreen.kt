@@ -27,9 +27,7 @@ import com.teamoffroad.feature.mypage.presentation.model.CharacterModel.Characte
 import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
-fun GainedCharacterScreen(
-    characterId: Int,
-) {
+fun GainedCharacterScreen() {
     Column(
         modifier = Modifier.background(Main1)
     ) {
@@ -70,6 +68,7 @@ fun GainedCharacterItems(
                         characterMainColor = character.characterMainColorCode,
                         characterFrameColor = character.characterFrameColorCode,
                         characterThumbnailImageUrl = character.characterThumbnailImageUrl,
+                        isGained = character.isGained,
                         onClick = { Log.e("123123", "눌림!") }
                     )
                 }
@@ -85,6 +84,6 @@ fun GainedCharacterItems(
 @Composable
 fun GainedCharacterScreenPreview() {
     OffroadTheme {
-        GainedCharacterScreen(1)
+        GainedCharacterScreen()
     }
 }

@@ -111,8 +111,8 @@ internal class MainNavigator(
         navController.navigateToPlace(navOptions)
     }
 
-    fun navigateToGainedCharacter(characterId: Int) {
-        navController.navigateToGainedCharacter(characterId, navOptions)
+    fun navigateToGainedCharacter() {
+        navController.navigateToGainedCharacter(navOptions)
     }
 }
 

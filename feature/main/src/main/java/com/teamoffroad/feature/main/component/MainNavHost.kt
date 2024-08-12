@@ -52,8 +52,8 @@ internal fun MainNavHost(
                 navigateToBack = navigator::popBackStackIfNotMain,
             )
             mypageNavGraph(
-                navigateToGainedCharacter = { characterId ->
-                    navigator.navigateToGainedCharacter(characterId)
+                navigateToGainedCharacter = {
+                    navigator.navigateToGainedCharacter()
                 },
                 navigateToBack = navigator::popBackStackIfNotMain,
             )

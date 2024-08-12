@@ -45,5 +45,5 @@ sealed interface ExploreRoute : Route {
 
 sealed interface MyPageRoute : Route {
     @Serializable
-    data class GainedCharacter(val characterId: Int) : MyPageRoute
+    data object GainedCharacter : MyPageRoute
 }

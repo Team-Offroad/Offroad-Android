@@ -9,6 +9,7 @@ data class CharacterModel(
         val characterThumbnailImageUrl: String = "",
         val characterMainColorCode: Long = -1,
         val characterFrameColorCode: Long = -1,
+        val isGained: Boolean = false,
     ) {
         companion object {
             private val dummyCharacter = CharacterThumbnailModel(
@@ -17,14 +18,9 @@ data class CharacterModel(
                 characterThumbnailImageUrl = "https://github.com/user-attachments/assets/bbad497c-ee1e-4bf0-91e7-a00bf9480263",
                 characterMainColorCode = 0xFFFFF0BC,
                 characterFrameColorCode = 0xFFFED761,
+                isGained = true,
             )
             val dummyCharacters = List(11) { dummyCharacter }
         }
     }
-
-    data class CharacterMotionModel(
-        val category: String = "",
-        val characterMotionImageUrl: String = "",
-        val isGained: Boolean = false,
-    )
 }
