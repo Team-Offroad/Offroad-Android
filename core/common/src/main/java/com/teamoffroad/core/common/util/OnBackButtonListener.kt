@@ -10,6 +10,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat.getString
+import com.teamoffroad.offroad.core.common.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -27,7 +29,7 @@ fun OnBackButtonListener(
             backPressedOnce && isEnabled -> (context as? ComponentActivity)?.finish()
             !backPressedOnce && isEnabled -> {
                 backPressedOnce = true
-                Toast.makeText(context, "뒤로가기를 한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(context, R.string.main_back_hint), Toast.LENGTH_SHORT).show()
                 coroutineScope.launch {
                     delay(2000L)
                     backPressedOnce = false
