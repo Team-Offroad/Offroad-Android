@@ -5,7 +5,6 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,7 +15,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -62,9 +60,7 @@ fun ExpandableItem(
                     .align(Alignment.CenterVertically)
                     .offset(x = 12.dp)
                     .rotate(rotationAngle)
-                    .clickableWithoutRipple(interactionSource = remember {
-                        MutableInteractionSource()
-                    }) { onExpandClick() },
+                    .clickableWithoutRipple { onExpandClick() },
                 alignment = Alignment.CenterEnd
             )
         }
