@@ -98,11 +98,11 @@ class ExploreViewModel @Inject constructor(
 
     fun isValidDistance(place: ExplorePlaceModel, location: LatLng): Boolean {
         return when (place.placeCategory) {
-            PlaceCategory.CAFFE -> place.location.distanceTo(location) <= 4500
-            PlaceCategory.PARK -> place.location.distanceTo(location) <= 12000
-            PlaceCategory.RESTAURANT -> place.location.distanceTo(location) <= 4500
-            PlaceCategory.CULTURE -> place.location.distanceTo(location) <= 4500
-            PlaceCategory.SPORT -> place.location.distanceTo(location) <= 12000
+            PlaceCategory.CAFFE -> place.location.distanceTo(location) <= 45
+            PlaceCategory.PARK -> place.location.distanceTo(location) <= 120
+            PlaceCategory.RESTAURANT -> place.location.distanceTo(location) <= 45
+            PlaceCategory.CULTURE -> place.location.distanceTo(location) <= 45
+            PlaceCategory.SPORT -> place.location.distanceTo(location) <= 120
             else -> false
         }
     }
