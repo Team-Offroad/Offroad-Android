@@ -175,6 +175,7 @@ fun UseAvailableCouponDialog(
                     }
 
                     ConfirmButton(
+                        updateCode = updateCode,
                         updateCouponCodeSuccess = updateCouponCodeSuccess,
                         couponCode = couponCode,
                         couponCodeSuccess = couponCodeSuccess,
@@ -245,6 +246,7 @@ private fun CodeTextField(
 
 @Composable
 private fun ConfirmButton(
+    updateCode: (String) -> Unit,
     couponCodeSuccess: CheckCouponState,
     updateCouponCodeSuccess: (CheckCouponState) -> Unit,
     showDialog: MutableState<Boolean>,
@@ -265,24 +267,22 @@ private fun ConfirmButton(
             .background(if (couponCode.isEmpty()) Black15 else Main2)
             .padding(vertical = 12.dp)
             .clickableWithoutRipple(interactionSource = MutableInteractionSource()) {
-                // 확인 버튼 클릭
-                Log.d("coupon code", couponCode)
-
                 when (couponCodeSuccess) {
                     CheckCouponState.NONE -> {
-                        val fakeCheckCouponCode = false // 쿠폰 정답 여부 판단 임시 변수
+                        val fakeCheckCouponCode = true // 쿠폰 정답 여부 판단 임시 변수
                         if (fakeCheckCouponCode) updateCouponCodeSuccess(CheckCouponState.SUCCESS)
                         else updateCouponCodeSuccess(CheckCouponState.FAIL)
                     }
 
                     CheckCouponState.SUCCESS -> {
-                        // 성공하면 팝업 어떻게?
+                        updateCode("")
+                        updateCouponCodeSuccess(CheckCouponState.NONE)
                         showDialog.value = false
                     }
 
                     CheckCouponState.FAIL -> {
-                        // 실패하면 팝업 어떻게?
-                        updateCouponCodeSuccess(CheckCouponState.NONE) // 다시 초기화
+                        updateCode("")
+                        updateCouponCodeSuccess(CheckCouponState.NONE)
                         showDialog.value = false
                     }
                 }

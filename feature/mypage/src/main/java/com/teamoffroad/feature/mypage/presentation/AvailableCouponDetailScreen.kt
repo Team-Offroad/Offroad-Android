@@ -51,7 +51,7 @@ import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
 fun AvailableCouponDetailScreen(
-    id: Int,
+    couponId: Int,
     name: String,
     couponImageUrl: String,
     description: String,
