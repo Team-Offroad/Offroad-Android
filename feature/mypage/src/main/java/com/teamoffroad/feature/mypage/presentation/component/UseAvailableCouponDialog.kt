@@ -7,10 +7,12 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Card
@@ -37,6 +39,7 @@ import com.teamoffroad.core.designsystem.theme.Black15
 import com.teamoffroad.core.designsystem.theme.Error
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Gray300
+import com.teamoffroad.core.designsystem.theme.Kakao
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
@@ -82,16 +85,15 @@ fun UseAvailableCouponDialog(
                         .fillMaxSize()
                         .padding(start = 40.dp, top = 26.dp, end = 40.dp)
                 ) {
-                    Text(
-                        text = stringResource(id = R.string.gained_coupon_use_coupon),
-                        color = textColor,
-                        style = OffroadTheme.typography.title,
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center
-                    )
-
                     when (couponCodeSuccess) {
                         CheckCouponState.NONE -> {
+                            Text(
+                                text = stringResource(id = R.string.gained_coupon_use_coupon),
+                                color = textColor,
+                                style = OffroadTheme.typography.title,
+                                modifier = Modifier.fillMaxWidth(),
+                                textAlign = TextAlign.Center
+                            )
                             Box(
                                 modifier = Modifier.weight(1f)
                             ) {
@@ -113,6 +115,13 @@ fun UseAvailableCouponDialog(
                         }
 
                         CheckCouponState.SUCCESS -> {
+                            Text(
+                                text = stringResource(id = R.string.gained_coupon_success_use),
+                                color = textColor,
+                                style = OffroadTheme.typography.title,
+                                modifier = Modifier.fillMaxWidth(),
+                                textAlign = TextAlign.Center
+                            )
                             Box(
                                 modifier = Modifier.weight(1f),
                                 contentAlignment = Alignment.Center
@@ -129,18 +138,38 @@ fun UseAvailableCouponDialog(
                         }
 
                         CheckCouponState.FAIL -> {
+                            Text(
+                                text = stringResource(id = R.string.gained_coupon_fail_use),
+                                color = textColor,
+                                style = OffroadTheme.typography.title,
+                                modifier = Modifier.fillMaxWidth(),
+                                textAlign = TextAlign.Center
+                            )
                             Box(
                                 modifier = Modifier.weight(1f),
                                 contentAlignment = Alignment.Center
                             ) {
-                                Text(
-                                    text = stringResource(id = R.string.gained_coupon_fail_use_description),
-                                    color = Error,
-                                    style = OffroadTheme.typography.subtitle2Semibold,
-                                    modifier = Modifier.fillMaxWidth(),
-                                    textAlign = TextAlign.Center
-                                )
-
+                                Row(
+                                    modifier = Modifier
+                                        .padding(start = 24.dp)
+                                        .fillMaxWidth()
+                                        .align(Alignment.Center)
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.ic_my_page_error),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .padding(end = 6.dp)
+                                            .size(22.dp)
+                                            .align(Alignment.CenterVertically)
+                                    )
+                                    Text(
+                                        text = stringResource(id = R.string.gained_coupon_fail_use_description),
+                                        color = Error,
+                                        style = OffroadTheme.typography.subtitle2Semibold,
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
                             }
                         }
                     }
@@ -148,7 +177,8 @@ fun UseAvailableCouponDialog(
                     ConfirmButton(
                         updateCouponCodeSuccess = updateCouponCodeSuccess,
                         couponCode = couponCode,
-                        couponCodeSuccess = couponCodeSuccess
+                        couponCodeSuccess = couponCodeSuccess,
+                        showDialog = showDialog
                     )
                 }
             }
@@ -217,6 +247,7 @@ private fun CodeTextField(
 private fun ConfirmButton(
     couponCodeSuccess: CheckCouponState,
     updateCouponCodeSuccess: (CheckCouponState) -> Unit,
+    showDialog: MutableState<Boolean>,
     couponCode: String = "",
     textColor: Color = Main1,
     textStyle: TextStyle = OffroadTheme.typography.btnSmall,
@@ -239,17 +270,20 @@ private fun ConfirmButton(
 
                 when (couponCodeSuccess) {
                     CheckCouponState.NONE -> {
-                        val fakeCheckCouponCode = true // 쿠폰 정답 여부 판단 임시 변수
+                        val fakeCheckCouponCode = false // 쿠폰 정답 여부 판단 임시 변수
                         if (fakeCheckCouponCode) updateCouponCodeSuccess(CheckCouponState.SUCCESS)
                         else updateCouponCodeSuccess(CheckCouponState.FAIL)
                     }
 
                     CheckCouponState.SUCCESS -> {
                         // 성공하면 팝업 어떻게?
+                        showDialog.value = false
                     }
 
                     CheckCouponState.FAIL -> {
                         // 실패하면 팝업 어떻게?
+                        updateCouponCodeSuccess(CheckCouponState.NONE) // 다시 초기화
+                        showDialog.value = false
                     }
                 }
             }
