@@ -8,12 +8,17 @@ import androidx.navigation.toRoute
 import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.core.navigation.MyPageRoute
 import com.teamoffroad.feature.mypage.presentation.AvailableCouponDetailScreen
+import com.teamoffroad.feature.mypage.presentation.GainedCharacterScreen
 import com.teamoffroad.feature.mypage.presentation.MyPageScreen
 import com.teamoffroad.feature.mypage.presentation.GainedCouponScreen
 import com.teamoffroad.feature.mypage.presentation.model.FakeGainedCouponModel
 
 fun NavController.navigateToMyPage(navOptions: NavOptions) {
     navigate(MainTabRoute.MyPage, navOptions)
+}
+
+fun NavController.navigateToGainedCharacter() {
+    navigate(MyPageRoute.GainedCharacter)
 }
 
 fun NavController.navigateToGainedCoupon(
@@ -32,18 +37,22 @@ fun NavController.navigateToAvailableCouponDetail(
     navigate(MyPageRoute.AvailableCouponScreen(id, name, couponImageUrl, description), navOptions)
 }
 
-fun NavGraphBuilder.mypageNavGraph(
-    navigateToMyPage: () -> Unit,
+fun NavGraphBuilder.myPageNavGraph(
+    navigateToGainedCharacter: () -> Unit,
     navigateToGainedCoupon: () -> Unit,
     navigateToAvailableCouponDetail: (Int, String, String, String) -> Unit,
-    onBackClick: () -> Unit,
+    navigateToBack: () -> Unit,
 ) {
     composable<MainTabRoute.MyPage> {
-        MyPageScreen(navigateToGainedCoupon)
+        MyPageScreen(navigateToGainedCharacter, navigateToGainedCoupon)
+    }
+
+    composable<MyPageRoute.GainedCharacter> {
+        GainedCharacterScreen(navigateToBack)
     }
 
     composable<MyPageRoute.GainedCouponScreen> {
-        GainedCouponScreen(navigateToMyPage, navigateToAvailableCouponDetail)
+        GainedCouponScreen(navigateToAvailableCouponDetail, navigateToBack)
     }
 
     composable<MyPageRoute.AvailableCouponScreen> { backStackEntry ->
