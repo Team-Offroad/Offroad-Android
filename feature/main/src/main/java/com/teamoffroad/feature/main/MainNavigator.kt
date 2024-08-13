@@ -109,11 +109,11 @@ internal class MainNavigator(
     }
 
     fun navigateToPlace() {
-        navController.navigateToPlace(navOptions)
+        navController.navigateToPlace()
     }
 
     fun navigateToQuest() {
-        navController.navigateToQuest(navOptions)
+        navController.navigateToQuest()
     }
 
     fun navigateToGainedCharacter() {

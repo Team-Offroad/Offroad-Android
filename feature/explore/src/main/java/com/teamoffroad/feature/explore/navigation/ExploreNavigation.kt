@@ -32,16 +32,12 @@ fun NavController.navigateToExploreCamera(
     navigate(ExploreRoute.ExploreCameraScreen(placeId, latitude.toString(), longitude.toString()))
 }
 
-fun NavController.navigateToPlace(
-    navOptions: NavOptions,
-) {
-    navigate(ExploreRoute.PlaceScreen, navOptions)
+fun NavController.navigateToPlace() {
+    navigate(ExploreRoute.PlaceScreen)
 }
 
-fun NavController.navigateToQuest(
-    navOptions: NavOptions,
-) {
-    navigate(ExploreRoute.QuestScreen, navOptions)
+fun NavController.navigateToQuest() {
+    navigate(ExploreRoute.QuestScreen)
 }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
