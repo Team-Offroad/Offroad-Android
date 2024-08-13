@@ -4,11 +4,11 @@ data class CharacterModel(
     val characterThumbnailModel: CharacterThumbnailModel,
 ) {
     data class CharacterThumbnailModel(
-        val characterId: Int = -1,
+        val characterId: Int = 0,
         val characterName: String = "",
         val characterThumbnailImageUrl: String = "",
-        val characterMainColorCode: Long = -1,
-        val characterFrameColorCode: Long = -1,
+        val characterMainColorCode: Long = 0,
+        val characterFrameColorCode: Long = 0,
         val isGained: Boolean = false,
     ) {
         companion object {
