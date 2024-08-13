@@ -26,4 +26,8 @@
     <string name="gained_coupon_use_coupon_description">코드를 입력 후 사장님에게 보여주세요.</string>
     <string name="gained_coupon_use_coupon_hint">매장의 고유 코드를 입력해 주세요.</string>
     <string name="gained_coupon_confirm">확인</string>
+    <string name="gained_coupon_fail_use">사용 실패</string>
+    <string name="gained_coupon_fail_use_description">다시 한번 확인해 주세요.</string>
+    <string name="gained_coupon_success_use">사용 완료</string>
+    <string name="gained_coupon_success_use_description">쿠폰 사용이 완료되었요!</string>
 </resources>

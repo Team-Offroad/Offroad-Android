@@ -9,12 +9,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,10 +21,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -37,7 +38,6 @@ import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Contents2
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Gray400
-import com.teamoffroad.core.designsystem.theme.Kakao
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
@@ -46,6 +46,7 @@ import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.core.designsystem.theme.Sub4
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.mypage.presentation.component.UseAvailableCouponDialog
+import com.teamoffroad.feature.mypage.presentation.model.CheckCouponState
 import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
@@ -55,9 +56,12 @@ fun AvailableCouponDetailScreen(
     couponImageUrl: String,
     description: String,
     navigateToGainedCoupon: () -> Unit,
-    availableCouponDetailViewModel: AvailableCouponDetailViewModel = hiltViewModel()
+    availableCouponDetailViewModel: AvailableCouponDetailViewModel = hiltViewModel(),
+    backgroundColor: Color = ListBg
 ) {
     val couponCode = availableCouponDetailViewModel.couponCode.collectAsStateWithLifecycle().value
+    val couponCodeSuccess =
+        availableCouponDetailViewModel.couponCodeSuccess.collectAsStateWithLifecycle().value
 
     Box(
         modifier = Modifier
@@ -70,38 +74,52 @@ fun AvailableCouponDetailScreen(
     ) {
         Column(
             modifier = Modifier
-                .background(ListBg)
+                .background(backgroundColor)
                 .fillMaxSize(),
         ) {
             OffroadActionBar()
             NavigateBackAppBar(
-                modifier = Modifier
-                    .background(ListBg)
-                    .padding(top = 20.dp),
+                modifier = Modifier.padding(top = 20.dp),
                 text = stringResource(id = R.string.mypage_mypage),
-                backgroundColor = ListBg
+                backgroundColor = backgroundColor
             ) { navigateToGainedCoupon() }
-            Box(modifier = Modifier.weight(1f)) {
-                AvailableCouponCard(name, couponImageUrl, description)
+            AvailableCouponCard(name, couponImageUrl, description)
+            Box(
+                modifier = Modifier.weight(1f),
+                contentAlignment = Alignment.Center
+            ) {
+                WayOfUse()
             }
-            WayOfUse()
-            UseAvailableCouponButton(couponCode, availableCouponDetailViewModel::updateCode)
+            UseAvailableCouponButton(
+                updateCouponCodeSuccess = availableCouponDetailViewModel::updateCouponCodeSuccess,
+                couponCodeSuccess = couponCodeSuccess,
+                couponCode = couponCode,
+                updateCode = availableCouponDetailViewModel::updateCode
+            )
         }
     }
 }
 
 @Composable
-fun AvailableCouponCard(name: String, couponImageUrl: String, description: String) {
+fun AvailableCouponCard(
+    name: String,
+    couponImageUrl: String,
+    description: String,
+    shape: Shape = RoundedCornerShape(20.dp),
+    borderWidth: Dp = 1.dp,
+    textColor: Color = Main2,
+    backgroundColor: Color = Main1
+) {
     Box(
         modifier = Modifier
             .padding(start = 30.dp, top = 14.dp, end = 30.dp)
             .border(
-                width = 1.dp,
-                shape = RoundedCornerShape(20.dp),
+                width = borderWidth,
+                shape = shape,
                 color = Contents2
             )
-            .clip(shape = RoundedCornerShape(20.dp))
-            .background(Main1)
+            .clip(shape = shape)
+            .background(backgroundColor)
             .padding(start = 20.dp, top = 20.dp, end = 20.dp)
     ) {
         Column(
@@ -114,11 +132,11 @@ fun AvailableCouponCard(name: String, couponImageUrl: String, description: Strin
                 contentDescription = "couponImageUrl",
                 modifier = Modifier
                     .aspectRatio(260f / 260f)
-                    .clip(shape = RoundedCornerShape(20.dp))
+                    .clip(shape = shape)
                     .fillMaxWidth()
                     .border(
-                        width = 1.dp,
-                        shape = RoundedCornerShape(20.dp),
+                        width = borderWidth,
+                        shape = shape,
                         color = Gray100
                     ),
             )
@@ -126,7 +144,7 @@ fun AvailableCouponCard(name: String, couponImageUrl: String, description: Strin
                 text = name,
                 modifier = Modifier
                     .padding(top = 14.dp),
-                color = Main2,
+                color = textColor,
                 style = OffroadTheme.typography.textBold
             )
             Image(
@@ -138,10 +156,9 @@ fun AvailableCouponCard(name: String, couponImageUrl: String, description: Strin
             Text(
                 text = description,
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 10.dp),
+                    .padding(top = 10.dp, bottom = 18.dp),
                 textAlign = TextAlign.Center,
-                color = Main2,
+                color = textColor,
                 style = OffroadTheme.typography.textRegular,
             )
         }
@@ -163,7 +180,7 @@ private fun WayOfUse() {
             modifier = Modifier
         )
         Row(
-            modifier = Modifier.padding(vertical = 6.dp)
+            modifier = Modifier.padding(top = 12.dp)
         ) {
             Image(
                 painter = painterResource(id = R.drawable.img_mypage_way_of_use),
@@ -183,6 +200,8 @@ private fun WayOfUse() {
 
 @Composable
 private fun UseAvailableCouponButton(
+    updateCouponCodeSuccess: (CheckCouponState) -> Unit,
+    couponCodeSuccess: CheckCouponState,
     couponCode: String,
     updateCode: (String) -> Unit,
 ) {
@@ -208,6 +227,8 @@ private fun UseAvailableCouponButton(
 
     if (isUseAvailableCouponDialogShown.value) {
         UseAvailableCouponDialog(
+            updateCouponCodeSuccess = updateCouponCodeSuccess,
+            couponCodeSuccess = couponCodeSuccess,
             couponCode = couponCode,
             showDialog = isUseAvailableCouponDialogShown,
             onClickCancel = {

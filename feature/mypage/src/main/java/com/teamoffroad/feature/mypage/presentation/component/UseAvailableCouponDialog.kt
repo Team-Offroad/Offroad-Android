@@ -1,18 +1,19 @@
 package com.teamoffroad.feature.mypage.presentation.component
 
-import androidx.annotation.StringRes
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,43 +23,54 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
+import com.teamoffroad.core.designsystem.theme.Black15
+import com.teamoffroad.core.designsystem.theme.Error
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Gray300
-import com.teamoffroad.core.designsystem.theme.Kakao
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.feature.mypage.presentation.model.CheckCouponState
 import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
 fun UseAvailableCouponDialog(
+    updateCouponCodeSuccess: (CheckCouponState) -> Unit,
+    couponCodeSuccess: CheckCouponState,
     couponCode: String,
     showDialog: MutableState<Boolean>,
     onClickCancel: () -> Unit,
     updateCode: (String) -> Unit,
+    shape: Shape = RoundedCornerShape(14.dp),
+    textColor: Color = Main2,
+    backgroundColor: Color = Main3
 ) {
     Dialog(
         onDismissRequest = { onClickCancel() },
         properties = DialogProperties(dismissOnClickOutside = true, dismissOnBackPress = true)
     ) {
         Card(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(14.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(218.dp),
+            shape = shape,
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Main3),
+                    .background(backgroundColor),
                 contentAlignment = Alignment.TopEnd
             ) {
                 CloseDialog(
@@ -67,28 +79,77 @@ fun UseAvailableCouponDialog(
 
                 Column(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxSize()
                         .padding(start = 40.dp, top = 26.dp, end = 40.dp)
                 ) {
                     Text(
                         text = stringResource(id = R.string.gained_coupon_use_coupon),
-                        color = Main2,
+                        color = textColor,
                         style = OffroadTheme.typography.title,
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center
                     )
-                    Text(
-                        text = stringResource(id = R.string.gained_coupon_use_coupon_description),
-                        color = Main2,
-                        style = OffroadTheme.typography.textRegular,
-                        modifier = Modifier
-                            .padding(top = 14.dp)
-                            .fillMaxWidth()
-                            .padding(bottom = 8.dp),
-                        textAlign = TextAlign.Center
+
+                    when (couponCodeSuccess) {
+                        CheckCouponState.NONE -> {
+                            Box(
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                Column {
+                                    Text(
+                                        text = stringResource(id = R.string.gained_coupon_use_coupon_description),
+                                        color = textColor,
+                                        style = OffroadTheme.typography.textRegular,
+                                        modifier = Modifier
+                                            .padding(top = 14.dp)
+                                            .fillMaxWidth()
+                                            .padding(bottom = 8.dp),
+                                        textAlign = TextAlign.Center
+                                    )
+                                    CodeTextField(updateCode = updateCode, couponCode = couponCode)
+
+                                }
+                            }
+                        }
+
+                        CheckCouponState.SUCCESS -> {
+                            Box(
+                                modifier = Modifier.weight(1f),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = stringResource(id = R.string.gained_coupon_success_use_description),
+                                    color = textColor,
+                                    style = OffroadTheme.typography.textRegular,
+                                    modifier = Modifier.fillMaxWidth(),
+                                    textAlign = TextAlign.Center
+                                )
+
+                            }
+                        }
+
+                        CheckCouponState.FAIL -> {
+                            Box(
+                                modifier = Modifier.weight(1f),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = stringResource(id = R.string.gained_coupon_fail_use_description),
+                                    color = Error,
+                                    style = OffroadTheme.typography.subtitle2Semibold,
+                                    modifier = Modifier.fillMaxWidth(),
+                                    textAlign = TextAlign.Center
+                                )
+
+                            }
+                        }
+                    }
+
+                    ConfirmButton(
+                        updateCouponCodeSuccess = updateCouponCodeSuccess,
+                        couponCode = couponCode,
+                        couponCodeSuccess = couponCodeSuccess
                     )
-                    CodeTextField(updateCode = updateCode, couponCode = couponCode)
-                    ConfirmButton()
                 }
             }
         }
@@ -153,20 +214,44 @@ private fun CodeTextField(
 }
 
 @Composable
-private fun ConfirmButton() {
+private fun ConfirmButton(
+    couponCodeSuccess: CheckCouponState,
+    updateCouponCodeSuccess: (CheckCouponState) -> Unit,
+    couponCode: String = "",
+    textColor: Color = Main1,
+    textStyle: TextStyle = OffroadTheme.typography.btnSmall,
+    shape: Shape = RoundedCornerShape(6.dp)
+) {
     Text(
         text = stringResource(id = R.string.gained_coupon_confirm),
-        color = Main1,
-        style = OffroadTheme.typography.btnSmall,
+        color = textColor,
+        style = textStyle,
         textAlign = TextAlign.Center,
         modifier = Modifier
-            .padding(top = 18.dp, bottom = 26.dp)
-            .clip(shape = RoundedCornerShape(6.dp))
+            .padding(bottom = 26.dp)
+            .clip(shape = shape)
             .fillMaxWidth()
-            .background(Main2)
+            .background(if (couponCode.isEmpty()) Black15 else Main2)
             .padding(vertical = 12.dp)
             .clickableWithoutRipple(interactionSource = MutableInteractionSource()) {
                 // 확인 버튼 클릭
+                Log.d("coupon code", couponCode)
+
+                when (couponCodeSuccess) {
+                    CheckCouponState.NONE -> {
+                        val fakeCheckCouponCode = true // 쿠폰 정답 여부 판단 임시 변수
+                        if (fakeCheckCouponCode) updateCouponCodeSuccess(CheckCouponState.SUCCESS)
+                        else updateCouponCodeSuccess(CheckCouponState.FAIL)
+                    }
+
+                    CheckCouponState.SUCCESS -> {
+                        // 성공하면 팝업 어떻게?
+                    }
+
+                    CheckCouponState.FAIL -> {
+                        // 실패하면 팝업 어떻게?
+                    }
+                }
             }
     )
 }
