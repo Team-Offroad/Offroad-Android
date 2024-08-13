@@ -97,11 +97,11 @@ internal class MainNavigator(
     }
 
     fun navigateToExploreCameraScreen(placeId: Long, latitude: Double, longitude: Double) {
-        navController.navigateToExploreCamera(placeId, latitude, longitude, navOptions)
+        navController.navigateToExploreCamera(placeId, latitude, longitude)
     }
 
     fun navigateToSelectedCharacter(selectedCharacterUrl: String) {
-        navController.navigateToSelectedCharacter(selectedCharacterUrl, navOptions)
+        navController.navigateToSelectedCharacter(selectedCharacterUrl)
     }
 
     fun navigateToExplore(authResultType: String, imageUrl: String) {

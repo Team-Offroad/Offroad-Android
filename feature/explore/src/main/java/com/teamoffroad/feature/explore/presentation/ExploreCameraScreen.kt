@@ -31,6 +31,7 @@ internal fun ExploreCameraScreen(
     latitude: Double,
     longitude: Double,
     navigateToExplore: (String, String) -> Unit,
+    navigateToBack: () -> Unit,
     exploreCameraViewModel: ExploreCameraViewModel = hiltViewModel(),
 ) {
     val localContext = LocalContext.current
@@ -39,7 +40,7 @@ internal fun ExploreCameraScreen(
     val resultImageUrl by exploreCameraViewModel.resultImageUrl.collectAsStateWithLifecycle()
 
     BackHandler {
-        navigateToExplore("", "")
+        navigateToBack()
     }
 
     LaunchedEffect(uiState) {
@@ -76,7 +77,7 @@ internal fun ExploreCameraScreen(
             backgroundColor = Black.copy(alpha = 0.44f),
             text = stringResource(R.string.explore_navigate_back),
         ) {
-            navigateToExplore("", "")
+            navigateToBack()
         }
         ExploreCameraOverlay()
     }

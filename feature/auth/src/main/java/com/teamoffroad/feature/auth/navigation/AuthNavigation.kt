@@ -45,10 +45,9 @@ fun NavController.navigateToSetCharacter(navOptions: NavOptions? = null) {
 
 fun NavController.navigateToSelectedCharacter(
     selectedCharacterUrl: String,
-    navOptions: NavOptions,
 ) {
     val encodedUrl = URLEncoder.encode(selectedCharacterUrl, StandardCharsets.UTF_8.toString())
-    navigate(AuthRoute.SelectedCharacter(encodedUrl), navOptions)
+    navigate(AuthRoute.SelectedCharacter(encodedUrl))
 }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
