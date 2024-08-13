@@ -6,15 +6,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
+import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.auth.navigation.authNavGraph
 import com.teamoffroad.feature.explore.navigation.exploreNavGraph
 import com.teamoffroad.feature.home.navigation.homeNavGraph
 import com.teamoffroad.feature.main.MainNavigator
-import com.teamoffroad.feature.mypage.navigation.mypageNavGraph
+import com.teamoffroad.feature.mypage.navigation.myPageNavGraph
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
@@ -26,14 +26,14 @@ internal fun MainNavHost(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surfaceDim)
+            .background(Main1)
     ) {
         NavHost(
             navController = navigator.navController,
             startDestination = navigator.startDestination,
         ) {
             homeNavGraph(
-                onBackClick = navigator::popBackStackIfNotMain,
+                navigateToBack = navigator::popBackStackIfNotMain,
             )
             exploreNavGraph(
                 navigateToHome = { category ->
@@ -43,13 +43,22 @@ internal fun MainNavHost(
                 navigateToExplore = { errorType, successImageUrl ->
                     navigator.navigateToExplore(errorType, successImageUrl)
                 },
-                navigateToExploreCameraScreen = { placeId, latitude, longitude ->
+                navigateToExploreCamera = { placeId, latitude, longitude ->
                     navigator.navigateToExploreCameraScreen(placeId, latitude, longitude)
                 },
-                onBackClick = navigator::popBackStackIfNotMain,
+                navigateToPlace = {
+                    navigator.navigateToPlace()
+                },
+                navigateToQuest = {
+                    navigator.navigateToQuest()
+                },
+                navigateToBack = navigator::popBackStackIfNotMain,
             )
-            mypageNavGraph(
-                onBackClick = navigator::popBackStackIfNotMain,
+            myPageNavGraph(
+                navigateToGainedCharacter = {
+                    navigator.navigateToGainedCharacter()
+                },
+                navigateToBack = navigator::popBackStackIfNotMain,
             )
             authNavGraph(
                 navigateToHome = { navigator.navigateToHome() },
@@ -66,7 +75,7 @@ internal fun MainNavHost(
                 navigateToSelectedCharacter = { selectedCharacterUrl ->
                     navigator.navigateToSelectedCharacter(selectedCharacterUrl)
                 },
-                onBackClick = navigator::popBackStackIfNotMain,
+                navigateToBack = navigator::popBackStackIfNotMain,
             )
         }
     }

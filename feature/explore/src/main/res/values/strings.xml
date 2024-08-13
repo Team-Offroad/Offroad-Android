@@ -21,4 +21,14 @@
     <string name="explore_failed_img">https://github.com/user-attachments/assets/91943a5e-f390-4263-97b7-93f8f3b2ec1a</string>
     <string name="explore_dialog_success_button">홈으로</string>
     <string name="explore_dialog_failed_button">확인</string>
+    <string name="explore_explore">탐험</string>
+    <string name="explore_navigate_back">이전 화면</string>
+    <string name="explore_place_list">장소 목록</string>
+    <string name="explore_unvisited_place">안 가본 곳</string>
+    <string name="explore_total_place">전체</string>
+    <string name="explore_quest_list">퀘스트 목록</string>
+    <string name="explore_quest_achievement_rate">"달성도 "</string>
+    <string name="explore_quest_proceeding">진행 중</string>
+    <string name="explore_quest_completed">달성완료</string>
+    <string name="explore_explore_count">탐험횟수: %1$s</string>
 </resources>

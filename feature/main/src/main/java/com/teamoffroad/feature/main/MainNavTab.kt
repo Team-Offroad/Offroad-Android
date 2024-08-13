@@ -21,7 +21,7 @@ internal enum class MainNavTab(
         MainTabRoute.Explore(),
     ),
     MYPAGE(
-        iconResId = R.drawable.ic_main_mypage,
+        iconResId = R.drawable.ic_main_my_page,
         contentDescription = "마이페이지",
         MainTabRoute.MyPage,
     );
