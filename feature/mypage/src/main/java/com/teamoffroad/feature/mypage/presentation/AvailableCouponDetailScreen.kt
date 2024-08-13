@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,6 +44,7 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.core.designsystem.theme.Sub4
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.feature.mypage.presentation.component.UseAvailableCouponDialog
 import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
@@ -132,7 +134,9 @@ fun AvailableCouponCard(name: String, couponImageUrl: String, description: Strin
             )
             Text(
                 text = description,
-                modifier = Modifier.fillMaxSize().padding(top = 10.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 10.dp),
                 textAlign = TextAlign.Center,
                 color = Main2,
                 style = OffroadTheme.typography.textRegular,
@@ -176,6 +180,8 @@ private fun WayOfUse() {
 
 @Composable
 private fun UseAvailableCouponButton() {
+    val isUseAvailableCouponDialogShown = remember { mutableStateOf(false) }
+
     Text(
         text = stringResource(id = R.string.gained_coupon_use_available_coupon),
         color = White,
@@ -190,7 +196,16 @@ private fun UseAvailableCouponButton() {
             .clickableWithoutRipple(interactionSource = remember {
                 MutableInteractionSource()
             }) {
-
+                isUseAvailableCouponDialogShown.value = true
             }
     )
+
+    if (isUseAvailableCouponDialogShown.value) {
+        UseAvailableCouponDialog(
+            showDialog = isUseAvailableCouponDialogShown,
+            onClickCancel = {
+                isUseAvailableCouponDialogShown.value = false
+            }
+        )
+    }
 }

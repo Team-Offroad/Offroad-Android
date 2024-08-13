@@ -18,4 +18,8 @@
     <string name="gained_coupon_way_of_use_description">매장에 게시되어 있거나 매장 직원에게 전달받은
 고유 코드를 입력한 후 제시해 사용해 주세요.</string>
     <string name="gained_coupon_use_available_coupon">사용하기</string>
+    <string name="gained_coupon_use_coupon">쿠폰 사용</string>
+    <string name="gained_coupon_use_coupon_description">코드를 입력 후 사장님에게 보여주세요.</string>
+    <string name="gained_coupon_use_coupon_hint">매장의 고유 코드를 입력해 주세요.</string>
+    <string name="gained_coupon_confirm">확인</string>
 </resources>
