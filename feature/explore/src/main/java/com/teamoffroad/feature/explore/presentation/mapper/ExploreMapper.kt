@@ -2,11 +2,11 @@ package com.teamoffroad.feature.explore.presentation.mapper
 
 import com.naver.maps.geometry.LatLng
 import com.teamoffroad.feature.explore.domain.model.Place
+import com.teamoffroad.feature.explore.presentation.model.ExplorePlaceModel
 import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
-import com.teamoffroad.feature.explore.presentation.model.PlaceModel
 
-fun Place.toUi(): PlaceModel {
-    return PlaceModel(
+fun Place.toUi(): ExplorePlaceModel {
+    return ExplorePlaceModel(
         id = id,
         name = name,
         address = address,

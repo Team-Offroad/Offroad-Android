@@ -10,7 +10,4 @@ class AvailableCouponDetailViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    fun updateCode(code: String) {
-
-    }
 }

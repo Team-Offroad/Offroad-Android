@@ -49,13 +49,13 @@ fun UserNickname(nickname: String) {
                 ) {
                     append(nickname)
                 }
-                append(stringResource(id = R.string.mypage_explorer_suffix))
+                append(stringResource(id = R.string.my_page_explorer_suffix))
             }
         )
         Spacer(modifier = Modifier.padding(vertical = 4.dp))
         Row {
             Text(
-                text = stringResource(id = R.string.mypage_leave_for_an_adventure),
+                text = stringResource(id = R.string.my_page_leave_for_an_adventure),
                 color = Main2,
                 style = OffroadTheme.typography.bothSubtitle3
             )
@@ -108,18 +108,23 @@ fun UserAdventureInfo(userData: FakeUserModel) {
                 .fillMaxWidth()
                 .clip(shape = RoundedCornerShape(10.dp))
         ) {
-            Column{
+            Column {
                 Spacer(modifier = Modifier.padding(vertical = 7.dp))
-                Row{
-                    Box(modifier = Modifier.weight(1f).align(Alignment.CenterVertically)) {
+                Row {
+                    Box(modifier = Modifier
+                        .weight(1f)
+                        .align(Alignment.CenterVertically)) {
                         QuestAchievement(userData.acquireQuest)
                     }
-                    Spacer(modifier = Modifier
-                        .height(18.dp)
-                        .width(1.dp)
-                        .background(Contents2)
+                    Spacer(
+                        modifier = Modifier
+                            .height(18.dp)
+                            .width(1.dp)
+                            .background(Contents2)
                     )
-                    Box(modifier = Modifier.weight(1f).align(Alignment.CenterVertically)) {
+                    Box(modifier = Modifier
+                        .weight(1f)
+                        .align(Alignment.CenterVertically)) {
                         VisitedPlace(userData.visitPlace)
                     }
                 }
@@ -163,7 +168,7 @@ fun UserAdventureDate(date: Int) {
             ) {
                 append(date.toString())
             }
-            append(stringResource(id = R.string.mypage_adventure_date))
+            append(stringResource(id = R.string.my_page_adventure_date))
         }
     )
 }
@@ -194,7 +199,7 @@ fun QuestAchievement(achieveQuest: Int) {
             style = OffroadTheme.typography.textContentsSmall,
             color = Main2,
             text = buildAnnotatedString {
-                append(stringResource(id = R.string.mypage_quest_achievement_amount))
+                append(stringResource(id = R.string.my_page_quest_achievement_amount))
                 withStyle(
                     SpanStyle(
                         fontFamily = PretendardBold,
@@ -218,7 +223,7 @@ fun VisitedPlace(visitPlace: Int) {
             style = OffroadTheme.typography.textContentsSmall,
             color = Main2,
             text = buildAnnotatedString {
-                append(stringResource(id = R.string.mypage_visit_place_amount))
+                append(stringResource(id = R.string.my_page_visit_place_amount))
                 withStyle(
                     SpanStyle(
                         fontFamily = PretendardBold,

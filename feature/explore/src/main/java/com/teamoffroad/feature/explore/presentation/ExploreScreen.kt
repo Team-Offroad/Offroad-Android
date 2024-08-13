@@ -22,6 +22,8 @@ internal fun ExploreScreen(
     qrResultImageUrl: String?,
     navigateToHome: (String) -> Unit,
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
+    navigateToPlace: () -> Unit,
+    navigateToQuest: () -> Unit,
     exploreViewModel: ExploreViewModel = hiltViewModel(),
 ) {
     val uiState: ExploreUiState by exploreViewModel.uiState.collectAsStateWithLifecycle()
@@ -74,6 +76,8 @@ internal fun ExploreScreen(
             uiState.places,
             uiState.selectedPlace,
             navigateToExploreCameraScreen,
+            navigateToPlace,
+            navigateToQuest,
             exploreViewModel::updateLocation,
             exploreViewModel::updateTrackingToggle,
             exploreViewModel::updateSelectedPlace,

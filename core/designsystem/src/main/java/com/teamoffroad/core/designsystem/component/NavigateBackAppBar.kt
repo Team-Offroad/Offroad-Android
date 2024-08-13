@@ -46,7 +46,7 @@ fun NavigateBackAppBar(
                 }
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_back),
+                painter = painterResource(id = R.drawable.ic_navigate_back),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(mainColor),
                 modifier = Modifier

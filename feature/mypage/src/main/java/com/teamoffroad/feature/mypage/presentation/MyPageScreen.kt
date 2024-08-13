@@ -28,7 +28,8 @@ import com.teamoffroad.feature.mypage.presentation.component.UserNickname
 
 @Composable
 internal fun MyPageScreen(
-    navigateToAcquireCoupon: () -> Unit,
+    navigateToGainedCharacter: () -> Unit,
+    navigateToGainedCoupon: () -> Unit,
     myPageViewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val uiState = myPageViewModel.uiState.collectAsStateWithLifecycle()
@@ -51,9 +52,9 @@ internal fun MyPageScreen(
             Row(
                 modifier = Modifier.weight(1f)
             ) {
-                Box(modifier = Modifier.weight(1f)) { AcquireCharacter() }
+                Box(modifier = Modifier.weight(1f)) { AcquireCharacter(navigateToGainedCharacter) }
                 Spacer(modifier = Modifier.padding(horizontal = 6.dp))
-                Box(modifier = Modifier.weight(1f)) { AcquireCoupon(navigateToAcquireCoupon) }
+                Box(modifier = Modifier.weight(1f)) { AcquireCoupon(navigateToGainedCoupon) }
             }
             Spacer(modifier = Modifier.padding(vertical = 7.dp))
             Row(
@@ -73,6 +74,6 @@ internal fun MyPageScreen(
 @Composable
 fun MyPageScreenPreview() {
     OffroadTheme {
-        MyPageScreen(navigateToAcquireCoupon = { })
+        MyPageScreen({}, {})
     }
 }
