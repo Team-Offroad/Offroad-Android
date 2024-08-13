@@ -76,6 +76,11 @@ internal class MainNavigator(
         currentDestination?.hasRoute(it::class) == true
     }
 
+    @Composable
+    fun setBackButtonListenerEnabled() = MainNavTab.contains {
+        currentDestination?.hasRoute(it::class) == true
+    } || currentDestination?.hasRoute<Route.Auth>() == true
+
     fun navigateToHome(category: String? = null) {
         navController.navigateToHome(category, navOptions)
     }

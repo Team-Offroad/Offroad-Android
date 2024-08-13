@@ -27,7 +27,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.teamoffroad.core.common.util.OnBackButtonListener
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -195,7 +194,6 @@ private fun UsersQuestInformation(
         )
         Spacer(modifier = Modifier.padding(end = 24.dp))
     }
-    OnBackButtonListener()
 }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)

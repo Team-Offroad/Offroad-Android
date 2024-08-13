@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.teamoffroad.core.common.util.OnBackButtonListener
 import com.teamoffroad.core.designsystem.theme.Sub4
 import com.teamoffroad.feature.main.component.MainBottomBar
 import com.teamoffroad.feature.main.component.MainNavHost
@@ -36,6 +37,10 @@ private fun MainScreenContent(
             MainNavHost(
                 navigator = navigator,
                 padding = padding,
+            )
+            OnBackButtonListener(
+                navigator::popBackStackIfNotMainTabRoute,
+                navigator.setBackButtonListenerEnabled(),
             )
         },
         bottomBar = {
