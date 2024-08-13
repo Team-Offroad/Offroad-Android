@@ -46,7 +46,7 @@ fun QuestItem(
         )
         when (questModel.questProgressModel.isCompleted) {
             true -> Text(
-                text = "달성완료",
+                text = stringResource(R.string.explore_quest_completed),
                 style = OffroadTheme.typography.questCompleted,
                 color = Sub2,
                 modifier = Modifier.offset(x = 14.dp)
