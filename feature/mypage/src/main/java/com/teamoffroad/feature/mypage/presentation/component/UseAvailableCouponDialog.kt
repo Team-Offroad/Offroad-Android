@@ -42,8 +42,10 @@ import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
 fun UseAvailableCouponDialog(
+    couponCode: String,
     showDialog: MutableState<Boolean>,
-    onClickCancel: () -> Unit
+    onClickCancel: () -> Unit,
+    updateCode: (String) -> Unit,
 ) {
     Dialog(
         onDismissRequest = { onClickCancel() },
@@ -85,7 +87,7 @@ fun UseAvailableCouponDialog(
                             .padding(bottom = 8.dp),
                         textAlign = TextAlign.Center
                     )
-                    CodeTextField()
+                    CodeTextField(updateCode = updateCode, couponCode = couponCode)
                     ConfirmButton()
                 }
             }
@@ -97,20 +99,19 @@ fun UseAvailableCouponDialog(
 private fun CodeTextField(
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(6.dp),
-    placeholder: String = "",
-    code: String = "",
-    onValueChange: (String) -> Unit = { _ -> },
+    placeholder: String = stringResource(id = R.string.gained_coupon_use_coupon_hint),
+    couponCode: String = "",
     maxLines: Int = 1,
     minLines: Int = 1,
+    updateCode: (String) -> Unit,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
     val borderLineColor = remember { mutableStateOf(Gray100) }
 
     BasicTextField(
-        value = code,
-        //placeholder = stringResource(id = R.string.gained_coupon_use_coupon_hint),
+        value = couponCode,
         onValueChange = { newCode ->
-            onValueChange(newCode)
+            updateCode(newCode)
         },
         singleLine = maxLines == 1,
         maxLines = if (minLines > maxLines) minLines else maxLines,
@@ -136,7 +137,7 @@ private fun CodeTextField(
                         .clip(shape = shape),
                     contentAlignment = Alignment.CenterStart
                 ) {
-                    if (code.isEmpty()) {
+                    if (couponCode.isEmpty()) {
                         Text(
                             text = placeholder,
                             color = Gray300,

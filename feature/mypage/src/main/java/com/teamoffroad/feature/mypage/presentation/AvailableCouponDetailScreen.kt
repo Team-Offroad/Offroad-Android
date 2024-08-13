@@ -29,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
@@ -56,6 +57,8 @@ fun AvailableCouponDetailScreen(
     navigateToGainedCoupon: () -> Unit,
     availableCouponDetailViewModel: AvailableCouponDetailViewModel = hiltViewModel()
 ) {
+    val couponCode = availableCouponDetailViewModel.couponCode.collectAsStateWithLifecycle().value
+
     Box(
         modifier = Modifier
             .background(Sub4)
@@ -82,7 +85,7 @@ fun AvailableCouponDetailScreen(
                 AvailableCouponCard(name, couponImageUrl, description)
             }
             WayOfUse()
-            UseAvailableCouponButton()
+            UseAvailableCouponButton(couponCode, availableCouponDetailViewModel::updateCode)
         }
     }
 }
@@ -179,7 +182,10 @@ private fun WayOfUse() {
 }
 
 @Composable
-private fun UseAvailableCouponButton() {
+private fun UseAvailableCouponButton(
+    couponCode: String,
+    updateCode: (String) -> Unit,
+) {
     val isUseAvailableCouponDialogShown = remember { mutableStateOf(false) }
 
     Text(
@@ -202,10 +208,12 @@ private fun UseAvailableCouponButton() {
 
     if (isUseAvailableCouponDialogShown.value) {
         UseAvailableCouponDialog(
+            couponCode = couponCode,
             showDialog = isUseAvailableCouponDialogShown,
             onClickCancel = {
                 isUseAvailableCouponDialogShown.value = false
-            }
+            },
+            updateCode = updateCode
         )
     }
 }
