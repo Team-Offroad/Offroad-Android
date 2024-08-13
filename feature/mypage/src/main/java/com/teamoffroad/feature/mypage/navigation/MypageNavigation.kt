@@ -18,7 +18,7 @@ fun NavController.navigateToGainedCharacter() {
 }
 
 fun NavGraphBuilder.myPageNavGraph(
-    navigateToGainedCharacter: (Int) -> Unit,
+    navigateToGainedCharacter: () -> Unit,
     navigateToBack: () -> Unit,
 ) {
     composable<MainTabRoute.MyPage> {
