@@ -43,7 +43,7 @@ fun QuestHeader(
         )
         Spacer(modifier = Modifier.weight(1f))
         Text(
-            text = "진행 중",
+            text = stringResource(R.string.explore_quest_proceeding),
             color = Gray400,
             style = OffroadTheme.typography.textContents,
         )

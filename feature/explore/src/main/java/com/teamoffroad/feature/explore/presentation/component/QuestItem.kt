@@ -62,7 +62,7 @@ fun QuestProgressText(questModel: FakeQuestModel) {
     val progressText = "(${questModel.questProgressModel.progress}/${questModel.questProgressModel.total})"
     val annotatedString = buildAnnotatedString {
         withStyle(style = SpanStyle(color = Gray400)) {
-            append(stringResource(R.string.explore_quest_achivement_rate))
+            append(stringResource(R.string.explore_quest_achievement_rate))
         }
         withStyle(style = SpanStyle(color = Sub2)) {
             append(progressText)
