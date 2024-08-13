@@ -14,7 +14,7 @@ import com.teamoffroad.feature.auth.navigation.authNavGraph
 import com.teamoffroad.feature.explore.navigation.exploreNavGraph
 import com.teamoffroad.feature.home.navigation.homeNavGraph
 import com.teamoffroad.feature.main.MainNavigator
-import com.teamoffroad.feature.mypage.navigation.mypageNavGraph
+import com.teamoffroad.feature.mypage.navigation.myPageNavGraph
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
@@ -33,7 +33,7 @@ internal fun MainNavHost(
             startDestination = navigator.startDestination,
         ) {
             homeNavGraph(
-                onBackClick = navigator::popBackStackIfNotMain,
+                navigateToBack = navigator::popBackStackIfNotMain,
             )
             exploreNavGraph(
                 navigateToHome = { category ->
@@ -52,10 +52,13 @@ internal fun MainNavHost(
                 navigateToQuest = {
                     navigator.navigateToQuest()
                 },
-                onBackClick = navigator::popBackStackIfNotMain,
+                navigateToBack = navigator::popBackStackIfNotMain,
             )
-            mypageNavGraph(
-                onBackClick = navigator::popBackStackIfNotMain,
+            myPageNavGraph(
+                navigateToGainedCharacter = {
+                    navigator.navigateToGainedCharacter()
+                },
+                navigateToBack = navigator::popBackStackIfNotMain,
             )
             authNavGraph(
                 navigateToHome = { navigator.navigateToHome() },
@@ -72,7 +75,7 @@ internal fun MainNavHost(
                 navigateToSelectedCharacter = { selectedCharacterUrl ->
                     navigator.navigateToSelectedCharacter(selectedCharacterUrl)
                 },
-                onBackClick = navigator::popBackStackIfNotMain,
+                navigateToBack = navigator::popBackStackIfNotMain,
             )
         }
     }

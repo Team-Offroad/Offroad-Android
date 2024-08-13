@@ -53,7 +53,7 @@ fun NavGraphBuilder.exploreNavGraph(
     navigateToExploreCamera: (Long, Double, Double) -> Unit,
     navigateToPlace: () -> Unit,
     navigateToQuest: () -> Unit,
-    onBackClick: () -> Unit,
+    navigateToBack: () -> Unit,
 ) {
     composable<MainTabRoute.Explore> { backStackEntry ->
         val errorType = backStackEntry.toRoute<MainTabRoute.Explore>().authResultType

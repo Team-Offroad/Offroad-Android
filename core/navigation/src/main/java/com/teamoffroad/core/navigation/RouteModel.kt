@@ -45,3 +45,8 @@ sealed interface ExploreRoute : Route {
     @Serializable
     data object QuestScreen : ExploreRoute
 }
+
+sealed interface MyPageRoute : Route {
+    @Serializable
+    data object GainedCharacter : MyPageRoute
+}

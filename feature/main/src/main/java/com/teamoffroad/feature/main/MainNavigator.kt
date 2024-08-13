@@ -21,6 +21,7 @@ import com.teamoffroad.feature.explore.navigation.navigateToExploreCamera
 import com.teamoffroad.feature.explore.navigation.navigateToPlace
 import com.teamoffroad.feature.explore.navigation.navigateToQuest
 import com.teamoffroad.feature.home.navigation.navigateToHome
+import com.teamoffroad.feature.mypage.navigation.navigateToGainedCharacter
 import com.teamoffroad.feature.mypage.navigation.navigateToMyPage
 
 internal class MainNavigator(
@@ -113,6 +114,10 @@ internal class MainNavigator(
 
     fun navigateToQuest() {
         navController.navigateToQuest(navOptions)
+    }
+
+    fun navigateToGainedCharacter() {
+        navController.navigateToGainedCharacter()
     }
 }
 
