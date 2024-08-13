@@ -60,7 +60,7 @@ internal class MainNavigator(
         navController.popBackStack()
     }
 
-    fun popBackStackIfNotMain() {
+    fun popBackStackIfNotMainTabRoute() {
         if (!isSameCurrentDestination<MainTabRoute.Home>() &&
             !isSameCurrentDestination<MainTabRoute.Explore>() &&
             !isSameCurrentDestination<MainTabRoute.MyPage>()
