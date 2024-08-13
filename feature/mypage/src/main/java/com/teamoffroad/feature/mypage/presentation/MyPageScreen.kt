@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.mypage
+package com.teamoffroad.feature.mypage.presentation
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
@@ -10,7 +10,9 @@ import com.teamoffroad.core.common.util.OnBackButtonListener
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 
 @Composable
-internal fun MypageScreen() {
+internal fun MypageScreen(
+    navigateToGainedCharacter: (Int) -> Unit,
+) {
     Column {
         OffroadActionBar(Color.Transparent)
         Text(
