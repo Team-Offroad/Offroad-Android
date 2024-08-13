@@ -30,4 +30,5 @@
     <string name="explore_quest_achievement_rate">"달성도 "</string>
     <string name="explore_quest_proceeding">진행 중</string>
     <string name="explore_quest_completed">달성완료</string>
+    <string name="explore_explore_count">탐험횟수: %1$s</string>
 </resources>

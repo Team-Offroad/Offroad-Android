@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
@@ -29,6 +30,7 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.feature.explore.presentation.model.FakePlaceModel
+import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 fun PlaceItem(
@@ -102,7 +104,7 @@ fun PlaceExtraItem(
                     .requiredHeight(20.dp)
             )
             Text(
-                text = "탐험횟수: ${placeModel.visitCount}",
+                text = stringResource(R.string.explore_explore_count, placeModel.visitCount),
                 color = Sub2,
                 style = OffroadTheme.typography.tooltipNumber,
             )
