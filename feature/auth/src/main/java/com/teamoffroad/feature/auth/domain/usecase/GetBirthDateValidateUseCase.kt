@@ -1,6 +1,7 @@
 package com.teamoffroad.feature.auth.domain.usecase
 
 import com.teamoffroad.feature.auth.presentation.component.BirthDateValidateResult
+import java.time.LocalDate
 
 class GetBirthDateValidateUseCase {
     suspend operator fun invoke(
@@ -11,28 +12,48 @@ class GetBirthDateValidateUseCase {
     ): BirthDateValidateResult {
         when (birthDate) {
             "year" -> {
-                return when (checkInValidYear(year.toInt())) {
+                return when (year.toIntOrNull()?.let { checkInValidYear(it) }) {
                     true -> BirthDateValidateResult.Success
                     false -> BirthDateValidateResult.Error
+                    null -> BirthDateValidateResult.Error
                 }
             }
+
             "month" -> {
-                return when (checkInValidMonth(month.toInt())) {
+                return when (month.toIntOrNull()?.let {
+                    checkInValidMonth(it)
+                }) {
                     true -> BirthDateValidateResult.Success
                     false -> BirthDateValidateResult.Error
+                    null -> BirthDateValidateResult.Error
                 }
             }
+
             else -> {
-                return when (checkInValidDay(year.toInt(), month.toInt(), day.toInt())) {
+                return when (year.toIntOrNull()
+                    ?.let { checkYear ->
+                        month.toIntOrNull()
+                            ?.let { checkMonth ->
+                                day.toIntOrNull()
+                                    ?.let { checkDay ->
+                                        checkInValidDay(
+                                            checkYear,
+                                            checkMonth,
+                                            checkDay
+                                        )
+                                    }
+                            }
+                    }) {
                     true -> BirthDateValidateResult.Success
                     false -> BirthDateValidateResult.Error
+                    null -> BirthDateValidateResult.Error
                 }
             }
         }
     }
 
     private fun checkInValidYear(year: Int): Boolean {
-        return year in 1900..2024
+        return year in 1900..LocalDate.now().year
     }
 
     private fun checkInValidMonth(month: Int): Boolean {

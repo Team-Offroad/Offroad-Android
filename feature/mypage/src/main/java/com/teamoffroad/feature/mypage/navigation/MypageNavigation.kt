@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.core.navigation.MyPageRoute
 import com.teamoffroad.feature.mypage.presentation.GainedCharacterScreen
-import com.teamoffroad.feature.mypage.presentation.MypageScreen
+import com.teamoffroad.feature.mypage.presentation.MyPageScreen
 
 fun NavController.navigateToMyPage(navOptions: NavOptions) {
     navigate(MainTabRoute.MyPage, navOptions)
@@ -22,7 +22,7 @@ fun NavGraphBuilder.myPageNavGraph(
     navigateToBack: () -> Unit,
 ) {
     composable<MainTabRoute.MyPage> {
-        MypageScreen(navigateToGainedCharacter)
+        MyPageScreen(navigateToGainedCharacter)
     }
     composable<MyPageRoute.GainedCharacter> {
         GainedCharacterScreen(navigateToBack)

@@ -1,11 +1,12 @@
 package com.teamoffroad.feature.auth.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import com.teamoffroad.core.navigation.AuthRoute
 import com.teamoffroad.core.navigation.Route
 import com.teamoffroad.feature.auth.presentation.AuthScreen
@@ -27,8 +28,7 @@ fun NavController.navigateToSetNickname(navOptions: NavOptions? = null) {
 }
 
 fun NavController.navigateToSetBirthDate(nickname: String, navOptions: NavOptions? = null) {
-    val route = "${AuthRoute.SetBirthDate}/$nickname"
-    navigate(route, navOptions)
+    navigate(AuthRoute.SetBirthDate(nickname), navOptions)
 }
 
 fun NavController.navigateToSetGender(
@@ -36,12 +36,7 @@ fun NavController.navigateToSetGender(
     birthDate: String? = null,
     navOptions: NavOptions? = null,
 ) {
-    val route = if (birthDate != null) {
-        "${AuthRoute.SetGender}/$nickname?birthDate=$birthDate"
-    } else {
-        "${AuthRoute.SetGender}/$nickname"
-    }
-    navigate(route, navOptions)
+    navigate(AuthRoute.SetGender(nickname, birthDate), navOptions)
 }
 
 fun NavController.navigateToSetCharacter(navOptions: NavOptions? = null) {
@@ -53,10 +48,10 @@ fun NavController.navigateToSelectedCharacter(
     navOptions: NavOptions,
 ) {
     val encodedUrl = URLEncoder.encode(selectedCharacterUrl, StandardCharsets.UTF_8.toString())
-    val route = "${AuthRoute.SelectedCharacter}/$encodedUrl"
-    navigate(route, navOptions)
+    navigate(AuthRoute.SelectedCharacter(encodedUrl), navOptions)
 }
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun NavGraphBuilder.authNavGraph(
     navigateToHome: () -> Unit,
     navigateToSetNickname: () -> Unit,
@@ -77,27 +72,16 @@ fun NavGraphBuilder.authNavGraph(
             navigateToSetBirthDate,
         )
     }
-    composable(
-        route = "${AuthRoute.SetBirthDate}/{nickname}",
-        arguments = listOf(
-            navArgument("nickname") { type = NavType.StringType }
-        )
-    ) { backStackEntry ->
-        val nickname = backStackEntry.arguments?.getString("nickname") ?: ""
+    composable<AuthRoute.SetBirthDate> { backStackEntry ->
+        val nickname = backStackEntry.toRoute<AuthRoute.SetBirthDate>().nickname
         SetBirthDateScreen(
             nickname,
             navigateToSetGender,
         )
     }
-    composable(
-        route = "${AuthRoute.SetGender}/{nickname}?birthDate={birthDate}",
-        arguments = listOf(
-            navArgument("nickname") { type = NavType.StringType },
-            navArgument("birthDate") { type = NavType.StringType; nullable = true }
-        )
-    ) { backStackEntry ->
-        val nickname = backStackEntry.arguments?.getString("nickname") ?: ""
-        val birthDate = backStackEntry.arguments?.getString("birthDate")
+    composable<AuthRoute.SetGender> { backStackEntry ->
+        val nickname = backStackEntry.toRoute<AuthRoute.SetGender>().nickname
+        val birthDate = backStackEntry.toRoute<AuthRoute.SetGender>().birthDate
         SetGenderScreen(nickname, birthDate, navigateToSetCharacter)
     }
     composable<AuthRoute.SetCharacter> {
@@ -105,13 +89,8 @@ fun NavGraphBuilder.authNavGraph(
             navigateToSelectedCharacter,
         )
     }
-    composable(
-        route = "${AuthRoute.SelectedCharacter}/{selectedCharacterUrl}",
-        arguments = listOf(
-            navArgument("selectedCharacterUrl") { type = NavType.StringType },
-        )
-    ) { backStackEntry ->
-        val encodedUrl = backStackEntry.arguments?.getString("selectedCharacterUrl") ?: ""
+    composable<AuthRoute.SelectedCharacter> { backStackEntry ->
+        val encodedUrl = backStackEntry.toRoute<AuthRoute.SelectedCharacter>().encodedUrl
         val selectedCharacterUrl = URLDecoder.decode(encodedUrl, StandardCharsets.UTF_8.toString())
         SelectedCharacterScreen(
             selectedCharacterUrl,
