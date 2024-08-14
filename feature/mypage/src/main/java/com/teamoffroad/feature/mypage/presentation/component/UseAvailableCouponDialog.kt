@@ -54,8 +54,8 @@ fun UseAvailableCouponDialog(
     showDialog: MutableState<Boolean>,
     onClickCancel: () -> Unit,
     updateCode: (String) -> Unit,
+    modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(14.dp),
-    textColor: Color = Main2,
     backgroundColor: Color = Main3
 ) {
     Dialog(
@@ -63,13 +63,13 @@ fun UseAvailableCouponDialog(
         properties = DialogProperties(dismissOnClickOutside = true, dismissOnBackPress = true)
     ) {
         Card(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .height(218.dp),
             shape = shape,
         ) {
             Box(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxWidth()
                     .background(backgroundColor),
                 contentAlignment = Alignment.TopEnd
@@ -78,108 +78,152 @@ fun UseAvailableCouponDialog(
                     onClickCancel = { showDialog.value = false }
                 )
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(start = 40.dp, top = 26.dp, end = 40.dp)
+                UseAvailableCouponDialogText(
+                    showDialog = showDialog,
+                    couponCode = couponCode,
+                    couponCodeSuccess = couponCodeSuccess,
+                    updateCode = updateCode,
+                    updateCouponCodeSuccess = updateCouponCodeSuccess
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun UseAvailableCouponDialogText(
+    showDialog: MutableState<Boolean>,
+    couponCode: String,
+    couponCodeSuccess: CheckCouponState,
+    updateCode: (String) -> Unit,
+    updateCouponCodeSuccess: (CheckCouponState) -> Unit,
+    modifier: Modifier = Modifier,
+    textColor: Color = Main2,
+) {
+    when (couponCodeSuccess) {
+        CheckCouponState.NONE -> {
+            Column(
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(start = 40.dp, top = 26.dp, end = 40.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.my_page_gained_coupon_use_coupon),
+                    color = textColor,
+                    style = OffroadTheme.typography.title,
+                    modifier = modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
+                Box(
+                    modifier = modifier.weight(1f)
                 ) {
-                    when (couponCodeSuccess) {
-                        CheckCouponState.NONE -> {
-                            Text(
-                                text = stringResource(id = R.string.my_page_gained_coupon_use_coupon),
-                                color = textColor,
-                                style = OffroadTheme.typography.title,
-                                modifier = Modifier.fillMaxWidth(),
-                                textAlign = TextAlign.Center
-                            )
-                            Box(
-                                modifier = Modifier.weight(1f)
-                            ) {
-                                Column {
-                                    Text(
-                                        text = stringResource(id = R.string.my_page_gained_coupon_use_coupon_description),
-                                        color = textColor,
-                                        style = OffroadTheme.typography.textRegular,
-                                        modifier = Modifier
-                                            .padding(top = 14.dp)
-                                            .fillMaxWidth()
-                                            .padding(bottom = 8.dp),
-                                        textAlign = TextAlign.Center
-                                    )
-                                    CodeTextField(updateCode = updateCode, couponCode = couponCode)
+                    Column {
+                        Text(
+                            text = stringResource(id = R.string.my_page_gained_coupon_use_coupon_description),
+                            color = textColor,
+                            style = OffroadTheme.typography.textRegular,
+                            modifier = modifier
+                                .padding(top = 14.dp)
+                                .fillMaxWidth()
+                                .padding(bottom = 8.dp),
+                            textAlign = TextAlign.Center
+                        )
+                        CodeTextField(updateCode = updateCode, couponCode = couponCode)
 
-                                }
-                            }
-                        }
-
-                        CheckCouponState.SUCCESS -> {
-                            Text(
-                                text = stringResource(id = R.string.my_page_gained_coupon_success_use),
-                                color = textColor,
-                                style = OffroadTheme.typography.title,
-                                modifier = Modifier.fillMaxWidth(),
-                                textAlign = TextAlign.Center
-                            )
-                            Box(
-                                modifier = Modifier.weight(1f),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    text = stringResource(id = R.string.my_page_gained_coupon_success_use_description),
-                                    color = textColor,
-                                    style = OffroadTheme.typography.textRegular,
-                                    modifier = Modifier.fillMaxWidth(),
-                                    textAlign = TextAlign.Center
-                                )
-
-                            }
-                        }
-
-                        CheckCouponState.FAIL -> {
-                            Text(
-                                text = stringResource(id = R.string.my_page_gained_coupon_fail_use),
-                                color = textColor,
-                                style = OffroadTheme.typography.title,
-                                modifier = Modifier.fillMaxWidth(),
-                                textAlign = TextAlign.Center
-                            )
-                            Box(
-                                modifier = Modifier.weight(1f),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Row(
-                                    modifier = Modifier
-                                        .padding(start = 24.dp)
-                                        .fillMaxWidth()
-                                        .align(Alignment.Center)
-                                ) {
-                                    Image(
-                                        painter = painterResource(id = R.drawable.ic_my_page_error),
-                                        contentDescription = null,
-                                        modifier = Modifier
-                                            .padding(end = 6.dp)
-                                            .size(22.dp)
-                                            .align(Alignment.CenterVertically)
-                                    )
-                                    Text(
-                                        text = stringResource(id = R.string.my_page_gained_coupon_fail_use_description),
-                                        color = Error,
-                                        style = OffroadTheme.typography.subtitle2Semibold,
-                                        textAlign = TextAlign.Center
-                                    )
-                                }
-                            }
-                        }
                     }
-
-                    ConfirmButton(
-                        updateCode = updateCode,
-                        updateCouponCodeSuccess = updateCouponCodeSuccess,
-                        couponCode = couponCode,
-                        couponCodeSuccess = couponCodeSuccess,
-                        showDialog = showDialog
-                    )
                 }
+                ConfirmButton(
+                    updateCode = updateCode,
+                    updateCouponCodeSuccess = updateCouponCodeSuccess,
+                    couponCode = couponCode,
+                    couponCodeSuccess = couponCodeSuccess,
+                    showDialog = showDialog
+                )
+            }
+        }
+
+        CheckCouponState.SUCCESS -> {
+            Column(
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(start = 40.dp, top = 26.dp, end = 40.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.my_page_gained_coupon_success_use),
+                    color = textColor,
+                    style = OffroadTheme.typography.title,
+                    modifier = modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
+                Box(
+                    modifier = modifier.weight(1f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.my_page_gained_coupon_success_use_description),
+                        color = textColor,
+                        style = OffroadTheme.typography.textRegular,
+                        modifier = modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
+                    )
+
+                }
+                ConfirmButton(
+                    updateCode = updateCode,
+                    updateCouponCodeSuccess = updateCouponCodeSuccess,
+                    couponCode = couponCode,
+                    couponCodeSuccess = couponCodeSuccess,
+                    showDialog = showDialog
+                )
+            }
+        }
+
+        CheckCouponState.FAIL -> {
+            Column(
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(start = 40.dp, top = 26.dp, end = 40.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.my_page_gained_coupon_fail_use),
+                    color = textColor,
+                    style = OffroadTheme.typography.title,
+                    modifier = modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
+                Box(
+                    modifier = modifier.weight(1f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Row(
+                        modifier = modifier
+                            .padding(start = 24.dp)
+                            .fillMaxWidth()
+                            .align(Alignment.Center)
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_my_page_error),
+                            contentDescription = null,
+                            modifier = modifier
+                                .padding(end = 6.dp)
+                                .size(22.dp)
+                                .align(Alignment.CenterVertically)
+                        )
+                        Text(
+                            text = stringResource(id = R.string.my_page_gained_coupon_fail_use_description),
+                            color = Error,
+                            style = OffroadTheme.typography.subtitle2Semibold,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+                ConfirmButton(
+                    updateCode = updateCode,
+                    updateCouponCodeSuccess = updateCouponCodeSuccess,
+                    couponCode = couponCode,
+                    couponCodeSuccess = couponCodeSuccess,
+                    showDialog = showDialog
+                )
             }
         }
     }
@@ -249,6 +293,7 @@ private fun ConfirmButton(
     updateCouponCodeSuccess: (CheckCouponState) -> Unit,
     showDialog: MutableState<Boolean>,
     couponCode: String = "",
+    modifier: Modifier = Modifier,
     textColor: Color = Main1,
     textStyle: TextStyle = OffroadTheme.typography.btnSmall,
     shape: Shape = RoundedCornerShape(6.dp)
@@ -258,7 +303,7 @@ private fun ConfirmButton(
         color = textColor,
         style = textStyle,
         textAlign = TextAlign.Center,
-        modifier = Modifier
+        modifier = modifier
             .padding(bottom = 26.dp)
             .clip(shape = shape)
             .fillMaxWidth()
@@ -290,13 +335,14 @@ private fun ConfirmButton(
 
 @Composable
 private fun CloseDialog(
-    onClickCancel: () -> Unit
+    onClickCancel: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     IconButton(onClick = { onClickCancel() }) {
         Image(
             painter = painterResource(id = R.drawable.ic_mypage_close),
             contentDescription = null,
-            modifier = Modifier.padding(top = 6.dp, end = 4.dp)
+            modifier = modifier.padding(top = 6.dp, end = 4.dp)
         )
     }
 }
