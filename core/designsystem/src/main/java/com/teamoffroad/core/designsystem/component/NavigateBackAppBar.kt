@@ -30,7 +30,7 @@ fun NavigateBackAppBar(
     mainColor: Color = Main2,
     backgroundColor: Color = Main1,
     text: String,
-    navigateTo: () -> Unit,
+    navigateToBack: () -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -42,7 +42,7 @@ fun NavigateBackAppBar(
             modifier = Modifier
                 .wrapContentSize()
                 .pointerInput(Unit) {
-                    detectTapGestures(onTap = { navigateTo() })
+                    detectTapGestures(onTap = { navigateToBack() })
                 }
         ) {
             Image(
