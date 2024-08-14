@@ -312,9 +312,12 @@ private fun ConfirmButton(
             .clickableWithoutRipple(interactionSource = MutableInteractionSource()) {
                 when (couponCodeSuccess) {
                     CheckCouponState.NONE -> {
-                        val fakeCheckCouponCode = true // 쿠폰 정답 여부 판단 임시 변수
-                        if (fakeCheckCouponCode) updateCouponCodeSuccess(CheckCouponState.SUCCESS)
-                        else updateCouponCodeSuccess(CheckCouponState.FAIL)
+                        val fakeCheckCouponCode = false // 쿠폰 정답 여부 판단 임시 변수
+
+                        if (couponCode.isNotEmpty()) {
+                            if (fakeCheckCouponCode) updateCouponCodeSuccess(CheckCouponState.SUCCESS)
+                            else updateCouponCodeSuccess(CheckCouponState.FAIL)
+                        }
                     }
 
                     CheckCouponState.SUCCESS -> {
