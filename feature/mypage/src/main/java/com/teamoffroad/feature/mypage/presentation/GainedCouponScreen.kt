@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
@@ -56,7 +55,7 @@ internal fun GainedCouponScreen(
                 modifier = Modifier
                     .background(ListBg)
                     .padding(top = 20.dp),
-                text = stringResource(id = R.string.mypage_mypage),
+                text = stringResource(id = R.string.my_page_my_page),
                 backgroundColor = ListBg
             ) { navigateToMyPage() }
 
@@ -74,7 +73,7 @@ internal fun GainedCouponScreen(
 @Composable
 private fun GainedCouponHeader() {
     Text(
-        text = stringResource(id = R.string.gained_coupon),
+        text = stringResource(id = R.string.my_page_gained_coupon),
         style = OffroadTheme.typography.title,
         color = Main2,
     )

@@ -111,11 +111,11 @@ internal class MainNavigator(
     }
 
     fun navigateToGainedCoupon() {
-        navController.navigateToGainedCoupon(navOptions)
+        navController.navigateToGainedCoupon()
     }
 
     fun navigateToAvailableCouponDetail(id: Int, name: String, couponImageUrl: String, description: String) {
-        navController.navigateToAvailableCouponDetail(id, name, couponImageUrl, description, navOptions)
+        navController.navigateToAvailableCouponDetail(id, name, couponImageUrl, description)
     }
 
     fun navigateToExplore(authResultType: String, imageUrl: String) {

@@ -39,8 +39,8 @@ fun GainedCouponViewPager(
     navigateToAvailableCouponDetail: (Int, String, String, String) -> Unit
 ) {
     val tabTitles = listOf(
-        stringResource(id = R.string.gained_coupon_available),
-        stringResource(id = R.string.gained_coupon_used)
+        stringResource(id = R.string.my_page_gained_coupon_available),
+        stringResource(id = R.string.my_page_gained_coupon_used)
     )
     val pagerState = rememberPagerState(pageCount = { tabTitles.size })
     val coroutineScope = rememberCoroutineScope()

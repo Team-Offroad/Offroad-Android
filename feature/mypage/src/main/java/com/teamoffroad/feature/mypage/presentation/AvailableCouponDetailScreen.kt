@@ -80,7 +80,7 @@ fun AvailableCouponDetailScreen(
             OffroadActionBar()
             NavigateBackAppBar(
                 modifier = Modifier.padding(top = 20.dp),
-                text = stringResource(id = R.string.mypage_mypage),
+                text = stringResource(id = R.string.my_page_my_page),
                 backgroundColor = backgroundColor
             ) { navigateToGainedCoupon() }
             AvailableCouponCard(name, couponImageUrl, description)
@@ -174,7 +174,7 @@ private fun WayOfUse() {
             .padding(start = 6.dp, top = 6.dp, end = 6.dp)
     ) {
         Text(
-            text = stringResource(id = R.string.gained_coupon_way_of_use),
+            text = stringResource(id = R.string.my_page_gained_coupon_way_of_use),
             color = Sub2,
             style = OffroadTheme.typography.textBold,
             modifier = Modifier
@@ -187,7 +187,7 @@ private fun WayOfUse() {
                 contentDescription = null
             )
             Text(
-                text = stringResource(id = R.string.gained_coupon_way_of_use_description),
+                text = stringResource(id = R.string.my_page_gained_coupon_way_of_use_description),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 8.dp),
@@ -208,7 +208,7 @@ private fun UseAvailableCouponButton(
     val isUseAvailableCouponDialogShown = remember { mutableStateOf(false) }
 
     Text(
-        text = stringResource(id = R.string.gained_coupon_use_available_coupon),
+        text = stringResource(id = R.string.my_page_gained_coupon_use_available_coupon),
         color = White,
         style = OffroadTheme.typography.textRegular,
         textAlign = TextAlign.Center,

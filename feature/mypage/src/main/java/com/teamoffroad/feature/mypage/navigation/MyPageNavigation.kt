@@ -9,9 +9,8 @@ import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.core.navigation.MyPageRoute
 import com.teamoffroad.feature.mypage.presentation.AvailableCouponDetailScreen
 import com.teamoffroad.feature.mypage.presentation.GainedCharacterScreen
-import com.teamoffroad.feature.mypage.presentation.MyPageScreen
 import com.teamoffroad.feature.mypage.presentation.GainedCouponScreen
-import com.teamoffroad.feature.mypage.presentation.model.FakeGainedCouponModel
+import com.teamoffroad.feature.mypage.presentation.MyPageScreen
 
 fun NavController.navigateToMyPage(navOptions: NavOptions) {
     navigate(MainTabRoute.MyPage, navOptions)
@@ -21,10 +20,8 @@ fun NavController.navigateToGainedCharacter() {
     navigate(MyPageRoute.GainedCharacter)
 }
 
-fun NavController.navigateToGainedCoupon(
-    navOptions: NavOptions,
-) {
-    navigate(MyPageRoute.GainedCouponScreen, navOptions)
+fun NavController.navigateToGainedCoupon() {
+    navigate(MyPageRoute.GainedCouponScreen)
 }
 
 fun NavController.navigateToAvailableCouponDetail(
@@ -32,9 +29,8 @@ fun NavController.navigateToAvailableCouponDetail(
     name: String,
     couponImageUrl: String,
     description: String,
-    navOptions: NavOptions,
 ) {
-    navigate(MyPageRoute.AvailableCouponScreen(id, name, couponImageUrl, description), navOptions)
+    navigate(MyPageRoute.AvailableCouponScreen(id, name, couponImageUrl, description))
 }
 
 fun NavGraphBuilder.myPageNavGraph(

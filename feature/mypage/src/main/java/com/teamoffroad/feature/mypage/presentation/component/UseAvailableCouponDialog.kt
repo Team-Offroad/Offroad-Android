@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.mypage.presentation.component
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -39,7 +38,6 @@ import com.teamoffroad.core.designsystem.theme.Black15
 import com.teamoffroad.core.designsystem.theme.Error
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Gray300
-import com.teamoffroad.core.designsystem.theme.Kakao
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
@@ -88,7 +86,7 @@ fun UseAvailableCouponDialog(
                     when (couponCodeSuccess) {
                         CheckCouponState.NONE -> {
                             Text(
-                                text = stringResource(id = R.string.gained_coupon_use_coupon),
+                                text = stringResource(id = R.string.my_page_gained_coupon_use_coupon),
                                 color = textColor,
                                 style = OffroadTheme.typography.title,
                                 modifier = Modifier.fillMaxWidth(),
@@ -99,7 +97,7 @@ fun UseAvailableCouponDialog(
                             ) {
                                 Column {
                                     Text(
-                                        text = stringResource(id = R.string.gained_coupon_use_coupon_description),
+                                        text = stringResource(id = R.string.my_page_gained_coupon_use_coupon_description),
                                         color = textColor,
                                         style = OffroadTheme.typography.textRegular,
                                         modifier = Modifier
@@ -116,7 +114,7 @@ fun UseAvailableCouponDialog(
 
                         CheckCouponState.SUCCESS -> {
                             Text(
-                                text = stringResource(id = R.string.gained_coupon_success_use),
+                                text = stringResource(id = R.string.my_page_gained_coupon_success_use),
                                 color = textColor,
                                 style = OffroadTheme.typography.title,
                                 modifier = Modifier.fillMaxWidth(),
@@ -127,7 +125,7 @@ fun UseAvailableCouponDialog(
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = stringResource(id = R.string.gained_coupon_success_use_description),
+                                    text = stringResource(id = R.string.my_page_gained_coupon_success_use_description),
                                     color = textColor,
                                     style = OffroadTheme.typography.textRegular,
                                     modifier = Modifier.fillMaxWidth(),
@@ -139,7 +137,7 @@ fun UseAvailableCouponDialog(
 
                         CheckCouponState.FAIL -> {
                             Text(
-                                text = stringResource(id = R.string.gained_coupon_fail_use),
+                                text = stringResource(id = R.string.my_page_gained_coupon_fail_use),
                                 color = textColor,
                                 style = OffroadTheme.typography.title,
                                 modifier = Modifier.fillMaxWidth(),
@@ -164,7 +162,7 @@ fun UseAvailableCouponDialog(
                                             .align(Alignment.CenterVertically)
                                     )
                                     Text(
-                                        text = stringResource(id = R.string.gained_coupon_fail_use_description),
+                                        text = stringResource(id = R.string.my_page_gained_coupon_fail_use_description),
                                         color = Error,
                                         style = OffroadTheme.typography.subtitle2Semibold,
                                         textAlign = TextAlign.Center
@@ -191,7 +189,7 @@ fun UseAvailableCouponDialog(
 private fun CodeTextField(
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(6.dp),
-    placeholder: String = stringResource(id = R.string.gained_coupon_use_coupon_hint),
+    placeholder: String = stringResource(id = R.string.my_page_gained_coupon_use_coupon_hint),
     couponCode: String = "",
     maxLines: Int = 1,
     minLines: Int = 1,
@@ -256,7 +254,7 @@ private fun ConfirmButton(
     shape: Shape = RoundedCornerShape(6.dp)
 ) {
     Text(
-        text = stringResource(id = R.string.gained_coupon_confirm),
+        text = stringResource(id = R.string.my_page_gained_coupon_confirm),
         color = textColor,
         style = textStyle,
         textAlign = TextAlign.Center,
