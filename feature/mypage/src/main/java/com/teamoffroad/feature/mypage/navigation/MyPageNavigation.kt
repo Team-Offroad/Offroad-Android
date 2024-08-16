@@ -34,6 +34,7 @@ fun NavController.navigateToAvailableCouponDetail(
 }
 
 fun NavGraphBuilder.myPageNavGraph(
+    navigateToMyPage: () -> Unit,
     navigateToGainedCharacter: () -> Unit,
     navigateToGainedCoupon: () -> Unit,
     navigateToAvailableCouponDetail: (Int, String, String, String) -> Unit,
@@ -48,7 +49,7 @@ fun NavGraphBuilder.myPageNavGraph(
     }
 
     composable<MyPageRoute.GainedCouponScreen> {
-        GainedCouponScreen(navigateToAvailableCouponDetail, navigateToBack)
+        GainedCouponScreen(navigateToAvailableCouponDetail, navigateToMyPage)
     }
 
     composable<MyPageRoute.AvailableCouponScreen> { backStackEntry ->

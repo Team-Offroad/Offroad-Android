@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.mypage.presentation
 
-import android.view.View
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -8,14 +7,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -37,13 +33,7 @@ internal fun GainedCouponScreen(
     gainedCouponViewModel: GainedCouponViewModel = hiltViewModel()
 ) {
     Box(
-        modifier = Modifier
-            .background(Sub4)
-            .then(
-                if (!checkNavigationBar(LocalView.current)) Modifier.navigationBarsPadding() else Modifier.padding(
-                    bottom = 14.dp
-                )
-            )
+        modifier = Modifier.background(Sub4)
     ) {
         Column(
             modifier = Modifier
@@ -85,18 +75,3 @@ private fun GainedCouponHeader() {
             .size(24.dp)
     )
 }
-
-@Composable
-fun checkNavigationBar(view: View): Boolean = remember {
-    val systemBottomNavigationSetting = view.context.resources.getIdentifier(
-        "config_navBarInteractionMode",
-        "integer",
-        "android"
-    )
-    systemBottomNavigationSetting > UNAVAILABLE_RESOURCE_ID && view.context.resources.getInteger(
-        systemBottomNavigationSetting
-    ) == GESTURE_NAVIGATION
-}
-
-private const val GESTURE_NAVIGATION = 2
-private const val UNAVAILABLE_RESOURCE_ID = 0

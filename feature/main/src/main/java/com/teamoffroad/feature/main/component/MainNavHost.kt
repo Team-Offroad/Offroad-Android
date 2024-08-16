@@ -55,6 +55,9 @@ internal fun MainNavHost(
                 navigateToBack = navigator::popBackStackIfNotMain,
             )
             myPageNavGraph(
+                navigateToMyPage = {
+                    navigator.navigateToMyPage()
+                },
                 navigateToGainedCoupon = {
                     navigator.navigateToGainedCoupon()
                 },

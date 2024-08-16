@@ -48,12 +48,13 @@ import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
 fun UseAvailableCouponDialog(
-    updateCouponCodeSuccess: (CheckCouponState) -> Unit,
+    couponId: Int,
     couponCodeSuccess: CheckCouponState,
     couponCode: String,
     showDialog: MutableState<Boolean>,
     onClickCancel: () -> Unit,
     updateCode: (String) -> Unit,
+    updateCouponCodeSuccess: (CheckCouponState) -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(14.dp),
     backgroundColor: Color = Main3

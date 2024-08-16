@@ -64,13 +64,7 @@ fun AvailableCouponDetailScreen(
         availableCouponDetailViewModel.couponCodeSuccess.collectAsStateWithLifecycle().value
 
     Box(
-        modifier = Modifier
-            .background(Sub4)
-            .then(
-                if (!checkNavigationBar(LocalView.current)) Modifier.navigationBarsPadding() else Modifier.padding(
-                    bottom = 14.dp
-                )
-            )
+        modifier = Modifier.background(Sub4)
     ) {
         Column(
             modifier = Modifier
@@ -91,9 +85,10 @@ fun AvailableCouponDetailScreen(
                 WayOfUse()
             }
             UseAvailableCouponButton(
+                couponId = couponId,
+                couponCode = couponCode,
                 updateCouponCodeSuccess = availableCouponDetailViewModel::updateCouponCodeSuccess,
                 couponCodeSuccess = couponCodeSuccess,
-                couponCode = couponCode,
                 updateCode = availableCouponDetailViewModel::updateCode
             )
         }
@@ -200,9 +195,10 @@ private fun WayOfUse() {
 
 @Composable
 private fun UseAvailableCouponButton(
+    couponId: Int,
+    couponCode: String,
     updateCouponCodeSuccess: (CheckCouponState) -> Unit,
     couponCodeSuccess: CheckCouponState,
-    couponCode: String,
     updateCode: (String) -> Unit,
 ) {
     val isUseAvailableCouponDialogShown = remember { mutableStateOf(false) }
@@ -227,6 +223,7 @@ private fun UseAvailableCouponButton(
 
     if (isUseAvailableCouponDialogShown.value) {
         UseAvailableCouponDialog(
+            couponId = couponId,
             updateCouponCodeSuccess = updateCouponCodeSuccess,
             couponCodeSuccess = couponCodeSuccess,
             couponCode = couponCode,
