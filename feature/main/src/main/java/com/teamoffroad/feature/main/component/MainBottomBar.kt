@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
+import com.teamoffroad.core.designsystem.theme.BottomBar
 import com.teamoffroad.core.designsystem.theme.BottomBarInactive
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -53,13 +54,14 @@ internal fun MainBottomBar(
             Column(
                 modifier = modifier
                     .fillMaxWidth()
-                    .background(Sub4)
+                    .background(BottomBar)
                     .then(if (!isGestureNavigation) Modifier.navigationBarsPadding() else Modifier.padding(bottom = 14.dp))
             ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(74.dp)
+                        .background(Sub4)
                 ) {
                     tabs.forEach { tab ->
                         MainBottomBarItem(
