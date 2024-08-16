@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.teamoffroad.core.designsystem.component.GestureNavigation
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -21,7 +22,9 @@ fun PlaceScreen(
     navigateToExplore: (String, String) -> Unit,
 ) {
     Column(
-        modifier = Modifier.background(Main1)
+        modifier = Modifier
+            .then(GestureNavigation())
+            .background(Main1)
     ) {
         OffroadActionBar()
         NavigateBackAppBar(

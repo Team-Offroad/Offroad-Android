@@ -25,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.teamoffroad.core.designsystem.component.GestureNavigation
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.core.designsystem.theme.BottomBar
 import com.teamoffroad.core.designsystem.theme.BottomBarInactive
@@ -43,19 +44,12 @@ internal fun MainBottomBar(
     currentTab: MainNavTab?,
     onTabSelected: (MainNavTab) -> Unit,
 ) {
-    val view = LocalView.current
-    val isGestureNavigation = remember {
-        val systemBottomNavigationSetting = view.context.resources.getIdentifier("config_navBarInteractionMode", "integer", "android")
-        systemBottomNavigationSetting > UNAVAILABLE_RESOURCE_ID && view.context.resources.getInteger(systemBottomNavigationSetting) == GESTURE_NAVIGATION
-    }
-
     ProvideWindowInsets {
         StaticAnimationWrapper(visible = visible) {
             Column(
                 modifier = modifier
                     .fillMaxWidth()
-                    .background(BottomBar)
-                    .then(if (!isGestureNavigation) Modifier.navigationBarsPadding() else Modifier.padding(bottom = 14.dp))
+                    .then(GestureNavigation())
             ) {
                 Row(
                     modifier = Modifier
@@ -164,9 +158,6 @@ private fun MainBottomBarPreview() {
         )
     }
 }
-
-private const val GESTURE_NAVIGATION = 2
-private const val UNAVAILABLE_RESOURCE_ID = 0
 
 private const val HOME_TAB = 0
 private const val EXPLORE_TAB = 1
