@@ -5,7 +5,7 @@ import com.teamoffroad.feature.home.data.mapper.toDomain
 import com.teamoffroad.feature.home.data.remote.service.UserService
 import com.teamoffroad.feature.home.domain.model.Emblem
 import com.teamoffroad.feature.home.domain.model.UserQuests
-import com.teamoffroad.feature.home.domain.model.UsersAdventuresInformations
+import com.teamoffroad.feature.home.domain.model.UsersAdventuresInformation
 import com.teamoffroad.feature.home.domain.repository.UserRepository
 import javax.inject.Inject
 
@@ -32,11 +32,11 @@ class UserRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun getUsersAdventuresInformations(category: String): UsersAdventuresInformations {
-        val response = userService.getAdventuresInformations(category)
-        val adventuresInformations = response.data?.toData()
-        val domainAdventuresInformations = adventuresInformations?.toDomain()
-        return domainAdventuresInformations ?: UsersAdventuresInformations("", "", "", "", "")
+    override suspend fun getUsersAdventuresInformation(category: String): UsersAdventuresInformation {
+        val response = userService.getAdventuresInformation(category)
+        val adventuresInformation = response.data?.toData()
+        val domainAdventuresInformation = adventuresInformation?.toDomain()
+        return domainAdventuresInformation ?: UsersAdventuresInformation("", "", "", "", "")
     }
 
     override suspend fun patchEmblem(emblemCode: String) {
