@@ -1,6 +1,7 @@
 package com.teamoffroad.feature.explore.data.di
 
-import com.teamoffroad.feature.explore.data.remote.service.ExploreService
+import com.teamoffroad.feature.explore.data.remote.service.PlaceService
+import com.teamoffroad.feature.explore.data.remote.service.UserService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +15,13 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideExploreService(retrofit: Retrofit): ExploreService {
-        return retrofit.create(ExploreService::class.java)
+    fun provideUserService(retrofit: Retrofit): UserService {
+        return retrofit.create(UserService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providePlaceService(retrofit: Retrofit): PlaceService {
+        return retrofit.create(PlaceService::class.java)
     }
 }

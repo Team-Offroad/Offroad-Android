@@ -1,7 +1,9 @@
 package com.teamoffroad.feature.explore.data.di
 
-import com.teamoffroad.feature.explore.data.repository.ExploreRepositoryImpl
-import com.teamoffroad.feature.explore.domain.repository.ExploreRepository
+import com.teamoffroad.feature.explore.data.repository.PlaceRepositoryImpl
+import com.teamoffroad.feature.explore.data.repository.UserRepositoryImpl
+import com.teamoffroad.feature.explore.domain.repository.PlaceRepository
+import com.teamoffroad.feature.explore.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -12,7 +14,12 @@ import dagger.hilt.components.SingletonComponent
 abstract class RepositoryModule {
 
     @Binds
-    abstract fun bindExploreRepository(
-        exploreRepositoryImpl: ExploreRepositoryImpl,
-    ): ExploreRepository
+    abstract fun bindUserRepository(
+        userRepositoryImpl: UserRepositoryImpl,
+    ): UserRepository
+
+    @Binds
+    abstract fun bindPlaceRepository(
+        placeRepositoryImpl: PlaceRepositoryImpl,
+    ): PlaceRepository
 }
