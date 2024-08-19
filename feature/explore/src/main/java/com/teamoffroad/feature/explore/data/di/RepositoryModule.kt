@@ -1,8 +1,10 @@
 package com.teamoffroad.feature.explore.data.di
 
 import com.teamoffroad.feature.explore.data.repository.PlaceRepositoryImpl
+import com.teamoffroad.feature.explore.data.repository.QuestRepositoryImpl
 import com.teamoffroad.feature.explore.data.repository.UserRepositoryImpl
 import com.teamoffroad.feature.explore.domain.repository.PlaceRepository
+import com.teamoffroad.feature.explore.domain.repository.QuestRepository
 import com.teamoffroad.feature.explore.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
@@ -22,4 +24,9 @@ abstract class RepositoryModule {
     abstract fun bindPlaceRepository(
         placeRepositoryImpl: PlaceRepositoryImpl,
     ): PlaceRepository
+
+    @Binds
+    abstract fun bindQuestRepository(
+        questRepositoryImpl: QuestRepositoryImpl,
+    ): QuestRepository
 }
