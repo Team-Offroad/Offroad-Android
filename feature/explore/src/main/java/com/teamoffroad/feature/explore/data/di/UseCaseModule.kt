@@ -1,8 +1,10 @@
 package com.teamoffroad.feature.explore.data.di
 
 import com.teamoffroad.feature.explore.domain.repository.PlaceRepository
+import com.teamoffroad.feature.explore.domain.repository.QuestRepository
 import com.teamoffroad.feature.explore.domain.repository.UserRepository
 import com.teamoffroad.feature.explore.domain.usecase.GetPlaceListUseCase
+import com.teamoffroad.feature.explore.domain.usecase.GetQuestListUseCase
 import com.teamoffroad.feature.explore.domain.usecase.PostExploreLocationAuthUseCase
 import com.teamoffroad.feature.explore.domain.usecase.PostExploreQrAuthUseCase
 import dagger.Module
@@ -37,5 +39,13 @@ object UseCaseModule {
         userRepository: UserRepository,
     ): PostExploreLocationAuthUseCase {
         return PostExploreLocationAuthUseCase(userRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideQuestListUseCase(
+        questRepository: QuestRepository,
+    ): GetQuestListUseCase {
+        return GetQuestListUseCase(questRepository)
     }
 }

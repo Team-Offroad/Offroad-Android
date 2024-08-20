@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -23,6 +24,10 @@ fun QuestScreen(
 ) {
     val uiState = questViewModel.uiState.collectAsStateWithLifecycle()
 
+    LaunchedEffect(Unit) {
+        questViewModel.getQuests(false)
+    }
+
     Column(
         modifier = Modifier.background(Main1)
     ) {
@@ -33,8 +38,10 @@ fun QuestScreen(
         ) { navigateToExplore("", "") }
         QuestHeader(
             uiState.value.isProceedingToggle,
-            questViewModel::updateProceedingToggle
+            questViewModel::updateProceedingToggle,
         )
-        QuestItems(quests = uiState.value.quests)
+        QuestItems(
+            quests = if (uiState.value.isProceedingToggle) uiState.value.totalQuests else uiState.value.proceedingQuests,
+        )
     }
 }
