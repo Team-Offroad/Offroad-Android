@@ -5,6 +5,6 @@ import com.teamoffroad.feature.mypage.data.remote.response.UserCouponsResponseDt
 import retrofit2.http.GET
 
 interface UserCouponsService {
-    @GET("/users/coupons")
+    @GET("users/coupons")
     suspend fun getCoupons(): BaseResponse<UserCouponsResponseDto>
 }

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -24,7 +25,6 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub4
 import com.teamoffroad.feature.mypage.presentation.component.GainedCouponViewPager
-import com.teamoffroad.feature.mypage.presentation.model.FakeGainedCouponModel
 import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
@@ -61,7 +61,7 @@ internal fun GainedCouponScreen(
                 GainedCouponHeader()
             }
             Spacer(modifier = Modifier.padding(vertical = 10.dp))
-            GainedCouponViewPager(FakeGainedCouponModel.dummyGainedCoupons, navigateToAvailableCouponDetail)
+            GainedCouponViewPager(viewModel.userAvailableCoupons.collectAsState().value, viewModel.userUsedCoupons.collectAsState().value, navigateToAvailableCouponDetail)
         }
     }
 }

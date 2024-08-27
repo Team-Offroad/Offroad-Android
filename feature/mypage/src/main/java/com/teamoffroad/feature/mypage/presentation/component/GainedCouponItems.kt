@@ -32,12 +32,12 @@ import com.teamoffroad.core.designsystem.theme.Contents2
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
-import com.teamoffroad.feature.mypage.presentation.model.FakeGainedCouponModel
+import com.teamoffroad.feature.mypage.domain.model.UserCoupons
 import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
 fun AvailableCouponItems(
-    coupons: List<FakeGainedCouponModel.FakeAvailableCouponsModel>,
+    coupons: List<UserCoupons.AvailableCoupon>,
     navigateToAvailableCouponDetail: (Int, String, String, String) -> Unit,
     context: Context
 ) {
@@ -59,7 +59,7 @@ fun AvailableCouponItems(
 
 @Composable
 fun AvailableCouponItem(
-    coupon: FakeGainedCouponModel.FakeAvailableCouponsModel,
+    coupon: UserCoupons.AvailableCoupon,
     navigateToAvailableCouponDetail: (Int, String, String, String) -> Unit,
     context: Context
 ) {
@@ -105,7 +105,7 @@ fun AvailableCouponItem(
 
 @Composable
 fun UsedCouponItems(
-    coupons: List<FakeGainedCouponModel.FakeUsedCouponsModel>,
+    coupons: List<UserCoupons.UsedCoupon>,
     context: Context
 ) {
     LazyVerticalGrid(
@@ -126,7 +126,7 @@ fun UsedCouponItems(
 
 @Composable
 fun UsedCouponItem(
-    coupon: FakeGainedCouponModel.FakeUsedCouponsModel,
+    coupon: UserCoupons.UsedCoupon,
     context: Context
 ) {
     Box(
