@@ -21,7 +21,7 @@ interface UserService {
     suspend fun getUsersQuests(): BaseResponse<UserQuestsResponseDto>
 
     @GET("users/adventures/informations")
-    suspend fun getAdventuresInformations(
+    suspend fun getAdventuresInformation(
         @Query("category") category: String
     ): BaseResponse<UsersAdventuresInformationsResponseDto>
 }

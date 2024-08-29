@@ -31,8 +31,9 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.PretendardBold
 import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.Sub2
-import com.teamoffroad.feature.mypage.presentation.model.FakeUserModel
+import com.teamoffroad.feature.mypage.domain.model.MyPageUser
 import com.teamoffroad.offroad.feature.mypage.R
+import dagger.multibindings.IntoMap
 
 @Composable
 fun UserNickname(nickname: String) {
@@ -69,7 +70,9 @@ fun UserNickname(nickname: String) {
 }
 
 @Composable
-fun UserAdventureInfo(userData: FakeUserModel) {
+fun UserAdventureInfo(
+        user: MyPageUser
+    ) {
     Column {
         Surface(
             color = Main1,
@@ -83,7 +86,7 @@ fun UserAdventureInfo(userData: FakeUserModel) {
                     Spacer(modifier = Modifier.padding(horizontal = 10.dp))
                     UserImage()
                     Spacer(modifier = Modifier.padding(horizontal = 15.dp))
-                    UserInfo(userData.date, userData.emblem)
+                    UserInfo(user.elapsedDay, user.currentEmblem)
                 }
                 Spacer(modifier = Modifier.padding(vertical = 9.dp))
             }
@@ -114,7 +117,7 @@ fun UserAdventureInfo(userData: FakeUserModel) {
                     Box(modifier = Modifier
                         .weight(1f)
                         .align(Alignment.CenterVertically)) {
-                        QuestAchievement(userData.acquireQuest)
+                        QuestAchievement(user.completeQuestCount)
                     }
                     Spacer(
                         modifier = Modifier
@@ -125,7 +128,7 @@ fun UserAdventureInfo(userData: FakeUserModel) {
                     Box(modifier = Modifier
                         .weight(1f)
                         .align(Alignment.CenterVertically)) {
-                        VisitedPlace(userData.visitPlace)
+                        VisitedPlace(user.visitedPlaceCount)
                     }
                 }
                 Spacer(modifier = Modifier.padding(vertical = 7.dp))

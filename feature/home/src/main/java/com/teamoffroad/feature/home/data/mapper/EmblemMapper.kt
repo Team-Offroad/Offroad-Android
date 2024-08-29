@@ -8,7 +8,7 @@ import com.teamoffroad.feature.home.data.remote.response.UserQuestsResponseDto
 import com.teamoffroad.feature.home.data.remote.response.UsersAdventuresInformationsResponseDto
 import com.teamoffroad.feature.home.domain.model.Emblem
 import com.teamoffroad.feature.home.domain.model.UserQuests
-import com.teamoffroad.feature.home.domain.model.UsersAdventuresInformations
+import com.teamoffroad.feature.home.domain.model.UsersAdventuresInformation
 
 fun EmblemsResponseDto.EmblemResponseDto.toData(): EmblemEntity {
     return EmblemEntity(
@@ -66,8 +66,8 @@ fun UserQuestEntity.AlmostEntity.toDomain(): UserQuests.UserAlmost {
     )
 }
 
-fun UsersAdventuresInformationsEntity.toDomain(): UsersAdventuresInformations {
-    return UsersAdventuresInformations(
+fun UsersAdventuresInformationsEntity.toDomain(): UsersAdventuresInformation {
+    return UsersAdventuresInformation(
         nickname = nickname,
         baseImageUrl = baseImageUrl,
         motionImageUrl = motionImageUrl,

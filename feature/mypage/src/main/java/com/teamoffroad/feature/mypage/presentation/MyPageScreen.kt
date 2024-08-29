@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.mypage.presentation
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,12 +10,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.teamoffroad.core.common.util.OnBackButtonListener
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.theme.ListBg
@@ -31,7 +35,16 @@ internal fun MyPageScreen(
     navigateToGainedCharacter: () -> Unit,
     myPageViewModel: MyPageViewModel = hiltViewModel(),
 ) {
-    val uiState = myPageViewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        myPageViewModel.getMyPageUser()
+    }
+
+    val errorMessage = myPageViewModel.errorMessage.collectAsStateWithLifecycle().value
+    if (errorMessage.isNotBlank()) {
+        Toast.makeText(LocalContext.current, errorMessage, Toast.LENGTH_SHORT).show()
+        myPageViewModel.updateErrorMessage("")
+    }
 
     Box(
         modifier = Modifier
@@ -44,9 +57,11 @@ internal fun MyPageScreen(
     ) {
         Column {
             OffroadActionBar(Color.Transparent)
-            UserNickname(uiState.value.userData.nickname)
+            UserNickname(myPageViewModel.myPageUser.collectAsStateWithLifecycle().value.nickname)
             Spacer(modifier = Modifier.padding(vertical = 13.dp))
-            UserAdventureInfo(uiState.value.userData)
+            UserAdventureInfo(
+                myPageViewModel.myPageUser.collectAsStateWithLifecycle().value
+            )
             Spacer(modifier = Modifier.padding(vertical = 8.dp))
             Row(
                 modifier = Modifier.weight(1f)

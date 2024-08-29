@@ -52,7 +52,7 @@ fun HomeScreen(
 
     LaunchedEffect(Unit) {
         viewModel.updateCategory(if (category.isNullOrEmpty()) "NONE" else category)
-        viewModel.getUsersAdventuresInformations(viewModel.category.value)
+        viewModel.getUsersAdventuresInformation(viewModel.category.value)
         viewModel.getUserQuests()
     }
     StaticAnimationWrapper {
@@ -88,13 +88,13 @@ private fun UsersAdventuresInformation(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel,
 ) {
-    val adventuresInformationsState =
-        viewModel.getUsersAdventuresInformationsState.collectAsState(initial = UiState.Loading).value
+    val adventuresInformationState =
+        viewModel.getUsersAdventuresInformationState.collectAsState(initial = UiState.Loading).value
 
-    val adventuresInformationsData = when (adventuresInformationsState) {
-        is UiState.Success -> adventuresInformationsState.data
+    val adventuresInformationData = when (adventuresInformationState) {
+        is UiState.Success -> adventuresInformationState.data
         is UiState.Failure -> {
-            Toast.makeText(context, adventuresInformationsState.errorMessage, Toast.LENGTH_SHORT)
+            Toast.makeText(context, adventuresInformationState.errorMessage, Toast.LENGTH_SHORT)
                 .show()
             null
         }
@@ -105,7 +105,7 @@ private fun UsersAdventuresInformation(
     Box(
         modifier = modifier.fillMaxWidth()
     ) {
-        val imageUrl = adventuresInformationsData?.baseImageUrl ?: "" // TODO: svg & lottie
+        val imageUrl = adventuresInformationData?.baseImageUrl ?: "" // TODO: svg & lottie
         Box(
             modifier = Modifier.fillMaxWidth(),
             contentAlignment = Alignment.TopEnd
@@ -118,8 +118,8 @@ private fun UsersAdventuresInformation(
         }
 
         Column {
-            NicknameText(adventuresInformationsData?.nickname ?: "")
-            CharacterItem().CharacterNameText(adventuresInformationsData?.characterName ?: "")
+            NicknameText(adventuresInformationData?.nickname ?: "")
+            CharacterItem().CharacterNameText(adventuresInformationData?.characterName ?: "")
         }
 
         Box(
