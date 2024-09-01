@@ -31,7 +31,6 @@ import com.teamoffroad.offroad.feature.home.R
 fun HomeIcons(
     context: Context,
     imageUrl: String,
-    category: String
 ) {
     val scope = rememberCoroutineScope()
 
