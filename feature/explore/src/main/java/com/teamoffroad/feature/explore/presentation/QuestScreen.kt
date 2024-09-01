@@ -9,6 +9,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.teamoffroad.core.designsystem.component.GestureNavigation
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -24,7 +25,9 @@ fun QuestScreen(
     val uiState = questViewModel.uiState.collectAsStateWithLifecycle()
 
     Column(
-        modifier = Modifier.background(Main1)
+        modifier = Modifier
+            .then(GestureNavigation())
+            .background(Main1)
     ) {
         OffroadActionBar()
         NavigateBackAppBar(

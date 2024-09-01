@@ -64,3 +64,5 @@ val CharacterSelectBg3 = Color(0xFFF9E5D2)
 val ListBg = Color(0xFFF6EEDF)
 val BoxInfo = Color(0xFFFFF5EA)
 val GetCharacter = Color(0xFFFFB141)
+
+val BottomBar = Color(0xFF010101)
