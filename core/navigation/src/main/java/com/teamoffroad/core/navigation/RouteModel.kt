@@ -48,5 +48,16 @@ sealed interface ExploreRoute : Route {
 
 sealed interface MyPageRoute : Route {
     @Serializable
+    data object GainedCouponScreen : MyPageRoute
+
+    @Serializable
+    data class AvailableCouponScreen(
+        val id: Int,
+        val name: String,
+        val couponImageUrl: String,
+        val description: String
+    ): MyPageRoute
+
+    @Serializable
     data object GainedCharacter : MyPageRoute
 }

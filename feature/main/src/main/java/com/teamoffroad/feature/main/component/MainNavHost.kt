@@ -55,6 +55,15 @@ internal fun MainNavHost(
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
             )
             myPageNavGraph(
+                navigateToMyPage = {
+                    navigator.navigateToMyPage()
+                },
+                navigateToGainedCoupon = {
+                    navigator.navigateToGainedCoupon()
+                },
+                navigateToAvailableCouponDetail = { id, name, couponImageUrl, description ->
+                    navigator.navigateToAvailableCouponDetail(id, name,couponImageUrl, description)
+                },
                 navigateToGainedCharacter = {
                     navigator.navigateToGainedCharacter()
                 },

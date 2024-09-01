@@ -2,7 +2,7 @@ package com.teamoffroad.feature.home.domain.usecase
 
 import com.teamoffroad.feature.home.domain.model.Emblem
 import com.teamoffroad.feature.home.domain.model.UserQuests
-import com.teamoffroad.feature.home.domain.model.UsersAdventuresInformations
+import com.teamoffroad.feature.home.domain.model.UsersAdventuresInformation
 import com.teamoffroad.feature.home.domain.repository.UserRepository
 
 class UserUseCase(
@@ -20,7 +20,7 @@ class UserUseCase(
         return userRepository.getUserQuests()
     }
 
-    suspend fun getUsersAdventuresInformations(category: String): UsersAdventuresInformations {
-        return userRepository.getUsersAdventuresInformations(category)
+    suspend fun getUsersAdventuresInformation(category: String): UsersAdventuresInformation {
+        return userRepository.getUsersAdventuresInformation(category)
     }
 }

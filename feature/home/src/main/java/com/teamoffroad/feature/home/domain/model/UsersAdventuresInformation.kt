@@ -1,6 +1,6 @@
 package com.teamoffroad.feature.home.domain.model
 
-data class UsersAdventuresInformations(
+data class UsersAdventuresInformation(
     val nickname: String,
     val baseImageUrl: String,
     val motionImageUrl: String?,

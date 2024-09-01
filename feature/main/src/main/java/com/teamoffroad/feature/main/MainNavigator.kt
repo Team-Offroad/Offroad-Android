@@ -21,7 +21,9 @@ import com.teamoffroad.feature.explore.navigation.navigateToExploreCamera
 import com.teamoffroad.feature.explore.navigation.navigateToPlace
 import com.teamoffroad.feature.explore.navigation.navigateToQuest
 import com.teamoffroad.feature.home.navigation.navigateToHome
+import com.teamoffroad.feature.mypage.navigation.navigateToAvailableCouponDetail
 import com.teamoffroad.feature.mypage.navigation.navigateToGainedCharacter
+import com.teamoffroad.feature.mypage.navigation.navigateToGainedCoupon
 import com.teamoffroad.feature.mypage.navigation.navigateToMyPage
 
 internal class MainNavigator(
@@ -107,6 +109,18 @@ internal class MainNavigator(
 
     fun navigateToSelectedCharacter(selectedCharacterUrl: String) {
         navController.navigateToSelectedCharacter(selectedCharacterUrl)
+    }
+
+    fun navigateToMyPage() {
+        navController.navigateToMyPage(navOptions)
+    }
+
+    fun navigateToGainedCoupon() {
+        navController.navigateToGainedCoupon()
+    }
+
+    fun navigateToAvailableCouponDetail(id: Int, name: String, couponImageUrl: String, description: String) {
+        navController.navigateToAvailableCouponDetail(id, name, couponImageUrl, description)
     }
 
     fun navigateToExplore(authResultType: String, imageUrl: String) {
