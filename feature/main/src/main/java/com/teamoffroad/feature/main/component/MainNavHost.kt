@@ -33,7 +33,7 @@ internal fun MainNavHost(
             startDestination = navigator.startDestination,
         ) {
             homeNavGraph(
-                navigateToBack = navigator::popBackStackIfNotMain,
+                navigateToBack = navigator::popBackStackIfNotMainTabRoute,
             )
             exploreNavGraph(
                 navigateToHome = { category ->
@@ -52,7 +52,7 @@ internal fun MainNavHost(
                 navigateToQuest = {
                     navigator.navigateToQuest()
                 },
-                navigateToBack = navigator::popBackStackIfNotMain,
+                navigateToBack = navigator::popBackStackIfNotMainTabRoute,
             )
             myPageNavGraph(
                 navigateToMyPage = {
@@ -67,7 +67,7 @@ internal fun MainNavHost(
                 navigateToGainedCharacter = {
                     navigator.navigateToGainedCharacter()
                 },
-                navigateToBack = navigator::popBackStackIfNotMain,
+                navigateToBack = navigator::popBackStackIfNotMainTabRoute,
             )
             authNavGraph(
                 navigateToHome = { navigator.navigateToHome() },
@@ -84,7 +84,7 @@ internal fun MainNavHost(
                 navigateToSelectedCharacter = { selectedCharacterUrl ->
                     navigator.navigateToSelectedCharacter(selectedCharacterUrl)
                 },
-                navigateToBack = navigator::popBackStackIfNotMain,
+                navigateToBack = navigator::popBackStackIfNotMainTabRoute,
             )
         }
     }

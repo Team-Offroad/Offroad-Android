@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.explore.presentation
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -31,16 +30,13 @@ internal fun ExploreCameraScreen(
     latitude: Double,
     longitude: Double,
     navigateToExplore: (String, String) -> Unit,
+    navigateToBack: () -> Unit,
     exploreCameraViewModel: ExploreCameraViewModel = hiltViewModel(),
 ) {
     val localContext = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val uiState by exploreCameraViewModel.exploreResultState.collectAsStateWithLifecycle()
     val resultImageUrl by exploreCameraViewModel.resultImageUrl.collectAsStateWithLifecycle()
-
-    BackHandler {
-        navigateToExplore("", "")
-    }
 
     LaunchedEffect(uiState) {
         when (uiState) {
@@ -76,7 +72,7 @@ internal fun ExploreCameraScreen(
             backgroundColor = Black.copy(alpha = 0.44f),
             text = stringResource(R.string.explore_navigate_back),
         ) {
-            navigateToExplore("", "")
+            navigateToBack()
         }
         ExploreCameraOverlay()
     }

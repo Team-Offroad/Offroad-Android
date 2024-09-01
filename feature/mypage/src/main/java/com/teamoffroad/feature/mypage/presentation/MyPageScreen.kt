@@ -67,7 +67,6 @@ internal fun MyPageScreen(
             Spacer(modifier = Modifier.padding(vertical = 28.dp))
         }
     }
-    OnBackButtonListener()
 }
 
 @Preview(showBackground = true)
