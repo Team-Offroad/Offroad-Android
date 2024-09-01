@@ -16,6 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.teamoffroad.core.designsystem.component.GestureNavigation
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.theme.ListBg
@@ -33,7 +34,9 @@ internal fun GainedCouponScreen(
     gainedCouponViewModel: GainedCouponViewModel = hiltViewModel()
 ) {
     Box(
-        modifier = Modifier.background(Sub4)
+        modifier = Modifier
+            .then(GestureNavigation())
+            .background(Sub4)
     ) {
         Column(
             modifier = Modifier
