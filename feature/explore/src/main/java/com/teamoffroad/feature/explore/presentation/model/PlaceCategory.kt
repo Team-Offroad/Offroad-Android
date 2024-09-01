@@ -1,10 +1,10 @@
 package com.teamoffroad.feature.explore.presentation.model
 
-enum class PlaceCategory {
-    CAFFE,
-    PARK,
-    RESTAURANT,
-    CULTURE,
-    SPORT,
-    NONE,
+enum class PlaceCategory(val krTitle: String) {
+    CAFFE("카페"),
+    PARK("공원"),
+    RESTAURANT("식당"),
+    CULTURE("문화"),
+    SPORT("스포츠"),
+    NONE("없음"),
 }

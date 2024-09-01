@@ -19,36 +19,34 @@ import java.net.URLDecoder
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
-fun NavController.navigateAuth(navOptions: NavOptions? = null) {
+fun NavController.navigateAuth(navOptions: NavOptions) {
     navigate(Route.Auth, navOptions)
 }
 
-fun NavController.navigateToSetNickname(navOptions: NavOptions? = null) {
-    navigate(AuthRoute.SetNickname, navOptions)
+fun NavController.navigateToSetNickname() {
+    navigate(AuthRoute.SetNickname)
 }
 
-fun NavController.navigateToSetBirthDate(nickname: String, navOptions: NavOptions? = null) {
-    navigate(AuthRoute.SetBirthDate(nickname), navOptions)
+fun NavController.navigateToSetBirthDate(nickname: String) {
+    navigate(AuthRoute.SetBirthDate(nickname))
 }
 
 fun NavController.navigateToSetGender(
     nickname: String,
     birthDate: String? = null,
-    navOptions: NavOptions? = null,
 ) {
-    navigate(AuthRoute.SetGender(nickname, birthDate), navOptions)
+    navigate(AuthRoute.SetGender(nickname, birthDate))
 }
 
-fun NavController.navigateToSetCharacter(navOptions: NavOptions? = null) {
-    navigate(AuthRoute.SetCharacter, navOptions)
+fun NavController.navigateToSetCharacter() {
+    navigate(AuthRoute.SetCharacter)
 }
 
 fun NavController.navigateToSelectedCharacter(
     selectedCharacterUrl: String,
-    navOptions: NavOptions,
 ) {
     val encodedUrl = URLEncoder.encode(selectedCharacterUrl, StandardCharsets.UTF_8.toString())
-    navigate(AuthRoute.SelectedCharacter(encodedUrl), navOptions)
+    navigate(AuthRoute.SelectedCharacter(encodedUrl))
 }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -59,7 +57,7 @@ fun NavGraphBuilder.authNavGraph(
     navigateToSetGender: (String, String?) -> Unit,
     navigateToSetCharacter: () -> Unit,
     navigateToSelectedCharacter: (String) -> Unit,
-    onBackClick: () -> Unit,
+    navigateToBack: () -> Unit,
 ) {
     composable<Route.Auth> {
         AuthScreen(

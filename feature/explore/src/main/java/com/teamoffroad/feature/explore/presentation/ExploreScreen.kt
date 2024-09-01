@@ -8,7 +8,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.teamoffroad.core.common.util.OnBackButtonListener
 import com.teamoffroad.feature.explore.presentation.component.ExploreOffroadMap
 import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
 import com.teamoffroad.feature.explore.presentation.util.ExploreCameraUiStateHandler
@@ -22,6 +21,8 @@ internal fun ExploreScreen(
     qrResultImageUrl: String?,
     navigateToHome: (String) -> Unit,
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
+    navigateToPlace: () -> Unit,
+    navigateToQuest: () -> Unit,
     exploreViewModel: ExploreViewModel = hiltViewModel(),
 ) {
     val uiState: ExploreUiState by exploreViewModel.uiState.collectAsStateWithLifecycle()
@@ -74,6 +75,8 @@ internal fun ExploreScreen(
             uiState.places,
             uiState.selectedPlace,
             navigateToExploreCameraScreen,
+            navigateToPlace,
+            navigateToQuest,
             exploreViewModel::updateLocation,
             exploreViewModel::updateTrackingToggle,
             exploreViewModel::updateSelectedPlace,
@@ -84,6 +87,4 @@ internal fun ExploreScreen(
             exploreViewModel::postExploreResult,
         )
     }
-
-    OnBackButtonListener()
 }

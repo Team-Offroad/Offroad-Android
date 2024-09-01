@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.explore.presentation.component
+package com.teamoffroad.core.designsystem.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,46 +14,51 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.teamoffroad.core.designsystem.theme.Black
+import com.teamoffroad.core.designsystem.theme.Main1
+import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
-import com.teamoffroad.core.designsystem.theme.White
-import com.teamoffroad.offroad.feature.explore.R
+import com.teamoffroad.offroad.core.designsystem.R
 
 @Composable
-fun ExploreCameraNavigateBack(
-    navigateToExplore: (String, String) -> Unit,
+fun NavigateBackAppBar(
+    modifier: Modifier = Modifier,
+    mainColor: Color = Main2,
+    backgroundColor: Color = Main1,
+    text: String,
+    navigateToBack: () -> Unit,
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .background(Black.copy(alpha = 0.44f))
+            .background(backgroundColor)
     ) {
         Row(
             modifier = Modifier
                 .wrapContentSize()
                 .pointerInput(Unit) {
-                    detectTapGestures(onTap = { navigateToExplore("", "") })
+                    detectTapGestures(onTap = { navigateToBack() })
                 }
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_explore_navigate_back),
+                painter = painterResource(id = R.drawable.ic_navigate_back),
                 contentDescription = null,
+                colorFilter = ColorFilter.tint(mainColor),
                 modifier = Modifier
                     .padding(start = 12.dp)
                     .size(48.dp)
-                    .padding(12.dp)
+                    .padding(12.dp),
             )
             Text(
-                text = "이전 화면",
+                text = text,
                 style = OffroadTheme.typography.textRegular,
-                color = White,
-                fontSize = 14.sp,
-                modifier = Modifier.align(Alignment.CenterVertically)
+                color = mainColor,
+                modifier = Modifier.align(Alignment.CenterVertically),
             )
         }
     }

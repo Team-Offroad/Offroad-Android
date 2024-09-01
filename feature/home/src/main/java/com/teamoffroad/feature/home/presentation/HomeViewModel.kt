@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.home.domain.model.Emblem
 import com.teamoffroad.feature.home.domain.model.UserQuests
-import com.teamoffroad.feature.home.domain.model.UsersAdventuresInformations
+import com.teamoffroad.feature.home.domain.model.UsersAdventuresInformation
 import com.teamoffroad.feature.home.domain.repository.UserRepository
 import com.teamoffroad.feature.home.presentation.component.UiState
 import com.teamoffroad.feature.home.presentation.component.getErrorMessage
@@ -18,9 +18,9 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val userRepository: UserRepository,
 ) : ViewModel() {
-    private val _getUsersAdventuresInformationsState = MutableStateFlow<UiState<UsersAdventuresInformations>>(
+    private val _getUsersAdventuresInformationState = MutableStateFlow<UiState<UsersAdventuresInformation>>(
         UiState.Loading)
-    val getUsersAdventuresInformationsState = _getUsersAdventuresInformationsState.asStateFlow()
+    val getUsersAdventuresInformationState = _getUsersAdventuresInformationState.asStateFlow()
 
     private val _selectedEmblem = MutableStateFlow("")
     val selectedEmblem = _selectedEmblem.asStateFlow()
@@ -49,18 +49,18 @@ class HomeViewModel @Inject constructor(
     private val _linearProgressBar = MutableStateFlow(0f)
     val linearProgressBar = _linearProgressBar.asStateFlow()
 
-    fun getUsersAdventuresInformations(category: String) {
+    fun getUsersAdventuresInformation(category: String) {
         viewModelScope.launch {
             runCatching {
-                userRepository.getUsersAdventuresInformations(category)
+                userRepository.getUsersAdventuresInformation(category)
             }.onSuccess { state ->
-                _getUsersAdventuresInformationsState.emit(UiState.Success(state))
+                _getUsersAdventuresInformationState.emit(UiState.Success(state))
                 updateSelectedEmblem(state.emblemName)
                 updateCharacterImage(state.baseImageUrl)
                 updateMotionImageUrl(state.motionImageUrl)
             }.onFailure { t ->
                 val errorMessage = getErrorMessage(t)
-                _getUsersAdventuresInformationsState.emit(UiState.Failure(errorMessage))
+                _getUsersAdventuresInformationState.emit(UiState.Failure(errorMessage))
             }
         }
     }

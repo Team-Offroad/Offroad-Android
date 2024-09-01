@@ -43,6 +43,7 @@ class OffroadTypography internal constructor(
     tabBarMedi: TextStyle,
     boxMedi: TextStyle,
     marketing: TextStyle,
+    questCompleted: TextStyle,
 ) {
     var title: TextStyle by mutableStateOf(title)
         private set
@@ -90,6 +91,8 @@ class OffroadTypography internal constructor(
         private set
     var marketing: TextStyle by mutableStateOf(marketing)
         private set
+    var questCompleted: TextStyle by mutableStateOf(questCompleted)
+        private set
 
     fun copy(
         title: TextStyle = this.title,
@@ -115,6 +118,7 @@ class OffroadTypography internal constructor(
         boxMedi: TextStyle = this.boxMedi,
         marketing: TextStyle = this.marketing,
         tabBarMedi: TextStyle = this.tabBarMedi,
+        questCompleted: TextStyle = this.questCompleted,
     ): OffroadTypography = OffroadTypography(
         title,
         subtitle2Bold,
@@ -139,6 +143,7 @@ class OffroadTypography internal constructor(
         boxMedi,
         marketing,
         tabBarMedi,
+        questCompleted,
     )
 
     fun update(other: OffroadTypography) {
@@ -165,6 +170,7 @@ class OffroadTypography internal constructor(
         boxMedi = other.boxMedi
         marketing = other.marketing
         tabBarMedi = other.tabBarMedi
+        questCompleted = other.questCompleted
     }
 }
 
@@ -234,8 +240,8 @@ fun offroadTypography(): OffroadTypography {
             fontSize = 11.sp
         ),
         textContents = TextStyle(
-            fontFamily = PretendardMedium,
-            fontWeight = FontWeight.Medium,
+            fontFamily = PretendardSemiBold,
+            fontWeight = FontWeight.SemiBold,
             fontSize = 13.sp
         ),
         profileTitle = TextStyle(
@@ -286,6 +292,11 @@ fun offroadTypography(): OffroadTypography {
         marketing = TextStyle(
             fontFamily = PretendardRegular,
             fontWeight = FontWeight.Normal,
+            fontSize = 12.sp
+        ),
+        questCompleted = TextStyle(
+            fontFamily = PretendardBold,
+            fontWeight = FontWeight.Bold,
             fontSize = 12.sp
         ),
     )

@@ -1,12 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="mypage_explorer_suffix">님</string>
-    <string name="mypage_leave_for_an_adventure">모험을 떠나봐요!</string>
-    <string name="mypage_adventure_date">일 째 모험을 떠나는 중</string>
-    <string name="mypage_quest_achievement_amount">달성 퀘스트 수&#160;</string>
-    <string name="mypage_visit_place_amount">방문 장소 수&#160;</string>
-    <string name="acquire_character">획득 캐릭터</string>
-    <string name="acquire_coupon">획득 쿠폰</string>
-    <string name="acquire_emblem">획득 칭호</string>
-    <string name="settings">설정</string>
+    <string name="my_page_explorer_suffix">님</string>
+    <string name="my_page_leave_for_an_adventure">모험을 떠나봐요!</string>
+    <string name="my_page_adventure_date">일 째 모험을 떠나는 중</string>
+    <string name="my_page_quest_achievement_amount">달성 퀘스트 수&#160;</string>
+    <string name="my_page_visit_place_amount">방문 장소 수&#160;</string>
+    <string name="my_page_acquire_character">획득 캐릭터</string>
+    <string name="my_page_gained_coupon">획득 쿠폰</string>
+    <string name="my_page_acquire_emblem">획득 칭호</string>
+    <string name="my_page_settings">설정</string>
+    <string name="my_page_my_page">마이페이지</string>
+    <string name="my_page_gained_character">획득 캐릭터</string>
+    <string name="my_page_gained_character_hint">퀘스트를 달성하고 보상으로 캐릭터를 얻어보아요!</string>
+
+    <!-- gained coupon -->
+    <string name="my_page_gained_coupon_available">사용 가능</string>
+    <string name="my_page_gained_coupon_used">사용 완료</string>
+    <string name="my_page_gained_coupon_way_of_use">사용방법</string>
+    <string name="my_page_gained_coupon_way_of_use_description">매장에 게시되어 있거나 매장 직원에게 전달받은
+고유 코드를 입력한 후 제시해 사용해 주세요.</string>
+    <string name="my_page_gained_coupon_use_available_coupon">사용하기</string>
+    <string name="my_page_gained_coupon_use_coupon">쿠폰 사용</string>
+    <string name="my_page_gained_coupon_use_coupon_description">코드를 입력 후 사장님에게 보여주세요.</string>
+    <string name="my_page_gained_coupon_use_coupon_hint">매장의 고유 코드를 입력해 주세요.</string>
+    <string name="my_page_gained_coupon_confirm">확인</string>
+    <string name="my_page_gained_coupon_fail_use">사용 실패</string>
+    <string name="my_page_gained_coupon_fail_use_description">다시 한번 확인해 주세요.</string>
+    <string name="my_page_gained_coupon_success_use">사용 완료</string>
+    <string name="my_page_gained_coupon_success_use_description">쿠폰 사용이 완료되었요!</string>
 </resources>
