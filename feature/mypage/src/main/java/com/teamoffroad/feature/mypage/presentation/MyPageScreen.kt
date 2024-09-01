@@ -26,13 +26,14 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.mypage.presentation.component.AcquireCharacter
 import com.teamoffroad.feature.mypage.presentation.component.AcquireCoupon
 import com.teamoffroad.feature.mypage.presentation.component.AcquireEmblem
+import com.teamoffroad.feature.mypage.presentation.component.UserSettings
 import com.teamoffroad.feature.mypage.presentation.component.UserAdventureInfo
 import com.teamoffroad.feature.mypage.presentation.component.UserNickname
-import com.teamoffroad.feature.mypage.presentation.component.UserSettings
 
 @Composable
 internal fun MyPageScreen(
     navigateToGainedCharacter: () -> Unit,
+    navigateToGainedCoupon: () -> Unit,
     myPageViewModel: MyPageViewModel = hiltViewModel(),
 ) {
 
@@ -68,7 +69,7 @@ internal fun MyPageScreen(
             ) {
                 Box(modifier = Modifier.weight(1f)) { AcquireCharacter(navigateToGainedCharacter) }
                 Spacer(modifier = Modifier.padding(horizontal = 6.dp))
-                Box(modifier = Modifier.weight(1f)) { AcquireCoupon() }
+                Box(modifier = Modifier.weight(1f)) { AcquireCoupon(navigateToGainedCoupon) }
             }
             Spacer(modifier = Modifier.padding(vertical = 7.dp))
             Row(
@@ -81,13 +82,12 @@ internal fun MyPageScreen(
             Spacer(modifier = Modifier.padding(vertical = 28.dp))
         }
     }
-    OnBackButtonListener()
 }
 
 @Preview(showBackground = true)
 @Composable
 fun MyPageScreenPreview() {
     OffroadTheme {
-        MyPageScreen({})
+        MyPageScreen({}, {})
     }
 }

@@ -31,7 +31,7 @@ fun UserSettings() {
             modifier = Modifier.background(Color(0xFFF9E5D2))
         ) {
             Text(
-                text = stringResource(id = R.string.settings),
+                text = stringResource(id = R.string.my_page_settings),
                 style = OffroadTheme.typography.textBold,
                 color = Sub4,
                 modifier = Modifier

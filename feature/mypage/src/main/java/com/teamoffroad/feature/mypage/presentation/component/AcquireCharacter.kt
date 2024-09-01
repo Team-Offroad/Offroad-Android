@@ -35,7 +35,7 @@ fun AcquireCharacter(
             modifier = Modifier.background(Color(0xFFFFF2C1))
         ) {
             Text(
-                text = stringResource(id = R.string.acquire_character),
+                text = stringResource(id = R.string.my_page_acquire_character),
                 style = OffroadTheme.typography.textBold,
                 color = Sub4,
                 modifier = Modifier
