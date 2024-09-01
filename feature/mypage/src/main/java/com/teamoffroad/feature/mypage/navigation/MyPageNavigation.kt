@@ -10,6 +10,7 @@ import com.teamoffroad.core.navigation.MyPageRoute
 import com.teamoffroad.feature.mypage.presentation.AvailableCouponDetailScreen
 import com.teamoffroad.feature.mypage.presentation.GainedCharacterScreen
 import com.teamoffroad.feature.mypage.presentation.GainedCouponScreen
+import com.teamoffroad.feature.mypage.presentation.GainedEmblemsScreen
 import com.teamoffroad.feature.mypage.presentation.MyPageScreen
 
 fun NavController.navigateToMyPage(navOptions: NavOptions) {
@@ -33,15 +34,20 @@ fun NavController.navigateToAvailableCouponDetail(
     navigate(MyPageRoute.AvailableCouponScreen(id, name, couponImageUrl, description))
 }
 
+fun NavController.navigateToGainedEmblems() {
+    navigate(MyPageRoute.GainedEmblems)
+}
+
 fun NavGraphBuilder.myPageNavGraph(
     navigateToMyPage: () -> Unit,
     navigateToGainedCharacter: () -> Unit,
     navigateToGainedCoupon: () -> Unit,
     navigateToAvailableCouponDetail: (Int, String, String, String) -> Unit,
+    navigateToGainedEmblems: () -> Unit,
     navigateToBack: () -> Unit,
 ) {
     composable<MainTabRoute.MyPage> {
-        MyPageScreen(navigateToGainedCharacter, navigateToGainedCoupon)
+        MyPageScreen(navigateToGainedCharacter, navigateToGainedCoupon, navigateToGainedEmblems)
     }
 
     composable<MyPageRoute.GainedCharacter> {
@@ -59,5 +65,9 @@ fun NavGraphBuilder.myPageNavGraph(
             backStackEntry.toRoute<MyPageRoute.AvailableCouponScreen>().couponImageUrl
         val description = backStackEntry.toRoute<MyPageRoute.AvailableCouponScreen>().description
         AvailableCouponDetailScreen(id, name, couponImageUrl, description, navigateToGainedCoupon)
+    }
+
+    composable<MyPageRoute.GainedEmblems> {
+        GainedEmblemsScreen(navigateToBack)
     }
 }

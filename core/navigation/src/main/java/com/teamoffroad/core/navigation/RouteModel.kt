@@ -60,4 +60,7 @@ sealed interface MyPageRoute : Route {
 
     @Serializable
     data object GainedCharacter : MyPageRoute
+
+    @Serializable
+    data object GainedEmblems : MyPageRoute
 }

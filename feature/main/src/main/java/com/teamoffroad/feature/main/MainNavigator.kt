@@ -24,6 +24,7 @@ import com.teamoffroad.feature.home.navigation.navigateToHome
 import com.teamoffroad.feature.mypage.navigation.navigateToAvailableCouponDetail
 import com.teamoffroad.feature.mypage.navigation.navigateToGainedCharacter
 import com.teamoffroad.feature.mypage.navigation.navigateToGainedCoupon
+import com.teamoffroad.feature.mypage.navigation.navigateToGainedEmblems
 import com.teamoffroad.feature.mypage.navigation.navigateToMyPage
 
 internal class MainNavigator(
@@ -137,6 +138,10 @@ internal class MainNavigator(
 
     fun navigateToGainedCharacter() {
         navController.navigateToGainedCharacter()
+    }
+
+    fun navigateToGainedEmblems() {
+        navController.navigateToGainedEmblems()
     }
 }
 
