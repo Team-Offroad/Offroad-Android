@@ -18,7 +18,7 @@ import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 fun QuestScreen(
-    navigateToExplore: (String, String) -> Unit,
+    navigateToBack: () -> Unit,
     questViewModel: QuestViewModel = hiltViewModel(),
 ) {
     val uiState = questViewModel.uiState.collectAsStateWithLifecycle()
@@ -30,7 +30,7 @@ fun QuestScreen(
         NavigateBackAppBar(
             text = stringResource(id = R.string.explore_explore),
             modifier = Modifier.padding(top = 20.dp)
-        ) { navigateToExplore("", "") }
+        ) { navigateToBack() }
         QuestHeader(
             uiState.value.isProceedingToggle,
             questViewModel::updateProceedingToggle

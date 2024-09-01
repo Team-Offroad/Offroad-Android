@@ -18,7 +18,7 @@ import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 fun PlaceScreen(
-    navigateToExplore: (String, String) -> Unit,
+    navigateToBack: () -> Unit,
 ) {
     Column(
         modifier = Modifier.background(Main1)
@@ -27,7 +27,7 @@ fun PlaceScreen(
         NavigateBackAppBar(
             text = stringResource(id = R.string.explore_explore),
             modifier = Modifier.padding(top = 20.dp)
-        ) { navigateToExplore("", "") }
+        ) { navigateToBack() }
         PlaceHeader()
         PlaceViewPager()
     }
@@ -37,6 +37,6 @@ fun PlaceScreen(
 @Composable
 fun PlaceScreenPreview() {
     OffroadTheme {
-        PlaceScreen(navigateToExplore = { _, _ -> })
+        PlaceScreen(navigateToBack = {})
     }
 }
