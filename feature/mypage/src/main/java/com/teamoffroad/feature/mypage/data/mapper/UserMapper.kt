@@ -8,8 +8,8 @@ fun CharacterResponseDto.toDomain(isGained: Boolean): Character {
         characterId = characterId,
         characterName = characterName,
         characterThumbnailImageUrl = characterThumbnailImageUrl,
-        characterMainColorCode = characterMainColorCode.toLong(),
-        characterSubColorCode = characterSubColorCode.toLong(),
+        characterMainColorCode = characterMainColorCode.toLong(radix = 16),
+        characterSubColorCode = characterSubColorCode.toLong(radix = 16),
         isNewGained = isNewGained,
         isGained = isGained,
     )
