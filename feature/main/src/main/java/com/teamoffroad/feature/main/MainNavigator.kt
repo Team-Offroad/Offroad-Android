@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.core.navigation.Route
+import com.teamoffroad.feature.auth.navigation.navigateToAgreeTermsAndConditions
 import com.teamoffroad.feature.auth.navigation.navigateToSelectedCharacter
 import com.teamoffroad.feature.auth.navigation.navigateToSetBirthDate
 import com.teamoffroad.feature.auth.navigation.navigateToSetCharacter
@@ -88,6 +89,10 @@ internal class MainNavigator(
         navController.navigateToHome(category, navOptions)
     }
 
+    fun navigateToAgreeTermsAndConditions() {
+        navController.navigateToAgreeTermsAndConditions()
+    }
+
     fun navigateToSetNickname() {
         navController.navigateToSetNickname()
     }
@@ -120,7 +125,12 @@ internal class MainNavigator(
         navController.navigateToGainedCoupon()
     }
 
-    fun navigateToAvailableCouponDetail(id: Int, name: String, couponImageUrl: String, description: String) {
+    fun navigateToAvailableCouponDetail(
+        id: Int,
+        name: String,
+        couponImageUrl: String,
+        description: String
+    ) {
         navController.navigateToAvailableCouponDetail(id, name, couponImageUrl, description)
     }
 

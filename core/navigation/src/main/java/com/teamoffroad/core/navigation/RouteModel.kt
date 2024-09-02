@@ -23,6 +23,9 @@ sealed interface AuthRoute : Route {
     data object SetNickname : AuthRoute
 
     @Serializable
+    data object AgreeTermsAndConditions : AuthRoute
+
+    @Serializable
     data class SetBirthDate(val nickname: String) : AuthRoute
 
     @Serializable
