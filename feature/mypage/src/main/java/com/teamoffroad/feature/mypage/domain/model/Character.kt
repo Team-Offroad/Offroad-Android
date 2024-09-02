@@ -4,8 +4,8 @@ data class Character(
     val characterId: Int,
     val characterName: String,
     val characterThumbnailImageUrl: String,
-    val characterMainColorCode: String,
-    val characterSubColorCode: String,
+    val characterMainColorCode: Long,
+    val characterSubColorCode: Long,
     val isNewGained: Boolean,
     val isGained: Boolean,
 )

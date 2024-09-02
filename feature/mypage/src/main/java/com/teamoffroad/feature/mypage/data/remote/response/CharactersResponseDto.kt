@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CharactersResponseDto(
-    @SerialName("isGainedCharacters")
-    val isGainedCharacters: List<CharacterResponseDto>,
-    @SerialName("isNotGainedCharacters")
-    val isNotGainedCharacters: List<CharacterResponseDto>,
+    @SerialName("gainedCharacters")
+    val gainedCharacters: List<CharacterResponseDto>,
+    @SerialName("notGainedCharacters")
+    val notGainedCharacters: List<CharacterResponseDto>,
 )

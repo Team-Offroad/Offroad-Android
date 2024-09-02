@@ -13,8 +13,8 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun fetchCharacters(): List<Character> {
         val response = userService.getCharacters()
 
-        val gainedCharacters = response.data?.isGainedCharacters?.map { it.toDomain(isGained = true) }.orEmpty()
-        val notGainedCharacters = response.data?.isNotGainedCharacters?.map { it.toDomain(isGained = false) }.orEmpty()
+        val gainedCharacters = response.data?.gainedCharacters?.map { it.toDomain(isGained = true) }.orEmpty()
+        val notGainedCharacters = response.data?.notGainedCharacters?.map { it.toDomain(isGained = false) }.orEmpty()
 
         return gainedCharacters + notGainedCharacters
     }

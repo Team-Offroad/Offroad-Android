@@ -12,10 +12,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.GestureNavigation
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
@@ -24,17 +28,29 @@ import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.mypage.presentation.component.CharacterFrameItem
 import com.teamoffroad.feature.mypage.presentation.component.GainedCharacterHeader
-import com.teamoffroad.feature.mypage.presentation.model.CharacterModel.CharacterThumbnailModel
+import com.teamoffroad.feature.mypage.presentation.model.CharacterModel
+import com.teamoffroad.feature.mypage.presentation.model.GainedCharacterUiState
+import com.teamoffroad.feature.mypage.presentation.model.GainedCharacterUiState.Error
+import com.teamoffroad.feature.mypage.presentation.model.GainedCharacterUiState.Loading
+import com.teamoffroad.feature.mypage.presentation.model.GainedCharacterUiState.Success
 import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
 fun GainedCharacterScreen(
     navigateToMyPage: () -> Unit,
+    gainedCharacterViewModel: GainedCharacterViewModel = hiltViewModel(),
 ) {
+
+    val uiState = gainedCharacterViewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        gainedCharacterViewModel.updateCharacters()
+    }
+
     Column(
         modifier = Modifier
             .then(GestureNavigation())
-            .background(Main1)
+            .background(color = Main1)
     ) {
         OffroadActionBar()
         NavigateBackAppBar(
@@ -44,18 +60,35 @@ fun GainedCharacterScreen(
             navigateToMyPage()
         }
         GainedCharacterHeader()
-        GainedCharacterItems(CharacterThumbnailModel.dummyCharacters)
+        GainedCharacterUiStateHandler(uiState)
+    }
+}
+
+@Composable
+private fun GainedCharacterUiStateHandler(uiState: State<GainedCharacterUiState>) {
+    when (uiState.value) {
+        is Loading -> Unit
+
+        is Error -> Unit
+
+        is Success -> {
+            Log.e("123123", "1231233")
+            GainedCharacterItems(
+                gainedCharacterList = (uiState.value as Success).characters,
+            )
+        }
+
     }
 }
 
 @Composable
 fun GainedCharacterItems(
-    gainedCharacterList: List<CharacterThumbnailModel>,
+    gainedCharacterList: List<CharacterModel>,
 ) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(ListBg)
+            .background(color = ListBg)
             .padding(horizontal = 14.dp),
         contentPadding = PaddingValues(top = 14.dp)
     ) {
@@ -74,7 +107,9 @@ fun GainedCharacterItems(
                         characterFrameColor = character.characterFrameColorCode,
                         characterThumbnailImageUrl = character.characterThumbnailImageUrl,
                         isGained = character.isGained,
-                        onClick = { Log.e("123123", "눌림!") }
+                        onClick = {
+                            // TODO: 눌림 이벤트 추가
+                        }
                     )
                 }
                 if (pair.size == 1) {
