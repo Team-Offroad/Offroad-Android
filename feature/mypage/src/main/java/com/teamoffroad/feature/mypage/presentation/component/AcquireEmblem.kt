@@ -31,7 +31,7 @@ fun AcquireEmblem() {
             modifier = Modifier.background(Color(0xFFFFE1C5))
         ) {
             Text(
-                text = stringResource(id = R.string.acquire_emblem),
+                text = stringResource(id = R.string.my_page_acquire_emblem),
                 style = OffroadTheme.typography.textBold,
                 color = Sub4,
                 modifier = Modifier

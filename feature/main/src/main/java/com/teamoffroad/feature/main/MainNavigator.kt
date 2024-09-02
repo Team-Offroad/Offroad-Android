@@ -21,7 +21,9 @@ import com.teamoffroad.feature.explore.navigation.navigateToExploreCamera
 import com.teamoffroad.feature.explore.navigation.navigateToPlace
 import com.teamoffroad.feature.explore.navigation.navigateToQuest
 import com.teamoffroad.feature.home.navigation.navigateToHome
+import com.teamoffroad.feature.mypage.navigation.navigateToAvailableCouponDetail
 import com.teamoffroad.feature.mypage.navigation.navigateToGainedCharacter
+import com.teamoffroad.feature.mypage.navigation.navigateToGainedCoupon
 import com.teamoffroad.feature.mypage.navigation.navigateToMyPage
 
 internal class MainNavigator(
@@ -60,7 +62,7 @@ internal class MainNavigator(
         navController.popBackStack()
     }
 
-    fun popBackStackIfNotMain() {
+    fun popBackStackIfNotMainTabRoute() {
         if (!isSameCurrentDestination<MainTabRoute.Home>() &&
             !isSameCurrentDestination<MainTabRoute.Explore>() &&
             !isSameCurrentDestination<MainTabRoute.MyPage>()
@@ -75,6 +77,11 @@ internal class MainNavigator(
     fun setBottomBarVisibility() = MainNavTab.contains {
         currentDestination?.hasRoute(it::class) == true
     }
+
+    @Composable
+    fun setBackButtonListenerEnabled() = MainNavTab.contains {
+        currentDestination?.hasRoute(it::class) == true
+    } || currentDestination?.hasRoute<Route.Auth>() == true
 
     fun navigateToHome(category: String? = null) {
         navController.navigateToHome(category, navOptions)
@@ -97,11 +104,23 @@ internal class MainNavigator(
     }
 
     fun navigateToExploreCameraScreen(placeId: Long, latitude: Double, longitude: Double) {
-        navController.navigateToExploreCamera(placeId, latitude, longitude, navOptions)
+        navController.navigateToExploreCamera(placeId, latitude, longitude)
     }
 
     fun navigateToSelectedCharacter(selectedCharacterUrl: String) {
-        navController.navigateToSelectedCharacter(selectedCharacterUrl, navOptions)
+        navController.navigateToSelectedCharacter(selectedCharacterUrl)
+    }
+
+    fun navigateToMyPage() {
+        navController.navigateToMyPage(navOptions)
+    }
+
+    fun navigateToGainedCoupon() {
+        navController.navigateToGainedCoupon()
+    }
+
+    fun navigateToAvailableCouponDetail(id: Int, name: String, couponImageUrl: String, description: String) {
+        navController.navigateToAvailableCouponDetail(id, name, couponImageUrl, description)
     }
 
     fun navigateToExplore(authResultType: String, imageUrl: String) {
@@ -109,11 +128,11 @@ internal class MainNavigator(
     }
 
     fun navigateToPlace() {
-        navController.navigateToPlace(navOptions)
+        navController.navigateToPlace()
     }
 
     fun navigateToQuest() {
-        navController.navigateToQuest(navOptions)
+        navController.navigateToQuest()
     }
 
     fun navigateToGainedCharacter() {

@@ -27,7 +27,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.teamoffroad.core.common.util.OnBackButtonListener
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -52,7 +51,7 @@ fun HomeScreen(
 
     LaunchedEffect(Unit) {
         viewModel.updateCategory(if (category.isNullOrEmpty()) "NONE" else category)
-        viewModel.getUsersAdventuresInformations(viewModel.category.value)
+        viewModel.getUsersAdventuresInformation(viewModel.category.value)
         viewModel.getUserQuests()
     }
     StaticAnimationWrapper {
@@ -88,13 +87,13 @@ private fun UsersAdventuresInformation(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel,
 ) {
-    val adventuresInformationsState =
-        viewModel.getUsersAdventuresInformationsState.collectAsState(initial = UiState.Loading).value
+    val adventuresInformationState =
+        viewModel.getUsersAdventuresInformationState.collectAsState(initial = UiState.Loading).value
 
-    val adventuresInformationsData = when (adventuresInformationsState) {
-        is UiState.Success -> adventuresInformationsState.data
+    val adventuresInformationData = when (adventuresInformationState) {
+        is UiState.Success -> adventuresInformationState.data
         is UiState.Failure -> {
-            Toast.makeText(context, adventuresInformationsState.errorMessage, Toast.LENGTH_SHORT)
+            Toast.makeText(context, adventuresInformationState.errorMessage, Toast.LENGTH_SHORT)
                 .show()
             null
         }
@@ -105,7 +104,7 @@ private fun UsersAdventuresInformation(
     Box(
         modifier = modifier.fillMaxWidth()
     ) {
-        val imageUrl = adventuresInformationsData?.baseImageUrl ?: "" // TODO: svg & lottie
+        val imageUrl = adventuresInformationData?.baseImageUrl ?: "" // TODO: svg & lottie
         Box(
             modifier = Modifier.fillMaxWidth(),
             contentAlignment = Alignment.TopEnd
@@ -118,8 +117,8 @@ private fun UsersAdventuresInformation(
         }
 
         Column {
-            NicknameText(adventuresInformationsData?.nickname ?: "")
-            CharacterItem().CharacterNameText(adventuresInformationsData?.characterName ?: "")
+            NicknameText(adventuresInformationData?.nickname ?: "")
+            CharacterItem().CharacterNameText(adventuresInformationData?.characterName ?: "")
         }
 
         Box(
@@ -195,7 +194,6 @@ private fun UsersQuestInformation(
         )
         Spacer(modifier = Modifier.padding(end = 24.dp))
     }
-    OnBackButtonListener()
 }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)

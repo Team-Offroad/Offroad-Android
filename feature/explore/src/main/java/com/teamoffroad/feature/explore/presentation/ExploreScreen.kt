@@ -8,7 +8,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.teamoffroad.core.common.util.OnBackButtonListener
 import com.teamoffroad.feature.explore.presentation.component.ExploreOffroadMap
 import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
 import com.teamoffroad.feature.explore.presentation.util.ExploreCameraUiStateHandler
@@ -88,6 +87,4 @@ internal fun ExploreScreen(
             exploreViewModel::postExploreResult,
         )
     }
-
-    OnBackButtonListener()
 }

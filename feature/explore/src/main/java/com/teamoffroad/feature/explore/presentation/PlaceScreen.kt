@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.teamoffroad.core.designsystem.component.GestureNavigation
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -18,16 +19,18 @@ import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 fun PlaceScreen(
-    navigateToExplore: (String, String) -> Unit,
+    navigateToBack: () -> Unit,
 ) {
     Column(
-        modifier = Modifier.background(Main1)
+        modifier = Modifier
+            .then(GestureNavigation())
+            .background(Main1)
     ) {
         OffroadActionBar()
         NavigateBackAppBar(
             text = stringResource(id = R.string.explore_explore),
             modifier = Modifier.padding(top = 20.dp)
-        ) { navigateToExplore("", "") }
+        ) { navigateToBack() }
         PlaceHeader()
         PlaceViewPager()
     }
@@ -37,6 +40,6 @@ fun PlaceScreen(
 @Composable
 fun PlaceScreenPreview() {
     OffroadTheme {
-        PlaceScreen(navigateToExplore = { _, _ -> })
+        PlaceScreen(navigateToBack = {})
     }
 }

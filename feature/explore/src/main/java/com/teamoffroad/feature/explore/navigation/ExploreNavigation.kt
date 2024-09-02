@@ -21,7 +21,6 @@ fun NavController.navigateToExplore(
     imageUrl: String? = null,
     navOptions: NavOptions,
 ) {
-    repeat(2) { popBackStack() }
     navigate(MainTabRoute.Explore(authResultType, imageUrl), navOptions)
 }
 
@@ -29,21 +28,16 @@ fun NavController.navigateToExploreCamera(
     placeId: Long,
     latitude: Double,
     longitude: Double,
-    navOptions: NavOptions,
 ) {
-    navigate(ExploreRoute.ExploreCameraScreen(placeId, latitude.toString(), longitude.toString()), navOptions)
+    navigate(ExploreRoute.ExploreCameraScreen(placeId, latitude.toString(), longitude.toString()))
 }
 
-fun NavController.navigateToPlace(
-    navOptions: NavOptions,
-) {
-    navigate(ExploreRoute.PlaceScreen, navOptions)
+fun NavController.navigateToPlace() {
+    navigate(ExploreRoute.PlaceScreen)
 }
 
-fun NavController.navigateToQuest(
-    navOptions: NavOptions,
-) {
-    navigate(ExploreRoute.QuestScreen, navOptions)
+fun NavController.navigateToQuest() {
+    navigate(ExploreRoute.QuestScreen)
 }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -72,14 +66,14 @@ fun NavGraphBuilder.exploreNavGraph(
         val placeId = backStackEntry.toRoute<ExploreRoute.ExploreCameraScreen>().placeId
         val latitude = backStackEntry.toRoute<ExploreRoute.ExploreCameraScreen>().latitude
         val longitude = backStackEntry.toRoute<ExploreRoute.ExploreCameraScreen>().longitude
-        ExploreCameraScreen(placeId, latitude.toDouble(), longitude.toDouble(), navigateToExplore)
+        ExploreCameraScreen(placeId, latitude.toDouble(), longitude.toDouble(), navigateToExplore, navigateToBack)
     }
 
     composable<ExploreRoute.PlaceScreen> {
-        PlaceScreen(navigateToExplore)
+        PlaceScreen(navigateToBack)
     }
 
     composable<ExploreRoute.QuestScreen> {
-        QuestScreen(navigateToExplore)
+        QuestScreen(navigateToBack)
     }
 }
