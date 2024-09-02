@@ -26,7 +26,7 @@ fun QuestScreen(
     val uiState = questViewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        questViewModel.getQuests(false)
+        questViewModel.updateQuests(false)
     }
 
     Column(

@@ -26,18 +26,29 @@ class QuestViewModel @Inject constructor(
         )
     }
 
-    fun getQuests(isProceeding: Boolean) {
+    fun updateQuests(isProceeding: Boolean) {
         viewModelScope.launch {
             runCatching {
+                _uiState.value = uiState.value.copy(
+                    loading = true,
+                    error = false,
+                )
                 getQuestListUseCase(isProceeding)
             }.onSuccess { quests ->
-                if (!uiState.value.loading) return@launch
-                _uiState.value = uiState.value.copy(
-                    totalQuests = if (isProceeding) uiState.value.totalQuests else quests.map { it.toUi() },
-                    proceedingQuests = if (isProceeding) quests.map { it.toUi() } else uiState.value.proceedingQuests,
-                    loading = !isProceeding,
-                )
-                getQuests(true)
+                _uiState.value = when {
+                    isProceeding -> uiState.value.copy(
+                        proceedingQuests = quests.map { it.toUi() },
+                        loading = false,
+                    )
+
+                    !isProceeding -> uiState.value.copy(
+                        totalQuests = quests.map { it.toUi() },
+                        loading = false,
+                    )
+
+                    else -> uiState.value
+                }
+                if (!isProceeding) updateQuests(true)
             }.onFailure {
                 _uiState.value = uiState.value.copy(
                     loading = false,

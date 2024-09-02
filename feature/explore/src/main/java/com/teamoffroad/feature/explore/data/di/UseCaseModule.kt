@@ -27,7 +27,7 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideQrAuthUseCase(
+    fun providePostQrAuthUseCase(
         userRepository: UserRepository,
     ): PostExploreQrAuthUseCase {
         return PostExploreQrAuthUseCase(userRepository)
@@ -35,7 +35,7 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideLocationAuthUseCase(
+    fun providePostLocationAuthUseCase(
         userRepository: UserRepository,
     ): PostExploreLocationAuthUseCase {
         return PostExploreLocationAuthUseCase(userRepository)
@@ -43,7 +43,7 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideQuestListUseCase(
+    fun provideGetQuestListUseCase(
         questRepository: QuestRepository,
     ): GetQuestListUseCase {
         return GetQuestListUseCase(questRepository)

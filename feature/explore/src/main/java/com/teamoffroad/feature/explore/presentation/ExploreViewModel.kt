@@ -113,7 +113,7 @@ class ExploreViewModel @Inject constructor(
         )
     }
 
-    fun postExploreResult(placeId: Long, latitude: Double, longitude: Double) {
+    fun updateExploreResult(placeId: Long, latitude: Double, longitude: Double) {
         viewModelScope.launch {
             runCatching {
                 postExploreLocationAuthUseCase(placeId, latitude, longitude)
