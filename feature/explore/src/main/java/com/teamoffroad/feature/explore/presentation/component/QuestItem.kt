@@ -86,6 +86,7 @@ fun QuestExtraItem(
             text = questModel.description,
             style = OffroadTheme.typography.boxMedi,
             color = Gray400,
+            maxLines = 2,
             modifier = Modifier.padding(top = 8.dp),
         )
         Column(

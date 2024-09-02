@@ -1,7 +1,6 @@
 package com.teamoffroad.feature.explore.data.repository
 
 import com.teamoffroad.feature.explore.data.mapper.toDomain
-import com.teamoffroad.feature.explore.data.remote.request.QuestsRequestDto
 import com.teamoffroad.feature.explore.data.remote.service.QuestService
 import com.teamoffroad.feature.explore.domain.model.Quest
 import com.teamoffroad.feature.explore.domain.repository.QuestRepository
@@ -12,6 +11,6 @@ class QuestRepositoryImpl @Inject constructor(
 ) : QuestRepository {
 
     override suspend fun fetchQuests(isActive: Boolean): List<Quest> {
-        return questService.getQuests(QuestsRequestDto(isActive)).data?.questList?.map { it.toDomain() } ?: emptyList()
+        return questService.getQuests(isActive).data?.questList?.map { it.toDomain() } ?: emptyList()
     }
 }

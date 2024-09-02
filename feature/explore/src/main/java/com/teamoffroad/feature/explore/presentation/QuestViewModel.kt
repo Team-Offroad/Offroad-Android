@@ -35,20 +35,22 @@ class QuestViewModel @Inject constructor(
                 )
                 getQuestListUseCase(isProceeding)
             }.onSuccess { quests ->
-                _uiState.value = when {
-                    isProceeding -> uiState.value.copy(
+                when {
+                    isProceeding -> _uiState.value = uiState.value.copy(
                         proceedingQuests = quests.map { it.toUi() },
                         loading = false,
                     )
 
-                    !isProceeding -> uiState.value.copy(
-                        totalQuests = quests.map { it.toUi() },
-                        loading = false,
-                    )
+                    !isProceeding -> {
+                        _uiState.value = uiState.value.copy(
+                            totalQuests = quests.map { it.toUi() },
+                            loading = true,
+                        )
+                        updateQuests(true)
+                    }
 
-                    else -> uiState.value
+                    else -> _uiState.value = uiState.value
                 }
-                if (!isProceeding) updateQuests(true)
             }.onFailure {
                 _uiState.value = uiState.value.copy(
                     loading = false,
