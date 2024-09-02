@@ -68,6 +68,7 @@ internal fun MainNavHost(
                     navigator.navigateToGainedCharacter()
                 },
                 navigateToGainedEmblems = navigator::navigateToGainedEmblems,
+                navigateToSetting = navigator::navigateToSetting,
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
             )
             authNavGraph(

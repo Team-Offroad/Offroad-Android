@@ -26,6 +26,7 @@ import com.teamoffroad.feature.mypage.navigation.navigateToGainedCharacter
 import com.teamoffroad.feature.mypage.navigation.navigateToGainedCoupon
 import com.teamoffroad.feature.mypage.navigation.navigateToGainedEmblems
 import com.teamoffroad.feature.mypage.navigation.navigateToMyPage
+import com.teamoffroad.feature.mypage.navigation.navigateToSetting
 
 internal class MainNavigator(
     val navController: NavHostController,
@@ -120,7 +121,12 @@ internal class MainNavigator(
         navController.navigateToGainedCoupon()
     }
 
-    fun navigateToAvailableCouponDetail(id: Int, name: String, couponImageUrl: String, description: String) {
+    fun navigateToAvailableCouponDetail(
+        id: Int,
+        name: String,
+        couponImageUrl: String,
+        description: String
+    ) {
         navController.navigateToAvailableCouponDetail(id, name, couponImageUrl, description)
     }
 
@@ -142,6 +148,10 @@ internal class MainNavigator(
 
     fun navigateToGainedEmblems() {
         navController.navigateToGainedEmblems()
+    }
+
+    fun navigateToSetting() {
+        navController.navigateToSetting()
     }
 }
 

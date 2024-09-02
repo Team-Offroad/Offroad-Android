@@ -12,6 +12,7 @@ import com.teamoffroad.feature.mypage.presentation.GainedCharacterScreen
 import com.teamoffroad.feature.mypage.presentation.GainedCouponScreen
 import com.teamoffroad.feature.mypage.presentation.GainedEmblemsScreen
 import com.teamoffroad.feature.mypage.presentation.MyPageScreen
+import com.teamoffroad.feature.mypage.presentation.SettingScreen
 
 fun NavController.navigateToMyPage(navOptions: NavOptions) {
     navigate(MainTabRoute.MyPage, navOptions)
@@ -38,16 +39,26 @@ fun NavController.navigateToGainedEmblems() {
     navigate(MyPageRoute.GainedEmblems)
 }
 
+fun NavController.navigateToSetting() {
+    navigate(MyPageRoute.Setting)
+}
+
 fun NavGraphBuilder.myPageNavGraph(
     navigateToMyPage: () -> Unit,
     navigateToGainedCharacter: () -> Unit,
     navigateToGainedCoupon: () -> Unit,
     navigateToAvailableCouponDetail: (Int, String, String, String) -> Unit,
     navigateToGainedEmblems: () -> Unit,
+    navigateToSetting: () -> Unit,
     navigateToBack: () -> Unit,
 ) {
     composable<MainTabRoute.MyPage> {
-        MyPageScreen(navigateToGainedCharacter, navigateToGainedCoupon, navigateToGainedEmblems)
+        MyPageScreen(
+            navigateToGainedCharacter,
+            navigateToGainedCoupon,
+            navigateToGainedEmblems,
+            navigateToSetting
+        )
     }
 
     composable<MyPageRoute.GainedCharacter> {
@@ -69,5 +80,9 @@ fun NavGraphBuilder.myPageNavGraph(
 
     composable<MyPageRoute.GainedEmblems> {
         GainedEmblemsScreen(navigateToBack)
+    }
+
+    composable<MyPageRoute.Setting> {
+        SettingScreen(navigateToBack)
     }
 }

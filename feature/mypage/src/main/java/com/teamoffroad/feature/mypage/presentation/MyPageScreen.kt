@@ -31,6 +31,7 @@ internal fun MyPageScreen(
     navigateToGainedCharacter: () -> Unit,
     navigateToGainedCoupon: () -> Unit,
     navigateToGainedEmblems: () -> Unit,
+    navigateToSetting: () -> Unit,
     myPageViewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val uiState = myPageViewModel.uiState.collectAsStateWithLifecycle()
@@ -63,7 +64,7 @@ internal fun MyPageScreen(
             ) {
                 Box(modifier = Modifier.weight(1f)) { AcquireEmblem(navigateToGainedEmblems) }
                 Spacer(modifier = Modifier.padding(horizontal = 6.dp))
-                Box(modifier = Modifier.weight(1f)) { UserSettings() }
+                Box(modifier = Modifier.weight(1f)) { UserSettings(navigateToSetting) }
             }
             Spacer(modifier = Modifier.padding(vertical = 28.dp))
         }
@@ -74,6 +75,6 @@ internal fun MyPageScreen(
 @Composable
 fun MyPageScreenPreview() {
     OffroadTheme {
-        MyPageScreen({}, {}, {})
+        MyPageScreen({}, {}, {}, {})
     }
 }
