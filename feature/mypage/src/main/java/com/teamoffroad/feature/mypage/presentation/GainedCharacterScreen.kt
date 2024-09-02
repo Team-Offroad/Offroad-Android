@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.mypage.presentation
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -72,7 +71,6 @@ private fun GainedCharacterUiStateHandler(uiState: State<GainedCharacterUiState>
         is Error -> Unit
 
         is Success -> {
-            Log.e("123123", "1231233")
             GainedCharacterItems(
                 gainedCharacterList = (uiState.value as Success).characters,
             )
