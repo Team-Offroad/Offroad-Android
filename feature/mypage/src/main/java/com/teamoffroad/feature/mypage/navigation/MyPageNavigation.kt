@@ -7,6 +7,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.core.navigation.MyPageRoute
+import com.teamoffroad.feature.mypage.presentation.AnnouncementDetailScreen
+import com.teamoffroad.feature.mypage.presentation.AnnouncementScreen
 import com.teamoffroad.feature.mypage.presentation.AvailableCouponDetailScreen
 import com.teamoffroad.feature.mypage.presentation.GainedCharacterScreen
 import com.teamoffroad.feature.mypage.presentation.GainedCouponScreen
@@ -43,6 +45,14 @@ fun NavController.navigateToSetting() {
     navigate(MyPageRoute.Setting)
 }
 
+fun NavController.navigateToAnnouncement() {
+    navigate(MyPageRoute.Announcement)
+}
+
+fun NavController.navigateToAnnouncementDetail() {
+    navigate(MyPageRoute.AnnouncementDetail)
+}
+
 fun NavGraphBuilder.myPageNavGraph(
     navigateToMyPage: () -> Unit,
     navigateToGainedCharacter: () -> Unit,
@@ -50,6 +60,8 @@ fun NavGraphBuilder.myPageNavGraph(
     navigateToAvailableCouponDetail: (Int, String, String, String) -> Unit,
     navigateToGainedEmblems: () -> Unit,
     navigateToSetting: () -> Unit,
+    navigateToAnnouncement: () -> Unit,
+    navigateToAnnouncementDetail: () -> Unit,
     navigateToBack: () -> Unit,
 ) {
     composable<MainTabRoute.MyPage> {
@@ -83,6 +95,14 @@ fun NavGraphBuilder.myPageNavGraph(
     }
 
     composable<MyPageRoute.Setting> {
-        SettingScreen(navigateToBack)
+        SettingScreen(navigateToAnnouncement, navigateToBack)
+    }
+
+    composable<MyPageRoute.Announcement> {
+        AnnouncementScreen(navigateToAnnouncementDetail, navigateToBack)
+    }
+
+    composable<MyPageRoute.AnnouncementDetail> {
+        AnnouncementDetailScreen(navigateToBack)
     }
 }

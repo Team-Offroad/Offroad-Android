@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.offroad.feature.mypage.R
@@ -23,6 +24,7 @@ import com.teamoffroad.offroad.feature.mypage.R
 fun SettingContainer(
     color: Color,
     text: String,
+    click: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -30,6 +32,7 @@ fun SettingContainer(
             .padding(horizontal = 12.dp)
             .padding(bottom = 10.dp)
             .background(color = color, shape = RoundedCornerShape(10.dp))
+            .clickableWithoutRipple { click() }
     ) {
         Row(
             modifier = Modifier

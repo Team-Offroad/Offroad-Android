@@ -66,4 +66,10 @@ sealed interface MyPageRoute : Route {
 
     @Serializable
     data object Setting : MyPageRoute
+
+    @Serializable
+    data object Announcement : MyPageRoute
+
+    @Serializable
+    data object AnnouncementDetail : MyPageRoute
 }
