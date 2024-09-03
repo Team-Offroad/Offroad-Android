@@ -119,8 +119,8 @@ internal class MainNavigator(
         navController.navigateToGainedCoupon()
     }
 
-    fun navigateToAvailableCouponDetail(id: Int, name: String, couponImageUrl: String, description: String) {
-        navController.navigateToAvailableCouponDetail(id, name, couponImageUrl, description)
+    fun navigateToAvailableCouponDetail(id: Int, name: String, couponImageUrl: String, description: String, placeId: Int) {
+        navController.navigateToAvailableCouponDetail(id, name, couponImageUrl, description, placeId)
     }
 
     fun navigateToExplore(authResultType: String, imageUrl: String) {

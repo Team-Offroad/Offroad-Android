@@ -26,7 +26,10 @@ data class UserCouponsResponseDto(
         val description: String,
 
         @SerialName("isNewGained")
-        val isNewGained: Boolean
+        val isNewGained: Boolean,
+
+        @SerialName("placeId")
+        val placeId: Int
     )
 
     @Serializable

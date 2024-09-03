@@ -29,15 +29,16 @@ fun NavController.navigateToAvailableCouponDetail(
     name: String,
     couponImageUrl: String,
     description: String,
+    placeId: Int,
 ) {
-    navigate(MyPageRoute.AvailableCouponScreen(id, name, couponImageUrl, description))
+    navigate(MyPageRoute.AvailableCouponScreen(id, name, couponImageUrl, description, placeId))
 }
 
 fun NavGraphBuilder.myPageNavGraph(
     navigateToMyPage: () -> Unit,
     navigateToGainedCharacter: () -> Unit,
     navigateToGainedCoupon: () -> Unit,
-    navigateToAvailableCouponDetail: (Int, String, String, String) -> Unit,
+    navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
     navigateToBack: () -> Unit,
 ) {
     composable<MainTabRoute.MyPage> {
@@ -58,6 +59,7 @@ fun NavGraphBuilder.myPageNavGraph(
         val couponImageUrl =
             backStackEntry.toRoute<MyPageRoute.AvailableCouponScreen>().couponImageUrl
         val description = backStackEntry.toRoute<MyPageRoute.AvailableCouponScreen>().description
-        AvailableCouponDetailScreen(id, name, couponImageUrl, description, navigateToGainedCoupon)
+        val placeId = backStackEntry.toRoute<MyPageRoute.AvailableCouponScreen>().placeId
+        AvailableCouponDetailScreen(id, name, couponImageUrl, description, placeId, navigateToGainedCoupon)
     }
 }

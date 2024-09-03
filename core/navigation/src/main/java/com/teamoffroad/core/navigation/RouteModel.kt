@@ -55,7 +55,8 @@ sealed interface MyPageRoute : Route {
         val id: Int,
         val name: String,
         val couponImageUrl: String,
-        val description: String
+        val description: String,
+        val placeId: Int
     ): MyPageRoute
 
     @Serializable

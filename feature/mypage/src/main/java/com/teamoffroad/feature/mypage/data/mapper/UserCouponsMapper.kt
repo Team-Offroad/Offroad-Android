@@ -10,7 +10,8 @@ fun UserCouponsResponseDto.AvailableCouponsResponseDto.toData(): UserCouponsEnti
         name = name,
         couponImageUrl = couponImageUrl,
         description = description,
-        isNewGained = isNewGained
+        isNewGained = isNewGained,
+        placeId = placeId
     )
 }
 
@@ -26,7 +27,8 @@ fun UserCouponsEntity.AvailableCouponsEntity.toDomain(): UserCoupons.AvailableCo
         name = name,
         couponImageUrl = couponImageUrl,
         description = description,
-        isNewGained = isNewGained
+        isNewGained = isNewGained,
+        placeId = placeId
     )
 }
 

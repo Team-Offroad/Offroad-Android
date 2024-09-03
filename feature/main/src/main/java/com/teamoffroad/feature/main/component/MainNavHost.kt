@@ -61,8 +61,8 @@ internal fun MainNavHost(
                 navigateToGainedCoupon = {
                     navigator.navigateToGainedCoupon()
                 },
-                navigateToAvailableCouponDetail = { id, name, couponImageUrl, description ->
-                    navigator.navigateToAvailableCouponDetail(id, name,couponImageUrl, description)
+                navigateToAvailableCouponDetail = { id, name, couponImageUrl, description, placeId ->
+                    navigator.navigateToAvailableCouponDetail(id, name,couponImageUrl, description, placeId)
                 },
                 navigateToGainedCharacter = {
                     navigator.navigateToGainedCharacter()

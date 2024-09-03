@@ -9,7 +9,8 @@ data class UserCoupons(
         val name: String,
         val couponImageUrl: String,
         val description: String,
-        val isNewGained: Boolean
+        val isNewGained: Boolean,
+        val placeId: Int
     )
 
     data class UsedCoupon(

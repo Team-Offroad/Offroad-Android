@@ -30,7 +30,7 @@ import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
 internal fun GainedCouponScreen(
-    navigateToAvailableCouponDetail: (Int, String, String, String) -> Unit,
+    navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
     navigateToMyPage: () -> Unit,
     viewModel: GainedCouponViewModel = hiltViewModel()
 ) {

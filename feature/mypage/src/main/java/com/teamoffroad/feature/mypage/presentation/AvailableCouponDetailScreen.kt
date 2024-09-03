@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -23,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -55,6 +53,7 @@ fun AvailableCouponDetailScreen(
     name: String,
     couponImageUrl: String,
     description: String,
+    placeId: Int,
     navigateToGainedCoupon: () -> Unit,
     availableCouponDetailViewModel: AvailableCouponDetailViewModel = hiltViewModel(),
     backgroundColor: Color = ListBg
@@ -77,7 +76,7 @@ fun AvailableCouponDetailScreen(
                 text = stringResource(id = R.string.my_page_my_page),
                 backgroundColor = backgroundColor
             ) { navigateToGainedCoupon() }
-            AvailableCouponCard(name, couponImageUrl, description)
+            AvailableCouponCard(name, couponImageUrl, description, placeId)
             Box(
                 modifier = Modifier.weight(1f),
                 contentAlignment = Alignment.Center
@@ -100,6 +99,7 @@ fun AvailableCouponCard(
     name: String,
     couponImageUrl: String,
     description: String,
+    placeId: Int,
     shape: Shape = RoundedCornerShape(20.dp),
     borderWidth: Dp = 1.dp,
     textColor: Color = Main2,
