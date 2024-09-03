@@ -4,7 +4,7 @@ import com.teamoffroad.core.common.data.remote.response.BaseResponse
 import com.teamoffroad.feature.mypage.data.remote.response.MyPageUserResponseDto
 import retrofit2.http.GET
 
-interface MyPageUserService {
+interface UserService {
     @GET("users/me")
     suspend fun getMyPageUser(): BaseResponse<MyPageUserResponseDto>
 }

@@ -7,7 +7,6 @@ import com.teamoffroad.feature.mypage.domain.repository.MyPageUserRepository
 import com.teamoffroad.feature.mypage.presentation.component.getErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,7 +24,7 @@ class MyPageViewModel @Inject constructor(
     fun getMyPageUser() {
         viewModelScope.launch {
             runCatching {
-                myPageUserRepository.getUsersMyPage()
+                myPageUserRepository.fetchMyPage()
             }.onSuccess { state ->
                 updateMyPageUser(state.copy())
             }.onFailure { t ->

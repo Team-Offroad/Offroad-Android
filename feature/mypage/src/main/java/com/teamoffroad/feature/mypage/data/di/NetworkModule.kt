@@ -1,6 +1,6 @@
 package com.teamoffroad.feature.mypage.data.di
 
-import com.teamoffroad.feature.mypage.data.remote.service.MyPageUserService
+import com.teamoffroad.feature.mypage.data.remote.service.UserService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,7 +13,7 @@ import javax.inject.Singleton
 object NetworkModule {
     @Provides
     @Singleton
-    fun provideUserCoupons(retrofit: Retrofit): MyPageUserService {
-        return retrofit.create(MyPageUserService::class.java)
+    fun provideUserCoupons(retrofit: Retrofit): UserService {
+        return retrofit.create(UserService::class.java)
     }
 }

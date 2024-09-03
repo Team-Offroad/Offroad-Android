@@ -7,6 +7,6 @@ class MyPageUserUseCase(
     private val myPageUserRepository: MyPageUserRepository
 ) {
     suspend fun getMyPageUser(): MyPageUser {
-        return myPageUserRepository.getUsersMyPage()
+        return myPageUserRepository.fetchMyPage()
     }
 }
