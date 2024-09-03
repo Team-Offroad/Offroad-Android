@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -14,8 +16,10 @@ import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main1
+import com.teamoffroad.feature.mypage.presentation.component.LogoutDialog
 import com.teamoffroad.feature.mypage.presentation.component.SettingContainer
 import com.teamoffroad.feature.mypage.presentation.component.SettingHeader
+import com.teamoffroad.feature.mypage.presentation.component.UseAvailableCouponDialog
 import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
@@ -23,6 +27,8 @@ internal fun SettingScreen(
     navigateToAnnouncement: () -> Unit,
     navigateToBack: () -> Unit,
 ) {
+    val isLogOutDialogShown = remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .background(Main1)
@@ -46,7 +52,13 @@ internal fun SettingScreen(
         SettingContainer(color = Main1, text = "서비스 이용약관", click = {})
         SettingContainer(color = Main1, text = "개인정보처리방침", click = {})
         SettingContainer(color = Main1, text = "마케팅 수신동의", click = {})
-        SettingContainer(color = Main1, text = "로그아웃", click = {})
+        SettingContainer(color = Main1, text = "로그아웃", click = { isLogOutDialogShown.value = true })
         SettingContainer(color = Main1, text = "회원 탈퇴", click = {})
+    }
+
+    if (isLogOutDialogShown.value) {
+        LogoutDialog() {
+
+        }
     }
 }
