@@ -19,7 +19,6 @@ import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.mypage.presentation.component.LogoutDialog
 import com.teamoffroad.feature.mypage.presentation.component.SettingContainer
 import com.teamoffroad.feature.mypage.presentation.component.SettingHeader
-import com.teamoffroad.feature.mypage.presentation.component.UseAvailableCouponDialog
 import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
@@ -57,8 +56,10 @@ internal fun SettingScreen(
     }
 
     if (isLogOutDialogShown.value) {
-        LogoutDialog() {
+        LogoutDialog(showDialog = isLogOutDialogShown,
+            onClickCancel = {
+                isLogOutDialogShown.value = false
+            })
 
-        }
     }
 }
