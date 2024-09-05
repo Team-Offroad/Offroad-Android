@@ -65,15 +65,15 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun updateSelectedEmblem(emblemName: String) {
+    private fun updateSelectedEmblem(emblemName: String) {
         _selectedEmblem.value = emblemName
     }
 
-    fun updateCharacterImage(imageUrl: String) {
+    private fun updateCharacterImage(imageUrl: String) {
         _baseCharacterImage.value = imageUrl
     }
 
-    fun updateMotionImageUrl(motionImageUrl: String?) {
+    private fun updateMotionImageUrl(motionImageUrl: String?) {
         _motionCharacterUrl.value = motionImageUrl
     }
 
