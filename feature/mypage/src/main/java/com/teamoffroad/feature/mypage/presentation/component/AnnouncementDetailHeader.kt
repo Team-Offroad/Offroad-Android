@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Gray400
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
+import com.teamoffroad.core.designsystem.theme.Sub2
 
 @Composable
 fun AnnouncementDetailHeader(
@@ -18,6 +19,7 @@ fun AnnouncementDetailHeader(
     month: String,
     day: String,
     text: String,
+    isImportant: Boolean,
 ) {
     Column(
         modifier = Modifier
@@ -29,11 +31,18 @@ fun AnnouncementDetailHeader(
                 .padding(bottom = 10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = year, color = Gray400, style = OffroadTheme.typography.textContents)
-            Text(text = month, color = Gray400, style = OffroadTheme.typography.textContents)
+            Text(text = "$year / ", color = Gray400, style = OffroadTheme.typography.textContents)
+            Text(text = "$month / ", color = Gray400, style = OffroadTheme.typography.textContents)
             Text(text = day, color = Gray400, style = OffroadTheme.typography.textContents)
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
+            if (isImportant) {
+                Text(
+                    text = "[중요] ",
+                    style = OffroadTheme.typography.tabBarMedi,
+                    color = Sub2
+                )
+            }
             Text(text = text, color = Main2, style = OffroadTheme.typography.subtitle2Semibold)
         }
 

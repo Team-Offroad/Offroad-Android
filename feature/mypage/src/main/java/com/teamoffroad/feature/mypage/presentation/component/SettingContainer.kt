@@ -18,12 +18,14 @@ import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
+import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
 fun SettingContainer(
     color: Color,
     text: String,
+    isImportant: Boolean,
     click: () -> Unit,
 ) {
     Box(
@@ -41,11 +43,20 @@ fun SettingContainer(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(
-                text = text,
-                style = OffroadTheme.typography.tabBarMedi,
-                color = Main2
-            )
+            Row {
+                if (isImportant) {
+                    Text(
+                        text = "[중요] ",
+                        style = OffroadTheme.typography.tabBarMedi,
+                        color = Sub2
+                    )
+                }
+                Text(
+                    text = text,
+                    style = OffroadTheme.typography.tabBarMedi,
+                    color = Main2
+                )
+            }
             Image(
                 painterResource(id = R.drawable.ic_setting_next),
                 contentDescription = "next",

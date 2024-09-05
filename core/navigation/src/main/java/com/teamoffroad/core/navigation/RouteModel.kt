@@ -12,7 +12,8 @@ sealed interface MainTabRoute : Route {
     data class Home(val category: String? = null) : MainTabRoute
 
     @Serializable
-    data class Explore(val authResultType: String? = null, val imageUrl: String? = null) : MainTabRoute
+    data class Explore(val authResultType: String? = null, val imageUrl: String? = null) :
+        MainTabRoute
 
     @Serializable
     data object MyPage : MainTabRoute
@@ -37,7 +38,8 @@ sealed interface AuthRoute : Route {
 
 sealed interface ExploreRoute : Route {
     @Serializable
-    data class ExploreCameraScreen(val placeId: Long, val latitude: String, val longitude: String) : ExploreRoute
+    data class ExploreCameraScreen(val placeId: Long, val latitude: String, val longitude: String) :
+        ExploreRoute
 
     @Serializable
     data object PlaceScreen : ExploreRoute
@@ -56,7 +58,7 @@ sealed interface MyPageRoute : Route {
         val name: String,
         val couponImageUrl: String,
         val description: String
-    ): MyPageRoute
+    ) : MyPageRoute
 
     @Serializable
     data object GainedCharacter : MyPageRoute
@@ -71,5 +73,10 @@ sealed interface MyPageRoute : Route {
     data object Announcement : MyPageRoute
 
     @Serializable
-    data object AnnouncementDetail : MyPageRoute
+    data class AnnouncementDetail(
+        val title: String,
+        val content: String,
+        val link: String,
+        val isImportant: Boolean
+    ) : MyPageRoute
 }

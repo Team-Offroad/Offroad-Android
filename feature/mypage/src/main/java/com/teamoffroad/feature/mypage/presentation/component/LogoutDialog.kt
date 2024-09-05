@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,7 +28,6 @@ import com.teamoffroad.core.designsystem.theme.White
 
 @Composable
 fun LogoutDialog(
-    showDialog: MutableState<Boolean>,
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(14.dp),
     onClickCancel: () -> Unit,

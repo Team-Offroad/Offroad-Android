@@ -49,8 +49,10 @@ fun NavController.navigateToAnnouncement() {
     navigate(MyPageRoute.Announcement)
 }
 
-fun NavController.navigateToAnnouncementDetail() {
-    navigate(MyPageRoute.AnnouncementDetail)
+fun NavController.navigateToAnnouncementDetail(
+    title: String, content: String, link: String, isImportant: Boolean
+) {
+    navigate(MyPageRoute.AnnouncementDetail(title, content, link, isImportant))
 }
 
 fun NavGraphBuilder.myPageNavGraph(
@@ -61,7 +63,7 @@ fun NavGraphBuilder.myPageNavGraph(
     navigateToGainedEmblems: () -> Unit,
     navigateToSetting: () -> Unit,
     navigateToAnnouncement: () -> Unit,
-    navigateToAnnouncementDetail: () -> Unit,
+    navigateToAnnouncementDetail: (String, String, String, Boolean) -> Unit,
     navigateToBack: () -> Unit,
 ) {
     composable<MainTabRoute.MyPage> {
@@ -95,14 +97,24 @@ fun NavGraphBuilder.myPageNavGraph(
     }
 
     composable<MyPageRoute.Setting> {
-        SettingScreen(navigateToAnnouncement, navigateToBack)
+        SettingScreen(
+            navigateToAnnouncement = navigateToAnnouncement,
+            navigateToBack = navigateToBack
+        )
     }
 
     composable<MyPageRoute.Announcement> {
-        AnnouncementScreen(navigateToAnnouncementDetail, navigateToBack)
+        AnnouncementScreen(
+            navigateToAnnouncementDetail,
+            navigateToBack
+        )
     }
 
-    composable<MyPageRoute.AnnouncementDetail> {
-        AnnouncementDetailScreen(navigateToBack)
+    composable<MyPageRoute.AnnouncementDetail> { backStackEntry ->
+        val title = backStackEntry.toRoute<MyPageRoute.AnnouncementDetail>().title
+        val content = backStackEntry.toRoute<MyPageRoute.AnnouncementDetail>().content
+        val link = backStackEntry.toRoute<MyPageRoute.AnnouncementDetail>().link
+        val isImportant = backStackEntry.toRoute<MyPageRoute.AnnouncementDetail>().isImportant
+        AnnouncementDetailScreen(title, content, link, isImportant, navigateToBack)
     }
 }

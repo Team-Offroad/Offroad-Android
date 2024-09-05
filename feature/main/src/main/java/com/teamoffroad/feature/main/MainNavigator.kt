@@ -160,8 +160,13 @@ internal class MainNavigator(
         navController.navigateToAnnouncement()
     }
 
-    fun navigateToAnnouncementDetail() {
-        navController.navigateToAnnouncementDetail()
+    fun navigateToAnnouncementDetail(
+        title: String,
+        content: String,
+        link: String,
+        isImportant: Boolean
+    ) {
+        navController.navigateToAnnouncementDetail(title, content, link, isImportant)
     }
 }
 
