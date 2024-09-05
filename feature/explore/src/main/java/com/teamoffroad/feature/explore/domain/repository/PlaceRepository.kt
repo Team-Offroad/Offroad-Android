@@ -4,5 +4,5 @@ import com.teamoffroad.feature.explore.domain.model.Place
 
 interface PlaceRepository {
 
-    suspend fun fetchPlaces(latitude: Double, longitude: Double): List<Place>
+    suspend fun fetchPlaces(latitude: Double, longitude: Double, limit: Int, isBounded: Boolean): List<Place>
 }
