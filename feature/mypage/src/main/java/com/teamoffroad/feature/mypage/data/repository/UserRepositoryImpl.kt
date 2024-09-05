@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.mypage.data.repository
 
+import android.util.Log
 import com.teamoffroad.feature.mypage.data.remote.response.toEmblemsList
 import com.teamoffroad.feature.mypage.data.remote.service.UserService
 import com.teamoffroad.feature.mypage.domain.model.GainedEmblems
@@ -25,6 +26,17 @@ class UserRepositoryImpl @Inject constructor(
 
         gainedEmblemResult.onFailure {
             return Result.failure(it)
+        }
+        return Result.failure(UnReachableException("unreachable code"))
+    }
+
+    override suspend fun patchMarketingInfo(): Result<Unit> {
+        val patchMarketingInfoResult = kotlin.runCatching { userService.patchMarketingInfo(true).data }
+        patchMarketingInfoResult.onSuccess {
+            Log.d("asdasd", it?.marketing?.data.toString())
+        }
+        patchMarketingInfoResult.onFailure {
+            Log.d("asdsad", it.message.toString())
         }
         return Result.failure(UnReachableException("unreachable code"))
     }

@@ -36,6 +36,7 @@ internal fun SettingScreen(
 ) {
     val isSettingUiState by viewModel.settingUiState.collectAsState()
 
+    viewModel.patchMarketingInfo()
     Column(
         modifier = modifier
             .background(Main1)
@@ -83,7 +84,9 @@ internal fun SettingScreen(
 
     when (isSettingUiState.dialogVisible) {
         SettingDialogState.inVisible -> {}
-        SettingDialogState.marketingVisible -> MarketingInfoDialog(onClickCancel = {
+        SettingDialogState.marketingVisible -> MarketingInfoDialog(
+            onClick = { viewModel.patchMarketingInfo() },
+            onClickCancel = {
             viewModel.changeDialogState(SettingDialogState.inVisible)
         })
 

@@ -32,6 +32,7 @@ import com.teamoffroad.core.designsystem.theme.White
 fun MarketingInfoDialog(
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(14.dp),
+    onClick: () -> Unit,
     onClickCancel: () -> Unit,
 ) {
     Dialog(
@@ -74,7 +75,10 @@ fun MarketingInfoDialog(
                     )
                     AgreeButton(
                         text = "동의",
-                        onClick = onClickCancel,
+                        onClick = {
+                            onClickCancel()
+                            onClick()
+                        },
                         textColor = White,
                         backgroundColor = Main2,
                         modifier = Modifier.weight(1f)

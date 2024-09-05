@@ -2,6 +2,7 @@ package com.teamoffroad.feature.mypage.data.di
 
 import com.teamoffroad.feature.mypage.domain.repository.UserRepository
 import com.teamoffroad.feature.mypage.domain.usecase.UserEmblemsUseCase
+import com.teamoffroad.feature.mypage.domain.usecase.UserMarketingInfoUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,8 +16,16 @@ class UseCaseModule {
     @Provides
     @Singleton
     fun provideGainedEmblemsUseCase(
-        userEmblemsRepository: UserRepository
+        userRepository: UserRepository
     ): UserEmblemsUseCase {
-        return UserEmblemsUseCase(userEmblemsRepository)
+        return UserEmblemsUseCase(userRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideMarketingInfoUseCase(
+        userRepository: UserRepository
+    ): UserMarketingInfoUseCase {
+        return UserMarketingInfoUseCase(userRepository)
     }
 }
