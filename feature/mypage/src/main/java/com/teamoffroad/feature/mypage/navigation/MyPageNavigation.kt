@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.core.navigation.MyPageRoute
+import com.teamoffroad.core.navigation.Route
 import com.teamoffroad.feature.mypage.presentation.AnnouncementDetailScreen
 import com.teamoffroad.feature.mypage.presentation.AnnouncementScreen
 import com.teamoffroad.feature.mypage.presentation.AvailableCouponDetailScreen
@@ -55,6 +56,10 @@ fun NavController.navigateToAnnouncementDetail(
     navigate(MyPageRoute.AnnouncementDetail(title, content, link, isImportant))
 }
 
+fun NavController.navigateToSignIn() {
+    navigate(Route.Auth)
+}
+
 fun NavGraphBuilder.myPageNavGraph(
     navigateToMyPage: () -> Unit,
     navigateToGainedCharacter: () -> Unit,
@@ -64,6 +69,7 @@ fun NavGraphBuilder.myPageNavGraph(
     navigateToSetting: () -> Unit,
     navigateToAnnouncement: () -> Unit,
     navigateToAnnouncementDetail: (String, String, String, Boolean) -> Unit,
+    navigateToSignIn: () -> Unit,
     navigateToBack: () -> Unit,
 ) {
     composable<MainTabRoute.MyPage> {
@@ -99,6 +105,7 @@ fun NavGraphBuilder.myPageNavGraph(
     composable<MyPageRoute.Setting> {
         SettingScreen(
             navigateToAnnouncement = navigateToAnnouncement,
+            navigateToSignIn = navigateToSignIn,
             navigateToBack = navigateToBack
         )
     }

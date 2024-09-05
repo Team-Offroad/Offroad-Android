@@ -2,6 +2,7 @@ package com.teamoffroad.feature.mypage.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.teamoffroad.feature.mypage.domain.usecase.UserMarketingInfoUseCase
 import com.teamoffroad.feature.mypage.presentation.component.SettingDialogState
 import com.teamoffroad.feature.mypage.presentation.model.SettingUiState
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingViewModel @Inject constructor(
-    private val marketingInfoUseCase: UserMarketingInfoUseCase
+    private val marketingInfoUseCase: UserMarketingInfoUseCase,
+    private val googleSignInClient: GoogleSignInClient,
 ) : ViewModel() {
     private val _settingUiState: MutableStateFlow<SettingUiState> =
         MutableStateFlow(SettingUiState())
@@ -48,8 +50,12 @@ class SettingViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 marketingInfoUseCase.invoke()
-            }.onSuccess {it.getOrNull()}
-                .onFailure {it.message }
+            }.onSuccess { it.getOrNull() }
+                .onFailure { it.message }
         }
+    }
+
+    fun performSignOut() {
+        googleSignInClient.signOut()
     }
 }

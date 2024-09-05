@@ -31,6 +31,7 @@ import com.teamoffroad.offroad.feature.mypage.R
 internal fun SettingScreen(
     modifier: Modifier = Modifier,
     navigateToAnnouncement: () -> Unit,
+    navigateToSignIn: () -> Unit,
     navigateToBack: () -> Unit,
     viewModel: SettingViewModel = hiltViewModel()
 ) {
@@ -87,13 +88,16 @@ internal fun SettingScreen(
         SettingDialogState.marketingVisible -> MarketingInfoDialog(
             onClick = { viewModel.patchMarketingInfo() },
             onClickCancel = {
-            viewModel.changeDialogState(SettingDialogState.inVisible)
-        })
-
-        SettingDialogState.logoutVisible -> LogoutDialog(
-            onClickCancel = {
                 viewModel.changeDialogState(SettingDialogState.inVisible)
             })
+
+        SettingDialogState.logoutVisible -> LogoutDialog(
+            onClick = { viewModel.performSignOut() },
+            onClickCancel = {
+                viewModel.changeDialogState(SettingDialogState.inVisible)
+            },
+            navigateToSignIn = navigateToSignIn
+        )
 
         SettingDialogState.withDrawVisible -> WithDrawDialog(
             isWithDrawText = isSettingUiState.withDrawInputState,

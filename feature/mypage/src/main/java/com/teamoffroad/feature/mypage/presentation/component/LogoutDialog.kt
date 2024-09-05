@@ -30,7 +30,9 @@ import com.teamoffroad.core.designsystem.theme.White
 fun LogoutDialog(
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(14.dp),
+    onClick: () -> Unit,
     onClickCancel: () -> Unit,
+    navigateToSignIn: () -> Unit,
 ) {
     Dialog(
         onDismissRequest = { onClickCancel() },
@@ -71,7 +73,11 @@ fun LogoutDialog(
                     )
                     LogoutButton(
                         text = "네",
-                        onClick = {},
+                        onClick = {
+                            onClick()
+                            onClickCancel()
+                            navigateToSignIn()
+                        },
                         textColor = White,
                         backgroundColor = Main2,
                         modifier = Modifier.weight(1f)
