@@ -10,7 +10,7 @@ import javax.inject.Inject
 class UserCouponsRepositoryImpl @Inject constructor(
     private val userCouponsService: UserCouponsService
 ) : UserCouponsRepository {
-    override suspend fun getUserCoupons(): UserCoupons {
+    override suspend fun fetchUserCoupons(): UserCoupons {
         val response = userCouponsService.getCoupons()
         val userAvailableCouponsEntity =
             response.data?.availableCouponsDto?.map { it.toData() } ?: emptyList()

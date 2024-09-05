@@ -14,7 +14,7 @@ import javax.inject.Singleton
 object NetworkModule {
     @Provides
     @Singleton
-    fun provideUserCoupons(retrofit: Retrofit): UserService {
+    fun provideMyPage(retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
     }
 

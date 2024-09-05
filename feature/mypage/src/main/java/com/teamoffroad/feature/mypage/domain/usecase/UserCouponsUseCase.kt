@@ -7,6 +7,6 @@ class UserCouponsUseCase(
     private val userCouponsRepository: UserCouponsRepository
 ) {
     suspend fun getUserCoupons(): UserCoupons {
-        return userCouponsRepository.getUserCoupons()
+        return userCouponsRepository.fetchUserCoupons()
     }
 }

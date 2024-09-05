@@ -15,7 +15,7 @@ import javax.inject.Singleton
 abstract class RepositoryModule {
     @Binds
     @Singleton
-    abstract fun bindUserCouponsRepository(
+    abstract fun bindMyPageRepository(
         userCouponsRepositoryImpl: MyPageUserImpl
     ): MyPageUserRepository
 

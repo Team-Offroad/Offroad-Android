@@ -15,7 +15,7 @@ import javax.inject.Singleton
 class UseCaseModule {
     @Provides
     @Singleton
-    fun provideGetUserCouponsUseCase(
+    fun provideGetMyPageUseCase(
         userCouponsRepository: MyPageUserRepository
     ): MyPageUserUseCase {
         return MyPageUserUseCase(userCouponsRepository)

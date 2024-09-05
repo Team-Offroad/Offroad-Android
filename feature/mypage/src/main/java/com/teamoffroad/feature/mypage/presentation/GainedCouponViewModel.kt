@@ -32,7 +32,7 @@ class GainedCouponViewModel @Inject constructor(
     fun getUserCoupons() {
         viewModelScope.launch {
             runCatching {
-                userCouponsRepository.getUserCoupons()
+                userCouponsRepository.fetchUserCoupons()
             }.onSuccess { state ->
                 _getUserCouponsState.emit(UiState.Success(state))
                 updateAvailableCoupons(state.availableCoupons)
