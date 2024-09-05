@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -34,6 +35,7 @@ import com.teamoffroad.core.designsystem.component.GestureNavigation
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
+import com.teamoffroad.core.designsystem.theme.Black15
 import com.teamoffroad.core.designsystem.theme.Contents2
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Gray400
@@ -44,6 +46,7 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.core.designsystem.theme.Sub4
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.feature.mypage.domain.model.UseCoupon
 import com.teamoffroad.feature.mypage.presentation.component.UseAvailableCouponDialog
 import com.teamoffroad.feature.mypage.presentation.model.CheckCouponState
 import com.teamoffroad.offroad.feature.mypage.R
@@ -89,9 +92,12 @@ fun AvailableCouponDetailScreen(
             UseAvailableCouponButton(
                 couponId = couponId,
                 couponCode = couponCode,
+                placeId = placeId,
+                errorMessage = availableCouponDetailViewModel.errorMessage.collectAsStateWithLifecycle().value,
                 updateCouponCodeSuccess = availableCouponDetailViewModel::updateCouponCodeSuccess,
                 couponCodeSuccess = couponCodeSuccess,
-                updateCode = availableCouponDetailViewModel::updateCode
+                updateCode = availableCouponDetailViewModel::updateCode,
+                saveCoupon = availableCouponDetailViewModel::saveCoupon
             )
         }
     }
@@ -200,14 +206,18 @@ private fun WayOfUse() {
 private fun UseAvailableCouponButton(
     couponId: Int,
     couponCode: String,
+    placeId: Int,
+    errorMessage: String,
     updateCouponCodeSuccess: (CheckCouponState) -> Unit,
     couponCodeSuccess: CheckCouponState,
-    updateCode: (String) -> Unit,
+    updateCode: (String, Int, Int) -> Unit,
+    saveCoupon: (UseCoupon) -> Unit
 ) {
     val isUseAvailableCouponDialogShown = remember { mutableStateOf(false) }
 
     Text(
-        text = stringResource(id = R.string.my_page_gained_coupon_use_available_coupon),
+        text = if (couponCodeSuccess == CheckCouponState.SUCCESS) stringResource(id = R.string.my_page_gained_coupon_used)
+        else stringResource(id = R.string.my_page_gained_coupon_use_available_coupon),
         color = White,
         style = OffroadTheme.typography.textRegular,
         textAlign = TextAlign.Center,
@@ -215,12 +225,14 @@ private fun UseAvailableCouponButton(
             .fillMaxWidth()
             .padding(start = 24.dp, top = 26.dp, end = 24.dp, bottom = 24.dp)
             .clip(shape = RoundedCornerShape(6.dp))
-            .background(Main2)
+            .background(if (couponCodeSuccess == CheckCouponState.SUCCESS) Black15 else Main2)
             .padding(vertical = 14.dp)
             .clickableWithoutRipple(interactionSource = remember {
                 MutableInteractionSource()
             }) {
-                isUseAvailableCouponDialogShown.value = true
+                if (couponCodeSuccess != CheckCouponState.SUCCESS) {
+                    isUseAvailableCouponDialogShown.value = true
+                }
             }
     )
 
@@ -230,11 +242,14 @@ private fun UseAvailableCouponButton(
             updateCouponCodeSuccess = updateCouponCodeSuccess,
             couponCodeSuccess = couponCodeSuccess,
             couponCode = couponCode,
+            placeId = placeId,
+            errorMessage = errorMessage,
             showDialog = isUseAvailableCouponDialogShown,
             onClickCancel = {
                 isUseAvailableCouponDialogShown.value = false
             },
-            updateCode = updateCode
+            updateCode = updateCode,
+            saveCoupon = saveCoupon
         )
     }
 }

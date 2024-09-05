@@ -3,6 +3,7 @@ package com.teamoffroad.feature.mypage.data.repository
 import com.teamoffroad.feature.mypage.data.mapper.toData
 import com.teamoffroad.feature.mypage.data.mapper.toDomain
 import com.teamoffroad.feature.mypage.data.remote.service.UserCouponsService
+import com.teamoffroad.feature.mypage.domain.model.UseCoupon
 import com.teamoffroad.feature.mypage.domain.model.UserCoupons
 import com.teamoffroad.feature.mypage.domain.repository.UserCouponsRepository
 import javax.inject.Inject
@@ -24,5 +25,9 @@ class UserCouponsRepositoryImpl @Inject constructor(
             availableCoupons = domainUserAvailableCouponsEntity,
             usedCoupons = domainUserUsedCouponsEntity
         )
+    }
+
+    override suspend fun saveUseCoupon(coupon: UseCoupon): Boolean {
+        return userCouponsService.saveCoupons(coupon.toData())?.data?.success ?: false
     }
 }

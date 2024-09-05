@@ -43,6 +43,7 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.feature.mypage.domain.model.UseCoupon
 import com.teamoffroad.feature.mypage.presentation.model.CheckCouponState
 import com.teamoffroad.offroad.feature.mypage.R
 
@@ -51,14 +52,18 @@ fun UseAvailableCouponDialog(
     couponId: Int,
     couponCodeSuccess: CheckCouponState,
     couponCode: String,
+    placeId: Int,
+    errorMessage: String,
     showDialog: MutableState<Boolean>,
     onClickCancel: () -> Unit,
-    updateCode: (String) -> Unit,
+    updateCode: (String, Int, Int) -> Unit,
     updateCouponCodeSuccess: (CheckCouponState) -> Unit,
+    saveCoupon: (UseCoupon) -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(14.dp),
     backgroundColor: Color = Main3
 ) {
+
     Dialog(
         onDismissRequest = { onClickCancel() },
         properties = DialogProperties(dismissOnClickOutside = true, dismissOnBackPress = true)
@@ -82,9 +87,12 @@ fun UseAvailableCouponDialog(
                 UseAvailableCouponDialogText(
                     showDialog = showDialog,
                     couponCode = couponCode,
+                    couponId = couponId,
+                    placeId = placeId,
                     couponCodeSuccess = couponCodeSuccess,
                     updateCode = updateCode,
-                    updateCouponCodeSuccess = updateCouponCodeSuccess
+                    updateCouponCodeSuccess = updateCouponCodeSuccess,
+                    saveCoupon = saveCoupon
                 )
             }
         }
@@ -95,9 +103,12 @@ fun UseAvailableCouponDialog(
 private fun UseAvailableCouponDialogText(
     showDialog: MutableState<Boolean>,
     couponCode: String,
+    couponId: Int,
+    placeId: Int,
     couponCodeSuccess: CheckCouponState,
-    updateCode: (String) -> Unit,
+    updateCode: (String, Int, Int) -> Unit,
     updateCouponCodeSuccess: (CheckCouponState) -> Unit,
+    saveCoupon: (UseCoupon) -> Unit,
     modifier: Modifier = Modifier,
     textColor: Color = Main2,
 ) {
@@ -129,7 +140,11 @@ private fun UseAvailableCouponDialogText(
                                 .padding(bottom = 8.dp),
                             textAlign = TextAlign.Center
                         )
-                        CodeTextField(updateCode = updateCode, couponCode = couponCode)
+                        CodeTextField(
+                            updateCode = updateCode,
+                            couponId = couponId,
+                            placeId = placeId
+                        )
 
                     }
                 }
@@ -137,8 +152,11 @@ private fun UseAvailableCouponDialogText(
                     updateCode = updateCode,
                     updateCouponCodeSuccess = updateCouponCodeSuccess,
                     couponCode = couponCode,
+                    couponId = couponId,
+                    placeId = placeId,
                     couponCodeSuccess = couponCodeSuccess,
-                    showDialog = showDialog
+                    showDialog = showDialog,
+                    saveCoupon = saveCoupon
                 )
             }
         }
@@ -173,8 +191,11 @@ private fun UseAvailableCouponDialogText(
                     updateCode = updateCode,
                     updateCouponCodeSuccess = updateCouponCodeSuccess,
                     couponCode = couponCode,
+                    couponId = couponId,
+                    placeId = placeId,
                     couponCodeSuccess = couponCodeSuccess,
-                    showDialog = showDialog
+                    showDialog = showDialog,
+                    saveCoupon = saveCoupon
                 )
             }
         }
@@ -222,8 +243,11 @@ private fun UseAvailableCouponDialogText(
                     updateCode = updateCode,
                     updateCouponCodeSuccess = updateCouponCodeSuccess,
                     couponCode = couponCode,
+                    couponId = couponId,
+                    placeId = placeId,
                     couponCodeSuccess = couponCodeSuccess,
-                    showDialog = showDialog
+                    showDialog = showDialog,
+                    saveCoupon = saveCoupon
                 )
             }
         }
@@ -235,18 +259,21 @@ private fun CodeTextField(
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(6.dp),
     placeholder: String = stringResource(id = R.string.my_page_gained_coupon_use_coupon_hint),
-    couponCode: String = "",
+    couponId: Int,
+    placeId: Int,
     maxLines: Int = 1,
     minLines: Int = 1,
-    updateCode: (String) -> Unit,
+    updateCode: (String, Int, Int) -> Unit,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
     val borderLineColor = remember { mutableStateOf(Gray100) }
+    val couponCode = remember { mutableStateOf("") }
 
     BasicTextField(
-        value = couponCode,
+        value = couponCode.value,
         onValueChange = { newCode ->
-            updateCode(newCode)
+            couponCode.value = newCode
+            updateCode(newCode, couponId, placeId)
         },
         singleLine = maxLines == 1,
         maxLines = if (minLines > maxLines) minLines else maxLines,
@@ -272,7 +299,7 @@ private fun CodeTextField(
                         .clip(shape = shape),
                     contentAlignment = Alignment.CenterStart
                 ) {
-                    if (couponCode.isEmpty()) {
+                    if (couponCode.value.isEmpty()) {
                         Text(
                             text = placeholder,
                             color = Gray300,
@@ -289,16 +316,21 @@ private fun CodeTextField(
 
 @Composable
 private fun ConfirmButton(
-    updateCode: (String) -> Unit,
+    updateCode: (String, Int, Int) -> Unit,
     couponCodeSuccess: CheckCouponState,
     updateCouponCodeSuccess: (CheckCouponState) -> Unit,
+    saveCoupon: (UseCoupon) -> Unit,
     showDialog: MutableState<Boolean>,
-    couponCode: String = "",
+    couponCode: String,
+    couponId: Int,
     modifier: Modifier = Modifier,
+    placeId: Int,
     textColor: Color = Main1,
     textStyle: TextStyle = OffroadTheme.typography.btnSmall,
     shape: Shape = RoundedCornerShape(6.dp)
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+
     Text(
         text = stringResource(id = R.string.my_page_gained_coupon_confirm),
         color = textColor,
@@ -310,25 +342,23 @@ private fun ConfirmButton(
             .fillMaxWidth()
             .background(if (couponCode.isEmpty()) Black15 else Main2)
             .padding(vertical = 12.dp)
-            .clickableWithoutRipple(interactionSource = MutableInteractionSource()) {
+            .clickableWithoutRipple(interactionSource = interactionSource) {
                 when (couponCodeSuccess) {
                     CheckCouponState.NONE -> {
-                        val fakeCheckCouponCode = false // 쿠폰 정답 여부 판단 임시 변수
-
-                        if (couponCode.isNotEmpty()) {
-                            if (fakeCheckCouponCode) updateCouponCodeSuccess(CheckCouponState.SUCCESS)
-                            else updateCouponCodeSuccess(CheckCouponState.FAIL)
+                        if (couponCode.isNotBlank()) {
+                            //saveCoupon(UseCoupon(couponCode, couponId, placeId))
+                            //saveCoupon(UseCoupon(couponCode, 854, 1)) // test용
+                            saveCoupon(UseCoupon(couponCode, 1, 854)) // test용
                         }
                     }
 
                     CheckCouponState.SUCCESS -> {
-                        updateCode("")
-                        updateCouponCodeSuccess(CheckCouponState.NONE)
+                        updateCode("", couponId, placeId)
                         showDialog.value = false
                     }
 
                     CheckCouponState.FAIL -> {
-                        updateCode("")
+                        updateCode("", couponId, placeId)
                         updateCouponCodeSuccess(CheckCouponState.NONE)
                         showDialog.value = false
                     }
