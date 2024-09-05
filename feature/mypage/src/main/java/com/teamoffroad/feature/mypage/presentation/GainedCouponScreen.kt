@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -32,6 +33,7 @@ import com.teamoffroad.offroad.feature.mypage.R
 internal fun GainedCouponScreen(
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
     navigateToMyPage: () -> Unit,
+    backgroundColor: Color = ListBg,
     viewModel: GainedCouponViewModel = hiltViewModel()
 ) {
 
@@ -46,16 +48,14 @@ internal fun GainedCouponScreen(
     ) {
         Column(
             modifier = Modifier
-                .background(ListBg)
+                .background(backgroundColor)
                 .fillMaxSize(),
         ) {
             OffroadActionBar()
             NavigateBackAppBar(
-                modifier = Modifier
-                    .background(ListBg)
-                    .padding(top = 20.dp),
+                modifier = Modifier.padding(top = 20.dp),
                 text = stringResource(id = R.string.my_page_my_page),
-                backgroundColor = ListBg
+                backgroundColor = backgroundColor
             ) { navigateToMyPage() }
 
             Row(
