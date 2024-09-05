@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.mypage.data.repository
 
-import android.util.Log
 import com.teamoffroad.feature.mypage.data.remote.response.toEmblemsList
 import com.teamoffroad.feature.mypage.data.remote.service.UserService
 import com.teamoffroad.feature.mypage.domain.model.GainedEmblems
@@ -14,8 +13,6 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun getGainedEmblems(): Result<List<GainedEmblems>?> {
         val gainedEmblemResult = runCatching { userService.getGainedEmblems().data }
         gainedEmblemResult.onSuccess { gainedEmblemsResponseDto ->
-            Log.d("asdasd", "success")
-
             val a = gainedEmblemsResponseDto?.gainedEmblems?.map {
                 it.toEmblemsList()
             }
@@ -27,7 +24,6 @@ class UserRepositoryImpl @Inject constructor(
         }
 
         gainedEmblemResult.onFailure {
-            Log.d("asdasd", it.message.toString())
             return Result.failure(it)
         }
         return Result.failure(UnReachableException("unreachable code"))

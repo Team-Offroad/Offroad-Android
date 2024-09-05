@@ -1,11 +1,12 @@
 package com.teamoffroad.feature.mypage.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.teamoffroad.feature.mypage.domain.model.GainedEmblems
 import com.teamoffroad.feature.mypage.domain.usecase.UserEmblemsUseCase
+import com.teamoffroad.feature.mypage.presentation.model.GainedEmblemsResult
+import com.teamoffroad.feature.mypage.presentation.model.GainedEmblemsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,27 +18,22 @@ class GainedEmblemsViewModel @Inject constructor(
     private val gainedEmblemUserCase: UserEmblemsUseCase
 ) : ViewModel() {
 
-    private val _gainedEmblems = MutableStateFlow<List<GainedEmblems>?>(emptyList())
-    val gainedEmblems: StateFlow<List<GainedEmblems>?> = _gainedEmblems.asStateFlow()
+    private val _emblemsUiState: MutableStateFlow<GainedEmblemsUiState> =
+        MutableStateFlow(GainedEmblemsUiState())
+    val emblemsUiState: StateFlow<GainedEmblemsUiState> = _emblemsUiState.asStateFlow()
 
     fun getEmblems() {
         viewModelScope.launch {
             runCatching {
                 gainedEmblemUserCase.invoke()
             }.onSuccess {
+                _emblemsUiState.value = GainedEmblemsUiState(
+                    it.getOrNull()!!.toImmutableList(),
+                    GainedEmblemsResult.Success
+                )
             }.onFailure {
+                _emblemsUiState.value.copy(nicknameValidateResult = GainedEmblemsResult.Error)
             }
         }
     }
-
-    val assd = mutableListOf(
-        GainedEmblems("ASD", "asd", true, true),
-        GainedEmblems("ASD", "asd", false, true),
-        GainedEmblems("상수 고수 악수 박수", "asd", false, false),
-        GainedEmblems("ASD", "asd", true, false),
-        GainedEmblems("ASD", "asd", true, true),
-        GainedEmblems("ASD", "asd", true, true),
-        GainedEmblems("ASD", "asd", true, true),
-        GainedEmblems("ASD", "asd", true, true)
-    )
 }
