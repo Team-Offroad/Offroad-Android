@@ -11,19 +11,25 @@ class UserRepositoryImpl @Inject constructor(
 ) : UserRepository {
 
     override suspend fun fetchCharacters(): List<Character> {
-        val response = userService.getCharacters().data
+        val characters = userService.getCharacters().data
 
-        val gainedCharacters = response?.gainedCharacters?.map {
-            it.toDomain(
+        val representativeCharacter = characters?.gainedCharacters
+            ?.find { it.characterId == characters.representativeCharacterId }?.toDomain(
                 isGained = true,
-                representativeCharacterId = response.representativeCharacterId,
-            )
-        }.orEmpty()
+                isRepresentative = true,
+            ) ?: return emptyList()
 
-        val notGainedCharacters = response?.notGainedCharacters?.map {
-            it.toDomain(isGained = false)
-        }.orEmpty()
+        val gainedCharacters = characters.gainedCharacters
+            .filter { it.characterId != characters.representativeCharacterId }
+            .map {
+                it.toDomain(isGained = true)
+            }
 
-        return gainedCharacters + notGainedCharacters
+        val notGainedCharacters = characters?.notGainedCharacters
+            ?.map {
+                it.toDomain(isGained = false)
+            }.orEmpty()
+
+        return listOf(representativeCharacter) + gainedCharacters + notGainedCharacters
     }
 }
