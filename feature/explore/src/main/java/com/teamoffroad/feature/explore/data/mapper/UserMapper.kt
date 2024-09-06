@@ -16,6 +16,6 @@ fun ExploreLocationAuthResponseDto.toDomain(): ExploreLocationResult {
     return ExploreLocationResult(
         isValidPosition = isValidPosition,
         successCharacterImageUrl = successCharacterImageUrl,
-        completeQuests = completeQuestList.map { it.name.toString() },
+        completeQuests = completeQuestList?.map { it.name.toString() } ?: emptyList(),
     )
 }

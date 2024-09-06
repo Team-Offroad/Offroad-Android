@@ -226,27 +226,34 @@ fun ExploreOffroadMap(
                             visitCount = place.visitCount,
                             categoryImage = place.categoryImageUrl,
                             onButtonClick = {
+                                /* TODO: QR 및 거리 로직 정
                                 when (isValidDistance(place, locationState.location)) {
                                     true -> {
-                                        /*
                                         if (selectedPlace.placeCategory == PlaceCategory.CAFFE || selectedPlace.placeCategory == PlaceCategory.RESTAURANT) {
                                             navigateToExploreCameraScreen(
                                                 place.id,
                                                 locationState.location.latitude,
                                                 locationState.location.longitude,
                                             )
+                                        } else {
+                                            updateExploreResult(
+                                                place.id,
+                                                locationState.location.latitude,
+                                                locationState.location.longitude,
+                                                place.placeCategory,
+                                            )
                                         }
-                                         */
-                                        updateExploreResult(
-                                            place.id,
-                                            locationState.location.latitude,
-                                            locationState.location.longitude,
-                                            place.placeCategory,
-                                        )
                                     }
 
                                     false -> updateAuthState(ExploreAuthState.LocationError)
                                 }
+                                 */
+                                updateExploreResult(
+                                    place.id,
+                                    locationState.location.latitude,
+                                    locationState.location.longitude,
+                                    place.placeCategory,
+                                )
                                 updateSelectedPlace(null)
                             },
                             onCloseButtonClick = {
