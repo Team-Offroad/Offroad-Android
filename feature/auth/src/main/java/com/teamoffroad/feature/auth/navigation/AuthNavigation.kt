@@ -19,10 +19,6 @@ import java.net.URLDecoder
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
-fun NavController.navigateAuth(navOptions: NavOptions) {
-    navigate(Route.Auth, navOptions)
-}
-
 fun NavController.navigateToAgreeTermsAndConditions() {
     navigate(AuthRoute.AgreeTermsAndConditions)
 }

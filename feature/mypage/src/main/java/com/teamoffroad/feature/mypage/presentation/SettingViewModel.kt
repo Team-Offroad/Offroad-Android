@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.mypage.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -53,8 +52,8 @@ class SettingViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching {
                 deleteUserInfoUseCase.invoke(deleteCode)
-            }.onSuccess { Log.d("deleteUserInfoSuccess", it.getOrNull().toString()) }
-                .onFailure { Log.d("deleteUserInfoFail", it.message.toString()) }
+            }.onSuccess {}
+                .onFailure {}
         }
     }
 

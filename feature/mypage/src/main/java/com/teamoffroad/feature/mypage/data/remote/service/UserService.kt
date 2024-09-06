@@ -1,6 +1,8 @@
 package com.teamoffroad.feature.mypage.data.remote.service
 
 import com.teamoffroad.core.common.data.remote.response.BaseResponse
+import com.teamoffroad.feature.mypage.data.remote.request.DeleteUserInfoRequestDto
+import com.teamoffroad.feature.mypage.data.remote.request.MarketingInfoRequestDto
 import com.teamoffroad.feature.mypage.data.remote.response.DeleteUserInfoResponseDto
 import com.teamoffroad.feature.mypage.data.remote.response.GainedEmblemsResponseDto
 import com.teamoffroad.feature.mypage.data.remote.response.MarketingInfoResponseDto
@@ -13,13 +15,13 @@ interface UserService {
     @GET("emblems")
     suspend fun getGainedEmblems(): BaseResponse<GainedEmblemsResponseDto>
 
-    @PATCH("agree")
+    @PATCH("users/agree")
     suspend fun patchMarketingInfo(
-        @Body marketing: Boolean,
+        @Body marketing: MarketingInfoRequestDto,
     ): BaseResponse<MarketingInfoResponseDto>
 
-    @POST("delete")
+    @POST("users/delete")
     suspend fun deleteUserInfo(
-        @Body deleteCode: String,
+        @Body deleteCode: DeleteUserInfoRequestDto,
     ): BaseResponse<DeleteUserInfoResponseDto>
 }

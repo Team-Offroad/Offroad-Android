@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class MarketingInfoResponseDto(
-    val marketing: BaseResponse<Unit>
+    val marketing: BaseResponse<Boolean>
 )
