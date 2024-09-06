@@ -37,6 +37,10 @@ internal fun ExploreScreen(
         }
     }
 
+    LaunchedEffect(Unit) {
+        exploreViewModel.updatePlaces()
+    }
+
     if (!uiState.loading && uiState.places.isEmpty()) exploreViewModel.updatePlaces()
     if (uiState.isUpdatePlacesFailed) {
         Toast.makeText(context, stringResource(R.string.explore_places_failed), Toast.LENGTH_SHORT).show()
