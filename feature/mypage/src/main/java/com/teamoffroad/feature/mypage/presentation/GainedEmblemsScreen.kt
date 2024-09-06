@@ -23,7 +23,6 @@ import com.teamoffroad.feature.mypage.presentation.component.GainedEmblemsItems
 import com.teamoffroad.feature.mypage.presentation.model.GainedEmblemsResult
 import com.teamoffroad.offroad.feature.mypage.R
 
-@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 internal fun GainedEmblemsScreen(
     navigateToBack: () -> Unit,

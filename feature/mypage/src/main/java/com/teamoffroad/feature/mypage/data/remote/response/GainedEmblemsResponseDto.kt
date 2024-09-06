@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class GainedEmblemsResponseDto(
     @SerialName("gainedEmblems")
-    val gainedEmblems: List<GainedEmblem>,
+    val gainedEmblemResponseDtos: List<GainedEmblemResponseDto>,
     @SerialName("notGainedEmblems")
-    val notGainedEmblems: List<NotGainedEmblem>
+    val notGainedEmblemResponseDtos: List<NotGainedEmblemResponseDto>
 )
