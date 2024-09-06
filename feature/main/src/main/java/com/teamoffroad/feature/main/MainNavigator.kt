@@ -55,19 +55,10 @@ internal class MainNavigator(
         }
     }
 
-    private val exploreTabNavOptions by lazy {
-        navOptions {
-            popUpTo(navController.graph.startDestinationId) {
-                saveState = true
-            }
-            launchSingleTop = true
-        }
-    }
-
     fun navigate(tab: MainNavTab) {
         when (tab) {
             MainNavTab.HOME -> navController.navigateToHome(navOptions = mainTabNavOptions)
-            MainNavTab.EXPLORE -> navController.navigateToExplore(navOptions = exploreTabNavOptions)
+            MainNavTab.EXPLORE -> navController.navigateToExplore(navOptions = mainTabNavOptions)
             MainNavTab.MYPAGE -> navController.navigateToMyPage(navOptions = mainTabNavOptions)
         }
     }
