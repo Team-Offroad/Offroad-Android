@@ -52,7 +52,7 @@ fun GainedCharacterScreen(
         OffroadActionBar()
         NavigateBackAppBar(
             text = stringResource(R.string.my_page_my_page),
-            modifier = Modifier.padding(top = 20.dp)
+            modifier = Modifier.padding(top = 20.dp),
         ) {
             navigateToMyPage()
         }
