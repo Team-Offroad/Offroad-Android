@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -76,9 +77,30 @@ fun AvailableCouponItem(
             .clickableWithoutRipple(interactionSource = remember {
                 MutableInteractionSource()
             }) {
-                navigateToAvailableCouponDetail(coupon.id, coupon.name, coupon.couponImageUrl, coupon.description, coupon.placeId)
+                navigateToAvailableCouponDetail(
+                    coupon.id,
+                    coupon.name,
+                    coupon.couponImageUrl,
+                    coupon.description,
+                    coupon.placeId
+                )
             }
     ) {
+        if (coupon.isNewGained) {
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.TopEnd
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.img_coupon_new),
+                    contentDescription = "new coupon",
+                    modifier = Modifier
+                        .padding(top = 16.dp, end = 16.dp)
+                        .size(24.dp)
+                )
+            }
+        }
+
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
