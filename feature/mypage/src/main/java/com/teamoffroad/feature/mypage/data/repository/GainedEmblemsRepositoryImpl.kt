@@ -3,7 +3,7 @@ package com.teamoffroad.feature.mypage.data.repository
 import com.teamoffroad.feature.mypage.data.mapper.toGainedEmblemsList
 import com.teamoffroad.feature.mypage.data.mapper.toNotGainedEmblemsList
 import com.teamoffroad.feature.mypage.data.remote.service.EmblemService
-import com.teamoffroad.feature.mypage.domain.model.GainedEmblems
+import com.teamoffroad.feature.mypage.domain.model.GainedEmblem
 import com.teamoffroad.feature.mypage.domain.repository.GainedEmblemsRepository
 import javax.inject.Inject
 
@@ -11,7 +11,7 @@ class GainedEmblemsRepositoryImpl @Inject constructor(
     private val userService: EmblemService
 ) : GainedEmblemsRepository {
 
-    override suspend fun getGainedEmblems(): Result<List<GainedEmblems>?> {
+    override suspend fun getGainedEmblems(): Result<List<GainedEmblem>?> {
         val gainedEmblemResult = runCatching { userService.getGainedEmblems().data }
         gainedEmblemResult.onSuccess { gainedEmblemsResponseDto ->
             val gainedEmblemsList = gainedEmblemsResponseDto?.gainedEmblemResponseDtos?.map {
