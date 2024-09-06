@@ -1,6 +1,8 @@
 package com.teamoffroad.feature.auth.presentation
 
 import android.app.Activity
+import android.content.Context
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -20,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -27,6 +30,10 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.common.model.ClientError
+import com.kakao.sdk.common.model.ClientErrorCause
+import com.kakao.sdk.user.UserApiClient
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Kakao
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -42,6 +49,7 @@ internal fun AuthScreen(
     navigateToAgreeTermsAndConditions: () -> Unit,
     viewModel: AuthViewModel = hiltViewModel(),
 ) {
+    val context = LocalContext.current
     val isSignInSuccess by viewModel.successSignIn.collectAsStateWithLifecycle()
     val isAutoSignIn by viewModel.autoSignIn.collectAsStateWithLifecycle()
     val isAlreadyExist by viewModel.alreadyExist.collectAsStateWithLifecycle()
@@ -54,6 +62,7 @@ internal fun AuthScreen(
             viewModel.performGoogleSignIn(task)
         }
     }
+
     LaunchedEffect(Unit) {
         viewModel.clearDataStore()
         signInLauncherInitialized = true
@@ -95,7 +104,7 @@ internal fun AuthScreen(
                 painter = painterResource(id = R.drawable.ic_auth_kakao_logo),
                 background = Kakao,
                 contentDescription = "auth_kakao",
-                onClick = navigateToAgreeTermsAndConditions,
+                onClick = {kako(context)},
                 modifier = Modifier.constrainAs(kakaoLogin) {
                     start.linkTo(parent.start, margin = 24.dp)
                     end.linkTo(parent.end, margin = 24.dp)
@@ -167,5 +176,31 @@ fun ClickableImage(
                     }
             )
         }
+    }
+}
+val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+    Log.d("asdasd", "콜백실행")
+    if (error != null) {
+        Log.d("asdas", error.message.toString())
+    } else if (token != null) {
+        Log.d("asdasdasd", token.toString()
+        )
+    }
+    Log.d("asdas", error?.message.toString())
+}
+fun kako(context: Context) {
+    if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
+        UserApiClient.instance.loginWithKakaoTalk(context = context) { token, error ->
+            if (error != null) {
+                if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
+                    return@loginWithKakaoTalk
+                }
+                UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
+            } else if (token != null) {
+                Log.d("asdas", token.toString())
+            }
+        }
+    } else {
+        UserApiClient.instance.loginWithKakaoAccount(context = context, callback = callback)
     }
 }

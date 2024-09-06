@@ -64,6 +64,11 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    fun performKakaoSignIn(){
+        viewModelScope.launch {  }
+
+    }
+
     private suspend fun signIn(socialPlatform: String, name: String?, code: String) {
         viewModelScope.launch {
             runCatching {
