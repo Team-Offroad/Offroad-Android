@@ -9,4 +9,6 @@ data class CharactersResponseDto(
     val gainedCharacters: List<CharacterResponseDto>,
     @SerialName("notGainedCharacters")
     val notGainedCharacters: List<CharacterResponseDto>,
+    @SerialName("representativeCharacterId")
+    val representativeCharacterId: Int,
 )

@@ -10,6 +10,7 @@ fun Character.toUi(): CharacterModel {
         characterThumbnailImageUrl = characterThumbnailImageUrl,
         characterMainColorCode = characterMainColorCode,
         characterSubColorCode = characterSubColorCode,
+        isRepresentative = isRepresentative,
         isNewGained = isNewGained,
         isGained = isGained,
     )

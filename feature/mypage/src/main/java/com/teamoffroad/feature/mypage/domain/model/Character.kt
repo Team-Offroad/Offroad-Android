@@ -6,6 +6,7 @@ data class Character(
     val characterThumbnailImageUrl: String,
     val characterMainColorCode: Long,
     val characterSubColorCode: Long,
+    val isRepresentative: Boolean,
     val isNewGained: Boolean,
     val isGained: Boolean,
 )
