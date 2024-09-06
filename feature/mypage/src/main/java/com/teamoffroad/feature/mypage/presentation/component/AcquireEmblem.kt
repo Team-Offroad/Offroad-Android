@@ -16,16 +16,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub4
 import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
-fun AcquireEmblem() {
+fun AcquireEmblem(
+    navigateToGainedEmblems: () -> Unit,
+) {
     Surface(
         modifier = Modifier
             .clip(shape = RoundedCornerShape(10.dp))
             .fillMaxSize()
+            .clickableWithoutRipple { navigateToGainedEmblems() }
     ) {
         Box(
             modifier = Modifier.background(Color(0xFFFFE1C5))
@@ -38,7 +42,9 @@ fun AcquireEmblem() {
                     .padding(start = 16.dp, top = 16.dp)
             )
             Box(
-                modifier = Modifier.fillMaxSize().padding(top = 42.dp, start = 32.dp, end = 4.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 42.dp, start = 32.dp, end = 4.dp),
                 contentAlignment = Alignment.BottomEnd
             ) {
                 Image(

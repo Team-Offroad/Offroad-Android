@@ -1,6 +1,6 @@
 package com.teamoffroad.feature.explore.presentation.model
 
-enum class PlaceCategory(val krTitle: String) {
+enum class PlaceCategory(val krName: String) {
     CAFFE("카페"),
     PARK("공원"),
     RESTAURANT("식당"),
