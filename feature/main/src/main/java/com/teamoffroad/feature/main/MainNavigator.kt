@@ -22,11 +22,15 @@ import com.teamoffroad.feature.explore.navigation.navigateToExploreCamera
 import com.teamoffroad.feature.explore.navigation.navigateToPlace
 import com.teamoffroad.feature.explore.navigation.navigateToQuest
 import com.teamoffroad.feature.home.navigation.navigateToHome
+import com.teamoffroad.feature.mypage.navigation.navigateToAnnouncement
+import com.teamoffroad.feature.mypage.navigation.navigateToAnnouncementDetail
 import com.teamoffroad.feature.mypage.navigation.navigateToAvailableCouponDetail
 import com.teamoffroad.feature.mypage.navigation.navigateToGainedCharacter
 import com.teamoffroad.feature.mypage.navigation.navigateToGainedCoupon
 import com.teamoffroad.feature.mypage.navigation.navigateToGainedEmblems
 import com.teamoffroad.feature.mypage.navigation.navigateToMyPage
+import com.teamoffroad.feature.mypage.navigation.navigateToSetting
+import com.teamoffroad.feature.mypage.navigation.navigateToSignIn
 
 internal class MainNavigator(
     val navController: NavHostController,
@@ -84,6 +88,10 @@ internal class MainNavigator(
     fun setBackButtonListenerEnabled() = MainNavTab.contains {
         currentDestination?.hasRoute(it::class) == true
     } || currentDestination?.hasRoute<Route.Auth>() == true
+
+    fun navigateToSignIn() {
+        navController.navigateToSignIn()
+    }
 
     fun navigateToHome(category: String? = null) {
         navController.navigateToHome(category, navOptions)
@@ -152,6 +160,23 @@ internal class MainNavigator(
 
     fun navigateToGainedEmblems() {
         navController.navigateToGainedEmblems()
+    }
+
+    fun navigateToSetting() {
+        navController.navigateToSetting()
+    }
+
+    fun navigateToAnnouncement() {
+        navController.navigateToAnnouncement()
+    }
+
+    fun navigateToAnnouncementDetail(
+        title: String,
+        content: String,
+        link: String,
+        isImportant: Boolean
+    ) {
+        navController.navigateToAnnouncementDetail(title, content, link, isImportant)
     }
 }
 

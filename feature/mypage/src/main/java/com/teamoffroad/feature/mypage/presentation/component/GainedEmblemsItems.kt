@@ -11,12 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.ListBg
-import com.teamoffroad.feature.mypage.domain.model.GainedEmblems
+import com.teamoffroad.feature.mypage.presentation.model.GainedEmblemsUiState
 
 @Composable
 fun GainedEmblemsItems(
     modifier: Modifier = Modifier,
-    gainedEmblemsList: List<GainedEmblems>
+    isEmblemState: GainedEmblemsUiState,
 ) {
     LazyColumn(
         modifier = modifier
@@ -27,7 +27,7 @@ fun GainedEmblemsItems(
         item {
             Spacer(modifier = Modifier.height(4.dp))
         }
-        items(gainedEmblemsList) { it ->
+        items(isEmblemState.emblemList) { it ->
             EmblemContainer(
                 title = it.emblemTitle,
                 subTitle = it.emblemSubtitle,

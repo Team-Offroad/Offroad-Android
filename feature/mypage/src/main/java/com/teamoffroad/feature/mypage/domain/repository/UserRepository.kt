@@ -4,4 +4,6 @@ import com.teamoffroad.feature.mypage.domain.model.GainedEmblems
 
 interface UserRepository {
     suspend fun getGainedEmblems(): Result<List<GainedEmblems>?>
+    suspend fun patchMarketingInfo(): Result<Unit>
+    suspend fun deleteUserInfo(deleteCode: String): Result<Unit>
 }

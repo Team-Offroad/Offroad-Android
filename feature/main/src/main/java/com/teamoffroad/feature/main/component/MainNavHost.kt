@@ -62,12 +62,16 @@ internal fun MainNavHost(
                     navigator.navigateToGainedCoupon()
                 },
                 navigateToAvailableCouponDetail = { id, name, couponImageUrl, description ->
-                    navigator.navigateToAvailableCouponDetail(id, name,couponImageUrl, description)
+                    navigator.navigateToAvailableCouponDetail(id, name, couponImageUrl, description)
                 },
                 navigateToGainedCharacter = {
                     navigator.navigateToGainedCharacter()
                 },
                 navigateToGainedEmblems = navigator::navigateToGainedEmblems,
+                navigateToSetting = navigator::navigateToSetting,
+                navigateToAnnouncement = navigator::navigateToAnnouncement,
+                navigateToAnnouncementDetail = navigator::navigateToAnnouncementDetail,
+                navigateToSignIn = navigator::navigateToSignIn,
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
             )
             authNavGraph(
