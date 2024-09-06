@@ -39,7 +39,6 @@ internal fun SettingScreen(
 ) {
     val isSettingUiState by viewModel.settingUiState.collectAsState()
 
-    viewModel.patchMarketingInfo()
     Column(
         modifier = modifier
             .background(Main1)
