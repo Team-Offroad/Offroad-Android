@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.core.navigation.Route
+import com.teamoffroad.feature.auth.navigation.navigateToAgreeTermsAndConditions
 import com.teamoffroad.feature.auth.navigation.navigateToSelectedCharacter
 import com.teamoffroad.feature.auth.navigation.navigateToSetBirthDate
 import com.teamoffroad.feature.auth.navigation.navigateToSetCharacter
@@ -21,10 +22,15 @@ import com.teamoffroad.feature.explore.navigation.navigateToExploreCamera
 import com.teamoffroad.feature.explore.navigation.navigateToPlace
 import com.teamoffroad.feature.explore.navigation.navigateToQuest
 import com.teamoffroad.feature.home.navigation.navigateToHome
+import com.teamoffroad.feature.mypage.navigation.navigateToAnnouncement
+import com.teamoffroad.feature.mypage.navigation.navigateToAnnouncementDetail
 import com.teamoffroad.feature.mypage.navigation.navigateToAvailableCouponDetail
 import com.teamoffroad.feature.mypage.navigation.navigateToGainedCharacter
 import com.teamoffroad.feature.mypage.navigation.navigateToGainedCoupon
+import com.teamoffroad.feature.mypage.navigation.navigateToGainedEmblems
 import com.teamoffroad.feature.mypage.navigation.navigateToMyPage
+import com.teamoffroad.feature.mypage.navigation.navigateToSetting
+import com.teamoffroad.feature.mypage.navigation.navigateToSignIn
 
 internal class MainNavigator(
     val navController: NavHostController,
@@ -83,8 +89,16 @@ internal class MainNavigator(
         currentDestination?.hasRoute(it::class) == true
     } || currentDestination?.hasRoute<Route.Auth>() == true
 
+    fun navigateToSignIn() {
+        navController.navigateToSignIn()
+    }
+
     fun navigateToHome(category: String? = null) {
         navController.navigateToHome(category, navOptions)
+    }
+
+    fun navigateToAgreeTermsAndConditions() {
+        navController.navigateToAgreeTermsAndConditions()
     }
 
     fun navigateToSetNickname() {
@@ -119,7 +133,12 @@ internal class MainNavigator(
         navController.navigateToGainedCoupon()
     }
 
-    fun navigateToAvailableCouponDetail(id: Int, name: String, couponImageUrl: String, description: String) {
+    fun navigateToAvailableCouponDetail(
+        id: Int,
+        name: String,
+        couponImageUrl: String,
+        description: String
+    ) {
         navController.navigateToAvailableCouponDetail(id, name, couponImageUrl, description)
     }
 
@@ -137,6 +156,27 @@ internal class MainNavigator(
 
     fun navigateToGainedCharacter() {
         navController.navigateToGainedCharacter()
+    }
+
+    fun navigateToGainedEmblems() {
+        navController.navigateToGainedEmblems()
+    }
+
+    fun navigateToSetting() {
+        navController.navigateToSetting()
+    }
+
+    fun navigateToAnnouncement() {
+        navController.navigateToAnnouncement()
+    }
+
+    fun navigateToAnnouncementDetail(
+        title: String,
+        content: String,
+        link: String,
+        isImportant: Boolean
+    ) {
+        navController.navigateToAnnouncementDetail(title, content, link, isImportant)
     }
 }
 
