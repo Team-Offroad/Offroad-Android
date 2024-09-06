@@ -1,7 +1,9 @@
 package com.teamoffroad.feature.mypage.data.di
 
-import com.teamoffroad.feature.mypage.data.repository.UserRepositoryImpl
-import com.teamoffroad.feature.mypage.domain.repository.UserRepository
+import com.teamoffroad.feature.mypage.data.repository.MyPageUserImpl
+import com.teamoffroad.feature.mypage.domain.repository.MyPageUserRepository
+import com.teamoffroad.feature.mypage.data.repository.GainedEmblemsRepositoryImpl
+import com.teamoffroad.feature.mypage.domain.repository.GainedEmblemsRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,7 +16,13 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
+    abstract fun bindUserCouponsRepository(
+        userCouponsRepositoryImpl: MyPageUserImpl
+    ): MyPageUserRepository
+
+    @Binds
+    @Singleton
     abstract fun bindUserEmblemsRepository(
-        userEmblemsRepositoryImpl: UserRepositoryImpl
-    ): UserRepository
+        userEmblemsRepositoryImpl: GainedEmblemsRepositoryImpl
+    ): GainedEmblemsRepository
 }
