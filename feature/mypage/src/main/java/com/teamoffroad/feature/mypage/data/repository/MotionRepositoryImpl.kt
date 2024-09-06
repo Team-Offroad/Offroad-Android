@@ -13,8 +13,8 @@ class MotionRepositoryImpl @Inject constructor(
     override suspend fun fetchCharacterMotions(characterId: Int): List<CharacterMotion> {
         val motions = motionService.getCharacterMotions(characterId).data ?: return emptyList()
 
-        val gainedCharacterMotions = motions.gainedCharacterMotions.map { it.toDomain() }
-        val notGainedCharacterMotions = motions.notGainedCharacterMotions.map { it.toDomain() }
+        val gainedCharacterMotions = motions.gainedCharacterMotions.map { it.toDomain(true) }
+        val notGainedCharacterMotions = motions.notGainedCharacterMotions.map { it.toDomain(false) }
 
         return gainedCharacterMotions + notGainedCharacterMotions
     }

@@ -2,9 +2,11 @@ package com.teamoffroad.feature.mypage.data.di
 
 import com.teamoffroad.feature.mypage.data.repository.CharacterRepositoryImpl
 import com.teamoffroad.feature.mypage.data.repository.EmblemRepositoryImpl
+import com.teamoffroad.feature.mypage.data.repository.MotionRepositoryImpl
 import com.teamoffroad.feature.mypage.data.repository.UserRepositoryImpl
 import com.teamoffroad.feature.mypage.domain.repository.CharacterRepository
 import com.teamoffroad.feature.mypage.domain.repository.EmblemRepository
+import com.teamoffroad.feature.mypage.domain.repository.MotionRepository
 import com.teamoffroad.feature.mypage.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
@@ -29,4 +31,9 @@ abstract class RepositoryModule {
     abstract fun bindCharacterRepository(
         characterRepositoryImpl: CharacterRepositoryImpl,
     ): CharacterRepository
+
+    @Binds
+    abstract fun bindMotionRepository(
+        motionRepositoryImpl: MotionRepositoryImpl,
+    ): MotionRepository
 }

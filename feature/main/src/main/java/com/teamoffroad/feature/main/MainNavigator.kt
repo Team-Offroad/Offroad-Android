@@ -180,8 +180,8 @@ internal class MainNavigator(
         navController.navigateToAnnouncementDetail(title, content, link, isImportant)
     }
 
-    fun navigateToCharacterDetail(characterId: Int) {
-        navController.navigateToCharacterDetail(characterId)
+    fun navigateToCharacterDetail(characterId: Int, isRepresentative: Boolean) {
+        navController.navigateToCharacterDetail(characterId, isRepresentative)
     }
 }
 

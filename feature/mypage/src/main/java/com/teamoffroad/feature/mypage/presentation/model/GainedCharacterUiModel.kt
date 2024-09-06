@@ -5,7 +5,6 @@ data class CharacterModel(
     val characterName: String = "",
     val characterThumbnailImageUrl: String = "",
     val characterMainColorCode: Long = 0,
-    val characterFrameColorCode: Long = 0,
     val characterSubColorCode: Long = 0,
     val isRepresentative: Boolean = false,
     val isNewGained: Boolean = false,

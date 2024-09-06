@@ -83,5 +83,9 @@ sealed interface MyPageRoute : Route {
         val isImportant: Boolean,
     ) : MyPageRoute
 
-    data class CharacterDetail(val characterId: Int) : MyPageRoute
+    @Serializable
+    data class CharacterDetail(
+        val characterId: Int,
+        val isRepresentative: Boolean,
+    ) : MyPageRoute
 }

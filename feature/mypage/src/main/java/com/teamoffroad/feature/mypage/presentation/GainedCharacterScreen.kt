@@ -13,7 +13,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -22,7 +21,6 @@ import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main1
-import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.mypage.presentation.component.CharacterFrameItem
 import com.teamoffroad.feature.mypage.presentation.component.GainedCharacterHeader
 import com.teamoffroad.feature.mypage.presentation.model.CharacterModel
@@ -34,7 +32,7 @@ import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
 fun GainedCharacterScreen(
-    navigateToCharacterDetail: (Int) -> Unit,
+    navigateToCharacterDetail: (Int, Boolean) -> Unit,
     navigateToMyPage: () -> Unit,
     gainedCharacterViewModel: GainedCharacterViewModel = hiltViewModel(),
 ) {
@@ -48,6 +46,7 @@ fun GainedCharacterScreen(
     Column(
         modifier = Modifier
             .then(GestureNavigation())
+            .fillMaxSize()
             .background(color = Main1)
     ) {
         OffroadActionBar()
@@ -68,7 +67,7 @@ fun GainedCharacterScreen(
 @Composable
 private fun GainedCharacterUiStateHandler(
     uiState: State<GainedCharacterUiState>,
-    navigateToCharacterDetail: (Int) -> Unit,
+    navigateToCharacterDetail: (Int, Boolean) -> Unit,
 ) {
     when (uiState.value) {
         is Loading -> Unit
@@ -88,10 +87,10 @@ private fun GainedCharacterUiStateHandler(
 @Composable
 fun GainedCharacterItems(
     gainedCharacterList: List<CharacterModel>,
-    navigateToCharacterDetail: (Int) -> Unit,
+    navigateToCharacterDetail: (Int, Boolean) -> Unit,
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(2),  // 한 열에 2개의 아이템
+        columns = GridCells.Fixed(2),
         modifier = Modifier
             .fillMaxSize()
             .background(color = ListBg)
@@ -103,26 +102,18 @@ fun GainedCharacterItems(
                 modifier = Modifier
                     .padding(10.dp),
                 characterLabel = character.characterName,
-                characterMainColor = character.characterMainColorCode,
-                characterFrameColor = character.characterFrameColorCode,
+                characterMainColor = character.characterSubColorCode,
+                characterFrameColor = character.characterMainColorCode,
                 characterThumbnailImageUrl = character.characterThumbnailImageUrl,
                 isGained = character.isGained,
                 isRepresentative = character.isRepresentative,
                 isNewGained = character.isNewGained,
                 onClick = {
                     if (character.isGained) {
-                        navigateToCharacterDetail(character.characterId)
+                        navigateToCharacterDetail(character.characterId, character.isRepresentative)
                     }
                 },
             )
         }
-    }
-}
-
-@Preview
-@Composable
-fun GainedCharacterScreenPreview() {
-    OffroadTheme {
-        GainedCharacterScreen({}, {})
     }
 }

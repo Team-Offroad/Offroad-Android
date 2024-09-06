@@ -7,6 +7,7 @@ import com.teamoffroad.feature.mypage.domain.usecase.GetCharacterMotionListUseCa
 import com.teamoffroad.feature.mypage.presentation.mapper.toUi
 import com.teamoffroad.feature.mypage.presentation.model.CharacterDetailUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,7 +23,7 @@ class CharacterDetailViewModel @Inject constructor(
     private val _uiState: MutableStateFlow<CharacterDetailUiState> = MutableStateFlow(CharacterDetailUiState())
     val uiState: StateFlow<CharacterDetailUiState> = _uiState.asStateFlow()
 
-    fun updateCharacterDetail(characterId: Int) {
+    fun updateCharacterDetail(characterId: Int, isRepresentative: Boolean) {
         viewModelScope.launch {
             runCatching {
                 _uiState.value = uiState.value.copy(
@@ -31,7 +32,7 @@ class CharacterDetailViewModel @Inject constructor(
                 characterDetailUseCase(characterId)
             }.onSuccess {
                 _uiState.value = uiState.value.copy(
-                    characterDetailModel = it.toUi(),
+                    characterDetailModel = it.toUi(isRepresentative),
                 )
                 updateCharacterMotionList(characterId)
             }.onFailure {
@@ -49,13 +50,27 @@ class CharacterDetailViewModel @Inject constructor(
                 characterMotionListUseCase(characterId)
             }.onSuccess {
                 _uiState.value = uiState.value.copy(
-                    characterMotions = it.map { motion -> motion.toUi() },
+                    characterMotions = it.map { motion -> motion.toUi() }.toImmutableList(),
                     isLoading = false,
                 )
             }.onFailure {
                 _uiState.value = uiState.value.copy(
                     isLoading = false,
                     isError = true,
+                )
+            }
+        }
+    }
+
+    fun updateIsRepresentative() {
+        viewModelScope.launch {
+            runCatching {
+            }.onSuccess {
+                _uiState.value = uiState.value.copy(
+                    characterDetailModel = uiState.value.characterDetailModel.copy(
+                        isRepresentative = true,
+                    ),
+                    isRepresentativeUpdateSuccess = true,
                 )
             }
         }

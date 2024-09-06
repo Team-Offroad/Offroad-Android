@@ -61,8 +61,8 @@ fun NavController.navigateToSignIn() {
     navigate(Route.Auth)
 }
 
-fun NavController.navigateToCharacterDetail(characterId: Int) {
-    navigate(MyPageRoute.CharacterDetail(characterId))
+fun NavController.navigateToCharacterDetail(characterId: Int, isRepresentative: Boolean) {
+    navigate(MyPageRoute.CharacterDetail(characterId, isRepresentative))
 }
 
 fun NavGraphBuilder.myPageNavGraph(
@@ -75,7 +75,7 @@ fun NavGraphBuilder.myPageNavGraph(
     navigateToAnnouncement: () -> Unit,
     navigateToAnnouncementDetail: (String, String, String, Boolean) -> Unit,
     navigateToSignIn: () -> Unit,
-    navigateToCharacterDetail: (Int) -> Unit,
+    navigateToCharacterDetail: (Int, Boolean) -> Unit,
     navigateToBack: () -> Unit,
 ) {
     composable<MainTabRoute.MyPage> {
@@ -133,6 +133,7 @@ fun NavGraphBuilder.myPageNavGraph(
 
     composable<MyPageRoute.CharacterDetail> { backStackEntry ->
         val characterId = backStackEntry.toRoute<MyPageRoute.CharacterDetail>().characterId
-        CharacterDetailScreen(characterId, navigateToBack)
+        val isRepresentative = backStackEntry.toRoute<MyPageRoute.CharacterDetail>().isRepresentative
+        CharacterDetailScreen(characterId, isRepresentative, navigateToBack)
     }
 }

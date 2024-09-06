@@ -4,4 +4,5 @@ data class CharacterMotion(
     val category: String,
     val characterMotionImageUrl: String,
     val isNewGained: Boolean,
+    val isGained: Boolean,
 )

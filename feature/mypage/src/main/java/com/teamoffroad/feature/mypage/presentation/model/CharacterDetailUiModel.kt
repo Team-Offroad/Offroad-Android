@@ -9,6 +9,7 @@ data class CharacterDetailModel(
     val characterDescription: String = "",
     val characterMainColorCode: Long = 0,
     val characterSubColorCode: Long = 0,
+    val isRepresentative: Boolean = false,
 )
 
 data class CharacterMotionModel(
@@ -16,4 +17,5 @@ data class CharacterMotionModel(
     val characterMotionImageUrl: String = "",
     val motionName: String = category.krLabel,
     val isNewGained: Boolean = false,
+    val isGained: Boolean = false,
 )

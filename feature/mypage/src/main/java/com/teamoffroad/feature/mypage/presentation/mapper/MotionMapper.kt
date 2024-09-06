@@ -9,5 +9,6 @@ fun CharacterMotion.toUi(): CharacterMotionModel {
         category = CharacterCategory.from(category),
         characterMotionImageUrl = characterMotionImageUrl,
         isNewGained = isNewGained,
+        isGained = isGained,
     )
 }
