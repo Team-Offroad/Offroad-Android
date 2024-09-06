@@ -11,5 +11,7 @@ interface PlaceService {
     suspend fun getPlaces(
         @Query("currentLatitude") currentLatitude: Double,
         @Query("currentLongitude") currentLongitude: Double,
+        @Query("limit") limit: Int,
+        @Query("isBounded") isBounded: Boolean,
     ): BaseResponse<PlacesResponseDto>
 }

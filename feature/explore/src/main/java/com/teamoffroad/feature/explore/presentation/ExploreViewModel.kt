@@ -73,7 +73,7 @@ class ExploreViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             runCatching {
-                getPlaceListUseCase(latitude, longitude).map { it.toUi() }
+                getPlaceListUseCase(latitude, longitude, LOAD_PLACES_LIMIT, true).map { it.toUi() }
             }.onSuccess { places ->
                 _uiState.value = uiState.value.copy(
                     places = places,
@@ -128,5 +128,9 @@ class ExploreViewModel @Inject constructor(
                 updateExploreCameraUiState(ExploreResultState.EtcError)
             }
         }
+    }
+
+    companion object {
+        private const val LOAD_PLACES_LIMIT = 100
     }
 }

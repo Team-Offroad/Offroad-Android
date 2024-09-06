@@ -7,7 +7,7 @@ class GetPlaceListUseCase(
     private val placeRepository: PlaceRepository,
 ) {
 
-    suspend operator fun invoke(latitude: Double, longitude: Double): List<Place> {
-        return placeRepository.fetchPlaces(latitude, longitude)
+    suspend operator fun invoke(latitude: Double, longitude: Double, limit: Int, isBounded: Boolean): List<Place> {
+        return placeRepository.fetchPlaces(latitude, longitude, limit, isBounded)
     }
 }
