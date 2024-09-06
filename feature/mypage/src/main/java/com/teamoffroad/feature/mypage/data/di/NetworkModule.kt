@@ -14,6 +14,12 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    fun provideUserCoupons(retrofit: Retrofit): UserService {
+        return retrofit.create(UserService::class.java)
+    }
+
+    @Provides
+    @Singleton
     fun provideUserEmblems(retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
     }
