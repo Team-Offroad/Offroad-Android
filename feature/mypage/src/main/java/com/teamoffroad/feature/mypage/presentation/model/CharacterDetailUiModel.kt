@@ -13,6 +13,7 @@ data class CharacterDetailModel(
 
 data class CharacterMotionModel(
     val category: CharacterCategory = CharacterCategory.NONE,
-    val motionName: String = "",
+    val characterMotionImageUrl: String = "",
+    val motionName: String = category.krLabel,
     val isNewGained: Boolean = false,
 )

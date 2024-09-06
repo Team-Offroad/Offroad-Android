@@ -3,6 +3,7 @@ package com.teamoffroad.feature.mypage.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.mypage.domain.usecase.GetCharacterDetailUseCase
+import com.teamoffroad.feature.mypage.domain.usecase.GetCharacterMotionListUseCase
 import com.teamoffroad.feature.mypage.presentation.mapper.toUi
 import com.teamoffroad.feature.mypage.presentation.model.CharacterDetailUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,6 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CharacterDetailViewModel @Inject constructor(
     private val characterDetailUseCase: GetCharacterDetailUseCase,
+    private val characterMotionListUseCase: GetCharacterMotionListUseCase,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<CharacterDetailUiState> = MutableStateFlow(CharacterDetailUiState())
@@ -30,6 +32,25 @@ class CharacterDetailViewModel @Inject constructor(
             }.onSuccess {
                 _uiState.value = uiState.value.copy(
                     characterDetailModel = it.toUi(),
+                )
+                updateCharacterMotionList(characterId)
+            }.onFailure {
+                _uiState.value = uiState.value.copy(
+                    isLoading = false,
+                    isError = true,
+                )
+            }
+        }
+    }
+
+    private fun updateCharacterMotionList(characterId: Int) {
+        viewModelScope.launch {
+            runCatching {
+                characterMotionListUseCase(characterId)
+            }.onSuccess {
+                _uiState.value = uiState.value.copy(
+                    characterMotions = it.map { motion -> motion.toUi() },
+                    isLoading = false,
                 )
             }.onFailure {
                 _uiState.value = uiState.value.copy(
