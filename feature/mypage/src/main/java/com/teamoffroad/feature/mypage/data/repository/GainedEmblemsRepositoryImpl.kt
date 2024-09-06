@@ -14,10 +14,10 @@ class GainedEmblemsRepositoryImpl @Inject constructor(
     override suspend fun getGainedEmblems(): Result<List<GainedEmblem>?> {
         val gainedEmblemResult = runCatching { emblemService.getGainedEmblems().data }
         gainedEmblemResult.onSuccess { gainedEmblemsResponseDto ->
-            val gainedEmblemsList = gainedEmblemsResponseDto?.gainedEmblemResponseDtos?.map {
+            val gainedEmblemsList = gainedEmblemsResponseDto?.gainedEmblemResponseDto?.map {
                 it.toGainedEmblemsList()
             }
-            val notGainedEmblemsList = gainedEmblemsResponseDto?.notGainedEmblemResponseDtos?.map {
+            val notGainedEmblemsList = gainedEmblemsResponseDto?.notGainedEmblemResponseDto?.map {
                 it.toNotGainedEmblemsList()
             }
             val list = gainedEmblemsList?.plus(notGainedEmblemsList!!)
