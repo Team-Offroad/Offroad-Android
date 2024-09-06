@@ -101,8 +101,8 @@ internal class MainNavigator(
         navController.navigateToSignIn()
     }
 
-    fun navigateToHome(category: String? = null) {
-        navController.navigateToHome(category, mainTabNavOptions)
+    fun navigateToHome(category: String? = null, completeQuest: List<String> = emptyList()) {
+        navController.navigateToHome(category, completeQuest, this.mainTabNavOptions)
     }
 
     fun navigateToAgreeTermsAndConditions() {
@@ -187,14 +187,14 @@ internal class MainNavigator(
         navController.navigateToAnnouncementDetail(title, content, link, isImportant)
     }
 
-    fun navigateToHomeFromExplore(category: String) {
+    fun navigateToHomeFromExplore(category: String, completeQuest: List<String>) {
         val navOptions = navOptions {
             popUpTo(navController.graph.startDestinationId) {
                 inclusive = true
             }
             launchSingleTop = true
         }
-        navController.navigateToHome(category, navOptions)
+        navController.navigateToHome(category, completeQuest, navOptions)
     }
 }
 

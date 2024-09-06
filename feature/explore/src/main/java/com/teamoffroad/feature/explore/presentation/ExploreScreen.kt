@@ -21,7 +21,7 @@ import com.teamoffroad.offroad.feature.explore.R
 internal fun ExploreScreen(
     authResultState: String?,
     qrResultImageUrl: String?,
-    navigateToHome: (String) -> Unit,
+    navigateToHome: (String, List<String>) -> Unit,
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
     navigateToPlace: () -> Unit,
     navigateToQuest: () -> Unit,
@@ -62,7 +62,7 @@ internal fun ExploreScreen(
         ExplorePermissionRejectedHandler(
             context = context,
             uiState = uiState,
-            navigateToHome = { navigateToHome(PlaceCategory.NONE.name) },
+            navigateToHome = { navigateToHome(PlaceCategory.NONE.name, emptyList()) },
             updatePermission = exploreViewModel::updatePermission,
         )
     }

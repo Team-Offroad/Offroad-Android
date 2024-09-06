@@ -14,13 +14,13 @@ fun ExploreAuthStateHandler(
     uiState: ExploreUiState,
     updateExploreAuthState: (ExploreAuthState) -> Unit,
     qrResultImageUrl: String?,
-    navigateToHome: (String) -> Unit,
+    navigateToHome: (String, List<String>) -> Unit,
 ) {
     val imageUrl = when (uiState.authResultType) {
         is ExploreAuthState.Success -> uiState.authResultType.characterImageUrl
         else -> qrResultImageUrl
     }
-    
+
     when (uiState.authResultType) {
         ExploreAuthState.LocationError -> {
             ExploreResultDialog(
@@ -60,7 +60,7 @@ fun ExploreAuthStateHandler(
                 content = { ExploreSuccessDialogContent(url = imageUrl) },
                 onDismissRequest = {
                     updateExploreAuthState(ExploreAuthState.None)
-                    navigateToHome(uiState.authResultType.category.name)
+                    navigateToHome(uiState.authResultType.category.name, uiState.authResultType.completeQuests)
                 }
             )
         }

@@ -45,6 +45,7 @@ import com.teamoffroad.offroad.feature.home.R
 @Composable
 fun HomeScreen(
     category: String?,
+    completeQuests: List<String> = emptyList(),
 ) {
     val context = LocalContext.current
     val viewModel: HomeViewModel = hiltViewModel()

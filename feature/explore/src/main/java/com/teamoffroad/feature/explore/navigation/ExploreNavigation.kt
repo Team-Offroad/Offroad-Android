@@ -43,7 +43,7 @@ fun NavController.navigateToQuest() {
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun NavGraphBuilder.exploreNavGraph(
-    navigateToHome: (String) -> Unit,
+    navigateToHome: (String, List<String>) -> Unit,
     navigateToExplore: (String, String) -> Unit,
     navigateToExploreCamera: (Long, Double, Double) -> Unit,
     navigateToPlace: () -> Unit,

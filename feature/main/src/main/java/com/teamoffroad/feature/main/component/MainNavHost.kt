@@ -36,8 +36,8 @@ internal fun MainNavHost(
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
             )
             exploreNavGraph(
-                navigateToHome = { category ->
-                    navigator.navigateToHomeFromExplore(category)
+                navigateToHome = { category, completeQuests ->
+                    navigator.navigateToHomeFromExplore(category, completeQuests)
                 },
                 navigateToExplore = { errorType, successImageUrl ->
                     navigator.navigateToExplore(errorType, successImageUrl)
