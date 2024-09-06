@@ -13,4 +13,7 @@ dependencies {
     implementation(libs.retrofit.kotlinx.serialization)
     implementation(libs.coil.svg)
     implementation(libs.lottie.compose)
+    implementation(libs.gson)
+    implementation(libs.kotlinx.collections.immutable)
+    implementation(libs.google.play.services.auth)
 }

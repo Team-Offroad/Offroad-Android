@@ -14,10 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.ExpandableItem
 import com.teamoffroad.core.designsystem.theme.ListBg
-import com.teamoffroad.feature.explore.presentation.model.FakeQuestModel
+import com.teamoffroad.feature.explore.presentation.model.QuestModel
 
 @Composable
-fun QuestItems(quests: List<FakeQuestModel>) {
+fun QuestItems(
+    quests: List<QuestModel>,
+) {
     var expandedIndex by remember { mutableIntStateOf(NULL_INDEX) }
 
     LazyColumn(

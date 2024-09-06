@@ -20,7 +20,7 @@ import com.teamoffroad.core.designsystem.theme.White
 @Composable
 fun ExploreSwitch(
     isChecked: Boolean,
-    onCheckedChange: (Boolean) -> Unit,
+    onTap: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     width: Dp = 40.dp,
     height: Dp = 20.dp,
@@ -35,7 +35,7 @@ fun ExploreSwitch(
         targetValue = if (isChecked)
             with(LocalDensity.current) { (width - thumbRadius - gapBetweenThumbAndTrackEdge).toPx() }
         else
-            with(LocalDensity.current) { (thumbRadius + gapBetweenThumbAndTrackEdge).toPx() }
+            with(LocalDensity.current) { (thumbRadius + gapBetweenThumbAndTrackEdge).toPx() }, label = ""
     )
 
     Canvas(
@@ -44,7 +44,7 @@ fun ExploreSwitch(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
-                        onCheckedChange(!isChecked)
+                        onTap(!isChecked)
                     }
                 )
             }

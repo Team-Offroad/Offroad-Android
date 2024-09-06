@@ -4,11 +4,11 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.teamoffroad.core.navigation.AuthRoute
 import com.teamoffroad.core.navigation.Route
+import com.teamoffroad.feature.auth.presentation.AgreeTermsAndConditionsScreen
 import com.teamoffroad.feature.auth.presentation.AuthScreen
 import com.teamoffroad.feature.auth.presentation.SelectedCharacterScreen
 import com.teamoffroad.feature.auth.presentation.SetBirthDateScreen
@@ -19,8 +19,8 @@ import java.net.URLDecoder
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
-fun NavController.navigateAuth(navOptions: NavOptions) {
-    navigate(Route.Auth, navOptions)
+fun NavController.navigateToAgreeTermsAndConditions() {
+    navigate(AuthRoute.AgreeTermsAndConditions)
 }
 
 fun NavController.navigateToSetNickname() {
@@ -52,6 +52,7 @@ fun NavController.navigateToSelectedCharacter(
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun NavGraphBuilder.authNavGraph(
     navigateToHome: () -> Unit,
+    navigateToAgreeTermsAndConditions: () -> Unit,
     navigateToSetNickname: () -> Unit,
     navigateToSetBirthDate: (String) -> Unit,
     navigateToSetGender: (String, String?) -> Unit,
@@ -62,9 +63,15 @@ fun NavGraphBuilder.authNavGraph(
     composable<Route.Auth> {
         AuthScreen(
             navigateToHome,
-            navigateToSetNickname,
+            navigateToAgreeTermsAndConditions,
         )
     }
+    composable<AuthRoute.AgreeTermsAndConditions> {
+        AgreeTermsAndConditionsScreen(
+            navigateToSetNickname
+        )
+    }
+
     composable<AuthRoute.SetNickname> {
         SetNicknameScreen(
             navigateToSetBirthDate,

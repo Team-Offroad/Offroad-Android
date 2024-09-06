@@ -37,7 +37,7 @@ fun ExploreRefreshButton(
         modifier = modifier
             .width(126.dp)
             .height(32.dp)
-            .border(1.dp, Gray100, shape = RoundedCornerShape(radius.dp))
+            .border(1.dp, color = Gray100, shape = RoundedCornerShape(radius.dp))
             .shadow(2.dp, shape = RoundedCornerShape(radius.dp))
             .background(color = White, shape = RoundedCornerShape(radius.dp))
             .clickable(onClick = onClick),
