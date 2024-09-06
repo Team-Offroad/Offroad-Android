@@ -1,10 +1,9 @@
 package com.teamoffroad.feature.mypage.data.di
 
-import com.teamoffroad.feature.mypage.domain.repository.MyPageUserRepository
-import com.teamoffroad.feature.mypage.domain.usecase.MyPageUserUseCase
 import com.teamoffroad.feature.mypage.domain.repository.GainedEmblemsRepository
-import com.teamoffroad.feature.mypage.domain.repository.UserRepository
+import com.teamoffroad.feature.mypage.domain.repository.MyPageUserRepository
 import com.teamoffroad.feature.mypage.domain.usecase.DeleteUserInfoUseCase
+import com.teamoffroad.feature.mypage.domain.usecase.MyPageUserUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.UserEmblemsUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.UserMarketingInfoUseCase
 import dagger.Module
@@ -30,22 +29,22 @@ class UseCaseModule {
     fun provideGainedEmblemsUseCase(
         userEmblemsRepository: GainedEmblemsRepository
     ): UserEmblemsUseCase {
-        return UserEmblemsUseCase(userRepository)
+        return UserEmblemsUseCase(userEmblemsRepository)
     }
 
     @Provides
     @Singleton
     fun provideMarketingInfoUseCase(
-        userRepository: UserRepository
+        marketingInfoRepository: MyPageUserRepository
     ): UserMarketingInfoUseCase {
-        return UserMarketingInfoUseCase(userRepository)
+        return UserMarketingInfoUseCase(marketingInfoRepository)
     }
 
     @Provides
     @Singleton
     fun provideDeleteUserInfoUseCase(
-        userRepository: UserRepository
+        deleteUserRepository: MyPageUserRepository
     ): DeleteUserInfoUseCase {
-        return DeleteUserInfoUseCase(userRepository)
+        return DeleteUserInfoUseCase(deleteUserRepository)
     }
 }

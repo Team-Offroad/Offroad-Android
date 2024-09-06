@@ -2,9 +2,8 @@ package com.teamoffroad.feature.mypage.data.remote.service
 
 import com.teamoffroad.core.common.data.remote.response.BaseResponse
 import com.teamoffroad.feature.mypage.data.remote.response.DeleteUserInfoResponseDto
-import com.teamoffroad.feature.mypage.data.remote.response.MyPageUserResponseDto
-import com.teamoffroad.feature.mypage.data.remote.response.GainedEmblemsResponseDto
 import com.teamoffroad.feature.mypage.data.remote.response.MarketingInfoResponseDto
+import com.teamoffroad.feature.mypage.data.remote.response.MyPageUserResponseDto
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PATCH
