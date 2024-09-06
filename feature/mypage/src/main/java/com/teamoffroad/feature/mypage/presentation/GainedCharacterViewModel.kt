@@ -2,7 +2,7 @@ package com.teamoffroad.feature.mypage.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.teamoffroad.feature.mypage.domain.usecase.GetCharactersUseCase
+import com.teamoffroad.feature.mypage.domain.usecase.GetCharacterListUseCase
 import com.teamoffroad.feature.mypage.presentation.mapper.toUi
 import com.teamoffroad.feature.mypage.presentation.model.GainedCharacterUiState
 import com.teamoffroad.feature.mypage.presentation.model.GainedCharacterUiState.Error
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GainedCharacterViewModel @Inject constructor(
-    private val getCharactersUseCase: GetCharactersUseCase,
+    private val getCharacterListUseCase: GetCharacterListUseCase,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<GainedCharacterUiState> = MutableStateFlow(Loading)
@@ -27,7 +27,7 @@ class GainedCharacterViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching {
                 _uiState.value = Loading
-                getCharactersUseCase()
+                getCharacterListUseCase()
             }.onSuccess {
                 _uiState.value = Success(
                     it.map { characters -> characters.toUi() }

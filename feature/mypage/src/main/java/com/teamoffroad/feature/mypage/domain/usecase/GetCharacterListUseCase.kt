@@ -3,7 +3,7 @@ package com.teamoffroad.feature.mypage.domain.usecase
 import com.teamoffroad.feature.mypage.domain.model.Character
 import com.teamoffroad.feature.mypage.domain.repository.UserRepository
 
-class GetCharactersUseCase(
+class GetCharacterListUseCase(
     private val userRepository: UserRepository,
 ) {
 

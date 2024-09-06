@@ -1,5 +1,12 @@
 package com.teamoffroad.feature.mypage.data.di
 
+import com.teamoffroad.feature.mypage.domain.repository.EmblemRepository
+import com.teamoffroad.feature.mypage.domain.repository.UserRepository
+import com.teamoffroad.feature.mypage.domain.usecase.DeleteUserInfoUseCase
+import com.teamoffroad.feature.mypage.domain.usecase.GetCharacterListUseCase
+import com.teamoffroad.feature.mypage.domain.usecase.GetMyPageUserUseCase
+import com.teamoffroad.feature.mypage.domain.usecase.GetUserEmblemListUseCase
+import com.teamoffroad.feature.mypage.domain.usecase.SaveUserMarketingInfoUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,41 +19,41 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideGetCharactersUseCase(
+    fun provideGetCharacterListUseCase(
         userRepository: UserRepository,
-    ): GetCharactersUseCase {
-        return GetCharactersUseCase(userRepository)
+    ): GetCharacterListUseCase {
+        return GetCharacterListUseCase(userRepository)
     }
 
     @Provides
     @Singleton
-    fun provideGetUserCouponsUseCase(
-        userCouponsRepository: MyPageUserRepository,
-    ): MyPageUserUseCase {
-        return MyPageUserUseCase(userCouponsRepository)
+    fun provideGetMyPageUserUseCase(
+        userRepository: UserRepository,
+    ): GetMyPageUserUseCase {
+        return GetMyPageUserUseCase(userRepository)
     }
 
     @Provides
     @Singleton
-    fun provideGainedEmblemsUseCase(
-        userEmblemsRepository: GainedEmblemsRepository,
-    ): UserEmblemsUseCase {
-        return UserEmblemsUseCase(userEmblemsRepository)
+    fun provideUserEmblemListUseCase(
+        userEmblemListRepository: EmblemRepository,
+    ): GetUserEmblemListUseCase {
+        return GetUserEmblemListUseCase(userEmblemListRepository)
     }
 
     @Provides
     @Singleton
     fun provideMarketingInfoUseCase(
-        marketingInfoRepository: MyPageUserRepository,
-    ): UserMarketingInfoUseCase {
-        return UserMarketingInfoUseCase(marketingInfoRepository)
+        userRepository: UserRepository,
+    ): SaveUserMarketingInfoUseCase {
+        return SaveUserMarketingInfoUseCase(userRepository)
     }
 
     @Provides
     @Singleton
     fun provideDeleteUserInfoUseCase(
-        deleteUserRepository: MyPageUserRepository,
+        userRepository: UserRepository,
     ): DeleteUserInfoUseCase {
-        return DeleteUserInfoUseCase(deleteUserRepository)
+        return DeleteUserInfoUseCase(userRepository)
     }
 }
