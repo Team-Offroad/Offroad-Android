@@ -34,6 +34,7 @@ import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
 fun GainedCharacterScreen(
+    navigateToCharacterDetail: (Int) -> Unit,
     navigateToMyPage: () -> Unit,
     gainedCharacterViewModel: GainedCharacterViewModel = hiltViewModel(),
 ) {
@@ -57,12 +58,18 @@ fun GainedCharacterScreen(
             navigateToMyPage()
         }
         GainedCharacterHeader()
-        GainedCharacterUiStateHandler(uiState)
+        GainedCharacterUiStateHandler(
+            uiState = uiState,
+            navigateToCharacterDetail = navigateToCharacterDetail,
+        )
     }
 }
 
 @Composable
-private fun GainedCharacterUiStateHandler(uiState: State<GainedCharacterUiState>) {
+private fun GainedCharacterUiStateHandler(
+    uiState: State<GainedCharacterUiState>,
+    navigateToCharacterDetail: (Int) -> Unit,
+) {
     when (uiState.value) {
         is Loading -> Unit
 
@@ -71,6 +78,7 @@ private fun GainedCharacterUiStateHandler(uiState: State<GainedCharacterUiState>
         is Success -> {
             GainedCharacterItems(
                 gainedCharacterList = (uiState.value as Success).characters,
+                navigateToCharacterDetail = navigateToCharacterDetail,
             )
         }
 
@@ -80,6 +88,7 @@ private fun GainedCharacterUiStateHandler(uiState: State<GainedCharacterUiState>
 @Composable
 fun GainedCharacterItems(
     gainedCharacterList: List<CharacterModel>,
+    navigateToCharacterDetail: (Int) -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),  // 한 열에 2개의 아이템
@@ -101,7 +110,9 @@ fun GainedCharacterItems(
                 isRepresentative = character.isRepresentative,
                 isNewGained = character.isNewGained,
                 onClick = {
-                    // TODO: 눌림 이벤트 추가
+                    if (character.isGained) {
+                        navigateToCharacterDetail(character.characterId)
+                    }
                 },
             )
         }
@@ -112,6 +123,6 @@ fun GainedCharacterItems(
 @Composable
 fun GainedCharacterScreenPreview() {
     OffroadTheme {
-        GainedCharacterScreen({})
+        GainedCharacterScreen({}, {})
     }
 }
