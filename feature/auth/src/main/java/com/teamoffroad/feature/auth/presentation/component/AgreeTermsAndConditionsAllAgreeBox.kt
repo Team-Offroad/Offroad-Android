@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.NametagInactive
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -24,6 +25,7 @@ import com.teamoffroad.offroad.feature.auth.R
 @Composable
 fun AgreeTermsAndConditionsTopBarAllAgreeBox(
     isChecked: Boolean,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -31,6 +33,7 @@ fun AgreeTermsAndConditionsTopBarAllAgreeBox(
             .padding(horizontal = 34.dp)
             .background(NametagInactive)
             .clip(shape = RoundedCornerShape(30.dp))
+            .clickableWithoutRipple { onClick() }
     ) {
         Row(
             modifier = Modifier

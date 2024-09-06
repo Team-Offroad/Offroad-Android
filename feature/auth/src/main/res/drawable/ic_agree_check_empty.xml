@@ -2,7 +2,7 @@
     android:width="23dp"
     android:height="22dp"
     android:viewportWidth="23"
-    android:viewportHeight="22">
+    android:viewportHeight="23">
   <path
       android:pathData="M16.063,8.147L13.029,11.018L9.994,13.89L6.455,10.46M11.343,21.026C5.816,21.026 1.336,16.545 1.336,11.018C1.336,5.491 5.816,1.011 11.343,1.011C16.87,1.011 21.351,5.491 21.351,11.018C21.351,16.545 16.87,21.026 11.343,21.026Z"
       android:strokeLineJoin="round"

@@ -2,6 +2,7 @@ package com.teamoffroad.feature.auth.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -14,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -27,7 +29,7 @@ fun AgreeTermsAndConditionsItem(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
-    Box(
+    Box(Modifier.clickableWithoutRipple { onClick() }
     ) {
         Row(
             modifier = Modifier
