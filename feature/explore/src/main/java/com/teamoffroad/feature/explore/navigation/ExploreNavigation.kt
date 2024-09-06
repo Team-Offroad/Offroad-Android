@@ -15,9 +15,10 @@ import com.teamoffroad.feature.explore.presentation.ExploreCameraScreen
 import com.teamoffroad.feature.explore.presentation.ExploreScreen
 import com.teamoffroad.feature.explore.presentation.PlaceScreen
 import com.teamoffroad.feature.explore.presentation.QuestScreen
+import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
 
 fun NavController.navigateToExplore(
-    authResultType: String? = null,
+    authResultType: String = ExploreAuthState.None.toString(),
     imageUrl: String? = null,
     navOptions: NavOptions,
 ) {

@@ -64,7 +64,7 @@ internal class MainNavigator(
         }
     }
 
-    fun popBackStack() {
+    private fun popBackStack() {
         navController.popBackStack()
     }
 
