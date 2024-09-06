@@ -1,13 +1,13 @@
 package com.teamoffroad.feature.explore.domain.usecase
 
 import com.teamoffroad.feature.explore.domain.model.ExploreLocationResult
-import com.teamoffroad.feature.explore.domain.repository.ExploreRepository
+import com.teamoffroad.feature.explore.domain.repository.UserRepository
 
 class PostExploreLocationAuthUseCase(
-    private val exploreRepository: ExploreRepository,
+    private val userRepository: UserRepository,
 ) {
 
     suspend operator fun invoke(placeId: Long, latitude: Double, longitude: Double): ExploreLocationResult {
-        return exploreRepository.postLocationAuth(placeId, latitude, longitude)
+        return userRepository.saveLocationAuth(placeId, latitude, longitude)
     }
 }

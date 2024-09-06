@@ -2,9 +2,9 @@ package com.teamoffroad.feature.explore.presentation.model
 
 data class ExploreUiState(
     val locationModel: LocationModel = LocationModel(),
-    val places: List<PlaceModel> = emptyList(),
+    val places: List<ExplorePlaceModel> = emptyList(),
     val authResultType: ExploreResultState = ExploreResultState.None,
-    val selectedPlace: PlaceModel? = null,
+    val selectedPlace: ExplorePlaceModel? = null,
     val loading: Boolean = true,
     val isSomePermissionRejected: Boolean? = null,
     val isAllPermissionGranted: Boolean = false,

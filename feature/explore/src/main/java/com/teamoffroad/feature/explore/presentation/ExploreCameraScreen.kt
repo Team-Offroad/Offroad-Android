@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.explore.presentation
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,15 +11,18 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.theme.Black
+import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.explore.presentation.component.ExploreCamera
-import com.teamoffroad.feature.explore.presentation.component.ExploreCameraNavigateBack
 import com.teamoffroad.feature.explore.presentation.component.ExploreCameraOverlay
 import com.teamoffroad.feature.explore.presentation.model.ExploreResultState
+import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 internal fun ExploreCameraScreen(
@@ -28,16 +30,13 @@ internal fun ExploreCameraScreen(
     latitude: Double,
     longitude: Double,
     navigateToExplore: (String, String) -> Unit,
+    navigateToBack: () -> Unit,
     exploreCameraViewModel: ExploreCameraViewModel = hiltViewModel(),
 ) {
     val localContext = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val uiState by exploreCameraViewModel.exploreResultState.collectAsStateWithLifecycle()
     val resultImageUrl by exploreCameraViewModel.resultImageUrl.collectAsStateWithLifecycle()
-
-    BackHandler {
-        navigateToExplore("", "")
-    }
 
     LaunchedEffect(uiState) {
         when (uiState) {
@@ -68,7 +67,13 @@ internal fun ExploreCameraScreen(
                 .fillMaxWidth()
                 .background(Black.copy(alpha = 0.44f))
         )
-        ExploreCameraNavigateBack(navigateToExplore)
+        NavigateBackAppBar(
+            mainColor = White,
+            backgroundColor = Black.copy(alpha = 0.44f),
+            text = stringResource(R.string.explore_navigate_back),
+        ) {
+            navigateToBack()
+        }
         ExploreCameraOverlay()
     }
 }

@@ -1,7 +1,10 @@
 package com.teamoffroad.feature.explore.data.di
 
-import com.teamoffroad.feature.explore.domain.repository.ExploreRepository
+import com.teamoffroad.feature.explore.domain.repository.PlaceRepository
+import com.teamoffroad.feature.explore.domain.repository.QuestRepository
+import com.teamoffroad.feature.explore.domain.repository.UserRepository
 import com.teamoffroad.feature.explore.domain.usecase.GetPlaceListUseCase
+import com.teamoffroad.feature.explore.domain.usecase.GetQuestListUseCase
 import com.teamoffroad.feature.explore.domain.usecase.PostExploreLocationAuthUseCase
 import com.teamoffroad.feature.explore.domain.usecase.PostExploreQrAuthUseCase
 import dagger.Module
@@ -17,24 +20,32 @@ object UseCaseModule {
     @Provides
     @Singleton
     fun provideGetPlaceListUseCase(
-        exploreRepository: ExploreRepository,
+        placeRepository: PlaceRepository,
     ): GetPlaceListUseCase {
-        return GetPlaceListUseCase(exploreRepository)
+        return GetPlaceListUseCase(placeRepository)
     }
 
     @Provides
     @Singleton
-    fun provideQrAuthUseCase(
-        exploreRepository: ExploreRepository,
+    fun providePostQrAuthUseCase(
+        userRepository: UserRepository,
     ): PostExploreQrAuthUseCase {
-        return PostExploreQrAuthUseCase(exploreRepository)
+        return PostExploreQrAuthUseCase(userRepository)
     }
 
     @Provides
     @Singleton
-    fun provideLocationAuthUseCase(
-        exploreRepository: ExploreRepository,
+    fun providePostLocationAuthUseCase(
+        userRepository: UserRepository,
     ): PostExploreLocationAuthUseCase {
-        return PostExploreLocationAuthUseCase(exploreRepository)
+        return PostExploreLocationAuthUseCase(userRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetQuestListUseCase(
+        questRepository: QuestRepository,
+    ): GetQuestListUseCase {
+        return GetQuestListUseCase(questRepository)
     }
 }

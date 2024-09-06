@@ -27,7 +27,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.teamoffroad.core.common.util.OnBackButtonListener
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Kakao
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -40,7 +39,7 @@ import kotlinx.coroutines.delay
 @Composable
 internal fun AuthScreen(
     navigateToHome: () -> Unit,
-    navigateToSetNickname: () -> Unit,
+    navigateToAgreeTermsAndConditions: () -> Unit,
     viewModel: AuthViewModel = hiltViewModel(),
 ) {
     val isSignInSuccess by viewModel.successSignIn.collectAsStateWithLifecycle()
@@ -64,7 +63,7 @@ internal fun AuthScreen(
     }
 
     LaunchedEffect(isSignInSuccess) {
-        if (isSignInSuccess && !isAlreadyExist) navigateToSetNickname()
+        if (isSignInSuccess && !isAlreadyExist) navigateToAgreeTermsAndConditions()
         if (isSignInSuccess && isAlreadyExist) navigateToHome()
     }
     LaunchedEffect(isAutoSignIn, signInLauncherInitialized) {
@@ -95,7 +94,7 @@ internal fun AuthScreen(
                 painter = painterResource(id = R.drawable.ic_auth_kakao_logo),
                 background = Kakao,
                 contentDescription = "auth_kakao",
-                onClick = navigateToSetNickname,
+                onClick = navigateToAgreeTermsAndConditions,
                 modifier = Modifier.constrainAs(kakaoLogin) {
                     start.linkTo(parent.start, margin = 24.dp)
                     end.linkTo(parent.end, margin = 24.dp)
@@ -119,8 +118,6 @@ internal fun AuthScreen(
             )
         }
     }
-
-    OnBackButtonListener()
     SplashScreen()
 }
 

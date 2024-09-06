@@ -12,7 +12,8 @@ sealed interface MainTabRoute : Route {
     data class Home(val category: String? = null) : MainTabRoute
 
     @Serializable
-    data class Explore(val authResultType: String? = null, val imageUrl: String? = null) : MainTabRoute
+    data class Explore(val authResultType: String? = null, val imageUrl: String? = null) :
+        MainTabRoute
 
     @Serializable
     data object MyPage : MainTabRoute
@@ -21,6 +22,9 @@ sealed interface MainTabRoute : Route {
 sealed interface AuthRoute : Route {
     @Serializable
     data object SetNickname : AuthRoute
+
+    @Serializable
+    data object AgreeTermsAndConditions : AuthRoute
 
     @Serializable
     data class SetBirthDate(val nickname: String) : AuthRoute
@@ -37,5 +41,45 @@ sealed interface AuthRoute : Route {
 
 sealed interface ExploreRoute : Route {
     @Serializable
-    data class ExploreCameraScreen(val placeId: Long, val latitude: String, val longitude: String) : ExploreRoute
+    data class ExploreCameraScreen(val placeId: Long, val latitude: String, val longitude: String) :
+        ExploreRoute
+
+    @Serializable
+    data object PlaceScreen : ExploreRoute
+
+    @Serializable
+    data object QuestScreen : ExploreRoute
+}
+
+sealed interface MyPageRoute : Route {
+    @Serializable
+    data object GainedCouponScreen : MyPageRoute
+
+    @Serializable
+    data class AvailableCouponScreen(
+        val id: Int,
+        val name: String,
+        val couponImageUrl: String,
+        val description: String
+    ) : MyPageRoute
+
+    @Serializable
+    data object GainedCharacter : MyPageRoute
+
+    @Serializable
+    data object GainedEmblems : MyPageRoute
+
+    @Serializable
+    data object Setting : MyPageRoute
+
+    @Serializable
+    data object Announcement : MyPageRoute
+
+    @Serializable
+    data class AnnouncementDetail(
+        val title: String,
+        val content: String,
+        val link: String,
+        val isImportant: Boolean
+    ) : MyPageRoute
 }

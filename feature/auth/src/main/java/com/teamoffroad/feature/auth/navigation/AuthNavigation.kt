@@ -4,11 +4,11 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.teamoffroad.core.navigation.AuthRoute
 import com.teamoffroad.core.navigation.Route
+import com.teamoffroad.feature.auth.presentation.AgreeTermsAndConditionsScreen
 import com.teamoffroad.feature.auth.presentation.AuthScreen
 import com.teamoffroad.feature.auth.presentation.SelectedCharacterScreen
 import com.teamoffroad.feature.auth.presentation.SetBirthDateScreen
@@ -19,54 +19,59 @@ import java.net.URLDecoder
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
-fun NavController.navigateAuth(navOptions: NavOptions? = null) {
-    navigate(Route.Auth, navOptions)
+fun NavController.navigateToAgreeTermsAndConditions() {
+    navigate(AuthRoute.AgreeTermsAndConditions)
 }
 
-fun NavController.navigateToSetNickname(navOptions: NavOptions? = null) {
-    navigate(AuthRoute.SetNickname, navOptions)
+fun NavController.navigateToSetNickname() {
+    navigate(AuthRoute.SetNickname)
 }
 
-fun NavController.navigateToSetBirthDate(nickname: String, navOptions: NavOptions? = null) {
-    navigate(AuthRoute.SetBirthDate(nickname), navOptions)
+fun NavController.navigateToSetBirthDate(nickname: String) {
+    navigate(AuthRoute.SetBirthDate(nickname))
 }
 
 fun NavController.navigateToSetGender(
     nickname: String,
     birthDate: String? = null,
-    navOptions: NavOptions? = null,
 ) {
-    navigate(AuthRoute.SetGender(nickname, birthDate), navOptions)
+    navigate(AuthRoute.SetGender(nickname, birthDate))
 }
 
-fun NavController.navigateToSetCharacter(navOptions: NavOptions? = null) {
-    navigate(AuthRoute.SetCharacter, navOptions)
+fun NavController.navigateToSetCharacter() {
+    navigate(AuthRoute.SetCharacter)
 }
 
 fun NavController.navigateToSelectedCharacter(
     selectedCharacterUrl: String,
-    navOptions: NavOptions,
 ) {
     val encodedUrl = URLEncoder.encode(selectedCharacterUrl, StandardCharsets.UTF_8.toString())
-    navigate(AuthRoute.SelectedCharacter(encodedUrl), navOptions)
+    navigate(AuthRoute.SelectedCharacter(encodedUrl))
 }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun NavGraphBuilder.authNavGraph(
     navigateToHome: () -> Unit,
+    navigateToAgreeTermsAndConditions: () -> Unit,
     navigateToSetNickname: () -> Unit,
     navigateToSetBirthDate: (String) -> Unit,
     navigateToSetGender: (String, String?) -> Unit,
     navigateToSetCharacter: () -> Unit,
     navigateToSelectedCharacter: (String) -> Unit,
-    onBackClick: () -> Unit,
+    navigateToBack: () -> Unit,
 ) {
     composable<Route.Auth> {
         AuthScreen(
             navigateToHome,
-            navigateToSetNickname,
+            navigateToAgreeTermsAndConditions,
         )
     }
+    composable<AuthRoute.AgreeTermsAndConditions> {
+        AgreeTermsAndConditionsScreen(
+            navigateToSetNickname
+        )
+    }
+
     composable<AuthRoute.SetNickname> {
         SetNicknameScreen(
             navigateToSetBirthDate,

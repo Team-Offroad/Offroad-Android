@@ -2,13 +2,13 @@ package com.teamoffroad.feature.home.data.mapper
 
 import com.teamoffroad.feature.home.data.model.EmblemEntity
 import com.teamoffroad.feature.home.data.model.UserQuestEntity
-import com.teamoffroad.feature.home.data.model.UsersAdventuresInformationsEntity
+import com.teamoffroad.feature.home.data.model.UsersAdventuresInformationEntity
 import com.teamoffroad.feature.home.data.remote.response.EmblemsResponseDto
 import com.teamoffroad.feature.home.data.remote.response.UserQuestsResponseDto
-import com.teamoffroad.feature.home.data.remote.response.UsersAdventuresInformationsResponseDto
+import com.teamoffroad.feature.home.data.remote.response.UsersAdventuresInformationResponseDto
 import com.teamoffroad.feature.home.domain.model.Emblem
 import com.teamoffroad.feature.home.domain.model.UserQuests
-import com.teamoffroad.feature.home.domain.model.UsersAdventuresInformations
+import com.teamoffroad.feature.home.domain.model.UsersAdventuresInformation
 
 fun EmblemsResponseDto.EmblemResponseDto.toData(): EmblemEntity {
     return EmblemEntity(
@@ -33,8 +33,8 @@ fun UserQuestsResponseDto.AlmostResponseDto.toData(): UserQuestEntity.AlmostEnti
     )
 }
 
-fun UsersAdventuresInformationsResponseDto.toData(): UsersAdventuresInformationsEntity {
-    return UsersAdventuresInformationsEntity(
+fun UsersAdventuresInformationResponseDto.toData(): UsersAdventuresInformationEntity {
+    return UsersAdventuresInformationEntity(
         nickname = nickname,
         baseImageUrl = baseImageUrl,
         motionImageUrl = motionImageUrl,
@@ -66,8 +66,8 @@ fun UserQuestEntity.AlmostEntity.toDomain(): UserQuests.UserAlmost {
     )
 }
 
-fun UsersAdventuresInformationsEntity.toDomain(): UsersAdventuresInformations {
-    return UsersAdventuresInformations(
+fun UsersAdventuresInformationEntity.toDomain(): UsersAdventuresInformation {
+    return UsersAdventuresInformation(
         nickname = nickname,
         baseImageUrl = baseImageUrl,
         motionImageUrl = motionImageUrl,

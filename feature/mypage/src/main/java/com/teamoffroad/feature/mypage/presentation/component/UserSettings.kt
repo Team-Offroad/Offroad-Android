@@ -16,22 +16,26 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub4
 import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
-fun UserSettings() {
+fun UserSettings(
+    navigateToSetting: () -> Unit,
+) {
     Surface(
         modifier = Modifier
             .clip(shape = RoundedCornerShape(10.dp))
             .fillMaxSize()
+            .clickableWithoutRipple { navigateToSetting() }
     ) {
         Box(
             modifier = Modifier.background(Color(0xFFF9E5D2))
         ) {
             Text(
-                text = stringResource(id = R.string.settings),
+                text = stringResource(id = R.string.my_page_settings),
                 style = OffroadTheme.typography.textBold,
                 color = Sub4,
                 modifier = Modifier
