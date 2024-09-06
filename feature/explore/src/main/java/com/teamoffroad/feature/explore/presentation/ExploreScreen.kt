@@ -9,15 +9,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.feature.explore.presentation.component.ExploreOffroadMap
+import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
 import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
-import com.teamoffroad.feature.explore.presentation.util.ExploreCameraUiStateHandler
-import com.teamoffroad.feature.explore.presentation.util.ExploreLocationPermissionHandler
+import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
+import com.teamoffroad.feature.explore.presentation.util.ExploreAuthStateHandler
+import com.teamoffroad.feature.explore.presentation.util.ExplorePermissionHandler
 import com.teamoffroad.feature.explore.presentation.util.ExplorePermissionRejectedHandler
 import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 internal fun ExploreScreen(
-    authResultType: String?,
+    authResultState: String?,
     qrResultImageUrl: String?,
     navigateToHome: (String) -> Unit,
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
@@ -29,9 +31,9 @@ internal fun ExploreScreen(
     val locationResultImageUrl: String by exploreViewModel.successImageUrl.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
-    LaunchedEffect(authResultType) {
-        if (authResultType != null) {
-            exploreViewModel.updateExploreCameraUiState(uiState.getExploreCameraUiState(authResultType))
+    LaunchedEffect(authResultState) {
+        if (authResultState != null) {
+            exploreViewModel.updateExploreAuthState(ExploreAuthState.from(authResultState))
             exploreViewModel.updatePlaces()
         }
     }
@@ -45,31 +47,30 @@ internal fun ExploreScreen(
         Toast.makeText(context, stringResource(R.string.explore_places_failed), Toast.LENGTH_SHORT).show()
     }
 
-    ExploreCameraUiStateHandler(
+    ExploreAuthStateHandler(
         uiState,
-        exploreViewModel::updateExploreCameraUiState,
+        exploreViewModel::updateExploreAuthState,
         qrResultImageUrl,
-        exploreViewModel,
         locationResultImageUrl,
         navigateToHome,
     )
 
-    ExploreLocationPermissionHandler(
+    ExplorePermissionHandler(
         context = context,
         uiState = uiState,
         updatePermission = exploreViewModel::updatePermission,
     )
 
-    if (uiState.isSomePermissionRejected == true) {
+    if (uiState.permissionModel.isSomePermissionRejected == true) {
         ExplorePermissionRejectedHandler(
             context = context,
             uiState = uiState,
-            navigateToHome = { navigateToHome("") },
+            navigateToHome = { navigateToHome(PlaceCategory.NONE.name) },
             updatePermission = exploreViewModel::updatePermission,
         )
     }
 
-    if (uiState.isAllPermissionGranted) {
+    if (uiState.permissionModel.isAllPermissionGranted) {
         ExploreOffroadMap(
             uiState.locationModel,
             uiState.places,
@@ -80,9 +81,8 @@ internal fun ExploreScreen(
             exploreViewModel::updateLocation,
             exploreViewModel::updateTrackingToggle,
             exploreViewModel::updateSelectedPlace,
-            exploreViewModel::updateCategory,
             exploreViewModel::updatePlaces,
-            exploreViewModel::updateExploreCameraUiState,
+            exploreViewModel::updateExploreAuthState,
             exploreViewModel::isValidDistance,
             exploreViewModel::updateExploreResult,
         )

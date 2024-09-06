@@ -50,9 +50,9 @@ fun NavGraphBuilder.exploreNavGraph(
     navigateToBack: () -> Unit,
 ) {
     composable<MainTabRoute.Explore> { backStackEntry ->
-        val errorType = backStackEntry.toRoute<MainTabRoute.Explore>().authResultType
+        val authResultState = backStackEntry.toRoute<MainTabRoute.Explore>().authResultState
         val imageUrl = backStackEntry.toRoute<MainTabRoute.Explore>().imageUrl
-        ExploreScreen(errorType, imageUrl, navigateToHome, navigateToExploreCamera, navigateToPlace, navigateToQuest)
+        ExploreScreen(authResultState, imageUrl, navigateToHome, navigateToExploreCamera, navigateToPlace, navigateToQuest)
     }
 
     composable<ExploreRoute.ExploreCameraScreen>(

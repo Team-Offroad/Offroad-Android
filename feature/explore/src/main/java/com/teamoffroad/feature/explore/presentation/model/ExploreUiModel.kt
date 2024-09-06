@@ -93,3 +93,10 @@ data class ExplorePlaceModel(
     val location: LatLng,
     val visitCount: Int,
 )
+
+data class ExplorePermissionModel(
+    val isSomePermissionRejected: Boolean? = null,
+    val isAllPermissionGranted: Boolean = false,
+    val isLocationPermissionGranted: Boolean = false,
+    val isCameraPermissionGranted: Boolean = false,
+)

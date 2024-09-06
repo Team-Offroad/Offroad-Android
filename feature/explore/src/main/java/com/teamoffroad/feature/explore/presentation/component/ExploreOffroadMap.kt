@@ -50,8 +50,8 @@ import com.naver.maps.map.overlay.OverlayImage
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Sub2
+import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
 import com.teamoffroad.feature.explore.presentation.model.ExplorePlaceModel
-import com.teamoffroad.feature.explore.presentation.model.ExploreResultState
 import com.teamoffroad.feature.explore.presentation.model.LocationModel
 import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 import com.teamoffroad.offroad.feature.explore.R
@@ -68,11 +68,10 @@ fun ExploreOffroadMap(
     updateLocation: (Double, Double) -> Unit,
     updateTrackingToggle: (Boolean) -> Unit,
     updateSelectedPlace: (ExplorePlaceModel?) -> Unit,
-    updateCategory: (String) -> Unit,
     updatePlaces: (Double, Double) -> Unit,
-    updateCameraUiState: (ExploreResultState) -> Unit,
+    updateAuthState: (ExploreAuthState) -> Unit,
     isValidDistance: (ExplorePlaceModel, LatLng) -> Boolean,
-    postExploreResult: (Long, Double, Double) -> Unit,
+    updateExploreResult: (Long, Double, Double, PlaceCategory) -> Unit,
 ) {
     val density = LocalDensity.current
     var markerOffset by remember { mutableStateOf(IntOffset.Zero) }
@@ -152,7 +151,6 @@ fun ExploreOffroadMap(
                                 locationState.cameraPositionState.move(CameraUpdate.scrollTo(it).animate(CameraAnimation.Easing, 500))
                             }
                             updateSelectedPlace(place)
-                            updateCategory(place.placeCategory.name)
                             true
                         },
                     )
@@ -230,22 +228,24 @@ fun ExploreOffroadMap(
                             onButtonClick = {
                                 when (isValidDistance(place, locationState.location)) {
                                     true -> {
+                                        /*
                                         if (selectedPlace.placeCategory == PlaceCategory.CAFFE || selectedPlace.placeCategory == PlaceCategory.RESTAURANT) {
                                             navigateToExploreCameraScreen(
                                                 place.id,
                                                 locationState.location.latitude,
                                                 locationState.location.longitude,
                                             )
-                                        } else {
-                                            postExploreResult(
-                                                place.id,
-                                                locationState.location.latitude,
-                                                locationState.location.longitude,
-                                            )
                                         }
+                                         */
+                                        updateExploreResult(
+                                            place.id,
+                                            locationState.location.latitude,
+                                            locationState.location.longitude,
+                                            place.placeCategory,
+                                        )
                                     }
 
-                                    false -> updateCameraUiState(ExploreResultState.LocationError)
+                                    false -> updateAuthState(ExploreAuthState.LocationError)
                                 }
                                 updateSelectedPlace(null)
                             },

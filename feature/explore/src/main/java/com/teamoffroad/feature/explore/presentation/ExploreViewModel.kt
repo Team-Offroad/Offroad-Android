@@ -6,8 +6,8 @@ import com.naver.maps.geometry.LatLng
 import com.teamoffroad.feature.explore.domain.usecase.GetPlaceListUseCase
 import com.teamoffroad.feature.explore.domain.usecase.PostExploreLocationAuthUseCase
 import com.teamoffroad.feature.explore.presentation.mapper.toUi
+import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
 import com.teamoffroad.feature.explore.presentation.model.ExplorePlaceModel
-import com.teamoffroad.feature.explore.presentation.model.ExploreResultState
 import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
 import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,15 +26,8 @@ class ExploreViewModel @Inject constructor(
     private val _uiState: MutableStateFlow<ExploreUiState> = MutableStateFlow(ExploreUiState())
     val uiState: StateFlow<ExploreUiState> = _uiState.asStateFlow()
 
-    private val _category = MutableStateFlow("")
-    val category = _category.asStateFlow()
-
     private val _successImageUrl = MutableStateFlow("")
     val successImageUrl = _successImageUrl.asStateFlow()
-
-    fun updateCategory(category: String) {
-        _category.value = category
-    }
 
     fun updatePermission(
         isSomePermissionRejected: Boolean?,
@@ -42,10 +35,12 @@ class ExploreViewModel @Inject constructor(
         isCameraPermissionGranted: Boolean,
     ) {
         _uiState.value = uiState.value.copy(
-            isSomePermissionRejected = isSomePermissionRejected,
-            isAllPermissionGranted = isLocationPermissionGranted && isCameraPermissionGranted,
-            isLocationPermissionGranted = isLocationPermissionGranted,
-            isCameraPermissionGranted = isCameraPermissionGranted,
+            permissionModel = uiState.value.permissionModel.copy(
+                isSomePermissionRejected = isSomePermissionRejected,
+                isAllPermissionGranted = isLocationPermissionGranted && isCameraPermissionGranted,
+                isLocationPermissionGranted = isLocationPermissionGranted,
+                isCameraPermissionGranted = isCameraPermissionGranted,
+            )
         )
     }
 
@@ -92,7 +87,7 @@ class ExploreViewModel @Inject constructor(
 
     fun updateSelectedPlace(place: ExplorePlaceModel?) {
         _uiState.value = uiState.value.copy(
-            selectedPlace = place
+            selectedPlace = place,
         )
     }
 
@@ -107,25 +102,25 @@ class ExploreViewModel @Inject constructor(
         }
     }
 
-    fun updateExploreCameraUiState(errorType: ExploreResultState) {
+    fun updateExploreAuthState(errorType: ExploreAuthState) {
         _uiState.value = uiState.value.copy(
-            authResultType = errorType
+            authResultType = errorType,
         )
     }
 
-    fun updateExploreResult(placeId: Long, latitude: Double, longitude: Double) {
+    fun updateExploreResult(placeId: Long, latitude: Double, longitude: Double, category: PlaceCategory) {
         viewModelScope.launch {
             runCatching {
                 postExploreLocationAuthUseCase(placeId, latitude, longitude)
             }.onSuccess { exploreResult ->
                 if (exploreResult.isValidPosition) {
-                    updateExploreCameraUiState(ExploreResultState.Success)
+                    updateExploreAuthState(ExploreAuthState.Success(category))
                     _successImageUrl.value = exploreResult.successCharacterImageUrl
                 } else {
-                    updateExploreCameraUiState(ExploreResultState.LocationError)
+                    updateExploreAuthState(ExploreAuthState.LocationError)
                 }
             }.onFailure {
-                updateExploreCameraUiState(ExploreResultState.EtcError)
+                updateExploreAuthState(ExploreAuthState.EtcError)
             }
         }
     }
