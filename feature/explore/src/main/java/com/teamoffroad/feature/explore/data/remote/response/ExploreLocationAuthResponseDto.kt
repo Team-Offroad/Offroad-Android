@@ -9,4 +9,12 @@ data class ExploreLocationAuthResponseDto(
     val isValidPosition: Boolean = false,
     @SerialName("successCharacterImageUrl")
     val successCharacterImageUrl: String = "",
-)
+    @SerialName("completeQuestList")
+    val completeQuestList: List<QuestResponseDto> = emptyList(),
+) {
+    @Serializable
+    data class QuestResponseDto(
+        @SerialName("name")
+        val name: Long,
+    )
+}

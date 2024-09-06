@@ -26,9 +26,6 @@ class ExploreViewModel @Inject constructor(
     private val _uiState: MutableStateFlow<ExploreUiState> = MutableStateFlow(ExploreUiState())
     val uiState: StateFlow<ExploreUiState> = _uiState.asStateFlow()
 
-    private val _successImageUrl = MutableStateFlow("")
-    val successImageUrl = _successImageUrl.asStateFlow()
-
     fun updatePermission(
         isSomePermissionRejected: Boolean?,
         isLocationPermissionGranted: Boolean,
@@ -114,8 +111,13 @@ class ExploreViewModel @Inject constructor(
                 postExploreLocationAuthUseCase(placeId, latitude, longitude)
             }.onSuccess { exploreResult ->
                 if (exploreResult.isValidPosition) {
-                    updateExploreAuthState(ExploreAuthState.Success(category))
-                    _successImageUrl.value = exploreResult.successCharacterImageUrl
+                    updateExploreAuthState(
+                        ExploreAuthState.Success(
+                            category,
+                            exploreResult.successCharacterImageUrl,
+                            exploreResult.completeQuests,
+                        )
+                    )
                 } else {
                     updateExploreAuthState(ExploreAuthState.LocationError)
                 }

@@ -28,7 +28,6 @@ internal fun ExploreScreen(
     exploreViewModel: ExploreViewModel = hiltViewModel(),
 ) {
     val uiState: ExploreUiState by exploreViewModel.uiState.collectAsStateWithLifecycle()
-    val locationResultImageUrl: String by exploreViewModel.successImageUrl.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
     LaunchedEffect(authResultState) {
@@ -50,7 +49,6 @@ internal fun ExploreScreen(
         uiState,
         exploreViewModel::updateExploreAuthState,
         qrResultImageUrl,
-        locationResultImageUrl,
         navigateToHome,
     )
 
