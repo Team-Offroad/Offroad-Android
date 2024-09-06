@@ -8,11 +8,11 @@ import com.teamoffroad.feature.mypage.domain.repository.GainedEmblemsRepository
 import javax.inject.Inject
 
 class GainedEmblemsRepositoryImpl @Inject constructor(
-    private val userService: EmblemService
+    private val emblemService: EmblemService
 ) : GainedEmblemsRepository {
 
     override suspend fun getGainedEmblems(): Result<List<GainedEmblem>?> {
-        val gainedEmblemResult = runCatching { userService.getGainedEmblems().data }
+        val gainedEmblemResult = runCatching { emblemService.getGainedEmblems().data }
         gainedEmblemResult.onSuccess { gainedEmblemsResponseDto ->
             val gainedEmblemsList = gainedEmblemsResponseDto?.gainedEmblemResponseDtos?.map {
                 it.toGainedEmblemsList()

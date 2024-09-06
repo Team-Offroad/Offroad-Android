@@ -1,3 +1,5 @@
+@file:JvmName("GainedEmblemsResponseDtoKt")
+
 package com.teamoffroad.feature.mypage.data.remote.response
 
 import kotlinx.serialization.SerialName

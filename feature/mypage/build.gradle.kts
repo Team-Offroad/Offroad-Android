@@ -15,4 +15,5 @@ dependencies {
     implementation(libs.lottie.compose)
     implementation(libs.gson)
     implementation(libs.kotlinx.collections.immutable)
+    implementation(libs.google.play.services.auth)
 }
