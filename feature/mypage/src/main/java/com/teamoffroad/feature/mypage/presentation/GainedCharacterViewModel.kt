@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.mypage.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.mypage.domain.usecase.GetCharactersUseCase
@@ -35,7 +34,6 @@ class GainedCharacterViewModel @Inject constructor(
                 )
             }.onFailure {
                 _uiState.value = Error(it.message ?: "Unknown error")
-                Log.e("123123", it.message ?: "Unknown error")
             }
         }
     }

@@ -7,6 +7,7 @@ data class CharacterModel(
     val characterMainColorCode: Long = 0,
     val characterFrameColorCode: Long = 0,
     val characterSubColorCode: Long = 0,
+    val isRepresentative: Boolean = false,
     val isNewGained: Boolean = false,
     val isGained: Boolean = false,
 )

@@ -105,6 +105,8 @@ fun GainedCharacterItems(
                         characterFrameColor = character.characterFrameColorCode,
                         characterThumbnailImageUrl = character.characterThumbnailImageUrl,
                         isGained = character.isGained,
+                        isRepresentative = character.isNewGained,
+                        isNewGained = character.isNewGained,
                         onClick = {
                             // TODO: 눌림 이벤트 추가
                         }

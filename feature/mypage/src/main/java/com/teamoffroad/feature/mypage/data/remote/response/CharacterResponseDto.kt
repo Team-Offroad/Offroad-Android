@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CharacterResponseDto(
-    @SerialName("CharacterId")
+    @SerialName("characterId")
     val characterId: Int,
     @SerialName("characterName")
     val characterName: String,
