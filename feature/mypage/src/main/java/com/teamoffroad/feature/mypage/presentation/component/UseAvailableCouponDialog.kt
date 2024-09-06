@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -66,34 +67,43 @@ fun UseAvailableCouponDialog(
 
     Dialog(
         onDismissRequest = { onClickCancel() },
-        properties = DialogProperties(dismissOnClickOutside = true, dismissOnBackPress = true)
+        properties = DialogProperties(
+            dismissOnClickOutside = true,
+            dismissOnBackPress = true,
+        )
     ) {
-        Card(
-            modifier = modifier
-                .fillMaxWidth()
-                .height(218.dp),
-            shape = shape,
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .imePadding()
+            .padding(4.dp)
         ) {
-            Box(
+            Card(
                 modifier = modifier
                     .fillMaxWidth()
-                    .background(backgroundColor),
-                contentAlignment = Alignment.TopEnd
+                    .height(218.dp),
+                shape = shape,
             ) {
-                CloseDialog(
-                    onClickCancel = { showDialog.value = false }
-                )
+                Box(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .background(backgroundColor),
+                    contentAlignment = Alignment.TopEnd
+                ) {
+                    CloseDialog(
+                        onClickCancel = { showDialog.value = false }
+                    )
 
-                UseAvailableCouponDialogText(
-                    showDialog = showDialog,
-                    couponCode = couponCode,
-                    couponId = couponId,
-                    placeId = placeId,
-                    couponCodeSuccess = couponCodeSuccess,
-                    updateCode = updateCode,
-                    updateCouponCodeSuccess = updateCouponCodeSuccess,
-                    saveCoupon = saveCoupon
-                )
+                    UseAvailableCouponDialogText(
+                        showDialog = showDialog,
+                        couponCode = couponCode,
+                        couponId = couponId,
+                        placeId = placeId,
+                        couponCodeSuccess = couponCodeSuccess,
+                        updateCode = updateCode,
+                        updateCouponCodeSuccess = updateCouponCodeSuccess,
+                        saveCoupon = saveCoupon
+                    )
+                }
             }
         }
     }
