@@ -1,15 +1,13 @@
 package com.teamoffroad.feature.mypage.presentation
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
@@ -83,39 +81,29 @@ private fun GainedCharacterUiStateHandler(uiState: State<GainedCharacterUiState>
 fun GainedCharacterItems(
     gainedCharacterList: List<CharacterModel>,
 ) {
-    LazyColumn(
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),  // 한 열에 2개의 아이템
         modifier = Modifier
             .fillMaxSize()
             .background(color = ListBg)
             .padding(horizontal = 14.dp),
-        contentPadding = PaddingValues(top = 14.dp)
+        contentPadding = PaddingValues(top = 14.dp),
     ) {
-        itemsIndexed(gainedCharacterList.chunked(2)) { _, pair ->
-            Row(
+        items(gainedCharacterList) { character ->
+            CharacterFrameItem(
                 modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                pair.forEach { character ->
-                    CharacterFrameItem(
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(10.dp),
-                        characterLabel = character.characterName,
-                        characterMainColor = character.characterMainColorCode,
-                        characterFrameColor = character.characterFrameColorCode,
-                        characterThumbnailImageUrl = character.characterThumbnailImageUrl,
-                        isGained = character.isGained,
-                        isRepresentative = character.isNewGained,
-                        isNewGained = character.isNewGained,
-                        onClick = {
-                            // TODO: 눌림 이벤트 추가
-                        }
-                    )
-                }
-                if (pair.size == 1) {
-                    Box(modifier = Modifier.weight(1f))
-                }
-            }
+                    .padding(10.dp),
+                characterLabel = character.characterName,
+                characterMainColor = character.characterMainColorCode,
+                characterFrameColor = character.characterFrameColorCode,
+                characterThumbnailImageUrl = character.characterThumbnailImageUrl,
+                isGained = character.isGained,
+                isRepresentative = character.isRepresentative,
+                isNewGained = character.isNewGained,
+                onClick = {
+                    // TODO: 눌림 이벤트 추가
+                },
+            )
         }
     }
 }
