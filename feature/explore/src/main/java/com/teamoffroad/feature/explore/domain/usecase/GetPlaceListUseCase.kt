@@ -1,13 +1,13 @@
 package com.teamoffroad.feature.explore.domain.usecase
 
 import com.teamoffroad.feature.explore.domain.model.Place
-import com.teamoffroad.feature.explore.domain.repository.ExploreRepository
+import com.teamoffroad.feature.explore.domain.repository.PlaceRepository
 
 class GetPlaceListUseCase(
-    private val exploreRepository: ExploreRepository,
+    private val placeRepository: PlaceRepository,
 ) {
 
-    suspend operator fun invoke(latitude: Double, longitude: Double): List<Place> {
-        return exploreRepository.getPlaces(latitude, longitude)
+    suspend operator fun invoke(latitude: Double, longitude: Double, limit: Int, isBounded: Boolean): List<Place> {
+        return placeRepository.fetchPlaces(latitude, longitude, limit, isBounded)
     }
 }

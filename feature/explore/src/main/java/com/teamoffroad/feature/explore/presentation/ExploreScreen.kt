@@ -84,7 +84,7 @@ internal fun ExploreScreen(
             exploreViewModel::updatePlaces,
             exploreViewModel::updateExploreCameraUiState,
             exploreViewModel::isValidDistance,
-            exploreViewModel::postExploreResult,
+            exploreViewModel::updateExploreResult,
         )
     }
 }
