@@ -44,6 +44,7 @@ class GainedCouponViewModel @Inject constructor(
         }
     }
 
+
     private fun updateAvailableCoupons(coupons: List<UserCoupons.AvailableCoupon>) {
         _userAvailableCoupons.value = coupons
     }

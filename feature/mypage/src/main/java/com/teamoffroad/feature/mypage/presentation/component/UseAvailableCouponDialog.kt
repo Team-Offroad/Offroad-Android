@@ -346,9 +346,8 @@ private fun ConfirmButton(
                 when (couponCodeSuccess) {
                     CheckCouponState.NONE -> {
                         if (couponCode.isNotBlank()) {
-                            //saveCoupon(UseCoupon(couponCode, couponId, placeId))
-                            //saveCoupon(UseCoupon(couponCode, 854, 1)) // test용
-                            saveCoupon(UseCoupon(couponCode, 1, 854)) // test용
+                            saveCoupon(UseCoupon(couponCode, couponId, placeId))
+                            //saveCoupon(UseCoupon("S4t5U6", 1, 854)) // test용
                         }
                     }
 

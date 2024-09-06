@@ -39,8 +39,5 @@ data class UserCouponsResponseDto(
 
         @SerialName("couponImageUrl")
         val couponImageUrl: String,
-
-        @SerialName("isNewGained")
-        val isNewGained: Boolean
     )
 }

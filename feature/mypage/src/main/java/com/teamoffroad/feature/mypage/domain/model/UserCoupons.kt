@@ -16,6 +16,5 @@ data class UserCoupons(
     data class UsedCoupon(
         val name: String,
         val couponImageUrl: String,
-        val isNewGained: Boolean
     )
 }

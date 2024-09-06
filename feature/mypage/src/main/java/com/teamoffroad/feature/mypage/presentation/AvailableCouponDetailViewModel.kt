@@ -38,7 +38,7 @@ class AvailableCouponDetailViewModel @Inject constructor(
             runCatching {
                 userCouponsRepository.saveUseCoupon(coupon)
             }.onSuccess { state ->
-                if (!state) updateCouponCodeSuccess(CheckCouponState.SUCCESS)
+                if (state) updateCouponCodeSuccess(CheckCouponState.SUCCESS)
                 else updateCouponCodeSuccess(CheckCouponState.FAIL)
             }.onFailure { t ->
                 val errorMessage = getErrorMessage(t)

@@ -20,7 +20,7 @@ fun UserCouponsResponseDto.AvailableCouponsResponseDto.toData(): UserCouponsEnti
 
 fun UserCouponsResponseDto.UsedCouponsResponseDto.toData(): UserCouponsEntity.UsedCouponsEntity {
     return UserCouponsEntity.UsedCouponsEntity(
-        name = name, couponImageUrl = couponImageUrl, isNewGained = isNewGained
+        name = name, couponImageUrl = couponImageUrl
     )
 }
 
@@ -37,7 +37,7 @@ fun UserCouponsEntity.AvailableCouponsEntity.toDomain(): UserCoupons.AvailableCo
 
 fun UserCouponsEntity.UsedCouponsEntity.toDomain(): UserCoupons.UsedCoupon {
     return UserCoupons.UsedCoupon(
-        name = name, couponImageUrl = couponImageUrl, isNewGained = isNewGained
+        name = name, couponImageUrl = couponImageUrl
     )
 }
 
