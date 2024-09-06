@@ -5,8 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class NotGainedEmblem(
-
+data class GainedEmblemResponseDto(
     @SerialName("clearConditionQuestName")
     val clearConditionQuestName: String,
 
@@ -16,13 +15,3 @@ data class NotGainedEmblem(
     @SerialName("isNewGained")
     val isNewGained: Boolean
 )
-
-fun NotGainedEmblem.toEmblemsList() =
-    run {
-        GainedEmblems(
-            emblemTitle = emblemName,
-            emblemSubtitle = clearConditionQuestName,
-            isNew = isNewGained,
-            isLock = true
-        )
-    }
