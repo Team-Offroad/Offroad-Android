@@ -126,6 +126,9 @@ fun ExploreOffroadMap(
                 onMapClick = { _, _ ->
                     updateSelectedPlace(null)
                 },
+                onMapLoaded = {
+                    updatePlaces(locationState.location.latitude, locationState.location.longitude)
+                },
             ) {
                 LocationOverlay(
                     position = locationState.location,

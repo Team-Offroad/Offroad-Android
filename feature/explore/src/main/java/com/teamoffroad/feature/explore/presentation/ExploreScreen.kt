@@ -34,12 +34,7 @@ internal fun ExploreScreen(
     LaunchedEffect(authResultState) {
         if (authResultState != null) {
             exploreViewModel.updateExploreAuthState(ExploreAuthState.from(authResultState))
-            exploreViewModel.updatePlaces()
         }
-    }
-
-    LaunchedEffect(Unit) {
-        exploreViewModel.updatePlaces()
     }
 
     if (!uiState.loading && uiState.places.isEmpty()) exploreViewModel.updatePlaces()
