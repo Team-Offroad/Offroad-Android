@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.mypage.presentation
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +28,7 @@ import com.teamoffroad.feature.mypage.presentation.component.SettingHeader
 import com.teamoffroad.feature.mypage.presentation.component.WithDrawDialog
 import com.teamoffroad.offroad.feature.mypage.R
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 internal fun SettingScreen(
     modifier: Modifier = Modifier,
@@ -104,6 +106,9 @@ internal fun SettingScreen(
             isWithDrawResult = isSettingUiState.withDrawResult,
             onInputTextChange = viewModel::changeWithDrawInputText,
             isWithDrawResultChanged = { viewModel.changeWithDrawInputTextResult() },
+            onClick = viewModel::deleteUserInfo,
+            withDrawInputText = viewModel.settingUiState.value.withDrawInputState,
+            navigateToSignIn = navigateToSignIn,
             onClickCancel = {
                 viewModel.changeDialogState(SettingDialogState.inVisible)
             })

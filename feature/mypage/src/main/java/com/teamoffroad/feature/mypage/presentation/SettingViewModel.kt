@@ -1,8 +1,10 @@
 package com.teamoffroad.feature.mypage.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.teamoffroad.feature.mypage.domain.usecase.DeleteUserInfoUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.UserMarketingInfoUseCase
 import com.teamoffroad.feature.mypage.presentation.component.SettingDialogState
 import com.teamoffroad.feature.mypage.presentation.model.SettingUiState
@@ -16,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingViewModel @Inject constructor(
     private val marketingInfoUseCase: UserMarketingInfoUseCase,
+    private val deleteUserInfoUseCase: DeleteUserInfoUseCase,
     private val googleSignInClient: GoogleSignInClient,
 ) : ViewModel() {
     private val _settingUiState: MutableStateFlow<SettingUiState> =
@@ -46,12 +49,21 @@ class SettingViewModel @Inject constructor(
         _settingUiState.value = _settingUiState.value.copy(withDrawResult = true)
     }
 
+    fun deleteUserInfo(deleteCode: String) {
+        viewModelScope.launch {
+            runCatching {
+                deleteUserInfoUseCase.invoke(deleteCode)
+            }.onSuccess { Log.d("deleteUserInfoSuccess", it.getOrNull().toString()) }
+                .onFailure { Log.d("deleteUserInfoFail", it.message.toString()) }
+        }
+    }
+
     fun patchMarketingInfo() {
         viewModelScope.launch {
-            kotlin.runCatching {
+            runCatching {
                 marketingInfoUseCase.invoke()
-            }.onSuccess { it.getOrNull() }
-                .onFailure { it.message }
+            }.onSuccess {}
+                .onFailure {}
         }
     }
 

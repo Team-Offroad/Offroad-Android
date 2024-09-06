@@ -1,6 +1,7 @@
 package com.teamoffroad.feature.mypage.data.di
 
 import com.teamoffroad.feature.mypage.domain.repository.UserRepository
+import com.teamoffroad.feature.mypage.domain.usecase.DeleteUserInfoUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.UserEmblemsUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.UserMarketingInfoUseCase
 import dagger.Module
@@ -27,5 +28,13 @@ class UseCaseModule {
         userRepository: UserRepository
     ): UserMarketingInfoUseCase {
         return UserMarketingInfoUseCase(userRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDeleteUserInfoUseCase(
+        userRepository: UserRepository
+    ): DeleteUserInfoUseCase {
+        return DeleteUserInfoUseCase(userRepository)
     }
 }

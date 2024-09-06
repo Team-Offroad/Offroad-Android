@@ -35,6 +35,9 @@ fun WithDrawDialog(
     isWithDrawText: String,
     isWithDrawResult: Boolean,
     isWithDrawResultChanged: () -> Unit,
+    withDrawInputText: String,
+    navigateToSignIn: () -> Unit,
+    onClick: KFunction1<String, Unit>,
     onClickCancel: () -> Unit,
 ) {
 
@@ -99,7 +102,10 @@ fun WithDrawDialog(
                     )
                     WithDrawButton(
                         text = "탈퇴",
-                        onClick = {},
+                        onClick = {
+                            onClick(withDrawInputText)
+                            navigateToSignIn()
+                        },
                         textColor = White,
                         backgroundColor = Main2,
                         modifier = Modifier.weight(1f),
@@ -120,7 +126,8 @@ private fun WithDrawButton(
     backgroundColor: Color,
     isWithDrawResult: Boolean = true,
 ) {
-    Text(text = text,
+    Text(
+        text = text,
         color = textColor,
         style = OffroadTheme.typography.btnSmall,
         textAlign = TextAlign.Center,
@@ -133,10 +140,16 @@ private fun WithDrawButton(
                     backgroundColor,
                 shape = RoundedCornerShape(5.dp),
             )
-            .border(width = 1.dp, shape = RoundedCornerShape(5.dp), color = if (!isWithDrawResult) {
-                backgroundColor.copy(alpha = 0.15f)
-            } else
-                Main2,)
+            .border(
+                width = 1.dp, shape = RoundedCornerShape(5.dp),
+                color = if (!isWithDrawResult) {
+                    backgroundColor.copy(alpha = 0.15f)
+                } else
+                    Main2,
+            )
             .padding(vertical = 14.dp, horizontal = 38.dp)
-            .clickableWithoutRipple { onClick() })
+            .clickableWithoutRipple(
+                onClick = onClick
+            )
+    )
 }
