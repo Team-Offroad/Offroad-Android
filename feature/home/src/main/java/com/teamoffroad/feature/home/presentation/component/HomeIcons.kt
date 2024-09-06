@@ -33,7 +33,6 @@ import kotlinx.coroutines.launch
 fun HomeIcons(
     context: Context,
     imageUrl: String,
-    category: String
 ) {
     val scope = rememberCoroutineScope()
 
