@@ -3,6 +3,7 @@ package com.teamoffroad.feature.auth.data.di
 import com.teamoffroad.feature.auth.domain.repository.AuthRepository
 import com.teamoffroad.feature.auth.domain.usecase.AuthUseCase
 import com.teamoffroad.feature.auth.domain.usecase.ClearAutoSignInUseCase
+import com.teamoffroad.feature.auth.domain.usecase.ClearDataStoreUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetAutoSignInUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetBirthDateValidateUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetCharacterListUseCase
@@ -77,5 +78,13 @@ object UseCaseModule {
     @Singleton
     fun provideGetBirthDateValidateUseCase(): GetBirthDateValidateUseCase {
         return GetBirthDateValidateUseCase()
+    }
+
+    @Provides
+    @Singleton
+    fun provideClearDataStoreUseCase(
+        authRepository: AuthRepository
+    ): ClearDataStoreUseCase {
+        return ClearDataStoreUseCase(authRepository)
     }
 }

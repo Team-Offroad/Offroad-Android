@@ -55,6 +55,7 @@ internal fun AuthScreen(
         }
     }
     LaunchedEffect(Unit) {
+        viewModel.clearDataStore()
         signInLauncherInitialized = true
     }
     LaunchedEffect(Unit) {

@@ -10,6 +10,7 @@ import com.google.android.gms.tasks.Task
 import com.teamoffroad.core.common.domain.usecase.SaveAccessTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.SaveRefreshTokenUseCase
 import com.teamoffroad.feature.auth.domain.usecase.AuthUseCase
+import com.teamoffroad.feature.auth.domain.usecase.ClearDataStoreUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetAutoSignInUseCase
 import com.teamoffroad.feature.auth.domain.usecase.SetAutoSignInUseCase
 import com.teamoffroad.feature.auth.presentation.model.SocialSignInPlatform
@@ -27,6 +28,7 @@ class AuthViewModel @Inject constructor(
     private val saveRefreshTokenUseCase: SaveRefreshTokenUseCase,
     private val setAutoSignInUseCase: SetAutoSignInUseCase,
     private val getAutoSignInUseCase: GetAutoSignInUseCase,
+    private val clearDataStoreUseCase: ClearDataStoreUseCase
 ) : ViewModel() {
 
     private val _successSignIn = MutableStateFlow(false)
@@ -37,6 +39,14 @@ class AuthViewModel @Inject constructor(
 
     private val _alreadyExist = MutableStateFlow(false)
     val alreadyExist: StateFlow<Boolean> = _alreadyExist
+
+    fun clearDataStore() {
+        viewModelScope.launch {
+            runCatching { googleSignInClient.signOut() }
+                .onSuccess { clearDataStoreUseCase.invoke() }
+                .onFailure { it.message.toString() }
+        }
+    }
 
     fun performGoogleSignIn(result: Task<GoogleSignInAccount>) {
         viewModelScope.launch {

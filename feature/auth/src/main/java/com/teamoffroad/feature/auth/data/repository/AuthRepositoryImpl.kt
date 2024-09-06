@@ -67,6 +67,12 @@ class AuthRepositoryImpl @Inject constructor(
         authService.fetchUserProfile(userProfile.toData())
     }
 
+    override suspend fun clearDataStore() {
+        dataStore.edit { preferences ->
+            preferences.clear()
+        }
+    }
+
     companion object {
         private val AUTO_LOGIN_KEY = booleanPreferencesKey("auto_login")
     }

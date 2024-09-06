@@ -14,4 +14,5 @@ interface AuthRepository {
     suspend fun getCharacters(): List<Character>
     suspend fun setCharacter(characterId: Int): String
     suspend fun patchUserProfile(userProfile: UserProfile)
+    suspend fun clearDataStore()
 }
