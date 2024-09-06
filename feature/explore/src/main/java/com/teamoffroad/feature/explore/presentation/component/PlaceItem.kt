@@ -40,7 +40,7 @@ fun PlaceItem(
     Column(modifier) {
         Row {
             PlaceTagItem(
-                text = placeModel.placeCategory.krTitle,
+                text = placeModel.placeCategory.krName,
                 textColor = Sub2,
                 backgroundColor = NametagInactive,
             )

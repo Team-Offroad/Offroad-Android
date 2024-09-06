@@ -64,10 +64,16 @@ internal fun MainNavHost(
                 navigateToGainedCharacter = {
                     navigator.navigateToGainedCharacter()
                 },
+                navigateToGainedEmblems = navigator::navigateToGainedEmblems,
+                navigateToSetting = navigator::navigateToSetting,
+                navigateToAnnouncement = navigator::navigateToAnnouncement,
+                navigateToAnnouncementDetail = navigator::navigateToAnnouncementDetail,
+                navigateToSignIn = navigator::navigateToSignIn,
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
             )
             authNavGraph(
                 navigateToHome = { navigator.navigateToHome() },
+                navigateToAgreeTermsAndConditions = {},
                 navigateToSetNickname = { navigator.navigateToSetNickname() },
                 navigateToSetBirthDate = { nickname ->
                     navigator.navigateToSetBirthDate(nickname)

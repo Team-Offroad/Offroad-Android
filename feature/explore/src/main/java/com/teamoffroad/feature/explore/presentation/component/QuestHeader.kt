@@ -49,7 +49,7 @@ fun QuestHeader(
         )
         ExploreSwitch(
             isChecked = isChecked,
-            onCheckedChange = { updateProceedingToggle() },
+            onTap = { updateProceedingToggle() },
             modifier = Modifier.padding(start = 8.dp),
         )
     }

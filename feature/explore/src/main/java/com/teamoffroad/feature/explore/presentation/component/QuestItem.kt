@@ -26,20 +26,20 @@ import com.teamoffroad.core.designsystem.theme.Gray400
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub2
-import com.teamoffroad.feature.explore.presentation.model.FakeQuestModel
+import com.teamoffroad.feature.explore.presentation.model.QuestModel
 import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 fun QuestItem(
     modifier: Modifier = Modifier,
-    questModel: FakeQuestModel,
+    questModel: QuestModel,
 ) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            text = questModel.name,
+            text = questModel.questName,
             style = OffroadTheme.typography.textBold,
             color = Main2,
             modifier = Modifier.weight(1f),
@@ -58,8 +58,8 @@ fun QuestItem(
 }
 
 @Composable
-fun QuestProgressText(questModel: FakeQuestModel) {
-    val progressText = "(${questModel.questProgressModel.progress}/${questModel.questProgressModel.total})"
+fun QuestProgressText(questModel: QuestModel) {
+    val progressText = "(${questModel.questProgressModel.progressCount}/${questModel.questProgressModel.totalCount})"
     val annotatedString = buildAnnotatedString {
         withStyle(style = SpanStyle(color = Gray400)) {
             append(stringResource(R.string.explore_quest_achievement_rate))
@@ -79,13 +79,14 @@ fun QuestProgressText(questModel: FakeQuestModel) {
 @Composable
 fun QuestExtraItem(
     modifier: Modifier = Modifier,
-    questModel: FakeQuestModel,
+    questModel: QuestModel,
 ) {
     Column {
         Text(
             text = questModel.description,
             style = OffroadTheme.typography.boxMedi,
             color = Gray400,
+            maxLines = 2,
             modifier = Modifier.padding(top = 8.dp),
         )
         Column(
@@ -97,7 +98,7 @@ fun QuestExtraItem(
         ) {
             QuestDetailItem(
                 icon = painterResource(id = R.drawable.ic_explore_quest_task),
-                text = questModel.task,
+                text = questModel.requirement,
             )
             QuestDetailItem(
                 icon = painterResource(id = R.drawable.ic_explore_quest_reward),
