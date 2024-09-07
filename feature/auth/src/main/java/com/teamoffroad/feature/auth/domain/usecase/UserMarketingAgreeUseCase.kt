@@ -3,9 +3,9 @@ package com.teamoffroad.feature.auth.domain.usecase
 import com.teamoffroad.feature.auth.domain.repository.AuthRepository
 
 class UserMarketingAgreeUseCase(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
 ) {
     suspend operator fun invoke(marketingAgree: Boolean): Result<Unit> {
-        return authRepository.patchMarketingAgree(marketingAgree)
+        return authRepository.saveMarketingAgree(marketingAgree)
     }
 }

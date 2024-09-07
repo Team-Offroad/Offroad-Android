@@ -20,7 +20,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -43,7 +42,6 @@ internal fun AuthScreen(
     navigateToAgreeTermsAndConditions: () -> Unit,
     viewModel: AuthViewModel = hiltViewModel(),
 ) {
-    val context = LocalContext.current
     val isSignInSuccess by viewModel.successSignIn.collectAsStateWithLifecycle()
     val isAutoSignIn by viewModel.autoSignIn.collectAsStateWithLifecycle()
     val isAlreadyExist by viewModel.alreadyExist.collectAsStateWithLifecycle()
