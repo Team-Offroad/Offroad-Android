@@ -43,28 +43,22 @@ class SettingViewModel @Inject constructor(
     }
 
     fun changeWithDrawInputText(text: String) {
-        _settingUiState.value = _settingUiState.value.copy(withDrawInputState = text)
+        _settingUiState.value = settingUiState.value.copy(withDrawInputState = text)
     }
 
     fun changeWithDrawInputTextResult() {
-        _settingUiState.value = _settingUiState.value.copy(withDrawResult = true)
+        _settingUiState.value = settingUiState.value.copy(withDrawResult = true)
     }
 
     fun deleteUserInfo(deleteCode: String) {
         viewModelScope.launch {
-            runCatching {
-                deleteUserInfoUseCase.invoke(deleteCode)
-            }.onSuccess {}
-                .onFailure {}
+            deleteUserInfoUseCase.invoke(deleteCode)
         }
     }
 
     fun changedMarketingAgree(marketingAgree: Boolean) {
         viewModelScope.launch {
-            runCatching {
-                marketingInfoUseCase.invoke(marketingAgree)
-            }.onSuccess {}
-                .onFailure {}
+            marketingInfoUseCase.invoke(marketingAgree)
         }
     }
 

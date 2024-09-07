@@ -36,13 +36,13 @@ class AgreeTermsAndConditionsViewModel @Inject constructor(
         _agreeTermsAndConditionsUiState.asStateFlow()
 
     fun allCheckedChangedListener() {
-        if (_allChecked.value) {
+        if (allChecked.value) {
             _allChecked.value = false
             _serviceUtil.value = false
             _personalInfo.value = false
             _location.value = false
             _marketing.value = false
-        } else if (!_allChecked.value) {
+        } else if (!allChecked.value) {
             _allChecked.value = true
             _serviceUtil.value = true
             _personalInfo.value = true
@@ -52,41 +52,41 @@ class AgreeTermsAndConditionsViewModel @Inject constructor(
     }
 
     fun serviceCheckedChangedListener() {
-        _serviceUtil.value = !_serviceUtil.value
+        _serviceUtil.value = !serviceUtil.value
     }
 
     fun personalCheckedChangedListener() {
-        _personalInfo.value = !_personalInfo.value
+        _personalInfo.value = !personalInfo.value
     }
 
     fun locationCheckedChangedListener() {
-        _location.value = !_location.value
+        _location.value = !location.value
     }
 
     fun marketingCheckedChangedListener() {
-        _marketing.value = !_marketing.value
+        _marketing.value = !marketing.value
     }
 
     fun serviceDialogCheckedChangedListener() {
-        if (!_serviceUtil.value) {
+        if (!serviceUtil.value) {
             _serviceUtil.value = true
         }
     }
 
     fun personalDialogCheckedChangedListener() {
-        if (!_personalInfo.value) {
+        if (!personalInfo.value) {
             _personalInfo.value = true
         }
     }
 
     fun locationDialogCheckedChangedListener() {
-        if (!_location.value) {
+        if (!location.value) {
             _location.value = true
         }
     }
 
     fun marketingDialogCheckedChangedListener() {
-        if (!_marketing.value) {
+        if (!marketing.value) {
             _marketing.value = true
         }
     }
@@ -122,8 +122,12 @@ class AgreeTermsAndConditionsViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching {
                 marketingInfoUseCase.invoke(marketingAgree)
-            }.onSuccess {}
-                .onFailure {}
+            }.onSuccess {
+                _dialogState.value =
+                    DialogState.EMPTY
+            }.onFailure {
+                //TODO. 마케팅 동의 api 전송이 실패했을때
+            }
         }
     }
 }

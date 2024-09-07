@@ -32,7 +32,7 @@ class GainedEmblemsViewModel @Inject constructor(
                     GainedEmblemsResult.Success
                 )
             }.onFailure {
-                _emblemsUiState.value.copy(nicknameValidateResult = GainedEmblemsResult.Error)
+                emblemsUiState.value.copy(nicknameValidateResult = GainedEmblemsResult.Error)
             }
         }
     }
