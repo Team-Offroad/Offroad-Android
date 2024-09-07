@@ -20,17 +20,21 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DataStoreModule {
 
-    @Provides
-    @Singleton
-    @Named("tokenDataStore")
-    fun provideTokenDataStore(@ApplicationContext context: Context): DataStore<Preferences> {
+    fun Context.createDataStore(preferencesName: String): DataStore<Preferences> {
         return PreferenceDataStoreFactory.create(
             corruptionHandler = ReplaceFileCorruptionHandler(
                 produceNewData = { emptyPreferences() }
             ),
-            migrations = listOf(SharedPreferencesMigration(context, TOKEN_PREFERENCES)),
-            produceFile = { context.preferencesDataStoreFile(TOKEN_PREFERENCES) },
+            migrations = listOf(SharedPreferencesMigration(this, preferencesName)),
+            produceFile = { this.preferencesDataStoreFile(preferencesName) }
         )
+    }
+
+    @Provides
+    @Singleton
+    @Named("tokenDataStore")
+    fun provideTokenDataStore(@ApplicationContext context: Context): DataStore<Preferences> {
+        return context.createDataStore(TOKEN_PREFERENCES)
     }
 
     private const val TOKEN_PREFERENCES = "com.teamoffroad.token_preferences"
