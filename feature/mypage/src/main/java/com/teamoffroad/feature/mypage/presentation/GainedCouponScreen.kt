@@ -34,7 +34,7 @@ internal fun GainedCouponScreen(
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
     navigateToMyPage: () -> Unit,
     backgroundColor: Color = ListBg,
-    viewModel: GainedCouponViewModel = hiltViewModel()
+    viewModel: GainedCouponViewModel = hiltViewModel(),
 ) {
 
     LaunchedEffect(Unit) {

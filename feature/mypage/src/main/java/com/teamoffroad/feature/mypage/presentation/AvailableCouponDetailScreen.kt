@@ -30,10 +30,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
-import com.teamoffroad.core.designsystem.component.GestureNavigation
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
+import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Black15
 import com.teamoffroad.core.designsystem.theme.Contents2
 import com.teamoffroad.core.designsystem.theme.Gray100
@@ -59,7 +59,7 @@ fun AvailableCouponDetailScreen(
     placeId: Int,
     navigateToGainedCoupon: () -> Unit,
     availableCouponDetailViewModel: AvailableCouponDetailViewModel = hiltViewModel(),
-    backgroundColor: Color = ListBg
+    backgroundColor: Color = ListBg,
 ) {
     val couponCode = availableCouponDetailViewModel.couponCode.collectAsStateWithLifecycle().value
     val couponCodeSuccess =
@@ -67,7 +67,7 @@ fun AvailableCouponDetailScreen(
 
     Box(
         modifier = Modifier
-            .then(GestureNavigation())
+            .navigationPadding()
             .background(Sub4)
     ) {
         Column(
@@ -111,7 +111,7 @@ fun AvailableCouponCard(
     shape: Shape = RoundedCornerShape(20.dp),
     borderWidth: Dp = 1.dp,
     textColor: Color = Main2,
-    backgroundColor: Color = Main1
+    backgroundColor: Color = Main1,
 ) {
     Box(
         modifier = Modifier
@@ -210,7 +210,7 @@ private fun UseAvailableCouponButton(
     updateCouponCodeSuccess: (CheckCouponState) -> Unit,
     couponCodeSuccess: CheckCouponState,
     updateCode: (String) -> Unit,
-    saveCoupon: (UseCoupon) -> Unit
+    saveCoupon: (UseCoupon) -> Unit,
 ) {
     val isUseAvailableCouponDialogShown = remember { mutableStateOf(false) }
 

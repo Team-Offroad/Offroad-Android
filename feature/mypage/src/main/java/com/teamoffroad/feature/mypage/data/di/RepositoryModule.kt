@@ -34,7 +34,7 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindUserCouponsRepository(
-        userCouponsRepositoryImpl: UserCouponRepositoryImpl
+        userCouponsRepositoryImpl: UserCouponRepositoryImpl,
     ): UserCouponRepository
 
     @Binds
