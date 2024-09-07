@@ -21,7 +21,7 @@ class AuthInterceptor @Inject constructor(
         }
 
         val requestBuilder = chain.request().newBuilder()
-        val isRefreshTokenRequest = !chain.request().url.toString().endsWith("refresh")
+        val isRefreshTokenRequest = chain.request().url.toString().endsWith("refresh")
 
         if (!isRefreshTokenRequest) {
             accessToken.let { token ->
