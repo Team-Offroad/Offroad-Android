@@ -2,13 +2,13 @@ package com.teamoffroad.feature.auth.data.di
 
 import com.teamoffroad.feature.auth.domain.repository.AuthRepository
 import com.teamoffroad.feature.auth.domain.usecase.AuthUseCase
-import com.teamoffroad.feature.auth.domain.usecase.ClearAutoSignInUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetAutoSignInUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetBirthDateValidateUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetCharacterListUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetNicknameValidateUseCase
-import com.teamoffroad.feature.auth.domain.usecase.SetAutoSignInUseCase
-import com.teamoffroad.feature.auth.domain.usecase.SetCharacterUseCase
+import com.teamoffroad.feature.auth.domain.usecase.UpdateAutoSignInUseCase
+import com.teamoffroad.feature.auth.domain.usecase.UpdateCharacterUseCase
+import com.teamoffroad.feature.auth.domain.usecase.UserMarketingAgreeUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,16 +39,8 @@ object UseCaseModule {
     @Singleton
     fun provideSetAutoLoginUseCase(
         authRepository: AuthRepository,
-    ): SetAutoSignInUseCase {
-        return SetAutoSignInUseCase(authRepository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideClearAutoLoginUseCase(
-        authRepository: AuthRepository,
-    ): ClearAutoSignInUseCase {
-        return ClearAutoSignInUseCase(authRepository)
+    ): UpdateAutoSignInUseCase {
+        return UpdateAutoSignInUseCase(authRepository)
     }
 
     @Provides
@@ -63,8 +55,8 @@ object UseCaseModule {
     @Singleton
     fun provideSetCharacterUseCase(
         authRepository: AuthRepository,
-    ): SetCharacterUseCase {
-        return SetCharacterUseCase(authRepository)
+    ): UpdateCharacterUseCase {
+        return UpdateCharacterUseCase(authRepository)
     }
 
     @Provides
@@ -77,5 +69,13 @@ object UseCaseModule {
     @Singleton
     fun provideGetBirthDateValidateUseCase(): GetBirthDateValidateUseCase {
         return GetBirthDateValidateUseCase()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMarketingAgreeUseCase(
+        authRepository: AuthRepository,
+    ): UserMarketingAgreeUseCase {
+        return UserMarketingAgreeUseCase(authRepository)
     }
 }

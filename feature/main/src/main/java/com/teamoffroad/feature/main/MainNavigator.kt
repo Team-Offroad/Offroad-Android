@@ -24,6 +24,7 @@ import com.teamoffroad.feature.home.navigation.navigateToHome
 import com.teamoffroad.feature.mypage.navigation.navigateToAnnouncement
 import com.teamoffroad.feature.mypage.navigation.navigateToAnnouncementDetail
 import com.teamoffroad.feature.mypage.navigation.navigateToAvailableCouponDetail
+import com.teamoffroad.feature.mypage.navigation.navigateToCharacterDetail
 import com.teamoffroad.feature.mypage.navigation.navigateToGainedCharacter
 import com.teamoffroad.feature.mypage.navigation.navigateToGainedCoupon
 import com.teamoffroad.feature.mypage.navigation.navigateToGainedEmblems
@@ -137,8 +138,9 @@ internal class MainNavigator(
         name: String,
         couponImageUrl: String,
         description: String,
+        placeId: Int,
     ) {
-        navController.navigateToAvailableCouponDetail(id, name, couponImageUrl, description)
+        navController.navigateToAvailableCouponDetail(id, name, couponImageUrl, description, placeId)
     }
 
     fun navigateToExplore(authResultType: String, imageUrl: String) {
@@ -176,6 +178,10 @@ internal class MainNavigator(
         isImportant: Boolean,
     ) {
         navController.navigateToAnnouncementDetail(title, content, link, isImportant)
+    }
+
+    fun navigateToCharacterDetail(characterId: Int, isRepresentative: Boolean) {
+        navController.navigateToCharacterDetail(characterId, isRepresentative)
     }
 
     fun navigateToHomeFromExplore(category: String, completeQuest: List<String>) {

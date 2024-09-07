@@ -54,14 +54,11 @@ internal fun MainNavHost(
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
             )
             myPageNavGraph(
-                navigateToMyPage = {
-                    navigator.navigateToMyPage()
-                },
                 navigateToGainedCoupon = {
                     navigator.navigateToGainedCoupon()
                 },
-                navigateToAvailableCouponDetail = { id, name, couponImageUrl, description ->
-                    navigator.navigateToAvailableCouponDetail(id, name, couponImageUrl, description)
+                navigateToAvailableCouponDetail = { id, name, couponImageUrl, description, placeId ->
+                    navigator.navigateToAvailableCouponDetail(id, name,couponImageUrl, description, placeId)
                 },
                 navigateToGainedCharacter = {
                     navigator.navigateToGainedCharacter()
@@ -71,11 +68,12 @@ internal fun MainNavHost(
                 navigateToAnnouncement = navigator::navigateToAnnouncement,
                 navigateToAnnouncementDetail = navigator::navigateToAnnouncementDetail,
                 navigateToSignIn = navigator::navigateToSignIn,
+                navigateToCharacterDetail = navigator::navigateToCharacterDetail,
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
             )
             authNavGraph(
                 navigateToHome = { navigator.navigateToHome() },
-                navigateToAgreeTermsAndConditions = {},
+                navigateToAgreeTermsAndConditions = { navigator.navigateToAgreeTermsAndConditions() },
                 navigateToSetNickname = { navigator.navigateToSetNickname() },
                 navigateToSetBirthDate = { nickname ->
                     navigator.navigateToSetBirthDate(nickname)

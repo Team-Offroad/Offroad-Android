@@ -8,12 +8,14 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -42,6 +44,8 @@ fun CharacterFrameItem(
     characterThumbnailImageUrl: String = "",
     isGained: Boolean = false,
     isLottieImage: Boolean = false,
+    isRepresentative: Boolean = false,
+    isNewGained: Boolean = false,
     onClick: () -> Unit = {},
 ) {
     Box(
@@ -63,7 +67,6 @@ fun CharacterFrameItem(
                         shape = RoundedCornerShape(size = 10.dp)
                     )
             ) {
-
                 when (isLottieImage) {
                     true -> MotionCharacterThumbnail(
                         modifier = Modifier
@@ -80,6 +83,7 @@ fun CharacterFrameItem(
                             .build(),
                         contentDescription = null,
                         modifier = Modifier
+                            .align(Alignment.BottomCenter)
                             .padding(horizontal = 28.dp)
                             .padding(bottom = 12.dp)
                             .fillMaxWidth(),
@@ -95,8 +99,24 @@ fun CharacterFrameItem(
                     .padding(top = 10.dp, bottom = 2.dp),
             )
         }
-        if (!isGained) {
-            CharacterLockedCover()
+        when {
+            isRepresentative -> {
+                RepresentativeTopIcon(
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                )
+            }
+
+            isNewGained -> {
+                NewGainedTopIcon(
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                )
+            }
+
+            !isGained -> {
+                CharacterLockedCover()
+            }
         }
     }
 }
@@ -120,6 +140,33 @@ private fun MotionCharacterThumbnail(
         progress = progress,
         contentScale = ContentScale.FillHeight,
         modifier = modifier
+    )
+}
+
+@Composable
+private fun RepresentativeTopIcon(
+    modifier: Modifier = Modifier,
+) {
+    Image(
+        painter = painterResource(id = R.drawable.ic_my_page_representative),
+        contentDescription = "",
+        modifier = modifier
+            .padding(18.dp)
+            .size(24.dp)
+            .shadow(elevation = 4.dp, shape = RoundedCornerShape(size = 10.dp)),
+    )
+}
+
+@Composable
+private fun NewGainedTopIcon(
+    modifier: Modifier = Modifier,
+) {
+    Image(
+        painter = painterResource(id = R.drawable.ic_my_page_new),
+        contentDescription = "",
+        modifier = modifier
+            .padding(18.dp)
+            .size(24.dp),
     )
 }
 

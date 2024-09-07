@@ -34,11 +34,11 @@ class SetGenderViewModel @Inject constructor(
         gender: String? = when (val state = genderUiState.value) {
             is SetGenderUiState.Select -> state.selectedGender
             else -> null
-        }
+        },
     ) {
         viewModelScope.launch {
             runCatching {
-                authRepository.patchUserProfile(
+                authRepository.saveUserProfile(
                     userProfile = UserProfile(
                         nickname = nickname,
                         year = birthDate?.split("-")?.get(0)?.toInt(),

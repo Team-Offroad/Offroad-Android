@@ -11,6 +11,7 @@ import com.teamoffroad.core.navigation.Route
 import com.teamoffroad.feature.mypage.presentation.AnnouncementDetailScreen
 import com.teamoffroad.feature.mypage.presentation.AnnouncementScreen
 import com.teamoffroad.feature.mypage.presentation.AvailableCouponDetailScreen
+import com.teamoffroad.feature.mypage.presentation.CharacterDetailScreen
 import com.teamoffroad.feature.mypage.presentation.GainedCharacterScreen
 import com.teamoffroad.feature.mypage.presentation.GainedCouponScreen
 import com.teamoffroad.feature.mypage.presentation.GainedEmblemsScreen
@@ -34,8 +35,9 @@ fun NavController.navigateToAvailableCouponDetail(
     name: String,
     couponImageUrl: String,
     description: String,
+    placeId: Int,
 ) {
-    navigate(MyPageRoute.AvailableCouponScreen(id, name, couponImageUrl, description))
+    navigate(MyPageRoute.AvailableCouponScreen(id, name, couponImageUrl, description, placeId))
 }
 
 fun NavController.navigateToGainedEmblems() {
@@ -51,7 +53,7 @@ fun NavController.navigateToAnnouncement() {
 }
 
 fun NavController.navigateToAnnouncementDetail(
-    title: String, content: String, link: String, isImportant: Boolean
+    title: String, content: String, link: String, isImportant: Boolean,
 ) {
     navigate(MyPageRoute.AnnouncementDetail(title, content, link, isImportant))
 }
@@ -60,16 +62,20 @@ fun NavController.navigateToSignIn() {
     navigate(Route.Auth)
 }
 
+fun NavController.navigateToCharacterDetail(characterId: Int, isRepresentative: Boolean) {
+    navigate(MyPageRoute.CharacterDetail(characterId, isRepresentative))
+}
+
 fun NavGraphBuilder.myPageNavGraph(
-    navigateToMyPage: () -> Unit,
     navigateToGainedCharacter: () -> Unit,
     navigateToGainedCoupon: () -> Unit,
-    navigateToAvailableCouponDetail: (Int, String, String, String) -> Unit,
+    navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
     navigateToGainedEmblems: () -> Unit,
     navigateToSetting: () -> Unit,
     navigateToAnnouncement: () -> Unit,
     navigateToAnnouncementDetail: (String, String, String, Boolean) -> Unit,
     navigateToSignIn: () -> Unit,
+    navigateToCharacterDetail: (Int, Boolean) -> Unit,
     navigateToBack: () -> Unit,
 ) {
     composable<MainTabRoute.MyPage> {
@@ -82,11 +88,11 @@ fun NavGraphBuilder.myPageNavGraph(
     }
 
     composable<MyPageRoute.GainedCharacter> {
-        GainedCharacterScreen(navigateToBack)
+        GainedCharacterScreen(navigateToCharacterDetail, navigateToBack)
     }
 
     composable<MyPageRoute.GainedCouponScreen> {
-        GainedCouponScreen(navigateToAvailableCouponDetail, navigateToMyPage)
+        GainedCouponScreen(navigateToAvailableCouponDetail, navigateToBack)
     }
 
     composable<MyPageRoute.AvailableCouponScreen> { backStackEntry ->
@@ -95,7 +101,8 @@ fun NavGraphBuilder.myPageNavGraph(
         val couponImageUrl =
             backStackEntry.toRoute<MyPageRoute.AvailableCouponScreen>().couponImageUrl
         val description = backStackEntry.toRoute<MyPageRoute.AvailableCouponScreen>().description
-        AvailableCouponDetailScreen(id, name, couponImageUrl, description, navigateToGainedCoupon)
+        val placeId = backStackEntry.toRoute<MyPageRoute.AvailableCouponScreen>().placeId
+        AvailableCouponDetailScreen(id, name, couponImageUrl, description, placeId, navigateToBack)
     }
 
     composable<MyPageRoute.GainedEmblems> {
@@ -123,5 +130,11 @@ fun NavGraphBuilder.myPageNavGraph(
         val link = backStackEntry.toRoute<MyPageRoute.AnnouncementDetail>().link
         val isImportant = backStackEntry.toRoute<MyPageRoute.AnnouncementDetail>().isImportant
         AnnouncementDetailScreen(title, content, link, isImportant, navigateToBack)
+    }
+
+    composable<MyPageRoute.CharacterDetail> { backStackEntry ->
+        val characterId = backStackEntry.toRoute<MyPageRoute.CharacterDetail>().characterId
+        val isRepresentative = backStackEntry.toRoute<MyPageRoute.CharacterDetail>().isRepresentative
+        CharacterDetailScreen(characterId, isRepresentative, navigateToBack)
     }
 }

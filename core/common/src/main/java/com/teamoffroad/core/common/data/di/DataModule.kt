@@ -1,0 +1,18 @@
+package com.teamoffroad.core.common.data.di
+
+import com.teamoffroad.core.common.data.datasource.DefaultTokenPreferencesDataSource
+import com.teamoffroad.core.common.data.datasource.TokenPreferencesDataSource
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+
+@InstallIn(SingletonComponent::class)
+@Module
+internal abstract class DataModule {
+
+    @Binds
+    abstract fun bindsTokenLocalDataSource(
+        dataSource: DefaultTokenPreferencesDataSource,
+    ): TokenPreferencesDataSource
+}
