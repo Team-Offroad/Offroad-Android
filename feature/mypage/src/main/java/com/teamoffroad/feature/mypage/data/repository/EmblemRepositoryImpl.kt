@@ -4,12 +4,12 @@ import com.teamoffroad.feature.mypage.data.mapper.toGainedEmblemsList
 import com.teamoffroad.feature.mypage.data.mapper.toNotGainedEmblemsList
 import com.teamoffroad.feature.mypage.data.remote.service.EmblemService
 import com.teamoffroad.feature.mypage.domain.model.GainedEmblem
-import com.teamoffroad.feature.mypage.domain.repository.GainedEmblemsRepository
+import com.teamoffroad.feature.mypage.domain.repository.EmblemRepository
 import javax.inject.Inject
 
-class GainedEmblemsRepositoryImpl @Inject constructor(
-    private val emblemService: EmblemService
-) : GainedEmblemsRepository {
+class EmblemRepositoryImpl @Inject constructor(
+    private val emblemService: EmblemService,
+) : EmblemRepository {
 
     override suspend fun getGainedEmblems(): Result<List<GainedEmblem>?> {
         val gainedEmblemResult = runCatching { emblemService.getGainedEmblems().data }
@@ -32,5 +32,5 @@ class GainedEmblemsRepositoryImpl @Inject constructor(
 }
 
 data class UnReachableException(
-    val msg: String
+    val msg: String,
 ) : Exception()
