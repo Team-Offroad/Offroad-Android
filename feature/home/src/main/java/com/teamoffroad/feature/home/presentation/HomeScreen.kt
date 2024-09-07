@@ -2,7 +2,6 @@ package com.teamoffroad.feature.home.presentation
 
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
@@ -54,8 +53,6 @@ fun HomeScreen(
     val context = LocalContext.current
     val viewModel: HomeViewModel = hiltViewModel()
     val isCompleteQuestDialogShown = remember { mutableStateOf(false) }
-
-    Log.d("retrofit home", "category: $category, completeQuests: $completeQuests")
 
     LaunchedEffect(Unit) {
         viewModel.updateCategory(if (category.isNullOrEmpty()) "NONE" else category)
