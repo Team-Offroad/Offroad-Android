@@ -26,6 +26,7 @@ import com.teamoffroad.offroad.feature.auth.R
 fun AgreeTermsAndConditionsTopBarAllAgreeBox(
     isChecked: Boolean,
     onClick: () -> Unit,
+    onButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(

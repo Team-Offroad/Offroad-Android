@@ -2,7 +2,6 @@ package com.teamoffroad.feature.auth.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -27,6 +26,7 @@ fun AgreeTermsAndConditionsItem(
     text: String,
     isChecked: Boolean,
     modifier: Modifier = Modifier,
+    dialogShown: () -> Unit,
     onClick: () -> Unit,
 ) {
     Box(Modifier.clickableWithoutRipple { onClick() }
@@ -82,6 +82,7 @@ fun AgreeTermsAndConditionsItem(
             Image(
                 painter = painterResource(R.drawable.ic_agree_click_next),
                 contentDescription = "next",
+                modifier = Modifier.clickableWithoutRipple { dialogShown() }
             )
         }
     }
