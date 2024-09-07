@@ -29,14 +29,14 @@ import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
-import com.teamoffroad.feature.mypage.domain.model.UserCoupons
+import com.teamoffroad.feature.mypage.domain.model.UserCouponList
 import com.teamoffroad.offroad.feature.mypage.R
 import kotlinx.coroutines.launch
 
 @Composable
 fun GainedCouponViewPager(
-    availableCoupons: List<UserCoupons.AvailableCoupon>,
-    usedCoupons: List<UserCoupons.UsedCoupon>,
+    availableCoupons: List<UserCouponList.AvailableCoupon>,
+    usedCoupons: List<UserCouponList.UsedCoupon>,
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit
 ) {
     val tabTitles = listOf(

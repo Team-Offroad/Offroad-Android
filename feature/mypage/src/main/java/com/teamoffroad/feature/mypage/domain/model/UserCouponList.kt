@@ -1,6 +1,6 @@
 package com.teamoffroad.feature.mypage.domain.model
 
-data class UserCoupons(
+data class UserCouponList(
     val availableCoupons: List<AvailableCoupon>,
     val usedCoupons: List<UsedCoupon>
 ) {

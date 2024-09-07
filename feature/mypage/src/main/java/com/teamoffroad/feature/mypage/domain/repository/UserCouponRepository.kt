@@ -1,10 +1,10 @@
 package com.teamoffroad.feature.mypage.domain.repository
 
 import com.teamoffroad.feature.mypage.domain.model.UseCoupon
-import com.teamoffroad.feature.mypage.domain.model.UserCoupons
+import com.teamoffroad.feature.mypage.domain.model.UserCouponList
 
-interface UserCouponsRepository {
-    suspend fun fetchUserCoupons(): UserCoupons
+interface UserCouponRepository {
+    suspend fun fetchUserCoupons(): UserCouponList
 
     suspend fun saveUseCoupon(coupon: UseCoupon): Boolean
 }

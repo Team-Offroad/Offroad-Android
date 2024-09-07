@@ -3,12 +3,12 @@ package com.teamoffroad.feature.mypage.data.di
 import com.teamoffroad.feature.mypage.data.repository.CharacterRepositoryImpl
 import com.teamoffroad.feature.mypage.data.repository.EmblemRepositoryImpl
 import com.teamoffroad.feature.mypage.data.repository.MotionRepositoryImpl
-import com.teamoffroad.feature.mypage.data.repository.UserCouponsRepositoryImpl
+import com.teamoffroad.feature.mypage.data.repository.UserCouponRepositoryImpl
 import com.teamoffroad.feature.mypage.data.repository.UserRepositoryImpl
 import com.teamoffroad.feature.mypage.domain.repository.CharacterRepository
 import com.teamoffroad.feature.mypage.domain.repository.EmblemRepository
 import com.teamoffroad.feature.mypage.domain.repository.MotionRepository
-import com.teamoffroad.feature.mypage.domain.repository.UserCouponsRepository
+import com.teamoffroad.feature.mypage.domain.repository.UserCouponRepository
 import com.teamoffroad.feature.mypage.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
@@ -34,8 +34,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindUserCouponsRepository(
-        userCouponsRepositoryImpl: UserCouponsRepositoryImpl
-    ): UserCouponsRepository
+        userCouponsRepositoryImpl: UserCouponRepositoryImpl
+    ): UserCouponRepository
 
     @Binds
     @Singleton

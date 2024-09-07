@@ -57,7 +57,7 @@ fun UseAvailableCouponDialog(
     errorMessage: String,
     showDialog: MutableState<Boolean>,
     onClickCancel: () -> Unit,
-    updateCode: (String, Int, Int) -> Unit,
+    updateCode: (String) -> Unit,
     updateCouponCodeSuccess: (CheckCouponState) -> Unit,
     saveCoupon: (UseCoupon) -> Unit,
     modifier: Modifier = Modifier,
@@ -72,10 +72,11 @@ fun UseAvailableCouponDialog(
             dismissOnBackPress = true,
         )
     ) {
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .imePadding()
-            .padding(4.dp)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .imePadding()
+                .padding(4.dp)
         ) {
             Card(
                 modifier = modifier
@@ -116,7 +117,7 @@ private fun UseAvailableCouponDialogText(
     couponId: Int,
     placeId: Int,
     couponCodeSuccess: CheckCouponState,
-    updateCode: (String, Int, Int) -> Unit,
+    updateCode: (String) -> Unit,
     updateCouponCodeSuccess: (CheckCouponState) -> Unit,
     saveCoupon: (UseCoupon) -> Unit,
     modifier: Modifier = Modifier,
@@ -273,7 +274,7 @@ private fun CodeTextField(
     placeId: Int,
     maxLines: Int = 1,
     minLines: Int = 1,
-    updateCode: (String, Int, Int) -> Unit,
+    updateCode: (String) -> Unit,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
     val borderLineColor = remember { mutableStateOf(Gray100) }
@@ -283,7 +284,7 @@ private fun CodeTextField(
         value = couponCode.value,
         onValueChange = { newCode ->
             couponCode.value = newCode
-            updateCode(newCode, couponId, placeId)
+            updateCode(newCode)
         },
         singleLine = maxLines == 1,
         maxLines = if (minLines > maxLines) minLines else maxLines,
@@ -326,7 +327,7 @@ private fun CodeTextField(
 
 @Composable
 private fun ConfirmButton(
-    updateCode: (String, Int, Int) -> Unit,
+    updateCode: (String) -> Unit,
     couponCodeSuccess: CheckCouponState,
     updateCouponCodeSuccess: (CheckCouponState) -> Unit,
     saveCoupon: (UseCoupon) -> Unit,
@@ -362,12 +363,12 @@ private fun ConfirmButton(
                     }
 
                     CheckCouponState.SUCCESS -> {
-                        updateCode("", couponId, placeId)
+                        updateCode("")
                         showDialog.value = false
                     }
 
                     CheckCouponState.FAIL -> {
-                        updateCode("", couponId, placeId)
+                        updateCode("")
                         updateCouponCodeSuccess(CheckCouponState.NONE)
                         showDialog.value = false
                     }

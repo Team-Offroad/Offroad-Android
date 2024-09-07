@@ -3,7 +3,7 @@ package com.teamoffroad.feature.mypage.data.di
 import com.teamoffroad.feature.mypage.domain.repository.CharacterRepository
 import com.teamoffroad.feature.mypage.domain.repository.EmblemRepository
 import com.teamoffroad.feature.mypage.domain.repository.MotionRepository
-import com.teamoffroad.feature.mypage.domain.repository.UserCouponsRepository
+import com.teamoffroad.feature.mypage.domain.repository.UserCouponRepository
 import com.teamoffroad.feature.mypage.domain.repository.UserRepository
 import com.teamoffroad.feature.mypage.domain.usecase.DeleteUserInfoUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.GetCharacterDetailUseCase
@@ -11,7 +11,7 @@ import com.teamoffroad.feature.mypage.domain.usecase.GetCharacterListUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.GetCharacterMotionListUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.GetMyPageUserUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.GetUserEmblemListUseCase
-import com.teamoffroad.feature.mypage.domain.usecase.UserCouponsUseCase
+import com.teamoffroad.feature.mypage.domain.usecase.UserCouponListUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -64,10 +64,10 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideGetUserCouponsUseCase(
-        userCouponsRepository: UserCouponsRepository
-    ): UserCouponsUseCase {
-        return UserCouponsUseCase(userCouponsRepository)
+    fun provideGetUserCouponUseCase(
+        userCouponRepository: UserCouponRepository
+    ): UserCouponListUseCase {
+        return UserCouponListUseCase(userCouponRepository)
     }
 
     @Provides

@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -97,7 +96,7 @@ fun AvailableCouponDetailScreen(
                 updateCouponCodeSuccess = availableCouponDetailViewModel::updateCouponCodeSuccess,
                 couponCodeSuccess = couponCodeSuccess,
                 updateCode = availableCouponDetailViewModel::updateCode,
-                saveCoupon = availableCouponDetailViewModel::saveCoupon
+                saveCoupon = availableCouponDetailViewModel::updateCoupon
             )
         }
     }
@@ -210,14 +209,17 @@ private fun UseAvailableCouponButton(
     errorMessage: String,
     updateCouponCodeSuccess: (CheckCouponState) -> Unit,
     couponCodeSuccess: CheckCouponState,
-    updateCode: (String, Int, Int) -> Unit,
+    updateCode: (String) -> Unit,
     saveCoupon: (UseCoupon) -> Unit
 ) {
     val isUseAvailableCouponDialogShown = remember { mutableStateOf(false) }
 
     Text(
-        text = if (couponCodeSuccess == CheckCouponState.SUCCESS) stringResource(id = R.string.my_page_gained_coupon_used)
-        else stringResource(id = R.string.my_page_gained_coupon_use_available_coupon),
+        text = when (couponCodeSuccess) {
+            CheckCouponState.NONE -> stringResource(id = R.string.my_page_gained_coupon_use_available_coupon)
+            CheckCouponState.SUCCESS -> stringResource(id = R.string.my_page_gained_coupon_used)
+            CheckCouponState.FAIL -> stringResource(id = R.string.my_page_gained_coupon_use_available_coupon)
+        },
         color = White,
         style = OffroadTheme.typography.textRegular,
         textAlign = TextAlign.Center,

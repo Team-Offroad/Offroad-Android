@@ -3,7 +3,7 @@ package com.teamoffroad.feature.mypage.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.mypage.domain.model.UseCoupon
-import com.teamoffroad.feature.mypage.domain.repository.UserCouponsRepository
+import com.teamoffroad.feature.mypage.domain.repository.UserCouponRepository
 import com.teamoffroad.feature.mypage.presentation.component.getErrorMessage
 import com.teamoffroad.feature.mypage.presentation.model.CheckCouponState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AvailableCouponDetailViewModel @Inject constructor(
-    private val userCouponsRepository: UserCouponsRepository
+    private val userCouponRepository: UserCouponRepository
 ) : ViewModel() {
     private val _couponCode: MutableStateFlow<String> = MutableStateFlow("")
     val couponCode = _couponCode.asStateFlow()
@@ -27,16 +27,16 @@ class AvailableCouponDetailViewModel @Inject constructor(
     private val _errorMessage = MutableStateFlow<String>("")
     val errorMessage = _errorMessage.asStateFlow()
 
-    fun updateCode(code: String, couponId: Int, placeId: Int) {
+    fun updateCode(code: String) {
         viewModelScope.launch {
             _couponCode.value = code
         }
     }
 
-    fun saveCoupon(coupon: UseCoupon) { // 쿠폰 사용 버튼 누르면
+    fun updateCoupon(coupon: UseCoupon) {
         viewModelScope.launch {
             runCatching {
-                userCouponsRepository.saveUseCoupon(coupon)
+                userCouponRepository.saveUseCoupon(coupon)
             }.onSuccess { state ->
                 if (state) updateCouponCodeSuccess(CheckCouponState.SUCCESS)
                 else updateCouponCodeSuccess(CheckCouponState.FAIL)

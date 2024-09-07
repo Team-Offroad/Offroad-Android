@@ -8,7 +8,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 
-interface UserCouponsService {
+interface UserCouponService {
     @GET("users/coupons")
     suspend fun getCoupons(): BaseResponse<UserCouponsResponseDto>
 
