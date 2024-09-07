@@ -57,6 +57,10 @@ internal fun AnnouncementScreen(
             text = "오프로드 고객센터 추석 휴무 안내",
             isImportant = false,
             onClick = {})
-        SettingContainer(color = Main1, text = "운영 관련 사항을 알려드립니다.", isImportant = false, onClick = {})
+        SettingContainer(
+            color = Main1,
+            text = "운영 관련 사항을 알려드립니다.",
+            isImportant = false,
+            onClick = {})
     }
 }
