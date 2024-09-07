@@ -11,6 +11,7 @@ import com.teamoffroad.core.navigation.Route
 import com.teamoffroad.feature.mypage.presentation.AnnouncementDetailScreen
 import com.teamoffroad.feature.mypage.presentation.AnnouncementScreen
 import com.teamoffroad.feature.mypage.presentation.AvailableCouponDetailScreen
+import com.teamoffroad.feature.mypage.presentation.CharacterDetailScreen
 import com.teamoffroad.feature.mypage.presentation.GainedCharacterScreen
 import com.teamoffroad.feature.mypage.presentation.GainedCouponScreen
 import com.teamoffroad.feature.mypage.presentation.GainedEmblemsScreen
@@ -51,13 +52,17 @@ fun NavController.navigateToAnnouncement() {
 }
 
 fun NavController.navigateToAnnouncementDetail(
-    title: String, content: String, link: String, isImportant: Boolean
+    title: String, content: String, link: String, isImportant: Boolean,
 ) {
     navigate(MyPageRoute.AnnouncementDetail(title, content, link, isImportant))
 }
 
 fun NavController.navigateToSignIn() {
     navigate(Route.Auth)
+}
+
+fun NavController.navigateToCharacterDetail(characterId: Int, isRepresentative: Boolean) {
+    navigate(MyPageRoute.CharacterDetail(characterId, isRepresentative))
 }
 
 fun NavGraphBuilder.myPageNavGraph(
@@ -70,6 +75,7 @@ fun NavGraphBuilder.myPageNavGraph(
     navigateToAnnouncement: () -> Unit,
     navigateToAnnouncementDetail: (String, String, String, Boolean) -> Unit,
     navigateToSignIn: () -> Unit,
+    navigateToCharacterDetail: (Int, Boolean) -> Unit,
     navigateToBack: () -> Unit,
 ) {
     composable<MainTabRoute.MyPage> {
@@ -82,7 +88,7 @@ fun NavGraphBuilder.myPageNavGraph(
     }
 
     composable<MyPageRoute.GainedCharacter> {
-        GainedCharacterScreen(navigateToBack)
+        GainedCharacterScreen(navigateToCharacterDetail, navigateToBack)
     }
 
     composable<MyPageRoute.GainedCouponScreen> {
@@ -123,5 +129,11 @@ fun NavGraphBuilder.myPageNavGraph(
         val link = backStackEntry.toRoute<MyPageRoute.AnnouncementDetail>().link
         val isImportant = backStackEntry.toRoute<MyPageRoute.AnnouncementDetail>().isImportant
         AnnouncementDetailScreen(title, content, link, isImportant, navigateToBack)
+    }
+
+    composable<MyPageRoute.CharacterDetail> { backStackEntry ->
+        val characterId = backStackEntry.toRoute<MyPageRoute.CharacterDetail>().characterId
+        val isRepresentative = backStackEntry.toRoute<MyPageRoute.CharacterDetail>().isRepresentative
+        CharacterDetailScreen(characterId, isRepresentative, navigateToBack)
     }
 }
