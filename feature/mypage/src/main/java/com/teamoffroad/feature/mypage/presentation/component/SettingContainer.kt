@@ -20,14 +20,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.teamoffroad.core.designsystem.theme.Gray100
-import com.teamoffroad.core.designsystem.theme.Gray200
 import com.teamoffroad.core.designsystem.theme.Gray300
-import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub2
-import com.teamoffroad.core.designsystem.theme.Wall
 import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
