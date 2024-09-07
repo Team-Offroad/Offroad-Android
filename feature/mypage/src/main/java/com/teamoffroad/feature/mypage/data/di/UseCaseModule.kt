@@ -11,7 +11,6 @@ import com.teamoffroad.feature.mypage.domain.usecase.GetCharacterListUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.GetCharacterMotionListUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.GetMyPageUserUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.GetUserEmblemListUseCase
-import com.teamoffroad.feature.mypage.domain.usecase.SaveUserMarketingInfoUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.UserCouponsUseCase
 import dagger.Module
 import dagger.Provides
