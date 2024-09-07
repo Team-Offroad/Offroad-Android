@@ -62,8 +62,6 @@ fun AgreeTermsAndConditionsTopBarAllAgreeBox(
                 style = OffroadTheme.typography.textBold,
                 textAlign = TextAlign.Center
             )
-
         }
-
     }
 }

@@ -81,7 +81,7 @@ fun WithdrawTextField(
         }
     )
 
-    if (value=="오프로드 회원을 탈퇴하겠습니다."){
+    if (value == "오프로드 회원을 탈퇴하겠습니다.") {
         isWithDrawResultChanged()
     }
 }

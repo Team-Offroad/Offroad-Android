@@ -116,7 +116,6 @@ class AgreeTermsAndConditionsViewModel @Inject constructor(
             DialogState.EMPTY -> _dialogState.value =
                 DialogState.EMPTY
         }
-
     }
 
     fun changedMarketingAgree(marketingAgree: Boolean) {

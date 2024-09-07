@@ -71,36 +71,36 @@ internal fun SettingScreen(
             color = Main1,
             text = "마케팅 수신동의",
             isImportant = false,
-            click = { viewModel.changeDialogState(SettingDialogState.marketingVisible) })
+            click = { viewModel.changeDialogState(SettingDialogState.MarketingVisible) })
         SettingContainer(
             color = Main1,
             text = "로그아웃",
             isImportant = false,
-            click = { viewModel.changeDialogState(SettingDialogState.logoutVisible) })
+            click = { viewModel.changeDialogState(SettingDialogState.LogoutVisible) })
         SettingContainer(
             color = Main1,
             text = "회원 탈퇴",
             isImportant = false,
-            click = { viewModel.changeDialogState(SettingDialogState.withDrawVisible) })
+            click = { viewModel.changeDialogState(SettingDialogState.WithDrawVisible) })
     }
 
     when (isSettingUiState.dialogVisible) {
-        SettingDialogState.inVisible -> {}
-        SettingDialogState.marketingVisible -> MarketingInfoDialog(
+        SettingDialogState.InVisible -> {}
+        SettingDialogState.MarketingVisible -> MarketingInfoDialog(
             onClick = viewModel::changedMarketingAgree,
             onClickCancel = {
-                viewModel.changeDialogState(SettingDialogState.inVisible)
+                viewModel.changeDialogState(SettingDialogState.InVisible)
             })
 
-        SettingDialogState.logoutVisible -> LogoutDialog(
+        SettingDialogState.LogoutVisible -> LogoutDialog(
             onClick = { viewModel.performSignOut() },
             onClickCancel = {
-                viewModel.changeDialogState(SettingDialogState.inVisible)
+                viewModel.changeDialogState(SettingDialogState.InVisible)
             },
             navigateToSignIn = navigateToSignIn
         )
 
-        SettingDialogState.withDrawVisible -> WithDrawDialog(
+        SettingDialogState.WithDrawVisible -> WithDrawDialog(
             isWithDrawText = isSettingUiState.withDrawInputState,
             isWithDrawResult = isSettingUiState.withDrawResult,
             onInputTextChange = viewModel::changeWithDrawInputText,
@@ -109,7 +109,7 @@ internal fun SettingScreen(
             withDrawInputText = viewModel.settingUiState.value.withDrawInputState,
             navigateToSignIn = navigateToSignIn,
             onClickCancel = {
-                viewModel.changeDialogState(SettingDialogState.inVisible)
+                viewModel.changeDialogState(SettingDialogState.InVisible)
             })
     }
 }

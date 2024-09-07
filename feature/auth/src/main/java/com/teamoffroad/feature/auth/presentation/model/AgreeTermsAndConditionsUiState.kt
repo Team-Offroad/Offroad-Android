@@ -1,6 +1,6 @@
 package com.teamoffroad.feature.auth.presentation.model
 
-enum class AgreeTermsAndConditionsUiState{
+enum class AgreeTermsAndConditionsUiState {
     EMPTY, REQUIRED
 }
 

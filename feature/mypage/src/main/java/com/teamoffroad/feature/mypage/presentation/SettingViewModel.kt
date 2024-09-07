@@ -28,17 +28,17 @@ class SettingViewModel @Inject constructor(
 
     fun changeDialogState(settingDialogState: SettingDialogState) {
         when (settingDialogState) {
-            SettingDialogState.inVisible -> _settingUiState.value =
-                _settingUiState.value.copy(SettingDialogState.inVisible, "", false)
+            SettingDialogState.InVisible -> _settingUiState.value =
+                _settingUiState.value.copy(SettingDialogState.InVisible, "", false)
 
-            SettingDialogState.logoutVisible -> _settingUiState.value =
-                _settingUiState.value.copy(SettingDialogState.logoutVisible)
+            SettingDialogState.LogoutVisible -> _settingUiState.value =
+                _settingUiState.value.copy(SettingDialogState.LogoutVisible)
 
-            SettingDialogState.marketingVisible -> _settingUiState.value =
-                _settingUiState.value.copy(SettingDialogState.marketingVisible)
+            SettingDialogState.MarketingVisible -> _settingUiState.value =
+                _settingUiState.value.copy(SettingDialogState.MarketingVisible)
 
-            SettingDialogState.withDrawVisible -> _settingUiState.value =
-                _settingUiState.value.copy(SettingDialogState.withDrawVisible)
+            SettingDialogState.WithDrawVisible -> _settingUiState.value =
+                _settingUiState.value.copy(SettingDialogState.WithDrawVisible)
         }
     }
 

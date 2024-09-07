@@ -12,7 +12,6 @@ fun GainedEmblemResponseDto.toGainedEmblemsList() =
             isNew = isNewGained,
             isLock = false
         )
-
     }
 
 fun NotGainedEmblemResponseDto.toNotGainedEmblemsList() =
