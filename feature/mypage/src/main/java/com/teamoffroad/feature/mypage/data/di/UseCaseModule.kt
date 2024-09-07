@@ -3,6 +3,7 @@ package com.teamoffroad.feature.mypage.data.di
 import com.teamoffroad.feature.mypage.domain.repository.CharacterRepository
 import com.teamoffroad.feature.mypage.domain.repository.EmblemRepository
 import com.teamoffroad.feature.mypage.domain.repository.MotionRepository
+import com.teamoffroad.feature.mypage.domain.repository.UserCouponsRepository
 import com.teamoffroad.feature.mypage.domain.repository.UserRepository
 import com.teamoffroad.feature.mypage.domain.usecase.DeleteUserInfoUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.GetCharacterDetailUseCase
@@ -11,11 +12,7 @@ import com.teamoffroad.feature.mypage.domain.usecase.GetCharacterMotionListUseCa
 import com.teamoffroad.feature.mypage.domain.usecase.GetMyPageUserUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.GetUserEmblemListUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.SaveUserMarketingInfoUseCase
-import com.teamoffroad.feature.mypage.domain.usecase.MyPageUserUseCase
-import com.teamoffroad.feature.mypage.domain.repository.UserCouponsRepository
 import com.teamoffroad.feature.mypage.domain.usecase.UserCouponsUseCase
-import com.teamoffroad.feature.mypage.domain.usecase.UserEmblemsUseCase
-import com.teamoffroad.feature.mypage.domain.usecase.UserMarketingInfoUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,12 +31,7 @@ object UseCaseModule {
         return GetCharacterListUseCase(userRepository)
     }
 
-    @Provides
-    @Singleton
-    fun provideGetMyPageUseCase(
-        userCouponsRepository: MyPageUserRepository
-    ): MyPageUserUseCase {
-        return MyPageUserUseCase(userCouponsRepository)
+
     fun provideGetMyPageUserUseCase(
         userRepository: UserRepository,
     ): GetMyPageUserUseCase {
@@ -93,4 +85,5 @@ object UseCaseModule {
     ): GetCharacterMotionListUseCase {
         return GetCharacterMotionListUseCase(motionRepository)
     }
+    
 }

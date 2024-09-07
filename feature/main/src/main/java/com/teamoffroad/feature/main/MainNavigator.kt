@@ -138,8 +138,9 @@ internal class MainNavigator(
         name: String,
         couponImageUrl: String,
         description: String,
+        placeId: Int,
     ) {
-        navController.navigateToAvailableCouponDetail(id, name, couponImageUrl, description)
+        navController.navigateToAvailableCouponDetail(id, name, couponImageUrl, description, placeId)
     }
 
     fun navigateToExplore(authResultType: String, imageUrl: String) {
