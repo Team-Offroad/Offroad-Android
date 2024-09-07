@@ -2,6 +2,7 @@ package com.teamoffroad.feature.mypage.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.teamoffroad.feature.auth.domain.usecase.SetCharacterUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.GetCharacterDetailUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.GetCharacterMotionListUseCase
 import com.teamoffroad.feature.mypage.presentation.mapper.toUi
@@ -18,6 +19,7 @@ import javax.inject.Inject
 class CharacterDetailViewModel @Inject constructor(
     private val characterDetailUseCase: GetCharacterDetailUseCase,
     private val characterMotionListUseCase: GetCharacterMotionListUseCase,
+    private val setCharacterUseCase: SetCharacterUseCase,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<CharacterDetailUiState> = MutableStateFlow(CharacterDetailUiState())
@@ -65,6 +67,7 @@ class CharacterDetailViewModel @Inject constructor(
     fun updateIsRepresentative() {
         viewModelScope.launch {
             runCatching {
+                setCharacterUseCase(uiState.value.characterDetailModel.characterId)
             }.onSuccess {
                 _uiState.value = uiState.value.copy(
                     characterDetailModel = uiState.value.characterDetailModel.copy(
