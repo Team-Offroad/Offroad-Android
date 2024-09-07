@@ -4,11 +4,11 @@ import com.teamoffroad.core.common.data.datasource.TokenPreferencesDataSource
 import com.teamoffroad.core.common.data.local.AuthAuthenticator
 import com.teamoffroad.core.common.data.local.AuthInterceptor
 import com.teamoffroad.core.common.domain.usecase.RefreshTokenUseCase
+import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Provider
 import javax.inject.Singleton
 
 @Module
@@ -28,7 +28,7 @@ object AuthModule {
     @Singleton
     fun provideAuthAuthenticator(
         tokenPreferencesDataSource: TokenPreferencesDataSource,
-        refreshTokenUseCase: Provider<RefreshTokenUseCase>,
+        refreshTokenUseCase: Lazy<RefreshTokenUseCase>,
     ): AuthAuthenticator {
         return AuthAuthenticator(tokenPreferencesDataSource, refreshTokenUseCase)
     }

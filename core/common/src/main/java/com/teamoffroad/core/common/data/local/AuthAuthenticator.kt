@@ -2,6 +2,7 @@ package com.teamoffroad.core.common.data.local
 
 import com.teamoffroad.core.common.data.datasource.TokenPreferencesDataSource
 import com.teamoffroad.core.common.domain.usecase.RefreshTokenUseCase
+import dagger.Lazy
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
@@ -9,11 +10,10 @@ import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
 import javax.inject.Inject
-import javax.inject.Provider
 
 class AuthAuthenticator @Inject constructor(
     private val tokenPreferencesDataSource: TokenPreferencesDataSource,
-    private val refreshTokenUseCase: Provider<RefreshTokenUseCase>,
+    private val refreshTokenUseCase: Lazy<RefreshTokenUseCase>,
 ) : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
@@ -22,7 +22,7 @@ class AuthAuthenticator @Inject constructor(
         }
 
         val tokenResponse = runBlocking {
-            refreshTokenUseCase.get().invoke(refreshToken)
+            refreshTokenUseCase.get().invoke("Bearer $refreshToken")
         } ?: return null
 
         runBlocking {
