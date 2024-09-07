@@ -1,5 +1,6 @@
 package com.teamoffroad.core.common.data.local
 
+import com.teamoffroad.core.common.data.datasource.TokenPreferencesDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -7,32 +8,48 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
-import java.net.HttpURLConnection.HTTP_OK
 import javax.inject.Inject
 
 class AuthInterceptor @Inject constructor(
-    private val tokenManager: TokenManager,
+    private val authAuthenticator: AuthAuthenticator,
+    private val tokenPreferencesDataSource: TokenPreferencesDataSource,
 ) : Interceptor {
+
     override fun intercept(chain: Interceptor.Chain): Response {
-        val token: String? = runBlocking {
-            tokenManager.getAccessToken().first()
+        val accessToken: String = runBlocking {
+            tokenPreferencesDataSource.accessToken.first()
         }
 
         val requestBuilder = chain.request().newBuilder()
-        token?.let {
-            requestBuilder.header(AUTHORIZATION, "Bearer $it")
+        val isRefreshTokenRequest = chain.request().url.toString().endsWith("refresh")
+
+        if (!isRefreshTokenRequest) {
+            accessToken.let { token ->
+                requestBuilder.header(AUTHORIZATION, "Bearer $token")
+            }
         }
 
         val request = requestBuilder.build()
-        val response = chain.proceed(request)
+        var response = chain.proceed(request)
+
+        if (response.code == HTTP_UNAUTHORIZED) {
+            runBlocking {
+                val newRequest = authAuthenticator.authenticate(null, response)
+
+                if (newRequest != null) {
+                    response.close()
+                    response = chain.proceed(newRequest)
+                }
+            }
+        }
 
         if (response.code == HTTP_OK) {
             val newAccessToken: String? = response.header(AUTHORIZATION, null)
-            newAccessToken?.let {
+            newAccessToken?.let { token ->
                 CoroutineScope(Dispatchers.IO).launch {
-                    val existedAccessToken = tokenManager.getAccessToken().first()
-                    if (existedAccessToken != it) {
-                        tokenManager.saveAccessToken(it)
+                    val existedAccessToken = tokenPreferencesDataSource.accessToken.first()
+                    if (existedAccessToken != token) {
+                        tokenPreferencesDataSource.setAccessToken(token)
                     }
                 }
             }
@@ -43,5 +60,7 @@ class AuthInterceptor @Inject constructor(
 
     companion object {
         private const val AUTHORIZATION = "Authorization"
+        private const val HTTP_UNAUTHORIZED = 401
+        private const val HTTP_OK = 200
     }
 }

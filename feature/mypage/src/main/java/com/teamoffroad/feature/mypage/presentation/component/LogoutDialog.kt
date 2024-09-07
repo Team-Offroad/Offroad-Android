@@ -84,11 +84,9 @@ fun LogoutDialog(
                     )
                 }
             }
-
         }
     }
 }
-
 
 @Composable
 private fun LogoutButton(

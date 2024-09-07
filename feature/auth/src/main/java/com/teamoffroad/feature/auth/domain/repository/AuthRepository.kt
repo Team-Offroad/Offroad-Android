@@ -6,12 +6,12 @@ import com.teamoffroad.feature.auth.domain.model.UserProfile
 import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
-    suspend fun signIn(socialPlatform: String, name: String?, code: String): SignInInfo
+    suspend fun performSignIn(socialPlatform: String, name: String?, code: String): SignInInfo
     val isAutoSignInEnabled: Flow<Boolean>
-    suspend fun setAutoSignInEnabled(enabled: Boolean)
-    suspend fun clearAutoSignIn()
-    suspend fun getDuplicateNickname(nickname: String): Boolean
-    suspend fun getCharacters(): List<Character>
-    suspend fun setCharacter(characterId: Int): String
-    suspend fun patchUserProfile(userProfile: UserProfile)
+    suspend fun updateAutoSignInEnabled(enabled: Boolean)
+    suspend fun fetchDuplicateNickname(nickname: String): Boolean
+    suspend fun fetchCharacters(): List<Character>
+    suspend fun saveCharacter(characterId: Int): String
+    suspend fun saveUserProfile(userProfile: UserProfile)
+    suspend fun saveMarketingAgree(marketingAgree: Boolean): Result<Unit>
 }

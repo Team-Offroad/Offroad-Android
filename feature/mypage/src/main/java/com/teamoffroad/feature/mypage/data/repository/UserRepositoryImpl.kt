@@ -3,7 +3,6 @@ package com.teamoffroad.feature.mypage.data.repository
 import com.teamoffroad.feature.mypage.data.mapper.toData
 import com.teamoffroad.feature.mypage.data.mapper.toDomain
 import com.teamoffroad.feature.mypage.data.remote.request.DeleteUserInfoRequestDto
-import com.teamoffroad.feature.mypage.data.remote.request.MarketingInfoRequestDto
 import com.teamoffroad.feature.mypage.data.remote.service.UserService
 import com.teamoffroad.feature.mypage.domain.model.Character
 import com.teamoffroad.feature.mypage.domain.model.MyPageUser
@@ -43,22 +42,17 @@ class UserRepositoryImpl @Inject constructor(
         return domainMyPageUser ?: MyPageUser("", "", 0, 0, 0)
     }
 
-    override suspend fun saveMarketingInfo(): Result<Unit> {
-        val patchMarketingInfoResult = runCatching {
-            userService.patchMarketingInfo(
-                MarketingInfoRequestDto(
-                    true
-                )
-            ).data
+    override suspend fun saveUserInfo(deleteCode: String): Result<Unit> {
+        val deleteUserInfo =
+            runCatching { userService.deleteUserInfo(DeleteUserInfoRequestDto(deleteCode)) }
+        deleteUserInfo.onSuccess {
         }
-        patchMarketingInfoResult.onSuccess {
-        }
-        patchMarketingInfoResult.onFailure {
+        deleteUserInfo.onFailure {
         }
         return Result.failure(UnReachableException("unreachable code"))
     }
 
-    override suspend fun saveUserInfo(deleteCode: String): Result<Unit> {
+    override suspend fun deleteUserInfo(deleteCode: String): Result<Unit> {
         val deleteUserInfo =
             runCatching { userService.deleteUserInfo(DeleteUserInfoRequestDto(deleteCode)) }
         deleteUserInfo.onSuccess {

@@ -11,7 +11,7 @@ import com.teamoffroad.core.common.domain.usecase.SaveAccessTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.SaveRefreshTokenUseCase
 import com.teamoffroad.feature.auth.domain.usecase.AuthUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetAutoSignInUseCase
-import com.teamoffroad.feature.auth.domain.usecase.SetAutoSignInUseCase
+import com.teamoffroad.feature.auth.domain.usecase.UpdateAutoSignInUseCase
 import com.teamoffroad.feature.auth.presentation.model.SocialSignInPlatform
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,7 +25,7 @@ class AuthViewModel @Inject constructor(
     private val authUseCase: AuthUseCase,
     private val saveAccessTokenUseCase: SaveAccessTokenUseCase,
     private val saveRefreshTokenUseCase: SaveRefreshTokenUseCase,
-    private val setAutoSignInUseCase: SetAutoSignInUseCase,
+    private val updateAutoSignInUseCase: UpdateAutoSignInUseCase,
     private val getAutoSignInUseCase: GetAutoSignInUseCase,
 ) : ViewModel() {
 
@@ -61,7 +61,7 @@ class AuthViewModel @Inject constructor(
             }.onSuccess { signInInfo ->
                 saveAccessTokenUseCase.invoke(signInInfo.tokens.accessToken)
                 saveRefreshTokenUseCase.invoke(signInInfo.tokens.refreshToken)
-                setAutoSignInUseCase.invoke(true)
+                updateAutoSignInUseCase.invoke(true)
                 _successSignIn.value = true
                 _alreadyExist.value = signInInfo.isAlreadyExist
             }.onFailure {
@@ -75,12 +75,6 @@ class AuthViewModel @Inject constructor(
             getAutoSignInUseCase.invoke().collect { isAutoSignIn ->
                 _autoSignIn.value = isAutoSignIn
             }
-        }
-    }
-
-    // TODO: 추후 마이페이지에서 사용
-    fun performSignOut() {
-        googleSignInClient.signOut().addOnCompleteListener {
         }
     }
 }

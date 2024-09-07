@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.mypage.presentation
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -45,10 +44,12 @@ internal fun GainedEmblemsScreen(
             navigateToBack()
         }
         GainedEmblemsHeader()
-        Spacer(modifier = Modifier
-            .height(1.dp)
-            .background(color = Gray100))
-        if (isEmblemState.nicknameValidateResult == GainedEmblemsResult.Success){
+        Spacer(
+            modifier = Modifier
+                .height(1.dp)
+                .background(color = Gray100)
+        )
+        if (isEmblemState.nicknameValidateResult == GainedEmblemsResult.Success) {
             GainedEmblemsItems(isEmblemState = isEmblemState)
         }
     }
