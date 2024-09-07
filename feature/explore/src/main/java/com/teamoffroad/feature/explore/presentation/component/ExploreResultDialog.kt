@@ -24,14 +24,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.teamoffroad.core.designsystem.theme.Main2
+import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
-import com.teamoffroad.feature.explore.presentation.model.ExploreResultState
+import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
 import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 fun ExploreResultDialog(
-    errorType: ExploreResultState,
+    errorType: ExploreAuthState,
     text: String = "",
     content: @Composable () -> Unit,
     onDismissRequest: () -> Unit,
@@ -40,16 +41,20 @@ fun ExploreResultDialog(
         onDismissRequest = onDismissRequest,
         properties = DialogProperties(dismissOnClickOutside = false),
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.bg_explore_dialog),
-            contentDescription = null,
-            modifier = Modifier
-                .size(312.dp, 348.dp)
-        )
         Box(
             modifier = Modifier
                 .size(312.dp, 348.dp)
+                .background(Main3, shape = RoundedCornerShape(14.dp))
         ) {
+            if (errorType is ExploreAuthState.Success) {
+                Image(
+                    painter = painterResource(id = R.drawable.bg_explore_dialog),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .fillMaxWidth(),
+                )
+            }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Bottom,
@@ -59,7 +64,7 @@ fun ExploreResultDialog(
             ) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = if (errorType == ExploreResultState.Success) {
+                    text = if (errorType is ExploreAuthState.Success) {
                         stringResource(R.string.explore_dialog_success)
                     } else {
                         stringResource(R.string.explore_dialog_failed)
@@ -97,7 +102,7 @@ fun ExploreResultDialog(
                 ) {
                     Text(
                         text = when (errorType) {
-                            ExploreResultState.Success -> stringResource(R.string.explore_dialog_success_button)
+                            is ExploreAuthState.Success -> stringResource(R.string.explore_dialog_success_button)
                             else -> stringResource(R.string.explore_dialog_failed_button)
                         },
                         textAlign = TextAlign.Center,

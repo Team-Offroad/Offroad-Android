@@ -180,9 +180,6 @@ camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "
 # Barcode Scanning
 barcode-scanning = { group = "com.google.mlkit", name = "barcode-scanning", version.ref = "barcodeScanning" }
 
-# Immutable List
-kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
-
 [plugins]
 # Android Application Plugin
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

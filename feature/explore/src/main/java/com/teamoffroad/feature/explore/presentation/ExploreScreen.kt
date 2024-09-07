@@ -2,89 +2,115 @@ package com.teamoffroad.feature.explore.presentation
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.feature.explore.presentation.component.ExploreOffroadMap
+import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
 import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
-import com.teamoffroad.feature.explore.presentation.util.ExploreCameraUiStateHandler
-import com.teamoffroad.feature.explore.presentation.util.ExploreLocationPermissionHandler
+import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
+import com.teamoffroad.feature.explore.presentation.util.ExploreAuthStateHandler
+import com.teamoffroad.feature.explore.presentation.util.ExplorePermissionHandler
 import com.teamoffroad.feature.explore.presentation.util.ExplorePermissionRejectedHandler
 import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 internal fun ExploreScreen(
-    authResultType: String?,
+    authResultState: String?,
     qrResultImageUrl: String?,
-    navigateToHome: (String) -> Unit,
+    navigateToHome: (String, List<String>) -> Unit,
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
     navigateToPlace: () -> Unit,
     navigateToQuest: () -> Unit,
     exploreViewModel: ExploreViewModel = hiltViewModel(),
 ) {
     val uiState: ExploreUiState by exploreViewModel.uiState.collectAsStateWithLifecycle()
-    val locationResultImageUrl: String by exploreViewModel.successImageUrl.collectAsStateWithLifecycle()
+    var mapKey by remember { mutableIntStateOf(0) }
+
+    val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
 
-    LaunchedEffect(authResultType) {
-        if (authResultType != null) {
-            exploreViewModel.updateExploreCameraUiState(uiState.getExploreCameraUiState(authResultType))
-            exploreViewModel.updatePlaces()
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                mapKey++
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
         }
     }
 
-    LaunchedEffect(Unit) {
-        exploreViewModel.updatePlaces()
+    LaunchedEffect(authResultState) {
+        if (authResultState != null) {
+            exploreViewModel.updateExploreAuthState(ExploreAuthState.from(authResultState))
+        }
     }
 
-    if (!uiState.loading && uiState.places.isEmpty()) exploreViewModel.updatePlaces()
+    LaunchedEffect(uiState.locationModel.location) {
+        if (uiState.places.isEmpty()) exploreViewModel.updatePlaces()
+    }
+
     if (uiState.isUpdatePlacesFailed) {
         Toast.makeText(context, stringResource(R.string.explore_places_failed), Toast.LENGTH_SHORT).show()
     }
 
-    ExploreCameraUiStateHandler(
+    ExploreAuthStateHandler(
         uiState,
-        exploreViewModel::updateExploreCameraUiState,
+        exploreViewModel::updateExploreAuthState,
         qrResultImageUrl,
-        exploreViewModel,
-        locationResultImageUrl,
         navigateToHome,
     )
 
-    ExploreLocationPermissionHandler(
+    ExplorePermissionHandler(
         context = context,
         uiState = uiState,
         updatePermission = exploreViewModel::updatePermission,
     )
 
-    if (uiState.isSomePermissionRejected == true) {
+    if (uiState.permissionModel.isSomePermissionRejected == true) {
         ExplorePermissionRejectedHandler(
             context = context,
             uiState = uiState,
-            navigateToHome = { navigateToHome("") },
+            navigateToHome = { navigateToHome(PlaceCategory.NONE.name, emptyList()) },
             updatePermission = exploreViewModel::updatePermission,
         )
     }
 
-    if (uiState.isAllPermissionGranted) {
-        ExploreOffroadMap(
-            uiState.locationModel,
-            uiState.places,
-            uiState.selectedPlace,
-            navigateToExploreCameraScreen,
-            navigateToPlace,
-            navigateToQuest,
-            exploreViewModel::updateLocation,
-            exploreViewModel::updateTrackingToggle,
-            exploreViewModel::updateSelectedPlace,
-            exploreViewModel::updateCategory,
-            exploreViewModel::updatePlaces,
-            exploreViewModel::updateExploreCameraUiState,
-            exploreViewModel::isValidDistance,
-            exploreViewModel::updateExploreResult,
-        )
+    if (uiState.permissionModel.isAllPermissionGranted) {
+        key(mapKey) {
+            StaticAnimationWrapper {
+                ExploreOffroadMap(
+                    uiState.locationModel,
+                    uiState.places,
+                    uiState.selectedPlace,
+                    navigateToExploreCameraScreen,
+                    navigateToPlace,
+                    navigateToQuest,
+                    exploreViewModel::updateLocation,
+                    exploreViewModel::updateTrackingToggle,
+                    exploreViewModel::updateSelectedPlace,
+                    exploreViewModel::updatePlaces,
+                    exploreViewModel::updateExploreAuthState,
+                    exploreViewModel::isValidDistance,
+                    exploreViewModel::updateExploreResult,
+                )
+            }
+        }
     }
 }

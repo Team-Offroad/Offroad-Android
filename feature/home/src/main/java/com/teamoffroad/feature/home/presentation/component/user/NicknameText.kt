@@ -19,7 +19,6 @@ fun NicknameText(nickname: String) {
     Text(
         modifier = Modifier.padding(start = 24.dp, top = 32.dp),
         style = OffroadTheme.typography.bothSubtitle3,
-
         text = buildAnnotatedString {
             append(stringResource(id = R.string.home_explorer))
             append(" ")
@@ -32,8 +31,6 @@ fun NicknameText(nickname: String) {
                 append(nickname)
             }
             append(stringResource(id = R.string.home_explorer_suffix))
-
-
         }
     )
 }
