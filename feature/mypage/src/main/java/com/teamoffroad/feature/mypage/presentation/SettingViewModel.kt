@@ -6,7 +6,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.teamoffroad.feature.auth.domain.usecase.ClearDataStoreUseCase
 import com.teamoffroad.feature.auth.domain.usecase.UserMarketingAgreeUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.DeleteUserInfoUseCase
-import com.teamoffroad.feature.mypage.domain.usecase.SaveUserMarketingInfoUseCase
 import com.teamoffroad.feature.mypage.presentation.component.SettingDialogState
 import com.teamoffroad.feature.mypage.presentation.model.SettingUiState
 import dagger.hilt.android.lifecycle.HiltViewModel

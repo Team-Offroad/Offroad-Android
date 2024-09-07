@@ -42,6 +42,16 @@ class UserRepositoryImpl @Inject constructor(
         return domainMyPageUser ?: MyPageUser("", "", 0, 0, 0)
     }
 
+    override suspend fun saveUserInfo(deleteCode: String): Result<Unit> {
+        val deleteUserInfo =
+            runCatching { userService.deleteUserInfo(DeleteUserInfoRequestDto(deleteCode)) }
+        deleteUserInfo.onSuccess {
+        }
+        deleteUserInfo.onFailure {
+        }
+        return Result.failure(UnReachableException("unreachable code"))
+    }
+
     override suspend fun deleteUserInfo(deleteCode: String): Result<Unit> {
         val deleteUserInfo =
             runCatching { userService.deleteUserInfo(DeleteUserInfoRequestDto(deleteCode)) }

@@ -9,7 +9,7 @@ interface UserRepository {
 
     suspend fun fetchMyPage(): MyPageUser
 
-    suspend fun saveMarketingInfo(): Result<Unit>
-
     suspend fun saveUserInfo(deleteCode: String): Result<Unit>
+
+    suspend fun deleteUserInfo(deleteCode: String): Result<Unit>
 }
