@@ -87,7 +87,7 @@ internal fun SettingScreen(
     when (isSettingUiState.dialogVisible) {
         SettingDialogState.inVisible -> {}
         SettingDialogState.marketingVisible -> MarketingInfoDialog(
-            onClick = { viewModel.patchMarketingInfo() },
+            onClick = viewModel::changedMarketingAgree,
             onClickCancel = {
                 viewModel.changeDialogState(SettingDialogState.inVisible)
             })

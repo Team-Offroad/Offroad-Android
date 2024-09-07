@@ -13,9 +13,8 @@ android {
         versionCode = libs.versions.versionCode.get().toInt()
         versionName = libs.versions.versionName.get()
 
-        manifestPlaceholders["NAVER_CLIENT_ID"] = gradleLocalProperties(rootDir, providers).getProperty("naver.client.id")
-        manifestPlaceholders["KAKAO_CLIENT_ID"] = gradleLocalProperties(rootDir, providers).getProperty("kakao.client")
-        buildConfigField("String", "KAKAO_CLIENT_ID", gradleLocalProperties(rootDir, providers).getProperty("kakao.client.id"))
+        manifestPlaceholders["NAVER_CLIENT_ID"] =
+            gradleLocalProperties(rootDir, providers).getProperty("naver.client.id")
     }
 
     packaging {
@@ -49,5 +48,4 @@ dependencies {
     implementation(project(":feature:mypage"))
 
     implementation(libs.naver.map.sdk)
-    implementation(libs.kakao.user)
 }
