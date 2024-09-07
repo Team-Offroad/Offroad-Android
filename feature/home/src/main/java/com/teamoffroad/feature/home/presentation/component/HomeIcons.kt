@@ -30,6 +30,7 @@ import com.teamoffroad.offroad.feature.home.R
 fun HomeIcons(
     context: Context,
     imageUrl: String?,
+    navigateToGainedCharacter: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
 
@@ -78,6 +79,7 @@ fun HomeIcons(
             Image(
                 painter = painterResource(id = R.drawable.ic_home_change),
                 contentDescription = "change",
+                modifier = Modifier.clickableWithoutRipple { navigateToGainedCharacter() }
             )
         }
     }

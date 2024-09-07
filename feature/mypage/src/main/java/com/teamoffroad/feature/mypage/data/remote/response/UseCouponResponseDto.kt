@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class UseCouponResponseDto(
     @SerialName("success")
-    val success: Boolean
+    val success: Boolean,
 )

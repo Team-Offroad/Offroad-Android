@@ -37,7 +37,7 @@ import kotlinx.coroutines.launch
 fun GainedCouponViewPager(
     availableCoupons: List<UserCouponList.AvailableCoupon>,
     usedCoupons: List<UserCouponList.UsedCoupon>,
-    navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit
+    navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
 ) {
     val tabTitles = listOf(
         stringResource(id = R.string.my_page_gained_coupon_available),

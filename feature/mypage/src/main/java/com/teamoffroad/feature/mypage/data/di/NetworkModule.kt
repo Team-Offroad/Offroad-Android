@@ -1,9 +1,9 @@
 package com.teamoffroad.feature.mypage.data.di
 
 import com.teamoffroad.feature.mypage.data.remote.service.CharacterService
-import com.teamoffroad.feature.mypage.data.remote.service.UserCouponService
 import com.teamoffroad.feature.mypage.data.remote.service.EmblemService
 import com.teamoffroad.feature.mypage.data.remote.service.MotionService
+import com.teamoffroad.feature.mypage.data.remote.service.UserCouponService
 import com.teamoffroad.feature.mypage.data.remote.service.UserService
 import dagger.Module
 import dagger.Provides

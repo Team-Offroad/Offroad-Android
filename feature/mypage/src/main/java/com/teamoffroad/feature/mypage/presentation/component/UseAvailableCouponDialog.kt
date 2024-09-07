@@ -62,7 +62,7 @@ fun UseAvailableCouponDialog(
     saveCoupon: (UseCoupon) -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(14.dp),
-    backgroundColor: Color = Main3
+    backgroundColor: Color = Main3,
 ) {
 
     Dialog(
@@ -338,7 +338,7 @@ private fun ConfirmButton(
     placeId: Int,
     textColor: Color = Main1,
     textStyle: TextStyle = OffroadTheme.typography.btnSmall,
-    shape: Shape = RoundedCornerShape(6.dp)
+    shape: Shape = RoundedCornerShape(6.dp),
 ) {
     val interactionSource = remember { MutableInteractionSource() }
 

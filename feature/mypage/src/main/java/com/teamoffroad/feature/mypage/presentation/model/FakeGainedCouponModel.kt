@@ -2,18 +2,18 @@ package com.teamoffroad.feature.mypage.presentation.model
 
 data class FakeGainedCouponModel(
     val availableCoupons: List<FakeAvailableCouponsModel>,
-    val usedCoupons: List<FakeUsedCouponsModel>
+    val usedCoupons: List<FakeUsedCouponsModel>,
 ) {
     data class FakeAvailableCouponsModel(
         val id: Int,
         val name: String,
         val couponImageUrl: String,
-        val description: String
+        val description: String,
     )
 
     data class FakeUsedCouponsModel(
         val name: String,
-        val couponImageUrl: String
+        val couponImageUrl: String,
     )
 
     companion object {
@@ -39,8 +39,24 @@ data class FakeGainedCouponModel(
         )
 
         val dummyGainedCoupons = FakeGainedCouponModel(
-            listOf(dummyGainedAvailableCoupon1, dummyGainedAvailableCoupon2, dummyGainedAvailableCoupon1, dummyGainedAvailableCoupon2, dummyGainedAvailableCoupon1, dummyGainedAvailableCoupon2, dummyGainedAvailableCoupon1, dummyGainedAvailableCoupon2),
-            listOf(dummyGainedUsedCoupon1, dummyGainedUsedCoupon2, dummyGainedUsedCoupon1, dummyGainedUsedCoupon2, dummyGainedUsedCoupon1, dummyGainedUsedCoupon2)
+            listOf(
+                dummyGainedAvailableCoupon1,
+                dummyGainedAvailableCoupon2,
+                dummyGainedAvailableCoupon1,
+                dummyGainedAvailableCoupon2,
+                dummyGainedAvailableCoupon1,
+                dummyGainedAvailableCoupon2,
+                dummyGainedAvailableCoupon1,
+                dummyGainedAvailableCoupon2
+            ),
+            listOf(
+                dummyGainedUsedCoupon1,
+                dummyGainedUsedCoupon2,
+                dummyGainedUsedCoupon1,
+                dummyGainedUsedCoupon2,
+                dummyGainedUsedCoupon1,
+                dummyGainedUsedCoupon2
+            )
         )
     }
 }

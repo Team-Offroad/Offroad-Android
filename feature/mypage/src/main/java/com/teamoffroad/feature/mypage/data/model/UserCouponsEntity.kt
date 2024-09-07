@@ -2,7 +2,7 @@ package com.teamoffroad.feature.mypage.data.model
 
 data class UserCouponsEntity(
     val availableCouponsEntity: List<AvailableCouponsEntity>,
-    val usedCouponsEntity: List<UsedCouponsEntity>
+    val usedCouponsEntity: List<UsedCouponsEntity>,
 ) {
     data class AvailableCouponsEntity(
         val id: Int,
@@ -10,7 +10,7 @@ data class UserCouponsEntity(
         val couponImageUrl: String,
         val description: String,
         val isNewGained: Boolean,
-        val placeId: Int
+        val placeId: Int,
     )
 
     data class UsedCouponsEntity(

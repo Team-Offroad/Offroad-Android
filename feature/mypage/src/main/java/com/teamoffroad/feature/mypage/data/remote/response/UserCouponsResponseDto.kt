@@ -9,7 +9,7 @@ data class UserCouponsResponseDto(
     val availableCouponsDto: List<AvailableCouponsResponseDto>,
 
     @SerialName("usedCoupons")
-    val usedCouponsDto: List<UsedCouponsResponseDto>
+    val usedCouponsDto: List<UsedCouponsResponseDto>,
 ) {
     @Serializable
     data class AvailableCouponsResponseDto(
@@ -29,7 +29,7 @@ data class UserCouponsResponseDto(
         val isNewGained: Boolean,
 
         @SerialName("placeId")
-        val placeId: Int
+        val placeId: Int,
     )
 
     @Serializable

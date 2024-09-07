@@ -19,9 +19,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.teamoffroad.core.designsystem.component.GestureNavigation
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -34,7 +34,7 @@ internal fun GainedCouponScreen(
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
     navigateToMyPage: () -> Unit,
     backgroundColor: Color = ListBg,
-    viewModel: GainedCouponViewModel = hiltViewModel()
+    viewModel: GainedCouponViewModel = hiltViewModel(),
 ) {
 
     LaunchedEffect(Unit) {
@@ -43,7 +43,7 @@ internal fun GainedCouponScreen(
 
     Box(
         modifier = Modifier
-            .then(GestureNavigation())
+            .navigationPadding()
             .background(Sub4)
     ) {
         Column(

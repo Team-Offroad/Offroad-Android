@@ -5,7 +5,7 @@ import com.teamoffroad.feature.mypage.domain.model.UserCouponList
 import com.teamoffroad.feature.mypage.domain.repository.UserCouponRepository
 
 class UserCouponListUseCase(
-    private val userCouponRepository: UserCouponRepository
+    private val userCouponRepository: UserCouponRepository,
 ) {
     suspend fun fetchUserCoupons(): UserCouponList {
         return userCouponRepository.fetchUserCoupons()

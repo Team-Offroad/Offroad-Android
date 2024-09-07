@@ -16,9 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.teamoffroad.core.designsystem.component.GestureNavigation
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.mypage.presentation.component.LogoutDialog
@@ -42,7 +42,7 @@ internal fun SettingScreen(
 
     Column(
         modifier = modifier
-            .then(GestureNavigation())
+            .navigationPadding()
             .background(Main1)
             .fillMaxSize()
     ) {
@@ -65,26 +65,26 @@ internal fun SettingScreen(
             color = Main1,
             text = "공지사항",
             isImportant = false,
-            click = navigateToAnnouncement
+            onClick = navigateToAnnouncement
         )
-        SettingContainer(color = Main1, text = "플레이 가이드", isImportant = false, click = {})
-        SettingContainer(color = Main1, text = "서비스 이용약관", isImportant = false, click = {})
-        SettingContainer(color = Main1, text = "개인정보처리방침", isImportant = false, click = {})
+        SettingContainer(color = Main1, text = "플레이 가이드", isImportant = false, onClick = {})
+        SettingContainer(color = Main1, text = "서비스 이용약관", isImportant = false, onClick = {})
+        SettingContainer(color = Main1, text = "개인정보처리방침", isImportant = false, onClick = {})
         SettingContainer(
             color = Main1,
             text = "마케팅 수신동의",
             isImportant = false,
-            click = { viewModel.changeDialogState(SettingDialogState.MarketingVisible) })
+            onClick = { viewModel.changeDialogState(SettingDialogState.MarketingVisible) })
         SettingContainer(
             color = Main1,
             text = "로그아웃",
             isImportant = false,
-            click = { viewModel.changeDialogState(SettingDialogState.LogoutVisible) })
+            onClick = { viewModel.changeDialogState(SettingDialogState.LogoutVisible) })
         SettingContainer(
             color = Main1,
             text = "회원 탈퇴",
             isImportant = false,
-            click = { viewModel.changeDialogState(SettingDialogState.WithDrawVisible) })
+            onClick = { viewModel.changeDialogState(SettingDialogState.WithDrawVisible) })
     }
 
     when (isSettingUiState.dialogVisible) {

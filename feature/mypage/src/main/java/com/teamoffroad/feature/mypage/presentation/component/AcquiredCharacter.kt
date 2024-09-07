@@ -2,7 +2,6 @@ package com.teamoffroad.feature.mypage.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub4
 import com.teamoffroad.offroad.feature.mypage.R
@@ -29,7 +29,7 @@ fun AcquireCharacter(
         modifier = Modifier
             .clip(shape = RoundedCornerShape(10.dp))
             .fillMaxSize()
-            .clickable { navigateToGainedCharacter() },
+            .clickableWithoutRipple { navigateToGainedCharacter() },
     ) {
         Box(
             modifier = Modifier.background(Color(0xFFFFF2C1))

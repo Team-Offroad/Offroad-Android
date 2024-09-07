@@ -49,6 +49,7 @@ import com.teamoffroad.offroad.feature.home.R
 fun HomeScreen(
     category: String?,
     completeQuests: List<String> = emptyList(),
+    navigateToGainedCharacter: () -> Unit = {},
 ) {
     val context = LocalContext.current
     val viewModel: HomeViewModel = hiltViewModel()
@@ -76,6 +77,7 @@ fun HomeScreen(
                         context = context,
                         modifier = Modifier.weight(1f),
                         viewModel = viewModel,
+                        navigateToGainedCharacter = navigateToGainedCharacter,
                     )
                     Spacer(modifier = Modifier.padding(top = 12.dp))
                     UsersQuestInformation(context, viewModel)
@@ -102,6 +104,7 @@ private fun UsersAdventuresInformation(
     context: Context,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel,
+    navigateToGainedCharacter: () -> Unit,
 ) {
     val adventuresInformationState =
         viewModel.getUsersAdventuresInformationState.collectAsState(initial = UiState.Loading).value
@@ -129,7 +132,8 @@ private fun UsersAdventuresInformation(
             HomeBackground()
             HomeIcons(
                 context = context,
-                imageUrl = imageUrl
+                imageUrl = imageUrl,
+                navigateToGainedCharacter = navigateToGainedCharacter,
             )
         }
 

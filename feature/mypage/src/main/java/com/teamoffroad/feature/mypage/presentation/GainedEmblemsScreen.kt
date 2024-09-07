@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.mypage.presentation.component.GainedEmblemsHeader
@@ -34,6 +35,7 @@ internal fun GainedEmblemsScreen(
     }
     Column(
         modifier = Modifier
+            .navigationPadding()
             .background(Main1)
     ) {
         OffroadActionBar()

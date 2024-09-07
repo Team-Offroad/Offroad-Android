@@ -65,7 +65,7 @@ object UseCaseModule {
     @Provides
     @Singleton
     fun provideGetUserCouponUseCase(
-        userCouponRepository: UserCouponRepository
+        userCouponRepository: UserCouponRepository,
     ): UserCouponListUseCase {
         return UserCouponListUseCase(userCouponRepository)
     }

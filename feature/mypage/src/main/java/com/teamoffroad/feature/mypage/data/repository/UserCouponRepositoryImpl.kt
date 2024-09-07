@@ -9,7 +9,7 @@ import com.teamoffroad.feature.mypage.domain.repository.UserCouponRepository
 import javax.inject.Inject
 
 class UserCouponRepositoryImpl @Inject constructor(
-    private val userCouponService: UserCouponService
+    private val userCouponService: UserCouponService,
 ) : UserCouponRepository {
     override suspend fun fetchUserCoupons(): UserCouponList {
         val response = userCouponService.getCoupons()
