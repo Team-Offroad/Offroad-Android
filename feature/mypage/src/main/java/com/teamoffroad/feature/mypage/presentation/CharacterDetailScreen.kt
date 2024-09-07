@@ -59,7 +59,7 @@ fun CharacterDetailScreen(
         ) {
             CharacterDetailImageItem(uiState.value)
             CharacterDescriptionContainer(uiState.value)
-            if (!isRepresentative) UpdateRepresentativeCharacterButton(characterDetailViewModel::updateIsRepresentative)
+            if (!uiState.value.characterDetailModel.isRepresentative) UpdateRepresentativeCharacterButton(characterDetailViewModel::updateIsRepresentative)
             CharacterMotionsContainer(uiState.value.characterMotions, uiState.value.characterDetailModel)
         }
     }
