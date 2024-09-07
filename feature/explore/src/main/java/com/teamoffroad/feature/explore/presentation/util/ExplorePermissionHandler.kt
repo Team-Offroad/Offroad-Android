@@ -12,14 +12,14 @@ import androidx.core.content.ContextCompat
 import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
 
 @Composable
-fun ExploreLocationPermissionHandler(
+fun ExplorePermissionHandler(
     context: Context,
     uiState: ExploreUiState,
     updatePermission: (Boolean?, Boolean, Boolean) -> Unit,
 ) {
     val launcherLocationPermissions = getPermissionsLauncher(updatePermission)
 
-    LaunchedEffect(uiState.isAllPermissionGranted) {
+    LaunchedEffect(uiState.permissionModel.isAllPermissionGranted) {
         val isFineLocationGranted = ContextCompat.checkSelfPermission(
             context, Manifest.permission.ACCESS_FINE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED

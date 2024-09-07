@@ -36,9 +36,8 @@ internal fun MainNavHost(
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
             )
             exploreNavGraph(
-                navigateToHome = { category ->
-                    navigator.popBackStack()
-                    navigator.navigateToHome(category)
+                navigateToHome = { category, completeQuests ->
+                    navigator.navigateToHomeFromExplore(category, completeQuests)
                 },
                 navigateToExplore = { errorType, successImageUrl ->
                     navigator.navigateToExplore(errorType, successImageUrl)
@@ -72,6 +71,7 @@ internal fun MainNavHost(
                 navigateToAnnouncement = navigator::navigateToAnnouncement,
                 navigateToAnnouncementDetail = navigator::navigateToAnnouncementDetail,
                 navigateToSignIn = navigator::navigateToSignIn,
+                navigateToCharacterDetail = navigator::navigateToCharacterDetail,
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
             )
             authNavGraph(

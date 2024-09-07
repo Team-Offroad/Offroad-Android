@@ -15,9 +15,9 @@ fun ExplorePermissionRejectedHandler(
     updatePermission: (Boolean?, Boolean, Boolean) -> Unit,
 ) {
     val toastMessage = when {
-        !uiState.isCameraPermissionGranted -> stringResource(R.string.explore_camera_permission_failed)
+        !uiState.permissionModel.isCameraPermissionGranted -> stringResource(R.string.explore_camera_permission_failed)
 
-        !uiState.isLocationPermissionGranted -> stringResource(R.string.explore_location_permission_failed)
+        !uiState.permissionModel.isLocationPermissionGranted -> stringResource(R.string.explore_location_permission_failed)
 
         else -> ""
     }
