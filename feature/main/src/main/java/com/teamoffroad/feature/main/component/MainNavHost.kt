@@ -34,6 +34,11 @@ internal fun MainNavHost(
         ) {
             homeNavGraph(
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
+                navigateToGainedCharacter = {
+                    navigator.navigateToMyPage().also {
+                        navigator.navigateToGainedCharacter()
+                    }
+                },
             )
             exploreNavGraph(
                 navigateToHome = { category, completeQuests ->
@@ -58,7 +63,7 @@ internal fun MainNavHost(
                     navigator.navigateToGainedCoupon()
                 },
                 navigateToAvailableCouponDetail = { id, name, couponImageUrl, description, placeId ->
-                    navigator.navigateToAvailableCouponDetail(id, name,couponImageUrl, description, placeId)
+                    navigator.navigateToAvailableCouponDetail(id, name, couponImageUrl, description, placeId)
                 },
                 navigateToGainedCharacter = {
                     navigator.navigateToGainedCharacter()

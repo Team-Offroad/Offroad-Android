@@ -21,7 +21,7 @@ import com.teamoffroad.offroad.feature.mypage.R
 @Composable
 internal fun AnnouncementScreen(
     navigateToAnnouncementDetail: (String, String, String, Boolean) -> Unit,
-    navigateToBack: () -> Unit
+    navigateToBack: () -> Unit,
 ) {
     Column(
         modifier = Modifier

@@ -40,7 +40,7 @@ import com.teamoffroad.offroad.feature.mypage.R
 fun AvailableCouponItems(
     coupons: List<UserCouponList.AvailableCoupon>,
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
-    context: Context
+    context: Context,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -62,7 +62,7 @@ fun AvailableCouponItems(
 fun AvailableCouponItem(
     coupon: UserCouponList.AvailableCoupon,
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
-    context: Context
+    context: Context,
 ) {
     Box(
         modifier = Modifier
@@ -128,7 +128,7 @@ fun AvailableCouponItem(
 @Composable
 fun UsedCouponItems(
     coupons: List<UserCouponList.UsedCoupon>,
-    context: Context
+    context: Context,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -149,7 +149,7 @@ fun UsedCouponItems(
 @Composable
 fun UsedCouponItem(
     coupon: UserCouponList.UsedCoupon,
-    context: Context
+    context: Context,
 ) {
     Box(
         modifier = Modifier

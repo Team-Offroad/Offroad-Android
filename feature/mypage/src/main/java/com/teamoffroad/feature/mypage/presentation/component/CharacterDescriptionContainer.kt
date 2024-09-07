@@ -83,13 +83,15 @@ private fun CharacterNameItem(uiState: CharacterDetailUiState) {
                         style = OffroadTheme.typography.subtitle2Bold,
                         color = Sub4,
                     )
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_my_page_representative),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(start = 6.dp)
-                            .size(20.dp),
-                    )
+                    if (uiState.characterDetailModel.isRepresentative) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_my_page_representative),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(start = 6.dp)
+                                .size(20.dp),
+                        )
+                    }
                 }
                 Text(
                     text = uiState.characterDetailModel.characterSummaryDescription,

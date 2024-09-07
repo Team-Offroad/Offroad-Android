@@ -21,10 +21,15 @@ fun NavController.navigateToHome(
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun NavGraphBuilder.homeNavGraph(
     navigateToBack: () -> Unit,
+    navigateToGainedCharacter: () -> Unit,
 ) {
     composable<MainTabRoute.Home> { backStackEntry ->
         val category = backStackEntry.toRoute<MainTabRoute.Home>().category
         val completeQuests = backStackEntry.toRoute<MainTabRoute.Home>().completeQuests
-        HomeScreen(category = category, completeQuests = completeQuests)
+        HomeScreen(
+            category = category,
+            completeQuests = completeQuests,
+            navigateToGainedCharacter = navigateToGainedCharacter,
+        )
     }
 }

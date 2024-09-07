@@ -14,6 +14,6 @@ interface UserCouponService {
 
     @POST("users/coupons")
     suspend fun saveCoupons(
-        @Body request: UseCouponRequestDto
+        @Body request: UseCouponRequestDto,
     ): BaseResponse<UseCouponResponseDto>
 }

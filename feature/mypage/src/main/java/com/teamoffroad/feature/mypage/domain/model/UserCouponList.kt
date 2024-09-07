@@ -2,7 +2,7 @@ package com.teamoffroad.feature.mypage.domain.model
 
 data class UserCouponList(
     val availableCoupons: List<AvailableCoupon>,
-    val usedCoupons: List<UsedCoupon>
+    val usedCoupons: List<UsedCoupon>,
 ) {
     data class AvailableCoupon(
         val id: Int,
@@ -10,7 +10,7 @@ data class UserCouponList(
         val couponImageUrl: String,
         val description: String,
         val isNewGained: Boolean,
-        val placeId: Int
+        val placeId: Int,
     )
 
     data class UsedCoupon(

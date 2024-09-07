@@ -29,7 +29,7 @@ fun EmblemContainer(
     subTitle: String,
     isNew: Boolean,
     isLock: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier

@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GainedCouponViewModel @Inject constructor(
-    private val userCouponRepository: UserCouponRepository
+    private val userCouponRepository: UserCouponRepository,
 ) : ViewModel() {
 
     private val _getUserCouponListState =

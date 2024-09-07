@@ -16,9 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.teamoffroad.core.designsystem.component.GestureNavigation
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.mypage.presentation.component.LogoutDialog
@@ -42,7 +42,7 @@ internal fun SettingScreen(
 
     Column(
         modifier = modifier
-            .then(GestureNavigation())
+            .navigationPadding()
             .background(Main1)
             .fillMaxSize()
     ) {

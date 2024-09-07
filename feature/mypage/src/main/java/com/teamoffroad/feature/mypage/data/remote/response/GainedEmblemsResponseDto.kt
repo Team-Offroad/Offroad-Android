@@ -8,5 +8,5 @@ data class GainedEmblemsResponseDto(
     @SerialName("gainedEmblems")
     val gainedEmblemResponseDto: List<GainedEmblemResponseDto>,
     @SerialName("notGainedEmblems")
-    val notGainedEmblemResponseDto: List<NotGainedEmblemResponseDto>
+    val notGainedEmblemResponseDto: List<NotGainedEmblemResponseDto>,
 )
