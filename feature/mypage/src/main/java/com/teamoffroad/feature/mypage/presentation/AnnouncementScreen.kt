@@ -46,17 +46,17 @@ internal fun AnnouncementScreen(
             color = Main1,
             text = "의견을 들려주세요",
             isImportant = true,
-            click = { navigateToAnnouncementDetail("여러분의 의견을 들려주세", "안뇽하세요", "링크", true) }
+            onClick = { navigateToAnnouncementDetail("여러분의 의견을 들려주세", "안뇽하세요", "링크", true) }
         )
-        SettingContainer(color = Main1, text = "락이좋아요", isImportant = true, click = {})
-        SettingContainer(color = Main1, text = "제휴 업체 안내", isImportant = false, click = {})
-        SettingContainer(color = Main1, text = "운영 관련 안내", isImportant = false, click = {})
-        SettingContainer(color = Main1, text = "이벤트 관련 안내", isImportant = false, click = {})
+        SettingContainer(color = Main1, text = "락이좋아요", isImportant = true, onClick = {})
+        SettingContainer(color = Main1, text = "제휴 업체 안내", isImportant = false, onClick = {})
+        SettingContainer(color = Main1, text = "운영 관련 안내", isImportant = false, onClick = {})
+        SettingContainer(color = Main1, text = "이벤트 관련 안내", isImportant = false, onClick = {})
         SettingContainer(
             color = Main1,
             text = "오프로드 고객센터 추석 휴무 안내",
             isImportant = false,
-            click = {})
-        SettingContainer(color = Main1, text = "운영 관련 사항을 알려드립니다.", isImportant = false, click = {})
+            onClick = {})
+        SettingContainer(color = Main1, text = "운영 관련 사항을 알려드립니다.", isImportant = false, onClick = {})
     }
 }

@@ -26,7 +26,7 @@ fun SettingContainer(
     color: Color,
     text: String,
     isImportant: Boolean,
-    click: () -> Unit,
+    onClick: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -34,7 +34,7 @@ fun SettingContainer(
             .padding(horizontal = 12.dp)
             .padding(bottom = 10.dp)
             .background(color = color, shape = RoundedCornerShape(10.dp))
-            .clickable { click() }
+            .clickable { onClick() }
     ) {
         Row(
             modifier = Modifier
