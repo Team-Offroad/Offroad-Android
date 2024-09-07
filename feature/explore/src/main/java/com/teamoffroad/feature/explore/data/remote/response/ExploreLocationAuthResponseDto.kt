@@ -15,6 +15,6 @@ data class ExploreLocationAuthResponseDto(
     @Serializable
     data class QuestResponseDto(
         @SerialName("name")
-        val name: Long,
+        val name: String,
     )
 }
