@@ -31,13 +31,14 @@ fun QuestScreen(
 
     Column(
         modifier = Modifier
-            .actionBarPadding()
             .navigationPadding()
             .background(color = Main1)
     ) {
         NavigateBackAppBar(
             text = stringResource(id = R.string.explore_explore),
-            modifier = Modifier.padding(top = 20.dp)
+            modifier = Modifier
+                .actionBarPadding()
+                .padding(top = 20.dp)
         ) { navigateToBack() }
         QuestHeader(
             uiState.value.isProceedingToggle,
