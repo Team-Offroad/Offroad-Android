@@ -31,7 +31,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
-import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Black15
@@ -73,9 +73,9 @@ fun AvailableCouponDetailScreen(
         Column(
             modifier = Modifier
                 .background(backgroundColor)
+                .actionBarPadding(backgroundColor)
                 .fillMaxSize(),
         ) {
-            OffroadActionBar()
             NavigateBackAppBar(
                 modifier = Modifier.padding(top = 20.dp),
                 text = stringResource(id = R.string.my_page_my_page),

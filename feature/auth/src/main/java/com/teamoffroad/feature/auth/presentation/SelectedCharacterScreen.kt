@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
-import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.theme.Ground
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.SelectedCharacterText
@@ -39,10 +39,10 @@ internal fun SelectedCharacterScreen(
         Box {
             Column(
                 modifier = Modifier
+                    .actionBarPadding(Wall)
                     .fillMaxSize()
                     .background(Wall),
             ) {
-                OffroadActionBar(Wall)
                 Spacer(modifier = Modifier.padding(270.dp))
                 Column(
                     modifier = Modifier

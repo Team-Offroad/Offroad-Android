@@ -16,8 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
-import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
+import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.feature.mypage.presentation.component.CharacterDescriptionContainer
 import com.teamoffroad.feature.mypage.presentation.component.CharacterDetailImageItem
@@ -45,9 +45,9 @@ fun CharacterDetailScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .navigationPadding()
+                .actionBarPadding(Color(uiState.value.characterDetailModel.characterSubColorCode))
                 .background(Color(uiState.value.characterDetailModel.characterSubColorCode)),
         ) {
-            OffroadActionBar()
             NavigateBackAppBar(
                 text = stringResource(R.string.my_page_gained_character),
                 backgroundColor = Color(uiState.value.characterDetailModel.characterSubColorCode),

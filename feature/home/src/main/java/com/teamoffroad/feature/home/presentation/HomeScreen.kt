@@ -29,8 +29,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
+import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.home.domain.model.UserQuests
@@ -71,8 +71,11 @@ fun HomeScreen(
             color = Main1
         ) {
             StaticAnimationWrapper {
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    OffroadActionBar()
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .actionBarPadding()
+                ) {
                     UsersAdventuresInformation(
                         context = context,
                         modifier = Modifier.weight(1f),

@@ -13,12 +13,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.mypage.presentation.component.AcquireCharacter
@@ -51,6 +50,7 @@ internal fun MyPageScreen(
     Box(
         modifier = Modifier
             .background(ListBg)
+            .actionBarPadding(ListBg)
             .fillMaxSize()
             .padding(horizontal = 24.dp)
             .padding(top = 52.dp)
@@ -58,7 +58,6 @@ internal fun MyPageScreen(
             .navigationBarsPadding()
     ) {
         Column {
-            OffroadActionBar(Color.Transparent)
             UserNickname(myPageViewModel.myPageUser.collectAsStateWithLifecycle().value.nickname)
             Spacer(modifier = Modifier.padding(vertical = 13.dp))
             UserAdventureInfo(

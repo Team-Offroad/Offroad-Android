@@ -23,7 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -49,8 +49,10 @@ internal fun SetGenderScreen(
             .clickableWithoutRipple(interactionSource) { viewModel.updateGenderEmpty() },
         color = Main1,
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            OffroadActionBar()
+        Column(
+            modifier = Modifier.actionBarPadding(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
             Spacer(modifier = Modifier.padding(vertical = 22.dp))
             Row(
                 modifier = Modifier
@@ -111,7 +113,7 @@ internal fun SetGenderScreen(
 fun SetGenderButton(
     viewModel: SetGenderViewModel,
     isGenderState: SetGenderUiState,
-    interactionSource: MutableInteractionSource
+    interactionSource: MutableInteractionSource,
 ) {
     val (male, female, other) = when (isGenderState) {
         SetGenderUiState.Select(UserGender.MALE.name) -> {

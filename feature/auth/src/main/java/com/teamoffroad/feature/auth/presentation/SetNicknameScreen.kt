@@ -23,7 +23,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.addFocusCleaner
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
@@ -45,12 +45,12 @@ internal fun SetNicknameScreen(
 
     Surface(
         modifier = Modifier
+            .actionBarPadding()
             .fillMaxSize()
             .addFocusCleaner(focusManager),
         color = Main1,
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            OffroadActionBar()
             Text(
                 text = "모험가 프로필 작성",
                 color = Main2,

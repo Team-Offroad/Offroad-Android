@@ -9,7 +9,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
-import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -23,10 +23,10 @@ fun PlaceScreen(
 ) {
     Column(
         modifier = Modifier
+            .actionBarPadding()
             .navigationPadding()
             .background(color = Main1)
     ) {
-        OffroadActionBar()
         NavigateBackAppBar(
             text = stringResource(id = R.string.explore_explore),
             modifier = Modifier.padding(top = 20.dp)

@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
-import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.mypage.presentation.component.SettingContainer
@@ -26,8 +26,8 @@ internal fun AnnouncementScreen(
     Column(
         modifier = Modifier
             .background(Main1)
+            .actionBarPadding()
     ) {
-        OffroadActionBar()
         NavigateBackAppBar(
             text = "설정",
             modifier = Modifier.padding(top = 20.dp)

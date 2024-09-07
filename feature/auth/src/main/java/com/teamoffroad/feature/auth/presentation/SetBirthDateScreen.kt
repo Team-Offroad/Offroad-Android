@@ -32,7 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.addFocusCleaner
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -58,12 +58,12 @@ internal fun SetBirthDateScreen(
 
     Surface(
         modifier = Modifier
+            .actionBarPadding()
             .fillMaxSize()
             .addFocusCleaner(focusManager),
         color = Main1
     ) {
         Column {
-            OffroadActionBar()
             Spacer(modifier = Modifier.padding(vertical = 22.dp))
             Row(
                 modifier = Modifier
