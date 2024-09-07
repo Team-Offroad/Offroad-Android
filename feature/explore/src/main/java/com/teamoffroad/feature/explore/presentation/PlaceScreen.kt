@@ -24,7 +24,7 @@ fun PlaceScreen(
     Column(
         modifier = Modifier
             .then(GestureNavigation())
-            .background(Main1)
+            .background(color = Main1)
     ) {
         OffroadActionBar()
         NavigateBackAppBar(
