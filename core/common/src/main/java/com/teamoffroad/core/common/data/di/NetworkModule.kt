@@ -3,7 +3,6 @@ package com.teamoffroad.core.common.data.di
 import android.util.Log
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.teamoffroad.core.common.data.local.AuthInterceptor
-import com.teamoffroad.core.common.data.local.TokenManager
 import com.teamoffroad.core.common.data.remote.service.TokenService
 import com.teamoffroad.offroad.core.common.BuildConfig
 import dagger.Module
@@ -42,11 +41,11 @@ object NetworkModule {
     @Singleton
     fun provideOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
-        tokenManager: TokenManager,
+        authInterceptor: AuthInterceptor,
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
-            .addInterceptor(AuthInterceptor(tokenManager))
+            .addInterceptor(authInterceptor)
             .build()
     }
 

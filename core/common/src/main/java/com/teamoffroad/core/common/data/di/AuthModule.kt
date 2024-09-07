@@ -1,13 +1,14 @@
 package com.teamoffroad.core.common.data.di
 
+import com.teamoffroad.core.common.data.datasource.TokenPreferencesDataSource
 import com.teamoffroad.core.common.data.local.AuthAuthenticator
 import com.teamoffroad.core.common.data.local.AuthInterceptor
-import com.teamoffroad.core.common.data.local.TokenManager
 import com.teamoffroad.core.common.domain.usecase.RefreshTokenUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Provider
 import javax.inject.Singleton
 
 @Module
@@ -16,16 +17,19 @@ object AuthModule {
 
     @Provides
     @Singleton
-    fun provideAuthInterceptor(tokenManager: TokenManager): AuthInterceptor {
-        return AuthInterceptor(tokenManager)
+    fun provideAuthInterceptor(
+        authAuthenticator: AuthAuthenticator,
+        tokenPreferencesDataSource: TokenPreferencesDataSource,
+    ): AuthInterceptor {
+        return AuthInterceptor(authAuthenticator, tokenPreferencesDataSource)
     }
 
     @Provides
     @Singleton
     fun provideAuthAuthenticator(
-        tokenManager: TokenManager,
-        refreshTokenUseCase: RefreshTokenUseCase,
+        tokenPreferencesDataSource: TokenPreferencesDataSource,
+        refreshTokenUseCase: Provider<RefreshTokenUseCase>,
     ): AuthAuthenticator {
-        return AuthAuthenticator(tokenManager, refreshTokenUseCase)
+        return AuthAuthenticator(tokenPreferencesDataSource, refreshTokenUseCase)
     }
 }

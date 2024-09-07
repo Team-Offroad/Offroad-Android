@@ -1,7 +1,7 @@
 package com.teamoffroad.core.common.data.repository
 
 import androidx.datastore.core.IOException
-import com.teamoffroad.core.common.data.local.TokenManager
+import com.teamoffroad.core.common.data.datasource.TokenPreferencesDataSource
 import com.teamoffroad.core.common.data.mapper.toDomain
 import com.teamoffroad.core.common.data.remote.service.TokenService
 import com.teamoffroad.core.common.domain.model.Token
@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class TokenRepositoryImpl @Inject constructor(
     private val tokenService: TokenService,
-    private val tokenManager: TokenManager,
+    private val tokenPreferencesDataSource: TokenPreferencesDataSource,
 ) : TokenRepository {
 
     override suspend fun refreshAccessToken(refreshToken: String): Token? {
@@ -24,18 +24,18 @@ class TokenRepositoryImpl @Inject constructor(
     }
 
     override fun getAccessToken(): Flow<String?> {
-        return tokenManager.getAccessToken()
+        return tokenPreferencesDataSource.accessToken
     }
 
     override fun getRefreshToken(): Flow<String?> {
-        return tokenManager.getRefreshToken()
+        return tokenPreferencesDataSource.refreshToken
     }
 
     override suspend fun saveAccessToken(token: String) {
-        tokenManager.saveAccessToken(token)
+        tokenPreferencesDataSource.setAccessToken(token)
     }
 
     override suspend fun saveRefreshToken(token: String) {
-        tokenManager.saveRefreshToken(token)
+        tokenPreferencesDataSource.setRefreshToken(token)
     }
 }

@@ -1,9 +1,6 @@
 package com.teamoffroad.feature.auth.data.repository
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
+import com.teamoffroad.feature.auth.data.datasource.AuthPreferencesDataSource
 import com.teamoffroad.feature.auth.data.mapper.toData
 import com.teamoffroad.feature.auth.data.mapper.toDomain
 import com.teamoffroad.feature.auth.data.remote.request.SignInInfoRequestDto
@@ -14,13 +11,11 @@ import com.teamoffroad.feature.auth.domain.model.UserProfile
 import com.teamoffroad.feature.auth.domain.model.UserToken
 import com.teamoffroad.feature.auth.domain.repository.AuthRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
-import javax.inject.Named
 
 class AuthRepositoryImpl @Inject constructor(
     private val authService: AuthService,
-    @Named("authDataStore") private val dataStore: DataStore<Preferences>,
+    private val authPreferencesDataSource: AuthPreferencesDataSource,
 ) : AuthRepository {
 
     override suspend fun signIn(socialPlatform: String, name: String?, code: String): SignInInfo {
@@ -33,21 +28,14 @@ class AuthRepositoryImpl @Inject constructor(
         return response.data?.toDomain() ?: SignInInfo(tokens = UserToken("", ""), isAlreadyExist = false)
     }
 
-    override val isAutoSignInEnabled: Flow<Boolean> = dataStore.data
-        .map { preferences ->
-            preferences[AUTO_LOGIN_KEY] ?: false
-        }
+    override val isAutoSignInEnabled: Flow<Boolean> = authPreferencesDataSource.autoLogin
 
     override suspend fun setAutoSignInEnabled(enabled: Boolean) {
-        dataStore.edit { preferences ->
-            preferences[AUTO_LOGIN_KEY] = enabled
-        }
+        authPreferencesDataSource.setAutoLogin(enabled)
     }
 
     override suspend fun clearAutoSignIn() {
-        dataStore.edit { preferences ->
-            preferences.remove(AUTO_LOGIN_KEY)
-        }
+        authPreferencesDataSource.setAutoLogin(false)
     }
 
     override suspend fun getDuplicateNickname(nickname: String): Boolean =
@@ -65,9 +53,5 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun patchUserProfile(userProfile: UserProfile) {
         authService.fetchUserProfile(userProfile.toData())
-    }
-
-    companion object {
-        private val AUTO_LOGIN_KEY = booleanPreferencesKey("auto_login")
     }
 }
