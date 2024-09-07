@@ -55,14 +55,20 @@ fun CharacterDetailScreen(
             ) {
                 navigateToBack()
             }
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.verticalScroll(scrollState),
-            ) {
-                CharacterDetailImageItem(uiState.value)
-                CharacterDescriptionContainer(uiState.value)
-                if (!uiState.value.characterDetailModel.isRepresentative) UpdateRepresentativeCharacterButton(characterDetailViewModel::updateIsRepresentative)
-                CharacterMotionsContainer(uiState.value.characterMotions, uiState.value.characterDetailModel)
+            when {
+                uiState.value.isLoading -> Unit
+                uiState.value.isError -> Unit
+                uiState.value.characterDetailModel.characterId != 0 -> {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.verticalScroll(scrollState),
+                    ) {
+                        CharacterDetailImageItem(uiState.value)
+                        CharacterDescriptionContainer(uiState.value)
+                        if (!uiState.value.characterDetailModel.isRepresentative) UpdateRepresentativeCharacterButton(characterDetailViewModel::updateIsRepresentative)
+                        CharacterMotionsContainer(uiState.value.characterMotions, uiState.value.characterDetailModel)
+                    }
+                }
             }
         }
 
