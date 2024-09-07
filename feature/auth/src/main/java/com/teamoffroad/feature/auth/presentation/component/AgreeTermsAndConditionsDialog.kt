@@ -58,8 +58,26 @@ fun AgreeTermsAndConditionsDialog(
                         .padding(bottom = 16.dp)
                 )
                 Text(
-                    text = "asdasdasdasdasdasdasdasdasdasdasdasdasdasdasda" +
-                            "sdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd",
+                    text = "서비스 제공 및 이용과 관련하여 오프로드가 취득\n" +
+                            "한 개인정보는 “개인정보보호법” 및 “정보통신망\n" +
+                            "이용촉진 및 정보보호 등에 관한 법률” 등 정보통\n" +
+                            "신서비스제공자가 준수하여야 할 관련 법령상의 \n" +
+                            "개인정보 보호 규정을 준수합니다.\n\n",
+                    color = Main2,
+                    style = OffroadTheme.typography.marketing,
+                    modifier = Modifier
+                )
+                Text(
+                    text = "1.   고객이 수집 및 이용에 동의한 개인정보를 활\n" +
+                            "     용하여, 전자적 전송 매체(E-mail)를 통하여 \n" +
+                            "     발송됩니다.\n" +
+                            "2.  발송되는 마케팅 정보는 수신자에게 오프로드\n" +
+                            "     및 제 3자의 상품 또는 서비스에 대한 혜택 정\n" +
+                            "     보, 각종 이벤트 정보, 개인 맞춤형 광고 정보 \n" +
+                            "     등 광고성 정보로 관련 법의 규정을 준수하여 \n" +
+                            "     발송됩니다. 단, 광고성 정보 이외에 의무적으\n" +
+                            "     로 안내되어야 하는 정보성 내용은 수신동의 \n" +
+                            "     여부와 무관하게 제공됩니다.",
                     color = Gray400,
                     style = OffroadTheme.typography.marketing,
                     modifier = Modifier
