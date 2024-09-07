@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.teamoffroad.core.designsystem.theme.Main2
+import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
@@ -40,16 +41,20 @@ fun ExploreResultDialog(
         onDismissRequest = onDismissRequest,
         properties = DialogProperties(dismissOnClickOutside = false),
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.bg_explore_dialog),
-            contentDescription = null,
-            modifier = Modifier
-                .size(312.dp, 348.dp)
-        )
         Box(
             modifier = Modifier
                 .size(312.dp, 348.dp)
+                .background(Main3, shape = RoundedCornerShape(14.dp))
         ) {
+            if (errorType is ExploreAuthState.Success) {
+                Image(
+                    painter = painterResource(id = R.drawable.bg_explore_dialog),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .fillMaxWidth(),
+                )
+            }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Bottom,
