@@ -81,7 +81,8 @@ internal fun AgreeTermsAndConditionsScreen(
         Spacer(modifier = Modifier.weight(1f))
         OffroadBasicBtn(
             text = "다음",
-            onClick = navigateToSetNicknameScreen,
+            marketingAgree = { viewModel.changedMarketingAgree(viewModel.marketing.value) },
+            onClick = { navigateToSetNicknameScreen() },
             isActive = isAgreeTermsAndConditionsUiState.name == AgreeTermsAndConditionsUiState.REQUIRED.name,
             modifier = Modifier
                 .padding(horizontal = 24.dp)

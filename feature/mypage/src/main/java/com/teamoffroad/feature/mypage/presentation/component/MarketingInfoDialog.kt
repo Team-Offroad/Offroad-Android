@@ -27,12 +27,13 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
+import kotlin.reflect.KFunction1
 
 @Composable
 fun MarketingInfoDialog(
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(14.dp),
-    onClick: () -> Unit,
+    onClick: KFunction1<Boolean, Unit>,
     onClickCancel: () -> Unit,
 ) {
     Dialog(
@@ -68,7 +69,10 @@ fun MarketingInfoDialog(
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     AgreeButton(
                         text = "비동의",
-                        onClick = onClickCancel,
+                        onClick = {
+                            onClickCancel()
+                            onClick(false)
+                        },
                         textColor = Main2,
                         backgroundColor = Main3,
                         modifier = Modifier.weight(1f)
@@ -77,7 +81,7 @@ fun MarketingInfoDialog(
                         text = "동의",
                         onClick = {
                             onClickCancel()
-                            onClick()
+                            onClick(true)
                         },
                         textColor = White,
                         backgroundColor = Main2,

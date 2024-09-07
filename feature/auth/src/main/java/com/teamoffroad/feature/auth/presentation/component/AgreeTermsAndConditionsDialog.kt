@@ -69,7 +69,9 @@ fun AgreeTermsAndConditionsDialog(
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     AgreeButton(
                         text = "비동의",
-                        onClick = onClickCancel,
+                        onClick = {
+                            onClickCancel()
+                        },
                         textColor = Main2,
                         backgroundColor = Main3,
                         modifier = Modifier.weight(1f)

@@ -2,9 +2,12 @@ package com.teamoffroad.feature.auth.presentation
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -54,7 +57,7 @@ internal fun AuthScreen(
     val isAutoSignIn by viewModel.autoSignIn.collectAsStateWithLifecycle()
     val isAlreadyExist by viewModel.alreadyExist.collectAsStateWithLifecycle()
     var signInLauncherInitialized by remember { mutableStateOf(false) }
-    val signInLauncher = rememberLauncherForActivityResult(
+    val googleSignInLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
@@ -64,7 +67,6 @@ internal fun AuthScreen(
     }
 
     LaunchedEffect(Unit) {
-        viewModel.clearDataStore()
         signInLauncherInitialized = true
     }
     LaunchedEffect(Unit) {
@@ -78,7 +80,7 @@ internal fun AuthScreen(
     }
     LaunchedEffect(isAutoSignIn, signInLauncherInitialized) {
         if (isAutoSignIn && signInLauncherInitialized) {
-            signInLauncher.launch(viewModel.googleSignInClient.signInIntent)
+            googleSignInLauncher.launch(viewModel.googleSignInClient.signInIntent)
         }
     }
 
@@ -104,7 +106,7 @@ internal fun AuthScreen(
                 painter = painterResource(id = R.drawable.ic_auth_kakao_logo),
                 background = Kakao,
                 contentDescription = "auth_kakao",
-                onClick = {kako(context)},
+                onClick = {},
                 modifier = Modifier.constrainAs(kakaoLogin) {
                     start.linkTo(parent.start, margin = 24.dp)
                     end.linkTo(parent.end, margin = 24.dp)
@@ -118,7 +120,7 @@ internal fun AuthScreen(
                 background = White,
                 contentDescription = "auth_google",
                 onClick = {
-                    signInLauncher.launch(viewModel.googleSignInClient.signInIntent)
+                    googleSignInLauncher.launch(viewModel.googleSignInClient.signInIntent)
                 },
                 modifier = Modifier.constrainAs(googleLogin) {
                     start.linkTo(parent.start, margin = 24.dp)
@@ -178,29 +180,5 @@ fun ClickableImage(
         }
     }
 }
-val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
-    Log.d("asdasd", "콜백실행")
-    if (error != null) {
-        Log.d("asdas", error.message.toString())
-    } else if (token != null) {
-        Log.d("asdasdasd", token.toString()
-        )
-    }
-    Log.d("asdas", error?.message.toString())
-}
-fun kako(context: Context) {
-    if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
-        UserApiClient.instance.loginWithKakaoTalk(context = context) { token, error ->
-            if (error != null) {
-                if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                    return@loginWithKakaoTalk
-                }
-                UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
-            } else if (token != null) {
-                Log.d("asdas", token.toString())
-            }
-        }
-    } else {
-        UserApiClient.instance.loginWithKakaoAccount(context = context, callback = callback)
-    }
-}
+
+

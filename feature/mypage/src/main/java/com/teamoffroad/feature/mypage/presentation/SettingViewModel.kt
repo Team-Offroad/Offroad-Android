@@ -3,8 +3,9 @@ package com.teamoffroad.feature.mypage.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.teamoffroad.feature.auth.domain.usecase.ClearDataStoreUseCase
+import com.teamoffroad.feature.auth.domain.usecase.UserMarketingAgreeUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.DeleteUserInfoUseCase
-import com.teamoffroad.feature.mypage.domain.usecase.UserMarketingInfoUseCase
 import com.teamoffroad.feature.mypage.presentation.component.SettingDialogState
 import com.teamoffroad.feature.mypage.presentation.model.SettingUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,9 +17,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingViewModel @Inject constructor(
-    private val marketingInfoUseCase: UserMarketingInfoUseCase,
+    private val marketingInfoUseCase: UserMarketingAgreeUseCase,
     private val deleteUserInfoUseCase: DeleteUserInfoUseCase,
     private val googleSignInClient: GoogleSignInClient,
+    private val clearDataStoreUseCase: ClearDataStoreUseCase
 ) : ViewModel() {
     private val _settingUiState: MutableStateFlow<SettingUiState> =
         MutableStateFlow(SettingUiState())
@@ -57,16 +59,20 @@ class SettingViewModel @Inject constructor(
         }
     }
 
-    fun patchMarketingInfo() {
+    fun changedMarketingAgree(marketingAgree: Boolean) {
         viewModelScope.launch {
             runCatching {
-                marketingInfoUseCase.invoke()
+                marketingInfoUseCase.invoke(marketingAgree)
             }.onSuccess {}
                 .onFailure {}
         }
     }
 
     fun performSignOut() {
-        googleSignInClient.signOut()
+        viewModelScope.launch {
+            runCatching { googleSignInClient.signOut() }
+                .onSuccess { clearDataStoreUseCase.invoke() }
+                .onFailure { it.message.toString() }
+        }
     }
 }
