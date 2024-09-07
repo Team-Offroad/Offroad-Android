@@ -37,4 +37,11 @@ class DefaultTokenPreferencesDataSource @Inject constructor(
             preferences[PreferencesKey.REFRESH_TOKEN_KEY] = refreshToken
         }
     }
+
+    override suspend fun clearTokens() {
+        dataStore.edit { preferences ->
+            preferences.remove(PreferencesKey.ACCESS_TOKEN_KEY)
+            preferences.remove(PreferencesKey.REFRESH_TOKEN_KEY)
+        }
+    }
 }

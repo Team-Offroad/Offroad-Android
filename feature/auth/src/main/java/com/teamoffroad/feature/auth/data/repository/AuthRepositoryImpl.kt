@@ -35,10 +35,6 @@ class AuthRepositoryImpl @Inject constructor(
         authPreferencesDataSource.setAutoLogin(enabled)
     }
 
-    override suspend fun clearAutoSignIn() {
-        authPreferencesDataSource.setAutoLogin(false)
-    }
-
     override suspend fun fetchDuplicateNickname(nickname: String): Boolean =
         authService.getDuplicateNickname(nickname).data?.isDuplicate ?: false
 

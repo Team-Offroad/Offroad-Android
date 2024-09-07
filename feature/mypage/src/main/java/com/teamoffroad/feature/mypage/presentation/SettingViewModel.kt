@@ -3,7 +3,8 @@ package com.teamoffroad.feature.mypage.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.teamoffroad.feature.auth.domain.usecase.ClearDataStoreUseCase
+import com.teamoffroad.core.common.domain.usecase.ClearTokensUseCase
+import com.teamoffroad.feature.auth.domain.usecase.UpdateAutoSignInUseCase
 import com.teamoffroad.feature.auth.domain.usecase.UserMarketingAgreeUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.DeleteUserInfoUseCase
 import com.teamoffroad.feature.mypage.presentation.component.SettingDialogState
@@ -20,7 +21,8 @@ class SettingViewModel @Inject constructor(
     private val marketingInfoUseCase: UserMarketingAgreeUseCase,
     private val deleteUserInfoUseCase: DeleteUserInfoUseCase,
     private val googleSignInClient: GoogleSignInClient,
-    private val clearDataStoreUseCase: ClearDataStoreUseCase
+    private val clearTokensUseCase: ClearTokensUseCase,
+    private val updateAutoSignInUseCase: UpdateAutoSignInUseCase,
 ) : ViewModel() {
     private val _settingUiState: MutableStateFlow<SettingUiState> =
         MutableStateFlow(SettingUiState())
@@ -65,7 +67,10 @@ class SettingViewModel @Inject constructor(
     fun performSignOut() {
         viewModelScope.launch {
             runCatching { googleSignInClient.signOut() }
-                .onSuccess { clearDataStoreUseCase.invoke() }
+                .onSuccess {
+                    clearTokensUseCase()
+                    updateAutoSignInUseCase(false)
+                }
                 .onFailure { it.message.toString() }
         }
     }

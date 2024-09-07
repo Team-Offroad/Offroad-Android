@@ -9,7 +9,6 @@ interface AuthRepository {
     suspend fun performSignIn(socialPlatform: String, name: String?, code: String): SignInInfo
     val isAutoSignInEnabled: Flow<Boolean>
     suspend fun updateAutoSignInEnabled(enabled: Boolean)
-    suspend fun clearAutoSignIn()
     suspend fun fetchDuplicateNickname(nickname: String): Boolean
     suspend fun fetchCharacters(): List<Character>
     suspend fun saveCharacter(characterId: Int): String

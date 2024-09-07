@@ -8,4 +8,5 @@ interface TokenPreferencesDataSource {
 
     suspend fun setAccessToken(accessToken: String)
     suspend fun setRefreshToken(refreshToken: String)
+    suspend fun clearTokens()
 }

@@ -32,4 +32,8 @@ class TokenRepositoryImpl @Inject constructor(
     override suspend fun saveRefreshToken(token: String) {
         tokenPreferencesDataSource.setRefreshToken(token)
     }
+
+    override suspend fun clearTokens() {
+        tokenPreferencesDataSource.clearTokens()
+    }
 }
