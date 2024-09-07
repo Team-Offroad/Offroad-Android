@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class DeleteUserInfoResponseDto(
-    val delete: BaseResponse<Unit>
+    val delete: BaseResponse<Unit>,
 )

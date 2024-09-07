@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -32,14 +33,14 @@ import com.teamoffroad.core.designsystem.theme.Contents2
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
-import com.teamoffroad.feature.mypage.presentation.model.FakeGainedCouponModel
+import com.teamoffroad.feature.mypage.domain.model.UserCouponList
 import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
 fun AvailableCouponItems(
-    coupons: List<FakeGainedCouponModel.FakeAvailableCouponsModel>,
-    navigateToAvailableCouponDetail: (Int, String, String, String) -> Unit,
-    context: Context
+    coupons: List<UserCouponList.AvailableCoupon>,
+    navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
+    context: Context,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -59,9 +60,9 @@ fun AvailableCouponItems(
 
 @Composable
 fun AvailableCouponItem(
-    coupon: FakeGainedCouponModel.FakeAvailableCouponsModel,
-    navigateToAvailableCouponDetail: (Int, String, String, String) -> Unit,
-    context: Context
+    coupon: UserCouponList.AvailableCoupon,
+    navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
+    context: Context,
 ) {
     Box(
         modifier = Modifier
@@ -76,9 +77,30 @@ fun AvailableCouponItem(
             .clickableWithoutRipple(interactionSource = remember {
                 MutableInteractionSource()
             }) {
-                navigateToAvailableCouponDetail(coupon.id, coupon.name, coupon.couponImageUrl, coupon.description)
+                navigateToAvailableCouponDetail(
+                    coupon.id,
+                    coupon.name,
+                    coupon.couponImageUrl,
+                    coupon.description,
+                    coupon.placeId
+                )
             }
     ) {
+        if (coupon.isNewGained) {
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.TopEnd
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.img_coupon_new),
+                    contentDescription = "new coupon",
+                    modifier = Modifier
+                        .padding(top = 16.dp, end = 16.dp)
+                        .size(24.dp)
+                )
+            }
+        }
+
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
@@ -105,8 +127,8 @@ fun AvailableCouponItem(
 
 @Composable
 fun UsedCouponItems(
-    coupons: List<FakeGainedCouponModel.FakeUsedCouponsModel>,
-    context: Context
+    coupons: List<UserCouponList.UsedCoupon>,
+    context: Context,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -126,8 +148,8 @@ fun UsedCouponItems(
 
 @Composable
 fun UsedCouponItem(
-    coupon: FakeGainedCouponModel.FakeUsedCouponsModel,
-    context: Context
+    coupon: UserCouponList.UsedCoupon,
+    context: Context,
 ) {
     Box(
         modifier = Modifier

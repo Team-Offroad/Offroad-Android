@@ -12,16 +12,22 @@ import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.BottomBar
 
 @Composable
-fun GestureNavigation(
+fun Modifier.navigationPadding(
     backgroundColor: Color = BottomBar,
-    modifier: Modifier = Modifier.background(backgroundColor)
 ): Modifier {
-    return if (!CheckNavigationBar()) modifier.navigationBarsPadding()
-    else modifier.padding(bottom = 14.dp)
+    val isGestureNavigation = checkNavigationBar()
+    return this
+        .background(color = backgroundColor)
+        .then(
+            when (isGestureNavigation) {
+                true -> padding(bottom = 14.dp)
+                false -> navigationBarsPadding()
+            }
+        )
 }
 
 @Composable
-private fun CheckNavigationBar(): Boolean {
+private fun checkNavigationBar(): Boolean {
     val view = LocalView.current
     return remember {
         val systemBottomNavigationSetting = view.context.resources.getIdentifier(

@@ -5,5 +5,5 @@ data class MyPageUser(
     val currentEmblem: String,
     val elapsedDay: Int,
     val completeQuestCount: Int,
-    val visitedPlaceCount: Int
+    val visitedPlaceCount: Int,
 )

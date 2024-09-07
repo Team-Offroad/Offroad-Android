@@ -18,6 +18,6 @@ data class MyPageUserResponseDto(
     val completeQuestCount: Int,
 
     @SerialName("visitedPlaceCount")
-    val visitedPlaceCount: Int
+    val visitedPlaceCount: Int,
 
-)
+    )

@@ -16,8 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.teamoffroad.core.designsystem.component.GestureNavigation
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
+import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.explore.presentation.component.ExploreCamera
@@ -60,7 +60,7 @@ internal fun ExploreCameraScreen(
     )
     Column(
         modifier = Modifier
-            .then(GestureNavigation())
+            .navigationPadding()
             .fillMaxSize()
     ) {
         Spacer(

@@ -29,7 +29,8 @@ import com.teamoffroad.offroad.feature.home.R
 @Composable
 fun HomeIcons(
     context: Context,
-    imageUrl: String
+    imageUrl: String,
+    navigateToGainedCharacter: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     val permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -75,6 +76,7 @@ fun HomeIcons(
             Image(
                 painter = painterResource(id = R.drawable.ic_home_change),
                 contentDescription = "change",
+                modifier = Modifier.clickableWithoutRipple { navigateToGainedCharacter() }
             )
         }
     }

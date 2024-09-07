@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.mypage.presentation.component.LogoutDialog
@@ -34,13 +36,15 @@ internal fun SettingScreen(
     navigateToAnnouncement: () -> Unit,
     navigateToSignIn: () -> Unit,
     navigateToBack: () -> Unit,
-    viewModel: SettingViewModel = hiltViewModel()
+    viewModel: SettingViewModel = hiltViewModel(),
 ) {
     val isSettingUiState by viewModel.settingUiState.collectAsState()
 
     Column(
         modifier = modifier
+            .navigationPadding()
             .background(Main1)
+            .fillMaxSize()
     ) {
         OffroadActionBar()
         NavigateBackAppBar(
