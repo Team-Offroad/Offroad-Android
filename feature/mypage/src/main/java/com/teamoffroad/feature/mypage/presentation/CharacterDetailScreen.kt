@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.teamoffroad.core.designsystem.component.GestureNavigation
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.feature.mypage.presentation.component.CharacterDescriptionContainer
@@ -41,6 +42,7 @@ fun CharacterDetailScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .then(GestureNavigation())
             .background(Color(uiState.value.characterDetailModel.characterSubColorCode)),
     ) {
         OffroadActionBar()
