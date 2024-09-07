@@ -60,7 +60,7 @@ sealed interface MyPageRoute : Route {
         val id: Int,
         val name: String,
         val couponImageUrl: String,
-        val description: String
+        val description: String,
     ) : MyPageRoute
 
     @Serializable
@@ -80,6 +80,12 @@ sealed interface MyPageRoute : Route {
         val title: String,
         val content: String,
         val link: String,
-        val isImportant: Boolean
+        val isImportant: Boolean,
+    ) : MyPageRoute
+
+    @Serializable
+    data class CharacterDetail(
+        val characterId: Int,
+        val isRepresentative: Boolean,
     ) : MyPageRoute
 }

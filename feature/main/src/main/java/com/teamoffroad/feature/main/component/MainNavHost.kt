@@ -72,6 +72,7 @@ internal fun MainNavHost(
                 navigateToAnnouncement = navigator::navigateToAnnouncement,
                 navigateToAnnouncementDetail = navigator::navigateToAnnouncementDetail,
                 navigateToSignIn = navigator::navigateToSignIn,
+                navigateToCharacterDetail = navigator::navigateToCharacterDetail,
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
             )
             authNavGraph(
