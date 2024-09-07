@@ -77,10 +77,4 @@ class AuthViewModel @Inject constructor(
             }
         }
     }
-
-    // TODO: 추후 마이페이지에서 사용
-    fun performSignOut() {
-        googleSignInClient.signOut().addOnCompleteListener {
-        }
-    }
 }
