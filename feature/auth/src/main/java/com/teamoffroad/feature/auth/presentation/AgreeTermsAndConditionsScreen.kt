@@ -34,7 +34,8 @@ internal fun AgreeTermsAndConditionsScreen(
     val isPersonalInfo by viewModel.personalInfo.collectAsState()
     val isLocation by viewModel.location.collectAsState()
     val isMarketing by viewModel.marketing.collectAsState()
-    val isAgreeTermsAndConditionsUiState by viewModel.agreeTermsAndConditionsUiState.collectAsState()
+    val isAgreeTermsAndConditionsUiState by
+    viewModel.agreeTermsAndConditionsUiState.collectAsState()
     checkRequired(
         isServiceUtil = isServiceUtil,
         isLocation = isLocation,

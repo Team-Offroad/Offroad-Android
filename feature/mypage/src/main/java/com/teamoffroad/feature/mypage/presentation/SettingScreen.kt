@@ -59,7 +59,7 @@ internal fun SettingScreen(
         )
         Spacer(Modifier.height(24.dp))
         SettingContainer(
-            color = ListBg,
+            color = Main1,
             text = "공지사항",
             isImportant = false,
             click = navigateToAnnouncement
