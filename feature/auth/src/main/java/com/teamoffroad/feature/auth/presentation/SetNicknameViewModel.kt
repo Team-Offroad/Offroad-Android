@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SetNicknameViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val getNicknameValidateUseCase: GetNicknameValidateUseCase
+    private val getNicknameValidateUseCase: GetNicknameValidateUseCase,
 ) : ViewModel() {
     private val _nicknameUiState: MutableStateFlow<SetNicknameUiState> = MutableStateFlow(
         SetNicknameUiState()
@@ -32,7 +32,7 @@ class SetNicknameViewModel @Inject constructor(
 
     fun getDuplicateNickname() {
         viewModelScope.launch {
-            runCatching { authRepository.getDuplicateNickname(_nicknameUiState.value.nickname) }
+            runCatching { authRepository.fetchDuplicateNickname(_nicknameUiState.value.nickname) }
                 .onSuccess {
                     when (it) {
                         true -> {

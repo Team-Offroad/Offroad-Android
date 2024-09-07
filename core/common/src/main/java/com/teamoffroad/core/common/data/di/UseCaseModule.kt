@@ -1,6 +1,7 @@
 package com.teamoffroad.core.common.data.di
 
 import com.teamoffroad.core.common.domain.repository.TokenRepository
+import com.teamoffroad.core.common.domain.usecase.ClearTokensUseCase
 import com.teamoffroad.core.common.domain.usecase.GetAccessTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.GetRefreshTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.RefreshTokenUseCase
@@ -54,5 +55,13 @@ object UseCaseModule {
         tokenRepository: TokenRepository,
     ): GetRefreshTokenUseCase {
         return GetRefreshTokenUseCase(tokenRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideClearTokensUseCase(
+        tokenRepository: TokenRepository,
+    ): ClearTokensUseCase {
+        return ClearTokensUseCase(tokenRepository)
     }
 }

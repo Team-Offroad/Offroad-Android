@@ -7,6 +7,6 @@ class AuthUseCase(
     private val authRepository: AuthRepository,
 ) {
     suspend operator fun invoke(socialPlatform: String, name: String?, code: String): SignInInfo {
-        return authRepository.signIn(socialPlatform, name, code)
+        return authRepository.performSignIn(socialPlatform, name, code)
     }
 }
