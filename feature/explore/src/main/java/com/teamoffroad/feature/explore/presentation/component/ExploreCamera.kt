@@ -13,12 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
-import com.teamoffroad.feature.explore.presentation.model.ExploreResultState
+import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
 import com.teamoffroad.feature.explore.presentation.util.BarcodeAnalyzer
 
 @Composable
 fun ExploreCamera(
-    uiState: ExploreResultState,
+    uiState: ExploreAuthState,
     localContext: Context,
     placeId: Long,
     latitude: Double,
@@ -45,7 +45,7 @@ fun ExploreCamera(
                     it.setAnalyzer(
                         ContextCompat.getMainExecutor(context),
                         BarcodeAnalyzer { barcode ->
-                            if (uiState is ExploreResultState.None) {
+                            if (uiState is ExploreAuthState.None) {
                                 postExploreResult(placeId, latitude, longitude, barcode)
                             }
                         }

@@ -2,69 +2,65 @@ package com.teamoffroad.feature.explore.presentation.util
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.teamoffroad.feature.explore.presentation.ExploreViewModel
 import com.teamoffroad.feature.explore.presentation.component.ExploreFailedDialogContent
 import com.teamoffroad.feature.explore.presentation.component.ExploreResultDialog
 import com.teamoffroad.feature.explore.presentation.component.ExploreSuccessDialogContent
-import com.teamoffroad.feature.explore.presentation.model.ExploreResultState
+import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
 import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
 import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
-fun ExploreCameraUiStateHandler(
+fun ExploreAuthStateHandler(
     uiState: ExploreUiState,
-    updateExploreCameraUiState: (ExploreResultState) -> Unit,
+    updateExploreAuthState: (ExploreAuthState) -> Unit,
     qrResultImageUrl: String?,
-    viewModel: ExploreViewModel,
-    locationResultImageUrl: String,
-    navigateToHome: (String) -> Unit,
+    navigateToHome: (String, List<String>) -> Unit,
 ) {
-    val imageUrl = locationResultImageUrl.ifBlank {
-        qrResultImageUrl
+    val imageUrl = when (uiState.authResultType) {
+        is ExploreAuthState.Success -> uiState.authResultType.characterImageUrl
+        else -> qrResultImageUrl
     }
+
     when (uiState.authResultType) {
-        ExploreResultState.LocationError -> {
+        ExploreAuthState.LocationError -> {
             ExploreResultDialog(
-                errorType = ExploreResultState.LocationError,
+                errorType = ExploreAuthState.LocationError,
                 text = stringResource(R.string.explore_location_failed_label),
                 content = {
                     ExploreFailedDialogContent(
                         imageUrl = stringResource(R.string.explore_failed_img)
                     )
                 },
-                onDismissRequest = { updateExploreCameraUiState(ExploreResultState.None) }
+                onDismissRequest = { updateExploreAuthState(ExploreAuthState.None) }
             )
         }
 
-        ExploreResultState.CodeError -> {
+        ExploreAuthState.CodeError -> {
             ExploreResultDialog(
-                errorType = ExploreResultState.CodeError,
+                errorType = ExploreAuthState.CodeError,
                 text = stringResource(R.string.explore_code_failed_label),
                 content = { ExploreFailedDialogContent(imageUrl = imageUrl) },
-                onDismissRequest = { updateExploreCameraUiState(ExploreResultState.None) }
+                onDismissRequest = { updateExploreAuthState(ExploreAuthState.None) }
             )
         }
 
-        ExploreResultState.EtcError -> {
+        ExploreAuthState.EtcError -> {
             ExploreResultDialog(
-                errorType = ExploreResultState.EtcError,
+                errorType = ExploreAuthState.EtcError,
                 text = stringResource(R.string.explore_etc_failed_label),
                 content = { ExploreFailedDialogContent(imageUrl = stringResource(R.string.explore_failed_img)) },
-                onDismissRequest = { updateExploreCameraUiState(ExploreResultState.None) }
+                onDismissRequest = { updateExploreAuthState(ExploreAuthState.None) }
             )
         }
 
-        ExploreResultState.Success -> {
-            val category = viewModel.category.collectAsStateWithLifecycle().value
-
+        is ExploreAuthState.Success -> {
             ExploreResultDialog(
-                errorType = ExploreResultState.Success,
+                errorType = ExploreAuthState.Success(),
                 text = stringResource(R.string.explore_dialog_success),
                 content = { ExploreSuccessDialogContent(url = imageUrl) },
                 onDismissRequest = {
-                    updateExploreCameraUiState(ExploreResultState.None)
-                    navigateToHome(category)
+                    updateExploreAuthState(ExploreAuthState.None)
+                    navigateToHome(uiState.authResultType.category.name, uiState.authResultType.completeQuests)
                 }
             )
         }
