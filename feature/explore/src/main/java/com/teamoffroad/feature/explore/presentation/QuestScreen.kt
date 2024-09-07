@@ -10,9 +10,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.teamoffroad.core.designsystem.component.GestureNavigation
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.explore.presentation.component.QuestHeader
 import com.teamoffroad.feature.explore.presentation.component.QuestItems
@@ -31,7 +31,7 @@ fun QuestScreen(
 
     Column(
         modifier = Modifier
-            .then(GestureNavigation())
+            .navigationPadding()
             .background(color = Main1)
     ) {
         OffroadActionBar()
