@@ -3,8 +3,9 @@ package com.teamoffroad.feature.mypage.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.teamoffroad.feature.auth.domain.usecase.ClearDataStoreUseCase
+import com.teamoffroad.feature.auth.domain.usecase.UserMarketingAgreeUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.DeleteUserInfoUseCase
-import com.teamoffroad.feature.mypage.domain.usecase.SaveUserMarketingInfoUseCase
 import com.teamoffroad.feature.mypage.presentation.component.SettingDialogState
 import com.teamoffroad.feature.mypage.presentation.model.SettingUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,9 +17,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingViewModel @Inject constructor(
-    private val marketingInfoUseCase: SaveUserMarketingInfoUseCase,
+    private val marketingInfoUseCase: UserMarketingAgreeUseCase,
     private val deleteUserInfoUseCase: DeleteUserInfoUseCase,
     private val googleSignInClient: GoogleSignInClient,
+    private val clearDataStoreUseCase: ClearDataStoreUseCase
 ) : ViewModel() {
     private val _settingUiState: MutableStateFlow<SettingUiState> =
         MutableStateFlow(SettingUiState())
@@ -26,47 +28,45 @@ class SettingViewModel @Inject constructor(
 
     fun changeDialogState(settingDialogState: SettingDialogState) {
         when (settingDialogState) {
-            SettingDialogState.inVisible -> _settingUiState.value =
-                _settingUiState.value.copy(SettingDialogState.inVisible, "", false)
+            SettingDialogState.InVisible -> _settingUiState.value =
+                _settingUiState.value.copy(SettingDialogState.InVisible, "", false)
 
-            SettingDialogState.logoutVisible -> _settingUiState.value =
-                _settingUiState.value.copy(SettingDialogState.logoutVisible)
+            SettingDialogState.LogoutVisible -> _settingUiState.value =
+                _settingUiState.value.copy(SettingDialogState.LogoutVisible)
 
-            SettingDialogState.marketingVisible -> _settingUiState.value =
-                _settingUiState.value.copy(SettingDialogState.marketingVisible)
+            SettingDialogState.MarketingVisible -> _settingUiState.value =
+                _settingUiState.value.copy(SettingDialogState.MarketingVisible)
 
-            SettingDialogState.withDrawVisible -> _settingUiState.value =
-                _settingUiState.value.copy(SettingDialogState.withDrawVisible)
+            SettingDialogState.WithDrawVisible -> _settingUiState.value =
+                _settingUiState.value.copy(SettingDialogState.WithDrawVisible)
         }
     }
 
     fun changeWithDrawInputText(text: String) {
-        _settingUiState.value = _settingUiState.value.copy(withDrawInputState = text)
+        _settingUiState.value = settingUiState.value.copy(withDrawInputState = text)
     }
 
     fun changeWithDrawInputTextResult() {
-        _settingUiState.value = _settingUiState.value.copy(withDrawResult = true)
+        _settingUiState.value = settingUiState.value.copy(withDrawResult = true)
     }
 
     fun deleteUserInfo(deleteCode: String) {
         viewModelScope.launch {
-            runCatching {
-                deleteUserInfoUseCase.invoke(deleteCode)
-            }.onSuccess {}
-                .onFailure {}
+            deleteUserInfoUseCase.invoke(deleteCode)
         }
     }
 
-    fun patchMarketingInfo() {
+    fun changedMarketingAgree(marketingAgree: Boolean) {
         viewModelScope.launch {
-            runCatching {
-                marketingInfoUseCase.invoke()
-            }.onSuccess {}
-                .onFailure {}
+            marketingInfoUseCase.invoke(marketingAgree)
         }
     }
 
     fun performSignOut() {
-        googleSignInClient.signOut()
+        viewModelScope.launch {
+            runCatching { googleSignInClient.signOut() }
+                .onSuccess { clearDataStoreUseCase.invoke() }
+                .onFailure { it.message.toString() }
+        }
     }
 }

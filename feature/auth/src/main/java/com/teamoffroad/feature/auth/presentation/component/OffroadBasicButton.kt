@@ -25,6 +25,7 @@ fun OffroadBasicBtn(
     shape: Shape = RoundedCornerShape(6.dp),
     text: String,
     isActive: Boolean,
+    marketingAgree: () -> Unit = {},
     onClick: () -> Unit,
 ) {
     val (borderLineOpacity, contentColor, backGroundOpacity) = if (isActive) {
@@ -45,7 +46,10 @@ fun OffroadBasicBtn(
             .padding(vertical = 8.dp, horizontal = 6.dp)
             .clickable(
                 enabled = isActive,
-                onClick = onClick
+                onClick = {
+                    onClick()
+                    marketingAgree()
+                }
             ),
         contentAlignment = Alignment.Center,
     ) {

@@ -10,7 +10,6 @@ import com.teamoffroad.feature.mypage.domain.usecase.GetCharacterListUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.GetCharacterMotionListUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.GetMyPageUserUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.GetUserEmblemListUseCase
-import com.teamoffroad.feature.mypage.domain.usecase.SaveUserMarketingInfoUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -43,14 +42,6 @@ object UseCaseModule {
         userEmblemListRepository: EmblemRepository,
     ): GetUserEmblemListUseCase {
         return GetUserEmblemListUseCase(userEmblemListRepository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideMarketingInfoUseCase(
-        userRepository: UserRepository,
-    ): SaveUserMarketingInfoUseCase {
-        return SaveUserMarketingInfoUseCase(userRepository)
     }
 
     @Provides
