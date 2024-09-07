@@ -4,9 +4,6 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
-        maven {
-            url = uri("https://repository.map.naver.com/archive/maven")
-        }
     }
 }
 

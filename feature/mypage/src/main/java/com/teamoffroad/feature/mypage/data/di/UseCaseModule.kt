@@ -31,7 +31,8 @@ object UseCaseModule {
         return GetCharacterListUseCase(userRepository)
     }
 
-
+    @Provides
+    @Singleton
     fun provideGetMyPageUserUseCase(
         userRepository: UserRepository,
     ): GetMyPageUserUseCase {
@@ -44,14 +45,6 @@ object UseCaseModule {
         userEmblemListRepository: EmblemRepository,
     ): GetUserEmblemListUseCase {
         return GetUserEmblemListUseCase(userEmblemListRepository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideMarketingInfoUseCase(
-        userRepository: UserRepository,
-    ): SaveUserMarketingInfoUseCase {
-        return SaveUserMarketingInfoUseCase(userRepository)
     }
 
     @Provides
@@ -85,5 +78,4 @@ object UseCaseModule {
     ): GetCharacterMotionListUseCase {
         return GetCharacterMotionListUseCase(motionRepository)
     }
-    
 }
