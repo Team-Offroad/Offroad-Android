@@ -29,14 +29,15 @@ import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
-import com.teamoffroad.feature.mypage.presentation.model.FakeGainedCouponModel
+import com.teamoffroad.feature.mypage.domain.model.UserCouponList
 import com.teamoffroad.offroad.feature.mypage.R
 import kotlinx.coroutines.launch
 
 @Composable
 fun GainedCouponViewPager(
-    coupons: FakeGainedCouponModel,
-    navigateToAvailableCouponDetail: (Int, String, String, String) -> Unit
+    availableCoupons: List<UserCouponList.AvailableCoupon>,
+    usedCoupons: List<UserCouponList.UsedCoupon>,
+    navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit
 ) {
     val tabTitles = listOf(
         stringResource(id = R.string.my_page_gained_coupon_available),
@@ -78,8 +79,8 @@ fun GainedCouponViewPager(
                     },
                     text = {
                         Text(
-                            text = if (index == 0) "$title ${coupons.availableCoupons.size}"
-                            else "$title ${coupons.usedCoupons.size}",
+                            text = if (index == 0) "$title ${availableCoupons.size}"
+                            else "$title ${usedCoupons.size}",
                             style = OffroadTheme.typography.tooltipTitle
                         )
                     },
@@ -95,12 +96,12 @@ fun GainedCouponViewPager(
         ) { page ->
             when (page) {
                 0 -> AvailableCouponItems(
-                    coupons = coupons.availableCoupons,
+                    coupons = availableCoupons,
                     navigateToAvailableCouponDetail = navigateToAvailableCouponDetail,
                     context = LocalContext.current,
                 )
 
-                1 -> UsedCouponItems(coupons = coupons.usedCoupons, LocalContext.current)
+                1 -> UsedCouponItems(coupons = usedCoupons, LocalContext.current)
             }
 
         }
