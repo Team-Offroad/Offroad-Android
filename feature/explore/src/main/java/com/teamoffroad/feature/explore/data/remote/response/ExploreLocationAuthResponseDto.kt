@@ -6,7 +6,15 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ExploreLocationAuthResponseDto(
     @SerialName("isValidPosition")
-    val isValidPosition: Boolean = false,
+    val isValidPosition: Boolean,
     @SerialName("successCharacterImageUrl")
-    val successCharacterImageUrl: String = "",
-)
+    val successCharacterImageUrl: String,
+    @SerialName("completeQuestList")
+    val completeQuestList: List<QuestResponseDto>?,
+) {
+    @Serializable
+    data class QuestResponseDto(
+        @SerialName("name")
+        val name: String,
+    )
+}

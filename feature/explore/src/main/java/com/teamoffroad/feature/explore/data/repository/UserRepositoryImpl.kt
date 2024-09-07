@@ -24,7 +24,8 @@ class UserRepositoryImpl @Inject constructor(
         return userService.postLocationAuth(ExploreLocationAuthRequestDto(placeId, latitude, longitude)).data?.toDomain()
             ?: ExploreLocationResult(
                 false,
-                ""
+                "",
+                emptyList(),
             )
     }
 }

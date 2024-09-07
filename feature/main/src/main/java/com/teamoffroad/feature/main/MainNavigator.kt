@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -47,9 +46,9 @@ internal class MainNavigator(
             currentDestination?.hasRoute(tab::class) == true
         }
 
-    private val navOptions by lazy {
+    private val mainTabNavOptions by lazy {
         navOptions {
-            popUpTo(navController.graph.findStartDestination().id) {
+            popUpTo(navController.graph.startDestinationId) {
                 saveState = true
             }
             launchSingleTop = true
@@ -59,13 +58,13 @@ internal class MainNavigator(
 
     fun navigate(tab: MainNavTab) {
         when (tab) {
-            MainNavTab.HOME -> navController.navigateToHome(navOptions = navOptions)
-            MainNavTab.EXPLORE -> navController.navigateToExplore(navOptions = navOptions)
-            MainNavTab.MYPAGE -> navController.navigateToMyPage(navOptions = navOptions)
+            MainNavTab.HOME -> navController.navigateToHome(navOptions = mainTabNavOptions)
+            MainNavTab.EXPLORE -> navController.navigateToExplore(navOptions = mainTabNavOptions)
+            MainNavTab.MYPAGE -> navController.navigateToMyPage(navOptions = mainTabNavOptions)
         }
     }
 
-    fun popBackStack() {
+    private fun popBackStack() {
         navController.popBackStack()
     }
 
@@ -94,8 +93,8 @@ internal class MainNavigator(
         navController.navigateToSignIn()
     }
 
-    fun navigateToHome(category: String? = null) {
-        navController.navigateToHome(category, navOptions)
+    fun navigateToHome(category: String? = null, completeQuest: List<String> = emptyList()) {
+        navController.navigateToHome(category, completeQuest, this.mainTabNavOptions)
     }
 
     fun navigateToAgreeTermsAndConditions() {
@@ -127,7 +126,7 @@ internal class MainNavigator(
     }
 
     fun navigateToMyPage() {
-        navController.navigateToMyPage(navOptions)
+        navController.navigateToMyPage(mainTabNavOptions)
     }
 
     fun navigateToGainedCoupon() {
@@ -144,7 +143,7 @@ internal class MainNavigator(
     }
 
     fun navigateToExplore(authResultType: String, imageUrl: String) {
-        navController.navigateToExplore(authResultType, imageUrl, navOptions)
+        navController.navigateToExplore(authResultType, imageUrl, mainTabNavOptions)
     }
 
     fun navigateToPlace() {
@@ -182,6 +181,16 @@ internal class MainNavigator(
 
     fun navigateToCharacterDetail(characterId: Int, isRepresentative: Boolean) {
         navController.navigateToCharacterDetail(characterId, isRepresentative)
+    }
+
+    fun navigateToHomeFromExplore(category: String, completeQuest: List<String>) {
+        val navOptions = navOptions {
+            popUpTo(navController.graph.startDestinationId) {
+                inclusive = true
+            }
+            launchSingleTop = true
+        }
+        navController.navigateToHome(category, completeQuest, navOptions)
     }
 }
 
