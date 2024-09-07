@@ -30,7 +30,10 @@ class AuthRepositoryImpl @Inject constructor(
             code = code
         )
         val response = authService.postSignInInfo(requestDto)
-        return response.data?.toDomain() ?: SignInInfo(tokens = UserToken("", ""), isAlreadyExist = false)
+        return response.data?.toDomain() ?: SignInInfo(
+            tokens = UserToken("", ""),
+            isAlreadyExist = false
+        )
     }
 
     override val isAutoSignInEnabled: Flow<Boolean> = dataStore.data
@@ -73,7 +76,26 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun patchMarketingAgree(marketingAgree: Boolean): Result<Unit> {
+        val patchMarketingInfoResult = runCatching {
+            authService.patchMarketingInfo(
+                com.teamoffroad.feature.auth.data.remote.request.UserMarketingInfoRequestDto(
+                    marketingAgree
+                )
+            ).data
+        }
+        patchMarketingInfoResult.onSuccess {
+        }
+        patchMarketingInfoResult.onFailure {
+        }
+        return Result.failure(UnReachableException("unreachable code"))
+    }
+
     companion object {
         private val AUTO_LOGIN_KEY = booleanPreferencesKey("auto_login")
     }
 }
+
+data class UnReachableException(
+    val msg: String
+) : Exception()

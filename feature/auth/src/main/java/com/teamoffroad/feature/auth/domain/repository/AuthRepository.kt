@@ -15,4 +15,5 @@ interface AuthRepository {
     suspend fun setCharacter(characterId: Int): String
     suspend fun patchUserProfile(userProfile: UserProfile)
     suspend fun clearDataStore()
+    suspend fun patchMarketingAgree(marketingAgree: Boolean): Result<Unit>
 }

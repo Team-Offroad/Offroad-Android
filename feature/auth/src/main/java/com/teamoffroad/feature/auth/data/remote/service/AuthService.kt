@@ -1,10 +1,12 @@
 package com.teamoffroad.feature.auth.data.remote.service
 
 import com.teamoffroad.core.common.data.remote.response.BaseResponse
+import com.teamoffroad.feature.auth.data.remote.request.UserMarketingInfoRequestDto
 import com.teamoffroad.feature.auth.data.remote.request.ProfileUpdateRequestDto
 import com.teamoffroad.feature.auth.data.remote.request.SignInInfoRequestDto
 import com.teamoffroad.feature.auth.data.remote.response.CharactersResponseDto
 import com.teamoffroad.feature.auth.data.remote.response.DuplicateNicknameResponseDto
+import com.teamoffroad.feature.auth.data.remote.response.UserMarketingInfoResponseDto
 import com.teamoffroad.feature.auth.data.remote.response.SettingCharacterResponseDto
 import com.teamoffroad.feature.auth.data.remote.response.SignInInfoResponseDto
 import retrofit2.http.Body
@@ -38,4 +40,9 @@ interface AuthService {
     suspend fun fetchUserProfile(
         @Body request: ProfileUpdateRequestDto,
     ): BaseResponse<String>
+
+    @PATCH("users/agree")
+    suspend fun patchMarketingInfo(
+        @Body marketing: UserMarketingInfoRequestDto,
+    ): BaseResponse<UserMarketingInfoResponseDto>
 }

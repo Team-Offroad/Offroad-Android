@@ -10,6 +10,7 @@ import com.teamoffroad.feature.auth.domain.usecase.GetCharacterListUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetNicknameValidateUseCase
 import com.teamoffroad.feature.auth.domain.usecase.SetAutoSignInUseCase
 import com.teamoffroad.feature.auth.domain.usecase.SetCharacterUseCase
+import com.teamoffroad.feature.auth.domain.usecase.UserMarketingAgreeUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -86,5 +87,13 @@ object UseCaseModule {
         authRepository: AuthRepository
     ): ClearDataStoreUseCase {
         return ClearDataStoreUseCase(authRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideMarketingAgreeUseCase(
+        authRepository: AuthRepository
+    ): UserMarketingAgreeUseCase {
+        return UserMarketingAgreeUseCase(authRepository)
     }
 }

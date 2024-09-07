@@ -1,17 +1,20 @@
 package com.teamoffroad.feature.auth.presentation
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.teamoffroad.feature.auth.domain.usecase.UserMarketingAgreeUseCase
 import com.teamoffroad.feature.auth.presentation.model.AgreeTermsAndConditionsUiState
 import com.teamoffroad.feature.auth.presentation.model.DialogState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AgreeTermsAndConditionsViewModel @Inject constructor(
-
+    private val marketingInfoUseCase: UserMarketingAgreeUseCase,
 ) : ViewModel() {
     private val _allChecked: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val allChecked: StateFlow<Boolean> = _allChecked.asStateFlow()
@@ -114,5 +117,14 @@ class AgreeTermsAndConditionsViewModel @Inject constructor(
                 DialogState.EMPTY
         }
 
+    }
+
+    fun changedMarketingAgree(marketingAgree: Boolean) {
+        viewModelScope.launch {
+            runCatching {
+                marketingInfoUseCase.invoke(marketingAgree)
+            }.onSuccess {}
+                .onFailure {}
+        }
     }
 }
