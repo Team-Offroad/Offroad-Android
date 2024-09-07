@@ -34,7 +34,7 @@ import com.teamoffroad.offroad.feature.mypage.R
 @Composable
 fun GainedCharacterScreen(
     navigateToCharacterDetail: (Int, Boolean) -> Unit,
-    navigateToMyPage: () -> Unit,
+    navigateToBack: () -> Unit,
     gainedCharacterViewModel: GainedCharacterViewModel = hiltViewModel(),
 ) {
 
@@ -56,7 +56,7 @@ fun GainedCharacterScreen(
                 text = stringResource(R.string.my_page_my_page),
                 modifier = Modifier.padding(top = 20.dp),
             ) {
-                navigateToMyPage()
+                navigateToBack()
             }
             GainedCharacterHeader()
             GainedCharacterUiStateHandler(

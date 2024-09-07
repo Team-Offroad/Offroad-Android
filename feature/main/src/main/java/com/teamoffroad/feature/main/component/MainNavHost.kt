@@ -34,6 +34,11 @@ internal fun MainNavHost(
         ) {
             homeNavGraph(
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
+                navigateToGainedCharacter = {
+                    navigator.navigateToMyPage().also {
+                        navigator.navigateToGainedCharacter()
+                    }
+                },
             )
             exploreNavGraph(
                 navigateToHome = { category, completeQuests ->
