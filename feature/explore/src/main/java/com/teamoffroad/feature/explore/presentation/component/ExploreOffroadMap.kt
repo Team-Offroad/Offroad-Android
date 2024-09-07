@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -49,6 +50,7 @@ import com.naver.maps.map.compose.rememberFusedLocationSource
 import com.naver.maps.map.overlay.OverlayImage
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.core.designsystem.theme.Black
+import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
 import com.teamoffroad.feature.explore.presentation.model.ExplorePlaceModel
@@ -72,6 +74,7 @@ fun ExploreOffroadMap(
     updateAuthState: (ExploreAuthState) -> Unit,
     isValidDistance: (ExplorePlaceModel, LatLng) -> Boolean,
     updateExploreResult: (Long, Double, Double, PlaceCategory) -> Unit,
+    mapKey: Int,
 ) {
     val density = LocalDensity.current
     var markerOffset by remember { mutableStateOf(IntOffset.Zero) }
@@ -99,170 +102,173 @@ fun ExploreOffroadMap(
         }
     }
 
-    StaticAnimationWrapper {
-        Box(
-            Modifier
-                .fillMaxSize()
-                .padding(bottom = 72.dp)
-                .navigationBarsPadding()
-                .onGloballyPositioned { coordinates ->
-                    mapViewSize = coordinates.size
-                }) {
-            NaverMap(
-                properties = locationState.mapProperties,
-                uiSettings = MapUiSettings(
-                    isScaleBarEnabled = false,
-                    isZoomControlEnabled = false,
-                    isLogoClickEnabled = false,
-                    logoGravity = Gravity.TOP,
-                    // TODO: 릴리즈 이전에 로고 이미지 수정
-                    logoMargin = PaddingValues(top = 0.dp, start = 22.dp),
-                ),
-                locationSource = rememberFusedLocationSource(isCompassEnabled = true),
-                cameraPositionState = locationState.cameraPositionState,
-                onLocationChange = { location ->
-                    updateLocation(location.latitude, location.longitude)
-                },
-                onMapClick = { _, _ ->
-                    updateSelectedPlace(null)
-                },
-            ) {
-                LocationOverlay(
-                    position = locationState.location,
-                    icon = OverlayImage.fromResource(R.drawable.ic_explore_location_overlay),
-                    subIcon = locationState.subIcon,
-                    subIconWidth = 48,
-                    subIconHeight = 40,
-                    circleColor = Sub2.copy(alpha = locationState.circleAlpha),
-                )
-                places.forEach { place ->
-                    Marker(
-                        state = MarkerState(position = place.location),
-                        icon = OverlayImage.fromResource(R.drawable.ic_explore_place_marker),
-                        onClick = {
-                            val offsetResult = getMarkerOffset(
-                                place.location, locationState.cameraPositionState, density, mapViewSize, infoWindowHeight,
-                            )
-                            markerOffset = offsetResult.first
-                            val newLatLng = getAdjustedLocationFromMarkerOffset(
-                                offsetResult.second, locationState.cameraPositionState, mapViewSize,
-                            )
-                            newLatLng?.let {
-                                locationState.cameraPositionState.move(CameraUpdate.scrollTo(it).animate(CameraAnimation.Easing, 500))
-                            }
-                            updateSelectedPlace(place)
-                            true
-                        },
-                    )
-                }
-            }
-            ExploreMapForeground()
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = (backgroundPadding + 18).dp)
-                    .align(Alignment.TopCenter),
-            ) {
-                if (locationState.isUserTrackingEnabled.not()) {
-                    ExploreRefreshButton(
-                        text = stringResource(R.string.explore_map_refresh),
-                        onClick = {
-                            updatePlaces(
-                                locationState.cameraPositionState.position.target.latitude,
-                                locationState.cameraPositionState.position.target.longitude,
-                            )
-                        },
-                        modifier = Modifier.align(Alignment.Center),
-                    )
-                }
-                ExploreTrackingButton(
-                    isTrackingEnabled = locationState.isUserTrackingEnabled,
-                    onClick = updateTrackingToggle,
-                    modifier = Modifier
-                        .align(Alignment.CenterEnd)
-                        .padding(end = 22.dp),
-                )
-            }
-            Row(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 36.dp),
-                horizontalArrangement = Arrangement.Center,
-            ) {
-                ExploreMapBottomButton(
-                    painter = painterResource(R.drawable.ic_explore_quest_list),
-                    text = stringResource(R.string.explore_quests),
-                    onClick = { navigateToQuest() },
-                )
-                Spacer(modifier = Modifier.size(16.dp))
-                ExploreMapBottomButton(
-                    painter = painterResource(R.drawable.ic_explore_location),
-                    text = stringResource(R.string.explore_places),
-                    onClick = { navigateToPlace() },
-                )
-            }
-            ExploreAppBar(backgroundPadding)
-            selectedPlace?.let { place ->
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Black.copy(alpha = 0.25f))
-                        .pointerInput(Unit) {
-                            detectTapGestures(onTap = { updateSelectedPlace(null) })
-                        }
+    Box(
+        Modifier
+            .background(Main1)
+            .fillMaxSize()
+            .padding(bottom = 72.dp)
+            .navigationBarsPadding()
+            .onGloballyPositioned { coordinates ->
+                mapViewSize = coordinates.size
+            }) {
+        key(mapKey) {
+            StaticAnimationWrapper {
+                NaverMap(
+                    properties = locationState.mapProperties,
+                    uiSettings = MapUiSettings(
+                        isScaleBarEnabled = false,
+                        isZoomControlEnabled = false,
+                        isLogoClickEnabled = false,
+                        logoGravity = Gravity.TOP,
+                        // TODO: 릴리즈 이전에 로고 이미지 수정
+                        logoMargin = PaddingValues(top = 0.dp, start = 22.dp),
+                    ),
+                    locationSource = rememberFusedLocationSource(isCompassEnabled = true),
+                    cameraPositionState = locationState.cameraPositionState,
+                    onLocationChange = { location ->
+                        updateLocation(location.latitude, location.longitude)
+                    },
+                    onMapClick = { _, _ ->
+                        updateSelectedPlace(null)
+                    },
                 ) {
-                    Box(modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .offset { markerOffset }
-                        .onGloballyPositioned { coordinates ->
-                            with(density) {
-                                infoWindowHeight = coordinates.size.height.toDp() - 20.dp
-                            }
-                        }) {
-                        ExploreInfoWindow(
-                            title = place.name,
-                            shortIntroduction = place.shortIntroduction,
-                            address = place.address,
-                            visitCount = place.visitCount,
-                            categoryImage = place.categoryImageUrl,
-                            onButtonClick = {
-                                /* TODO: QR 및 거리 로직 정
-                                when (isValidDistance(place, locationState.location)) {
-                                    true -> {
-                                        if (selectedPlace.placeCategory == PlaceCategory.CAFFE || selectedPlace.placeCategory == PlaceCategory.RESTAURANT) {
-                                            navigateToExploreCameraScreen(
-                                                place.id,
-                                                locationState.location.latitude,
-                                                locationState.location.longitude,
-                                            )
-                                        } else {
-                                            updateExploreResult(
-                                                place.id,
-                                                locationState.location.latitude,
-                                                locationState.location.longitude,
-                                                place.placeCategory,
-                                            )
-                                        }
-                                    }
-
-                                    false -> updateAuthState(ExploreAuthState.LocationError)
-                                }
-                                 */
-                                updateExploreResult(
-                                    place.id,
-                                    locationState.location.latitude,
-                                    locationState.location.longitude,
-                                    place.placeCategory,
+                    LocationOverlay(
+                        position = locationState.location,
+                        icon = OverlayImage.fromResource(R.drawable.ic_explore_location_overlay),
+                        subIcon = locationState.subIcon,
+                        subIconWidth = 48,
+                        subIconHeight = 40,
+                        circleColor = Sub2.copy(alpha = locationState.circleAlpha),
+                    )
+                    places.forEach { place ->
+                        Marker(
+                            state = MarkerState(position = place.location),
+                            icon = OverlayImage.fromResource(R.drawable.ic_explore_place_marker),
+                            onClick = {
+                                val offsetResult = getMarkerOffset(
+                                    place.location, locationState.cameraPositionState, density, mapViewSize, infoWindowHeight,
                                 )
-                                updateSelectedPlace(null)
+                                markerOffset = offsetResult.first
+                                val newLatLng = getAdjustedLocationFromMarkerOffset(
+                                    offsetResult.second, locationState.cameraPositionState, mapViewSize,
+                                )
+                                newLatLng?.let {
+                                    locationState.cameraPositionState.move(CameraUpdate.scrollTo(it).animate(CameraAnimation.Easing, 500))
+                                }
+                                updateSelectedPlace(place)
+                                true
                             },
-                            onCloseButtonClick = {
-                                updateSelectedPlace(null)
-                            },
-                            modifier = Modifier
-                                .align(Alignment.TopCenter),
                         )
                     }
+                }
+            }
+        }
+        ExploreMapForeground()
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = (backgroundPadding + 18).dp)
+                .align(Alignment.TopCenter),
+        ) {
+            if (locationState.isUserTrackingEnabled.not()) {
+                ExploreRefreshButton(
+                    text = stringResource(R.string.explore_map_refresh),
+                    onClick = {
+                        updatePlaces(
+                            locationState.cameraPositionState.position.target.latitude,
+                            locationState.cameraPositionState.position.target.longitude,
+                        )
+                    },
+                    modifier = Modifier.align(Alignment.Center),
+                )
+            }
+            ExploreTrackingButton(
+                isTrackingEnabled = locationState.isUserTrackingEnabled,
+                onClick = updateTrackingToggle,
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .padding(end = 22.dp),
+            )
+        }
+        Row(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 36.dp),
+            horizontalArrangement = Arrangement.Center,
+        ) {
+            ExploreMapBottomButton(
+                painter = painterResource(R.drawable.ic_explore_quest_list),
+                text = stringResource(R.string.explore_quests),
+                onClick = { navigateToQuest() },
+            )
+            Spacer(modifier = Modifier.size(16.dp))
+            ExploreMapBottomButton(
+                painter = painterResource(R.drawable.ic_explore_location),
+                text = stringResource(R.string.explore_places),
+                onClick = { navigateToPlace() },
+            )
+        }
+        ExploreAppBar(backgroundPadding)
+        selectedPlace?.let { place ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Black.copy(alpha = 0.25f))
+                    .pointerInput(Unit) {
+                        detectTapGestures(onTap = { updateSelectedPlace(null) })
+                    }
+            ) {
+                Box(modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .offset { markerOffset }
+                    .onGloballyPositioned { coordinates ->
+                        with(density) {
+                            infoWindowHeight = coordinates.size.height.toDp() - 20.dp
+                        }
+                    }) {
+                    ExploreInfoWindow(
+                        title = place.name,
+                        shortIntroduction = place.shortIntroduction,
+                        address = place.address,
+                        visitCount = place.visitCount,
+                        categoryImage = place.categoryImageUrl,
+                        onButtonClick = {
+                            /* TODO: QR 및 거리 로직 정
+                            when (isValidDistance(place, locationState.location)) {
+                                true -> {
+                                    if (selectedPlace.placeCategory == PlaceCategory.CAFFE || selectedPlace.placeCategory == PlaceCategory.RESTAURANT) {
+                                        navigateToExploreCameraScreen(
+                                            place.id,
+                                            locationState.location.latitude,
+                                            locationState.location.longitude,
+                                        )
+                                    } else {
+                                        updateExploreResult(
+                                            place.id,
+                                            locationState.location.latitude,
+                                            locationState.location.longitude,
+                                            place.placeCategory,
+                                        )
+                                    }
+                                }
+
+                                false -> updateAuthState(ExploreAuthState.LocationError)
+                            }
+                             */
+                            updateExploreResult(
+                                place.id,
+                                locationState.location.latitude,
+                                locationState.location.longitude,
+                                place.placeCategory,
+                            )
+                            updateSelectedPlace(null)
+                        },
+                        onCloseButtonClick = {
+                            updateSelectedPlace(null)
+                        },
+                        modifier = Modifier
+                            .align(Alignment.TopCenter),
+                    )
                 }
             }
         }
