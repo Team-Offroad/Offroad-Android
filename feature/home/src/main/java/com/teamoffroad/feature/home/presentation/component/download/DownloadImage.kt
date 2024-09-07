@@ -24,11 +24,11 @@ import kotlinx.coroutines.withContext
 
 fun downloadImage(
     context: Context,
-    imageUrl: String,
+    imageUrl: String?,
     scope: CoroutineScope
 ) {
     scope.launch(Dispatchers.IO) {
-        val result = loadImage(context, imageUrl)
+        val result = imageUrl?.let { loadImage(context, it) }
         if (result is DownloadResult.Success) {
             val saveResult = saveImageToMediaStore(context, result.data)
             if (saveResult is DownloadResult.Error) {

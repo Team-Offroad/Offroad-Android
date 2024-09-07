@@ -120,7 +120,8 @@ private fun UsersAdventuresInformation(
     Box(
         modifier = modifier.fillMaxWidth()
     ) {
-        val imageUrl = adventuresInformationData?.baseImageUrl ?: "" // TODO: svg & lottie
+        val imageUrl = adventuresInformationData?.motionCaptureImageUrl ?: adventuresInformationData?.baseImageUrl
+
         Box(
             modifier = Modifier.fillMaxWidth(),
             contentAlignment = Alignment.TopEnd

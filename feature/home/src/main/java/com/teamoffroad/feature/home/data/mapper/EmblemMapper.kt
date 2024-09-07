@@ -39,7 +39,8 @@ fun UsersAdventuresInformationResponseDto.toData(): UsersAdventuresInformationEn
         baseImageUrl = baseImageUrl,
         motionImageUrl = motionImageUrl,
         characterName = characterName,
-        emblemName = emblemName
+        emblemName = emblemName,
+        motionCaptureImageUrl = motionCaptureImageUrl,
     )
 }
 
@@ -72,6 +73,7 @@ fun UsersAdventuresInformationEntity.toDomain(): UsersAdventuresInformation {
         baseImageUrl = baseImageUrl,
         motionImageUrl = motionImageUrl,
         characterName = characterName,
-        emblemName = emblemName
+        emblemName = emblemName,
+        motionCaptureImageUrl = motionCaptureImageUrl,
     )
 }
