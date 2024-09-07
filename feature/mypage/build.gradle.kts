@@ -18,5 +18,4 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.google.play.services.auth)
     implementation(libs.kotlinx.immutable)
-    implementation(project(":feature:auth"))
 }
