@@ -2,6 +2,7 @@ package com.teamoffroad.feature.mypage.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -15,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub2
@@ -34,7 +34,7 @@ fun SettingContainer(
             .padding(horizontal = 12.dp)
             .padding(bottom = 10.dp)
             .background(color = color, shape = RoundedCornerShape(10.dp))
-            .clickableWithoutRipple { click() }
+            .clickable { click() }
     ) {
         Row(
             modifier = Modifier
