@@ -6,6 +6,6 @@ class SetAutoSignInUseCase(
     private val authRepository: AuthRepository,
 ) {
     suspend operator fun invoke(enabled: Boolean) {
-        authRepository.setAutoSignInEnabled(enabled)
+        authRepository.updateAutoSignInEnabled(enabled)
     }
 }

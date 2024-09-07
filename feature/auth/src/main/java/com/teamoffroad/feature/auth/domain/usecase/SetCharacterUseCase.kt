@@ -6,6 +6,6 @@ class SetCharacterUseCase(
     private val authRepository: AuthRepository,
 ) {
     suspend operator fun invoke(characterId: Int): String {
-        return authRepository.setCharacter(characterId)
+        return authRepository.saveCharacter(characterId)
     }
 }
