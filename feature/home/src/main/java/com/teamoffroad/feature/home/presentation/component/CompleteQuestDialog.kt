@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,6 +31,7 @@ import com.teamoffroad.offroad.feature.home.R
 
 @Composable
 fun CompleteQuestDialog(
+    isCompleteQuestDialogShown: MutableState<Boolean>,
     completeQuests: List<String> = emptyList(),
     onClickCancel: () -> Unit,
     modifier: Modifier = Modifier,
@@ -68,13 +70,13 @@ fun CompleteQuestDialog(
                         .padding(top = 14.dp),
                     color = textColor,
                     style = OffroadTheme.typography.textRegular,
-                    text = if (completeQuests.isNotEmpty()) stringResource(
+                    text = if (completeQuests.size == 1) stringResource(
+                        id = R.string.home_complete_quest_one_description,
+                        completeQuests[0]
+                    ) else stringResource(
                         id = R.string.home_complete_quest_description,
                         completeQuests[0],
                         completeQuests.size - 1
-                    ) else stringResource(
-                        id = R.string.home_complete_quest_one_description,
-                        completeQuests[0]
                     ),
                     textAlign = TextAlign.Center
                 )
@@ -85,17 +87,11 @@ fun CompleteQuestDialog(
                     style = OffroadTheme.typography.hint,
                     backgroundColor = Main2,
                     borderColor = Main2,
-                    onItemClick = {}
+                    onItemClick = {
+                        isCompleteQuestDialogShown.value = false
+                    }
                 )
             }
         }
-    }
-}
-
-@Preview
-@Composable
-fun CompleteQuestDialogPreview() {
-    OffroadTheme {
-        CompleteQuestDialog(emptyList(), {})
     }
 }

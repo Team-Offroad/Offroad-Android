@@ -90,6 +90,7 @@ fun HomeScreen(
 
     if (isCompleteQuestDialogShown.value) {
         CompleteQuestDialog(
+            isCompleteQuestDialogShown = isCompleteQuestDialogShown,
             completeQuests = completeQuests,
             onClickCancel = {
                 isCompleteQuestDialogShown.value = false
