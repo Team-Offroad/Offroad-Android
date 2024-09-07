@@ -19,6 +19,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.GestureNavigation
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.mypage.presentation.component.CharacterFrameItem
@@ -43,24 +44,26 @@ fun GainedCharacterScreen(
         gainedCharacterViewModel.updateCharacters()
     }
 
-    Column(
-        modifier = Modifier
-            .then(GestureNavigation())
-            .fillMaxSize()
-            .background(color = Main1)
-    ) {
-        OffroadActionBar()
-        NavigateBackAppBar(
-            text = stringResource(R.string.my_page_my_page),
-            modifier = Modifier.padding(top = 20.dp),
+    StaticAnimationWrapper {
+        Column(
+            modifier = Modifier
+                .then(GestureNavigation())
+                .fillMaxSize()
+                .background(color = Main1)
         ) {
-            navigateToMyPage()
+            OffroadActionBar()
+            NavigateBackAppBar(
+                text = stringResource(R.string.my_page_my_page),
+                modifier = Modifier.padding(top = 20.dp),
+            ) {
+                navigateToMyPage()
+            }
+            GainedCharacterHeader()
+            GainedCharacterUiStateHandler(
+                uiState = uiState,
+                navigateToCharacterDetail = navigateToCharacterDetail,
+            )
         }
-        GainedCharacterHeader()
-        GainedCharacterUiStateHandler(
-            uiState = uiState,
-            navigateToCharacterDetail = navigateToCharacterDetail,
-        )
     }
 }
 
@@ -80,7 +83,6 @@ private fun GainedCharacterUiStateHandler(
                 navigateToCharacterDetail = navigateToCharacterDetail,
             )
         }
-
     }
 }
 

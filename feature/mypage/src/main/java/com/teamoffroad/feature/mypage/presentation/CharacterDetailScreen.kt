@@ -18,6 +18,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.GestureNavigation
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.feature.mypage.presentation.component.CharacterDescriptionContainer
 import com.teamoffroad.feature.mypage.presentation.component.CharacterDetailImageItem
 import com.teamoffroad.feature.mypage.presentation.component.CharacterMotionsContainer
@@ -39,35 +40,37 @@ fun CharacterDetailScreen(
         characterDetailViewModel.updateCharacterDetail(characterId, isRepresentative)
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .then(GestureNavigation())
-            .background(Color(uiState.value.characterDetailModel.characterSubColorCode)),
-    ) {
-        OffroadActionBar()
-        NavigateBackAppBar(
-            text = stringResource(R.string.my_page_gained_character),
-            backgroundColor = Color(uiState.value.characterDetailModel.characterSubColorCode),
-            modifier = Modifier.padding(top = 20.dp),
-        ) {
-            navigateToBack()
-        }
+    StaticAnimationWrapper {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.verticalScroll(scrollState),
+            modifier = Modifier
+                .fillMaxSize()
+                .then(GestureNavigation())
+                .background(Color(uiState.value.characterDetailModel.characterSubColorCode)),
         ) {
-            CharacterDetailImageItem(uiState.value)
-            CharacterDescriptionContainer(uiState.value)
-            if (!uiState.value.characterDetailModel.isRepresentative) UpdateRepresentativeCharacterButton(characterDetailViewModel::updateIsRepresentative)
-            CharacterMotionsContainer(uiState.value.characterMotions, uiState.value.characterDetailModel)
+            OffroadActionBar()
+            NavigateBackAppBar(
+                text = stringResource(R.string.my_page_gained_character),
+                backgroundColor = Color(uiState.value.characterDetailModel.characterSubColorCode),
+                modifier = Modifier.padding(top = 20.dp),
+            ) {
+                navigateToBack()
+            }
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.verticalScroll(scrollState),
+            ) {
+                CharacterDetailImageItem(uiState.value)
+                CharacterDescriptionContainer(uiState.value)
+                if (!uiState.value.characterDetailModel.isRepresentative) UpdateRepresentativeCharacterButton(characterDetailViewModel::updateIsRepresentative)
+                CharacterMotionsContainer(uiState.value.characterMotions, uiState.value.characterDetailModel)
+            }
         }
-    }
 
-    if (uiState.value.isRepresentativeUpdateSuccess) {
-        RepresentativeUpdateResultSnackBar(
-            modifier = Modifier.padding(top = 112.dp),
-            characterName = uiState.value.characterDetailModel.characterName,
-        )
+        if (uiState.value.isRepresentativeUpdateSuccess) {
+            RepresentativeUpdateResultSnackBar(
+                modifier = Modifier.padding(top = 112.dp),
+                characterName = uiState.value.characterDetailModel.characterName,
+            )
+        }
     }
 }
