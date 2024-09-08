@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.auth.presentation.component.AgreeTermsAndConditionsDialog
 import com.teamoffroad.feature.auth.presentation.component.AgreeTermsAndConditionsItem
@@ -45,6 +46,7 @@ internal fun AgreeTermsAndConditionsScreen(
 
     Column(
         Modifier
+            .navigationPadding()
             .fillMaxSize()
             .background(Main1)
     ) {
