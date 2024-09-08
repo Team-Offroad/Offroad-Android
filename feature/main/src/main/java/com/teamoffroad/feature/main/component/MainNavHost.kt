@@ -2,6 +2,8 @@ package com.teamoffroad.feature.main.component
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,6 +33,10 @@ internal fun MainNavHost(
         NavHost(
             navController = navigator.navController,
             startDestination = navigator.startDestination,
+            enterTransition = { EnterTransition.None },
+            popEnterTransition = { EnterTransition.None },
+            exitTransition = { ExitTransition.None },
+            popExitTransition = { ExitTransition.None },
         ) {
             homeNavGraph(
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,

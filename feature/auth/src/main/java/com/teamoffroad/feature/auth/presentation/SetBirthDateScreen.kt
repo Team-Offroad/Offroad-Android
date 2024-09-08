@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.addFocusCleaner
+import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
@@ -67,6 +68,7 @@ internal fun SetBirthDateScreen(
             Spacer(modifier = Modifier.padding(vertical = 22.dp))
             Row(
                 modifier = Modifier
+                    .navigationPadding()
                     .fillMaxWidth()
                     .padding(end = 22.dp)
             ) {

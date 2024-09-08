@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Brown
 import com.teamoffroad.core.designsystem.theme.CharacterSelectBg1
 import com.teamoffroad.core.designsystem.theme.CharacterSelectBg2
@@ -62,9 +63,9 @@ internal fun SetCharacterScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         Column(
-            modifier = Modifier.background(
-                backgroundColor
-            )
+            modifier = Modifier
+                .navigationPadding()
+                .background(backgroundColor)
         ) {
             OffroadActionBar(backgroundColor)
             Text(

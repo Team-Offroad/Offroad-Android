@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.addFocusCleaner
+import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -45,6 +46,7 @@ internal fun SetNicknameScreen(
 
     Surface(
         modifier = Modifier
+            .navigationPadding()
             .fillMaxSize()
             .addFocusCleaner(focusManager),
         color = Main1,

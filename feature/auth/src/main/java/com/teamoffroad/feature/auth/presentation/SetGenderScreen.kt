@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
+import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
@@ -45,6 +46,7 @@ internal fun SetGenderScreen(
     val interactionSource = remember { MutableInteractionSource() }
     Surface(
         modifier = Modifier
+            .navigationPadding()
             .fillMaxSize()
             .clickableWithoutRipple(interactionSource) { viewModel.updateGenderEmpty() },
         color = Main1,
@@ -111,7 +113,7 @@ internal fun SetGenderScreen(
 fun SetGenderButton(
     viewModel: SetGenderViewModel,
     isGenderState: SetGenderUiState,
-    interactionSource: MutableInteractionSource
+    interactionSource: MutableInteractionSource,
 ) {
     val (male, female, other) = when (isGenderState) {
         SetGenderUiState.Select(UserGender.MALE.name) -> {
