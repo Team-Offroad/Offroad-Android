@@ -23,6 +23,7 @@ import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Ground
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.SelectedCharacterText
@@ -39,6 +40,7 @@ internal fun SelectedCharacterScreen(
         Box {
             Column(
                 modifier = Modifier
+                    .navigationPadding()
                     .fillMaxSize()
                     .background(Wall),
             ) {
