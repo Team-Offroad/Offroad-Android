@@ -60,11 +60,12 @@ internal fun SetCharacterScreen(
         viewModel.getCharacters()
     }
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .navigationPadding()
     ) {
         Column(
             modifier = Modifier
-                .navigationPadding()
                 .background(backgroundColor)
         ) {
             OffroadActionBar(backgroundColor)
