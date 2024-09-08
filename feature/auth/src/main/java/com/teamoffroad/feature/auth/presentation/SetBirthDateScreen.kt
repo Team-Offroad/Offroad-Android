@@ -127,7 +127,7 @@ internal fun SetBirthDateScreen(
                     onValueChange = {
                         if (it.isBlank() || it.matches(pattern)) {
                             viewModel.updateCheckedYear(it)
-                            if (it.length == 4) {
+                            it.takeIf { it.length == 4 }?.let {
                                 monthFocusRequester.requestFocus()
                             }
                         }
@@ -165,7 +165,7 @@ internal fun SetBirthDateScreen(
                     onValueChange = {
                         if (it.isBlank() || it.matches(pattern)) {
                             viewModel.updateCheckedMonth(it)
-                            if (it.length == 2) {
+                            it.takeIf { it.length == 2 }?.let {
                                 dayFocusRequester.requestFocus()
                             }
                         }
@@ -199,7 +199,7 @@ internal fun SetBirthDateScreen(
                     onValueChange = {
                         if (it.isBlank() || it.matches(pattern)) {
                             viewModel.updateCheckedDate(it)
-                            if (it.length == 2) {
+                            it.takeIf { it.length == 2 }?.let {
                                 focusManager.clearFocus()
                             }
                         }
@@ -239,12 +239,15 @@ internal fun SetBirthDateScreen(
                 .height(50.dp)
                 .align(Alignment.CenterHorizontally),
             onClick = {
-                val birthDate =
-                    if (isBirthDateState.year.isNotEmpty() && isBirthDateState.month.isNotEmpty() && isBirthDateState.day.isNotEmpty()) {
+                val birthDate = when {
+                    isBirthDateState.year.isNotEmpty() &&
+                            isBirthDateState.month.isNotEmpty() &&
+                            isBirthDateState.day.isNotEmpty() -> {
                         "${isBirthDateState.year}-${isBirthDateState.month}-${isBirthDateState.day}"
-                    } else {
-                        null
                     }
+
+                    else -> null
+                }
                 navigateToSetGender(nickname, birthDate)
             },
             isActive = isBirthDateState.birthDateValidateResult == BirthDateValidateResult.Success,

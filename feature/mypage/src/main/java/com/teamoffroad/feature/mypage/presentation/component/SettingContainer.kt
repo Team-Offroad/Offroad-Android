@@ -59,7 +59,7 @@ fun SettingContainer(
             Row {
                 if (isImportant) {
                     Text(
-                        text = stringResource(R.string.my_page_setting_item_is_important),
+                        text = stringResource(R.string.my_page_setting_item_is_important) + " ",
                         style = OffroadTheme.typography.tabBarMedi,
                         color = Sub2
                     )

@@ -7,11 +7,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Gray400
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub2
+import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
 fun AnnouncementDetailHeader(
@@ -38,7 +40,7 @@ fun AnnouncementDetailHeader(
         Row(verticalAlignment = Alignment.CenterVertically) {
             if (isImportant) {
                 Text(
-                    text = "[중요] ",
+                    text = stringResource(R.string.my_page_setting_item_is_important) + " ",
                     style = OffroadTheme.typography.tabBarMedi,
                     color = Sub2
                 )
