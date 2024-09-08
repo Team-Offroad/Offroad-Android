@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -26,7 +27,7 @@ fun GainedEmblemsHeader() {
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                text = "획득 칭호",
+                text = stringResource(R.string.my_page_gained_emblems_title),
                 style = OffroadTheme.typography.title,
                 color = Main2,
             )
@@ -48,7 +49,7 @@ fun GainedEmblemsHeader() {
                 modifier = Modifier.size(16.dp)
             )
             Text(
-                text = "퀘스트를 달성하고 보상으로 칭호를 얻어보아요!",
+                text = stringResource(R.string.my_page_gained_emblems_sub_title),
                 style = OffroadTheme.typography.boxMedi,
                 color = Sub2,
                 modifier = Modifier.padding(start = 6.dp),

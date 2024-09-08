@@ -29,4 +29,39 @@
     <string name="my_page_update_representative_character">대표 캐릭터로 선택하기</string>
     <string name="my_page_representative_success">로 대표 캐릭터가 변경되었어요!</string>
     <string name="my_page_character_motion">캐릭터 모션</string>
+
+    <string name="my_page_gained_emblems_title">획득 칭호</string>
+    <string name="my_page_gained_emblems_sub_title">퀘스트를 달성하고 보상으로 칭호를 얻어보아요!</string>
+
+
+    <string name="my_page_setting_title">설정</string>
+    <string name="my_page_setting_item_announcement">공지사항</string>
+    <string name="my_page_setting_item_play_guide">플레이 가이드</string>
+    <string name="my_page_setting_item_service_term">서비스 이용약관</string>
+    <string name="my_page_setting_item_personal_information">개인정보처리방침</string>
+    <string name="my_page_setting_item_marketing_agree">마케팅 수신동의</string>
+    <string name="my_page_setting_item_logout">로그아웃</string>
+    <string name="my_page_setting_item_withdraw">회원 탈퇴</string>
+    <string name="my_page_setting_item_is_important">[중요] </string>
+    <string name="my_page_setting_marketing_dialog_title">마케팅 정보 수신 동의</string>
+    <string name="my_page_setting_marketing_dialog_agree">동의</string>
+    <string name="my_page_setting_marketing_dialog_disagree">비동의</string>
+    <string name="my_page_setting_logout_dialog_sub_title">정말 로그아웃 하시겠어요?</string>
+    <string name="my_page_setting_logout_dialog_agree">네</string>
+    <string name="my_page_setting_logout_dialog_disagree">아니요</string>
+    <string name="my_page_setting_withdraw_dialog_sub_title">정말 탈퇴하시겠어요?\n탈퇴하다면 아래 문구를 입력창에\n그대로 입력해주세요.</string>
+    <string name="my_page_setting_withdraw_message">오프로드 회원을 탈퇴하겠습니다.</string>
+    <string name="my_page_setting_withdraw_dialog_agree">탈퇴</string>
+    <string name="my_page_setting_withdraw_dialog_disagree">취소</string>
+    <string name="my_page_setting_announcement_item_request_review">의견을 들려주세요</string>
+    <string name="my_page_setting_announcement_item_love_rock">락이좋아요</string>
+    <string name="my_page_setting_announcement_item_affiliate">제휴 업체 안내</string>
+    <string name="my_page_setting_announcement_item_operation_information">운영 관련 안내</string>
+    <string name="my_page_setting_announcement_item_event_information">이벤트 관련 안내</string>
+    <string name="my_page_setting_announcement_item_closing_information">오프로드 고객센터 추석 휴무 안내</string>
+    <string name="my_page_setting_announcement_item_operational_matters">운영 관련 사항을 알려드립니다.</string>
+    <string name="my_page_setting_announcement_detail_back">목록</string>
+
+
+
 </resources>

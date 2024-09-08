@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
@@ -33,12 +34,15 @@ internal fun AnnouncementScreen(
     ) {
         OffroadActionBar()
         NavigateBackAppBar(
-            text = "설정",
+            text = stringResource(R.string.my_page_setting_title),
             modifier = Modifier.padding(top = 20.dp)
         ) {
             navigateToBack()
         }
-        SettingHeader(text = "공지사항", painterResources = R.drawable.ic_announcement_tag)
+        SettingHeader(
+            text = stringResource(R.string.my_page_setting_item_announcement),
+            painterResources = R.drawable.ic_announcement_tag
+        )
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -48,22 +52,38 @@ internal fun AnnouncementScreen(
         Spacer(Modifier.height(24.dp))
         SettingContainer(
             color = Main1,
-            text = "의견을 들려주세요",
+            text = stringResource(R.string.my_page_setting_announcement_item_request_review),
             isImportant = true,
             onClick = { navigateToAnnouncementDetail("여러분의 의견을 들려주세", "안뇽하세요", "링크", true) }
         )
-        SettingContainer(color = Main1, text = "락이좋아요", isImportant = true, onClick = {})
-        SettingContainer(color = Main1, text = "제휴 업체 안내", isImportant = false, onClick = {})
-        SettingContainer(color = Main1, text = "운영 관련 안내", isImportant = false, onClick = {})
-        SettingContainer(color = Main1, text = "이벤트 관련 안내", isImportant = false, onClick = {})
         SettingContainer(
             color = Main1,
-            text = "오프로드 고객센터 추석 휴무 안내",
+            text = stringResource(R.string.my_page_setting_announcement_item_love_rock),
+            isImportant = true,
+            onClick = {})
+        SettingContainer(
+            color = Main1,
+            text = stringResource(R.string.my_page_setting_announcement_item_affiliate),
             isImportant = false,
             onClick = {})
         SettingContainer(
             color = Main1,
-            text = "운영 관련 사항을 알려드립니다.",
+            text = stringResource(R.string.my_page_setting_announcement_item_operation_information),
+            isImportant = false,
+            onClick = {})
+        SettingContainer(
+            color = Main1,
+            text = stringResource(R.string.my_page_setting_announcement_item_event_information),
+            isImportant = false,
+            onClick = {})
+        SettingContainer(
+            color = Main1,
+            text = stringResource(R.string.my_page_setting_announcement_item_closing_information),
+            isImportant = false,
+            onClick = {})
+        SettingContainer(
+            color = Main1,
+            text = stringResource(R.string.my_page_setting_announcement_item_operational_matters),
             isImportant = false,
             onClick = {})
     }

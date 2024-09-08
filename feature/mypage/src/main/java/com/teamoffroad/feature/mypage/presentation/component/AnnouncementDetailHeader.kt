@@ -45,6 +45,5 @@ fun AnnouncementDetailHeader(
             }
             Text(text = text, color = Main2, style = OffroadTheme.typography.subtitle2Semibold)
         }
-
     }
 }

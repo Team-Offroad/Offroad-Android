@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -27,6 +28,7 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.offroad.feature.auth.R
 
 @Composable
 fun AgreeTermsAndConditionsDialog(
@@ -86,7 +88,7 @@ fun AgreeTermsAndConditionsDialog(
                 )
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     AgreeButton(
-                        text = "비동의",
+                        text = stringResource(R.string.auth_agree_and_terms_conditions_dialog_disagree),
                         onClick = {
                             onClickCancel()
                         },
@@ -95,7 +97,7 @@ fun AgreeTermsAndConditionsDialog(
                         modifier = Modifier.weight(1f)
                     )
                     AgreeButton(
-                        text = "동의",
+                        text = stringResource(R.string.auth_agree_and_terms_conditions_dialog_agree),
                         onClick = {
                             onClickCancel()
                             onClick()

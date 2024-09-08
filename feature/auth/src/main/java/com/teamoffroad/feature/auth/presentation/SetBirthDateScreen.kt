@@ -26,6 +26,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -43,6 +44,7 @@ import com.teamoffroad.feature.auth.presentation.component.BirthDateHintText
 import com.teamoffroad.feature.auth.presentation.component.BirthDateTextField
 import com.teamoffroad.feature.auth.presentation.component.BirthDateValidateResult
 import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
+import com.teamoffroad.offroad.feature.auth.R
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
@@ -73,7 +75,7 @@ internal fun SetBirthDateScreen(
         ) {
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = "건너뛰기",
+                text = stringResource(R.string.auth_skip),
                 color = Gray300,
                 style = OffroadTheme.typography.hint,
                 modifier = Modifier.clickable {
@@ -84,7 +86,7 @@ internal fun SetBirthDateScreen(
         Spacer(modifier = Modifier.padding(vertical = 26.dp))
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = "모험가 프로필 작성",
+            text = stringResource(R.string.auth_on_boarding_title),
             color = Main2,
             style = OffroadTheme.typography.profileTitle,
             textAlign = TextAlign.Center
@@ -92,7 +94,7 @@ internal fun SetBirthDateScreen(
         Spacer(modifier = Modifier.padding(vertical = 6.dp))
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = "나이를 알려주세요.",
+            text = stringResource(R.string.auth_set_birth_date_sub_title),
             color = Main2,
             style = OffroadTheme.typography.subtitleReg,
             textAlign = TextAlign.Center
@@ -104,7 +106,7 @@ internal fun SetBirthDateScreen(
                 .align(Alignment.CenterHorizontally)
         ) {
             Text(
-                text = "생년월일 입력",
+                text = stringResource(R.string.auth_set_birth_date_text_field_hint),
                 color = Main2,
                 fontSize = 16.sp,
                 style = OffroadTheme.typography.subtitle2Bold,
@@ -121,7 +123,7 @@ internal fun SetBirthDateScreen(
                 val pattern = remember { Regex("^\\d+\$") }
                 BirthDateTextField(
                     value = isBirthDateState.year,
-                    placeholder = "YYYY",
+                    placeholder = stringResource(R.string.auth_set_birth_date_text_field_year_hint),
                     onValueChange = {
                         if (it.isBlank() || it.matches(pattern)) {
                             viewModel.updateCheckedYear(it)
@@ -146,7 +148,7 @@ internal fun SetBirthDateScreen(
                 )
                 Text(
                     modifier = Modifier.padding(start = 6.dp, end = 8.dp),
-                    text = "년",
+                    text = stringResource(R.string.auth_set_birth_date_text_field_year_text),
                     color = Main2,
                     style = OffroadTheme.typography.subtitleReg,
                 )
@@ -158,7 +160,7 @@ internal fun SetBirthDateScreen(
                         .onFocusChanged {
                             viewModel.updateMonthLength()
                         },
-                    placeholder = "MM",
+                    placeholder = stringResource(R.string.auth_set_birth_date_text_field_month_hint),
                     value = isBirthDateState.month,
                     onValueChange = {
                         if (it.isBlank() || it.matches(pattern)) {
@@ -180,7 +182,7 @@ internal fun SetBirthDateScreen(
                 )
                 Text(
                     modifier = Modifier.padding(start = 6.dp, end = 8.dp),
-                    text = "월",
+                    text = stringResource(R.string.auth_set_birth_date_text_field_month_text),
                     color = Main2,
                     style = OffroadTheme.typography.subtitleReg,
                 )
@@ -193,7 +195,7 @@ internal fun SetBirthDateScreen(
                             viewModel.updateDayLength()
                         },
                     value = isBirthDateState.day,
-                    placeholder = "DD",
+                    placeholder = stringResource(R.string.auth_set_birth_date_text_field_date_hint),
                     onValueChange = {
                         if (it.isBlank() || it.matches(pattern)) {
                             viewModel.updateCheckedDate(it)
@@ -215,7 +217,7 @@ internal fun SetBirthDateScreen(
                 Text(
                     modifier = Modifier
                         .padding(start = 6.dp, end = 20.dp),
-                    text = "일",
+                    text = stringResource(R.string.auth_set_birth_date_text_field_year_text),
                     color = Main2,
                     style = OffroadTheme.typography.subtitleReg,
                 )
@@ -246,7 +248,7 @@ internal fun SetBirthDateScreen(
                 navigateToSetGender(nickname, birthDate)
             },
             isActive = isBirthDateState.birthDateValidateResult == BirthDateValidateResult.Success,
-            text = "다음"
+            text = stringResource(R.string.auth_basic_button),
         )
     }
 }

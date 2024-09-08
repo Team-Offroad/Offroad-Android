@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -39,6 +40,7 @@ import com.teamoffroad.feature.auth.presentation.component.SetCharacterDialog
 import com.teamoffroad.feature.auth.presentation.component.SetCharacterIndicator
 import com.teamoffroad.feature.auth.presentation.component.ShowSetCharacterPager
 import com.teamoffroad.feature.auth.presentation.model.SetCharacterUiState
+import com.teamoffroad.offroad.feature.auth.R
 
 @Composable
 internal fun SetCharacterScreen(
@@ -73,7 +75,7 @@ internal fun SetCharacterScreen(
                 modifier = Modifier
                     .padding(top = 70.dp, bottom = 32.dp)
                     .align(Alignment.CenterHorizontally),
-                text = "동료 캐릭터 선택",
+                text = stringResource(R.string.auth_character_title),
                 color = Main2,
                 style = OffroadTheme.typography.title,
             )
@@ -144,7 +146,7 @@ internal fun SetCharacterScreen(
                     .align(Alignment.CenterHorizontally),
                 onClick = { showDialog = true },
                 isActive = true,
-                text = "선택",
+                text = stringResource(R.string.auth_basic_button)
             )
             Spacer(modifier = Modifier.height(72.dp))
         }

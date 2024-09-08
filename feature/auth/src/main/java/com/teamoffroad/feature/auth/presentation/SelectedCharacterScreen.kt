@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -57,7 +58,7 @@ internal fun SelectedCharacterScreen(
                         modifier = Modifier.weight(1f)
                     )
                     OffroadBasicBtn(
-                        text = "모험 시작하기",
+                        text = stringResource(R.string.auth_selected_character_button),
                         isActive = true,
                         modifier = Modifier
                             .padding(bottom = 72.dp)
@@ -89,13 +90,13 @@ internal fun SelectedCharacterScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
-                        text = "프로필 생성을 축하드려요!",
+                        text = stringResource(R.string.auth_selected_character_title),
                         fontSize = 22.sp,
                         color = SelectedCharacterText,
                         style = OffroadTheme.typography.title,
                     )
                     Text(
-                        text = "지금 바로 모험을 떠나볼까요?",
+                        text = stringResource(R.string.auth_selected_character_sub_title),
                         fontSize = 22.sp,
                         color = SelectedCharacterText,
                         style = OffroadTheme.typography.title

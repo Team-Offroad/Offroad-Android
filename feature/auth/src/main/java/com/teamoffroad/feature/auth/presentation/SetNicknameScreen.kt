@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
@@ -33,6 +34,7 @@ import com.teamoffroad.feature.auth.presentation.component.NicknameHintText
 import com.teamoffroad.feature.auth.presentation.component.NicknameTextField
 import com.teamoffroad.feature.auth.presentation.component.OnboardingButton
 import com.teamoffroad.feature.auth.presentation.component.SetNicknameButton
+import com.teamoffroad.offroad.feature.auth.R
 
 @Composable
 internal fun SetNicknameScreen(
@@ -54,13 +56,13 @@ internal fun SetNicknameScreen(
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             OffroadActionBar()
             Text(
-                text = "모험가 프로필 작성",
+                text = stringResource(R.string.auth_on_boarding_title),
                 color = Main2,
                 style = OffroadTheme.typography.profileTitle,
                 modifier = Modifier.padding(top = 104.dp, bottom = 6.dp)
             )
             Text(
-                text = "어떤 이름으로 불러드리면 될까요?",
+                text = stringResource(R.string.auth_set_nickname_sub_title),
                 color = Main2,
                 style = OffroadTheme.typography.subtitleReg,
                 modifier = Modifier.padding(bottom = 56.dp)
@@ -69,7 +71,7 @@ internal fun SetNicknameScreen(
                 Row {
                     NicknameTextField(
                         value = isNicknameState.nickname,
-                        placeholder = "닉네임 입력",
+                        placeholder = stringResource(R.string.auth_set_nickname_text_field_hint),
                         onValueChange = {
                             viewModel.updateNicknamesValid(it)
                         },
@@ -83,7 +85,7 @@ internal fun SetNicknameScreen(
                         interactionSource = interactionSource
                     )
                     OnboardingButton(
-                        text = "중복확인",
+                        text = stringResource(R.string.auth_set_nickname_check_duplication_button),
                         isActive = isNicknameState.nicknameValidateResult,
                         modifier = Modifier
                             .width(82.dp)
@@ -110,7 +112,7 @@ internal fun SetNicknameScreen(
                     navigateToSetBirthDate(isNicknameState.nickname)
                 },
                 isActive = isNicknameState.nicknameValidateResult,
-                text = "다음"
+                text = stringResource(R.string.auth_basic_button),
             )
         }
     }
