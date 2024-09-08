@@ -25,6 +25,7 @@ import com.teamoffroad.offroad.feature.auth.R
 fun AgreeTermsAndConditionsItem(
     text: String,
     isChecked: Boolean,
+    isRequired: Boolean,
     modifier: Modifier = Modifier,
     dialogShown: () -> Unit,
     onClick: () -> Unit,
@@ -66,7 +67,7 @@ fun AgreeTermsAndConditionsItem(
                         .padding(horizontal = 8.dp, vertical = 4.dp)
                 ) {
                     Text(
-                        text = "필수",
+                        text = if(isRequired) "필수" else "선택",
                         color = if (isChecked) Sub2 else Gray300,
                         style = OffroadTheme.typography.textRegular,
                     )

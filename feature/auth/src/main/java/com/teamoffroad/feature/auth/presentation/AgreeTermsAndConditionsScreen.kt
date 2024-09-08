@@ -41,6 +41,7 @@ internal fun AgreeTermsAndConditionsScreen(
         isServiceUtil = isServiceUtil,
         isLocation = isLocation,
         isPersonalInfo = isPersonalInfo,
+        isMarketing = isMarketing,
         updateAgreeTermsAndConditionsUiState = viewModel::updateAgreeTermsAndConditionsUiState
     )
 
@@ -60,24 +61,28 @@ internal fun AgreeTermsAndConditionsScreen(
         AgreeTermsAndConditionsItem(
             text = "서비스 이용 약관",
             isChecked = isServiceUtil,
+            isRequired = true,
             onClick = { viewModel.serviceCheckedChangedListener() },
             dialogShown = { viewModel.changeDialogState(DialogState.SERVICE_DIALOG) }
         )
         AgreeTermsAndConditionsItem(
             text = "개인정보수집/이용 동의",
             isChecked = isPersonalInfo,
+            isRequired = true,
             onClick = { viewModel.personalCheckedChangedListener() },
             dialogShown = { viewModel.changeDialogState(DialogState.PERSONAL_DIALOG) }
         )
         AgreeTermsAndConditionsItem(
             text = "위치기반 서비스 이용약관",
             isChecked = isLocation,
+            isRequired = true,
             onClick = { viewModel.locationCheckedChangedListener() },
             dialogShown = { viewModel.changeDialogState(DialogState.LOCATION_DIALOG) }
         )
         AgreeTermsAndConditionsItem(
             text = "마케팅 정보 수신 동의",
             isChecked = isMarketing,
+            isRequired = false,
             onClick = { viewModel.marketingCheckedChangedListener() },
             dialogShown = { viewModel.changeDialogState(DialogState.MARKETING_DIALOG) }
         )
@@ -129,6 +134,7 @@ fun checkRequired(
     isServiceUtil: Boolean,
     isPersonalInfo: Boolean,
     isLocation: Boolean,
+    isMarketing: Boolean,
     updateAgreeTermsAndConditionsUiState: KFunction1<Boolean, Unit>,
 ) {
     if (isLocation && isServiceUtil && isPersonalInfo) {

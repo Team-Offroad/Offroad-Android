@@ -96,7 +96,6 @@ class AgreeTermsAndConditionsViewModel @Inject constructor(
             _agreeTermsAndConditionsUiState.value = AgreeTermsAndConditionsUiState.REQUIRED
         else
             _agreeTermsAndConditionsUiState.value = AgreeTermsAndConditionsUiState.EMPTY
-
     }
 
     fun changeDialogState(dialogState: DialogState) {
