@@ -55,6 +55,7 @@ class SettingViewModel @Inject constructor(
     fun deleteUserInfo(deleteCode: String) {
         viewModelScope.launch {
             deleteUserInfoUseCase.invoke(deleteCode)
+            performSignOut()
         }
     }
 

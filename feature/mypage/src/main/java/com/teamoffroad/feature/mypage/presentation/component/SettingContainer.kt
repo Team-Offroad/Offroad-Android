@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main2
@@ -40,7 +41,7 @@ fun SettingContainer(
             .clip(shape = RoundedCornerShape(10.dp))
             .background(color = color)
             .clickable(
-                interactionSource = remember { MutableInteractionSource() }, // 상호작용 소스
+                interactionSource = remember { MutableInteractionSource() },
                 indication = rememberRipple(
                     color = Gray300,
                     bounded = true
@@ -58,7 +59,7 @@ fun SettingContainer(
             Row {
                 if (isImportant) {
                     Text(
-                        text = "[중요] ",
+                        text = stringResource(R.string.my_page_setting_item_is_important) + " ",
                         style = OffroadTheme.typography.tabBarMedi,
                         color = Sub2
                     )

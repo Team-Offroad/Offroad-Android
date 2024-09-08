@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.navigationPadding
@@ -21,6 +22,7 @@ import com.teamoffroad.feature.auth.presentation.component.AgreeTermsAndConditio
 import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
 import com.teamoffroad.feature.auth.presentation.model.AgreeTermsAndConditionsUiState
 import com.teamoffroad.feature.auth.presentation.model.DialogState
+import com.teamoffroad.offroad.feature.auth.R
 import kotlin.reflect.KFunction1
 
 @Composable
@@ -41,6 +43,7 @@ internal fun AgreeTermsAndConditionsScreen(
         isServiceUtil = isServiceUtil,
         isLocation = isLocation,
         isPersonalInfo = isPersonalInfo,
+        isMarketing = isMarketing,
         updateAgreeTermsAndConditionsUiState = viewModel::updateAgreeTermsAndConditionsUiState
     )
 
@@ -58,32 +61,36 @@ internal fun AgreeTermsAndConditionsScreen(
             modifier = Modifier.padding(bottom = 22.dp)
         )
         AgreeTermsAndConditionsItem(
-            text = "서비스 이용 약관",
+            text = stringResource(R.string.auth_agree_and_terms_conditions_service),
             isChecked = isServiceUtil,
+            isRequired = true,
             onClick = { viewModel.serviceCheckedChangedListener() },
             dialogShown = { viewModel.changeDialogState(DialogState.SERVICE_DIALOG) }
         )
         AgreeTermsAndConditionsItem(
-            text = "개인정보수집/이용 동의",
+            text = stringResource(R.string.auth_agree_and_terms_conditions_personal),
             isChecked = isPersonalInfo,
+            isRequired = true,
             onClick = { viewModel.personalCheckedChangedListener() },
             dialogShown = { viewModel.changeDialogState(DialogState.PERSONAL_DIALOG) }
         )
         AgreeTermsAndConditionsItem(
-            text = "위치기반 서비스 이용약관",
+            text = stringResource(R.string.auth_agree_and_terms_conditions_location),
             isChecked = isLocation,
+            isRequired = true,
             onClick = { viewModel.locationCheckedChangedListener() },
             dialogShown = { viewModel.changeDialogState(DialogState.LOCATION_DIALOG) }
         )
         AgreeTermsAndConditionsItem(
-            text = "마케팅 정보 수신 동의",
+            text = stringResource(R.string.auth_agree_and_terms_conditions_marketing),
             isChecked = isMarketing,
+            isRequired = false,
             onClick = { viewModel.marketingCheckedChangedListener() },
             dialogShown = { viewModel.changeDialogState(DialogState.MARKETING_DIALOG) }
         )
         Spacer(modifier = Modifier.weight(1f))
         OffroadBasicBtn(
-            text = "다음",
+            text = stringResource(R.string.auth_basic_button),
             marketingAgree = { viewModel.changedMarketingAgree(viewModel.marketing.value) },
             onClick = { navigateToSetNicknameScreen() },
             isActive = isAgreeTermsAndConditionsUiState.name == AgreeTermsAndConditionsUiState.REQUIRED.name,
@@ -97,28 +104,28 @@ internal fun AgreeTermsAndConditionsScreen(
     when (isDialogShown.name) {
         DialogState.SERVICE_DIALOG.name -> {
             AgreeTermsAndConditionsDialog(
-                text = "서비스 이용 약관",
+                text = stringResource(R.string.auth_agree_and_terms_conditions_service),
                 onClick = { viewModel.serviceDialogCheckedChangedListener() },
                 onClickCancel = { viewModel.changeDialogState(DialogState.EMPTY) })
         }
 
         DialogState.PERSONAL_DIALOG.name -> {
             AgreeTermsAndConditionsDialog(
-                text = "개인정보수집/이용 동의",
+                text = stringResource(R.string.auth_agree_and_terms_conditions_personal),
                 onClick = { viewModel.personalDialogCheckedChangedListener() },
                 onClickCancel = { viewModel.changeDialogState(DialogState.EMPTY) })
         }
 
         DialogState.LOCATION_DIALOG.name -> {
             AgreeTermsAndConditionsDialog(
-                text = "위치기반 서비스 이용약관",
+                text = stringResource(R.string.auth_agree_and_terms_conditions_location),
                 onClick = { viewModel.locationDialogCheckedChangedListener() },
                 onClickCancel = { viewModel.changeDialogState(DialogState.EMPTY) })
         }
 
         DialogState.MARKETING_DIALOG.name -> {
             AgreeTermsAndConditionsDialog(
-                text = "마케팅 정보 수신 동의",
+                text = stringResource(R.string.auth_agree_and_terms_conditions_marketing),
                 onClick = { viewModel.marketingDialogCheckedChangedListener() },
                 onClickCancel = { viewModel.changeDialogState(DialogState.EMPTY) })
         }
@@ -129,6 +136,7 @@ fun checkRequired(
     isServiceUtil: Boolean,
     isPersonalInfo: Boolean,
     isLocation: Boolean,
+    isMarketing: Boolean,
     updateAgreeTermsAndConditionsUiState: KFunction1<Boolean, Unit>,
 ) {
     if (isLocation && isServiceUtil && isPersonalInfo) {

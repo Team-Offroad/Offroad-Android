@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -25,6 +26,7 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
 fun LogoutDialog(
@@ -48,7 +50,7 @@ fun LogoutDialog(
                     .padding(vertical = 22.dp, horizontal = 40.dp)
             ) {
                 Text(
-                    text = "로그아웃",
+                    text = stringResource(R.string.my_page_setting_item_logout),
                     color = Main2,
                     style = OffroadTheme.typography.title,
                     modifier = Modifier
@@ -56,7 +58,7 @@ fun LogoutDialog(
                         .padding(bottom = 20.dp)
                 )
                 Text(
-                    text = "정말 로그아웃 하시겠어요?",
+                    text = stringResource(R.string.my_page_setting_logout_dialog_sub_title),
                     color = Main2,
                     style = OffroadTheme.typography.textRegular,
                     modifier = Modifier
@@ -65,14 +67,14 @@ fun LogoutDialog(
                 )
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     LogoutButton(
-                        text = "아니요",
+                        text = stringResource(R.string.my_page_setting_logout_dialog_disagree),
                         onClick = onClickCancel,
                         textColor = Main2,
                         backgroundColor = Main3,
                         modifier = Modifier.weight(1f)
                     )
                     LogoutButton(
-                        text = "네",
+                        text = stringResource(R.string.my_page_setting_logout_dialog_agree),
                         onClick = {
                             onClick()
                             onClickCancel()

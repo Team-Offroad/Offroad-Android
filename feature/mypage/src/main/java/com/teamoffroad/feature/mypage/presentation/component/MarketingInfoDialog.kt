@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -27,6 +28,7 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.offroad.feature.mypage.R
 import kotlin.reflect.KFunction1
 
 @Composable
@@ -50,7 +52,7 @@ fun MarketingInfoDialog(
                     .padding(vertical = 22.dp, horizontal = 40.dp)
             ) {
                 Text(
-                    text = "마케팅 정보 수신 동의",
+                    text = stringResource(R.string.my_page_setting_marketing_dialog_title),
                     color = Main2,
                     style = OffroadTheme.typography.title,
                     modifier = Modifier
@@ -83,7 +85,7 @@ fun MarketingInfoDialog(
                 )
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     AgreeButton(
-                        text = "비동의",
+                        text = stringResource(R.string.my_page_setting_marketing_dialog_disagree),
                         onClick = {
                             onClickCancel()
                             onClick(false)
@@ -93,7 +95,7 @@ fun MarketingInfoDialog(
                         modifier = Modifier.weight(1f)
                     )
                     AgreeButton(
-                        text = "동의",
+                        text = stringResource(R.string.my_page_setting_marketing_dialog_agree),
                         onClick = {
                             onClickCancel()
                             onClick(true)

@@ -53,7 +53,10 @@ internal fun SettingScreen(
         ) {
             navigateToBack()
         }
-        SettingHeader(text = "설정", painterResources = R.drawable.ic_setting_tag)
+        SettingHeader(
+            text = stringResource(R.string.my_page_setting_title),
+            painterResources = R.drawable.ic_setting_tag
+        )
         Box(
             modifier = modifier
                 .fillMaxWidth()
@@ -63,26 +66,38 @@ internal fun SettingScreen(
         Spacer(Modifier.height(24.dp))
         SettingContainer(
             color = Main1,
-            text = "공지사항",
+            text = stringResource(R.string.my_page_setting_item_announcement),
             isImportant = false,
             onClick = navigateToAnnouncement
         )
-        SettingContainer(color = Main1, text = "플레이 가이드", isImportant = false, onClick = {})
-        SettingContainer(color = Main1, text = "서비스 이용약관", isImportant = false, onClick = {})
-        SettingContainer(color = Main1, text = "개인정보처리방침", isImportant = false, onClick = {})
         SettingContainer(
             color = Main1,
-            text = "마케팅 수신동의",
+            text = stringResource(R.string.my_page_setting_item_play_guide),
+            isImportant = false,
+            onClick = {})
+        SettingContainer(
+            color = Main1,
+            text = stringResource(R.string.my_page_setting_item_service_term),
+            isImportant = false,
+            onClick = {})
+        SettingContainer(
+            color = Main1,
+            text = stringResource(R.string.my_page_setting_item_personal_information),
+            isImportant = false,
+            onClick = {})
+        SettingContainer(
+            color = Main1,
+            text = stringResource(R.string.my_page_setting_item_marketing_agree),
             isImportant = false,
             onClick = { viewModel.changeDialogState(SettingDialogState.MarketingVisible) })
         SettingContainer(
             color = Main1,
-            text = "로그아웃",
+            text = stringResource(R.string.my_page_setting_item_logout),
             isImportant = false,
             onClick = { viewModel.changeDialogState(SettingDialogState.LogoutVisible) })
         SettingContainer(
             color = Main1,
-            text = "회원 탈퇴",
+            text = stringResource(R.string.my_page_setting_item_withdraw),
             isImportant = false,
             onClick = { viewModel.changeDialogState(SettingDialogState.WithDrawVisible) })
     }

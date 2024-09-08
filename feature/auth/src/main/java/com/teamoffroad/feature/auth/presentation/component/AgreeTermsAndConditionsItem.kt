@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Gray300
@@ -25,6 +26,7 @@ import com.teamoffroad.offroad.feature.auth.R
 fun AgreeTermsAndConditionsItem(
     text: String,
     isChecked: Boolean,
+    isRequired: Boolean,
     modifier: Modifier = Modifier,
     dialogShown: () -> Unit,
     onClick: () -> Unit,
@@ -66,7 +68,9 @@ fun AgreeTermsAndConditionsItem(
                         .padding(horizontal = 8.dp, vertical = 4.dp)
                 ) {
                     Text(
-                        text = "필수",
+                        text = if (isRequired) stringResource(R.string.auth_agree_and_terms_conditions_item_required) else stringResource(
+                            R.string.auth_agree_and_terms_conditions_item_optional
+                        ),
                         color = if (isChecked) Sub2 else Gray300,
                         style = OffroadTheme.typography.textRegular,
                     )

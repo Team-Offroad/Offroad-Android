@@ -2,11 +2,52 @@
 <resources>
     <string name="explore_auth_kakao">Kakao로 계속하기</string>
     <string name="explore_auth_google">Google로 계속하기</string>
+    <string name="auth_basic_button">다음</string>
+    <string name="auth_skip">건너뛰기</string>
+    <string name="auth_on_boarding_title">모험가 프로필 작성</string>
+
+    <string name="auth_duplicated_nickname">중복된 닉네임이에요. 다른 멋진 이름이 있으신가요?</string>
+    <string name="auth_invalid_nickname">한글 2~8자, 영어 2~16자 이내로 다시 말씀해주세요.</string>
+    <string name="auth_empty_nickname">*한글 2~8자, 영어 2~16자 이내로 작성해주세요.</string>
+
+    <string name="auth_agree_and_terms_conditions_title">약관 동의</string>.
+    <string name="auth_agree_and_terms_conditions_sub_title">필수항목 및 선택항목 약관에 동의해주세요</string>
+    <string name="auth_agree_and_terms_conditions_all_agree">전체동의</string>
+    <string name="auth_agree_and_terms_conditions_item_required">필수</string>
+    <string name="auth_agree_and_terms_conditions_item_optional">선택</string>
+    <string name="auth_agree_and_terms_conditions_service">서비스 이용 약관</string>
+    <string name="auth_agree_and_terms_conditions_personal">개인정보수집/이용 동의</string>
+    <string name="auth_agree_and_terms_conditions_location">위치기반 서비스 이용약관</string>
+    <string name="auth_agree_and_terms_conditions_marketing">마케팅 정보 수신 동의</string>
+    <string name="auth_agree_and_terms_conditions_dialog_agree">동의</string>
+    <string name="auth_agree_and_terms_conditions_dialog_disagree">비동의</string>
+
+    <string name="auth_set_nickname_sub_title">어떤 이름으로 불러드리면 될까요?</string>
+    <string name="auth_set_nickname_text_field_hint">닉네임 입력</string>
+    <string name="auth_set_nickname_check_duplication_button">중복확인</string>
+
+    <string name="auth_set_birth_date_sub_title">나이를 알려주세요.</string>
+    <string name="auth_set_birth_date_text_field_hint">생년월일 입력</string>
+    <string name="auth_set_birth_date_text_field_year_hint">YYYY</string>
+    <string name="auth_set_birth_date_text_field_year_text">년</string>
+    <string name="auth_set_birth_date_text_field_month_hint">MM</string>
+    <string name="auth_set_birth_date_text_field_month_text">월</string>
+    <string name="auth_set_birth_date_text_field_date_hint">DD</string>
+    <string name="auth_set_birth_date_text_field_date_text">일</string>
+
+    <string name="auth_set_gender_sub_title">성별을 선택해 주세요.</string>
+    <string name="auth_set_gender_male">남성</string>
+    <string name="auth_set_gender_female">여성</string>
+    <string name="auth_set_gender_other">기타</string>
+
+    <string name="auth_character_title">동료 캐릭터 선택</string>
     <string name="auth_character_question_title">%s와 함께하시겠어요?</string>
     <string name="auth_character_question_label">지금 캐릭터를 선택하시면\n%s와 모험을 시작하게 돼요.</string>
     <string name="auth_character_question_deny">아니요</string>
     <string name="auth_character_question_accept">네,좋아요!</string>
-    <string name="auth_duplicated_nickname">중복된 닉네임이에요. 다른 멋진 이름이 있으신가요?</string>
-    <string name="auth_invalid_nickname">한글 2~8자, 영어 2~16자 이내로 다시 말씀해주세요.</string>
-    <string name="auth_empty_nickname">*한글 2~8자, 영어 2~16자 이내로 작성해주세요.</string>
+
+    <string name="auth_selected_character_title">프로필 생성을 축하드려요!</string>
+    <string name="auth_selected_character_sub_title">지금 바로 모험을 떠나볼까요?</string>
+    <string name="auth_selected_character_button">모험 시작하기</string>
+
 </resources>
