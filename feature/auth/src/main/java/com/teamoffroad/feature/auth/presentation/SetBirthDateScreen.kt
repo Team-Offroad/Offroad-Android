@@ -217,7 +217,7 @@ internal fun SetBirthDateScreen(
                 Text(
                     modifier = Modifier
                         .padding(start = 6.dp, end = 20.dp),
-                    text = stringResource(R.string.auth_set_birth_date_text_field_year_text),
+                    text = stringResource(R.string.auth_set_birth_date_text_field_date_text),
                     color = Main2,
                     style = OffroadTheme.typography.subtitleReg,
                 )
