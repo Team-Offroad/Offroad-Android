@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
@@ -85,7 +86,8 @@ fun PlaceExtraItem(
                 .build(),
             contentDescription = null,
             modifier = Modifier
-                .height(18.dp),
+                .height(18.dp)
+                .widthIn(max = 24.dp),
             contentScale = ContentScale.FillHeight,
         )
         Text(
@@ -96,7 +98,7 @@ fun PlaceExtraItem(
                 .padding(start = 6.dp)
                 .padding(vertical = 2.dp)
         )
-        if (placeModel.visitCount > 0) {
+        if (placeModel.isVisited) {
             VerticalDivider(
                 color = CharacterSelectBg3,
                 modifier = Modifier
