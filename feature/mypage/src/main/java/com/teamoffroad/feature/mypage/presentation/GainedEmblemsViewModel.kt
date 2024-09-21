@@ -26,7 +26,7 @@ class GainedEmblemsViewModel @Inject constructor(
     fun getEmblems() {
         viewModelScope.launch {
             runCatching {
-                getUserEmblemListUseCase.invoke()
+                getUserEmblemListUseCase()
             }.onSuccess { result ->
                 val emblems = result.getOrNull()?.toImmutableList() ?: persistentListOf()
                 _emblemsUiState.value = _emblemsUiState.value.copy(
@@ -34,7 +34,8 @@ class GainedEmblemsViewModel @Inject constructor(
                     nicknameValidateResult = GainedEmblemsResult.Success,
                 )
             }.onFailure {
-                _emblemsUiState.value = _emblemsUiState.value.copy(nicknameValidateResult = GainedEmblemsResult.Error)
+                _emblemsUiState.value =
+                    _emblemsUiState.value.copy(nicknameValidateResult = GainedEmblemsResult.Error)
             }
         }
     }

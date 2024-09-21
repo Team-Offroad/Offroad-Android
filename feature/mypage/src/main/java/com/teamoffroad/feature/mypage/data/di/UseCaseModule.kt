@@ -1,11 +1,13 @@
 package com.teamoffroad.feature.mypage.data.di
 
+import com.teamoffroad.feature.mypage.domain.repository.AnnouncementRepository
 import com.teamoffroad.feature.mypage.domain.repository.CharacterRepository
 import com.teamoffroad.feature.mypage.domain.repository.EmblemRepository
 import com.teamoffroad.feature.mypage.domain.repository.MotionRepository
 import com.teamoffroad.feature.mypage.domain.repository.UserCouponRepository
 import com.teamoffroad.feature.mypage.domain.repository.UserRepository
 import com.teamoffroad.feature.mypage.domain.usecase.DeleteUserInfoUseCase
+import com.teamoffroad.feature.mypage.domain.usecase.GetAnnouncementUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.GetCharacterDetailUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.GetCharacterListUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.GetCharacterMotionListUseCase
@@ -76,5 +78,13 @@ object UseCaseModule {
         motionRepository: MotionRepository,
     ): GetCharacterMotionListUseCase {
         return GetCharacterMotionListUseCase(motionRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetAnnounceUseCase(
+        announcementRepository: AnnouncementRepository,
+    ): GetAnnouncementUseCase {
+        return GetAnnouncementUseCase(announcementRepository)
     }
 }

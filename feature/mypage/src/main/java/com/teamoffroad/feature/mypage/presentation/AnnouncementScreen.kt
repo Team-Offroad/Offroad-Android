@@ -9,9 +9,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.navigationPadding
@@ -25,7 +28,10 @@ import com.teamoffroad.offroad.feature.mypage.R
 internal fun AnnouncementScreen(
     navigateToAnnouncementDetail: (String, String, String, Boolean) -> Unit,
     navigateToBack: () -> Unit,
+    viewModel: AnnouncementViewModel = hiltViewModel()
 ) {
+    val isAnnouncementState by viewModel.announcementUiState.collectAsState()
+    viewModel.getAnnouncement()
     Column(
         modifier = Modifier
             .navigationPadding()
