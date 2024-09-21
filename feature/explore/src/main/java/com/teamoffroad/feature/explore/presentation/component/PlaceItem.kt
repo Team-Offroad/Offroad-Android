@@ -29,13 +29,13 @@ import com.teamoffroad.core.designsystem.theme.NametagInactive
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.Sub2
-import com.teamoffroad.feature.explore.presentation.model.FakePlaceModel
+import com.teamoffroad.feature.explore.presentation.model.PlaceModel
 import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 fun PlaceItem(
     modifier: Modifier = Modifier,
-    placeModel: FakePlaceModel,
+    placeModel: PlaceModel,
 ) {
     Column(modifier) {
         Row {
@@ -46,7 +46,7 @@ fun PlaceItem(
             )
             PlaceTagItem(
                 modifier = Modifier.padding(start = 6.dp),
-                text = placeModel.town,
+                text = placeModel.placeArea,
                 textColor = Sub,
                 backgroundColor = NametagInactive,
             )
@@ -68,7 +68,7 @@ fun PlaceItem(
 
 @Composable
 fun PlaceExtraItem(
-    placeModel: FakePlaceModel,
+    placeModel: PlaceModel,
 ) {
     Row(
         modifier = Modifier

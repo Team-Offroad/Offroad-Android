@@ -10,6 +10,7 @@ fun PlaceResponseDto.toDomain(): Place {
         address = address,
         shortIntroduction = shortIntroduction,
         placeCategory = placeCategory,
+        placeArea = placeArea,
         categoryImageUrl = categoryImageUrl,
         latitude = latitude,
         longitude = longitude,
