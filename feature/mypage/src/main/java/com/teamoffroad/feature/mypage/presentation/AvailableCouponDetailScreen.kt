@@ -81,7 +81,7 @@ fun AvailableCouponDetailScreen(
                 text = stringResource(id = R.string.my_page_my_page),
                 backgroundColor = backgroundColor
             ) { navigateToGainedCoupon() }
-            AvailableCouponCard(name, couponImageUrl, description, placeId)
+            AvailableCouponCard(name, couponImageUrl, description)
             Box(
                 modifier = Modifier.weight(1f),
                 contentAlignment = Alignment.Center
@@ -107,7 +107,6 @@ fun AvailableCouponCard(
     name: String,
     couponImageUrl: String,
     description: String,
-    placeId: Int,
     shape: Shape = RoundedCornerShape(20.dp),
     borderWidth: Dp = 1.dp,
     textColor: Color = Main2,
@@ -160,6 +159,7 @@ fun AvailableCouponCard(
                 text = description,
                 modifier = Modifier
                     .padding(top = 10.dp, bottom = 18.dp),
+                minLines = 3,
                 textAlign = TextAlign.Center,
                 color = textColor,
                 style = OffroadTheme.typography.textRegular,
