@@ -65,39 +65,32 @@ internal fun SettingScreen(
         )
         Spacer(Modifier.height(24.dp))
         SettingContainer(
-            color = Main1,
-            text = stringResource(R.string.my_page_setting_item_announcement),
+            title = stringResource(R.string.my_page_setting_item_announcement),
             isImportant = false,
             onClick = navigateToAnnouncement
         )
         SettingContainer(
-            color = Main1,
-            text = stringResource(R.string.my_page_setting_item_play_guide),
+            title = stringResource(R.string.my_page_setting_item_play_guide),
             isImportant = false,
             onClick = {})
         SettingContainer(
-            color = Main1,
-            text = stringResource(R.string.my_page_setting_item_service_term),
+            title = stringResource(R.string.my_page_setting_item_service_term),
             isImportant = false,
             onClick = {})
         SettingContainer(
-            color = Main1,
-            text = stringResource(R.string.my_page_setting_item_personal_information),
+            title = stringResource(R.string.my_page_setting_item_personal_information),
             isImportant = false,
             onClick = {})
         SettingContainer(
-            color = Main1,
-            text = stringResource(R.string.my_page_setting_item_marketing_agree),
+            title = stringResource(R.string.my_page_setting_item_marketing_agree),
             isImportant = false,
             onClick = { viewModel.changeDialogState(SettingDialogState.MarketingVisible) })
         SettingContainer(
-            color = Main1,
-            text = stringResource(R.string.my_page_setting_item_logout),
+            title = stringResource(R.string.my_page_setting_item_logout),
             isImportant = false,
             onClick = { viewModel.changeDialogState(SettingDialogState.LogoutVisible) })
         SettingContainer(
-            color = Main1,
-            text = stringResource(R.string.my_page_setting_item_withdraw),
+            title = stringResource(R.string.my_page_setting_item_withdraw),
             isImportant = false,
             onClick = { viewModel.changeDialogState(SettingDialogState.WithDrawVisible) })
     }
