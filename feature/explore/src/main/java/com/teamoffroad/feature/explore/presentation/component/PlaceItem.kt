@@ -97,19 +97,25 @@ fun PlaceExtraItem(
             modifier = Modifier
                 .padding(start = 6.dp)
                 .padding(vertical = 2.dp)
+                .weight(1f),
         )
         if (placeModel.isVisited) {
-            VerticalDivider(
-                color = CharacterSelectBg3,
-                modifier = Modifier
-                    .padding(start = 8.dp, end = 6.dp)
-                    .requiredHeight(20.dp)
-            )
-            Text(
-                text = stringResource(R.string.explore_explore_count, placeModel.visitCount),
-                color = Sub2,
-                style = OffroadTheme.typography.tooltipNumber,
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                VerticalDivider(
+                    color = CharacterSelectBg3,
+                    modifier = Modifier
+                        .padding(start = 8.dp, end = 6.dp)
+                        .requiredHeight(20.dp),
+                )
+                Text(
+                    text = stringResource(R.string.explore_explore_count, placeModel.visitCount),
+                    color = Sub2,
+                    style = OffroadTheme.typography.tooltipNumber,
+                    maxLines = 1,
+                )
+            }
         }
     }
 }
