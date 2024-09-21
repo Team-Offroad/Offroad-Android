@@ -115,7 +115,6 @@ internal fun SettingScreen(
             isWithDrawText = isSettingUiState.withDrawInputState,
             isWithDrawResult = isSettingUiState.withDrawResult,
             onInputTextChange = viewModel::changeWithDrawInputText,
-            isWithDrawResultChanged = { viewModel.changeWithDrawInputTextResult() },
             onClick = viewModel::deleteUserInfo,
             withDrawInputText = viewModel.settingUiState.value.withDrawInputState,
             navigateToSignIn = navigateToSignIn,
