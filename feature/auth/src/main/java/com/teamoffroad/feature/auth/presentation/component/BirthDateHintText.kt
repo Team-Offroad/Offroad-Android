@@ -15,7 +15,12 @@ fun BirthDateHintText(
 ) {
     Text(
         text = value,
-        modifier = modifier.alpha(if (isVisible == BirthDateValidateResult.Error) 1f else 0f),
+        modifier = modifier.alpha(
+            if (isVisible == BirthDateValidateResult.YearError ||
+                isVisible == BirthDateValidateResult.MonthError ||
+                isVisible == BirthDateValidateResult.DayError
+            ) 1f else 0f
+        ),
         style = OffroadTheme.typography.hint,
         color = Error
     )

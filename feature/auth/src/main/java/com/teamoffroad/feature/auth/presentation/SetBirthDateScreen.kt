@@ -122,6 +122,10 @@ internal fun SetBirthDateScreen(
             ) {
                 val pattern = remember { Regex("^\\d+\$") }
                 BirthDateTextField(
+                    modifier = Modifier
+                        .width(84.dp)
+                        .height(43.dp)
+                        .focusRequester(yearFocusRequester),
                     value = isBirthDateState.year,
                     placeholder = stringResource(R.string.auth_set_birth_date_text_field_year_hint),
                     onValueChange = {
@@ -132,12 +136,8 @@ internal fun SetBirthDateScreen(
                             }
                         }
                     },
-                    textAlign = Alignment.Center,
                     maxLength = 4,
-                    modifier = Modifier
-                        .width(84.dp)
-                        .height(43.dp)
-                        .focusRequester(yearFocusRequester),
+                    isError = isBirthDateState.birthDateValidateResult == BirthDateValidateResult.YearError,
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Next,
                         keyboardType = KeyboardType.NumberPassword
@@ -171,7 +171,7 @@ internal fun SetBirthDateScreen(
                         }
                     },
                     maxLength = 2,
-                    textAlign = Alignment.Center,
+                    isError = isBirthDateState.birthDateValidateResult == BirthDateValidateResult.MonthError,
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Next,
                         keyboardType = KeyboardType.NumberPassword
@@ -205,7 +205,7 @@ internal fun SetBirthDateScreen(
                         }
                     },
                     maxLength = 2,
-                    textAlign = Alignment.Center,
+                    isError = isBirthDateState.birthDateValidateResult == BirthDateValidateResult.DayError,
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Done,
                         keyboardType = KeyboardType.NumberPassword
