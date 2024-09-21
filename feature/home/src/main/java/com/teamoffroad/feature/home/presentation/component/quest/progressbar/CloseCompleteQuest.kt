@@ -12,7 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImagePainter.State.Empty.painter
 import com.teamoffroad.core.designsystem.theme.Contents2
 import com.teamoffroad.core.designsystem.theme.Sub4
 import com.teamoffroad.feature.home.presentation.HomeViewModel
@@ -35,7 +37,7 @@ fun CloseCompleteRequest(modifier: Modifier = Modifier, data: HomeProgressBarMod
         ) {
             Spacer(modifier = Modifier.padding(8.dp))
             Row {
-                ContentsTitle(data.title, Sub4)
+                ContentsTitle(data.title.ifEmpty { stringResource(id = R.string.home_default_quest) }, Sub4)
                 Spacer(modifier = Modifier.padding(start = 4.dp))
                 Image(
                     painter = painterResource(id = R.drawable.img_home_close_complete),

@@ -82,11 +82,11 @@ class HomeViewModel @Inject constructor(
     }
 
     fun updateCircleProgressBar(amount: Float, total: Float) {
-        _circleProgressBar.value = amount/total
+        _circleProgressBar.value = if (total == 0f) 0f else  amount/total
     }
 
     fun updateLinearProgressBar(amount: Float, total: Float) {
-        _linearProgressBar.value = amount/total
+        _linearProgressBar.value = if (total == 0f) 0f else amount/total
     }
 
     fun getEmblems() {

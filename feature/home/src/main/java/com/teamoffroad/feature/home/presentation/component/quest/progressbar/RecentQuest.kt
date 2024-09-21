@@ -11,7 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImagePainter.State.Empty.painter
 import com.teamoffroad.core.designsystem.theme.Contents1
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.home.presentation.HomeViewModel
@@ -21,7 +23,11 @@ import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 import com.teamoffroad.offroad.feature.home.R
 
 @Composable
-fun RecentQuest(modifier: Modifier = Modifier, data: HomeProgressBarModel, viewModel: HomeViewModel) {
+fun RecentQuest(
+    modifier: Modifier = Modifier,
+    data: HomeProgressBarModel,
+    viewModel: HomeViewModel
+) {
     viewModel.updateCircleProgressBar(data.amount.toFloat(), data.total.toFloat())
 
     Surface(
@@ -31,7 +37,7 @@ fun RecentQuest(modifier: Modifier = Modifier, data: HomeProgressBarModel, viewM
         Column {
             Spacer(modifier = Modifier.padding(8.dp))
             Row {
-                ContentsTitle(data.title, Main1)
+                ContentsTitle(data.title.ifEmpty { stringResource(id = R.string.home_default_quest) }, Main1)
                 Spacer(modifier = Modifier.padding(start = 4.dp))
                 Image(
                     painter = painterResource(id = R.drawable.img_home_recent_quest),
