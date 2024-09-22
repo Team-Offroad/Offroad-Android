@@ -9,10 +9,13 @@ sealed interface Route {
 
 sealed interface MainTabRoute : Route {
     @Serializable
-    data class Home(val category: String? = null) : MainTabRoute
+    data class Home(
+        val category: String? = null,
+        val completeQuests: List<String> = emptyList(),
+    ) : MainTabRoute
 
     @Serializable
-    data class Explore(val authResultType: String? = null, val imageUrl: String? = null) :
+    data class Explore(val authResultState: String = "NONE", val imageUrl: String? = null) :
         MainTabRoute
 
     @Serializable
@@ -60,8 +63,9 @@ sealed interface MyPageRoute : Route {
         val id: Int,
         val name: String,
         val couponImageUrl: String,
-        val description: String
-    ) : MyPageRoute
+        val description: String,
+        val placeId: Int,
+    ): MyPageRoute
 
     @Serializable
     data object GainedCharacter : MyPageRoute
@@ -80,6 +84,12 @@ sealed interface MyPageRoute : Route {
         val title: String,
         val content: String,
         val link: String,
-        val isImportant: Boolean
+        val isImportant: Boolean,
+    ) : MyPageRoute
+
+    @Serializable
+    data class CharacterDetail(
+        val characterId: Int,
+        val isRepresentative: Boolean,
     ) : MyPageRoute
 }

@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -25,6 +26,7 @@ import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.offroad.feature.mypage.R
 import kotlin.reflect.KFunction1
 
 @Composable
@@ -56,7 +58,7 @@ fun WithDrawDialog(
                     .align(Alignment.Center)
             ) {
                 Text(
-                    text = "회원 탈퇴",
+                    text = stringResource(R.string.my_page_setting_item_withdraw),
                     color = Main2,
                     style = OffroadTheme.typography.title,
                     textAlign = TextAlign.Center,
@@ -65,7 +67,7 @@ fun WithDrawDialog(
                         .align(Alignment.CenterHorizontally)
                 )
                 Text(
-                    text = "정말 탈퇴하시겠어요? \n탈퇴하다면 아래 문구를 입력창에\n그대로 입력해주세요.",
+                    text = stringResource(R.string.my_page_setting_withdraw_dialog_sub_title),
                     color = Main2,
                     style = OffroadTheme.typography.textRegular,
                     textAlign = TextAlign.Center,
@@ -74,7 +76,7 @@ fun WithDrawDialog(
                         .align(Alignment.CenterHorizontally)
                 )
                 Text(
-                    text = "오프로드 회원을 탈퇴하겠습니다.",
+                    text = stringResource(R.string.my_page_setting_withdraw_message),
                     color = Sub2,
                     style = OffroadTheme.typography.textBold,
                     textAlign = TextAlign.Center,
@@ -94,14 +96,14 @@ fun WithDrawDialog(
                     modifier = Modifier.padding(top = 16.dp)
                 ) {
                     WithDrawButton(
-                        text = "취소",
+                        text = stringResource(R.string.my_page_setting_withdraw_dialog_disagree),
                         onClick = onClickCancel,
                         textColor = Main2,
                         backgroundColor = Main3,
                         modifier = Modifier.weight(1f)
                     )
                     WithDrawButton(
-                        text = "탈퇴",
+                        text = stringResource(R.string.my_page_setting_withdraw_dialog_agree),
                         onClick = {
                             onClick(withDrawInputText)
                             navigateToSignIn()

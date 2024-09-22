@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -23,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -35,6 +33,8 @@ import coil.compose.AsyncImage
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
+import com.teamoffroad.core.designsystem.component.navigationPadding
+import com.teamoffroad.core.designsystem.theme.Black15
 import com.teamoffroad.core.designsystem.theme.Contents2
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Gray400
@@ -45,6 +45,7 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.core.designsystem.theme.Sub4
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.feature.mypage.domain.model.UseCoupon
 import com.teamoffroad.feature.mypage.presentation.component.UseAvailableCouponDialog
 import com.teamoffroad.feature.mypage.presentation.model.CheckCouponState
 import com.teamoffroad.offroad.feature.mypage.R
@@ -55,16 +56,19 @@ fun AvailableCouponDetailScreen(
     name: String,
     couponImageUrl: String,
     description: String,
+    placeId: Int,
     navigateToGainedCoupon: () -> Unit,
     availableCouponDetailViewModel: AvailableCouponDetailViewModel = hiltViewModel(),
-    backgroundColor: Color = ListBg
+    backgroundColor: Color = ListBg,
 ) {
     val couponCode = availableCouponDetailViewModel.couponCode.collectAsStateWithLifecycle().value
     val couponCodeSuccess =
         availableCouponDetailViewModel.couponCodeSuccess.collectAsStateWithLifecycle().value
 
     Box(
-        modifier = Modifier.background(Sub4)
+        modifier = Modifier
+            .navigationPadding()
+            .background(Sub4)
     ) {
         Column(
             modifier = Modifier
@@ -77,7 +81,7 @@ fun AvailableCouponDetailScreen(
                 text = stringResource(id = R.string.my_page_my_page),
                 backgroundColor = backgroundColor
             ) { navigateToGainedCoupon() }
-            AvailableCouponCard(name, couponImageUrl, description)
+            AvailableCouponCard(name, couponImageUrl, description, placeId)
             Box(
                 modifier = Modifier.weight(1f),
                 contentAlignment = Alignment.Center
@@ -87,9 +91,12 @@ fun AvailableCouponDetailScreen(
             UseAvailableCouponButton(
                 couponId = couponId,
                 couponCode = couponCode,
+                placeId = placeId,
+                errorMessage = availableCouponDetailViewModel.errorMessage.collectAsStateWithLifecycle().value,
                 updateCouponCodeSuccess = availableCouponDetailViewModel::updateCouponCodeSuccess,
                 couponCodeSuccess = couponCodeSuccess,
-                updateCode = availableCouponDetailViewModel::updateCode
+                updateCode = availableCouponDetailViewModel::updateCode,
+                saveCoupon = availableCouponDetailViewModel::updateCoupon
             )
         }
     }
@@ -100,10 +107,11 @@ fun AvailableCouponCard(
     name: String,
     couponImageUrl: String,
     description: String,
+    placeId: Int,
     shape: Shape = RoundedCornerShape(20.dp),
     borderWidth: Dp = 1.dp,
     textColor: Color = Main2,
-    backgroundColor: Color = Main1
+    backgroundColor: Color = Main1,
 ) {
     Box(
         modifier = Modifier
@@ -197,14 +205,21 @@ private fun WayOfUse() {
 private fun UseAvailableCouponButton(
     couponId: Int,
     couponCode: String,
+    placeId: Int,
+    errorMessage: String,
     updateCouponCodeSuccess: (CheckCouponState) -> Unit,
     couponCodeSuccess: CheckCouponState,
     updateCode: (String) -> Unit,
+    saveCoupon: (UseCoupon) -> Unit,
 ) {
     val isUseAvailableCouponDialogShown = remember { mutableStateOf(false) }
 
     Text(
-        text = stringResource(id = R.string.my_page_gained_coupon_use_available_coupon),
+        text = when (couponCodeSuccess) {
+            CheckCouponState.NONE -> stringResource(id = R.string.my_page_gained_coupon_use_available_coupon)
+            CheckCouponState.SUCCESS -> stringResource(id = R.string.my_page_gained_coupon_used)
+            CheckCouponState.FAIL -> stringResource(id = R.string.my_page_gained_coupon_use_available_coupon)
+        },
         color = White,
         style = OffroadTheme.typography.textRegular,
         textAlign = TextAlign.Center,
@@ -212,12 +227,14 @@ private fun UseAvailableCouponButton(
             .fillMaxWidth()
             .padding(start = 24.dp, top = 26.dp, end = 24.dp, bottom = 24.dp)
             .clip(shape = RoundedCornerShape(6.dp))
-            .background(Main2)
+            .background(if (couponCodeSuccess == CheckCouponState.SUCCESS) Black15 else Main2)
             .padding(vertical = 14.dp)
             .clickableWithoutRipple(interactionSource = remember {
                 MutableInteractionSource()
             }) {
-                isUseAvailableCouponDialogShown.value = true
+                if (couponCodeSuccess != CheckCouponState.SUCCESS) {
+                    isUseAvailableCouponDialogShown.value = true
+                }
             }
     )
 
@@ -227,11 +244,14 @@ private fun UseAvailableCouponButton(
             updateCouponCodeSuccess = updateCouponCodeSuccess,
             couponCodeSuccess = couponCodeSuccess,
             couponCode = couponCode,
+            placeId = placeId,
+            errorMessage = errorMessage,
             showDialog = isUseAvailableCouponDialogShown,
             onClickCancel = {
                 isUseAvailableCouponDialogShown.value = false
             },
-            updateCode = updateCode
+            updateCode = updateCode,
+            saveCoupon = saveCoupon
         )
     }
 }

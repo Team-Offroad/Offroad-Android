@@ -7,6 +7,6 @@ class GetCharacterListUseCase(
     private val authRepository: AuthRepository,
 ) {
     suspend operator fun invoke(): List<Character> {
-        return authRepository.getCharacters()
+        return authRepository.fetchCharacters()
     }
 }

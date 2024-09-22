@@ -33,7 +33,6 @@ import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.feature.mypage.domain.model.MyPageUser
 import com.teamoffroad.offroad.feature.mypage.R
-import dagger.multibindings.IntoMap
 
 @Composable
 fun UserNickname(nickname: String) {
@@ -71,8 +70,8 @@ fun UserNickname(nickname: String) {
 
 @Composable
 fun UserAdventureInfo(
-        user: MyPageUser
-    ) {
+    user: MyPageUser,
+) {
     Column {
         Surface(
             color = Main1,
@@ -114,9 +113,11 @@ fun UserAdventureInfo(
             Column {
                 Spacer(modifier = Modifier.padding(vertical = 7.dp))
                 Row {
-                    Box(modifier = Modifier
-                        .weight(1f)
-                        .align(Alignment.CenterVertically)) {
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .align(Alignment.CenterVertically)
+                    ) {
                         QuestAchievement(user.completeQuestCount)
                     }
                     Spacer(
@@ -125,9 +126,11 @@ fun UserAdventureInfo(
                             .width(1.dp)
                             .background(Contents2)
                     )
-                    Box(modifier = Modifier
-                        .weight(1f)
-                        .align(Alignment.CenterVertically)) {
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .align(Alignment.CenterVertically)
+                    ) {
                         VisitedPlace(user.visitedPlaceCount)
                     }
                 }

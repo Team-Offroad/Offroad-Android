@@ -17,11 +17,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
+import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.explore.presentation.component.ExploreCamera
 import com.teamoffroad.feature.explore.presentation.component.ExploreCameraOverlay
-import com.teamoffroad.feature.explore.presentation.model.ExploreResultState
+import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
 import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
@@ -35,15 +36,15 @@ internal fun ExploreCameraScreen(
 ) {
     val localContext = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val uiState by exploreCameraViewModel.exploreResultState.collectAsStateWithLifecycle()
+    val uiState by exploreCameraViewModel.exploreAuthState.collectAsStateWithLifecycle()
     val resultImageUrl by exploreCameraViewModel.resultImageUrl.collectAsStateWithLifecycle()
 
     LaunchedEffect(uiState) {
         when (uiState) {
-            ExploreResultState.Success -> navigateToExplore(ExploreResultState.Success.toString(), resultImageUrl)
-            ExploreResultState.CodeError -> navigateToExplore(ExploreResultState.CodeError.toString(), resultImageUrl)
-            ExploreResultState.LocationError -> navigateToExplore(ExploreResultState.LocationError.toString(), resultImageUrl)
-            ExploreResultState.EtcError -> navigateToExplore(ExploreResultState.EtcError.toString(), resultImageUrl)
+            is ExploreAuthState.Success -> navigateToExplore(ExploreAuthState.Success().toString(), resultImageUrl)
+            ExploreAuthState.CodeError -> navigateToExplore(ExploreAuthState.CodeError.toString(), resultImageUrl)
+            ExploreAuthState.LocationError -> navigateToExplore(ExploreAuthState.LocationError.toString(), resultImageUrl)
+            ExploreAuthState.EtcError -> navigateToExplore(ExploreAuthState.EtcError.toString(), resultImageUrl)
             else -> {}
         }
     }
@@ -59,6 +60,7 @@ internal fun ExploreCameraScreen(
     )
     Column(
         modifier = Modifier
+            .navigationPadding()
             .fillMaxSize()
     ) {
         Spacer(

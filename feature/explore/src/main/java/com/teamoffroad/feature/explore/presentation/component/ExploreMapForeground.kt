@@ -26,7 +26,8 @@ fun ExploreMapForeground() {
             modifier = Modifier.align(Alignment.BottomCenter)
         ) {
             Box(
-                Modifier.background(Brush.verticalGradient(listOf(MapGradiStart, MapGradiEnd)))
+                Modifier
+                    .background(Brush.verticalGradient(listOf(MapGradiStart, MapGradiEnd)))
                     .fillMaxWidth()
                     .height(126.dp)
             )

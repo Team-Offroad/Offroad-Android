@@ -1,9 +1,9 @@
 package com.teamoffroad.feature.mypage.presentation
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.mypage.presentation.component.GainedEmblemsHeader
@@ -35,6 +36,8 @@ internal fun GainedEmblemsScreen(
     }
     Column(
         modifier = Modifier
+            .navigationPadding()
+            .fillMaxSize()
             .background(Main1)
     ) {
         OffroadActionBar()
@@ -45,10 +48,12 @@ internal fun GainedEmblemsScreen(
             navigateToBack()
         }
         GainedEmblemsHeader()
-        Spacer(modifier = Modifier
-            .height(1.dp)
-            .background(color = Gray100))
-        if (isEmblemState.nicknameValidateResult == GainedEmblemsResult.Success){
+        Spacer(
+            modifier = Modifier
+                .height(1.dp)
+                .background(color = Gray100)
+        )
+        if (isEmblemState.nicknameValidateResult == GainedEmblemsResult.Success) {
             GainedEmblemsItems(isEmblemState = isEmblemState)
         }
     }

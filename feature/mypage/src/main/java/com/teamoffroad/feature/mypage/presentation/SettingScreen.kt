@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,8 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Gray100
-import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.mypage.presentation.component.LogoutDialog
 import com.teamoffroad.feature.mypage.presentation.component.MarketingInfoDialog
@@ -35,13 +36,15 @@ internal fun SettingScreen(
     navigateToAnnouncement: () -> Unit,
     navigateToSignIn: () -> Unit,
     navigateToBack: () -> Unit,
-    viewModel: SettingViewModel = hiltViewModel()
+    viewModel: SettingViewModel = hiltViewModel(),
 ) {
     val isSettingUiState by viewModel.settingUiState.collectAsState()
 
     Column(
         modifier = modifier
+            .navigationPadding()
             .background(Main1)
+            .fillMaxSize()
     ) {
         OffroadActionBar()
         NavigateBackAppBar(
@@ -50,7 +53,10 @@ internal fun SettingScreen(
         ) {
             navigateToBack()
         }
-        SettingHeader(text = "설정", painterResources = R.drawable.ic_setting_tag)
+        SettingHeader(
+            text = stringResource(R.string.my_page_setting_title),
+            painterResources = R.drawable.ic_setting_tag
+        )
         Box(
             modifier = modifier
                 .fillMaxWidth()
@@ -59,48 +65,60 @@ internal fun SettingScreen(
         )
         Spacer(Modifier.height(24.dp))
         SettingContainer(
-            color = ListBg,
-            text = "공지사항",
+            color = Main1,
+            text = stringResource(R.string.my_page_setting_item_announcement),
             isImportant = false,
-            click = navigateToAnnouncement
+            onClick = navigateToAnnouncement
         )
-        SettingContainer(color = Main1, text = "플레이 가이드", isImportant = false, click = {})
-        SettingContainer(color = Main1, text = "서비스 이용약관", isImportant = false, click = {})
-        SettingContainer(color = Main1, text = "개인정보처리방침", isImportant = false, click = {})
         SettingContainer(
             color = Main1,
-            text = "마케팅 수신동의",
+            text = stringResource(R.string.my_page_setting_item_play_guide),
             isImportant = false,
-            click = { viewModel.changeDialogState(SettingDialogState.marketingVisible) })
+            onClick = {})
         SettingContainer(
             color = Main1,
-            text = "로그아웃",
+            text = stringResource(R.string.my_page_setting_item_service_term),
             isImportant = false,
-            click = { viewModel.changeDialogState(SettingDialogState.logoutVisible) })
+            onClick = {})
         SettingContainer(
             color = Main1,
-            text = "회원 탈퇴",
+            text = stringResource(R.string.my_page_setting_item_personal_information),
             isImportant = false,
-            click = { viewModel.changeDialogState(SettingDialogState.withDrawVisible) })
+            onClick = {})
+        SettingContainer(
+            color = Main1,
+            text = stringResource(R.string.my_page_setting_item_marketing_agree),
+            isImportant = false,
+            onClick = { viewModel.changeDialogState(SettingDialogState.MarketingVisible) })
+        SettingContainer(
+            color = Main1,
+            text = stringResource(R.string.my_page_setting_item_logout),
+            isImportant = false,
+            onClick = { viewModel.changeDialogState(SettingDialogState.LogoutVisible) })
+        SettingContainer(
+            color = Main1,
+            text = stringResource(R.string.my_page_setting_item_withdraw),
+            isImportant = false,
+            onClick = { viewModel.changeDialogState(SettingDialogState.WithDrawVisible) })
     }
 
     when (isSettingUiState.dialogVisible) {
-        SettingDialogState.inVisible -> {}
-        SettingDialogState.marketingVisible -> MarketingInfoDialog(
-            onClick = { viewModel.patchMarketingInfo() },
+        SettingDialogState.InVisible -> {}
+        SettingDialogState.MarketingVisible -> MarketingInfoDialog(
+            onClick = viewModel::changedMarketingAgree,
             onClickCancel = {
-                viewModel.changeDialogState(SettingDialogState.inVisible)
+                viewModel.changeDialogState(SettingDialogState.InVisible)
             })
 
-        SettingDialogState.logoutVisible -> LogoutDialog(
+        SettingDialogState.LogoutVisible -> LogoutDialog(
             onClick = { viewModel.performSignOut() },
             onClickCancel = {
-                viewModel.changeDialogState(SettingDialogState.inVisible)
+                viewModel.changeDialogState(SettingDialogState.InVisible)
             },
             navigateToSignIn = navigateToSignIn
         )
 
-        SettingDialogState.withDrawVisible -> WithDrawDialog(
+        SettingDialogState.WithDrawVisible -> WithDrawDialog(
             isWithDrawText = isSettingUiState.withDrawInputState,
             isWithDrawResult = isSettingUiState.withDrawResult,
             onInputTextChange = viewModel::changeWithDrawInputText,
@@ -109,7 +127,7 @@ internal fun SettingScreen(
             withDrawInputText = viewModel.settingUiState.value.withDrawInputState,
             navigateToSignIn = navigateToSignIn,
             onClickCancel = {
-                viewModel.changeDialogState(SettingDialogState.inVisible)
+                viewModel.changeDialogState(SettingDialogState.InVisible)
             })
     }
 }

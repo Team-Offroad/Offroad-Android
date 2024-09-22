@@ -10,16 +10,26 @@ import androidx.navigation.toRoute
 import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.feature.home.presentation.HomeScreen
 
-fun NavController.navigateToHome(category: String? = null, navOptions: NavOptions) {
-    navigate(MainTabRoute.Home(category = category), navOptions = navOptions)
+fun NavController.navigateToHome(
+    category: String? = null,
+    completeQuest: List<String> = emptyList(),
+    navOptions: NavOptions,
+) {
+    navigate(MainTabRoute.Home(category = category, completeQuests = completeQuest), navOptions = navOptions)
 }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun NavGraphBuilder.homeNavGraph(
     navigateToBack: () -> Unit,
+    navigateToGainedCharacter: () -> Unit,
 ) {
     composable<MainTabRoute.Home> { backStackEntry ->
         val category = backStackEntry.toRoute<MainTabRoute.Home>().category
-        HomeScreen(category = category)
+        val completeQuests = backStackEntry.toRoute<MainTabRoute.Home>().completeQuests
+        HomeScreen(
+            category = category,
+            completeQuests = completeQuests,
+            navigateToGainedCharacter = navigateToGainedCharacter,
+        )
     }
 }

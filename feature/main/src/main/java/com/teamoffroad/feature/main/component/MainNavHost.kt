@@ -2,6 +2,8 @@ package com.teamoffroad.feature.main.component
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,14 +33,22 @@ internal fun MainNavHost(
         NavHost(
             navController = navigator.navController,
             startDestination = navigator.startDestination,
+            enterTransition = { EnterTransition.None },
+            popEnterTransition = { EnterTransition.None },
+            exitTransition = { ExitTransition.None },
+            popExitTransition = { ExitTransition.None },
         ) {
             homeNavGraph(
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
+                navigateToGainedCharacter = {
+                    navigator.navigateToMyPage().also {
+                        navigator.navigateToGainedCharacter()
+                    }
+                },
             )
             exploreNavGraph(
-                navigateToHome = { category ->
-                    navigator.popBackStack()
-                    navigator.navigateToHome(category)
+                navigateToHome = { category, completeQuests ->
+                    navigator.navigateToHomeFromExplore(category, completeQuests)
                 },
                 navigateToExplore = { errorType, successImageUrl ->
                     navigator.navigateToExplore(errorType, successImageUrl)
@@ -55,14 +65,11 @@ internal fun MainNavHost(
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
             )
             myPageNavGraph(
-                navigateToMyPage = {
-                    navigator.navigateToMyPage()
-                },
                 navigateToGainedCoupon = {
                     navigator.navigateToGainedCoupon()
                 },
-                navigateToAvailableCouponDetail = { id, name, couponImageUrl, description ->
-                    navigator.navigateToAvailableCouponDetail(id, name, couponImageUrl, description)
+                navigateToAvailableCouponDetail = { id, name, couponImageUrl, description, placeId ->
+                    navigator.navigateToAvailableCouponDetail(id, name, couponImageUrl, description, placeId)
                 },
                 navigateToGainedCharacter = {
                     navigator.navigateToGainedCharacter()
@@ -72,11 +79,12 @@ internal fun MainNavHost(
                 navigateToAnnouncement = navigator::navigateToAnnouncement,
                 navigateToAnnouncementDetail = navigator::navigateToAnnouncementDetail,
                 navigateToSignIn = navigator::navigateToSignIn,
+                navigateToCharacterDetail = navigator::navigateToCharacterDetail,
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
             )
             authNavGraph(
                 navigateToHome = { navigator.navigateToHome() },
-                navigateToAgreeTermsAndConditions = {},
+                navigateToAgreeTermsAndConditions = { navigator.navigateToAgreeTermsAndConditions() },
                 navigateToSetNickname = { navigator.navigateToSetNickname() },
                 navigateToSetBirthDate = { nickname ->
                     navigator.navigateToSetBirthDate(nickname)

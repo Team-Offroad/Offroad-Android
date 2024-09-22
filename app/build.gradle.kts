@@ -13,7 +13,8 @@ android {
         versionCode = libs.versions.versionCode.get().toInt()
         versionName = libs.versions.versionName.get()
 
-        manifestPlaceholders["NAVER_CLIENT_ID"] = gradleLocalProperties(rootDir, providers).getProperty("naver.client.id")
+        manifestPlaceholders["NAVER_CLIENT_ID"] =
+            gradleLocalProperties(rootDir, providers).getProperty("naver.client.id")
     }
 
     packaging {
@@ -31,6 +32,9 @@ android {
             )
         }
     }
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {
@@ -42,6 +46,4 @@ dependencies {
     implementation(project(":feature:home"))
     implementation(project(":feature:explore"))
     implementation(project(":feature:mypage"))
-
-    implementation(libs.naver.map.sdk)
 }

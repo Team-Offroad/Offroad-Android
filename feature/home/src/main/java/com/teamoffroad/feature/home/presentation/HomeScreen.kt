@@ -19,6 +19,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -32,6 +34,7 @@ import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.home.domain.model.UserQuests
+import com.teamoffroad.feature.home.presentation.component.CompleteQuestDialog
 import com.teamoffroad.feature.home.presentation.component.HomeIcons
 import com.teamoffroad.feature.home.presentation.component.UiState
 import com.teamoffroad.feature.home.presentation.component.character.CharacterItem
@@ -45,14 +48,18 @@ import com.teamoffroad.offroad.feature.home.R
 @Composable
 fun HomeScreen(
     category: String?,
+    completeQuests: List<String> = emptyList(),
+    navigateToGainedCharacter: () -> Unit = {},
 ) {
     val context = LocalContext.current
     val viewModel: HomeViewModel = hiltViewModel()
+    val isCompleteQuestDialogShown = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.updateCategory(if (category.isNullOrEmpty()) "NONE" else category)
         viewModel.getUsersAdventuresInformation(viewModel.category.value)
         viewModel.getUserQuests()
+        if (completeQuests.isNotEmpty()) isCompleteQuestDialogShown.value = true
     }
     StaticAnimationWrapper {
         Surface(
@@ -70,6 +77,7 @@ fun HomeScreen(
                         context = context,
                         modifier = Modifier.weight(1f),
                         viewModel = viewModel,
+                        navigateToGainedCharacter = navigateToGainedCharacter,
                     )
                     Spacer(modifier = Modifier.padding(top = 12.dp))
                     UsersQuestInformation(context, viewModel)
@@ -77,6 +85,16 @@ fun HomeScreen(
                 }
             }
         }
+    }
+
+    if (isCompleteQuestDialogShown.value) {
+        CompleteQuestDialog(
+            isCompleteQuestDialogShown = isCompleteQuestDialogShown,
+            completeQuests = completeQuests,
+            onClickCancel = {
+                isCompleteQuestDialogShown.value = false
+            },
+        )
     }
 }
 
@@ -86,6 +104,7 @@ private fun UsersAdventuresInformation(
     context: Context,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel,
+    navigateToGainedCharacter: () -> Unit,
 ) {
     val adventuresInformationState =
         viewModel.getUsersAdventuresInformationState.collectAsState(initial = UiState.Loading).value
@@ -112,7 +131,8 @@ private fun UsersAdventuresInformation(
             HomeBackground()
             HomeIcons(
                 context = context,
-                imageUrl = imageUrl
+                imageUrl = imageUrl,
+                navigateToGainedCharacter = navigateToGainedCharacter,
             )
         }
 

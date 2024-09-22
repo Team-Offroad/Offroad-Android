@@ -13,5 +13,5 @@ data class NotGainedEmblemResponseDto(
     val emblemName: String,
 
     @SerialName("isNewGained")
-    val isNewGained: Boolean
+    val isNewGained: Boolean,
 )

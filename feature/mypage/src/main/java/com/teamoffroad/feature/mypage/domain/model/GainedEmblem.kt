@@ -4,5 +4,5 @@ data class GainedEmblem(
     val emblemTitle: String,
     val emblemSubtitle: String,
     val isLock: Boolean,
-    val isNew: Boolean
+    val isNew: Boolean,
 )

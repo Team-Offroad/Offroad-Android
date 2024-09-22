@@ -1,6 +1,9 @@
 package com.teamoffroad.feature.mypage.data.di
 
+import com.teamoffroad.feature.mypage.data.remote.service.CharacterService
 import com.teamoffroad.feature.mypage.data.remote.service.EmblemService
+import com.teamoffroad.feature.mypage.data.remote.service.MotionService
+import com.teamoffroad.feature.mypage.data.remote.service.UserCouponService
 import com.teamoffroad.feature.mypage.data.remote.service.UserService
 import dagger.Module
 import dagger.Provides
@@ -15,13 +18,31 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideUserCoupons(retrofit: Retrofit): UserService {
+    fun provideUserService(retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideUserEmblems(retrofit: Retrofit): EmblemService {
+    fun provideEmblemService(retrofit: Retrofit): EmblemService {
         return retrofit.create(EmblemService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserCoupon(retrofit: Retrofit): UserCouponService {
+        return retrofit.create(UserCouponService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCharacterService(retrofit: Retrofit): CharacterService {
+        return retrofit.create(CharacterService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideMotionService(retrofit: Retrofit): MotionService {
+        return retrofit.create(MotionService::class.java)
     }
 }

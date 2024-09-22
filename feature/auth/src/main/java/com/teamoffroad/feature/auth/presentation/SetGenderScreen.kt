@@ -20,11 +20,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
+import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
@@ -33,6 +35,7 @@ import com.teamoffroad.feature.auth.domain.model.UserGender
 import com.teamoffroad.feature.auth.presentation.component.GenderHintButton
 import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
 import com.teamoffroad.feature.auth.presentation.model.SetGenderUiState
+import com.teamoffroad.offroad.feature.auth.R
 
 @Composable
 internal fun SetGenderScreen(
@@ -45,6 +48,7 @@ internal fun SetGenderScreen(
     val interactionSource = remember { MutableInteractionSource() }
     Surface(
         modifier = Modifier
+            .navigationPadding()
             .fillMaxSize()
             .clickableWithoutRipple(interactionSource) { viewModel.updateGenderEmpty() },
         color = Main1,
@@ -59,7 +63,7 @@ internal fun SetGenderScreen(
             ) {
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
-                    text = "건너뛰기",
+                    text = stringResource(R.string.auth_skip),
                     color = Gray300,
                     style = OffroadTheme.typography.hint,
                     modifier = Modifier.clickable {
@@ -70,7 +74,7 @@ internal fun SetGenderScreen(
             Spacer(modifier = Modifier.padding(vertical = 26.dp))
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "모험가 프로필 작성",
+                text = stringResource(R.string.auth_on_boarding_title),
                 color = Main2,
                 style = OffroadTheme.typography.profileTitle,
                 textAlign = TextAlign.Center
@@ -78,7 +82,7 @@ internal fun SetGenderScreen(
             Spacer(modifier = Modifier.padding(vertical = 6.dp))
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "성별을 선택해 주세요.",
+                text = stringResource(R.string.auth_set_gender_sub_title),
                 color = Main2,
                 style = OffroadTheme.typography.subtitleReg,
                 textAlign = TextAlign.Center
@@ -93,7 +97,7 @@ internal fun SetGenderScreen(
                     .align(Alignment.CenterHorizontally),
                 onClick = { viewModel.fetchUserProfile(nickname, birthDate) },
                 isActive = isGenderState != SetGenderUiState.Loading,
-                text = "다음"
+                text = stringResource(R.string.auth_basic_button),
             )
             Spacer(modifier = Modifier.height(72.dp))
         }
@@ -111,7 +115,7 @@ internal fun SetGenderScreen(
 fun SetGenderButton(
     viewModel: SetGenderViewModel,
     isGenderState: SetGenderUiState,
-    interactionSource: MutableInteractionSource
+    interactionSource: MutableInteractionSource,
 ) {
     val (male, female, other) = when (isGenderState) {
         SetGenderUiState.Select(UserGender.MALE.name) -> {
@@ -135,20 +139,20 @@ fun SetGenderButton(
             modifier = Modifier
                 .padding(bottom = 12.dp)
                 .clickableWithoutRipple(interactionSource) { viewModel.updateCheckedGender("MALE") },
-            value = "남성",
+            value = stringResource(R.string.auth_set_gender_male),
             isActive = male
         )
         GenderHintButton(
             modifier = Modifier
                 .padding(bottom = 12.dp)
                 .clickableWithoutRipple(interactionSource) { viewModel.updateCheckedGender("FEMALE") },
-            value = "여성",
+            value = stringResource(R.string.auth_set_gender_female),
             isActive = female
         )
         GenderHintButton(
             modifier = Modifier
                 .clickableWithoutRipple(interactionSource) { viewModel.updateCheckedGender("OTHER") },
-            value = "기타",
+            value = stringResource(R.string.auth_set_gender_other),
             isActive = other
         )
     }
