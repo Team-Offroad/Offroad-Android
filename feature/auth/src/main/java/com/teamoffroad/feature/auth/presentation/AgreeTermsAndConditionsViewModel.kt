@@ -69,13 +69,8 @@ class AgreeTermsAndConditionsViewModel @Inject constructor(
 
     fun serviceDialogCheckedChangedListener(dialogClickState: Boolean) {
         when (dialogClickState) {
-            true -> {
-                _serviceUtil.value = true
-            }
-
-            false -> {
-                _serviceUtil.value = false
-            }
+            true -> _serviceUtil.value = true
+            false -> _serviceUtil.value = false
         }
     }
 

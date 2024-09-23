@@ -57,15 +57,21 @@ fun BirthDateTextField(
     val borderLineColor = remember { mutableStateOf(Gray100) }
     val textColor = remember { mutableStateOf(Gray300) }
 
-    if (isError) {
-        borderLineColor.value = Error
-        textColor.value = Main2
-    } else if (isFocused || value.isNotBlank()) {
-        borderLineColor.value = Main2
-        textColor.value = Main2
-    } else {
-        borderLineColor.value = Gray100
-        textColor.value = Gray300
+    when {
+        isError -> {
+            borderLineColor.value = Error
+            textColor.value = Main2
+        }
+
+        isFocused || value.isNotBlank() -> {
+            borderLineColor.value = Main2
+            textColor.value = Main2
+        }
+
+        else -> {
+            borderLineColor.value = Gray100
+            textColor.value = Gray300
+        }
     }
 
     val updatedTextStyle = textStyle.copy(color = textColor.value)
