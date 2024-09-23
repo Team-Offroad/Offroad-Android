@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -33,7 +34,9 @@ internal fun AnnouncementScreen(
     viewModel: AnnouncementViewModel = hiltViewModel()
 ) {
     val isAnnouncementState by viewModel.announcementUiState.collectAsState()
-    viewModel.getAnnouncement()
+    LaunchedEffect(Unit) {
+        viewModel.getAnnouncement()
+    }
     Column(
         modifier = Modifier
             .navigationPadding()
