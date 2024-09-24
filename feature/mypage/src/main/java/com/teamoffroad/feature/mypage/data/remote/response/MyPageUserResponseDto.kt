@@ -20,4 +20,6 @@ data class MyPageUserResponseDto(
     @SerialName("visitedPlaceCount")
     val visitedPlaceCount: Int,
 
+    @SerialName("characterImageUrl")
+    val characterImageUrl: String
     )
