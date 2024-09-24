@@ -7,7 +7,6 @@ import kotlinx.serialization.Serializable
 data class AnnouncementResponseDto(
     @SerialName("announcements")
     val announcements: List<AnnouncementData>
-
 )
 
 @Serializable
@@ -21,6 +20,3 @@ data class AnnouncementData(
     @SerialName("updateAt")
     val updateAt: String,
 )
-
-
-
