@@ -82,7 +82,7 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideGetAnnounceUseCase(
+    fun provideGetAnnouncementUseCase(
         announcementRepository: AnnouncementRepository,
     ): GetAnnouncementUseCase {
         return GetAnnouncementUseCase(announcementRepository)

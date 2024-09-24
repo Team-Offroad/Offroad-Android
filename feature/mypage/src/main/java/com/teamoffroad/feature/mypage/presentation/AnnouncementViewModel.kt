@@ -22,14 +22,14 @@ class AnnouncementViewModel @Inject constructor(
         MutableStateFlow(AnnouncementUiState())
     val announcementUiState: StateFlow<AnnouncementUiState> = _announcementUiState.asStateFlow()
 
-    fun getAnnouncement() {
+    fun patchAnnouncement() {
         viewModelScope.launch {
             runCatching {
                 getAnnouncementUseCase()
             }.onSuccess { result ->
-                val announcement = result.getOrNull()?.toImmutableList() ?: persistentListOf()
+                val patchAnnouncement = result.getOrNull()?.toImmutableList() ?: persistentListOf()
                 _announcementUiState.value = _announcementUiState.value.copy(
-                    announcementList = announcement,
+                    announcementList = patchAnnouncement,
                     announcementValidateResult = AnnouncementResult.Success,
                 )
             }.onFailure {
