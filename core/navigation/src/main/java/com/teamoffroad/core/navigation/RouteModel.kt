@@ -24,6 +24,9 @@ sealed interface MainTabRoute : Route {
 
 sealed interface AuthRoute : Route {
     @Serializable
+    data object KaKaoLogin: AuthRoute
+
+    @Serializable
     data object SetNickname : AuthRoute
 
     @Serializable

@@ -11,6 +11,7 @@ import androidx.navigation.navOptions
 import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.core.navigation.Route
 import com.teamoffroad.feature.auth.navigation.navigateToAgreeTermsAndConditions
+import com.teamoffroad.feature.auth.navigation.navigateToKakaoLogin
 import com.teamoffroad.feature.auth.navigation.navigateToSelectedCharacter
 import com.teamoffroad.feature.auth.navigation.navigateToSetBirthDate
 import com.teamoffroad.feature.auth.navigation.navigateToSetCharacter
@@ -91,6 +92,10 @@ internal class MainNavigator(
 
     fun navigateToSignIn() {
         navController.navigateToSignIn()
+    }
+
+    fun navigateToKakaoLogin(){
+        navController.navigateToKakaoLogin()
     }
 
     fun navigateToHome(category: String? = null, completeQuest: List<String> = emptyList()) {

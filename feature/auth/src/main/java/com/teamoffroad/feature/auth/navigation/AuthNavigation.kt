@@ -10,6 +10,7 @@ import com.teamoffroad.core.navigation.AuthRoute
 import com.teamoffroad.core.navigation.Route
 import com.teamoffroad.feature.auth.presentation.AgreeTermsAndConditionsScreen
 import com.teamoffroad.feature.auth.presentation.AuthScreen
+import com.teamoffroad.feature.auth.presentation.KakaoLoginScreen
 import com.teamoffroad.feature.auth.presentation.SelectedCharacterScreen
 import com.teamoffroad.feature.auth.presentation.SetBirthDateScreen
 import com.teamoffroad.feature.auth.presentation.SetCharacterScreen
@@ -18,6 +19,10 @@ import com.teamoffroad.feature.auth.presentation.SetNicknameScreen
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
+
+fun NavController.navigateToKakaoLogin() {
+    navigate(AuthRoute.KaKaoLogin)
+}
 
 fun NavController.navigateToAgreeTermsAndConditions() {
     navigate(AuthRoute.AgreeTermsAndConditions)
@@ -51,6 +56,7 @@ fun NavController.navigateToSelectedCharacter(
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun NavGraphBuilder.authNavGraph(
+    navigateToKakaoLogin : () -> Unit,
     navigateToHome: () -> Unit,
     navigateToAgreeTermsAndConditions: () -> Unit,
     navigateToSetNickname: () -> Unit,
@@ -64,6 +70,12 @@ fun NavGraphBuilder.authNavGraph(
         AuthScreen(
             navigateToHome,
             navigateToAgreeTermsAndConditions,
+            navigateToKakaoLogin,
+        )
+    }
+    composable<AuthRoute.KaKaoLogin> {
+        KakaoLoginScreen(
+            navigateToBack
         )
     }
     composable<AuthRoute.AgreeTermsAndConditions> {

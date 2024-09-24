@@ -41,6 +41,7 @@ import kotlinx.coroutines.delay
 internal fun AuthScreen(
     navigateToHome: () -> Unit,
     navigateToAgreeTermsAndConditions: () -> Unit,
+    navigateToKakaoLogin: () -> Unit,
     viewModel: AuthViewModel = hiltViewModel(),
 ) {
     val isSignInSuccess by viewModel.successSignIn.collectAsStateWithLifecycle()
@@ -55,7 +56,6 @@ internal fun AuthScreen(
             viewModel.performGoogleSignIn(task)
         }
     }
-
     LaunchedEffect(Unit) {
         signInLauncherInitialized = true
     }
@@ -98,7 +98,7 @@ internal fun AuthScreen(
                 painter = painterResource(id = R.drawable.ic_auth_kakao_logo),
                 background = Kakao,
                 contentDescription = "auth_kakao",
-                onClick = {},
+                onClick = { navigateToKakaoLogin() },
                 modifier = Modifier.constrainAs(kakaoLogin) {
                     start.linkTo(parent.start, margin = 24.dp)
                     end.linkTo(parent.end, margin = 24.dp)
@@ -172,5 +172,3 @@ fun ClickableImage(
         }
     }
 }
-
-

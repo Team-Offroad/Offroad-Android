@@ -13,6 +13,8 @@ android {
 
     defaultConfig {
         buildConfigField("String", "GOOGLE_CLIENT_ID", gradleLocalProperties(rootDir, providers).getProperty("google.client.id"))
+        buildConfigField("String", "KAKO_CLIENT_ID", gradleLocalProperties(rootDir, providers).getProperty("kakao.client.id"))
+        buildConfigField("String", "KAKO_REDIRECT_URI", gradleLocalProperties(rootDir, providers).getProperty("kakao.redirect.uri"))
     }
 
     buildFeatures {
