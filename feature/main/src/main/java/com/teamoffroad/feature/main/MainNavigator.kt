@@ -145,7 +145,13 @@ internal class MainNavigator(
         description: String,
         placeId: Int,
     ) {
-        navController.navigateToAvailableCouponDetail(id, name, couponImageUrl, description, placeId)
+        navController.navigateToAvailableCouponDetail(
+            id,
+            name,
+            couponImageUrl,
+            description,
+            placeId
+        )
     }
 
     fun navigateToExplore(authResultType: String, imageUrl: String) {
@@ -179,10 +185,10 @@ internal class MainNavigator(
     fun navigateToAnnouncementDetail(
         title: String,
         content: String,
-        link: String,
         isImportant: Boolean,
+        updateAt: String,
     ) {
-        navController.navigateToAnnouncementDetail(title, content, link, isImportant)
+        navController.navigateToAnnouncementDetail(title, content, isImportant, updateAt)
     }
 
     fun navigateToCharacterDetail(characterId: Int, isRepresentative: Boolean) {

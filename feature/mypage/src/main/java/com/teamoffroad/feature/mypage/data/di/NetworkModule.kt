@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.mypage.data.di
 
+import com.teamoffroad.feature.mypage.data.remote.service.AnnouncementService
 import com.teamoffroad.feature.mypage.data.remote.service.CharacterService
 import com.teamoffroad.feature.mypage.data.remote.service.EmblemService
 import com.teamoffroad.feature.mypage.data.remote.service.MotionService
@@ -44,5 +45,11 @@ object NetworkModule {
     @Singleton
     fun provideMotionService(retrofit: Retrofit): MotionService {
         return retrofit.create(MotionService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAnnouncementService(retrofit: Retrofit): AnnouncementService {
+        return retrofit.create(AnnouncementService::class.java)
     }
 }
