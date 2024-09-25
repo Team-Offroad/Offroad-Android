@@ -6,4 +6,5 @@ data class UsersAdventuresInformation(
     val motionImageUrl: String?,
     val characterName: String,
     val emblemName: String,
+    val motionCaptureImageUrl: String?
 )

@@ -19,4 +19,7 @@ data class UsersAdventuresInformationResponseDto(
 
     @SerialName("characterName")
     val characterName: String,
+
+    @SerialName("motionCaptureImageUrl")
+    val motionCaptureImageUrl: String?,
 )
