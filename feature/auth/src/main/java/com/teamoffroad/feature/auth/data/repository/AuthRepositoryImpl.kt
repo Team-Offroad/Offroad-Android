@@ -19,14 +19,21 @@ class AuthRepositoryImpl @Inject constructor(
     private val authPreferencesDataSource: AuthPreferencesDataSource,
 ) : AuthRepository {
 
-    override suspend fun performSignIn(socialPlatform: String, name: String?, code: String): SignInInfo {
+    override suspend fun performSignIn(
+        socialPlatform: String,
+        name: String?,
+        code: String
+    ): SignInInfo {
         val requestDto = SignInInfoRequestDto(
             socialPlatform = socialPlatform,
             name = name,
             code = code
         )
         val response = authService.postSignInInfo(requestDto)
-        return response.data?.toDomain() ?: SignInInfo(tokens = UserToken("", ""), isAlreadyExist = false)
+        return response.data?.toDomain() ?: SignInInfo(
+            tokens = UserToken("", ""),
+            isAlreadyExist = false
+        )
     }
 
     override val isAutoSignInEnabled: Flow<Boolean> = authPreferencesDataSource.autoLogin
@@ -48,8 +55,13 @@ class AuthRepositoryImpl @Inject constructor(
         return authService.setCharacter(characterId).data.toString()
     }
 
-    override suspend fun saveUserProfile(userProfile: UserProfile) {
-        authService.fetchUserProfile(userProfile.toData())
+    override suspend fun saveUserProfile(userProfile: UserProfile): Result<Unit> {
+        val patchUserProfile =
+            runCatching { authService.fetchUserProfile(userProfile.toData()) }
+        patchUserProfile
+            .onSuccess {}
+            .onFailure {}
+        return Result.failure(Exception())
     }
 
     override suspend fun saveMarketingAgree(marketingAgree: Boolean): Result<Unit> {

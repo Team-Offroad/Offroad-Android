@@ -67,27 +67,46 @@ class AgreeTermsAndConditionsViewModel @Inject constructor(
         _marketing.value = !marketing.value
     }
 
-    fun serviceDialogCheckedChangedListener() {
-        if (!serviceUtil.value) {
-            _serviceUtil.value = true
+    fun serviceDialogCheckedChangedListener(dialogClickState: Boolean) {
+        when (dialogClickState) {
+            true -> _serviceUtil.value = true
+            false -> _serviceUtil.value = false
         }
     }
 
-    fun personalDialogCheckedChangedListener() {
-        if (!personalInfo.value) {
-            _personalInfo.value = true
+    fun personalDialogCheckedChangedListener(dialogClickState: Boolean) {
+        when (dialogClickState) {
+            true -> {
+                _personalInfo.value = true
+            }
+
+            false -> {
+                _personalInfo.value = false
+            }
         }
     }
 
-    fun locationDialogCheckedChangedListener() {
-        if (!location.value) {
-            _location.value = true
+    fun locationDialogCheckedChangedListener(dialogClickState: Boolean) {
+        when (dialogClickState) {
+            true -> {
+                _location.value = true
+            }
+
+            false -> {
+                _location.value = false
+            }
         }
     }
 
-    fun marketingDialogCheckedChangedListener() {
-        if (!marketing.value) {
-            _marketing.value = true
+    fun marketingDialogCheckedChangedListener(dialogClickState: Boolean) {
+        when (dialogClickState) {
+            true -> {
+                _marketing.value = true
+            }
+
+            false -> {
+                _marketing.value = false
+            }
         }
     }
 
@@ -124,8 +143,8 @@ class AgreeTermsAndConditionsViewModel @Inject constructor(
             }.onSuccess {
                 _dialogState.value =
                     DialogState.EMPTY
-            }.onFailure {
-                //TODO. 마케팅 동의 api 전송이 실패했을때
+            }.onFailure { exception ->
+                exception.printStackTrace()
             }
         }
     }
