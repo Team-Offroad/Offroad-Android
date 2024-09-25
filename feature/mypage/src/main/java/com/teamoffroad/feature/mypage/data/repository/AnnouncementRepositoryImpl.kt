@@ -13,9 +13,9 @@ class AnnouncementRepositoryImpl @Inject constructor(
     override suspend fun getAnnouncement(): Result<List<Announcement>> {
         val announcementResult = runCatching { announcementService.getAnnouncement().data }
         announcementResult.onSuccess { announcement ->
-            val announcementList = announcement!!.announcements.map {
+            val announcementList = announcement?.announcements?.map {
                 it.toAnnouncement()
-            }
+            } ?: return Result.failure(Exception())
             return Result.success(announcementList)
         }
         announcementResult.onFailure {
