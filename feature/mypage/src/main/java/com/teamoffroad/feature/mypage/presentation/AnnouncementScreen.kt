@@ -35,7 +35,7 @@ internal fun AnnouncementScreen(
 ) {
     val isAnnouncementState by viewModel.announcementUiState.collectAsState()
     LaunchedEffect(Unit) {
-        viewModel.patchAnnouncement()
+        viewModel.updateAnnouncement()
     }
     Column(
         modifier = Modifier

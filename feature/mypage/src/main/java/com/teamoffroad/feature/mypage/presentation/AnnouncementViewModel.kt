@@ -22,7 +22,7 @@ class AnnouncementViewModel @Inject constructor(
         MutableStateFlow(AnnouncementUiState())
     val announcementUiState: StateFlow<AnnouncementUiState> = _announcementUiState.asStateFlow()
 
-    fun patchAnnouncement() {
+    fun updateAnnouncement() {
         viewModelScope.launch {
             runCatching {
                 getAnnouncementUseCase()
