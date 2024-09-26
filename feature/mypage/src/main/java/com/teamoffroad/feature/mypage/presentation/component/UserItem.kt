@@ -119,7 +119,7 @@ fun UserAdventureInfo(
             color = Main1,
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(312f/40f)
+                .aspectRatio(312f / 40f)
                 .clip(shape = RoundedCornerShape(10.dp))
         ) {
             Column {
@@ -175,11 +175,6 @@ fun UserImage(
     modifier: Modifier = Modifier,
     borderColor: Color = Brown
 ) {
-//    Image(
-//        painter = painterResource(id = R.drawable.test_img_user_home),
-//        contentDescription = "user image"
-//    )
-
     AsyncImage(
         model = ImageRequest.Builder(context)
             .data(characterImageUrl)
