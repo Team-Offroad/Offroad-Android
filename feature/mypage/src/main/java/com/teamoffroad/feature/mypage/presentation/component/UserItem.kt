@@ -1,15 +1,20 @@
 package com.teamoffroad.feature.mypage.presentation.component
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -17,6 +22,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -24,6 +32,10 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
+import com.teamoffroad.core.designsystem.theme.Brown
 import com.teamoffroad.core.designsystem.theme.Contents2
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
@@ -71,25 +83,24 @@ fun UserNickname(nickname: String) {
 @Composable
 fun UserAdventureInfo(
     user: MyPageUser,
+    context: Context
 ) {
     Column {
         Surface(
             color = Main1,
             modifier = Modifier
                 .fillMaxWidth()
+                .aspectRatio(312f / 110f)
                 .clip(shape = RoundedCornerShape(10.dp))
         ) {
-            Column {
-                Spacer(modifier = Modifier.padding(vertical = 9.dp))
-                Row {
-                    Spacer(modifier = Modifier.padding(horizontal = 10.dp))
-                    UserImage()
-                    Spacer(modifier = Modifier.padding(horizontal = 15.dp))
-                    UserInfo(user.elapsedDay, user.currentEmblem)
-                }
-                Spacer(modifier = Modifier.padding(vertical = 9.dp))
+            Row(
+                modifier = Modifier.padding(vertical = 16.dp)
+            ) {
+                Spacer(modifier = Modifier.padding(horizontal = 10.dp))
+                UserImage(user.characterImageUrl, context)
+                Spacer(modifier = Modifier.padding(horizontal = 15.dp))
+                UserInfo(user.elapsedDay, user.currentEmblem)
             }
-
         }
         Box(
             modifier = Modifier
@@ -108,6 +119,7 @@ fun UserAdventureInfo(
             color = Main1,
             modifier = Modifier
                 .fillMaxWidth()
+                .aspectRatio(312f/40f)
                 .clip(shape = RoundedCornerShape(10.dp))
         ) {
             Column {
@@ -142,20 +154,48 @@ fun UserAdventureInfo(
 
 @Composable
 fun UserInfo(date: Int, emblem: String) {
-    Column {
-        Spacer(modifier = Modifier.padding(vertical = 6.dp))
-        UserAdventureDate(date)
-        Spacer(modifier = Modifier.padding(vertical = 5.dp))
-        UserEmblem(emblem)
-        Spacer(modifier = Modifier.padding(vertical = 6.dp))
+    Box(
+        modifier = Modifier.fillMaxHeight(),
+        contentAlignment = Alignment.Center
+    ) {
+        Column {
+            UserAdventureDate(date)
+            Spacer(modifier = Modifier.padding(vertical = 5.dp))
+            UserEmblem(emblem)
+        }
     }
 }
 
 @Composable
-fun UserImage() {
-    Image(
-        painter = painterResource(id = R.drawable.test_img_user_home),
-        contentDescription = "user image"
+fun UserImage(
+    characterImageUrl: String,
+    context: Context,
+    shape: RoundedCornerShape = CircleShape,
+    contentScale: ContentScale = ContentScale.Crop,
+    modifier: Modifier = Modifier,
+    borderColor: Color = Brown
+) {
+//    Image(
+//        painter = painterResource(id = R.drawable.test_img_user_home),
+//        contentDescription = "user image"
+//    )
+
+    AsyncImage(
+        model = ImageRequest.Builder(context)
+            .data(characterImageUrl)
+            .decoderFactory(SvgDecoder.Factory())
+            .build(),
+        contentDescription = "character image",
+        contentScale = contentScale,
+        modifier = modifier
+            //.size(78.dp)
+            .aspectRatio(78f / 78f)
+            .clip(CircleShape)
+            .border(
+                width = 2.dp,
+                shape = shape,
+                color = borderColor
+            )
     )
 }
 

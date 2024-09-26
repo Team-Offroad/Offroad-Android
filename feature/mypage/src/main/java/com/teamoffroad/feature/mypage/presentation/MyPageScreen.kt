@@ -14,6 +14,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -62,7 +63,8 @@ internal fun MyPageScreen(
             UserNickname(myPageViewModel.myPageUser.collectAsStateWithLifecycle().value.nickname)
             Spacer(modifier = Modifier.padding(vertical = 13.dp))
             UserAdventureInfo(
-                myPageViewModel.myPageUser.collectAsStateWithLifecycle().value
+                myPageViewModel.myPageUser.collectAsStateWithLifecycle().value,
+                LocalContext.current
             )
             Spacer(modifier = Modifier.padding(vertical = 8.dp))
             Row(
