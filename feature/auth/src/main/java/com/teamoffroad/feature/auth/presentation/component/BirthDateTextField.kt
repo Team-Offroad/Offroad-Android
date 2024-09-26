@@ -32,7 +32,6 @@ import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
-import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.White
 
 @Composable
@@ -46,7 +45,8 @@ fun BirthDateTextField(
     minLines: Int = 1,
     maxLength: Int = 10,
     textStyle: TextStyle = OffroadTheme.typography.textAuto.copy(textAlign = TextAlign.Center),
-    textAlign: Alignment,
+    textAlign: Alignment = Alignment.Center,
+    isError: Boolean = false,
     keyboardOptions: KeyboardOptions,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
@@ -57,12 +57,21 @@ fun BirthDateTextField(
     val borderLineColor = remember { mutableStateOf(Gray100) }
     val textColor = remember { mutableStateOf(Gray300) }
 
-    if (isFocused || value.isNotBlank()) {
-        borderLineColor.value = Error
-        textColor.value = Main2
-    } else {
-        borderLineColor.value = Gray100
-        textColor.value = Gray300
+    when {
+        isError -> {
+            borderLineColor.value = Error
+            textColor.value = Main2
+        }
+
+        isFocused || value.isNotBlank() -> {
+            borderLineColor.value = Main2
+            textColor.value = Main2
+        }
+
+        else -> {
+            borderLineColor.value = Gray100
+            textColor.value = Gray300
+        }
     }
 
     val updatedTextStyle = textStyle.copy(color = textColor.value)

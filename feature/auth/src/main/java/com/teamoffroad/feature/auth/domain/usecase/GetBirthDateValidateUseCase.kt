@@ -14,7 +14,7 @@ class GetBirthDateValidateUseCase {
             "year" -> {
                 return when (year.toIntOrNull()?.let { checkInValidYear(it) }) {
                     true -> BirthDateValidateResult.Success
-                    false -> BirthDateValidateResult.Error
+                    false -> BirthDateValidateResult.YearError
                     null -> BirthDateValidateResult.Error
                 }
             }
@@ -24,12 +24,12 @@ class GetBirthDateValidateUseCase {
                     checkInValidMonth(it)
                 }) {
                     true -> BirthDateValidateResult.Success
-                    false -> BirthDateValidateResult.Error
+                    false -> BirthDateValidateResult.MonthError
                     null -> BirthDateValidateResult.Error
                 }
             }
 
-            else -> {
+            "day" -> {
                 return when (year.toIntOrNull()
                     ?.let { checkYear ->
                         month.toIntOrNull()
@@ -45,10 +45,11 @@ class GetBirthDateValidateUseCase {
                             }
                     }) {
                     true -> BirthDateValidateResult.Success
-                    false -> BirthDateValidateResult.Error
+                    false -> BirthDateValidateResult.DayError
                     null -> BirthDateValidateResult.Error
                 }
             }
+            else -> return BirthDateValidateResult.Error
         }
     }
 

@@ -26,6 +26,7 @@ class SetBirthDateViewModel @Inject constructor(
             if (year.isBlank()) {
                 _birthDateUiState.value =
                     _birthDateUiState.value.copy(
+                        year = "",
                         birthDateValidateResult = BirthDateValidateResult.Empty
                     )
             } else {
@@ -47,6 +48,7 @@ class SetBirthDateViewModel @Inject constructor(
                 _birthDateUiState.value =
                     _birthDateUiState.value.copy(
                         month = "",
+                        birthDateValidateResult = BirthDateValidateResult.Empty
                     )
             } else {
                 _birthDateUiState.value =
@@ -67,6 +69,7 @@ class SetBirthDateViewModel @Inject constructor(
                 _birthDateUiState.value =
                     _birthDateUiState.value.copy(
                         day = "",
+                        birthDateValidateResult = BirthDateValidateResult.Empty
                     )
             } else {
                 _birthDateUiState.value =

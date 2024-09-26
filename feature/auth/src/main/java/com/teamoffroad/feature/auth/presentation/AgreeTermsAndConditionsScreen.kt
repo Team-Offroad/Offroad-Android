@@ -105,29 +105,35 @@ internal fun AgreeTermsAndConditionsScreen(
         DialogState.SERVICE_DIALOG.name -> {
             AgreeTermsAndConditionsDialog(
                 text = stringResource(R.string.auth_agree_and_terms_conditions_service),
-                onClick = { viewModel.serviceDialogCheckedChangedListener() },
+                onAgreeClick = { viewModel.serviceDialogCheckedChangedListener(true) },
+                onDisAgreeClick = {viewModel.serviceDialogCheckedChangedListener(false)},
                 onClickCancel = { viewModel.changeDialogState(DialogState.EMPTY) })
         }
 
         DialogState.PERSONAL_DIALOG.name -> {
             AgreeTermsAndConditionsDialog(
                 text = stringResource(R.string.auth_agree_and_terms_conditions_personal),
-                onClick = { viewModel.personalDialogCheckedChangedListener() },
+                onAgreeClick = { viewModel.personalDialogCheckedChangedListener(true) },
+                onDisAgreeClick = {viewModel.personalDialogCheckedChangedListener(false)},
                 onClickCancel = { viewModel.changeDialogState(DialogState.EMPTY) })
         }
 
         DialogState.LOCATION_DIALOG.name -> {
             AgreeTermsAndConditionsDialog(
                 text = stringResource(R.string.auth_agree_and_terms_conditions_location),
-                onClick = { viewModel.locationDialogCheckedChangedListener() },
+                onAgreeClick = { viewModel.locationDialogCheckedChangedListener(true) },
+                onDisAgreeClick = {viewModel.locationDialogCheckedChangedListener(false)},
                 onClickCancel = { viewModel.changeDialogState(DialogState.EMPTY) })
         }
 
         DialogState.MARKETING_DIALOG.name -> {
             AgreeTermsAndConditionsDialog(
                 text = stringResource(R.string.auth_agree_and_terms_conditions_marketing),
-                onClick = { viewModel.marketingDialogCheckedChangedListener() },
-                onClickCancel = { viewModel.changeDialogState(DialogState.EMPTY) })
+                onAgreeClick = { viewModel.marketingDialogCheckedChangedListener(true) },
+                onDisAgreeClick = {viewModel.marketingDialogCheckedChangedListener(false)},
+                onClickCancel = {
+                    viewModel.changeDialogState(DialogState.EMPTY)
+                })
         }
     }
 }
