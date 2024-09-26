@@ -37,7 +37,7 @@ fun CloseCompleteRequest(modifier: Modifier = Modifier, data: HomeProgressBarMod
         ) {
             Spacer(modifier = Modifier.padding(8.dp))
             Row {
-                ContentsTitle(data.title.ifEmpty { stringResource(id = R.string.home_default_quest) }, Sub4)
+                ContentsTitle(data.title.ifEmpty { stringResource(id = R.string.home_quest_default_name) }, Sub4)
                 Spacer(modifier = Modifier.padding(start = 4.dp))
                 Image(
                     painter = painterResource(id = R.drawable.img_home_close_complete),

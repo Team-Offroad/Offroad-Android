@@ -18,8 +18,10 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val userRepository: UserRepository,
 ) : ViewModel() {
-    private val _getUsersAdventuresInformationState = MutableStateFlow<UiState<UsersAdventuresInformation>>(
-        UiState.Loading)
+    private val _getUsersAdventuresInformationState =
+        MutableStateFlow<UiState<UsersAdventuresInformation>>(
+            UiState.Loading
+        )
     val getUsersAdventuresInformationState = _getUsersAdventuresInformationState.asStateFlow()
 
     private val _selectedEmblem = MutableStateFlow("")
@@ -82,11 +84,11 @@ class HomeViewModel @Inject constructor(
     }
 
     fun updateCircleProgressBar(amount: Float, total: Float) {
-        _circleProgressBar.value = if (total == 0f) 0f else  amount/total
+        _circleProgressBar.value = if (total == 0f) 0f else amount / total
     }
 
     fun updateLinearProgressBar(amount: Float, total: Float) {
-        _linearProgressBar.value = if (total == 0f) 0f else amount/total
+        _linearProgressBar.value = if (total == 0f) 0f else amount / total
     }
 
     fun getEmblems() {

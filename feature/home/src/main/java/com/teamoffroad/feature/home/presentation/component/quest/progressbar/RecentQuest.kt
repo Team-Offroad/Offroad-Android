@@ -37,7 +37,7 @@ fun RecentQuest(
         Column {
             Spacer(modifier = Modifier.padding(8.dp))
             Row {
-                ContentsTitle(data.title.ifEmpty { stringResource(id = R.string.home_default_quest) }, Main1)
+                ContentsTitle(data.title.ifEmpty { stringResource(id = R.string.home_quest_default_name) }, Main1)
                 Spacer(modifier = Modifier.padding(start = 4.dp))
                 Image(
                     painter = painterResource(id = R.drawable.img_home_recent_quest),
