@@ -40,7 +40,7 @@ fun MarketingInfoDialog(
 ) {
     Dialog(
         onDismissRequest = { onClickCancel() },
-        properties = DialogProperties(dismissOnClickOutside = true, dismissOnBackPress = true)
+        properties = DialogProperties(dismissOnClickOutside = false, dismissOnBackPress = true)
     ) {
         Box(
             modifier = modifier

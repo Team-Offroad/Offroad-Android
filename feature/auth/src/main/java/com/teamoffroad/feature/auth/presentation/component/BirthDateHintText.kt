@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.auth.presentation.component
 
-import android.util.Log
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -14,10 +13,14 @@ fun BirthDateHintText(
     value: String = "다시 한 번 확인해주세요.",
     isVisible: BirthDateValidateResult
 ) {
-    Log.d("asdasd", isVisible.toString())
     Text(
         text = value,
-        modifier = modifier.alpha(if (isVisible == BirthDateValidateResult.Error) 1f else 0f),
+        modifier = modifier.alpha(
+            if (isVisible == BirthDateValidateResult.YearError ||
+                isVisible == BirthDateValidateResult.MonthError ||
+                isVisible == BirthDateValidateResult.DayError
+            ) 1f else 0f
+        ),
         style = OffroadTheme.typography.hint,
         color = Error
     )
