@@ -80,7 +80,7 @@ fun ChangeEmblemDialog(
             onClickCancel()
         },
         properties = DialogProperties(
-            dismissOnClickOutside = true,
+            dismissOnClickOutside = false,
             dismissOnBackPress = true
         )
     ) {
