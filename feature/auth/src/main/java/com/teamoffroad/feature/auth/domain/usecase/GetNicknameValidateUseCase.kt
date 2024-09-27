@@ -4,6 +4,7 @@ import com.teamoffroad.feature.auth.presentation.component.NicknameValidateResul
 
 class GetNicknameValidateUseCase {
     suspend operator fun invoke(nickname: String): NicknameValidateResult {
+        if (nickname.isBlank()) return NicknameValidateResult.Empty
 
         when (checkInValidNickname(nickname)) {
             true -> return NicknameValidateResult.NicknameValidateSuccess

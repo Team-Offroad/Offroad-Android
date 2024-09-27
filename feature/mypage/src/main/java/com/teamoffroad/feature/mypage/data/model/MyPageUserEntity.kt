@@ -6,4 +6,5 @@ data class MyPageUserEntity(
     val elapsedDay: Int,
     val completeQuestCount: Int,
     val visitedPlaceCount: Int,
+    val characterImageUrl: String
 )

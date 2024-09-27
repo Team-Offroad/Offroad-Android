@@ -39,7 +39,7 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun fetchMyPage(): MyPageUser {
         val myPageResponse = userService.getMyPageUser()
         val domainMyPageUser = myPageResponse.data?.toData()?.toDomain()
-        return domainMyPageUser ?: MyPageUser("", "", 0, 0, 0)
+        return domainMyPageUser ?: MyPageUser("", "", 0, 0, 0, "")
     }
 
     override suspend fun saveUserInfo(deleteCode: String): Result<Unit> {

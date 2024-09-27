@@ -53,9 +53,9 @@ fun NavController.navigateToAnnouncement() {
 }
 
 fun NavController.navigateToAnnouncementDetail(
-    title: String, content: String, link: String, isImportant: Boolean,
+    title: String, content: String, isImportant: Boolean, updateAt: String,
 ) {
-    navigate(MyPageRoute.AnnouncementDetail(title, content, link, isImportant))
+    navigate(MyPageRoute.AnnouncementDetail(title, content, isImportant, updateAt))
 }
 
 fun NavController.navigateToSignIn() {
@@ -73,7 +73,7 @@ fun NavGraphBuilder.myPageNavGraph(
     navigateToGainedEmblems: () -> Unit,
     navigateToSetting: () -> Unit,
     navigateToAnnouncement: () -> Unit,
-    navigateToAnnouncementDetail: (String, String, String, Boolean) -> Unit,
+    navigateToAnnouncementDetail: (String, String, Boolean, String) -> Unit,
     navigateToSignIn: () -> Unit,
     navigateToCharacterDetail: (Int, Boolean) -> Unit,
     navigateToBack: () -> Unit,
@@ -127,14 +127,15 @@ fun NavGraphBuilder.myPageNavGraph(
     composable<MyPageRoute.AnnouncementDetail> { backStackEntry ->
         val title = backStackEntry.toRoute<MyPageRoute.AnnouncementDetail>().title
         val content = backStackEntry.toRoute<MyPageRoute.AnnouncementDetail>().content
-        val link = backStackEntry.toRoute<MyPageRoute.AnnouncementDetail>().link
         val isImportant = backStackEntry.toRoute<MyPageRoute.AnnouncementDetail>().isImportant
-        AnnouncementDetailScreen(title, content, link, isImportant, navigateToBack)
+        val updateAt = backStackEntry.toRoute<MyPageRoute.AnnouncementDetail>().updateAt
+        AnnouncementDetailScreen(title, content, isImportant, updateAt, navigateToBack)
     }
 
     composable<MyPageRoute.CharacterDetail> { backStackEntry ->
         val characterId = backStackEntry.toRoute<MyPageRoute.CharacterDetail>().characterId
-        val isRepresentative = backStackEntry.toRoute<MyPageRoute.CharacterDetail>().isRepresentative
+        val isRepresentative =
+            backStackEntry.toRoute<MyPageRoute.CharacterDetail>().isRepresentative
         CharacterDetailScreen(characterId, isRepresentative, navigateToBack)
     }
 }

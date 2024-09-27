@@ -7,9 +7,9 @@ import com.teamoffroad.feature.explore.domain.usecase.GetPlaceListUseCase
 import com.teamoffroad.feature.explore.domain.usecase.PostExploreLocationAuthUseCase
 import com.teamoffroad.feature.explore.presentation.mapper.toUi
 import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
-import com.teamoffroad.feature.explore.presentation.model.ExplorePlaceModel
 import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
 import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
+import com.teamoffroad.feature.explore.presentation.model.PlaceModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -82,13 +82,13 @@ class ExploreViewModel @Inject constructor(
         }
     }
 
-    fun updateSelectedPlace(place: ExplorePlaceModel?) {
+    fun updateSelectedPlace(place: PlaceModel?) {
         _uiState.value = uiState.value.copy(
             selectedPlace = place,
         )
     }
 
-    fun isValidDistance(place: ExplorePlaceModel, location: LatLng): Boolean {
+    fun isValidDistance(place: PlaceModel, location: LatLng): Boolean {
         return when (place.placeCategory) {
             PlaceCategory.CAFFE -> place.location.distanceTo(location) <= 45
             PlaceCategory.PARK -> place.location.distanceTo(location) <= 120
