@@ -26,6 +26,7 @@ fun MyPageUserResponseDto.toData(): MyPageUserEntity {
         elapsedDay = elapsedDay,
         completeQuestCount = completeQuestCount,
         visitedPlaceCount = visitedPlaceCount,
+        characterImageUrl = characterImageUrl
     )
 }
 
@@ -36,5 +37,6 @@ fun MyPageUserEntity.toDomain(): MyPageUser {
         elapsedDay = elapsedDay,
         completeQuestCount = completeQuestCount,
         visitedPlaceCount = visitedPlaceCount,
+        characterImageUrl = characterImageUrl
     )
 }

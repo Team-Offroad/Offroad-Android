@@ -104,11 +104,12 @@ internal fun SetGenderScreen(
     }
 
     if (isGenderState == SetGenderUiState.Success) navigateToSetCharacter()
-    if (isGenderState == SetGenderUiState.Error) Toast.makeText(
+    else if (isGenderState == SetGenderUiState.Error) {Toast.makeText(
         LocalContext.current,
         "네트워크 연결을 확인해 주세요.",
         Toast.LENGTH_SHORT
     ).show()
+    viewModel.updateGenderEmpty()}
 }
 
 @Composable

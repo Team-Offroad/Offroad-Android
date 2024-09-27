@@ -98,7 +98,6 @@ fun GainedCouponViewPager(
                 0 -> AvailableCouponItems(
                     coupons = availableCoupons,
                     navigateToAvailableCouponDetail = navigateToAvailableCouponDetail,
-                    context = LocalContext.current,
                 )
 
                 1 -> UsedCouponItems(coupons = usedCoupons, LocalContext.current)
