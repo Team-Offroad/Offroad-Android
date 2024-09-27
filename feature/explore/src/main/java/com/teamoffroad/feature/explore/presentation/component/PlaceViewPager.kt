@@ -28,12 +28,14 @@ import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
-import com.teamoffroad.feature.explore.presentation.model.FakePlaceModel
+import com.teamoffroad.feature.explore.presentation.model.PlaceUiState
 import com.teamoffroad.offroad.feature.explore.R
 import kotlinx.coroutines.launch
 
 @Composable
-fun PlaceViewPager() {
+fun PlaceViewPager(
+    uiState: PlaceUiState,
+) {
     val tabTitles = listOf(
         stringResource(R.string.explore_unvisited_place),
         stringResource(R.string.explore_total_place),
@@ -91,10 +93,9 @@ fun PlaceViewPager() {
             state = pagerState,
             modifier = Modifier.fillMaxSize(),
         ) { page ->
-            val dummyPlaces = FakePlaceModel.dummyPlaces
             when (page) {
-                0 -> PlaceItems(dummyPlaces)
-                1 -> PlaceItems(dummyPlaces)
+                0 -> PlaceItems(uiState.unvisitedPlaces)
+                1 -> PlaceItems(uiState.visitedPlaces)
             }
         }
     }
