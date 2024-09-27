@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.teamoffroad.core.common.domain.usecase.ClearTokensUseCase
+import com.teamoffroad.feature.auth.domain.model.SocialSignInPlatform
 import com.teamoffroad.feature.auth.domain.usecase.UpdateAutoSignInUseCase
 import com.teamoffroad.feature.auth.domain.usecase.UserMarketingAgreeUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.DeleteUserInfoUseCase
@@ -70,7 +71,7 @@ class SettingViewModel @Inject constructor(
             runCatching { googleSignInClient.signOut() }
                 .onSuccess {
                     clearTokensUseCase()
-                    updateAutoSignInUseCase(false)
+                    updateAutoSignInUseCase(SocialSignInPlatform.EMPTY.name)
                 }
                 .onFailure { it.message.toString() }
         }

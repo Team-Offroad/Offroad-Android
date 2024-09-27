@@ -36,10 +36,10 @@ class AuthRepositoryImpl @Inject constructor(
         )
     }
 
-    override val isAutoSignInEnabled: Flow<Boolean> = authPreferencesDataSource.autoLogin
+    override val isAutoSignInEnabled: Flow<String> = authPreferencesDataSource.autoLogin
 
-    override suspend fun updateAutoSignInEnabled(enabled: Boolean) {
-        authPreferencesDataSource.setAutoLogin(enabled)
+    override suspend fun updateAutoSignInEnabled(socialPlatform: String) {
+        authPreferencesDataSource.setAutoLogin(socialPlatform)
     }
 
     override suspend fun fetchDuplicateNickname(nickname: String): Boolean =

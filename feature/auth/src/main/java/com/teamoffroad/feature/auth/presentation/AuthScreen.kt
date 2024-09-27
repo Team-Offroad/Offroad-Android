@@ -39,6 +39,7 @@ import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.feature.auth.domain.model.SocialSignInPlatform
 import com.teamoffroad.offroad.feature.auth.BuildConfig
 import com.teamoffroad.offroad.feature.auth.R
 import kotlinx.coroutines.delay
@@ -76,8 +77,12 @@ internal fun AuthScreen(
         if (isSignInSuccess && isAlreadyExist) navigateToHome()
     }
     LaunchedEffect(isAutoSignIn, signInLauncherInitialized) {
-        if (isAutoSignIn && signInLauncherInitialized) {
+        Log.d("asdads", isAutoSignIn)
+        if (isAutoSignIn == SocialSignInPlatform.GOOGLE.name && signInLauncherInitialized) {
             googleSignInLauncher.launch(viewModel.googleSignInClient.signInIntent)
+        }
+        else if (isAutoSignIn == SocialSignInPlatform.KAKAO.name && signInLauncherInitialized) {
+            showWebView = true
         }
     }
 
@@ -201,7 +206,7 @@ private fun StartKakaoLoginWebView(
     onClose: () -> Unit,
 ) {
     val loginUrl =
-        "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=$clientId&redirect_uri=$redirectUri"
+        "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=$clientId&redirect_uri=$redirectUri&prompt=select_account"
 
     AndroidView(
         modifier = Modifier.fillMaxSize(),

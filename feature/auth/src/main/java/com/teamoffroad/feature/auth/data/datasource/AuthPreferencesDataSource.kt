@@ -3,7 +3,7 @@ package com.teamoffroad.feature.auth.data.datasource
 import kotlinx.coroutines.flow.Flow
 
 interface AuthPreferencesDataSource {
-    val autoLogin: Flow<Boolean>
+    val autoLogin: Flow<String>
 
-    suspend fun setAutoLogin(autoLogin: Boolean)
+    suspend fun setAutoLogin(socialPlatform: String)
 }

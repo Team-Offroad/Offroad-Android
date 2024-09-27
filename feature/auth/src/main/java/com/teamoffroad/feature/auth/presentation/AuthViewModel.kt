@@ -9,10 +9,10 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.teamoffroad.core.common.domain.usecase.SaveAccessTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.SaveRefreshTokenUseCase
+import com.teamoffroad.feature.auth.domain.model.SocialSignInPlatform
 import com.teamoffroad.feature.auth.domain.usecase.AuthUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetAutoSignInUseCase
 import com.teamoffroad.feature.auth.domain.usecase.UpdateAutoSignInUseCase
-import com.teamoffroad.feature.auth.presentation.model.SocialSignInPlatform
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -32,8 +32,9 @@ class AuthViewModel @Inject constructor(
     private val _successSignIn = MutableStateFlow(false)
     val successSignIn: StateFlow<Boolean> = _successSignIn
 
-    private val _autoSignIn = MutableStateFlow(false)
-    val autoSignIn: StateFlow<Boolean> = _autoSignIn
+    private val _autoSignIn: MutableStateFlow<String> =
+        MutableStateFlow(SocialSignInPlatform.EMPTY.name)
+    val autoSignIn: StateFlow<String> = _autoSignIn
 
     private val _alreadyExist = MutableStateFlow(false)
     val alreadyExist: StateFlow<Boolean> = _alreadyExist
@@ -71,7 +72,7 @@ class AuthViewModel @Inject constructor(
             }.onSuccess { signInInfo ->
                 saveAccessTokenUseCase.invoke(signInInfo.tokens.accessToken)
                 saveRefreshTokenUseCase.invoke(signInInfo.tokens.refreshToken)
-                updateAutoSignInUseCase.invoke(true)
+                updateAutoSignInUseCase.invoke(socialPlatform)
                 _successSignIn.value = true
                 _alreadyExist.value = signInInfo.isAlreadyExist
             }.onFailure {
