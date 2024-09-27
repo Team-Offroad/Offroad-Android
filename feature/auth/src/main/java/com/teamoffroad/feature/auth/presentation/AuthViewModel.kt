@@ -54,6 +54,16 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    fun performKakaoSignIn(kakaoAuthCode: String) {
+        viewModelScope.launch {
+            signIn(
+                SocialSignInPlatform.KAKAO.name,
+                null,
+                kakaoAuthCode,
+            )
+        }
+    }
+
     private suspend fun signIn(socialPlatform: String, name: String?, code: String) {
         viewModelScope.launch {
             runCatching {

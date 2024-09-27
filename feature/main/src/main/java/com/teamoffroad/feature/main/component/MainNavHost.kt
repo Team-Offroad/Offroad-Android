@@ -105,7 +105,6 @@ internal fun MainNavHost(
                     navigator.navigateToSelectedCharacter(selectedCharacterUrl)
                 },
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
-                navigateToKakaoLogin = navigator::navigateToKakaoLogin
             )
         }
     }
