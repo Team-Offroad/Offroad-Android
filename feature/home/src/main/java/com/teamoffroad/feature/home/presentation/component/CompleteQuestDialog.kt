@@ -41,7 +41,7 @@ fun CompleteQuestDialog(
 ) {
     Dialog(
         onDismissRequest = { onClickCancel() },
-        properties = DialogProperties(dismissOnClickOutside = true, dismissOnBackPress = true)
+        properties = DialogProperties(dismissOnClickOutside = false, dismissOnBackPress = true)
     ) {
         Card(
             modifier = modifier
