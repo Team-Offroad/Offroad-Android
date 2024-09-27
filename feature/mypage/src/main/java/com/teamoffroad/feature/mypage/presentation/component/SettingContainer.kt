@@ -17,11 +17,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Gray300
+import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub2
@@ -29,8 +29,7 @@ import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
 fun SettingContainer(
-    color: Color,
-    text: String,
+    title: String,
     isImportant: Boolean,
     onClick: () -> Unit,
 ) {
@@ -39,7 +38,7 @@ fun SettingContainer(
             .padding(horizontal = 12.dp)
             .padding(bottom = 10.dp)
             .clip(shape = RoundedCornerShape(10.dp))
-            .background(color = color)
+            .background(color = Main1)
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = rememberRipple(
@@ -65,7 +64,7 @@ fun SettingContainer(
                     )
                 }
                 Text(
-                    text = text,
+                    text = title,
                     style = OffroadTheme.typography.tabBarMedi,
                     color = Main2
                 )

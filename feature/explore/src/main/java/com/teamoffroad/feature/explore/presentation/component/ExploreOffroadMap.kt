@@ -53,26 +53,26 @@ import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
-import com.teamoffroad.feature.explore.presentation.model.ExplorePlaceModel
 import com.teamoffroad.feature.explore.presentation.model.LocationModel
 import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
+import com.teamoffroad.feature.explore.presentation.model.PlaceModel
 import com.teamoffroad.offroad.feature.explore.R
 
 @OptIn(ExperimentalNaverMapApi::class)
 @Composable
 fun ExploreOffroadMap(
     locationState: LocationModel,
-    places: List<ExplorePlaceModel>,
-    selectedPlace: ExplorePlaceModel?,
+    places: List<PlaceModel>,
+    selectedPlace: PlaceModel?,
     navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
     navigateToPlace: () -> Unit,
     navigateToQuest: () -> Unit,
     updateLocation: (Double, Double) -> Unit,
     updateTrackingToggle: (Boolean) -> Unit,
-    updateSelectedPlace: (ExplorePlaceModel?) -> Unit,
+    updateSelectedPlace: (PlaceModel?) -> Unit,
     updatePlaces: (Double, Double) -> Unit,
     updateAuthState: (ExploreAuthState) -> Unit,
-    isValidDistance: (ExplorePlaceModel, LatLng) -> Boolean,
+    isValidDistance: (PlaceModel, LatLng) -> Boolean,
     updateExploreResult: (Long, Double, Double, PlaceCategory) -> Unit,
     mapKey: Int,
 ) {

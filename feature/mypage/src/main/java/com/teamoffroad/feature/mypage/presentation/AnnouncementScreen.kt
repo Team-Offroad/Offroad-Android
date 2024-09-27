@@ -9,23 +9,34 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Main1
+import com.teamoffroad.feature.mypage.presentation.component.AnnouncementItems
 import com.teamoffroad.feature.mypage.presentation.component.SettingContainer
 import com.teamoffroad.feature.mypage.presentation.component.SettingHeader
+import com.teamoffroad.feature.mypage.presentation.model.AnnouncementResult
 import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
 internal fun AnnouncementScreen(
-    navigateToAnnouncementDetail: (String, String, String, Boolean) -> Unit,
+    navigateToAnnouncementDetail: (String, String, Boolean, String) -> Unit,
     navigateToBack: () -> Unit,
+    viewModel: AnnouncementViewModel = hiltViewModel()
 ) {
+    val isAnnouncementState by viewModel.announcementUiState.collectAsState()
+    LaunchedEffect(Unit) {
+        viewModel.updateAnnouncement()
+    }
     Column(
         modifier = Modifier
             .navigationPadding()
@@ -50,40 +61,30 @@ internal fun AnnouncementScreen(
                 .background(color = Gray100)
         )
         Spacer(Modifier.height(24.dp))
+        if (isAnnouncementState.announcementValidateResult == AnnouncementResult.Success) {
+            AnnouncementItems(
+                isAnnouncementState = isAnnouncementState,
+                onClick = navigateToAnnouncementDetail
+            )
+        }
         SettingContainer(
-            color = Main1,
-            text = stringResource(R.string.my_page_setting_announcement_item_request_review),
-            isImportant = true,
-            onClick = { navigateToAnnouncementDetail("여러분의 의견을 들려주세", "안뇽하세요", "링크", true) }
-        )
-        SettingContainer(
-            color = Main1,
-            text = stringResource(R.string.my_page_setting_announcement_item_love_rock),
-            isImportant = true,
-            onClick = {})
-        SettingContainer(
-            color = Main1,
-            text = stringResource(R.string.my_page_setting_announcement_item_affiliate),
+            title = stringResource(R.string.my_page_setting_announcement_item_affiliate),
             isImportant = false,
             onClick = {})
         SettingContainer(
-            color = Main1,
-            text = stringResource(R.string.my_page_setting_announcement_item_operation_information),
+            title = stringResource(R.string.my_page_setting_announcement_item_operation_information),
             isImportant = false,
             onClick = {})
         SettingContainer(
-            color = Main1,
-            text = stringResource(R.string.my_page_setting_announcement_item_event_information),
+            title = stringResource(R.string.my_page_setting_announcement_item_event_information),
             isImportant = false,
             onClick = {})
         SettingContainer(
-            color = Main1,
-            text = stringResource(R.string.my_page_setting_announcement_item_closing_information),
+            title = stringResource(R.string.my_page_setting_announcement_item_closing_information),
             isImportant = false,
             onClick = {})
         SettingContainer(
-            color = Main1,
-            text = stringResource(R.string.my_page_setting_announcement_item_operational_matters),
+            title = stringResource(R.string.my_page_setting_announcement_item_operational_matters),
             isImportant = false,
             onClick = {})
     }

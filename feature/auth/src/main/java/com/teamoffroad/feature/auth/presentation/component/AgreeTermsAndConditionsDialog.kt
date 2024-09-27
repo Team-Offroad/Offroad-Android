@@ -35,7 +35,8 @@ fun AgreeTermsAndConditionsDialog(
     text: String,
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(14.dp),
-    onClick: () -> Unit,
+    onAgreeClick: () -> Unit,
+    onDisAgreeClick: () -> Unit,
     onClickCancel: () -> Unit,
 ) {
     Dialog(
@@ -91,6 +92,7 @@ fun AgreeTermsAndConditionsDialog(
                         text = stringResource(R.string.auth_agree_and_terms_conditions_dialog_disagree),
                         onClick = {
                             onClickCancel()
+                            onDisAgreeClick()
                         },
                         textColor = Main2,
                         backgroundColor = Main3,
@@ -100,7 +102,7 @@ fun AgreeTermsAndConditionsDialog(
                         text = stringResource(R.string.auth_agree_and_terms_conditions_dialog_agree),
                         onClick = {
                             onClickCancel()
-                            onClick()
+                            onAgreeClick()
                         },
                         textColor = White,
                         backgroundColor = Main2,

@@ -12,6 +12,6 @@ interface AuthRepository {
     suspend fun fetchDuplicateNickname(nickname: String): Boolean
     suspend fun fetchCharacters(): List<Character>
     suspend fun saveCharacter(characterId: Int): String
-    suspend fun saveUserProfile(userProfile: UserProfile)
+    suspend fun saveUserProfile(userProfile: UserProfile): Result<Unit>
     suspend fun saveMarketingAgree(marketingAgree: Boolean): Result<Unit>
 }

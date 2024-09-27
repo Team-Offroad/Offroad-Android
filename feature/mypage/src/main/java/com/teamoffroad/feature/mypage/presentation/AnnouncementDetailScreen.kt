@@ -28,10 +28,13 @@ import com.teamoffroad.offroad.feature.mypage.R
 internal fun AnnouncementDetailScreen(
     title: String,
     content: String,
-    link: String,
     isImportant: Boolean,
+    updateAt: String,
     navigateToBack: () -> Unit,
+    link: String = "",
 ) {
+    val (year, month, day) = extractAnnounceUpdateDate(updateAt)
+
     Column(
         modifier = Modifier
             .navigationPadding()
@@ -45,7 +48,7 @@ internal fun AnnouncementDetailScreen(
         ) {
             navigateToBack()
         }
-        AnnouncementDetailHeader("2024", "07", "31", title, isImportant)
+        AnnouncementDetailHeader(year, month, day, title, isImportant)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -68,4 +71,10 @@ internal fun AnnouncementDetailScreen(
                 .padding(horizontal = 24.dp)
         )
     }
+}
+
+private fun extractAnnounceUpdateDate(updateAt: String): Triple<String, String, String> {
+    val datePart = updateAt.split("T")[0]
+    val (year, month, day) = datePart.split("-")
+    return Triple(year, month, day)
 }
