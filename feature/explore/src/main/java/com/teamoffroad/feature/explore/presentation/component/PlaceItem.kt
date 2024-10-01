@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
@@ -29,13 +30,13 @@ import com.teamoffroad.core.designsystem.theme.NametagInactive
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.Sub2
-import com.teamoffroad.feature.explore.presentation.model.FakePlaceModel
+import com.teamoffroad.feature.explore.presentation.model.PlaceModel
 import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 fun PlaceItem(
     modifier: Modifier = Modifier,
-    placeModel: FakePlaceModel,
+    placeModel: PlaceModel,
 ) {
     Column(modifier) {
         Row {
@@ -46,7 +47,7 @@ fun PlaceItem(
             )
             PlaceTagItem(
                 modifier = Modifier.padding(start = 6.dp),
-                text = placeModel.town,
+                text = placeModel.placeArea,
                 textColor = Sub,
                 backgroundColor = NametagInactive,
             )
@@ -68,7 +69,7 @@ fun PlaceItem(
 
 @Composable
 fun PlaceExtraItem(
-    placeModel: FakePlaceModel,
+    placeModel: PlaceModel,
 ) {
     Row(
         modifier = Modifier
@@ -85,7 +86,8 @@ fun PlaceExtraItem(
                 .build(),
             contentDescription = null,
             modifier = Modifier
-                .height(18.dp),
+                .height(18.dp)
+                .widthIn(max = 24.dp),
             contentScale = ContentScale.FillHeight,
         )
         Text(
@@ -95,19 +97,25 @@ fun PlaceExtraItem(
             modifier = Modifier
                 .padding(start = 6.dp)
                 .padding(vertical = 2.dp)
+                .weight(1f),
         )
-        if (placeModel.visitCount > 0) {
-            VerticalDivider(
-                color = CharacterSelectBg3,
-                modifier = Modifier
-                    .padding(start = 8.dp, end = 6.dp)
-                    .requiredHeight(20.dp)
-            )
-            Text(
-                text = stringResource(R.string.explore_explore_count, placeModel.visitCount),
-                color = Sub2,
-                style = OffroadTheme.typography.tooltipNumber,
-            )
+        if (placeModel.isVisited) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                VerticalDivider(
+                    color = CharacterSelectBg3,
+                    modifier = Modifier
+                        .padding(start = 8.dp, end = 6.dp)
+                        .requiredHeight(20.dp),
+                )
+                Text(
+                    text = stringResource(R.string.explore_explore_count, placeModel.visitCount),
+                    color = Sub2,
+                    style = OffroadTheme.typography.tooltipNumber,
+                    maxLines = 1,
+                )
+            }
         }
     }
 }

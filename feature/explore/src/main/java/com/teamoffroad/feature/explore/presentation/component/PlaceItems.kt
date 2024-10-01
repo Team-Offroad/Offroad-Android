@@ -14,10 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.ExpandableItem
 import com.teamoffroad.core.designsystem.theme.ListBg
-import com.teamoffroad.feature.explore.presentation.model.FakePlaceModel
+import com.teamoffroad.feature.explore.presentation.model.PlaceModel
 
 @Composable
-fun PlaceItems(places: List<FakePlaceModel>) {
+fun PlaceItems(places: List<PlaceModel>) {
     var expandedIndex by remember { mutableIntStateOf(NULL_INDEX) }
 
     LazyColumn(
