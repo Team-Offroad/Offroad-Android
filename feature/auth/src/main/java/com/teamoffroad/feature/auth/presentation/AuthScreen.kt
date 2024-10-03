@@ -134,7 +134,6 @@ internal fun AuthScreen(
             )
         }
     }
-    SplashScreen()
     if (showWebView) {
         StartKakaoLoginWebView(
             clientId = BuildConfig.KAKO_CLIENT_ID,
