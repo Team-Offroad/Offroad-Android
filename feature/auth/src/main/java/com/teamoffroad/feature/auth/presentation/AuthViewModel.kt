@@ -12,7 +12,6 @@ import com.teamoffroad.core.common.domain.usecase.SaveRefreshTokenUseCase
 import com.teamoffroad.feature.auth.domain.model.SocialSignInPlatform
 import com.teamoffroad.feature.auth.domain.usecase.AuthUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetAutoSignInUseCase
-import com.teamoffroad.feature.auth.domain.usecase.UpdateAutoSignInUseCase
 import com.teamoffroad.feature.auth.presentation.model.AuthUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,10 +26,10 @@ class AuthViewModel @Inject constructor(
     private val authUseCase: AuthUseCase,
     private val saveAccessTokenUseCase: SaveAccessTokenUseCase,
     private val saveRefreshTokenUseCase: SaveRefreshTokenUseCase,
-    private val updateAutoSignInUseCase: UpdateAutoSignInUseCase,
     private val getAutoSignInUseCase: GetAutoSignInUseCase,
 ) : ViewModel() {
-    private val _authUiState: MutableStateFlow<AuthUiState> = MutableStateFlow(AuthUiState(empty = true))
+    private val _authUiState: MutableStateFlow<AuthUiState> =
+        MutableStateFlow(AuthUiState(empty = true))
     val authUiState: StateFlow<AuthUiState> = _authUiState.asStateFlow()
 
     init {
@@ -70,7 +69,6 @@ class AuthViewModel @Inject constructor(
             }.onSuccess { signInInfo ->
                 saveAccessTokenUseCase.invoke(signInInfo.tokens.accessToken)
                 saveRefreshTokenUseCase.invoke(signInInfo.tokens.refreshToken)
-
                 _authUiState.value = _authUiState.value.copy(
                     authSignIn = true,
                     alreadyExist = signInInfo.isAlreadyExist
@@ -82,6 +80,12 @@ class AuthViewModel @Inject constructor(
     }
 
     private fun checkAutoSignIn() {
-
+        viewModelScope.launch {
+            getAutoSignInUseCase().collect { isAutoSignIn ->
+                _authUiState.value = _authUiState.value.copy(
+                    autoSignIn = isAutoSignIn
+                )
+            }
+        }
     }
 }

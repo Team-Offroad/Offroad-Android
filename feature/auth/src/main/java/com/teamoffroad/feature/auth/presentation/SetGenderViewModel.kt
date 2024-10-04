@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.auth.domain.model.UserProfile
 import com.teamoffroad.feature.auth.domain.repository.AuthRepository
+import com.teamoffroad.feature.auth.domain.usecase.UpdateAutoSignInUseCase
 import com.teamoffroad.feature.auth.presentation.model.SetGenderUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,6 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SetGenderViewModel @Inject constructor(
     private val authRepository: AuthRepository,
+    private val updateAutoSignInUseCase: UpdateAutoSignInUseCase,
 ) : ViewModel() {
 
     private val _genderUiState = MutableStateFlow<SetGenderUiState>(SetGenderUiState.Loading)
@@ -49,6 +51,7 @@ class SetGenderViewModel @Inject constructor(
                 )
             }.onSuccess {
                 _genderUiState.value = SetGenderUiState.Success
+                updateAutoSignInUseCase.invoke(true)
             }.onFailure {
                 _genderUiState.value = SetGenderUiState.Error
             }

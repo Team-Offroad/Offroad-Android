@@ -39,10 +39,8 @@ import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
-import com.teamoffroad.feature.auth.domain.model.SocialSignInPlatform
 import com.teamoffroad.offroad.feature.auth.BuildConfig
 import com.teamoffroad.offroad.feature.auth.R
-import kotlinx.coroutines.delay
 
 @Composable
 internal fun AuthScreen(
@@ -62,13 +60,11 @@ internal fun AuthScreen(
     }
     var showWebView by remember { mutableStateOf(false) }
 
-
     LaunchedEffect(isAuthUiState) {
-            if (isAuthUiState.authSignIn && !isAuthUiState.alreadyExist) navigateToAgreeTermsAndConditions()
-            if (isAuthUiState.authSignIn && isAuthUiState.alreadyExist) navigateToHome()
-
+        if (isAuthUiState.autoSignIn) navigateToHome()
+        if (isAuthUiState.authSignIn && !isAuthUiState.alreadyExist) navigateToAgreeTermsAndConditions()
+        if (isAuthUiState.authSignIn && isAuthUiState.alreadyExist) navigateToHome()
     }
-
 
     Surface(
         modifier = Modifier
