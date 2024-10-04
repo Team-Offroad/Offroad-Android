@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 class GetAutoSignInUseCase(
     private val authRepository: AuthRepository,
 ) {
-    operator fun invoke(): Flow<String> {
+    operator fun invoke(): Flow<Boolean> {
         return authRepository.isAutoSignInEnabled
     }
 }

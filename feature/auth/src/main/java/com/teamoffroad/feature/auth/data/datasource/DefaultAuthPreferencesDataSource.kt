@@ -2,6 +2,7 @@ package com.teamoffroad.feature.auth.data.datasource
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.teamoffroad.feature.auth.domain.model.SocialSignInPlatform
@@ -15,16 +16,16 @@ class DefaultAuthPreferencesDataSource @Inject constructor(
 ) : AuthPreferencesDataSource {
 
     object PreferencesKey {
-        val AUTO_LOGIN = stringPreferencesKey("AUTO_LOGIN")
+        val AUTO_LOGIN = booleanPreferencesKey("AUTO_LOGIN")
     }
 
-    override val autoLogin: Flow<String> = dataStore.data.map { preferences ->
-        preferences[PreferencesKey.AUTO_LOGIN] ?: SocialSignInPlatform.EMPTY.name
+    override val autoLogin: Flow<Boolean> = dataStore.data.map { preferences ->
+        preferences[PreferencesKey.AUTO_LOGIN] ?: false
     }
 
-    override suspend fun setAutoLogin(socialPlatform: String) {
+    override suspend fun setAutoLogin(autoLogin: Boolean) {
         dataStore.edit { preferences ->
-            preferences[PreferencesKey.AUTO_LOGIN] = socialPlatform
+            preferences[PreferencesKey.AUTO_LOGIN] = autoLogin
         }
     }
 }
