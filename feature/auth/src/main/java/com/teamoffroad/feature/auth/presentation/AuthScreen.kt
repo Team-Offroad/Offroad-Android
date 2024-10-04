@@ -50,10 +50,8 @@ internal fun AuthScreen(
     navigateToAgreeTermsAndConditions: () -> Unit,
     viewModel: AuthViewModel = hiltViewModel(),
 ) {
-    val isSignInSuccess by viewModel.successSignIn.collectAsStateWithLifecycle()
-    val isAutoSignIn by viewModel.autoSignIn.collectAsStateWithLifecycle()
-    val isAlreadyExist by viewModel.alreadyExist.collectAsStateWithLifecycle()
-    var signInLauncherInitialized by remember { mutableStateOf(false) }
+    val isAuthUiState by viewModel.authUiState.collectAsStateWithLifecycle()
+
     val googleSignInLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -64,27 +62,13 @@ internal fun AuthScreen(
     }
     var showWebView by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
-        signInLauncherInitialized = true
-    }
-    LaunchedEffect(Unit) {
-        delay(1200L)
-        viewModel.checkAutoSignIn()
+
+    LaunchedEffect(isAuthUiState) {
+            if (isAuthUiState.authSignIn && !isAuthUiState.alreadyExist) navigateToAgreeTermsAndConditions()
+            if (isAuthUiState.authSignIn && isAuthUiState.alreadyExist) navigateToHome()
+
     }
 
-    LaunchedEffect(isSignInSuccess) {
-        if (isSignInSuccess && !isAlreadyExist) navigateToAgreeTermsAndConditions()
-        if (isSignInSuccess && isAlreadyExist) navigateToHome()
-    }
-    LaunchedEffect(isAutoSignIn, signInLauncherInitialized) {
-        Log.d("asdads", isAutoSignIn)
-        if (isAutoSignIn == SocialSignInPlatform.GOOGLE.name && signInLauncherInitialized) {
-            googleSignInLauncher.launch(viewModel.googleSignInClient.signInIntent)
-        }
-        else if (isAutoSignIn == SocialSignInPlatform.KAKAO.name && signInLauncherInitialized) {
-            showWebView = true
-        }
-    }
 
     Surface(
         modifier = Modifier

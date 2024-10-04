@@ -71,7 +71,7 @@ class SettingViewModel @Inject constructor(
             runCatching { googleSignInClient.signOut() }
                 .onSuccess {
                     clearTokensUseCase()
-                    updateAutoSignInUseCase(SocialSignInPlatform.EMPTY.name)
+                    updateAutoSignInUseCase(false)
                 }
                 .onFailure { it.message.toString() }
         }
