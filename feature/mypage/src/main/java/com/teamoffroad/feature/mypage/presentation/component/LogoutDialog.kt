@@ -34,7 +34,6 @@ fun LogoutDialog(
     shape: Shape = RoundedCornerShape(14.dp),
     onClick: () -> Unit,
     onClickCancel: () -> Unit,
-    navigateToSignIn: () -> Unit,
 ) {
     Dialog(
         onDismissRequest = { onClickCancel() },
@@ -78,7 +77,6 @@ fun LogoutDialog(
                         onClick = {
                             onClick()
                             onClickCancel()
-                            navigateToSignIn()
                         },
                         textColor = White,
                         backgroundColor = Main2,

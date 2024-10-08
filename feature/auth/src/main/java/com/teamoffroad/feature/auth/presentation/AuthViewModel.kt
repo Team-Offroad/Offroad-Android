@@ -32,10 +32,6 @@ class AuthViewModel @Inject constructor(
         MutableStateFlow(AuthUiState(empty = true))
     val authUiState: StateFlow<AuthUiState> = _authUiState.asStateFlow()
 
-    init {
-        checkAutoSignIn()
-    }
-
     fun performGoogleSignIn(result: Task<GoogleSignInAccount>) {
         viewModelScope.launch {
             runCatching {
@@ -79,7 +75,7 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    private fun checkAutoSignIn() {
+    fun checkAutoSignIn() {
         viewModelScope.launch {
             getAutoSignInUseCase().collect { isAutoSignIn ->
                 _authUiState.value = _authUiState.value.copy(
