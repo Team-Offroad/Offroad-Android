@@ -2,6 +2,7 @@ package com.teamoffroad.feature.home.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.teamoffroad.feature.auth.domain.usecase.UpdateAutoSignInUseCase
 import com.teamoffroad.feature.home.domain.model.Emblem
 import com.teamoffroad.feature.home.domain.model.UserQuests
 import com.teamoffroad.feature.home.domain.model.UsersAdventuresInformation
@@ -17,7 +18,14 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val userRepository: UserRepository,
+    private val updateAutoSignInUseCase: UpdateAutoSignInUseCase,
 ) : ViewModel() {
+    init {
+        viewModelScope.launch {
+            updateAutoSignInUseCase(true)
+        }
+    }
+
     private val _getUsersAdventuresInformationState =
         MutableStateFlow<UiState<UsersAdventuresInformation>>(
             UiState.Loading
