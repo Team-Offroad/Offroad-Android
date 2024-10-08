@@ -32,10 +32,9 @@ class MainActivity : ComponentActivity() {
             }
             MainTransparentActionBar(window)
             OffroadTheme {
-                if (showSplash.value) {
-                    SplashScreen()
-                } else {
-                    MainScreen(
+                when (showSplash.value) {
+                    true -> SplashScreen()
+                    false -> MainScreen(
                         navigator = navigator,
                         modifier = Modifier
                     )
