@@ -6,4 +6,5 @@ data class SettingUiState(
     var dialogVisible: SettingDialogState = SettingDialogState.InVisible,
     val withDrawInputState: String = "",
     val withDrawResult: Boolean = false,
+    val reset: Boolean = false,
 )

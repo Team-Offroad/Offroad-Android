@@ -59,6 +59,9 @@ internal fun AuthScreen(
     }
     var isShowWebView by remember { mutableStateOf(false) }
 
+    LaunchedEffect(Unit) {
+        viewModel.checkAutoSignIn()
+    }
     LaunchedEffect(isAuthUiState) {
         if (isAuthUiState.isAutoSignIn) navigateToHome()
         if (isAuthUiState.signInSuccess && !isAuthUiState.alreadyExist) navigateToAgreeTermsAndConditions()

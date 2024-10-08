@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.mypage.presentation
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -10,6 +11,7 @@ import com.teamoffroad.feature.mypage.domain.usecase.DeleteUserInfoUseCase
 import com.teamoffroad.feature.mypage.presentation.component.SettingDialogState
 import com.teamoffroad.feature.mypage.presentation.model.SettingUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,6 +25,7 @@ class SettingViewModel @Inject constructor(
     private val googleSignInClient: GoogleSignInClient,
     private val clearTokensUseCase: ClearTokensUseCase,
     private val updateAutoSignInUseCase: UpdateAutoSignInUseCase,
+    @ApplicationContext private val context: Context,
 ) : ViewModel() {
     private val _settingUiState: MutableStateFlow<SettingUiState> =
         MutableStateFlow(SettingUiState())
@@ -67,14 +70,15 @@ class SettingViewModel @Inject constructor(
 
     fun performSignOut() {
         viewModelScope.launch {
-            runCatching { googleSignInClient.signOut() }
+            runCatching {
+                googleSignInClient.signOut()
+                clearTokensUseCase()
+                updateAutoSignInUseCase(false)
+            }
                 .onSuccess {
-                    clearTokensUseCase()
-                    updateAutoSignInUseCase(false)
+                    _settingUiState.value = _settingUiState.value.copy(reset = true)
                 }
                 .onFailure {
-                    clearTokensUseCase()
-                    updateAutoSignInUseCase(false)
                     it.message.toString()
                 }
         }

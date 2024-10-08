@@ -80,6 +80,9 @@ androidxCamera = "1.2.2"
 # Barcode Scanning
 barcodeScanning = "17.1.0"
 
+# Process phoenix
+processPhoenix = "3.0.0"
+
 [libraries]
 # Core Libraries
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
@@ -176,6 +179,9 @@ camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "
 
 # Barcode Scanning
 barcode-scanning = { group = "com.google.mlkit", name = "barcode-scanning", version.ref = "barcodeScanning" }
+
+# Process Phoenix
+process-phoenix = { group = "com.jakewharton", name = "process-phoenix", version.ref = "processPhoenix" }
 
 [plugins]
 # Android Application Plugin

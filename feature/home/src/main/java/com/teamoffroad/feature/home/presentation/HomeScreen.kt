@@ -56,6 +56,7 @@ fun HomeScreen(
     val isCompleteQuestDialogShown = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
+        viewModel.updateAutoSignIn()
         viewModel.updateCategory(if (category.isNullOrEmpty()) "NONE" else category)
         viewModel.getUsersAdventuresInformation(viewModel.category.value)
         viewModel.getUserQuests()

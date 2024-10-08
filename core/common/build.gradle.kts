@@ -21,6 +21,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.process.phoenix)
     implementation(libs.retrofit)
     implementation(libs.retrofit.kotlinx.serialization)
     implementation(libs.kotlinx.serialization)

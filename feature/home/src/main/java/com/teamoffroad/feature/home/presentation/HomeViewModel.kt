@@ -20,11 +20,6 @@ class HomeViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val updateAutoSignInUseCase: UpdateAutoSignInUseCase,
 ) : ViewModel() {
-    init {
-        viewModelScope.launch {
-            updateAutoSignInUseCase(true)
-        }
-    }
 
     private val _getUsersAdventuresInformationState =
         MutableStateFlow<UiState<UsersAdventuresInformation>>(
@@ -136,6 +131,12 @@ class HomeViewModel @Inject constructor(
                 val errorMessage = getErrorMessage(t)
                 _getUserQuestsState.emit(UiState.Failure(errorMessage))
             }
+        }
+    }
+
+    fun updateAutoSignIn(){
+        viewModelScope.launch {
+            updateAutoSignInUseCase(true)
         }
     }
 

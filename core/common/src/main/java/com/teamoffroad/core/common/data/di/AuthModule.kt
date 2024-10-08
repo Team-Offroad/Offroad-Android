@@ -1,5 +1,6 @@
 package com.teamoffroad.core.common.data.di
 
+import android.content.Context
 import com.teamoffroad.core.common.data.datasource.TokenPreferencesDataSource
 import com.teamoffroad.core.common.data.local.AuthAuthenticator
 import com.teamoffroad.core.common.data.local.AuthInterceptor
@@ -8,6 +9,7 @@ import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -29,7 +31,8 @@ object AuthModule {
     fun provideAuthAuthenticator(
         tokenPreferencesDataSource: TokenPreferencesDataSource,
         refreshTokenUseCase: Lazy<RefreshTokenUseCase>,
+        @ApplicationContext context: Context
     ): AuthAuthenticator {
-        return AuthAuthenticator(tokenPreferencesDataSource, refreshTokenUseCase)
+        return AuthAuthenticator(tokenPreferencesDataSource, refreshTokenUseCase, context)
     }
 }
