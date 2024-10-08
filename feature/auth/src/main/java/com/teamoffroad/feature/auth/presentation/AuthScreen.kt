@@ -1,7 +1,6 @@
 package com.teamoffroad.feature.auth.presentation
 
 import android.app.Activity
-import android.util.Log
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -58,12 +57,12 @@ internal fun AuthScreen(
             viewModel.performGoogleSignIn(task)
         }
     }
-    var showWebView by remember { mutableStateOf(false) }
+    var isShowWebView by remember { mutableStateOf(false) }
 
     LaunchedEffect(isAuthUiState) {
-        if (isAuthUiState.autoSignIn) navigateToHome()
-        if (isAuthUiState.authSignIn && !isAuthUiState.alreadyExist) navigateToAgreeTermsAndConditions()
-        if (isAuthUiState.authSignIn && isAuthUiState.alreadyExist) navigateToHome()
+        if (isAuthUiState.isAutoSignIn) navigateToHome()
+        if (isAuthUiState.signInSuccess && !isAuthUiState.alreadyExist) navigateToAgreeTermsAndConditions()
+        if (isAuthUiState.signInSuccess && isAuthUiState.alreadyExist) navigateToHome()
     }
 
     Surface(
@@ -90,7 +89,7 @@ internal fun AuthScreen(
                 painter = painterResource(id = R.drawable.ic_auth_kakao_logo),
                 background = Kakao,
                 contentDescription = "auth_kakao",
-                onClick = { showWebView = true },
+                onClick = { isShowWebView = true },
                 modifier = Modifier.constrainAs(kakaoLogin) {
                     start.linkTo(parent.start, margin = 24.dp)
                     end.linkTo(parent.end, margin = 24.dp)
@@ -114,16 +113,15 @@ internal fun AuthScreen(
             )
         }
     }
-    if (showWebView) {
+    if (isShowWebView) {
         StartKakaoLoginWebView(
             clientId = BuildConfig.KAKO_CLIENT_ID,
             redirectUri = BuildConfig.KAKO_REDIRECT_URI,
             onCodeReceived = { code ->
                 viewModel.performKakaoSignIn(code)
-                Log.d("asdasd", code)
             },
             onClose = {
-                showWebView = false
+                isShowWebView = false
             },
         )
     }

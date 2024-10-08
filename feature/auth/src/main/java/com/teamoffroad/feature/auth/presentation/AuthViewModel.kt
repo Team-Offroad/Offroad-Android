@@ -70,7 +70,7 @@ class AuthViewModel @Inject constructor(
                 saveAccessTokenUseCase.invoke(signInInfo.tokens.accessToken)
                 saveRefreshTokenUseCase.invoke(signInInfo.tokens.refreshToken)
                 _authUiState.value = _authUiState.value.copy(
-                    authSignIn = true,
+                    signInSuccess = true,
                     alreadyExist = signInInfo.isAlreadyExist
                 )
             }.onFailure {
@@ -83,7 +83,7 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             getAutoSignInUseCase().collect { isAutoSignIn ->
                 _authUiState.value = _authUiState.value.copy(
-                    autoSignIn = isAutoSignIn
+                    isAutoSignIn = isAutoSignIn
                 )
             }
         }
