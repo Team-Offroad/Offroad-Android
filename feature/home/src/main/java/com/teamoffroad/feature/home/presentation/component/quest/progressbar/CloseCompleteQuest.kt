@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,20 +25,28 @@ import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 import com.teamoffroad.offroad.feature.home.R
 
 @Composable
-fun CloseCompleteRequest(modifier: Modifier = Modifier, data: HomeProgressBarModel, viewModel: HomeViewModel) {
+fun CloseCompleteRequest(
+    modifier: Modifier = Modifier,
+    data: HomeProgressBarModel,
+    viewModel: HomeViewModel
+) {
     viewModel.updateLinearProgressBar(data.amount.toFloat(), data.total.toFloat())
 
     Surface(
         color = Contents2,
         modifier = modifier
             .clip(shape = RoundedCornerShape(10.dp))
+            .aspectRatio(150f / 176f)
     ) {
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
             Spacer(modifier = Modifier.padding(8.dp))
             Row {
-                ContentsTitle(data.title.ifEmpty { stringResource(id = R.string.home_quest_default_name) }, Sub4)
+                ContentsTitle(
+                    data.title.ifEmpty { stringResource(id = R.string.home_quest_default_name) },
+                    Sub4
+                )
                 Spacer(modifier = Modifier.padding(start = 4.dp))
                 Image(
                     painter = painterResource(id = R.drawable.img_home_close_complete),

@@ -64,7 +64,7 @@ fun HomeScreen(
     StaticAnimationWrapper {
         Surface(
             modifier = Modifier
-                .padding(bottom = 74.dp)
+                .padding(bottom = 120.dp)
                 .navigationBarsPadding()
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
@@ -121,7 +121,8 @@ private fun UsersAdventuresInformation(
     }
 
     Box(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
     ) {
         val imageUrl = adventuresInformationData?.baseImageUrl ?: "" // TODO: svg & lottie
         Box(

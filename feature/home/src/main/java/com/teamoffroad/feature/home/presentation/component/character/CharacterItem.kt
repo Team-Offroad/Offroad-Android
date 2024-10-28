@@ -8,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -168,20 +169,21 @@ class CharacterItem {
         Box(
             modifier = modifier
                 .padding(horizontal = 24.dp)
+                .aspectRatio(312f / 38f)
                 .fillMaxWidth(),
             contentAlignment = Alignment.CenterEnd
         ) {
             OffroadTagItem(
                 text = userEmblem,
                 textColor = White,
-                style = OffroadTheme.typography.subtitle2Semibold,
+                style = OffroadTheme.typography.subtitle2Semibold, //
                 backgroundColor = Sub
             )
             Image(
                 painter = painterResource(id = R.drawable.ic_home_change_title),
                 contentDescription = "change title",
                 modifier = Modifier
-                    .padding(top = 4.dp, bottom = 4.dp, end = 6.dp)
+                    .padding(top = 8.dp, bottom = 8.dp, end = 20.dp)
                     .clickableWithoutRipple(
                         interactionSource
                     ) {

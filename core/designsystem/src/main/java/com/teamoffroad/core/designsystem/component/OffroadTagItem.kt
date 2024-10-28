@@ -38,6 +38,6 @@ fun OffroadTagItem(
                 shape = RoundedCornerShape(10.dp),
                 color = borderColor,
             )
-            .padding(vertical = 8.dp)
+            .padding(vertical = 10.dp)
     )
 }

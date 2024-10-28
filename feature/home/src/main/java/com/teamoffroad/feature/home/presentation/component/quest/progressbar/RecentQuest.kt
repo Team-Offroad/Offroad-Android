@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
@@ -32,12 +33,17 @@ fun RecentQuest(
 
     Surface(
         color = Contents1,
-        modifier = modifier.clip(shape = RoundedCornerShape(10.dp))
+        modifier = modifier
+            .clip(shape = RoundedCornerShape(10.dp))
+            .aspectRatio(150f / 176f)
     ) {
         Column {
             Spacer(modifier = Modifier.padding(8.dp))
             Row {
-                ContentsTitle(data.title.ifEmpty { stringResource(id = R.string.home_quest_default_name) }, Main1)
+                ContentsTitle(
+                    data.title.ifEmpty { stringResource(id = R.string.home_quest_default_name) },
+                    Main1
+                )
                 Spacer(modifier = Modifier.padding(start = 4.dp))
                 Image(
                     painter = painterResource(id = R.drawable.img_home_recent_quest),
