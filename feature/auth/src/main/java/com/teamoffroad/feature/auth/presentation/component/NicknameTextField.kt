@@ -25,7 +25,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.teamoffroad.core.designsystem.theme.Error
+import com.teamoffroad.core.designsystem.theme.ErrorNew
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -59,7 +59,7 @@ fun NicknameTextField(
     if (nicknameValidateResult == NicknameValidateResult.NicknameValidateFailure ||
         nicknameValidateResult == NicknameValidateResult.Duplicate
     ) {
-        borderLineColor.value = Error
+        borderLineColor.value = ErrorNew
         textColor.value = Main2
     }
     else if (isFocused || value.isNotBlank()) {

@@ -4,7 +4,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import com.teamoffroad.core.designsystem.theme.Error
+import com.teamoffroad.core.designsystem.theme.ErrorNew
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 
 @Composable
@@ -22,7 +22,7 @@ fun BirthDateHintText(
             ) 1f else 0f
         ),
         style = OffroadTheme.typography.hint,
-        color = Error
+        color = ErrorNew
     )
 
 }
