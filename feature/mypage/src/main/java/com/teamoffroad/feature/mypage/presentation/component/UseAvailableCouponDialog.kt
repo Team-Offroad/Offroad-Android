@@ -36,7 +36,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Black15
-import com.teamoffroad.core.designsystem.theme.Error
+import com.teamoffroad.core.designsystem.theme.ErrorNew
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -244,7 +244,7 @@ private fun UseAvailableCouponDialogText(
                         )
                         Text(
                             text = stringResource(id = R.string.my_page_gained_coupon_fail_use_description),
-                            color = Error,
+                            color = ErrorNew,
                             style = OffroadTheme.typography.subtitle2Semibold,
                             textAlign = TextAlign.Center
                         )
