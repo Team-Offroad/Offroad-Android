@@ -46,4 +46,5 @@ dependencies {
     implementation(project(":feature:home"))
     implementation(project(":feature:explore"))
     implementation(project(":feature:mypage"))
+    implementation(project(":feature:characterchat"))
 }

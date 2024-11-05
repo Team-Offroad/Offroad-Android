@@ -92,4 +92,7 @@ sealed interface MyPageRoute : Route {
         val characterId: Int,
         val isRepresentative: Boolean,
     ) : MyPageRoute
+
+    @Serializable
+    data object CharacterChat : MyPageRoute
 }
