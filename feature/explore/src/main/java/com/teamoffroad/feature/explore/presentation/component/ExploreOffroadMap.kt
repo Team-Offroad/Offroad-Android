@@ -52,7 +52,6 @@ import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Sub2
-import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
 import com.teamoffroad.feature.explore.presentation.model.LocationModel
 import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 import com.teamoffroad.feature.explore.presentation.model.PlaceModel
@@ -70,8 +69,6 @@ fun ExploreOffroadMap(
     updateTrackingToggle: (Boolean) -> Unit,
     updateSelectedPlace: (PlaceModel?) -> Unit,
     updatePlaces: (Double, Double) -> Unit,
-    updateAuthState: (ExploreAuthState) -> Unit,
-    isValidDistance: (PlaceModel, LatLng) -> Boolean,
     updateExploreResult: (Long, Double, Double, PlaceCategory) -> Unit,
     mapKey: Int,
 ) {

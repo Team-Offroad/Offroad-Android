@@ -94,8 +94,6 @@ internal fun ExploreScreen(
                     exploreViewModel::updateTrackingToggle,
                     exploreViewModel::updateSelectedPlace,
                     exploreViewModel::updatePlaces,
-                    exploreViewModel::updateExploreAuthState,
-                    exploreViewModel::isValidDistance,
                     exploreViewModel::updateExploreResult,
                     mapKey,
                 )
