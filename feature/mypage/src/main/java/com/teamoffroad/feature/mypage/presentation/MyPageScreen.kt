@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.theme.ErrorNew
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.mypage.presentation.component.AcquireCharacter
@@ -59,7 +60,6 @@ internal fun MyPageScreen(
             .navigationBarsPadding()
     ) {
         Column {
-            OffroadActionBar(Color.Transparent)
             UserNickname(myPageViewModel.myPageUser.collectAsStateWithLifecycle().value.nickname)
             Spacer(modifier = Modifier.padding(vertical = 13.dp))
             UserAdventureInfo(

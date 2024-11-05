@@ -43,7 +43,7 @@ internal fun MainBottomBar(
     currentTab: MainNavTab?,
     onTabSelected: (MainNavTab) -> Unit,
 ) {
-    ProvideWindowInsets {
+    ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
         StaticAnimationWrapper(visible = visible) {
             Box(
                 modifier = modifier
@@ -51,23 +51,22 @@ internal fun MainBottomBar(
                     .navigationPadding()
             ) {
                 Box(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .background(Main1),
+                    modifier = modifier.fillMaxWidth(),
                     contentAlignment = Alignment.BottomCenter
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.img_main_bottombar),
                         contentDescription = "bottombar",
                         contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth().background(Color.Transparent)
                     )
                 }
 
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .aspectRatio(360f / 78f)
+                        .background(Color.Transparent)
+                        .aspectRatio(360f / 75f)
                 ) {
                     tabs.forEach { tab ->
                         MainBottomBarItem(

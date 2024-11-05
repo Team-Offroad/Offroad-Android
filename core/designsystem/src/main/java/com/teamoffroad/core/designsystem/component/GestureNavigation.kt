@@ -9,11 +9,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
-import com.teamoffroad.core.designsystem.theme.BottomBar
 
 @Composable
 fun Modifier.navigationPadding(
-    backgroundColor: Color = BottomBar,
+    backgroundColor: Color = Color.Transparent,
 ): Modifier {
     val isGestureNavigation = checkNavigationBar()
     return this
