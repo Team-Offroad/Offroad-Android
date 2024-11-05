@@ -15,51 +15,38 @@ import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
 fun ExplorePermissionHandler(
     context: Context,
     uiState: ExploreUiState,
-    updatePermission: (Boolean?, Boolean, Boolean) -> Unit,
+    updatePermission: (Boolean) -> Unit,
 ) {
     val launcherLocationPermissions = getPermissionsLauncher(updatePermission)
 
-    LaunchedEffect(uiState.permissionModel.isAllPermissionGranted) {
+    LaunchedEffect(uiState.isLocationPermissionGranted) {
         val isFineLocationGranted = ContextCompat.checkSelfPermission(
             context, Manifest.permission.ACCESS_FINE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
 
-        val isCameraGranted = ContextCompat.checkSelfPermission(
-            context, Manifest.permission.CAMERA
-        ) == PackageManager.PERMISSION_GRANTED
-
-        if (!isFineLocationGranted || !isCameraGranted) {
-            launcherLocationPermissions.launch(
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.CAMERA,
+        when (isFineLocationGranted) {
+            true -> updatePermission(true)
+            false -> {
+                launcherLocationPermissions.launch(
+                    arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                    )
                 )
-            )
-        } else {
-            updatePermission(null, true, true)
+            }
         }
     }
 }
 
 @Composable
 private fun getPermissionsLauncher(
-    updatePermission: (Boolean?, Boolean, Boolean) -> Unit,
+    updatePermission: (Boolean) -> Unit,
 ): ManagedActivityResultLauncher<Array<String>, Map<String, Boolean>> {
     return rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { isPermissionGranted ->
-        val isLocationNotGranted =
-            isPermissionGranted[Manifest.permission.ACCESS_FINE_LOCATION] == false
-        val isCameraNotGranted = isPermissionGranted[Manifest.permission.CAMERA] == false
-
-        if (isPermissionGranted.values.all { it }) {
-            updatePermission(false, true, true)
-        }
-
-        when {
-            isCameraNotGranted -> updatePermission(true, true, false)
-
-            isLocationNotGranted -> updatePermission(true, false, true)
+        when (isPermissionGranted.values.all { it }) {
+            true -> updatePermission(true)
+            false -> updatePermission(false)
         }
     }
 }

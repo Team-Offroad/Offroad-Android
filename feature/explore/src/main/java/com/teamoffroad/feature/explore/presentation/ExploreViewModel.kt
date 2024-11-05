@@ -27,17 +27,10 @@ class ExploreViewModel @Inject constructor(
     val uiState: StateFlow<ExploreUiState> = _uiState.asStateFlow()
 
     fun updatePermission(
-        isSomePermissionRejected: Boolean?,
         isLocationPermissionGranted: Boolean,
-        isCameraPermissionGranted: Boolean,
     ) {
         _uiState.value = uiState.value.copy(
-            permissionModel = uiState.value.permissionModel.copy(
-                isSomePermissionRejected = isSomePermissionRejected,
-                isAllPermissionGranted = isLocationPermissionGranted && isCameraPermissionGranted,
-                isLocationPermissionGranted = isLocationPermissionGranted,
-                isCameraPermissionGranted = isCameraPermissionGranted,
-            )
+            isLocationPermissionGranted = isLocationPermissionGranted,
         )
     }
 
