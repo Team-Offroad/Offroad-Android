@@ -66,8 +66,9 @@ fun LinearProgressBar(data: HomeProgressBarModel, viewModel: HomeViewModel) {
 
         ConstraintLayout(
             modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 18.dp)
+                .fillMaxSize()
+                .align(Alignment.TopEnd)
+                .padding(top = 62.dp)
         ) {
             val progress = createRef()
             LinearProgressIndicator(
