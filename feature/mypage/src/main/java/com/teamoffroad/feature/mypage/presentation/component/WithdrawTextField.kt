@@ -31,13 +31,11 @@ fun WithdrawTextField(
     placeholder: String = "상단의 문구를 그대로 입력해 주세요.",
     value: String = "",
     onValueChanged: KFunction1<String, Unit>,
-    isWithDrawResultChanged: () -> Unit,
     maxLines: Int = 1,
     minLines: Int = 1,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
     val borderLineColor = remember { mutableStateOf(Gray100) }
-
     BasicTextField(
         value = value,
         onValueChange = {
@@ -80,8 +78,4 @@ fun WithdrawTextField(
             }
         }
     )
-
-    if (value == "오프로드 회원을 탈퇴하겠습니다.") {
-        isWithDrawResultChanged()
-    }
 }

@@ -12,23 +12,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.LottieConstants
-import com.airbnb.lottie.compose.animateLottieCompositionAsState
-import com.airbnb.lottie.compose.rememberLottieComposition
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -43,7 +36,6 @@ fun CharacterFrameItem(
     characterFrameColor: Long = 0,
     characterThumbnailImageUrl: String = "",
     isGained: Boolean = false,
-    isLottieImage: Boolean = false,
     isRepresentative: Boolean = false,
     isNewGained: Boolean = false,
     onClick: () -> Unit = {},
@@ -67,28 +59,18 @@ fun CharacterFrameItem(
                         shape = RoundedCornerShape(size = 10.dp)
                     )
             ) {
-                when (isLottieImage) {
-                    true -> MotionCharacterThumbnail(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 30.dp)
-                            .align(Alignment.BottomCenter),
-                        characterThumbnailImageUrl,
-                    )
-
-                    false -> AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(characterThumbnailImageUrl)
-                            .decoderFactory(SvgDecoder.Factory())
-                            .build(),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .align(Alignment.BottomCenter)
-                            .padding(horizontal = 28.dp)
-                            .padding(bottom = 12.dp)
-                            .fillMaxWidth(),
-                    )
-                }
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(characterThumbnailImageUrl)
+                        .decoderFactory(SvgDecoder.Factory())
+                        .build(),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(horizontal = 28.dp)
+                        .padding(bottom = 12.dp)
+                        .fillMaxWidth(),
+                )
             }
             Text(
                 text = characterLabel,
@@ -119,28 +101,6 @@ fun CharacterFrameItem(
             }
         }
     }
-}
-
-@Composable
-private fun MotionCharacterThumbnail(
-    modifier: Modifier = Modifier,
-    characterThumbnailImageUrl: String,
-) {
-    val composition by rememberLottieComposition(
-        spec = LottieCompositionSpec.Url(characterThumbnailImageUrl)
-    )
-
-    val progress by animateLottieCompositionAsState(
-        composition = composition,
-        iterations = LottieConstants.IterateForever
-    )
-
-    LottieAnimation(
-        composition = composition,
-        progress = progress,
-        contentScale = ContentScale.FillHeight,
-        modifier = modifier
-    )
 }
 
 @Composable

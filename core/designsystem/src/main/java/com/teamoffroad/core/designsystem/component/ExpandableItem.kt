@@ -45,9 +45,11 @@ fun ExpandableItem(
             .wrapContentHeight()
             .background(color = backgroundColor, shape = RoundedCornerShape(cornerRadius.dp))
             .padding(vertical = verticalPadding.dp, horizontal = horizontalPadding.dp)
+            .clickableWithoutRipple { onExpandClick() },
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(modifier = Modifier.weight(1f)) {
@@ -59,12 +61,13 @@ fun ExpandableItem(
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .offset(x = 12.dp)
-                    .rotate(rotationAngle)
-                    .clickableWithoutRipple { onExpandClick() },
+                    .rotate(rotationAngle),
                 alignment = Alignment.CenterEnd
             )
         }
-        AnimatedVisibility(visible = isExpanded) {
+        AnimatedVisibility(
+            visible = isExpanded,
+        ) {
             extraContent()
         }
     }

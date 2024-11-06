@@ -6,6 +6,7 @@ data class Place(
     val address: String,
     val shortIntroduction: String,
     val placeCategory: String,
+    val placeArea: String,
     val categoryImageUrl: String,
     val latitude: Double,
     val longitude: Double,

@@ -83,15 +83,17 @@ data class LocationModel(
     }
 }
 
-data class ExplorePlaceModel(
+data class PlaceModel(
     val id: Long,
     val name: String,
     val address: String,
     val shortIntroduction: String,
     val placeCategory: PlaceCategory,
+    val placeArea: String,
     val categoryImageUrl: String,
     val location: LatLng,
     val visitCount: Int,
+    val isVisited: Boolean,
 )
 
 data class ExplorePermissionModel(

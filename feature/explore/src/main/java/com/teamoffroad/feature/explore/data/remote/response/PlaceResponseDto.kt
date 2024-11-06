@@ -15,6 +15,8 @@ data class PlaceResponseDto(
     val shortIntroduction: String,
     @SerialName("placeCategory")
     val placeCategory: String,
+    @SerialName("placeArea")
+    val placeArea: String,
     @SerialName("categoryImageUrl")
     val categoryImageUrl: String,
     @SerialName("latitude")

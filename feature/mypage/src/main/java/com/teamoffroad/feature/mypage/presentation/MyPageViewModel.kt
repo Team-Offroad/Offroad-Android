@@ -15,7 +15,7 @@ import javax.inject.Inject
 class MyPageViewModel @Inject constructor(
     private val userRepository: UserRepository,
 ) : ViewModel() {
-    private val _myPageUser = MutableStateFlow<MyPageUser>(MyPageUser("", "", 0, 0, 0))
+    private val _myPageUser = MutableStateFlow<MyPageUser>(MyPageUser("", "", 0, 0, 0, ""))
     val myPageUser = _myPageUser.asStateFlow()
 
     private val _errorMessage = MutableStateFlow<String>("")

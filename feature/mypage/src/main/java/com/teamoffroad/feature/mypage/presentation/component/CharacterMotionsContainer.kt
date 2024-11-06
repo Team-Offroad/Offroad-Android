@@ -85,7 +85,6 @@ private fun CharacterMotionItems(
                         characterFrameColor = characterDetail.characterMainColorCode,
                         characterThumbnailImageUrl = character.characterMotionImageUrl,
                         isGained = character.isGained,
-                        isLottieImage = true,
                         isNewGained = character.isNewGained,
                     )
                 }
