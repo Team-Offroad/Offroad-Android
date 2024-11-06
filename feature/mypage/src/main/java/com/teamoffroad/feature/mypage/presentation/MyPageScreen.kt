@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.SnackbarHostState
@@ -53,10 +55,8 @@ internal fun MyPageScreen(
     Box(
         modifier = Modifier
             .background(ListBg)
-            .fillMaxSize()
             .padding(horizontal = 24.dp)
-            .padding(top = 52.dp)
-            .padding(bottom = 74.dp)
+            .padding(top = 90.dp)
             .navigationBarsPadding()
     ) {
         Column {
@@ -67,20 +67,40 @@ internal fun MyPageScreen(
                 LocalContext.current
             )
             Spacer(modifier = Modifier.padding(vertical = 8.dp))
-            Row(
-                modifier = Modifier.weight(1f)
-            ) {
-                Box(modifier = Modifier.weight(1f)) { AcquireCharacter(navigateToGainedCharacter) }
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Box(modifier = Modifier
+                    .weight(1f)
+                    .aspectRatio(150f / 124f)) {
+                    AcquireCharacter(
+                        navigateToGainedCharacter
+                    )
+                }
                 Spacer(modifier = Modifier.padding(horizontal = 6.dp))
-                Box(modifier = Modifier.weight(1f)) { AcquireCoupon(navigateToGainedCoupon) }
+                Box(modifier = Modifier
+                    .weight(1f)
+                    .aspectRatio(150f / 124f)) {
+                    AcquireCoupon(
+                        navigateToGainedCoupon
+                    )
+                }
             }
-            Spacer(modifier = Modifier.padding(vertical = 7.dp))
-            Row(
-                modifier = Modifier.weight(1f)
-            ) {
-                Box(modifier = Modifier.weight(1f)) { AcquireEmblem(navigateToGainedEmblems) }
+            Spacer(modifier = Modifier.padding(vertical = 8.dp))
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Box(modifier = Modifier
+                    .weight(1f)
+                    .aspectRatio(150f / 124f)) {
+                    AcquireEmblem(
+                        navigateToGainedEmblems
+                    )
+                }
                 Spacer(modifier = Modifier.padding(horizontal = 6.dp))
-                Box(modifier = Modifier.weight(1f)) { UserSettings(navigateToSetting) }
+                Box(modifier = Modifier
+                    .weight(1f)
+                    .aspectRatio(150f / 124f)) {
+                    UserSettings(
+                        navigateToSetting
+                    )
+                }
             }
             Spacer(modifier = Modifier.padding(vertical = 28.dp))
         }
