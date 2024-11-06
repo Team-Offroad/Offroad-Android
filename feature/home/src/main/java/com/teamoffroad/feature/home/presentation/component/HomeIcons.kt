@@ -39,42 +39,45 @@ fun HomeIcons(
     val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         listOf(Manifest.permission.READ_MEDIA_IMAGES)
     } else {
-        listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+        listOf(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
     }
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
         if (permissions.values.all { it }) {
-            Toast.makeText(context, context.getString(R.string.allowed_permissions), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context,
+                context.getString(R.string.allowed_permissions),
+                Toast.LENGTH_SHORT
+            ).show()
         } else {
-            Toast.makeText(context, context.getString(R.string.not_allowed_permissions), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context,
+                context.getString(R.string.not_allowed_permissions),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
     Box(
         contentAlignment = Alignment.TopEnd,
-        modifier = Modifier.aspectRatio(48f / 144f).padding(top = 80.dp, end = 20.dp)
+        modifier = Modifier
+            .aspectRatio(48f / 144f)
+            .padding(top = 80.dp, end = 20.dp)
     ) {
         Column {
-            val downloadInteractionSource = remember { MutableInteractionSource() }
+            val characterChatInteractionSource = remember { MutableInteractionSource() }
             Image(
                 painter = painterResource(id = R.drawable.ic_home_chat),
                 contentDescription = "chat",
                 modifier = Modifier
-//                modifier = Modifier
-//                    .clickableWithoutRipple(downloadInteractionSource) {
-//                        if (ContextCompat.checkSelfPermission(
-//                                context,
-//                                permission
-//                            ) == PackageManager.PERMISSION_GRANTED
-//                        ) {
-//                            downloadImage(context, imageUrl, scope)
-//                            Toast.makeText(context, "이미지 다운 완료", Toast.LENGTH_SHORT).show()
-//                        } else {
-//                            launcher.launch(permission)
-//                        }
-//                    }
+                    .clickableWithoutRipple(characterChatInteractionSource) {
+
+                    }
             )
 
             val uploadInteractionSource = remember { MutableInteractionSource() }
@@ -84,7 +87,10 @@ fun HomeIcons(
                 modifier = Modifier
                     .clickableWithoutRipple(uploadInteractionSource) {
                         val allPermissionsGranted = permissions.all {
-                            ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                            ContextCompat.checkSelfPermission(
+                                context,
+                                Manifest.permission.READ_EXTERNAL_STORAGE
+                            ) == PackageManager.PERMISSION_GRANTED
                         }
                         if (allPermissionsGranted) {
                             scope.launch {
