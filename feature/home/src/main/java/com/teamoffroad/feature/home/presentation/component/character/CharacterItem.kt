@@ -29,6 +29,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
@@ -70,6 +73,12 @@ class CharacterItem {
                         .fillMaxHeight()
                         .align(Alignment.BottomCenter)
                 ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.img_home_character),
+                        contentDescription = "character",
+                        modifier = Modifier.fillMaxSize()
+                    )
+
 //                    AsyncImage(
 //                        model = ImageRequest.Builder(context)
 //                            .data(baseCharacterImage)

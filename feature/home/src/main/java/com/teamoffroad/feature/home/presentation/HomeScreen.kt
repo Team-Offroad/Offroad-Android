@@ -156,7 +156,7 @@ private fun UsersAdventuresInformation(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
         ) {
-            //CharacterItem().CharacterImage(viewModel, context)
+            CharacterItem().CharacterImage(viewModel, context)
         }
     }
     Spacer(modifier = Modifier.padding(10.dp))
