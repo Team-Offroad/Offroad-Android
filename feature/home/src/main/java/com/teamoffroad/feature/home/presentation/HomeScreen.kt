@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -77,9 +76,8 @@ fun HomeScreen(
         Surface(
             modifier = Modifier
                 .background(homeGradientBackground)
-                .padding(bottom = 120.dp)
-                .navigationBarsPadding()
-                .fillMaxSize(),
+                .padding(bottom = 140.dp)
+                .navigationBarsPadding(),
             color = Color.Transparent
         ) {
             StaticAnimationWrapper {
@@ -94,7 +92,6 @@ fun HomeScreen(
                     )
                     Spacer(modifier = Modifier.padding(top = 12.dp))
                     UsersQuestInformation(context, viewModel)
-                    Spacer(modifier = Modifier.padding(top = 34.dp))
                 }
             }
         }
@@ -142,7 +139,6 @@ private fun UsersAdventuresInformation(
             modifier = Modifier.fillMaxWidth(),
             contentAlignment = Alignment.TopEnd
         ) {
-            //HomeBackground()
             HomeIcons(
                 context = context,
                 imageUrl = imageUrl,
@@ -158,10 +154,9 @@ private fun UsersAdventuresInformation(
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
-                //.fillMaxHeight()
                 .align(Alignment.BottomCenter)
         ) {
-            CharacterItem().CharacterImage(viewModel, context)
+            //CharacterItem().CharacterImage(viewModel, context)
         }
     }
     Spacer(modifier = Modifier.padding(10.dp))
