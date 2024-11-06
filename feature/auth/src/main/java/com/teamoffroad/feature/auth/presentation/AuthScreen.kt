@@ -27,6 +27,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.teamoffroad.core.designsystem.component.ChangeBottomBarColor
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Kakao
@@ -80,6 +81,7 @@ internal fun AuthScreen(
             .fillMaxSize(),
         color = Main1
     ) {
+        ChangeBottomBarColor(Main1)
         ConstraintLayout {
             val (appLogo, kakaoLogin, googleLogin) = createRefs()
             Image(

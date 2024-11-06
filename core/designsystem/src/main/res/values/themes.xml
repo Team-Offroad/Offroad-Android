@@ -3,12 +3,11 @@
 
     <style name="Theme.Offroad" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowLightStatusBar">true</item>
-        <item name="android:includeFontPadding">false</item>
-        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:includeFontPadding">false</item>
         <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">@android:color/transparent</item>
         <item name="android:windowSplashScreenAnimationDuration" tools:targetApi="s">0</item>
     </style>

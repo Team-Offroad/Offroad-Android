@@ -28,7 +28,7 @@ fun DialogChangeButton(
     textColor: Color,
     style: TextStyle,
     backgroundColor: Color,
-    borderColor: Color = backgroundColor,
+    borderColor: Color,
     onItemClick: () -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -41,11 +41,11 @@ fun DialogChangeButton(
             .fillMaxWidth()
             .background(
                 color = backgroundColor,
-                shape = RoundedCornerShape(10.dp),
+                shape = RoundedCornerShape(5.dp),
             )
             .border(
                 width = 1.dp,
-                shape = RoundedCornerShape(10.dp),
+                shape = RoundedCornerShape(5.dp),
                 color = borderColor
             )
             .padding(vertical = 14.dp)

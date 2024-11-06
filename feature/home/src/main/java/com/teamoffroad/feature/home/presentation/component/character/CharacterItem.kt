@@ -8,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,6 +24,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -38,10 +40,9 @@ import com.airbnb.lottie.compose.rememberLottieAnimatable
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.teamoffroad.core.designsystem.component.OffroadTagItem
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
-import com.teamoffroad.core.designsystem.theme.Black15
-import com.teamoffroad.core.designsystem.theme.CharacterName
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
+import com.teamoffroad.core.designsystem.theme.Sub55
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.home.presentation.HomeViewModel
 import com.teamoffroad.feature.home.presentation.component.UiState
@@ -72,17 +73,23 @@ class CharacterItem {
                         .fillMaxHeight()
                         .align(Alignment.BottomCenter)
                 ) {
-                    AsyncImage(
-                        model = ImageRequest.Builder(context)
-                            .data(baseCharacterImage)
-                            .decoderFactory(SvgDecoder.Factory())
-                            .build(),
-                        contentDescription = "explorer",
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .align(Alignment.BottomCenter),
-                        // TODO: placeholder, error일 때
+                    Image(
+                        painter = painterResource(id = R.drawable.img_home_character),
+                        contentDescription = "character",
+                        modifier = Modifier.fillMaxSize()
                     )
+
+//                    AsyncImage(
+//                        model = ImageRequest.Builder(context)
+//                            .data(baseCharacterImage)
+//                            .decoderFactory(SvgDecoder.Factory())
+//                            .build(),
+//                        contentDescription = "explorer",
+//                        modifier = Modifier
+//                            .fillMaxSize()
+//                            .align(Alignment.BottomCenter),
+//                        // TODO: placeholder, error일 때
+//                    )
                 }
             } else {
                 val composition by rememberLottieComposition(
@@ -119,20 +126,24 @@ class CharacterItem {
     }
 
     @Composable
-    fun CharacterNameText(name: String) {
+    fun CharacterNameText(
+        name: String,
+        backgroundColor: Color = Sub55,
+        borderColor: Color = Sub
+    ) {
         Text(
             style = OffroadTheme.typography.subtitle2Semibold,
             text = name,
             modifier = Modifier
                 .padding(start = 24.dp, top = 12.dp)
                 .background(
-                    color = CharacterName,
-                    shape = RoundedCornerShape(6.dp)
+                    color = backgroundColor,
+                    shape = RoundedCornerShape(20.dp)
                 )
                 .border(
                     width = 1.dp,
-                    shape = RoundedCornerShape(6.dp),
-                    color = Black15
+                    shape = RoundedCornerShape(20.dp),
+                    color = borderColor
                 )
                 .padding(horizontal = 16.dp)
                 .padding(vertical = 6.dp),
@@ -168,20 +179,16 @@ class CharacterItem {
         Box(
             modifier = modifier
                 .padding(horizontal = 24.dp)
+                .aspectRatio(312f / 38f)
                 .fillMaxWidth(),
             contentAlignment = Alignment.CenterEnd
         ) {
-            OffroadTagItem(
-                text = userEmblem,
-                textColor = White,
-                style = OffroadTheme.typography.subtitle2Semibold,
-                backgroundColor = Sub
-            )
+            OffroadTagItem(text = userEmblem)
             Image(
                 painter = painterResource(id = R.drawable.ic_home_change_title),
                 contentDescription = "change title",
                 modifier = Modifier
-                    .padding(top = 4.dp, bottom = 4.dp, end = 6.dp)
+                    .padding(top = 8.dp, bottom = 8.dp, end = 20.dp)
                     .clickableWithoutRipple(
                         interactionSource
                     ) {
