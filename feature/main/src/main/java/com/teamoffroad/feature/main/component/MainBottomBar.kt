@@ -1,34 +1,39 @@
 package com.teamoffroad.feature.main.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.teamoffroad.core.designsystem.component.ChangeBottomBarColor
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.BottomBarInactive
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
-import com.teamoffroad.core.designsystem.theme.Sub4
+import com.teamoffroad.core.designsystem.theme.Sub4_80
 import com.teamoffroad.feature.main.MainNavTab
+import com.teamoffroad.offroad.feature.main.R
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
 
@@ -40,18 +45,31 @@ internal fun MainBottomBar(
     currentTab: MainNavTab?,
     onTabSelected: (MainNavTab) -> Unit,
 ) {
-    ProvideWindowInsets {
+    ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
         StaticAnimationWrapper(visible = visible) {
-            Column(
+            Box(
                 modifier = modifier
                     .fillMaxWidth()
                     .navigationPadding()
             ) {
+                ChangeBottomBarColor(Sub4_80)
+                Box(
+                    modifier = modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.BottomCenter
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.img_main_bottombar),
+                        contentDescription = "bottombar",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxWidth().background(Color.Transparent)
+                    )
+                }
+
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(74.dp)
-                        .background(Sub4)
+                        .background(Color.Transparent)
+                        .aspectRatio(360f / 75f)
                 ) {
                     tabs.forEach { tab ->
                         MainBottomBarItem(
@@ -82,7 +100,6 @@ private fun RowScope.MainBottomBarItem(
     ConstraintLayout(
         modifier = Modifier
             .weight(1f)
-            .fillMaxHeight()
             .selectable(
                 selected = selected,
                 indication = null,
@@ -98,7 +115,8 @@ private fun RowScope.MainBottomBarItem(
                     painter = painterResource(tab.iconResId),
                     contentDescription = tab.contentDescription,
                     modifier = Modifier
-                        .size(50.dp)
+                        .aspectRatio(33f / 44f)
+                        .padding(vertical = 18.dp)
                         .constrainAs(navBtn) {
                             start.linkTo(parent.start, margin = 48.dp)
                             top.linkTo(parent.top)
@@ -113,12 +131,14 @@ private fun RowScope.MainBottomBarItem(
                     painter = painterResource(tab.iconResId),
                     contentDescription = tab.contentDescription,
                     modifier = Modifier
-                        .size(78.dp)
                         .constrainAs(navBtn) {
-                            bottom.linkTo(parent.bottom, margin = 20.dp)
+                            bottom.linkTo(parent.bottom, margin = 46.dp)
                             start.linkTo(parent.start)
                             end.linkTo(parent.end)
-                        },
+                        }
+                        .fillMaxHeight()
+                        .padding(4.dp)
+                        .aspectRatio(70f / 70f),
                     tint = Color.Unspecified,
                 )
             }
@@ -128,7 +148,8 @@ private fun RowScope.MainBottomBarItem(
                     painter = painterResource(tab.iconResId),
                     contentDescription = tab.contentDescription,
                     modifier = Modifier
-                        .size(50.dp)
+                        .aspectRatio(33f / 44f)
+                        .padding(vertical = 18.dp)
                         .constrainAs(navBtn) {
                             end.linkTo(parent.end, margin = 48.dp)
                             top.linkTo(parent.top)
@@ -138,7 +159,6 @@ private fun RowScope.MainBottomBarItem(
                 )
             }
         }
-
     }
 }
 

@@ -2,7 +2,6 @@ package com.teamoffroad.feature.home.presentation.component
 
 import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Build
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -12,6 +11,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -21,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.feature.home.presentation.component.download.downloadImage
 import com.teamoffroad.feature.home.presentation.component.upload.uploadImage
@@ -55,24 +54,27 @@ fun HomeIcons(
 
     Box(
         contentAlignment = Alignment.TopEnd,
-        modifier = Modifier.padding(top = 64.dp, end = 28.dp)
+        modifier = Modifier.aspectRatio(48f / 144f).padding(top = 80.dp, end = 20.dp)
     ) {
         Column {
             val downloadInteractionSource = remember { MutableInteractionSource() }
             Image(
-                painter = painterResource(id = R.drawable.ic_home_download),
-                contentDescription = "download",
+                painter = painterResource(id = R.drawable.ic_home_chat),
+                contentDescription = "chat",
                 modifier = Modifier
-                    .clickableWithoutRipple(downloadInteractionSource) {
-                        val allPermissionsGranted = permissions.all {
-                            ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
-                        }
-                        if (allPermissionsGranted) {
-                            downloadImage(context, imageUrl, scope)
-                        } else {
-                            launcher.launch(permissions.toTypedArray())
-                        }
-                    }
+//                modifier = Modifier
+//                    .clickableWithoutRipple(downloadInteractionSource) {
+//                        if (ContextCompat.checkSelfPermission(
+//                                context,
+//                                permission
+//                            ) == PackageManager.PERMISSION_GRANTED
+//                        ) {
+//                            downloadImage(context, imageUrl, scope)
+//                            Toast.makeText(context, "이미지 다운 완료", Toast.LENGTH_SHORT).show()
+//                        } else {
+//                            launcher.launch(permission)
+//                        }
+//                    }
             )
 
             val uploadInteractionSource = remember { MutableInteractionSource() }
