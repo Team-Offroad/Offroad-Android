@@ -6,6 +6,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.teamoffroad.core.designsystem.component.ChangeBottomBarColor
+import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.navigation.AuthRoute
 import com.teamoffroad.core.navigation.Route
 import com.teamoffroad.feature.auth.presentation.AgreeTermsAndConditionsScreen
@@ -61,6 +63,7 @@ fun NavGraphBuilder.authNavGraph(
     navigateToBack: () -> Unit,
 ) {
     composable<Route.Auth> {
+        ChangeBottomBarColor(Main1)
         AuthScreen(
             navigateToHome,
             navigateToAgreeTermsAndConditions,

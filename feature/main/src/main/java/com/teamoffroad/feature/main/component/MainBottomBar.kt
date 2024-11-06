@@ -25,11 +25,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.teamoffroad.core.designsystem.component.ChangeBottomBarColor
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.BottomBarInactive
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
+import com.teamoffroad.core.designsystem.theme.Sub4_80
 import com.teamoffroad.feature.main.MainNavTab
 import com.teamoffroad.offroad.feature.main.R
 import kotlinx.collections.immutable.PersistentList
@@ -50,6 +52,7 @@ internal fun MainBottomBar(
                     .fillMaxWidth()
                     .navigationPadding()
             ) {
+                ChangeBottomBarColor(Sub4_80)
                 Box(
                     modifier = modifier.fillMaxWidth(),
                     contentAlignment = Alignment.BottomCenter
