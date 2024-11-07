@@ -4,8 +4,10 @@ import android.content.Context
 import com.teamoffroad.core.common.data.datasource.TokenPreferencesDataSource
 import com.teamoffroad.core.common.data.local.AuthAuthenticator
 import com.teamoffroad.core.common.data.local.AuthInterceptor
+import com.teamoffroad.core.common.data.remote.service.TokenService
 import com.teamoffroad.core.common.domain.usecase.RefreshTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.UpdateAutoSignInUseCase
+import com.teamoffroad.core.common.intentProvider.IntentProvider
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
@@ -31,10 +33,11 @@ object AuthModule {
     @Singleton
     fun provideAuthAuthenticator(
         tokenPreferencesDataSource: TokenPreferencesDataSource,
-        refreshTokenUseCase: Lazy<RefreshTokenUseCase>,
+        refreshTokenUseCase: TokenService,
         updateAutoSignInUseCase: UpdateAutoSignInUseCase,
         @ApplicationContext context: Context,
+        intentProvider: IntentProvider,
     ): AuthAuthenticator {
-        return AuthAuthenticator(tokenPreferencesDataSource, refreshTokenUseCase, updateAutoSignInUseCase, context)
+        return AuthAuthenticator(tokenPreferencesDataSource, refreshTokenUseCase, updateAutoSignInUseCase, context, intentProvider)
     }
 }

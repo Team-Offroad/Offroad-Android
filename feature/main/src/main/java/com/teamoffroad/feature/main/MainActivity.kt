@@ -1,5 +1,7 @@
 package com.teamoffroad.feature.main
 
+import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -42,6 +44,13 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(context: Context) = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+    }
 }
 
 @Preview(showBackground = true)
@@ -52,3 +61,4 @@ fun GreetingPreview() {
         MainScreen()
     }
 }
+
