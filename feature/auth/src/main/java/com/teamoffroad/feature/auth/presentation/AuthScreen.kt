@@ -1,9 +1,10 @@
 package com.teamoffroad.feature.auth.presentation
 
 import android.app.Activity
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.content.ContentValues.TAG
+import android.content.Context
+import android.util.Log
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -23,14 +24,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.common.model.ClientError
+import com.kakao.sdk.common.model.ClientErrorCause
+import com.kakao.sdk.user.UserApiClient
 import com.teamoffroad.core.designsystem.component.ChangeBottomBarColor
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Black
@@ -39,8 +44,10 @@ import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
-import com.teamoffroad.offroad.feature.auth.BuildConfig
 import com.teamoffroad.offroad.feature.auth.R
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.EntryPointAccessors
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
 internal fun AuthScreen(
@@ -49,7 +56,6 @@ internal fun AuthScreen(
     viewModel: AuthViewModel = hiltViewModel(),
 ) {
     val isAuthUiState by viewModel.authUiState.collectAsStateWithLifecycle()
-
     val googleSignInLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -58,6 +64,10 @@ internal fun AuthScreen(
             viewModel.performGoogleSignIn(task)
         }
     }
+    val context = LocalContext.current as ComponentActivity
+    val entryPoint =
+        EntryPointAccessors.fromActivity<OAuthEntryPoint>(context)
+    val oAuthInteractor = entryPoint.getOAuthInteractor()
     var isShowWebView by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
@@ -67,6 +77,15 @@ internal fun AuthScreen(
         if (isAuthUiState.isAutoSignIn) navigateToHome()
         if (isAuthUiState.signInSuccess && !isAuthUiState.alreadyExist) navigateToAgreeTermsAndConditions()
         if (isAuthUiState.signInSuccess && isAuthUiState.alreadyExist) navigateToHome()
+        if (isAuthUiState.kakaoSignIn) {
+            val result = oAuthInteractor.signInKakao()
+            result.onSuccess {
+                viewModel.saveToken(it.accessToken, it.refreshToken)
+                Log.d("asdasd", it.accessToken)
+            }.onFailure {
+                Log.d("asdasd", it.message.toString())
+            }
+        }
     }
 
     Surface(
@@ -94,7 +113,7 @@ internal fun AuthScreen(
                 painter = painterResource(id = R.drawable.ic_auth_kakao_logo),
                 background = Kakao,
                 contentDescription = "auth_kakao",
-                onClick = { isShowWebView = true },
+                onClick = { viewModel.startKakaoSignIn() },
                 modifier = Modifier.constrainAs(kakaoLogin) {
                     start.linkTo(parent.start, margin = 24.dp)
                     end.linkTo(parent.end, margin = 24.dp)
@@ -117,18 +136,6 @@ internal fun AuthScreen(
                 }
             )
         }
-    }
-    if (isShowWebView) {
-        StartKakaoLoginWebView(
-            clientId = BuildConfig.KAKO_CLIENT_ID,
-            redirectUri = BuildConfig.KAKO_REDIRECT_URI,
-            onCodeReceived = { code ->
-                viewModel.performKakaoSignIn(code)
-            },
-            onClose = {
-                isShowWebView = false
-            },
-        )
     }
 }
 
@@ -178,62 +185,4 @@ fun ClickableImage(
             )
         }
     }
-}
-
-@Composable
-private fun StartKakaoLoginWebView(
-    clientId: String,
-    redirectUri: String,
-    onCodeReceived: (String) -> Unit,
-    onClose: () -> Unit,
-) {
-    val loginUrl =
-        "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=$clientId&redirect_uri=$redirectUri&prompt=select_account"
-
-    AndroidView(
-        modifier = Modifier.fillMaxSize(),
-        factory = { context ->
-            WebView(context).apply {
-                settings.javaScriptEnabled = true
-                webViewClient = object : WebViewClient() {
-                    override fun onPageStarted(
-                        view: WebView?,
-                        url: String?,
-                        favicon: android.graphics.Bitmap?
-                    ) {
-                        super.onPageStarted(view, url, favicon)
-
-                        url?.let {
-                            if (it.startsWith(redirectUri)) {
-                                val uri = android.net.Uri.parse(it)
-                                val code = uri.getQueryParameter("code")
-                                if (code != null) {
-                                    onCodeReceived(code)
-                                    onClose()
-                                }
-                            }
-                        }
-                    }
-
-                    override fun shouldOverrideUrlLoading(
-                        view: WebView?,
-                        request: WebResourceRequest?
-                    ): Boolean {
-                        val url = request?.url.toString()
-                        if (url.startsWith(redirectUri)) {
-                            val uri = android.net.Uri.parse(url)
-                            val code = uri.getQueryParameter("code")
-                            if (code != null) {
-                                onCodeReceived(code)
-                                onClose()
-                                return true
-                            }
-                        }
-                        return super.shouldOverrideUrlLoading(view, request)
-                    }
-                }
-                loadUrl(loginUrl)
-            }
-        }
-    )
 }

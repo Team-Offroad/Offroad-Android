@@ -74,6 +74,9 @@ googlePlayService = "21.1.0"
 googleAccompanistPermissions = "0.32.0"
 accompanistInsets = "0.31.5-beta"
 
+# Kakao
+kakao = "2.20.6"
+
 # Camera
 androidxCamera = "1.2.2"
 
@@ -171,6 +174,9 @@ google-play-services-location = { group = "com.google.android.gms", name = "play
 google-accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "googleAccompanistPermissions" }
 google-play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "googlePlayService" }
 accompanist-insets = { module = "com.google.accompanist:accompanist-insets", version.ref = "accompanistInsets" }
+
+# Kakao
+kakao-user = { module = "com.kakao.sdk:v2-user", version.ref = "kakao" }
 
 # Camera
 camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "androidxCamera" }
