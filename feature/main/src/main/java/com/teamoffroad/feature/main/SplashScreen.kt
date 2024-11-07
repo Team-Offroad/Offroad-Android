@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntOffset
+import com.teamoffroad.core.designsystem.component.ChangeBottomBarColor
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.offroad.feature.auth.R
 import kotlinx.coroutines.delay
@@ -31,6 +32,7 @@ import kotlin.math.roundToInt
 
 @Composable
 fun SplashScreen() {
+    ChangeBottomBarColor(Main2)
     var backgroundVisibility by remember { mutableStateOf(true) }
     val scale = remember { Animatable(1f) }
     val offsetY = remember { Animatable(0f) }

@@ -31,12 +31,10 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.theme.Black15
-import com.teamoffroad.core.designsystem.theme.Black25
-import com.teamoffroad.core.designsystem.theme.Gray400
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.NametagInactive
-import com.teamoffroad.core.designsystem.theme.NametagStroke
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
+import com.teamoffroad.core.designsystem.theme.Stroke
 import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.home.domain.model.Emblem
@@ -190,9 +188,9 @@ private fun CharacterTitle(
                     },
                     borderColor =
                     when (selectedChangeEmblemState) {
-                        SelectedEmblemState.SAME_WITH_ORIGIN_EMBLEM -> if (clickedOriginEmblem.value) NametagStroke else Sub
+                        SelectedEmblemState.SAME_WITH_ORIGIN_EMBLEM -> if (clickedOriginEmblem.value) Stroke else Sub
                         SelectedEmblemState.SAME_WITH_SELECTED_CHANGE_EMBLEM -> Sub
-                        SelectedEmblemState.SELECTED_CHANGE_EMBLEM -> NametagStroke
+                        SelectedEmblemState.SELECTED_CHANGE_EMBLEM -> Stroke
                     },
                     emblem = emblem,
                     onItemClick = { clickedData: Emblem ->
@@ -229,10 +227,10 @@ fun ChangeCharacterTitle(
 ) {
     DialogChangeButton(
         text = stringResource(id = R.string.home_change_character_txt),
-        textColor = if (isSelected) White else Gray400,
+        textColor = White,
         style = OffroadTheme.typography.textRegular,
         backgroundColor = if (isSelected) Main2 else Black15,
-        borderColor = if (isSelected) Main2 else Black25,
+        borderColor = if (isSelected) Main2 else Black15,
         onItemClick = {
             if (isSelected) onClickChange()
         }

@@ -2,67 +2,86 @@ package com.teamoffroad.core.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
-
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
-
-val Main1 = Color(0xFFFFF7E7)
-val Main175 = Color(0xBFFEFBF6)
-val Main2 = Color(0xFF1D1E18)
-val Main3 = Color(0xFFFFFBF4)
-
-val Sub = Color(0xFFFF901C)
-val Sub2 = Color(0xFFE57A2C)
-val Sub4 = Color(0xFF353028)
-
 val White = Color(0xFFFFFFFF)
 val Black = Color(0xFF000000)
-val Transparent = Color(0x00000000)
-
-val Error = Color(0xFFF04452)
 val Kakao = Color(0xFFFEE500)
+val ErrorNew = Color(0xFFF72585)
+
 val MapGradiStart = Color(0x005B5B5B)
 val MapGradiEnd = Color(0x8C5B5B5B)
 
-val Black55 = Color(0x8C000000)
-val Black25 = Color(0x40000000)
-val Black15 = Color(0x26000000)
-val Qrcamera = Color(0x80181818)
-val White75 = Color(0xBFFFFFFF)
-val White25 = Color(0x40FFFFFF)
+val CharacterSelectBg1 = Color(0xFFD8D6FF)
+val CharacterSelectBg2 = Color(0xFFFFE1C5)
+val CharacterSelectBg3 = Color(0xFFF9E5D2)
+
+val Wall = Color(0xFF452B0F)
+val Ground = Color(0xFF685440)
+
+val ChatGradientStart = Color(0xB25665BB)
+val ChatGradientEnd = Color(0x0081ADFF)
+
+val ListBg = Color(0xFFEAE9F6)
+val BoxInfo = Color(0xFFEFEFFF)
+val Stroke = Color(0xFFC7C5FF)
+
+val Main1 = Color(0xFFF6F4FF)
+val Main1_75 = Color(0xBFF7E7BF)
+val Main2 = Color(0xFF1D1E18)
+val Main3 = Color(0xFFFFFFFF)
+
+val Sub = Color(0xFF5E59FF)
+val Sub2 = Color(0xFF5E59FF)
+val Sub4 = Color(0xFF282C75)
+val Sub4_80 = Color(0xCC282C75)
+val Sub55 = Color(0x8C5E59FF)
 
 val Gray100 = Color(0xFFD9D9D9)
 val Gray200 = Color(0xFFBEBEBE)
 val Gray300 = Color(0xFFB2B2B2)
 val Gray400 = Color(0xFF7E7E7E)
 
-val Wall = Color(0xFF452B0F)
-val Ground = Color(0xFF685440)
-val SelectedCharacterText = Color(0xFFFFF7E7)
-
+val BottombarButtonStroke = Color(0x40FEFBF6)
 val BtnInactive = Color(0xFFEBEBEB)
 val BottomBarInactive = Color(0xFFA4A099)
-val NametagInactive = Color(0xFFFFEDDB)
-val BottombarButtonStroke = Color(0xFFFEFBF6)
+val NametagInactive = Color(0xFFE5E4FF)
 
-val Brown = Color(0xFF463E32)
+val Black15 = Color(0x26000000)
+val Black25 = Color(0x40000000)
+val Black55 = Color(0x8C000000)
+val QRcamera = Color(0x80181818)
+
+val White75 = Color(0xBFFFFFFF)
+val White25 = Color(0x40FFFFFF)
+
 val NametagStroke = Color(0xFFFFD6AB)
-val Contents1 = Color(0xFF8B8446)
-val Contents1GraphMain = Color(0xFFFED761)
-val Contents1GraphSub = Color(0xFFBBAC57)
-val Contents2 = Color(0xFFE6CEAA)
-val CharacterName = Color(0x738B6546)
+val Contents1 = Color(0xB2382D93)
+val Contents1GraphMain = Color(0xFFF477A1)
+val Contents1GraphSub = Color(0xFF9B429D)
+val Contents2 = Color(0xB24437A1)
+val CharacterName = Color(0x40000000)
 
-val CharacterSelectBg1 = Color(0xFFFFF4CC)
-val CharacterSelectBg2 = Color(0xFFFFE1C5)
-val CharacterSelectBg3 = Color(0xFFF9E5D2)
+val HomeGradi1 = Color(0xFF92B2E3)
+val HomeGradi2 = Color(0xFFBFB6E1)
+val HomeGradi3 = Color(0xFFF1D3B1)
+val HomeGradi4 = Color(0xFFC699DB)
+val HomeGradi5 = Color(0xFF8368AA)
+val HomeGradi6 = Color(0xFFF1C9E4)
 
-val ListBg = Color(0xFFF6EEDF)
-val BoxInfo = Color(0xFFFFF5EA)
-val GetCharacter = Color(0xFFFFB141)
+val SettingCoupon = Color(0xFFFFDED8)
+val SettingSetting = Color(0x40D2E0FF)
+val SettingCharacter = Color(0xFFFFF7D1)
+val SettingNameTag = Color(0x40FBDAED)
 
+val GetCharacter002 = Color(0xFFFFB141)
+val GetCharacterBg001 = Color(0xFFFFF0BC)
+
+//
+val Purple80 = Color(0xFFD0BCFF)
+val PurpleGrey80 = Color(0xFFCCC2DC)
+val Pink80 = Color(0xFFEFB8C8)
+val Purple40 = Color(0xFF6650a4)
+val PurpleGrey40 = Color(0xFF625b71)
+val Pink40 = Color(0xFF7D5260)
+val Transparent = Color(0x00000000)
+val SelectedCharacterText = Color(0xFFFFF7E7)
 val BottomBar = Color(0xFF010101)

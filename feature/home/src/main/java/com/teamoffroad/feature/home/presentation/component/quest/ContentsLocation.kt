@@ -17,7 +17,7 @@ import com.teamoffroad.core.designsystem.theme.White25
 @Composable
 fun ContentsLocation(
     location: String,
-    textColor: Color
+    textColor: Color = Main1
 ) {
     Text(
         textAlign = TextAlign.Center,
@@ -28,7 +28,7 @@ fun ContentsLocation(
                 color = White25,
                 shape = RoundedCornerShape(4.dp)
             )
-            .padding(horizontal = 30.dp, vertical = 5.dp),
+            .padding(horizontal = 30.dp, vertical = 6.dp),
         text = location,
         style = OffroadTheme.typography.textContentsSmall,
         color = textColor,
