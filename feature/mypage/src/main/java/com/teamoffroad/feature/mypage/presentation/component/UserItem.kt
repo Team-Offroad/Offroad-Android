@@ -35,7 +35,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
-import com.teamoffroad.core.designsystem.theme.Brown
 import com.teamoffroad.core.designsystem.theme.Contents2
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
@@ -173,7 +172,7 @@ fun UserImage(
     shape: RoundedCornerShape = CircleShape,
     contentScale: ContentScale = ContentScale.Crop,
     modifier: Modifier = Modifier,
-    borderColor: Color = Brown
+    borderColor: Color = Main1
 ) {
 //    Image(
 //        painter = painterResource(id = R.drawable.test_img_user_home),

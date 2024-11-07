@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import com.teamoffroad.core.designsystem.theme.Error
+import com.teamoffroad.core.designsystem.theme.ErrorNew
 import com.teamoffroad.core.designsystem.theme.Gray400
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.offroad.feature.auth.R
@@ -28,7 +28,7 @@ fun NicknameHintText(
             },
             style = OffroadTheme.typography.hint,
             color = when (isDuplicate) {
-                NicknameValidateResult.Duplicate -> Error
+                NicknameValidateResult.Duplicate -> ErrorNew
                 else -> checkNicknameHint(text)
             }
         )
@@ -44,6 +44,6 @@ fun checkNicknameHint(text: String): Color {
     return when {
         koreanRegex.matches(text) && text.length in 2..8 -> Gray400
         englishRegex.matches(text) && text.length in 2..16 -> Gray400
-        else -> Error
+        else -> ErrorNew
     }
 }

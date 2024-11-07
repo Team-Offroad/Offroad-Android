@@ -1,19 +1,15 @@
 package com.teamoffroad.feature.home.presentation.component.quest.progressbar
 
 import android.annotation.SuppressLint
-import android.util.Log
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.SpanStyle
@@ -24,9 +20,10 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.teamoffroad.core.designsystem.theme.Black25
-import com.teamoffroad.core.designsystem.theme.OpticianSansRegular
-import com.teamoffroad.core.designsystem.theme.Sub4
+import com.teamoffroad.core.designsystem.theme.Main1
+import com.teamoffroad.core.designsystem.theme.PretendardBold
+import com.teamoffroad.core.designsystem.theme.PretendardRegular
+import com.teamoffroad.core.designsystem.theme.White25
 import com.teamoffroad.feature.home.presentation.HomeViewModel
 import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 
@@ -35,56 +32,57 @@ import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 fun LinearProgressBar(data: HomeProgressBarModel, viewModel: HomeViewModel) {
     val closeCompleteQuestProgress = viewModel.linearProgressBar.value
 
-    ConstraintLayout {
-        val text = createRef()
+    Box(
+        modifier = Modifier.fillMaxSize().padding(top = 30.dp)
+    ) {
         Text(
             textAlign = TextAlign.Center,
             text = buildAnnotatedString {
                 withStyle(
                     SpanStyle(
-                        fontFamily = OpticianSansRegular,
-                        fontWeight = FontWeight.Normal,
-                        color = Sub4,
-                        fontSize = 62.sp
+                        fontFamily = PretendardBold,
+                        fontWeight = FontWeight.Bold,
+                        color = Main1,
+                        fontSize = 28.sp
                     )
                 ) {
                     append(data.amount.toString())
                 }
                 withStyle(
                     SpanStyle(
-                        fontFamily = OpticianSansRegular,
+                        fontFamily = PretendardRegular,
                         fontWeight = FontWeight.Normal,
-                        fontSize = 30.sp,
-                        color = Black25
+                        fontSize = 28.sp,
+                        color = White25
                     )
                 ) {
-                    append("/")
+                    append(" / ")
                     append(data.total.toString())
                 }
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .constrainAs(text) {
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                }
         )
-    }
-    Spacer(modifier = Modifier.padding(top = 8.dp))
-    ConstraintLayout {
-        val progress = createRef()
 
-        LinearProgressIndicator(
-            progress = closeCompleteQuestProgress,
-            trackColor = Black25,
-            color = Sub4,
-            strokeCap = StrokeCap.Round,
+        ConstraintLayout(
             modifier = Modifier
-                .height(8.dp)
-                .padding(end = 10.dp)
-                .constrainAs(progress) {
-                    start.linkTo(parent.start, margin = (-3).dp)
-                }
-        )
+                .fillMaxSize()
+                .align(Alignment.TopEnd)
+                .padding(top = 62.dp)
+        ) {
+            val progress = createRef()
+            LinearProgressIndicator(
+                progress = closeCompleteQuestProgress,
+                trackColor = White25,
+                color = Main1,
+                strokeCap = StrokeCap.Round,
+                modifier = Modifier
+                    .height(8.dp)
+                    .padding(end = 10.dp)
+                    .constrainAs(progress) {
+                        start.linkTo(parent.start, margin = (-6).dp)
+                    }
+            )
+        }
     }
 }
