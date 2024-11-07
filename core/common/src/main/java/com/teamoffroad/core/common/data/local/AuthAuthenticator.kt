@@ -4,6 +4,7 @@ import android.content.Context
 import com.jakewharton.processphoenix.ProcessPhoenix
 import com.teamoffroad.core.common.data.datasource.TokenPreferencesDataSource
 import com.teamoffroad.core.common.domain.usecase.RefreshTokenUseCase
+import com.teamoffroad.core.common.domain.usecase.UpdateAutoSignInUseCase
 import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first
@@ -17,6 +18,7 @@ import javax.inject.Inject
 class AuthAuthenticator @Inject constructor(
     private val tokenPreferencesDataSource: TokenPreferencesDataSource,
     private val refreshTokenUseCase: Lazy<RefreshTokenUseCase>,
+    private val updateAutoSignInUseCase: UpdateAutoSignInUseCase,
     @ApplicationContext private val context: Context,
 ) : Authenticator {
 
@@ -24,7 +26,6 @@ class AuthAuthenticator @Inject constructor(
         val refreshToken = runBlocking {
             tokenPreferencesDataSource.refreshToken.first()
         }
-
         val tokenResponse = runCatching {
             runBlocking {
                 refreshTokenUseCase.get().invoke("Bearer $refreshToken")
@@ -42,11 +43,10 @@ class AuthAuthenticator @Inject constructor(
             }
             .onFailure {
                 runBlocking {
-                    //auth signin false
-                    ProcessPhoenix.triggerRebirth(context)
+                    updateAutoSignInUseCase.invoke(false)
                 }
+                ProcessPhoenix.triggerRebirth(context)
             }
-
         return response.request.newBuilder()
             .header(AUTHORIZATION, "Bearer ${tokenResponse.getOrNull()?.accessToken}")
             .build()

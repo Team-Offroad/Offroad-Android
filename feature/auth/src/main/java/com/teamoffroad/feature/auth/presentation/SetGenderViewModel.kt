@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.auth.domain.model.UserProfile
 import com.teamoffroad.feature.auth.domain.repository.AuthRepository
-import com.teamoffroad.feature.auth.domain.usecase.UpdateAutoSignInUseCase
+import com.teamoffroad.core.common.domain.usecase.UpdateAutoSignInUseCase
 import com.teamoffroad.feature.auth.presentation.model.SetGenderUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

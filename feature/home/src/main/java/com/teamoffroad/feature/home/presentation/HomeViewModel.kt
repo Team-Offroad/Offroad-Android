@@ -2,7 +2,7 @@ package com.teamoffroad.feature.home.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.teamoffroad.feature.auth.domain.usecase.UpdateAutoSignInUseCase
+import com.teamoffroad.core.common.domain.usecase.UpdateAutoSignInUseCase
 import com.teamoffroad.feature.home.domain.model.Emblem
 import com.teamoffroad.feature.home.domain.model.UserQuests
 import com.teamoffroad.feature.home.domain.model.UsersAdventuresInformation
@@ -136,7 +136,7 @@ class HomeViewModel @Inject constructor(
 
     fun updateAutoSignIn(){
         viewModelScope.launch {
-            updateAutoSignInUseCase(true)
+            updateAutoSignInUseCase.invoke(true)
         }
     }
 

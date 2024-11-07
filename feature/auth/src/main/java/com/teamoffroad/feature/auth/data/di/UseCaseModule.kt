@@ -2,11 +2,9 @@ package com.teamoffroad.feature.auth.data.di
 
 import com.teamoffroad.feature.auth.domain.repository.AuthRepository
 import com.teamoffroad.feature.auth.domain.usecase.AuthUseCase
-import com.teamoffroad.feature.auth.domain.usecase.GetAutoSignInUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetBirthDateValidateUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetCharacterListUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetNicknameValidateUseCase
-import com.teamoffroad.feature.auth.domain.usecase.UpdateAutoSignInUseCase
 import com.teamoffroad.feature.auth.domain.usecase.UpdateCharacterUseCase
 import com.teamoffroad.feature.auth.domain.usecase.UserMarketingAgreeUseCase
 import dagger.Module
@@ -25,22 +23,6 @@ object UseCaseModule {
         authRepository: AuthRepository,
     ): AuthUseCase {
         return AuthUseCase(authRepository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideGetAutoLoginUseCase(
-        authRepository: AuthRepository,
-    ): GetAutoSignInUseCase {
-        return GetAutoSignInUseCase(authRepository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideSetAutoLoginUseCase(
-        authRepository: AuthRepository,
-    ): UpdateAutoSignInUseCase {
-        return UpdateAutoSignInUseCase(authRepository)
     }
 
     @Provides

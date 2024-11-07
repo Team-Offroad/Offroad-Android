@@ -11,7 +11,7 @@ import com.teamoffroad.core.common.domain.usecase.SaveAccessTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.SaveRefreshTokenUseCase
 import com.teamoffroad.feature.auth.domain.model.SocialSignInPlatform
 import com.teamoffroad.feature.auth.domain.usecase.AuthUseCase
-import com.teamoffroad.feature.auth.domain.usecase.GetAutoSignInUseCase
+import com.teamoffroad.core.common.domain.usecase.GetAutoSignInUseCase
 import com.teamoffroad.feature.auth.presentation.model.AuthUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

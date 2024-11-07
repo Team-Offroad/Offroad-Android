@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.auth.data.repository
 
-import com.teamoffroad.feature.auth.data.datasource.AuthPreferencesDataSource
 import com.teamoffroad.feature.auth.data.mapper.toData
 import com.teamoffroad.feature.auth.data.mapper.toDomain
 import com.teamoffroad.feature.auth.data.remote.request.SignInInfoRequestDto
@@ -11,12 +10,10 @@ import com.teamoffroad.feature.auth.domain.model.SignInInfo
 import com.teamoffroad.feature.auth.domain.model.UserProfile
 import com.teamoffroad.feature.auth.domain.model.UserToken
 import com.teamoffroad.feature.auth.domain.repository.AuthRepository
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
     private val authService: AuthService,
-    private val authPreferencesDataSource: AuthPreferencesDataSource,
 ) : AuthRepository {
 
     override suspend fun performSignIn(
@@ -34,12 +31,6 @@ class AuthRepositoryImpl @Inject constructor(
             tokens = UserToken("", ""),
             isAlreadyExist = false
         )
-    }
-
-    override val isAutoSignInEnabled: Flow<Boolean> = authPreferencesDataSource.autoLogin
-
-    override suspend fun updateAutoSignInEnabled(enabled: Boolean) {
-        authPreferencesDataSource.setAutoLogin(enabled)
     }
 
     override suspend fun fetchDuplicateNickname(nickname: String): Boolean =

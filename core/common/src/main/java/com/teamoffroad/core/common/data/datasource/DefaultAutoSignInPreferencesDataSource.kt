@@ -1,19 +1,17 @@
-package com.teamoffroad.feature.auth.data.datasource
+package com.teamoffroad.core.common.data.datasource
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import com.teamoffroad.feature.auth.domain.model.SocialSignInPlatform
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Named
 
-class DefaultAuthPreferencesDataSource @Inject constructor(
+class DefaultAutoSignInPreferencesDataSource @Inject constructor(
     @Named("authDataStore") private val dataStore: DataStore<Preferences>,
-) : AuthPreferencesDataSource {
+) : AutoSignInPreferencesDataSource {
 
     object PreferencesKey {
         val AUTO_LOGIN = booleanPreferencesKey("AUTO_LOGIN")

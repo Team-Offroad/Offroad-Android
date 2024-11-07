@@ -1,12 +1,15 @@
 package com.teamoffroad.core.common.data.di
 
+import com.teamoffroad.core.common.domain.repository.AutoSignInRepository
 import com.teamoffroad.core.common.domain.repository.TokenRepository
 import com.teamoffroad.core.common.domain.usecase.ClearTokensUseCase
 import com.teamoffroad.core.common.domain.usecase.GetAccessTokenUseCase
+import com.teamoffroad.core.common.domain.usecase.GetAutoSignInUseCase
 import com.teamoffroad.core.common.domain.usecase.GetRefreshTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.RefreshTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.SaveAccessTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.SaveRefreshTokenUseCase
+import com.teamoffroad.core.common.domain.usecase.UpdateAutoSignInUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -63,5 +66,21 @@ object UseCaseModule {
         tokenRepository: TokenRepository,
     ): ClearTokensUseCase {
         return ClearTokensUseCase(tokenRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetAutoLoginUseCase(
+        autoSignInRepository: AutoSignInRepository,
+    ): GetAutoSignInUseCase {
+        return GetAutoSignInUseCase(autoSignInRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSetAutoLoginUseCase(
+        autoSignInRepository: AutoSignInRepository,
+    ): UpdateAutoSignInUseCase {
+        return UpdateAutoSignInUseCase(autoSignInRepository)
     }
 }

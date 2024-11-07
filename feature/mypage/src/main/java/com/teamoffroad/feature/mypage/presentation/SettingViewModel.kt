@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.teamoffroad.core.common.domain.usecase.ClearTokensUseCase
-import com.teamoffroad.feature.auth.domain.usecase.UpdateAutoSignInUseCase
+import com.teamoffroad.core.common.domain.usecase.UpdateAutoSignInUseCase
 import com.teamoffroad.feature.auth.domain.usecase.UserMarketingAgreeUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.DeleteUserInfoUseCase
 import com.teamoffroad.feature.mypage.presentation.component.SettingDialogState
@@ -73,7 +73,7 @@ class SettingViewModel @Inject constructor(
             runCatching {
                 googleSignInClient.signOut()
                 clearTokensUseCase()
-                updateAutoSignInUseCase(false)
+                updateAutoSignInUseCase.invoke(false)
             }
                 .onSuccess {
                     _settingUiState.value = _settingUiState.value.copy(reset = true)
