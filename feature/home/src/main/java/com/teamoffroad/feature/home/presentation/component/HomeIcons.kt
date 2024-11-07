@@ -25,7 +25,9 @@ import androidx.core.content.ContextCompat
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.feature.home.presentation.component.upload.uploadImage
 import com.teamoffroad.offroad.feature.home.R
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
@@ -48,18 +50,12 @@ fun HomeIcons(
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
-        if (permissions.values.all { it }) {
-            Toast.makeText(
-                context,
-                context.getString(R.string.allowed_permissions),
-                Toast.LENGTH_SHORT
-            ).show()
-        } else {
-            Toast.makeText(
-                context,
-                context.getString(R.string.not_allowed_permissions),
-                Toast.LENGTH_SHORT
-            ).show()
+        scope.launch {
+            if (permissions.values.all { it }) {
+                showToast(context, context.getString(R.string.allowed_permissions))
+            } else {
+                showToast(context, context.getString(R.string.not_allowed_permissions))
+            }
         }
     }
 
@@ -108,5 +104,11 @@ fun HomeIcons(
                 modifier = Modifier.clickableWithoutRipple { navigateToGainedCharacter() }
             )
         }
+    }
+}
+
+private suspend fun showToast(context: Context, message: String) {
+    withContext(Dispatchers.Main) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 }
