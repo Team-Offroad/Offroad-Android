@@ -1,17 +1,16 @@
 package com.teamoffroad.feature.auth.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.teamoffroad.core.common.domain.usecase.GetAutoSignInUseCase
 import com.teamoffroad.core.common.domain.usecase.SaveAccessTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.SaveRefreshTokenUseCase
 import com.teamoffroad.feature.auth.domain.model.SocialSignInPlatform
 import com.teamoffroad.feature.auth.domain.usecase.AuthUseCase
-import com.teamoffroad.feature.auth.domain.usecase.GetAutoSignInUseCase
 import com.teamoffroad.feature.auth.presentation.model.AuthUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,8 +31,12 @@ class AuthViewModel @Inject constructor(
         MutableStateFlow(AuthUiState(empty = true))
     val authUiState: StateFlow<AuthUiState> = _authUiState.asStateFlow()
 
-    init {
-        checkAutoSignIn()
+    fun startKakaoSignIn() {
+        viewModelScope.launch {
+            _authUiState.value = _authUiState.value.copy(
+                kakaoSignIn = true
+            )
+        }
     }
 
     fun performGoogleSignIn(result: Task<GoogleSignInAccount>) {
@@ -47,7 +50,6 @@ class AuthViewModel @Inject constructor(
                     account.serverAuthCode.toString(),
                 )
             }.onFailure {
-                Log.e("123123", it.message.toString())
             }
         }
     }
@@ -74,12 +76,11 @@ class AuthViewModel @Inject constructor(
                     alreadyExist = signInInfo.isAlreadyExist
                 )
             }.onFailure {
-                Log.e("123123", it.message.toString())
             }
         }
     }
 
-    private fun checkAutoSignIn() {
+    fun checkAutoSignIn() {
         viewModelScope.launch {
             getAutoSignInUseCase().collect { isAutoSignIn ->
                 _authUiState.value = _authUiState.value.copy(

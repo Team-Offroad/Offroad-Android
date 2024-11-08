@@ -18,4 +18,5 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.google.play.services.auth)
     implementation(libs.kotlinx.immutable)
+    implementation(libs.process.phoenix)
 }

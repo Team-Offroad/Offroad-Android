@@ -1,8 +1,8 @@
-package com.teamoffroad.feature.auth.data.datasource
+package com.teamoffroad.core.common.data.datasource
 
 import kotlinx.coroutines.flow.Flow
 
-interface AuthPreferencesDataSource {
+interface AutoSignInPreferencesDataSource {
     val autoLogin: Flow<Boolean>
 
     suspend fun setAutoLogin(autoLogin: Boolean)

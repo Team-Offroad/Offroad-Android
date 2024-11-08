@@ -74,11 +74,17 @@ googlePlayService = "21.1.0"
 googleAccompanistPermissions = "0.32.0"
 accompanistInsets = "0.31.5-beta"
 
+# Kakao
+kakao = "2.20.6"
+
 # Camera
 androidxCamera = "1.2.2"
 
 # Barcode Scanning
 barcodeScanning = "17.1.0"
+
+# Process phoenix
+processPhoenix = "3.0.0"
 
 [libraries]
 # Core Libraries
@@ -169,6 +175,9 @@ google-accompanist-permissions = { group = "com.google.accompanist", name = "acc
 google-play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "googlePlayService" }
 accompanist-insets = { module = "com.google.accompanist:accompanist-insets", version.ref = "accompanistInsets" }
 
+# Kakao
+kakao-user = { module = "com.kakao.sdk:v2-user", version.ref = "kakao" }
+
 # Camera
 camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "androidxCamera" }
 camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "androidxCamera" }
@@ -176,6 +185,9 @@ camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "
 
 # Barcode Scanning
 barcode-scanning = { group = "com.google.mlkit", name = "barcode-scanning", version.ref = "barcodeScanning" }
+
+# Process Phoenix
+process-phoenix = { group = "com.jakewharton", name = "process-phoenix", version.ref = "processPhoenix" }
 
 [plugins]
 # Android Application Plugin

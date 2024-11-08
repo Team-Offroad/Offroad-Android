@@ -105,7 +105,6 @@ fun WithDrawDialog(
                         text = stringResource(R.string.my_page_setting_withdraw_dialog_agree),
                         onClick = {
                             onClick(withDrawInputText)
-                            navigateToSignIn()
                         },
                         textColor = White,
                         backgroundColor = Main2,
