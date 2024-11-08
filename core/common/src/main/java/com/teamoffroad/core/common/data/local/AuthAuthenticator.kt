@@ -5,10 +5,8 @@ import android.util.Log
 import com.jakewharton.processphoenix.ProcessPhoenix
 import com.teamoffroad.core.common.data.datasource.TokenPreferencesDataSource
 import com.teamoffroad.core.common.data.remote.service.TokenService
-import com.teamoffroad.core.common.domain.usecase.RefreshTokenUseCase
-import com.teamoffroad.core.common.domain.usecase.UpdateAutoSignInUseCase
+import com.teamoffroad.core.common.domain.usecase.SetAutoSignInUseCase
 import com.teamoffroad.core.common.intentProvider.IntentProvider
-import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -21,7 +19,7 @@ import javax.inject.Inject
 class AuthAuthenticator @Inject constructor(
     private val tokenPreferencesDataSource: TokenPreferencesDataSource,
     private val refreshTokenUseCase: TokenService,
-    private val updateAutoSignInUseCase: UpdateAutoSignInUseCase,
+    private val setAutoSignInUseCase: SetAutoSignInUseCase,
     @ApplicationContext private val context: Context,
     private val intentProvider: IntentProvider
 ) : Authenticator {
@@ -46,7 +44,7 @@ class AuthAuthenticator @Inject constructor(
 
             Log.d("asdasd", "재발급실패")
                 runBlocking {
-                    updateAutoSignInUseCase.invoke(false)
+                    setAutoSignInUseCase.invoke(false)
                 }
                 ProcessPhoenix.triggerRebirth(context, intentProvider.getIntent())
             }.getOrThrow()

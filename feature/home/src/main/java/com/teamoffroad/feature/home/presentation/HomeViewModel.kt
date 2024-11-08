@@ -2,7 +2,7 @@ package com.teamoffroad.feature.home.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.teamoffroad.core.common.domain.usecase.UpdateAutoSignInUseCase
+import com.teamoffroad.core.common.domain.usecase.SetAutoSignInUseCase
 import com.teamoffroad.feature.home.domain.model.Emblem
 import com.teamoffroad.feature.home.domain.model.UserQuests
 import com.teamoffroad.feature.home.domain.model.UsersAdventuresInformation
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val userRepository: UserRepository,
-    private val updateAutoSignInUseCase: UpdateAutoSignInUseCase,
+    private val setAutoSignInUseCase: SetAutoSignInUseCase,
 ) : ViewModel() {
 
     private val _getUsersAdventuresInformationState =
@@ -136,7 +136,7 @@ class HomeViewModel @Inject constructor(
 
     fun updateAutoSignIn(){
         viewModelScope.launch {
-            updateAutoSignInUseCase.invoke(true)
+            setAutoSignInUseCase.invoke(true)
         }
     }
 

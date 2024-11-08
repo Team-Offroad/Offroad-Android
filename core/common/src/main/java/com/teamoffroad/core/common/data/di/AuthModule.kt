@@ -5,10 +5,8 @@ import com.teamoffroad.core.common.data.datasource.TokenPreferencesDataSource
 import com.teamoffroad.core.common.data.local.AuthAuthenticator
 import com.teamoffroad.core.common.data.local.AuthInterceptor
 import com.teamoffroad.core.common.data.remote.service.TokenService
-import com.teamoffroad.core.common.domain.usecase.RefreshTokenUseCase
-import com.teamoffroad.core.common.domain.usecase.UpdateAutoSignInUseCase
+import com.teamoffroad.core.common.domain.usecase.SetAutoSignInUseCase
 import com.teamoffroad.core.common.intentProvider.IntentProvider
-import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,10 +32,10 @@ object AuthModule {
     fun provideAuthAuthenticator(
         tokenPreferencesDataSource: TokenPreferencesDataSource,
         refreshTokenUseCase: TokenService,
-        updateAutoSignInUseCase: UpdateAutoSignInUseCase,
+        setAutoSignInUseCase: SetAutoSignInUseCase,
         @ApplicationContext context: Context,
         intentProvider: IntentProvider,
     ): AuthAuthenticator {
-        return AuthAuthenticator(tokenPreferencesDataSource, refreshTokenUseCase, updateAutoSignInUseCase, context, intentProvider)
+        return AuthAuthenticator(tokenPreferencesDataSource, refreshTokenUseCase, setAutoSignInUseCase, context, intentProvider)
     }
 }

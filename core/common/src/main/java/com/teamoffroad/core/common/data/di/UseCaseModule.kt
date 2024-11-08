@@ -9,7 +9,7 @@ import com.teamoffroad.core.common.domain.usecase.GetRefreshTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.RefreshTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.SaveAccessTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.SaveRefreshTokenUseCase
-import com.teamoffroad.core.common.domain.usecase.UpdateAutoSignInUseCase
+import com.teamoffroad.core.common.domain.usecase.SetAutoSignInUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -80,7 +80,7 @@ object UseCaseModule {
     @Singleton
     fun provideSetAutoLoginUseCase(
         autoSignInRepository: AutoSignInRepository,
-    ): UpdateAutoSignInUseCase {
-        return UpdateAutoSignInUseCase(autoSignInRepository)
+    ): SetAutoSignInUseCase {
+        return SetAutoSignInUseCase(autoSignInRepository)
     }
 }
