@@ -1,9 +1,6 @@
 package com.teamoffroad.feature.auth.presentation
 
 import android.app.Activity
-import android.content.ContentValues.TAG
-import android.content.Context
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,9 +15,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
@@ -32,10 +26,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.kakao.sdk.auth.model.OAuthToken
-import com.kakao.sdk.common.model.ClientError
-import com.kakao.sdk.common.model.ClientErrorCause
-import com.kakao.sdk.user.UserApiClient
 import com.teamoffroad.core.designsystem.component.ChangeBottomBarColor
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Black
@@ -45,9 +35,7 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.offroad.feature.auth.R
-import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
-import kotlinx.coroutines.CoroutineScope
 
 @Composable
 internal fun AuthScreen(
@@ -68,22 +56,21 @@ internal fun AuthScreen(
     val entryPoint =
         EntryPointAccessors.fromActivity<OAuthEntryPoint>(context)
     val oAuthInteractor = entryPoint.getOAuthInteractor()
-    var isShowWebView by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.checkAutoSignIn()
     }
     LaunchedEffect(isAuthUiState) {
-        if (isAuthUiState.isAutoSignIn) navigateToHome()
-        if (isAuthUiState.signInSuccess && !isAuthUiState.alreadyExist) navigateToAgreeTermsAndConditions()
-        if (isAuthUiState.signInSuccess && isAuthUiState.alreadyExist) navigateToHome()
-        if (isAuthUiState.kakaoSignIn) {
-            val result = oAuthInteractor.signInKakao()
-            result.onSuccess {
-                viewModel.saveToken(it.accessToken, it.refreshToken)
-                Log.d("asdasd", it.accessToken)
-            }.onFailure {
-                Log.d("asdasd", it.message.toString())
+        when {
+            isAuthUiState.isAutoSignIn -> navigateToHome()
+            isAuthUiState.signInSuccess && !isAuthUiState.alreadyExist -> navigateToAgreeTermsAndConditions()
+            isAuthUiState.signInSuccess && isAuthUiState.alreadyExist -> navigateToHome()
+            isAuthUiState.kakaoSignIn -> {
+                val result = oAuthInteractor.signInKakao()
+                result.onSuccess {
+                    viewModel.performKakaoSignIn(it.accessToken)
+                }.onFailure {
+                }
             }
         }
     }

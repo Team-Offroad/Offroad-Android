@@ -7,6 +7,7 @@ import com.kakao.sdk.user.UserApiClient
 import com.teamoffroad.core.common.domain.model.Token
 import com.teamoffroad.feature.auth.domain.repository.OAuthInteractor
 import dagger.hilt.android.qualifiers.ActivityContext
+import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -18,51 +19,36 @@ class OAuthInteractorImpl @Inject constructor(
 ) : OAuthInteractor {
 
     override suspend fun signInKakao(): Result<Token> =
-        suspendCancellableCoroutine {
+        suspendCancellableCoroutine { continuation ->
             when (client.isKakaoTalkLoginAvailable(context)) {
-                true -> {
-                    client.loginWithKakaoTalk(context) { token, error ->
-                        if (error != null) {
-                            if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                                return@loginWithKakaoTalk
-                            }
-                            client.loginWithKakaoAccount(context) { accountToken, accountError ->
-                                if (accountError != null) {
-                                    it.resume(Result.failure(accountError))
-                                    return@loginWithKakaoAccount
-                                }
-                                if (accountToken != null) {
-                                    it.resume(
-                                        Result.success(
-                                            Token(
-                                                accountToken.accessToken,
-                                                accountToken.refreshToken
-                                            )
-                                        )
-                                    )
-                                    return@loginWithKakaoAccount
-                                }
-                            }
-                        } else if (token != null) {
-                            it.resume(Result.success(Token(token.accessToken, token.refreshToken)))
-                            return@loginWithKakaoTalk
-                        }
+                true -> client.loginWithKakaoTalk(context) { token, error ->
+                    when {
+                        error is ClientError && error.reason == ClientErrorCause.Cancelled -> return@loginWithKakaoTalk
+                        error != null -> handleKakaoSignIn(continuation)
+                        token != null -> continuation.resume(
+                            Result.success(
+                                Token(token.accessToken, token.refreshToken)
+                            )
+                        )
                     }
                 }
 
-                false -> client.loginWithKakaoAccount(context) { token, error ->
-                    if (error != null) {
-                        it.resume(Result.failure(error))
-                        return@loginWithKakaoAccount
-                    }
-                    if (token != null) {
-                        it.resume(Result.success(Token(token.accessToken, token.refreshToken)))
-                        return@loginWithKakaoAccount
-                    }
-                    it.resumeWithException(Throwable("Unreachable code"))
-                }
+                false -> handleKakaoSignIn(continuation)
             }
         }
+
+    private fun handleKakaoSignIn(continuation: CancellableContinuation<Result<Token>>) {
+        client.loginWithKakaoAccount(context) { token, error ->
+            when {
+                error != null -> continuation.resume(Result.failure(error))
+                token != null -> continuation.resume(
+                    Result.success(Token(token.accessToken, token.refreshToken))
+                )
+
+                else -> continuation.resumeWithException(Throwable("Unreachable code"))
+            }
+        }
+    }
 
     override suspend fun signInGoogle(): Result<Token> {
         TODO("Not yet implemented")

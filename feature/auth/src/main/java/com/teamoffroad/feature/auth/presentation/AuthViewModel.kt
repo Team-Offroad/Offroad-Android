@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.auth.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -51,7 +50,6 @@ class AuthViewModel @Inject constructor(
                     account.serverAuthCode.toString(),
                 )
             }.onFailure {
-                Log.e("123123", it.message.toString())
             }
         }
     }
@@ -78,20 +76,7 @@ class AuthViewModel @Inject constructor(
                     alreadyExist = signInInfo.isAlreadyExist
                 )
             }.onFailure {
-                Log.e("123123", it.message.toString())
             }
-        }
-    }
-
-    //kakao
-    fun saveToken(accessToken: String, refreshToken: String) {
-        viewModelScope.launch {
-            saveAccessTokenUseCase.invoke(accessToken)
-            saveRefreshTokenUseCase.invoke(refreshToken)
-            _authUiState.value = _authUiState.value.copy(
-                signInSuccess = true,
-                alreadyExist = false
-            )
         }
     }
 
