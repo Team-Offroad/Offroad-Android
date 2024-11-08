@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,7 +34,8 @@ import com.teamoffroad.offroad.feature.auth.R
 
 @Composable
 fun AgreeTermsAndConditionsDialog(
-    text: String,
+    title: String,
+    content: String,
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(14.dp),
     onAgreeClick: () -> Unit,
@@ -50,10 +53,10 @@ fun AgreeTermsAndConditionsDialog(
         ) {
             Column(
                 modifier = modifier
-                    .padding(vertical = 22.dp, horizontal = 40.dp)
+                    .padding(vertical = 32.dp, horizontal = 40.dp)
             ) {
                 Text(
-                    text = text,
+                    text = title,
                     color = Main2,
                     style = OffroadTheme.typography.title,
                     modifier = Modifier
@@ -61,33 +64,17 @@ fun AgreeTermsAndConditionsDialog(
                         .padding(bottom = 16.dp)
                 )
                 Text(
-                    text = "서비스 제공 및 이용과 관련하여 오프로드가 취득\n" +
-                            "한 개인정보는 “개인정보보호법” 및 “정보통신망\n" +
-                            "이용촉진 및 정보보호 등에 관한 법률” 등 정보통\n" +
-                            "신서비스제공자가 준수하여야 할 관련 법령상의 \n" +
-                            "개인정보 보호 규정을 준수합니다.\n\n",
-                    color = Main2,
-                    style = OffroadTheme.typography.marketing,
-                    modifier = Modifier
-                )
-                Text(
-                    text = "1.   고객이 수집 및 이용에 동의한 개인정보를 활\n" +
-                            "     용하여, 전자적 전송 매체(E-mail)를 통하여 \n" +
-                            "     발송됩니다.\n" +
-                            "2.  발송되는 마케팅 정보는 수신자에게 오프로드\n" +
-                            "     및 제 3자의 상품 또는 서비스에 대한 혜택 정\n" +
-                            "     보, 각종 이벤트 정보, 개인 맞춤형 광고 정보 \n" +
-                            "     등 광고성 정보로 관련 법의 규정을 준수하여 \n" +
-                            "     발송됩니다. 단, 광고성 정보 이외에 의무적으\n" +
-                            "     로 안내되어야 하는 정보성 내용은 수신동의 \n" +
-                            "     여부와 무관하게 제공됩니다.",
+                    text = content,
                     color = Gray400,
                     style = OffroadTheme.typography.marketing,
                     modifier = Modifier
+                        .height(290.dp)
                         .verticalScroll(rememberScrollState())
-                        .padding(bottom = 33.dp)
                 )
-                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                Spacer(modifier = Modifier.padding(bottom = 30.dp))
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
                     AgreeButton(
                         text = stringResource(R.string.auth_agree_and_terms_conditions_dialog_disagree),
                         onClick = {
