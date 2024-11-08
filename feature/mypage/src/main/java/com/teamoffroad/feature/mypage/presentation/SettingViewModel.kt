@@ -72,7 +72,11 @@ class SettingViewModel @Inject constructor(
                     clearTokensUseCase()
                     updateAutoSignInUseCase(false)
                 }
-                .onFailure { it.message.toString() }
+                .onFailure {
+                    clearTokensUseCase()
+                    updateAutoSignInUseCase(false)
+                    it.message.toString()
+                }
         }
     }
 }

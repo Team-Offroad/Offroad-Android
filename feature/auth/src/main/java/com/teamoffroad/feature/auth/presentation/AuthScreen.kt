@@ -1,6 +1,9 @@
 package com.teamoffroad.feature.auth.presentation
 
 import android.app.Activity
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -23,6 +26,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -35,8 +39,8 @@ import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.offroad.feature.auth.BuildConfig
 import com.teamoffroad.offroad.feature.auth.R
-import kotlinx.coroutines.delay
 
 @Composable
 internal fun AuthScreen(
@@ -44,10 +48,8 @@ internal fun AuthScreen(
     navigateToAgreeTermsAndConditions: () -> Unit,
     viewModel: AuthViewModel = hiltViewModel(),
 ) {
-    val isSignInSuccess by viewModel.successSignIn.collectAsStateWithLifecycle()
-    val isAutoSignIn by viewModel.autoSignIn.collectAsStateWithLifecycle()
-    val isAlreadyExist by viewModel.alreadyExist.collectAsStateWithLifecycle()
-    var signInLauncherInitialized by remember { mutableStateOf(false) }
+    val isAuthUiState by viewModel.authUiState.collectAsStateWithLifecycle()
+
     val googleSignInLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -56,23 +58,12 @@ internal fun AuthScreen(
             viewModel.performGoogleSignIn(task)
         }
     }
+    var isShowWebView by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
-        signInLauncherInitialized = true
-    }
-    LaunchedEffect(Unit) {
-        delay(1200L)
-        viewModel.checkAutoSignIn()
-    }
-
-    LaunchedEffect(isSignInSuccess) {
-        if (isSignInSuccess && !isAlreadyExist) navigateToAgreeTermsAndConditions()
-        if (isSignInSuccess && isAlreadyExist) navigateToHome()
-    }
-    LaunchedEffect(isAutoSignIn, signInLauncherInitialized) {
-        if (isAutoSignIn && signInLauncherInitialized) {
-            googleSignInLauncher.launch(viewModel.googleSignInClient.signInIntent)
-        }
+    LaunchedEffect(isAuthUiState) {
+        if (isAuthUiState.isAutoSignIn) navigateToHome()
+        if (isAuthUiState.signInSuccess && !isAuthUiState.alreadyExist) navigateToAgreeTermsAndConditions()
+        if (isAuthUiState.signInSuccess && isAuthUiState.alreadyExist) navigateToHome()
     }
 
     Surface(
@@ -100,7 +91,7 @@ internal fun AuthScreen(
                 painter = painterResource(id = R.drawable.ic_auth_kakao_logo),
                 background = Kakao,
                 contentDescription = "auth_kakao",
-                onClick = {},
+                onClick = { isShowWebView = true },
                 modifier = Modifier.constrainAs(kakaoLogin) {
                     start.linkTo(parent.start, margin = 24.dp)
                     end.linkTo(parent.end, margin = 24.dp)
@@ -124,7 +115,18 @@ internal fun AuthScreen(
             )
         }
     }
-    SplashScreen()
+    if (isShowWebView) {
+        StartKakaoLoginWebView(
+            clientId = BuildConfig.KAKO_CLIENT_ID,
+            redirectUri = BuildConfig.KAKO_REDIRECT_URI,
+            onCodeReceived = { code ->
+                viewModel.performKakaoSignIn(code)
+            },
+            onClose = {
+                isShowWebView = false
+            },
+        )
+    }
 }
 
 @Composable
@@ -175,4 +177,60 @@ fun ClickableImage(
     }
 }
 
+@Composable
+private fun StartKakaoLoginWebView(
+    clientId: String,
+    redirectUri: String,
+    onCodeReceived: (String) -> Unit,
+    onClose: () -> Unit,
+) {
+    val loginUrl =
+        "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=$clientId&redirect_uri=$redirectUri&prompt=select_account"
 
+    AndroidView(
+        modifier = Modifier.fillMaxSize(),
+        factory = { context ->
+            WebView(context).apply {
+                settings.javaScriptEnabled = true
+                webViewClient = object : WebViewClient() {
+                    override fun onPageStarted(
+                        view: WebView?,
+                        url: String?,
+                        favicon: android.graphics.Bitmap?
+                    ) {
+                        super.onPageStarted(view, url, favicon)
+
+                        url?.let {
+                            if (it.startsWith(redirectUri)) {
+                                val uri = android.net.Uri.parse(it)
+                                val code = uri.getQueryParameter("code")
+                                if (code != null) {
+                                    onCodeReceived(code)
+                                    onClose()
+                                }
+                            }
+                        }
+                    }
+
+                    override fun shouldOverrideUrlLoading(
+                        view: WebView?,
+                        request: WebResourceRequest?
+                    ): Boolean {
+                        val url = request?.url.toString()
+                        if (url.startsWith(redirectUri)) {
+                            val uri = android.net.Uri.parse(url)
+                            val code = uri.getQueryParameter("code")
+                            if (code != null) {
+                                onCodeReceived(code)
+                                onClose()
+                                return true
+                            }
+                        }
+                        return super.shouldOverrideUrlLoading(view, request)
+                    }
+                }
+                loadUrl(loginUrl)
+            }
+        }
+    )
+}
