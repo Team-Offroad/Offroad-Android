@@ -27,6 +27,7 @@ import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub4
+import com.teamoffroad.feature.mypage.presentation.GainedCouponViewModel.Companion.startCursorId
 import com.teamoffroad.feature.mypage.presentation.component.GainedCouponViewPager
 import com.teamoffroad.offroad.feature.mypage.R
 
@@ -39,8 +40,8 @@ internal fun GainedCouponScreen(
 ) {
 
     LaunchedEffect(Unit) {
-        viewModel.getUserAvailableCoupons()
-        viewModel.getUserUsedCoupons()
+        viewModel.getUserCoupons(true, startCursorId)
+        viewModel.getUserCoupons(false, startCursorId)
     }
 
     Box(
