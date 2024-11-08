@@ -97,7 +97,7 @@ fun SplashScreen() {
                         .offset {
                             IntOffset(0, offsetY.value.roundToInt())
                         },
-                    painter = painterResource(id = R.drawable.ic_splash_logo),
+                    painter = painterResource(com.teamoffroad.offroad.feature.main.R.drawable.ic_splash_app_logo),
                     contentDescription = "splash"
                 )
             }
