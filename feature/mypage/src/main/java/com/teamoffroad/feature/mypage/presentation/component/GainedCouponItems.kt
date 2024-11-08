@@ -29,16 +29,18 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Black25
-import com.teamoffroad.core.designsystem.theme.Contents2
 import com.teamoffroad.core.designsystem.theme.ListBg
+import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
-import com.teamoffroad.feature.mypage.domain.model.UserCouponList
+import com.teamoffroad.core.designsystem.theme.Stroke
+import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.feature.mypage.domain.model.UserCoupons
 import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
 fun AvailableCouponItems(
-    coupons: List<UserCouponList.AvailableCoupon>,
+    coupons: List<UserCoupons>,
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
 ) {
     LazyVerticalGrid(
@@ -54,12 +56,25 @@ fun AvailableCouponItems(
         items(coupons.size) { index ->
             AvailableCouponItem(coupons[index], navigateToAvailableCouponDetail)
         }
+
+//        items(3) { index ->
+//            AvailableCouponItem(
+//                UserCouponList.AvailableCoupon(
+//                    id = 1,
+//                    name = "coupon1",
+//                    couponImageUrl = "img",
+//                    description = "description",
+//                    isNewGained = true,
+//                    placeId = 2323
+//                ), navigateToAvailableCouponDetail
+//            )
+//        }
     }
 }
 
 @Composable
 fun AvailableCouponItem(
-    coupon: UserCouponList.AvailableCoupon,
+    coupon: UserCoupons,
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
 ) {
     Box(
@@ -68,9 +83,10 @@ fun AvailableCouponItem(
             .border(
                 width = 1.dp,
                 shape = RoundedCornerShape(12.dp),
-                color = Contents2
+                color = Stroke
             )
             .clip(shape = RoundedCornerShape(12.dp))
+            .background(Main1)
             .padding(start = 8.dp, top = 8.dp, end = 8.dp)
             .clickableWithoutRipple(interactionSource = remember {
                 MutableInteractionSource()
@@ -80,10 +96,34 @@ fun AvailableCouponItem(
                     coupon.name,
                     coupon.couponImageUrl,
                     coupon.description,
-                    coupon.placeId
+                    coupon.cursorId
                 )
             }
     ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            AsyncImage(
+                model = coupon.couponImageUrl,
+                contentDescription = "couponImageUrl",
+                modifier = Modifier
+                    .aspectRatio(131f / 131f)
+                    .clip(shape = RoundedCornerShape(12.dp))
+                    .background(White)
+                    .fillMaxWidth(),
+            )
+            Text(
+                text = coupon.name,
+                modifier = Modifier
+                    .wrapContentHeight()
+                    .weight(1f),
+                color = Main2,
+                style = OffroadTheme.typography.textContentsSmall,
+            )
+        }
+
         if (coupon.isNewGained) {
             Box(
                 modifier = Modifier.fillMaxWidth(),
@@ -98,34 +138,12 @@ fun AvailableCouponItem(
                 )
             }
         }
-
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            AsyncImage(
-                model = coupon.couponImageUrl,
-                contentDescription = "couponImageUrl",
-                modifier = Modifier
-                    .clip(shape = RoundedCornerShape(12.dp))
-                    .fillMaxWidth(),
-            )
-            Text(
-                text = coupon.name,
-                modifier = Modifier
-                    .wrapContentHeight()
-                    .weight(1f),
-                color = Main2,
-                style = OffroadTheme.typography.textContentsSmall,
-            )
-        }
     }
 }
 
 @Composable
 fun UsedCouponItems(
-    coupons: List<UserCouponList.UsedCoupon>,
+    coupons: List<UserCoupons>,
     context: Context,
 ) {
     LazyVerticalGrid(
@@ -141,22 +159,31 @@ fun UsedCouponItems(
         items(coupons.size) { index ->
             UsedCouponItem(coupons[index], context)
         }
+
+//        items(3) { index ->
+//            UsedCouponItem(
+//                UserCouponList.UsedCoupon(
+//                    name = "coupon1",
+//                    couponImageUrl = "img",
+//                ), context
+//            )
+//        }
     }
 }
 
 @Composable
 fun UsedCouponItem(
-    coupon: UserCouponList.UsedCoupon,
+    coupon: UserCoupons,
     context: Context,
 ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .aspectRatio(148f / 176)
+            .aspectRatio(148f / 176f)
             .border(
                 width = 1.dp,
                 shape = RoundedCornerShape(12.dp),
-                color = Contents2.copy(alpha = 0.25f)
+                color = Stroke.copy(alpha = 0.25f)
             )
             .clip(shape = RoundedCornerShape(12.dp))
     ) {
@@ -170,8 +197,10 @@ fun UsedCouponItem(
                 contentDescription = "couponImageUrl",
                 modifier = Modifier
                     .fillMaxWidth()
+                    .aspectRatio(131f / 131f)
                     .padding(start = 8.dp, top = 8.dp, end = 8.dp)
-                    .clip(shape = RoundedCornerShape(12.dp)),
+                    .clip(shape = RoundedCornerShape(12.dp))
+                    .background(White),
             )
             Text(
                 text = coupon.name,

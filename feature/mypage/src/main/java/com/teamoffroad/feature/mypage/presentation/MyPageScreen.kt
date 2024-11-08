@@ -24,6 +24,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.theme.ErrorNew
 import com.teamoffroad.core.designsystem.theme.ListBg
+import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.mypage.presentation.component.AcquireCharacter
 import com.teamoffroad.feature.mypage.presentation.component.AcquireCoupon
@@ -54,7 +55,7 @@ internal fun MyPageScreen(
 
     Box(
         modifier = Modifier
-            .background(ListBg)
+            .background(Main1)
             .padding(horizontal = 24.dp)
             .padding(top = 90.dp)
             .navigationBarsPadding()

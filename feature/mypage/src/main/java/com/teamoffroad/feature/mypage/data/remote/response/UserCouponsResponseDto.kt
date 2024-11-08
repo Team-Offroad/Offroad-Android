@@ -5,14 +5,11 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserCouponsResponseDto(
-    @SerialName("availableCoupons")
-    val availableCouponsDto: List<AvailableCouponsResponseDto>,
-
-    @SerialName("usedCoupons")
-    val usedCouponsDto: List<UsedCouponsResponseDto>,
+    @SerialName("coupons")
+    val coupons: List<CouponsResponseDto>,
 ) {
     @Serializable
-    data class AvailableCouponsResponseDto(
+    data class CouponsResponseDto(
         @SerialName("id")
         val id: Int,
 
@@ -28,16 +25,7 @@ data class UserCouponsResponseDto(
         @SerialName("isNewGained")
         val isNewGained: Boolean,
 
-        @SerialName("placeId")
-        val placeId: Int,
-    )
-
-    @Serializable
-    data class UsedCouponsResponseDto(
-        @SerialName("name")
-        val name: String,
-
-        @SerialName("couponImageUrl")
-        val couponImageUrl: String,
+        @SerialName("cursorId")
+        val cursorId: Int,
     )
 }

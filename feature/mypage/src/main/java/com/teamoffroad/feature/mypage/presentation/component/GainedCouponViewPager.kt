@@ -24,19 +24,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.teamoffroad.core.designsystem.theme.Gray100
+import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.ListBg
+import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
-import com.teamoffroad.feature.mypage.domain.model.UserCouponList
+import com.teamoffroad.feature.mypage.domain.model.UserCoupons
 import com.teamoffroad.offroad.feature.mypage.R
 import kotlinx.coroutines.launch
 
 @Composable
 fun GainedCouponViewPager(
-    availableCoupons: List<UserCouponList.AvailableCoupon>,
-    usedCoupons: List<UserCouponList.UsedCoupon>,
+    availableCoupons: List<UserCoupons>,
+    usedCoupons: List<UserCoupons>,
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
 ) {
     val tabTitles = listOf(
@@ -85,11 +86,12 @@ fun GainedCouponViewPager(
                         )
                     },
                     selectedContentColor = Main2,
-                    unselectedContentColor = Gray100
+                    unselectedContentColor = Gray300,
+                    modifier = Modifier.background(Main1)
                 )
             }
         }
-        HorizontalDivider(color = Gray100)
+        HorizontalDivider(color = Gray300)
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.fillMaxSize()

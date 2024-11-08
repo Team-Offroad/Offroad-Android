@@ -2,7 +2,7 @@ package com.teamoffroad.feature.mypage.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.teamoffroad.feature.mypage.domain.model.UserCouponList
+import com.teamoffroad.feature.mypage.domain.model.UserCoupons
 import com.teamoffroad.feature.mypage.domain.repository.UserCouponRepository
 import com.teamoffroad.feature.mypage.presentation.component.getErrorMessage
 import com.teamoffroad.feature.mypage.presentation.model.UiState
@@ -16,40 +16,56 @@ import javax.inject.Inject
 class GainedCouponViewModel @Inject constructor(
     private val userCouponRepository: UserCouponRepository,
 ) : ViewModel() {
+    private val _getUserAvailableCouponListState =
+        MutableStateFlow<UiState<List<UserCoupons>>>(UiState.Loading)
+    val getUserAvailableCouponListState = _getUserAvailableCouponListState.asStateFlow()
 
-    private val _getUserCouponListState =
-        MutableStateFlow<UiState<UserCouponList>>(UiState.Loading)
-    val getUserCouponsState = _getUserCouponListState.asStateFlow()
+    private val _getUserUsedCouponListState =
+        MutableStateFlow<UiState<List<UserCoupons>>>(UiState.Loading)
+    val getUSerUsedCouponListState = _getUserUsedCouponListState.asStateFlow()
 
     private val _userAvailableCoupons =
-        MutableStateFlow<List<UserCouponList.AvailableCoupon>>(emptyList())
+        MutableStateFlow<List<UserCoupons>>(emptyList())
     val userAvailableCoupons = _userAvailableCoupons.asStateFlow()
 
     private val _userUsedCoupons =
-        MutableStateFlow<List<UserCouponList.UsedCoupon>>(emptyList())
+        MutableStateFlow<List<UserCoupons>>(emptyList())
     val userUsedCoupons = _userUsedCoupons.asStateFlow()
 
-    fun getUserCoupons() {
+    fun getUserAvailableCoupons() {
         viewModelScope.launch {
             runCatching {
-                userCouponRepository.fetchUserCoupons()
+                userCouponRepository.fetchUserCoupons(false, 4, 0)
             }.onSuccess { state ->
-                _getUserCouponListState.emit(UiState.Success(state))
-                updateAvailableCoupons(state.availableCoupons)
-                updateUsedCoupons(state.usedCoupons)
+                _getUserAvailableCouponListState.emit(UiState.Success(state))
+                updateAvailableCoupons(state)
             }.onFailure { t ->
                 val errorMessage = getErrorMessage(t)
-                _getUserCouponListState.emit(UiState.Failure(errorMessage))
+                _getUserAvailableCouponListState.emit(UiState.Failure(errorMessage))
+            }
+        }
+    }
+
+    fun getUserUsedCoupons() {
+        viewModelScope.launch {
+            runCatching {
+                userCouponRepository.fetchUserCoupons(true, 4, 0)
+            }.onSuccess { state ->
+                _getUserUsedCouponListState.emit(UiState.Success(state))
+                updateUsedCoupons(state)
+            }.onFailure { t ->
+                val errorMessage = getErrorMessage(t)
+                _getUserUsedCouponListState.emit(UiState.Failure(errorMessage))
             }
         }
     }
 
 
-    private fun updateAvailableCoupons(coupons: List<UserCouponList.AvailableCoupon>) {
+    private fun updateAvailableCoupons(coupons: List<UserCoupons>) {
         _userAvailableCoupons.value = coupons
     }
 
-    private fun updateUsedCoupons(coupons: List<UserCouponList.UsedCoupon>) {
+    private fun updateUsedCoupons(coupons: List<UserCoupons>) {
         _userUsedCoupons.value = coupons
     }
 }
