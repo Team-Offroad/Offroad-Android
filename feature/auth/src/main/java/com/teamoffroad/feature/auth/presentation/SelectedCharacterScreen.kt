@@ -64,7 +64,7 @@ internal fun SelectedCharacterScreen(
                             .padding(bottom = 72.dp)
                             .width(312.dp)
                             .height(50.dp),
-                        onClick = navigateToHome
+                        onClick = {navigateToHome()}
                     )
                 }
             }

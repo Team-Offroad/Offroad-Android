@@ -240,6 +240,7 @@ internal fun SetBirthDateScreen(
                 .padding(bottom = 72.dp)
                 .height(50.dp)
                 .align(Alignment.CenterHorizontally),
+            text = stringResource(R.string.auth_basic_button),
             onClick = {
                 val birthDate = when {
                     isBirthDateState.year.isNotEmpty() &&
@@ -253,7 +254,6 @@ internal fun SetBirthDateScreen(
                 navigateToSetGender(nickname, birthDate)
             },
             isActive = isBirthDateState.birthDateValidateResult == BirthDateValidateResult.Success,
-            text = stringResource(R.string.auth_basic_button),
         )
     }
 }
