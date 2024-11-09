@@ -62,7 +62,8 @@ internal fun SetNicknameScreen(
             text = stringResource(R.string.auth_on_boarding_title),
             color = Main2,
             style = OffroadTheme.typography.profileTitle,
-            modifier = Modifier.padding(top = 104.dp, bottom = 6.dp)
+            modifier = Modifier
+                .padding(top = 104.dp, bottom = 6.dp)
         )
         Text(
             text = stringResource(R.string.auth_set_nickname_sub_title),

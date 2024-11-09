@@ -2,7 +2,6 @@ package com.teamoffroad.feature.auth.presentation
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.addFocusCleaner
+import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -67,7 +67,7 @@ internal fun SetBirthDateScreen(
             .background(color = Main1),
     ) {
         OffroadActionBar()
-        Spacer(modifier = Modifier.padding(vertical = 22.dp))
+        Spacer(modifier = Modifier.padding(vertical = 20.dp))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -78,28 +78,30 @@ internal fun SetBirthDateScreen(
                 text = stringResource(R.string.auth_skip),
                 color = Gray300,
                 style = OffroadTheme.typography.hint,
-                modifier = Modifier.clickable {
-                    navigateToSetGender(nickname, null)
-                }
+                modifier = Modifier
+                    .clickableWithoutRipple {
+                        navigateToSetGender(nickname, null)
+                    }
             )
         }
-        Spacer(modifier = Modifier.padding(vertical = 26.dp))
         Text(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 50.dp, bottom = 6.dp),
             text = stringResource(R.string.auth_on_boarding_title),
             color = Main2,
             style = OffroadTheme.typography.profileTitle,
             textAlign = TextAlign.Center
         )
-        Spacer(modifier = Modifier.padding(vertical = 6.dp))
         Text(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 56.dp),
             text = stringResource(R.string.auth_set_birth_date_sub_title),
             color = Main2,
             style = OffroadTheme.typography.subtitleReg,
             textAlign = TextAlign.Center
         )
-        Spacer(modifier = Modifier.padding(vertical = 28.dp))
         Column(
             modifier = Modifier
                 .padding(horizontal = 24.dp)
@@ -177,7 +179,7 @@ internal fun SetBirthDateScreen(
                         keyboardType = KeyboardType.NumberPassword
                     ),
                     keyboardActions = KeyboardActions(
-                        onNext = { dayFocusRequester.requestFocus() }
+                        onNext = { dayFocusRequester.requestFocus() },
                     ),
                 )
                 Text(
@@ -207,7 +209,7 @@ internal fun SetBirthDateScreen(
                     maxLength = 2,
                     isError = isBirthDateState.birthDateValidateResult == BirthDateValidateResult.DayError,
                     keyboardOptions = KeyboardOptions.Default.copy(
-                        imeAction = ImeAction.Done,
+                        imeAction = ImeAction.Default,
                         keyboardType = KeyboardType.NumberPassword
                     ),
                     keyboardActions = KeyboardActions(
