@@ -3,9 +3,7 @@ package com.teamoffroad.feature.auth.presentation.component
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
@@ -48,8 +46,7 @@ fun ShowSetCharacterPager(
     ) {
         HorizontalPager(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp),
+                .fillMaxWidth(),
             state = pagerState,
             userScrollEnabled = true,
         ) { page ->
