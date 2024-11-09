@@ -89,14 +89,14 @@ internal fun AgreeTermsAndConditionsScreen(
         )
         Spacer(modifier = Modifier.weight(1f))
         OffroadBasicBtn(
-            text = stringResource(R.string.auth_basic_button),
-            marketingAgree = { viewModel.changedMarketingAgree(viewModel.marketing.value) },
-            onClick = { navigateToSetNicknameScreen() },
-            isActive = isAgreeTermsAndConditionsUiState.name == AgreeTermsAndConditionsUiState.REQUIRED.name,
             modifier = Modifier
                 .padding(horizontal = 24.dp)
                 .padding(bottom = 72.dp)
                 .height(50.dp),
+            text = stringResource(R.string.auth_basic_button),
+            updateState = { viewModel.changedMarketingAgree(viewModel.marketing.value) },
+            onClick = { navigateToSetNicknameScreen() },
+            isActive = isAgreeTermsAndConditionsUiState.name == AgreeTermsAndConditionsUiState.REQUIRED.name,
         )
     }
 

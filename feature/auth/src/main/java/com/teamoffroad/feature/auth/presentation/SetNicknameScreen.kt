@@ -1,6 +1,6 @@
 package com.teamoffroad.feature.auth.presentation
 
-import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Surface
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -32,8 +32,9 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.auth.presentation.component.NicknameHintText
 import com.teamoffroad.feature.auth.presentation.component.NicknameTextField
+import com.teamoffroad.feature.auth.presentation.component.NicknameValidateResult
+import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
 import com.teamoffroad.feature.auth.presentation.component.OnboardingButton
-import com.teamoffroad.feature.auth.presentation.component.SetNicknameButton
 import com.teamoffroad.offroad.feature.auth.R
 
 @Composable
@@ -41,79 +42,89 @@ internal fun SetNicknameScreen(
     navigateToSetBirthDate: (String) -> Unit,
     viewModel: SetNicknameViewModel = hiltViewModel(),
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
     val focusManager = LocalFocusManager.current
     val focusRequester by remember { mutableStateOf(FocusRequester()) }
     val isNicknameState by viewModel.nicknameUiState.collectAsState()
+    val isFocused = remember { mutableStateOf(false) }
 
-    Surface(
+    Column(
         modifier = Modifier
             .navigationPadding()
             .fillMaxSize()
-            .addFocusCleaner(focusManager),
-        color = Main1,
+            .addFocusCleaner(focusManager) {
+                isFocused.value = false
+            }
+            .background(Main1),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            OffroadActionBar()
-            Text(
-                text = stringResource(R.string.auth_on_boarding_title),
-                color = Main2,
-                style = OffroadTheme.typography.profileTitle,
-                modifier = Modifier.padding(top = 104.dp, bottom = 6.dp)
-            )
-            Text(
-                text = stringResource(R.string.auth_set_nickname_sub_title),
-                color = Main2,
-                style = OffroadTheme.typography.subtitleReg,
-                modifier = Modifier.padding(bottom = 56.dp)
-            )
-            Column {
-                Row {
-                    NicknameTextField(
-                        value = isNicknameState.nickname,
-                        placeholder = stringResource(R.string.auth_set_nickname_text_field_hint),
-                        onValueChange = {
-                            viewModel.updateNicknamesValid(it)
-                        },
-                        textAlign = Alignment.CenterStart,
-                        modifier = Modifier
-                            .defaultMinSize(minWidth = 218.dp)
-                            .height(43.dp)
-                            .focusRequester(focusRequester = focusRequester)
-                            .padding(end = 6.dp),
-                        nicknameValidateResult = isNicknameState.nicknameValidateResult,
-                        interactionSource = interactionSource
-                    )
-                    OnboardingButton(
-                        text = stringResource(R.string.auth_set_nickname_check_duplication_button),
-                        isActive = isNicknameState.nicknameValidateResult,
-                        modifier = Modifier
-                            .width(82.dp)
-                            .height(42.dp),
-                        onButtonClick = {
-                            viewModel.getDuplicateNickname()
+        OffroadActionBar()
+        Text(
+            text = stringResource(R.string.auth_on_boarding_title),
+            color = Main2,
+            style = OffroadTheme.typography.profileTitle,
+            modifier = Modifier.padding(top = 104.dp, bottom = 6.dp)
+        )
+        Text(
+            text = stringResource(R.string.auth_set_nickname_sub_title),
+            color = Main2,
+            style = OffroadTheme.typography.subtitleReg,
+            modifier = Modifier.padding(bottom = 56.dp)
+        )
+        Column {
+            Row {
+                NicknameTextField(
+                    value = isNicknameState.nickname,
+                    placeholder = stringResource(R.string.auth_set_nickname_text_field_hint),
+                    onValueChange = {
+                        viewModel.updateNicknamesValid(it)
+                    },
+                    textAlign = Alignment.CenterStart,
+                    modifier = Modifier
+                        .defaultMinSize(minWidth = 218.dp)
+                        .height(43.dp)
+                        .focusRequester(focusRequester = focusRequester)
+                        .padding(end = 6.dp),
+                    nicknameValidateResult = isNicknameState.nicknameValidateResult,
+                    isFocused = isFocused.value,
+                    onFocusChanged = { focused ->
+                        isFocused.value = focused
+                    },
+                    keyboardActions = KeyboardActions(
+                        onDone = {
                             focusManager.clearFocus()
-                        },
-                    )
-                }
-                Spacer(modifier = Modifier.padding(vertical = 6.dp))
-                NicknameHintText(
-                    text = isNicknameState.nickname,
-                    isDuplicate = isNicknameState.nicknameValidateResult,
+                            isFocused.value = false
+                        }
+                    ),
+                )
+                OnboardingButton(
+                    text = stringResource(R.string.auth_set_nickname_check_duplication_button),
+                    isActive = isNicknameState.nicknameValidateResult,
+                    modifier = Modifier
+                        .padding(bottom = 6.dp)
+                        .width(82.dp)
+                        .height(42.dp),
+                    onButtonClick = {
+                        viewModel.getDuplicateNickname()
+                        focusManager.clearFocus()
+                        isFocused.value = false
+                    },
                 )
             }
-            Spacer(modifier = Modifier.weight(1f))
-            SetNicknameButton(
-                modifier = Modifier
-                    .padding(horizontal = 24.dp)
-                    .padding(bottom = 72.dp)
-                    .height(50.dp),
-                onClick = {
-                    navigateToSetBirthDate(isNicknameState.nickname)
-                },
-                isActive = isNicknameState.nicknameValidateResult,
-                text = stringResource(R.string.auth_basic_button),
+            NicknameHintText(
+                text = isNicknameState.nickname,
+                isDuplicate = isNicknameState.nicknameValidateResult,
             )
         }
+        Spacer(modifier = Modifier.weight(1f))
+        OffroadBasicBtn(
+            modifier = Modifier
+                .padding(horizontal = 24.dp)
+                .padding(bottom = 72.dp)
+                .height(50.dp),
+            text = stringResource(R.string.auth_basic_button),
+            onClick = { navigateToSetBirthDate(isNicknameState.nickname) },
+            isActive = isNicknameState.nicknameValidateResult == NicknameValidateResult.Success,
+            )
     }
 }
+

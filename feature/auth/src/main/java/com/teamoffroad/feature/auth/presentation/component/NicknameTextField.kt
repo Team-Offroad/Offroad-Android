@@ -2,8 +2,6 @@ package com.teamoffroad.feature.auth.presentation.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -13,12 +11,12 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
@@ -46,34 +44,38 @@ fun NicknameTextField(
     maxLength: Int = 16,
     textStyle: TextStyle = OffroadTheme.typography.textAuto,
     textAlign: Alignment,
+    isFocused: Boolean,
+    onFocusChanged: (Boolean) -> Unit,
+    keyboardActions: KeyboardActions,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    keyboardActions: KeyboardActions = KeyboardActions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
-    val isFocused by interactionSource.collectIsFocusedAsState()
-
     val borderLineColor = remember { mutableStateOf(Gray100) }
     val textColor = remember { mutableStateOf(Gray300) }
+    when {
+        nicknameValidateResult == NicknameValidateResult.NicknameValidateFailure ||
+                nicknameValidateResult == NicknameValidateResult.Duplicate -> {
+            borderLineColor.value = ErrorNew
+            textColor.value = Main2
+        }
 
-    if (nicknameValidateResult == NicknameValidateResult.NicknameValidateFailure ||
-        nicknameValidateResult == NicknameValidateResult.Duplicate
-    ) {
-        borderLineColor.value = ErrorNew
-        textColor.value = Main2
-    }
-    else if (isFocused || value.isNotBlank()) {
-        borderLineColor.value = Main2
-        textColor.value = Main2
-    } else {
-        borderLineColor.value = Gray100
-        textColor.value = Gray300
-    }
+        isFocused || value.isNotBlank() -> {
+            borderLineColor.value = Main2
+            textColor.value = Main2
+        }
 
+        else -> {
+            borderLineColor.value = Gray100
+            textColor.value = Gray300
+        }
+    }
     val updatedTextStyle = textStyle.copy(color = textColor.value)
 
     BasicTextField(
-        modifier = modifier,
+        modifier = modifier
+            .onFocusChanged { focusState ->
+                onFocusChanged(focusState.isFocused)
+            },
         value = value,
         onValueChange = { newValue ->
             val englishText = newValue.filter { it.isEnglish() }
@@ -89,7 +91,6 @@ fun NicknameTextField(
         textStyle = updatedTextStyle,
         maxLines = if (minLines > maxLines) minLines else maxLines,
         minLines = minLines,
-        interactionSource = interactionSource,
         cursorBrush = SolidColor(Main1),
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,

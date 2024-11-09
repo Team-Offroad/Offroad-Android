@@ -1,7 +1,6 @@
 package com.teamoffroad.feature.auth.presentation.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -22,8 +21,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.teamoffroad.core.designsystem.theme.Black
-import com.teamoffroad.core.designsystem.theme.Gray100
-import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
 
@@ -35,25 +32,18 @@ fun OnboardingButton(
     isActive: NicknameValidateResult,
     onButtonClick: () -> Unit,
 ) {
-    val (borderLineColor, contentColor, backGroundColor) = if (isActive == NicknameValidateResult.NicknameValidateSuccess) {
-        Triple(Black, White, Black)
-    } else {
-        Triple(Gray100, Gray300, White)
-    }
+    val backGroundColor =
+        if (isActive == NicknameValidateResult.NicknameValidateSuccess) 1.0f else 0.15f
     val keyboardController = LocalSoftwareKeyboardController.current
 
 
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .background(backGroundColor, shape = shape)
-            .border(
-                width = 1.dp,
-                color = if (isActive == NicknameValidateResult.NicknameValidateSuccess) borderLineColor else borderLineColor,
-                shape = shape
-            )
+            .background(color = Black.copy(alpha = backGroundColor), shape = shape)
             .padding(vertical = 8.dp, horizontal = 6.dp)
-            .clickable(enabled = isActive == NicknameValidateResult.NicknameValidateSuccess,
+            .clickable(
+                enabled = isActive == NicknameValidateResult.NicknameValidateSuccess,
                 onClick = {
                     onButtonClick()
                     keyboardController?.hide()
@@ -66,7 +56,7 @@ fun OnboardingButton(
             Text(
                 fontSize = 13.sp,
                 text = text,
-                color = if (isActive == NicknameValidateResult.NicknameValidateSuccess) contentColor else contentColor,
+                color = White,
             )
         }
     }
