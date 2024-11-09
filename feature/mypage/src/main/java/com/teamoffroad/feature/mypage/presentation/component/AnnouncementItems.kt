@@ -11,17 +11,26 @@ import com.teamoffroad.feature.mypage.presentation.model.AnnouncementUiState
 fun AnnouncementItems(
     modifier: Modifier = Modifier,
     isAnnouncementState: AnnouncementUiState,
-    onClick: (String, String, Boolean, String) -> Unit,
+    onClick: (String, String, Boolean, String, Boolean, List<String>) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier
             .fillMaxWidth(),
     ) {
-        items(isAnnouncementState.announcementList) { it ->
+        items(isAnnouncementState.announcementList) {
             SettingContainer(
                 title = it.title,
                 isImportant = it.isImportant,
-                onClick = { onClick(it.title, it.content, it.isImportant, it.updateAt) }
+                onClick = {
+                    onClick(
+                        it.title,
+                        it.content,
+                        it.isImportant,
+                        it.updateAt,
+                        it.hasExternalLinks,
+                        it.externalLinks
+                    )
+                }
             )
         }
     }

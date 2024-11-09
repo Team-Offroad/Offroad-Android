@@ -9,4 +9,6 @@ fun AnnouncementData.toAnnouncement() =
         content = content,
         isImportant = isImportant,
         updateAt = updateAt,
+        hasExternalLinks = hasExternalLinks,
+        externalLinks = externalLinks,
     )

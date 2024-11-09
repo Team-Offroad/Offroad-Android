@@ -37,7 +37,6 @@ fun WithDrawDialog(
     isWithDrawText: String,
     isWithDrawResult: Boolean,
     withDrawInputText: String,
-    navigateToSignIn: () -> Unit,
     onClick: KFunction1<String, Unit>,
     onClickCancel: () -> Unit,
 ) {
