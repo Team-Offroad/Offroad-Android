@@ -1,16 +1,22 @@
 package com.teamoffroad.feature.main
 
+import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.main.component.MainTransparentActionBar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -20,14 +26,29 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navigator: MainNavigator = rememberMainNavigator()
+            val showSplash = remember { mutableStateOf(true) }
 
+            LaunchedEffect(Unit) {
+                delay(1100)
+                showSplash.value = false
+            }
             MainTransparentActionBar(window)
             OffroadTheme {
-                MainScreen(
-                    navigator = navigator,
-                    modifier = Modifier
-                )
+                when (showSplash.value) {
+                    true -> SplashScreen()
+                    false -> MainScreen(
+                        navigator = navigator,
+                        modifier = Modifier
+                    )
+                }
             }
+        }
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(context: Context) = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
     }
 }
@@ -40,3 +61,4 @@ fun GreetingPreview() {
         MainScreen()
     }
 }
+

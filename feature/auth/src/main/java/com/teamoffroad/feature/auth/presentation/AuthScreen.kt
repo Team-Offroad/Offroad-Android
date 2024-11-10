@@ -1,6 +1,7 @@
 package com.teamoffroad.feature.auth.presentation
 
 import android.app.Activity
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -14,12 +15,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -36,7 +35,7 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.offroad.feature.auth.R
-import kotlinx.coroutines.delay
+import dagger.hilt.android.EntryPointAccessors
 
 @Composable
 internal fun AuthScreen(
@@ -44,10 +43,7 @@ internal fun AuthScreen(
     navigateToAgreeTermsAndConditions: () -> Unit,
     viewModel: AuthViewModel = hiltViewModel(),
 ) {
-    val isSignInSuccess by viewModel.successSignIn.collectAsStateWithLifecycle()
-    val isAutoSignIn by viewModel.autoSignIn.collectAsStateWithLifecycle()
-    val isAlreadyExist by viewModel.alreadyExist.collectAsStateWithLifecycle()
-    var signInLauncherInitialized by remember { mutableStateOf(false) }
+    val isAuthUiState by viewModel.authUiState.collectAsStateWithLifecycle()
     val googleSignInLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -56,22 +52,26 @@ internal fun AuthScreen(
             viewModel.performGoogleSignIn(task)
         }
     }
+    val context = LocalContext.current as ComponentActivity
+    val entryPoint =
+        EntryPointAccessors.fromActivity<OAuthEntryPoint>(context)
+    val oAuthInteractor = entryPoint.getOAuthInteractor()
 
     LaunchedEffect(Unit) {
-        signInLauncherInitialized = true
-    }
-    LaunchedEffect(Unit) {
-        delay(1200L)
         viewModel.checkAutoSignIn()
     }
-
-    LaunchedEffect(isSignInSuccess) {
-        if (isSignInSuccess && !isAlreadyExist) navigateToAgreeTermsAndConditions()
-        if (isSignInSuccess && isAlreadyExist) navigateToHome()
-    }
-    LaunchedEffect(isAutoSignIn, signInLauncherInitialized) {
-        if (isAutoSignIn && signInLauncherInitialized) {
-            googleSignInLauncher.launch(viewModel.googleSignInClient.signInIntent)
+    LaunchedEffect(isAuthUiState) {
+        when {
+            isAuthUiState.isAutoSignIn -> navigateToHome()
+            isAuthUiState.signInSuccess && !isAuthUiState.alreadyExist -> navigateToAgreeTermsAndConditions()
+            isAuthUiState.signInSuccess && isAuthUiState.alreadyExist -> navigateToHome()
+            isAuthUiState.kakaoSignIn -> {
+                val result = oAuthInteractor.signInKakao()
+                result.onSuccess {
+                    viewModel.performKakaoSignIn(it.accessToken)
+                }.onFailure {
+                }
+            }
         }
     }
 
@@ -100,7 +100,7 @@ internal fun AuthScreen(
                 painter = painterResource(id = R.drawable.ic_auth_kakao_logo),
                 background = Kakao,
                 contentDescription = "auth_kakao",
-                onClick = {},
+                onClick = { viewModel.startKakaoSignIn() },
                 modifier = Modifier.constrainAs(kakaoLogin) {
                     start.linkTo(parent.start, margin = 24.dp)
                     end.linkTo(parent.end, margin = 24.dp)
@@ -124,7 +124,6 @@ internal fun AuthScreen(
             )
         }
     }
-    SplashScreen()
 }
 
 @Composable
@@ -174,5 +173,3 @@ fun ClickableImage(
         }
     }
 }
-
-

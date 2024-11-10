@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.auth.presentation
+package com.teamoffroad.feature.main
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition

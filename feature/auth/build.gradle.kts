@@ -30,4 +30,5 @@ dependencies {
     implementation(libs.google.play.services.auth)
     implementation(libs.retrofit.kotlinx.serialization)
     implementation(libs.coil.svg)
+    implementation(libs.kakao.user)
 }
