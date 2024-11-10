@@ -54,97 +54,26 @@ import com.teamoffroad.offroad.feature.mypage.R.drawable
 fun AvailableCouponItems(
     coupons: List<UserCoupons>,
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
-    getUserCoupons: (Boolean, Int) -> Unit,
+    getUserCoupons: (Boolean, Int) -> Unit
 ) {
-    val availableCouponGridState = rememberLazyGridState()
-    var availableCouponLoading by remember { mutableStateOf(false) }
-
-    LaunchedEffect(availableCouponGridState, coupons) {
-        snapshotFlow { availableCouponGridState.layoutInfo.visibleItemsInfo }
-            .collect { visibleItems ->
-                val lastVisibleItem = visibleItems.lastOrNull()
-
-                if (lastVisibleItem != null &&
-                    lastVisibleItem.index == coupons.size - 1 &&
-                    !availableCouponLoading
-                ) {
-                    availableCouponLoading = true
-                }
-            }
-    }
-
-    LazyVerticalGrid(
-        state = availableCouponGridState,
-        columns = GridCells.Fixed(2),
-        modifier = Modifier
-            .fillMaxSize()
-            .background(ListBg)
-            .padding(horizontal = 24.dp)
-            .fillMaxWidth(),
-        contentPadding = PaddingValues(vertical = 18.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        items(coupons.size) { index ->
-            AvailableCouponItem(coupons[index], navigateToAvailableCouponDetail)
-        }
-
-        if (availableCouponLoading) {
-            item(span = { GridItemSpan(2) }) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 10.dp)
-                        .size(38.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    val composition by rememberLottieComposition(
-                        LottieCompositionSpec.RawRes(R.raw.loading_circle)
-                    )
-                    val animationState = animateLottieCompositionAsState(
-                        composition = composition,
-                        iterations = 1
-                    )
-
-                    if (animationState.isAtEnd && animationState.isPlaying) {
-                        LaunchedEffect(Unit) {
-                            val lastItem = coupons.lastOrNull()
-                            if (lastItem != null) {
-                                getUserCoupons(false, lastItem.cursorId)
-                            }
-                            availableCouponLoading = false
-                        }
-                    }
-
-                    LottieAnimation(
-                        composition = composition,
-                        progress = animationState.progress
-                    )
-                }
-            }
-        }
+    CouponGrid(coupons, getUserCoupons) { coupon ->
+        AvailableCouponItem(coupon, navigateToAvailableCouponDetail)
     }
 }
 
 @Composable
-fun AvailableCouponItem(
+private fun AvailableCouponItem(
     coupon: UserCoupons,
-    navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
+    navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit
 ) {
     Box(
         modifier = Modifier
             .aspectRatio(148f / 176f)
-            .border(
-                width = 1.dp,
-                shape = RoundedCornerShape(12.dp),
-                color = Stroke
-            )
-            .clip(shape = RoundedCornerShape(12.dp))
+            .border(1.dp, Stroke, RoundedCornerShape(12.dp))
+            .clip(RoundedCornerShape(12.dp))
             .background(Main1)
-            .padding(start = 8.dp, top = 8.dp, end = 8.dp)
-            .clickableWithoutRipple(interactionSource = remember {
-                MutableInteractionSource()
-            }) {
+            .padding(8.dp)
+            .clickableWithoutRipple(interactionSource = remember { MutableInteractionSource() }) {
                 navigateToAvailableCouponDetail(
                     coupon.id,
                     coupon.name,
@@ -164,9 +93,9 @@ fun AvailableCouponItem(
                 contentDescription = "couponImageUrl",
                 modifier = Modifier
                     .aspectRatio(131f / 131f)
-                    .clip(shape = RoundedCornerShape(12.dp))
+                    .clip(RoundedCornerShape(12.dp))
                     .background(White)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
             )
             Text(
                 text = coupon.name,
@@ -174,7 +103,7 @@ fun AvailableCouponItem(
                     .wrapContentHeight()
                     .weight(1f),
                 color = Main2,
-                style = OffroadTheme.typography.textContentsSmall,
+                style = OffroadTheme.typography.textContentsSmall
             )
         }
 
@@ -201,93 +130,22 @@ fun UsedCouponItems(
     context: Context,
     getUserCoupons: (Boolean, Int) -> Unit
 ) {
-    val usedCouponGridState = rememberLazyGridState()
-    var usedCouponLoading by remember { mutableStateOf(false) }
-
-    LaunchedEffect(usedCouponGridState, coupons) {
-        snapshotFlow { usedCouponGridState.layoutInfo.visibleItemsInfo }
-            .collect { visibleItems ->
-                val lastVisibleItem = visibleItems.lastOrNull()
-
-                if (lastVisibleItem != null &&
-                    lastVisibleItem.index == coupons.size - 1 &&
-                    !usedCouponLoading
-                ) {
-                    usedCouponLoading = true
-                }
-            }
+    CouponGrid(coupons, getUserCoupons) { coupon ->
+        UsedCouponItem(coupon, context)
     }
-
-    LazyVerticalGrid(
-        state = usedCouponGridState,
-        columns = GridCells.Fixed(2),
-        modifier = Modifier
-            .fillMaxSize()
-            .background(ListBg)
-            .padding(horizontal = 24.dp)
-            .fillMaxWidth(),
-        contentPadding = PaddingValues(vertical = 18.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        items(coupons.size) { index ->
-            UsedCouponItem(coupons[index], context)
-        }
-
-        if (usedCouponLoading) {
-            item(span = { GridItemSpan(2) }) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 10.dp)
-                        .size(38.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    val composition by rememberLottieComposition(
-                        LottieCompositionSpec.RawRes(R.raw.loading_circle)
-                    )
-                    val animationState = animateLottieCompositionAsState(
-                        composition = composition,
-                        iterations = 1
-                    )
-
-                    if (animationState.isAtEnd && animationState.isPlaying) {
-                        LaunchedEffect(Unit) {
-                            val lastItem = coupons.lastOrNull()
-                            if (lastItem != null) {
-                                getUserCoupons(false, lastItem.cursorId)
-                            }
-                            usedCouponLoading = false
-                        }
-                    }
-
-                    LottieAnimation(
-                        composition = composition,
-                        progress = animationState.progress
-                    )
-                }
-            }
-        }
-    }
-
-
 }
 
 @Composable
-fun UsedCouponItem(
+private fun UsedCouponItem(
     coupon: UserCoupons,
-    context: Context,
+    context: Context
 ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .aspectRatio(148f / 176f)
-            .border(
-                width = 1.dp,
-                shape = RoundedCornerShape(12.dp),
-                color = Stroke.copy(alpha = 0.25f)
-            )
-            .clip(shape = RoundedCornerShape(12.dp))
+            .border(1.dp, Stroke.copy(alpha = 0.25f), RoundedCornerShape(12.dp))
+            .clip(RoundedCornerShape(12.dp))
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -300,9 +158,9 @@ fun UsedCouponItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(131f / 131f)
-                    .padding(start = 8.dp, top = 8.dp, end = 8.dp)
-                    .clip(shape = RoundedCornerShape(12.dp))
-                    .background(White),
+                    .padding(8.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(White)
             )
             Text(
                 text = coupon.name,
@@ -313,27 +171,92 @@ fun UsedCouponItem(
                 style = OffroadTheme.typography.textContentsSmall
             )
         }
-
         GainedCouponLockedCover()
     }
 }
+
+@Composable
+fun CouponGrid(
+    coupons: List<UserCoupons>,
+    getUserCoupons: (Boolean, Int) -> Unit,
+    couponContent: @Composable (UserCoupons) -> Unit
+) {
+    val gridState = rememberLazyGridState()
+    var showLottieLoading by remember { mutableStateOf(false) }
+
+    LaunchedEffect(gridState, coupons) {
+        snapshotFlow { gridState.layoutInfo.visibleItemsInfo }
+            .collect { visibleItems ->
+                val lastVisibleItem = visibleItems.lastOrNull()
+                if (lastVisibleItem != null && lastVisibleItem.index == coupons.size - 1 && !showLottieLoading) {
+                    showLottieLoading = true
+                }
+            }
+    }
+
+    LazyVerticalGrid(
+        state = gridState,
+        columns = GridCells.Fixed(2),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(ListBg)
+            .padding(horizontal = 24.dp),
+        contentPadding = PaddingValues(vertical = 18.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        items(coupons.size) { index ->
+            couponContent(coupons[index])
+        }
+
+        if (showLottieLoading) {
+            item(span = { GridItemSpan(2) }) {
+                LoadingIndicator {
+                    val lastItem = coupons.lastOrNull()
+                    if (lastItem != null) {
+                        getUserCoupons(false, lastItem.cursorId)
+                    }
+                    showLottieLoading = false
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun LoadingIndicator(onAnimationEnd: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 10.dp)
+            .size(38.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.loading_circle))
+        val animationState = animateLottieCompositionAsState(composition, iterations = 1)
+
+        if (animationState.isAtEnd && animationState.isPlaying) {
+            LaunchedEffect(Unit) { onAnimationEnd() }
+        }
+
+        LottieAnimation(composition, animationState.progress)
+    }
+}
+
 
 @Composable
 private fun GainedCouponLockedCover() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                color = Black25,
-                shape = RoundedCornerShape(size = 10.dp)
-            )
-            .padding(start = 60.dp, end = 60.dp, top = 60.dp, bottom = 88.dp)
+            .background(Black25, RoundedCornerShape(10.dp))
+            .padding(60.dp)
     ) {
         Image(
             modifier = Modifier.fillMaxSize(),
             painter = painterResource(id = drawable.ic_my_page_coupon_locked),
             contentDescription = "locked",
-            alignment = Alignment.Center,
+            alignment = Alignment.Center
         )
     }
 }
