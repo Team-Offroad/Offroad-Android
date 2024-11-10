@@ -101,12 +101,18 @@ fun GainedCouponViewPager(
         ) { page ->
             when (page) {
                 0 -> AvailableCouponItems(
+                    availableCouponsCount,
                     coupons = availableCoupons,
                     navigateToAvailableCouponDetail = navigateToAvailableCouponDetail,
                     getUserCoupons,
                 )
 
-                1 -> UsedCouponItems(coupons = usedCoupons, LocalContext.current, getUserCoupons)
+                1 -> UsedCouponItems(
+                    usedCouponsCount,
+                    coupons = usedCoupons,
+                    LocalContext.current,
+                    getUserCoupons
+                )
             }
 
         }

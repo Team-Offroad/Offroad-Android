@@ -32,7 +32,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -40,6 +43,7 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Black25
+import com.teamoffroad.core.designsystem.theme.Black55
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
@@ -47,17 +51,44 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Stroke
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.mypage.domain.model.UserCoupons
-import com.teamoffroad.offroad.core.designsystem.R
+import com.teamoffroad.offroad.feature.mypage.R
 import com.teamoffroad.offroad.feature.mypage.R.drawable
 
 @Composable
 fun AvailableCouponItems(
+    availableCouponsCount: Int,
     coupons: List<UserCoupons.Coupons>,
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
     getUserCoupons: (Boolean, Int) -> Unit
 ) {
-    CouponGrid(coupons, getUserCoupons) { coupon ->
-        AvailableCouponItem(coupon, navigateToAvailableCouponDetail)
+    if (availableCouponsCount == 0) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.img_my_page_empty),
+                contentDescription = "empty available coupon",
+                modifier = Modifier
+                    .padding(start = 110.dp, top = 132.dp, end = 110.dp)
+                    .size(138.dp)
+            )
+
+            Text(
+                text = stringResource(id = R.string.my_page_available_coupon_empty),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 12.dp),
+                style = OffroadTheme.typography.boxMedi.copy(lineHeight = 20.sp),
+                color = Black55,
+                textAlign = TextAlign.Center,
+            )
+        }
+    } else {
+        CouponGrid(coupons, getUserCoupons) { coupon ->
+            AvailableCouponItem(coupon, navigateToAvailableCouponDetail)
+        }
     }
 }
 
@@ -126,12 +157,39 @@ private fun AvailableCouponItem(
 
 @Composable
 fun UsedCouponItems(
+    usedCouponsCount: Int,
     coupons: List<UserCoupons.Coupons>,
     context: Context,
     getUserCoupons: (Boolean, Int) -> Unit
 ) {
-    CouponGrid(coupons, getUserCoupons) { coupon ->
-        UsedCouponItem(coupon, context)
+    if (usedCouponsCount == 0) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.img_my_page_empty),
+                contentDescription = "empty used coupon",
+                modifier = Modifier
+                    .padding(start = 110.dp, top = 132.dp, end = 110.dp)
+                    .size(138.dp)
+            )
+
+            Text(
+                text = stringResource(id = R.string.my_page_used_coupon_empty),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 12.dp),
+                style = OffroadTheme.typography.boxMedi.copy(lineHeight = 20.sp),
+                color = Black55,
+                textAlign = TextAlign.Center,
+            )
+        }
+    } else {
+        CouponGrid(coupons, getUserCoupons) { coupon ->
+            UsedCouponItem(coupon, context)
+        }
     }
 }
 
@@ -232,7 +290,7 @@ private fun LoadingIndicator(onAnimationEnd: () -> Unit) {
             .size(38.dp),
         contentAlignment = Alignment.Center
     ) {
-        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.loading_circle))
+        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(com.teamoffroad.offroad.core.designsystem.R.raw.loading_circle))
         val animationState = animateLottieCompositionAsState(composition, iterations = 1)
 
         if (animationState.isAtEnd && animationState.isPlaying) {
