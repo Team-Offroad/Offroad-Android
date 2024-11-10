@@ -2,7 +2,6 @@ package com.teamoffroad.feature.auth.data.di
 
 import com.teamoffroad.feature.auth.domain.repository.AuthRepository
 import com.teamoffroad.feature.auth.domain.usecase.AuthUseCase
-import com.teamoffroad.feature.auth.domain.usecase.GetBirthDateValidateUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetCharacterListUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetNicknameValidateUseCase
 import com.teamoffroad.feature.auth.domain.usecase.UpdateCharacterUseCase
@@ -46,13 +45,7 @@ object UseCaseModule {
     fun provideGetNicknameValidateUseCase(): GetNicknameValidateUseCase {
         return GetNicknameValidateUseCase()
     }
-
-    @Provides
-    @Singleton
-    fun provideGetBirthDateValidateUseCase(): GetBirthDateValidateUseCase {
-        return GetBirthDateValidateUseCase()
-    }
-
+    
     @Provides
     @Singleton
     fun provideMarketingAgreeUseCase(
