@@ -28,8 +28,14 @@ class GainedCouponViewModel @Inject constructor(
     private val _userUsedCoupons = MutableStateFlow<List<UserCoupons>>(emptyList())
     val userUsedCoupons = _userUsedCoupons.asStateFlow()
 
+    private val _isLoading = MutableStateFlow(false) // 로딩 상태 추가
+    val isLoading = _isLoading.asStateFlow()
+
+
     fun getUserCoupons(isUsed: Boolean, cursorId: Int) {
         Log.d("lastItemCursorId", cursorId.toString())
+        _getUserCouponListState.value = UiState.Loading
+
         viewModelScope.launch {
             runCatching {
                 userCouponRepository.fetchUserCoupons(isUsed, COUPON_SIZE, cursorId)
@@ -52,7 +58,7 @@ class GainedCouponViewModel @Inject constructor(
 
 
     companion object {
-        const val COUPON_SIZE: Int = 6
+        const val COUPON_SIZE: Int = 8
         const val START_CURSOR_ID: Int = 0
     }
 }

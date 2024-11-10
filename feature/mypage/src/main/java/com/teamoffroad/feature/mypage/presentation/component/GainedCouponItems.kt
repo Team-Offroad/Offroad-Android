@@ -23,15 +23,21 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Black25
 import com.teamoffroad.core.designsystem.theme.ListBg
@@ -41,27 +47,41 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Stroke
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.mypage.domain.model.UserCoupons
-import com.teamoffroad.offroad.feature.mypage.R
+import com.teamoffroad.offroad.core.designsystem.R
+import com.teamoffroad.offroad.feature.mypage.R.drawable
+import kotlinx.coroutines.delay
 
 @Composable
 fun AvailableCouponItems(
     coupons: List<UserCoupons>,
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
-    getUserCoupons: (Boolean, Int) -> Unit
+    getUserCoupons: (Boolean, Int) -> Unit,
+    isLoading: Boolean
 ) {
     val gridState = rememberLazyGridState()
+    var isProcessing by remember { mutableStateOf(false) } // 중복 호출 방지 플래그
+    var showLoading by remember { mutableStateOf(false) }
 
-    LaunchedEffect(gridState) {
-        snapshotFlow { gridState.layoutInfo }
-            .collect { layoutInfo ->
-                val lastVisibleItemIndex = layoutInfo.visibleItemsInfo.lastOrNull()?.index
-                val totalItemsCount = layoutInfo.totalItemsCount
+    LaunchedEffect(gridState, coupons) {
+        snapshotFlow { gridState.layoutInfo.visibleItemsInfo }
+            .collect { visibleItems ->
+                val lastVisibleItem = visibleItems.lastOrNull()
+                val totalItemCount = coupons.size
 
-                // 리스트 끝에 도달했을 때 추가 쿠폰을 불러오는 조건
-                if (lastVisibleItemIndex != null && lastVisibleItemIndex == totalItemsCount - 1) {
+                if (lastVisibleItem != null &&
+                    lastVisibleItem.index == totalItemCount - 1 &&
+                    !isProcessing && !showLoading
+                ) {
+                    showLoading = true
+                    isProcessing = true
+
+                    delay(2000)
                     val lastItem = coupons.lastOrNull()
-                    Log.d("AvailableCouponItems", "Last item reached $lastItem")
-                    lastItem?.let { getUserCoupons(false, it.cursorId) }
+                    if (lastItem != null) {
+                        getUserCoupons(false, lastItem.cursorId)
+                    }
+                    showLoading = false
+                    isProcessing = false
                 }
             }
     }
@@ -70,9 +90,9 @@ fun AvailableCouponItems(
         state = gridState,
         columns = GridCells.Fixed(2),
         modifier = Modifier
-            .fillMaxSize()
             .background(ListBg)
-            .padding(horizontal = 24.dp),
+            .padding(horizontal = 24.dp)
+            .fillMaxWidth(),
         contentPadding = PaddingValues(vertical = 18.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -80,8 +100,31 @@ fun AvailableCouponItems(
         items(coupons.size) { index ->
             AvailableCouponItem(coupons[index], navigateToAvailableCouponDetail)
         }
+
+        item {
+            if (showLoading) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .size(50.dp)
+                        .padding(bottom = 16.dp)
+                ) {
+                    if (showLoading) {
+                        val composition by rememberLottieComposition(
+                            LottieCompositionSpec.RawRes(R.raw.loading_circle)
+                        )
+                        LottieAnimation(
+                            composition,
+                            iterations = LottieConstants.IterateForever
+                        )
+                    }
+                }
+            }
+
+        }
     }
 }
+
 
 @Composable
 fun AvailableCouponItem(
@@ -141,7 +184,7 @@ fun AvailableCouponItem(
                 contentAlignment = Alignment.TopEnd
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.img_coupon_new),
+                    painter = painterResource(id = drawable.img_coupon_new),
                     contentDescription = "new coupon",
                     modifier = Modifier
                         .padding(top = 16.dp, end = 16.dp)
@@ -246,7 +289,7 @@ private fun GainedCouponLockedCover() {
     ) {
         Image(
             modifier = Modifier.fillMaxSize(),
-            painter = painterResource(id = R.drawable.ic_my_page_coupon_locked),
+            painter = painterResource(id = drawable.ic_my_page_coupon_locked),
             contentDescription = "locked",
             alignment = Alignment.Center,
         )
