@@ -1,6 +1,7 @@
 package com.teamoffroad.feature.mypage.presentation.component
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -17,13 +18,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -42,8 +47,28 @@ import com.teamoffroad.offroad.feature.mypage.R
 fun AvailableCouponItems(
     coupons: List<UserCoupons>,
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
+    getUserCoupons: (Boolean, Int) -> Unit
 ) {
+    val gridState = rememberLazyGridState()
+
+    LaunchedEffect(gridState) {
+        snapshotFlow { gridState.layoutInfo }
+            .collect { layoutInfo ->
+                // 현재 보이는 마지막 아이템이 전체 아이템 수 - 1과 같을 때 (즉, 마지막 아이템이 보일 때) 호출
+                val lastVisibleItemIndex = layoutInfo.visibleItemsInfo.lastOrNull()?.index
+                if (lastVisibleItemIndex != null && lastVisibleItemIndex == layoutInfo.totalItemsCount - 1) {
+                    Log.d("AvailableCouponItems", "Last item reached")
+                    val lastItem = coupons.lastOrNull()
+                    lastItem?.let { getUserCoupons(false, it.cursorId) }
+                }
+            }
+    }
+
+
+
+
     LazyVerticalGrid(
+        state = gridState,
         columns = GridCells.Fixed(2),
         modifier = Modifier
             .fillMaxSize()
@@ -56,19 +81,6 @@ fun AvailableCouponItems(
         items(coupons.size) { index ->
             AvailableCouponItem(coupons[index], navigateToAvailableCouponDetail)
         }
-
-//        items(3) { index ->
-//            AvailableCouponItem(
-//                UserCouponList.AvailableCoupon(
-//                    id = 1,
-//                    name = "coupon1",
-//                    couponImageUrl = "img",
-//                    description = "description",
-//                    isNewGained = true,
-//                    placeId = 2323
-//                ), navigateToAvailableCouponDetail
-//            )
-//        }
     }
 }
 
@@ -145,7 +157,22 @@ fun AvailableCouponItem(
 fun UsedCouponItems(
     coupons: List<UserCoupons>,
     context: Context,
+    getUserCoupons: (Boolean, Int) -> Unit
 ) {
+    val gridState = rememberLazyGridState()
+
+    LaunchedEffect(gridState) {
+        snapshotFlow { gridState.layoutInfo.visibleItemsInfo }
+            .collect { visibleItems ->
+                val lastVisibleItem = visibleItems.lastOrNull()
+                if (lastVisibleItem != null && lastVisibleItem.index == coupons.size - 1) {
+                    Log.d("UsedCouponItems", "Last item reached")
+                    val lastItem = coupons.lastOrNull()
+                    lastItem?.let { getUserCoupons(true, it.cursorId) }
+                }
+            }
+    }
+
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = Modifier
@@ -159,15 +186,6 @@ fun UsedCouponItems(
         items(coupons.size) { index ->
             UsedCouponItem(coupons[index], context)
         }
-
-//        items(3) { index ->
-//            UsedCouponItem(
-//                UserCouponList.UsedCoupon(
-//                    name = "coupon1",
-//                    couponImageUrl = "img",
-//                ), context
-//            )
-//        }
     }
 }
 

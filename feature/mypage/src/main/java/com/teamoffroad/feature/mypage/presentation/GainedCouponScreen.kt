@@ -22,12 +22,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.navigationPadding
-import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
-import com.teamoffroad.core.designsystem.theme.Sub4
-import com.teamoffroad.feature.mypage.presentation.GainedCouponViewModel.Companion.startCursorId
+import com.teamoffroad.feature.mypage.presentation.GainedCouponViewModel.Companion.START_CURSOR_ID
 import com.teamoffroad.feature.mypage.presentation.component.GainedCouponViewPager
 import com.teamoffroad.offroad.feature.mypage.R
 
@@ -40,8 +38,8 @@ internal fun GainedCouponScreen(
 ) {
 
     LaunchedEffect(Unit) {
-        viewModel.getUserCoupons(true, startCursorId)
-        viewModel.getUserCoupons(false, startCursorId)
+        viewModel.getUserCoupons(true, START_CURSOR_ID)
+        viewModel.getUserCoupons(false, START_CURSOR_ID)
     }
 
     Box(
@@ -67,7 +65,8 @@ internal fun GainedCouponScreen(
             GainedCouponViewPager(
                 viewModel.userAvailableCoupons.collectAsState().value,
                 viewModel.userUsedCoupons.collectAsState().value,
-                navigateToAvailableCouponDetail
+                navigateToAvailableCouponDetail,
+                viewModel::getUserCoupons
             )
         }
     }

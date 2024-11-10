@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.mypage.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.mypage.domain.model.UserCoupons
@@ -28,9 +29,10 @@ class GainedCouponViewModel @Inject constructor(
     val userUsedCoupons = _userUsedCoupons.asStateFlow()
 
     fun getUserCoupons(isUsed: Boolean, cursorId: Int) {
+        Log.d("lastItemCursorId", cursorId.toString())
         viewModelScope.launch {
             runCatching {
-                userCouponRepository.fetchUserCoupons(isUsed, couponSize, cursorId)
+                userCouponRepository.fetchUserCoupons(isUsed, COUPON_SIZE, cursorId)
             }.onSuccess { coupons ->
                 _getUserCouponListState.emit(UiState.Success(coupons))
                 applyCoupons(isUsed, coupons)
@@ -42,14 +44,14 @@ class GainedCouponViewModel @Inject constructor(
 
     private fun applyCoupons(isUsed: Boolean, coupons: List<UserCoupons>) {
         if (isUsed) {
-            _userUsedCoupons.value = coupons
+            _userUsedCoupons.value += coupons
         } else {
-            _userAvailableCoupons.value = coupons
+            _userAvailableCoupons.value += coupons
         }
     }
 
     companion object {
-        const val couponSize: Int = 6
-        const val startCursorId: Int = 0
+        const val COUPON_SIZE: Int = 4
+        const val START_CURSOR_ID: Int = 0
     }
 }

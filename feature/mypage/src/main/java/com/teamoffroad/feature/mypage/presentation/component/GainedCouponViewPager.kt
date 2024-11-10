@@ -39,6 +39,7 @@ fun GainedCouponViewPager(
     availableCoupons: List<UserCoupons>,
     usedCoupons: List<UserCoupons>,
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
+    getUserCoupons: (Boolean, Int) -> Unit
 ) {
     val tabTitles = listOf(
         stringResource(id = R.string.my_page_gained_coupon_available),
@@ -100,9 +101,10 @@ fun GainedCouponViewPager(
                 0 -> AvailableCouponItems(
                     coupons = availableCoupons,
                     navigateToAvailableCouponDetail = navigateToAvailableCouponDetail,
+                    getUserCoupons
                 )
 
-                1 -> UsedCouponItems(coupons = usedCoupons, LocalContext.current)
+                1 -> UsedCouponItems(coupons = usedCoupons, LocalContext.current, getUserCoupons)
             }
 
         }
