@@ -15,14 +15,12 @@ class UserCouponRepositoryImpl @Inject constructor(
         isUsed: Boolean,
         size: Int,
         cursor: Int
-    ): List<UserCoupons> {
-        val coupons =
-            userCouponService.getCoupons(isUsed, size, cursor).data?.coupons?.map { it.toDomain() }
-                ?: return emptyList()
-        return coupons
+    ): UserCoupons {
+        val response = userCouponService.getCoupons(isUsed, size, cursor).data
+        return response?.toData()?.toDomain() ?: UserCoupons(emptyList(), 0, 0)
     }
 
     override suspend fun saveUseCoupon(coupon: UseCoupon): Boolean {
-        return userCouponService.saveCoupons(coupon.toData())?.data?.success ?: false
+        return userCouponService.saveCoupons(coupon.toData()).data?.success ?: false
     }
 }

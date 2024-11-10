@@ -7,14 +7,37 @@ import com.teamoffroad.feature.mypage.data.remote.response.UserCouponsResponseDt
 import com.teamoffroad.feature.mypage.domain.model.UseCoupon
 import com.teamoffroad.feature.mypage.domain.model.UserCoupons
 
-fun UserCouponsResponseDto.CouponsResponseDto.toDomain(): UserCoupons {
+fun UserCouponsResponseDto.toData(): UserCouponsEntity {
+    return UserCouponsEntity(
+        coupons = this.coupons.map { coupon ->
+            CouponsEntity(
+                id = coupon.id,
+                name = coupon.name,
+                couponImageUrl = coupon.couponImageUrl,
+                description = coupon.description,
+                isNewGained = coupon.isNewGained,
+                cursorId = coupon.cursorId
+            )
+        },
+        availableCouponsCount = availableCouponsCount,
+        usedCouponsCount = usedCouponsCount
+    )
+}
+
+fun UserCouponsEntity.toDomain(): UserCoupons {
     return UserCoupons(
-        id = id,
-        name = name,
-        couponImageUrl = couponImageUrl,
-        description = description,
-        isNewGained = isNewGained,
-        cursorId = cursorId
+        coupons = this.coupons.map { coupon ->
+            UserCoupons.Coupons(
+                id = coupon.id,
+                name = coupon.name,
+                couponImageUrl = coupon.couponImageUrl,
+                description = coupon.description,
+                isNewGained = coupon.isNewGained,
+                cursorId = coupon.cursorId
+            )
+        },
+        availableCouponsCount = availableCouponsCount,
+        usedCouponsCount = usedCouponsCount
     )
 }
 

@@ -7,6 +7,12 @@ import kotlinx.serialization.Serializable
 data class UserCouponsResponseDto(
     @SerialName("coupons")
     val coupons: List<CouponsResponseDto>,
+
+    @SerialName("availableCouponsCount")
+    val availableCouponsCount: Int,
+
+    @SerialName("usedCouponsCount")
+    val usedCouponsCount: Int
 ) {
     @Serializable
     data class CouponsResponseDto(

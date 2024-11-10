@@ -36,8 +36,10 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun GainedCouponViewPager(
-    availableCoupons: List<UserCoupons>,
-    usedCoupons: List<UserCoupons>,
+    availableCouponsCount: Int,
+    usedCouponsCount: Int,
+    availableCoupons: List<UserCoupons.Coupons>,
+    usedCoupons: List<UserCoupons.Coupons>,
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
     getUserCoupons: (Boolean, Int) -> Unit
 ) {
@@ -81,8 +83,8 @@ fun GainedCouponViewPager(
                     },
                     text = {
                         Text(
-                            text = if (index == 0) "$title ${availableCoupons.size}"
-                            else "$title ${usedCoupons.size}",
+                            text = if (index == 0) "$title $availableCouponsCount"
+                            else "$title $usedCouponsCount",
                             style = OffroadTheme.typography.tooltipTitle
                         )
                     },

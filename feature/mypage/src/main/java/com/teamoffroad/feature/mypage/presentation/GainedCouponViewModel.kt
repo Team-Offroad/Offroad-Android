@@ -18,13 +18,19 @@ class GainedCouponViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _getUserCouponListState =
-        MutableStateFlow<UiState<List<UserCoupons>>>(UiState.Loading)
+        MutableStateFlow<UiState<UserCoupons>>(UiState.Loading)
     val getUserCouponListState = _getUserCouponListState.asStateFlow()
 
-    private val _userAvailableCoupons = MutableStateFlow<List<UserCoupons>>(emptyList())
+    private val _availableCouponsCount = MutableStateFlow<Int>(0)
+    val availableCouponsCount = _availableCouponsCount.asStateFlow()
+
+    private val _usedCouponsCount = MutableStateFlow<Int>(0)
+    val usedCouponsCount = _usedCouponsCount.asStateFlow()
+
+    private val _userAvailableCoupons = MutableStateFlow<List<UserCoupons.Coupons>>(emptyList())
     val userAvailableCoupons = _userAvailableCoupons.asStateFlow()
 
-    private val _userUsedCoupons = MutableStateFlow<List<UserCoupons>>(emptyList())
+    private val _userUsedCoupons = MutableStateFlow<List<UserCoupons.Coupons>>(emptyList())
     val userUsedCoupons = _userUsedCoupons.asStateFlow()
 
     fun getUserCoupons(isUsed: Boolean, cursorId: Int) {
@@ -35,14 +41,16 @@ class GainedCouponViewModel @Inject constructor(
                 userCouponRepository.fetchUserCoupons(isUsed, COUPON_SIZE, cursorId)
             }.onSuccess { coupons ->
                 _getUserCouponListState.emit(UiState.Success(coupons))
-                applyCoupons(isUsed, coupons)
+                _availableCouponsCount.emit(coupons.availableCouponsCount)
+                _usedCouponsCount.emit(coupons.usedCouponsCount)
+                applyCoupons(isUsed, coupons.coupons)
             }.onFailure { throwable ->
                 _getUserCouponListState.emit(UiState.Failure(getErrorMessage(throwable)))
             }
         }
     }
 
-    private fun applyCoupons(isUsed: Boolean, coupons: List<UserCoupons>) {
+    private fun applyCoupons(isUsed: Boolean, coupons: List<UserCoupons.Coupons>) {
         if (isUsed) {
             _userUsedCoupons.value += coupons
         } else {

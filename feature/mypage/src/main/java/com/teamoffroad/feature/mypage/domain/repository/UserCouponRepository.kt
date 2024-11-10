@@ -8,7 +8,7 @@ interface UserCouponRepository {
         isUsed: Boolean,
         size: Int,
         cursor: Int
-    ): List<UserCoupons>
+    ): UserCoupons
 
     suspend fun saveUseCoupon(coupon: UseCoupon): Boolean
 }

@@ -2,6 +2,8 @@ package com.teamoffroad.feature.mypage.data.model
 
 data class UserCouponsEntity(
     val coupons: List<CouponsEntity>,
+    val availableCouponsCount: Int,
+    val usedCouponsCount: Int
 ) {
     data class CouponsEntity(
         val id: Int,

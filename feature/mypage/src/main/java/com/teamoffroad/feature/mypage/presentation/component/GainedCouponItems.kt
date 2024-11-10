@@ -52,7 +52,7 @@ import com.teamoffroad.offroad.feature.mypage.R.drawable
 
 @Composable
 fun AvailableCouponItems(
-    coupons: List<UserCoupons>,
+    coupons: List<UserCoupons.Coupons>,
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
     getUserCoupons: (Boolean, Int) -> Unit
 ) {
@@ -63,7 +63,7 @@ fun AvailableCouponItems(
 
 @Composable
 private fun AvailableCouponItem(
-    coupon: UserCoupons,
+    coupon: UserCoupons.Coupons,
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit
 ) {
     Box(
@@ -126,7 +126,7 @@ private fun AvailableCouponItem(
 
 @Composable
 fun UsedCouponItems(
-    coupons: List<UserCoupons>,
+    coupons: List<UserCoupons.Coupons>,
     context: Context,
     getUserCoupons: (Boolean, Int) -> Unit
 ) {
@@ -137,7 +137,7 @@ fun UsedCouponItems(
 
 @Composable
 private fun UsedCouponItem(
-    coupon: UserCoupons,
+    coupon: UserCoupons.Coupons,
     context: Context
 ) {
     Box(
@@ -177,9 +177,9 @@ private fun UsedCouponItem(
 
 @Composable
 fun CouponGrid(
-    coupons: List<UserCoupons>,
+    coupons: List<UserCoupons.Coupons>,
     getUserCoupons: (Boolean, Int) -> Unit,
-    couponContent: @Composable (UserCoupons) -> Unit
+    couponContent: @Composable (UserCoupons.Coupons) -> Unit
 ) {
     val gridState = rememberLazyGridState()
     var showLottieLoading by remember { mutableStateOf(false) }
