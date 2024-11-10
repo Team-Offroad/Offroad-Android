@@ -36,7 +36,6 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun GainedCouponViewPager(
-    isLoading: Boolean,
     availableCoupons: List<UserCoupons>,
     usedCoupons: List<UserCoupons>,
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
@@ -103,7 +102,6 @@ fun GainedCouponViewPager(
                     coupons = availableCoupons,
                     navigateToAvailableCouponDetail = navigateToAvailableCouponDetail,
                     getUserCoupons,
-                    isLoading
                 )
 
                 1 -> UsedCouponItems(coupons = usedCoupons, LocalContext.current, getUserCoupons)

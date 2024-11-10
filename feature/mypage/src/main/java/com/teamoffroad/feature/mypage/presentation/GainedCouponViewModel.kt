@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.mypage.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.mypage.domain.model.UserCoupons
@@ -28,12 +27,7 @@ class GainedCouponViewModel @Inject constructor(
     private val _userUsedCoupons = MutableStateFlow<List<UserCoupons>>(emptyList())
     val userUsedCoupons = _userUsedCoupons.asStateFlow()
 
-    private val _isLoading = MutableStateFlow(false) // 로딩 상태 추가
-    val isLoading = _isLoading.asStateFlow()
-
-
     fun getUserCoupons(isUsed: Boolean, cursorId: Int) {
-        Log.d("lastItemCursorId", cursorId.toString())
         _getUserCouponListState.value = UiState.Loading
 
         viewModelScope.launch {
@@ -50,9 +44,9 @@ class GainedCouponViewModel @Inject constructor(
 
     private fun applyCoupons(isUsed: Boolean, coupons: List<UserCoupons>) {
         if (isUsed) {
-            _userUsedCoupons.value = _userUsedCoupons.value + coupons
+            _userUsedCoupons.value += coupons
         } else {
-            _userAvailableCoupons.value = _userAvailableCoupons.value + coupons
+            _userAvailableCoupons.value += coupons
         }
     }
 

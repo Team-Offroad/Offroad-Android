@@ -63,7 +63,6 @@ internal fun GainedCouponScreen(
             }
             Spacer(modifier = Modifier.padding(vertical = 10.dp))
             GainedCouponViewPager(
-                viewModel.isLoading.collectAsState().value,
                 viewModel.userAvailableCoupons.collectAsState().value,
                 viewModel.userUsedCoupons.collectAsState().value,
                 navigateToAvailableCouponDetail,
