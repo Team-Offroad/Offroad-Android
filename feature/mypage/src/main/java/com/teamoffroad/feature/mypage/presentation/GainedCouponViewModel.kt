@@ -44,14 +44,15 @@ class GainedCouponViewModel @Inject constructor(
 
     private fun applyCoupons(isUsed: Boolean, coupons: List<UserCoupons>) {
         if (isUsed) {
-            _userUsedCoupons.value += coupons
+            _userUsedCoupons.value = _userUsedCoupons.value + coupons
         } else {
-            _userAvailableCoupons.value += coupons
+            _userAvailableCoupons.value = _userAvailableCoupons.value + coupons
         }
     }
 
+
     companion object {
-        const val COUPON_SIZE: Int = 4
+        const val COUPON_SIZE: Int = 6
         const val START_CURSOR_ID: Int = 0
     }
 }

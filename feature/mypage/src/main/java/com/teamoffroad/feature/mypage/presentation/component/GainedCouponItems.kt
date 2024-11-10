@@ -54,18 +54,17 @@ fun AvailableCouponItems(
     LaunchedEffect(gridState) {
         snapshotFlow { gridState.layoutInfo }
             .collect { layoutInfo ->
-                // 현재 보이는 마지막 아이템이 전체 아이템 수 - 1과 같을 때 (즉, 마지막 아이템이 보일 때) 호출
                 val lastVisibleItemIndex = layoutInfo.visibleItemsInfo.lastOrNull()?.index
-                if (lastVisibleItemIndex != null && lastVisibleItemIndex == layoutInfo.totalItemsCount - 1) {
-                    Log.d("AvailableCouponItems", "Last item reached")
+                val totalItemsCount = layoutInfo.totalItemsCount
+
+                // 리스트 끝에 도달했을 때 추가 쿠폰을 불러오는 조건
+                if (lastVisibleItemIndex != null && lastVisibleItemIndex == totalItemsCount - 1) {
                     val lastItem = coupons.lastOrNull()
+                    Log.d("AvailableCouponItems", "Last item reached $lastItem")
                     lastItem?.let { getUserCoupons(false, it.cursorId) }
                 }
             }
     }
-
-
-
 
     LazyVerticalGrid(
         state = gridState,
