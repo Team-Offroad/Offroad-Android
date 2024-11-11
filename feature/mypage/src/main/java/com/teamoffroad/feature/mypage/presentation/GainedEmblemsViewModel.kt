@@ -31,11 +31,11 @@ class GainedEmblemsViewModel @Inject constructor(
                 val emblems = result.getOrNull()?.toImmutableList() ?: persistentListOf()
                 _emblemsUiState.value = _emblemsUiState.value.copy(
                     emblemList = emblems,
-                    nicknameValidateResult = GainedEmblemsResult.Success,
+                    gainedEmblemsValidateResult = GainedEmblemsResult.Success,
                 )
             }.onFailure {
                 _emblemsUiState.value =
-                    _emblemsUiState.value.copy(nicknameValidateResult = GainedEmblemsResult.Error)
+                    _emblemsUiState.value.copy(gainedEmblemsValidateResult = GainedEmblemsResult.Error)
             }
         }
     }
