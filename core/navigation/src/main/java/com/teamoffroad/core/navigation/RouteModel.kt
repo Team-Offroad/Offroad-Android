@@ -87,6 +87,7 @@ sealed interface MyPageRoute : Route {
         val updateAt: String,
         val hasExternalLinks: Boolean,
         val externalLinks: List<String>,
+        val externalLinksTitles: List<String>,
     ) : MyPageRoute
 
     @Serializable

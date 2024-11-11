@@ -7,4 +7,5 @@ data class Announcement(
     val updateAt: String,
     val hasExternalLinks: Boolean,
     val externalLinks: List<String>,
+    val externalLinksTitles: List<String>,
 )

@@ -11,4 +11,5 @@ fun AnnouncementData.toAnnouncement() =
         updateAt = updateAt,
         hasExternalLinks = hasExternalLinks,
         externalLinks = externalLinks,
+        externalLinksTitles = externalLinksTitles,
     )

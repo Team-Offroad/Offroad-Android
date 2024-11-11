@@ -38,6 +38,7 @@ internal fun AnnouncementDetailScreen(
     updateAt: String,
     hasExternalLinks: Boolean,
     externalLinks: List<String>,
+    externalLinksTitles: List<String>,
     navigateToBack: () -> Unit,
 ) {
     val (year, month, day) = extractAnnounceUpdateDate(updateAt)
@@ -76,8 +77,27 @@ internal fun AnnouncementDetailScreen(
                 color = Main2,
             )
             if (hasExternalLinks) {
-                externalLinks.forEach {
-                    ClickableLinkText(it)
+                when {
+                    externalLinks.size == externalLinksTitles.size -> {
+                        externalLinks.forEachIndexed { index, link ->
+                            ClickableLinkText(externalLinksTitles[index], link)
+                        }
+                    }
+
+                    externalLinks.size > externalLinksTitles.size -> {
+                        externalLinksTitles.forEachIndexed { index, title ->
+                            ClickableLinkText(title, externalLinks[index])
+                        }
+                        for (i in externalLinksTitles.size until externalLinks.size) {
+                            ClickableLinkText(externalLinks[i], externalLinks[i])
+                        }
+                    }
+
+                    else -> {
+                        externalLinks.zip(externalLinksTitles).forEach { (link, title) ->
+                            ClickableLinkText(title, link)
+                        }
+                    }
                 }
             }
         }
@@ -92,11 +112,12 @@ private fun extractAnnounceUpdateDate(updateAt: String): Triple<String, String, 
 
 @Composable
 fun ClickableLinkText(
+    linkTitle: String,
     externalLinks: String,
 ) {
     val context = LocalContext.current
     Text(
-        text = externalLinks,
+        text = linkTitle,
         modifier = Modifier
             .padding(vertical = 20.dp)
             .clickableWithoutRipple {

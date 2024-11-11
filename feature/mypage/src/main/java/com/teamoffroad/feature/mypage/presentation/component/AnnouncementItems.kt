@@ -11,7 +11,7 @@ import com.teamoffroad.feature.mypage.presentation.model.AnnouncementUiState
 fun AnnouncementItems(
     modifier: Modifier = Modifier,
     isAnnouncementState: AnnouncementUiState,
-    onClick: (String, String, Boolean, String, Boolean, List<String>) -> Unit,
+    onClick: (String, String, Boolean, String, Boolean, List<String>, List<String>) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier
@@ -28,7 +28,8 @@ fun AnnouncementItems(
                         it.isImportant,
                         it.updateAt,
                         it.hasExternalLinks,
-                        it.externalLinks
+                        it.externalLinks,
+                        it.externalLinksTitles,
                     )
                 }
             )

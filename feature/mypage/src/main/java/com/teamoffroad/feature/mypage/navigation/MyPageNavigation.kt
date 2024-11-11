@@ -58,7 +58,8 @@ fun NavController.navigateToAnnouncementDetail(
     isImportant: Boolean,
     updateAt: String,
     hasExternalLinks: Boolean,
-    externalLinks: List<String>
+    externalLinks: List<String>,
+    externalLinksTitles: List<String>,
 ) {
     navigate(
         MyPageRoute.AnnouncementDetail(
@@ -67,7 +68,8 @@ fun NavController.navigateToAnnouncementDetail(
             isImportant,
             updateAt,
             hasExternalLinks,
-            externalLinks
+            externalLinks,
+            externalLinksTitles,
         )
     )
 }
@@ -87,7 +89,7 @@ fun NavGraphBuilder.myPageNavGraph(
     navigateToGainedEmblems: () -> Unit,
     navigateToSetting: () -> Unit,
     navigateToAnnouncement: () -> Unit,
-    navigateToAnnouncementDetail: (String, String, Boolean, String, Boolean, List<String>) -> Unit,
+    navigateToAnnouncementDetail: (String, String, Boolean, String, Boolean, List<String>, List<String>) -> Unit,
     navigateToSignIn: () -> Unit,
     navigateToCharacterDetail: (Int, Boolean) -> Unit,
     navigateToBack: () -> Unit,
@@ -146,6 +148,8 @@ fun NavGraphBuilder.myPageNavGraph(
         val hasExternalLinks =
             backStackEntry.toRoute<MyPageRoute.AnnouncementDetail>().hasExternalLinks
         val externalLinks = backStackEntry.toRoute<MyPageRoute.AnnouncementDetail>().externalLinks
+        val externalLinksTitles: List<String> =
+            backStackEntry.toRoute<MyPageRoute.AnnouncementDetail>().externalLinksTitles
         AnnouncementDetailScreen(
             title,
             content,
@@ -153,6 +157,7 @@ fun NavGraphBuilder.myPageNavGraph(
             updateAt,
             hasExternalLinks,
             externalLinks,
+            externalLinksTitles,
             navigateToBack
         )
     }

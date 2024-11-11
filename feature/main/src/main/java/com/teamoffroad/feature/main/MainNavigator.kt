@@ -184,8 +184,17 @@ internal class MainNavigator(
         updateAt: String,
         hasExternalLinks: Boolean,
         externalLinks: List<String>,
+        externalLinksTitles: List<String>,
     ) {
-        navController.navigateToAnnouncementDetail(title, content, isImportant, updateAt, hasExternalLinks, externalLinks)
+        navController.navigateToAnnouncementDetail(
+            title,
+            content,
+            isImportant,
+            updateAt,
+            hasExternalLinks,
+            externalLinks,
+            externalLinksTitles
+        )
     }
 
     fun navigateToCharacterDetail(characterId: Int, isRepresentative: Boolean) {

@@ -23,4 +23,6 @@ data class AnnouncementData(
     val hasExternalLinks: Boolean,
     @SerialName("externalLinks")
     val externalLinks: List<String>,
+    @SerialName("externalLinksTitles")
+    val externalLinksTitles: List<String>,
 )

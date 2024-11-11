@@ -1,7 +1,6 @@
 package com.teamoffroad.feature.mypage.presentation
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,7 +29,7 @@ import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
 internal fun AnnouncementScreen(
-    navigateToAnnouncementDetail: (String, String, Boolean, String, Boolean, List<String>,) -> Unit,
+    navigateToAnnouncementDetail: (String, String, Boolean, String, Boolean, List<String>, List<String>) -> Unit,
     navigateToBack: () -> Unit,
     viewModel: AnnouncementViewModel = hiltViewModel()
 ) {
