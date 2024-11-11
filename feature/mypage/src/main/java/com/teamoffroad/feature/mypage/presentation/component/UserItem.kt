@@ -23,8 +23,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -40,6 +40,7 @@ import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.PretendardBold
+import com.teamoffroad.core.designsystem.theme.Stroke
 import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.feature.mypage.domain.model.MyPageUser
@@ -112,13 +113,14 @@ fun UserAdventureInfo(
                 painterResource(id = R.drawable.img_line),
                 contentDescription = "line",
                 alignment = Alignment.Center,
+                colorFilter = ColorFilter.tint(Stroke)
             )
         }
         Surface(
             color = Main1,
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(312f/40f)
+                .aspectRatio(312f / 40f)
                 .clip(shape = RoundedCornerShape(10.dp))
         ) {
             Column {
@@ -187,7 +189,6 @@ fun UserImage(
         contentDescription = "character image",
         contentScale = contentScale,
         modifier = modifier
-            //.size(78.dp)
             .aspectRatio(78f / 78f)
             .clip(CircleShape)
             .border(

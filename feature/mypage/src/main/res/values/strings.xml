@@ -26,6 +26,8 @@
     <string name="my_page_gained_coupon_fail_use_description">다시 한번 확인해 주세요.</string>
     <string name="my_page_gained_coupon_success_use">사용 완료</string>
     <string name="my_page_gained_coupon_success_use_description">쿠폰 사용이 완료되었요!</string>
+    <string name="my_page_available_coupon_empty">사용 가능한 쿠폰이 없어요.\n퀘스트를 클리어하고 쿠폰을 획득해 보세요!</string>
+    <string name="my_page_used_coupon_empty">사용 완료한 쿠폰이 없어요.\n획득한 쿠폰을 사용해 보세요!</string>
     <string name="my_page_update_representative_character">대표 캐릭터로 선택하기</string>
     <string name="my_page_representative_success">로 대표 캐릭터가 변경되었어요!</string>
     <string name="my_page_character_motion">캐릭터 모션</string>
