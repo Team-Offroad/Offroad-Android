@@ -16,7 +16,6 @@ import javax.inject.Inject
 @HiltViewModel
 class SetGenderViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val setAutoSignInUseCase: SetAutoSignInUseCase,
 ) : ViewModel() {
 
     private val _genderUiState = MutableStateFlow<SetGenderUiState>(SetGenderUiState.Loading)
@@ -51,7 +50,6 @@ class SetGenderViewModel @Inject constructor(
                 )
             }.onSuccess {
                 _genderUiState.value = SetGenderUiState.Success
-                setAutoSignInUseCase.invoke(true)
             }.onFailure {
                 _genderUiState.value = SetGenderUiState.Error
             }

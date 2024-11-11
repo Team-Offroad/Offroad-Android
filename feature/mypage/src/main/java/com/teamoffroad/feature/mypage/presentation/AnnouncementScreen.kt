@@ -1,13 +1,13 @@
 package com.teamoffroad.feature.mypage.presentation
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -29,7 +29,7 @@ import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
 internal fun AnnouncementScreen(
-    navigateToAnnouncementDetail: (String, String, Boolean, String) -> Unit,
+    navigateToAnnouncementDetail: (String, String, Boolean, String, Boolean, List<String>, List<String>) -> Unit,
     navigateToBack: () -> Unit,
     viewModel: AnnouncementViewModel = hiltViewModel()
 ) {
@@ -54,11 +54,11 @@ internal fun AnnouncementScreen(
             text = stringResource(R.string.my_page_setting_item_announcement),
             painterResources = R.drawable.ic_announcement_tag
         )
-        Box(
+        HorizontalDivider(
+            color = Gray100,
+            thickness = 1.dp,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(1.dp)
-                .background(color = Gray100)
         )
         Spacer(Modifier.height(24.dp))
         if (isAnnouncementState.announcementValidateResult == AnnouncementResult.Success) {

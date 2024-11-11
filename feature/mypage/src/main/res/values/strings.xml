@@ -51,7 +51,7 @@
     <string name="my_page_setting_logout_dialog_sub_title">정말 로그아웃 하시겠어요?</string>
     <string name="my_page_setting_logout_dialog_agree">네</string>
     <string name="my_page_setting_logout_dialog_disagree">아니요</string>
-    <string name="my_page_setting_withdraw_dialog_sub_title">정말 탈퇴하시겠어요?\n탈퇴하다면 아래 문구를 입력창에\n그대로 입력해주세요.</string>
+    <string name="my_page_setting_withdraw_dialog_sub_title">정말 탈퇴하시겠어요?\n탈퇴하신다면 아래 문구를 입력창에\n그대로 입력해주세요.</string>
     <string name="my_page_setting_withdraw_message">오프로드 회원을 탈퇴하겠습니다.</string>
     <string name="my_page_setting_withdraw_dialog_agree">탈퇴</string>
     <string name="my_page_setting_withdraw_dialog_disagree">취소</string>

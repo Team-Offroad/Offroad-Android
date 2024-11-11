@@ -2,7 +2,6 @@ package com.teamoffroad.feature.mypage.presentation.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,6 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -37,7 +37,6 @@ fun WithDrawDialog(
     isWithDrawText: String,
     isWithDrawResult: Boolean,
     withDrawInputText: String,
-    navigateToSignIn: () -> Unit,
     onClick: KFunction1<String, Unit>,
     onClickCancel: () -> Unit,
 ) {
@@ -94,21 +93,25 @@ fun WithDrawDialog(
                     modifier = Modifier.padding(top = 16.dp)
                 ) {
                     WithDrawButton(
+                        modifier = Modifier
+                            .clickableWithoutRipple(enabled = true) {
+                                onClickCancel()
+                            }
+                            .weight(1f),
                         text = stringResource(R.string.my_page_setting_withdraw_dialog_disagree),
-                        onClick = onClickCancel,
                         textColor = Main2,
                         backgroundColor = Main3,
-                        modifier = Modifier.weight(1f),
                         isWithDrawResult = true
                     )
                     WithDrawButton(
+                        modifier = Modifier
+                            .clickableWithoutRipple(enabled = isWithDrawResult) {
+                                onClick(withDrawInputText)
+                            }
+                            .weight(1f),
                         text = stringResource(R.string.my_page_setting_withdraw_dialog_agree),
-                        onClick = {
-                            onClick(withDrawInputText)
-                        },
                         textColor = White,
                         backgroundColor = Main2,
-                        modifier = Modifier.weight(1f),
                         isWithDrawResult = isWithDrawResult,
                     )
                 }
@@ -121,7 +124,6 @@ fun WithDrawDialog(
 private fun WithDrawButton(
     modifier: Modifier = Modifier,
     text: String,
-    onClick: () -> Unit,
     textColor: Color,
     backgroundColor: Color,
     isWithDrawResult: Boolean = false,
@@ -148,9 +150,5 @@ private fun WithDrawButton(
                     Main2,
             )
             .padding(vertical = 14.dp, horizontal = 38.dp)
-            .clickable(
-                enabled = isWithDrawResult,
-                onClick = onClick
-            )
     )
 }

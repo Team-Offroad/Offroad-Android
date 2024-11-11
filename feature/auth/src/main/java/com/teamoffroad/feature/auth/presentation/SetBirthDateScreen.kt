@@ -2,7 +2,6 @@ package com.teamoffroad.feature.auth.presentation
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.addFocusCleaner
+import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -42,7 +42,7 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.auth.presentation.component.BirthDateHintText
 import com.teamoffroad.feature.auth.presentation.component.BirthDateTextField
-import com.teamoffroad.feature.auth.presentation.component.BirthDateValidateResult
+import com.teamoffroad.feature.auth.presentation.component.DateValidateResult
 import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
 import com.teamoffroad.offroad.feature.auth.R
 
@@ -67,7 +67,7 @@ internal fun SetBirthDateScreen(
             .background(color = Main1),
     ) {
         OffroadActionBar()
-        Spacer(modifier = Modifier.padding(vertical = 22.dp))
+        Spacer(modifier = Modifier.padding(vertical = 20.dp))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -78,28 +78,30 @@ internal fun SetBirthDateScreen(
                 text = stringResource(R.string.auth_skip),
                 color = Gray300,
                 style = OffroadTheme.typography.hint,
-                modifier = Modifier.clickable {
-                    navigateToSetGender(nickname, null)
-                }
+                modifier = Modifier
+                    .clickableWithoutRipple {
+                        navigateToSetGender(nickname, null)
+                    }
             )
         }
-        Spacer(modifier = Modifier.padding(vertical = 26.dp))
         Text(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 50.dp, bottom = 6.dp),
             text = stringResource(R.string.auth_on_boarding_title),
             color = Main2,
             style = OffroadTheme.typography.profileTitle,
             textAlign = TextAlign.Center
         )
-        Spacer(modifier = Modifier.padding(vertical = 6.dp))
         Text(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 56.dp),
             text = stringResource(R.string.auth_set_birth_date_sub_title),
             color = Main2,
             style = OffroadTheme.typography.subtitleReg,
             textAlign = TextAlign.Center
         )
-        Spacer(modifier = Modifier.padding(vertical = 28.dp))
         Column(
             modifier = Modifier
                 .padding(horizontal = 24.dp)
@@ -130,14 +132,14 @@ internal fun SetBirthDateScreen(
                     placeholder = stringResource(R.string.auth_set_birth_date_text_field_year_hint),
                     onValueChange = {
                         if (it.isBlank() || it.matches(pattern)) {
-                            viewModel.updateCheckedYear(it)
+                            viewModel.updateYearState(it)
                             it.takeIf { it.length == 4 }?.let {
                                 monthFocusRequester.requestFocus()
                             }
                         }
                     },
                     maxLength = 4,
-                    isError = isBirthDateState.birthDateValidateResult == BirthDateValidateResult.YearError,
+                    isError = isBirthDateState.yearValidateResult == DateValidateResult.Error,
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Next,
                         keyboardType = KeyboardType.NumberPassword
@@ -164,20 +166,20 @@ internal fun SetBirthDateScreen(
                     value = isBirthDateState.month,
                     onValueChange = {
                         if (it.isBlank() || it.matches(pattern)) {
-                            viewModel.updateCheckedMonth(it)
+                            viewModel.updateMonthState(it)
                             it.takeIf { it.length == 2 }?.let {
                                 dayFocusRequester.requestFocus()
                             }
                         }
                     },
                     maxLength = 2,
-                    isError = isBirthDateState.birthDateValidateResult == BirthDateValidateResult.MonthError,
+                    isError = isBirthDateState.monthValidateResult == DateValidateResult.Error,
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Next,
                         keyboardType = KeyboardType.NumberPassword
                     ),
                     keyboardActions = KeyboardActions(
-                        onNext = { dayFocusRequester.requestFocus() }
+                        onNext = { dayFocusRequester.requestFocus() },
                     ),
                 )
                 Text(
@@ -198,14 +200,14 @@ internal fun SetBirthDateScreen(
                     placeholder = stringResource(R.string.auth_set_birth_date_text_field_date_hint),
                     onValueChange = {
                         if (it.isBlank() || it.matches(pattern)) {
-                            viewModel.updateCheckedDate(it)
+                            viewModel.updateDateState(it)
                             it.takeIf { it.length == 2 }?.let {
                                 focusManager.clearFocus()
                             }
                         }
                     },
                     maxLength = 2,
-                    isError = isBirthDateState.birthDateValidateResult == BirthDateValidateResult.DayError,
+                    isError = isBirthDateState.dayValidateResult == DateValidateResult.Error,
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Done,
                         keyboardType = KeyboardType.NumberPassword
@@ -225,7 +227,9 @@ internal fun SetBirthDateScreen(
             BirthDateHintText(
                 modifier = Modifier
                     .padding(top = 12.dp),
-                isVisible = isBirthDateState.birthDateValidateResult
+                isVisible = isBirthDateState.yearValidateResult == DateValidateResult.Error ||
+                        isBirthDateState.monthValidateResult == DateValidateResult.Error ||
+                        isBirthDateState.dayValidateResult == DateValidateResult.Error
             )
         }
         Spacer(
@@ -238,20 +242,15 @@ internal fun SetBirthDateScreen(
                 .padding(bottom = 72.dp)
                 .height(50.dp)
                 .align(Alignment.CenterHorizontally),
+            text = stringResource(R.string.auth_basic_button),
             onClick = {
-                val birthDate = when {
-                    isBirthDateState.year.isNotEmpty() &&
-                            isBirthDateState.month.isNotEmpty() &&
-                            isBirthDateState.day.isNotEmpty() -> {
-                        "${isBirthDateState.year}-${isBirthDateState.month}-${isBirthDateState.day}"
-                    }
-
-                    else -> null
-                }
+                val birthDate =
+                    "${isBirthDateState.year}-${isBirthDateState.month}-${isBirthDateState.day}"
                 navigateToSetGender(nickname, birthDate)
             },
-            isActive = isBirthDateState.birthDateValidateResult == BirthDateValidateResult.Success,
-            text = stringResource(R.string.auth_basic_button),
+            isActive = isBirthDateState.yearValidateResult == DateValidateResult.Success &&
+                    isBirthDateState.monthValidateResult == DateValidateResult.Success &&
+                    isBirthDateState.dayValidateResult == DateValidateResult.Success,
         )
     }
 }

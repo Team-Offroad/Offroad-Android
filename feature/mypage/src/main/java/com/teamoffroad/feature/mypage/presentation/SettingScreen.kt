@@ -2,13 +2,13 @@ package com.teamoffroad.feature.mypage.presentation
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -22,8 +22,8 @@ import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Main1
+import com.teamoffroad.feature.auth.presentation.component.AgreeTermsAndConditionsDialog
 import com.teamoffroad.feature.mypage.presentation.component.LogoutDialog
-import com.teamoffroad.feature.mypage.presentation.component.MarketingInfoDialog
 import com.teamoffroad.feature.mypage.presentation.component.SettingContainer
 import com.teamoffroad.feature.mypage.presentation.component.SettingDialogState
 import com.teamoffroad.feature.mypage.presentation.component.SettingHeader
@@ -62,11 +62,11 @@ internal fun SettingScreen(
             text = stringResource(R.string.my_page_setting_title),
             painterResources = R.drawable.ic_setting_tag
         )
-        Box(
-            modifier = modifier
+        HorizontalDivider(
+            color = Gray100,
+            thickness = 1.dp,
+            modifier = Modifier
                 .fillMaxWidth()
-                .height(1.dp)
-                .background(color = Gray100)
         )
         Spacer(Modifier.height(24.dp))
         SettingContainer(
@@ -102,8 +102,11 @@ internal fun SettingScreen(
 
     when (isSettingUiState.dialogVisible) {
         SettingDialogState.InVisible -> {}
-        SettingDialogState.MarketingVisible -> MarketingInfoDialog(
-            onClick = viewModel::changedMarketingAgree,
+        SettingDialogState.MarketingVisible -> AgreeTermsAndConditionsDialog(
+            title = stringResource(R.string.my_page_setting_marketing_dialog_title),
+            content = stringResource(com.teamoffroad.offroad.feature.auth.R.string.auth_agree_and_terms_conditions_dialog_marketing_content),
+            onAgreeClick = { viewModel.changedMarketingAgree(true) },
+            onDisAgreeClick = { viewModel.changedMarketingAgree(false) },
             onClickCancel = {
                 viewModel.changeDialogState(SettingDialogState.InVisible)
             })
@@ -121,7 +124,6 @@ internal fun SettingScreen(
             onInputTextChange = viewModel::changeWithDrawInputText,
             onClick = viewModel::deleteUserInfo,
             withDrawInputText = viewModel.settingUiState.value.withDrawInputState,
-            navigateToSignIn = navigateToSignIn,
             onClickCancel = {
                 viewModel.changeDialogState(SettingDialogState.InVisible)
             })

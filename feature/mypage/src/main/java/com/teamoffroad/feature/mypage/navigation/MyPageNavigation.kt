@@ -53,9 +53,25 @@ fun NavController.navigateToAnnouncement() {
 }
 
 fun NavController.navigateToAnnouncementDetail(
-    title: String, content: String, isImportant: Boolean, updateAt: String,
+    title: String,
+    content: String,
+    isImportant: Boolean,
+    updateAt: String,
+    hasExternalLinks: Boolean,
+    externalLinks: List<String>,
+    externalLinksTitles: List<String>,
 ) {
-    navigate(MyPageRoute.AnnouncementDetail(title, content, isImportant, updateAt))
+    navigate(
+        MyPageRoute.AnnouncementDetail(
+            title,
+            content,
+            isImportant,
+            updateAt,
+            hasExternalLinks,
+            externalLinks,
+            externalLinksTitles,
+        )
+    )
 }
 
 fun NavController.navigateToSignIn() {
@@ -73,7 +89,7 @@ fun NavGraphBuilder.myPageNavGraph(
     navigateToGainedEmblems: () -> Unit,
     navigateToSetting: () -> Unit,
     navigateToAnnouncement: () -> Unit,
-    navigateToAnnouncementDetail: (String, String, Boolean, String) -> Unit,
+    navigateToAnnouncementDetail: (String, String, Boolean, String, Boolean, List<String>, List<String>) -> Unit,
     navigateToSignIn: () -> Unit,
     navigateToCharacterDetail: (Int, Boolean) -> Unit,
     navigateToBack: () -> Unit,
@@ -129,7 +145,21 @@ fun NavGraphBuilder.myPageNavGraph(
         val content = backStackEntry.toRoute<MyPageRoute.AnnouncementDetail>().content
         val isImportant = backStackEntry.toRoute<MyPageRoute.AnnouncementDetail>().isImportant
         val updateAt = backStackEntry.toRoute<MyPageRoute.AnnouncementDetail>().updateAt
-        AnnouncementDetailScreen(title, content, isImportant, updateAt, navigateToBack)
+        val hasExternalLinks =
+            backStackEntry.toRoute<MyPageRoute.AnnouncementDetail>().hasExternalLinks
+        val externalLinks = backStackEntry.toRoute<MyPageRoute.AnnouncementDetail>().externalLinks
+        val externalLinksTitles: List<String> =
+            backStackEntry.toRoute<MyPageRoute.AnnouncementDetail>().externalLinksTitles
+        AnnouncementDetailScreen(
+            title,
+            content,
+            isImportant,
+            updateAt,
+            hasExternalLinks,
+            externalLinks,
+            externalLinksTitles,
+            navigateToBack
+        )
     }
 
     composable<MyPageRoute.CharacterDetail> { backStackEntry ->

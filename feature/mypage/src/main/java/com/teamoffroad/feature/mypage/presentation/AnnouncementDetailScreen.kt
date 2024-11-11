@@ -1,22 +1,28 @@
 package com.teamoffroad.feature.mypage.presentation
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.component.navigationPadding
-import com.teamoffroad.core.designsystem.theme.Gray100
+import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -30,11 +36,12 @@ internal fun AnnouncementDetailScreen(
     content: String,
     isImportant: Boolean,
     updateAt: String,
+    hasExternalLinks: Boolean,
+    externalLinks: List<String>,
+    externalLinksTitles: List<String>,
     navigateToBack: () -> Unit,
-    link: String = "",
 ) {
     val (year, month, day) = extractAnnounceUpdateDate(updateAt)
-
     Column(
         modifier = Modifier
             .navigationPadding()
@@ -49,27 +56,51 @@ internal fun AnnouncementDetailScreen(
             navigateToBack()
         }
         AnnouncementDetailHeader(year, month, day, title, isImportant)
-        Box(
+        HorizontalDivider(
+            color = ListBg,
+            thickness = 1.dp,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(1.dp)
-                .background(color = Gray100)
+                .padding(horizontal = 24.dp)
         )
         Spacer(Modifier.height(24.dp))
-        Text(
-            text = content,
-            style = OffroadTheme.typography.textRegular,
-            color = Main2,
+        Column(
             modifier = Modifier
+                .fillMaxWidth()
                 .padding(horizontal = 24.dp)
-        )
-        Text(
-            text = link,
-            style = OffroadTheme.typography.textRegular,
-            color = Sub2,
-            modifier = Modifier
-                .padding(horizontal = 24.dp)
-        )
+                .padding(bottom = 116.dp)
+                .verticalScroll(rememberScrollState())
+        ) {
+            Text(
+                text = content,
+                style = OffroadTheme.typography.textRegular,
+                color = Main2,
+            )
+            if (hasExternalLinks) {
+                when {
+                    externalLinks.size == externalLinksTitles.size -> {
+                        externalLinks.forEachIndexed { index, link ->
+                            ClickableLinkText(externalLinksTitles[index], link)
+                        }
+                    }
+
+                    externalLinks.size > externalLinksTitles.size -> {
+                        externalLinksTitles.forEachIndexed { index, title ->
+                            ClickableLinkText(title, externalLinks[index])
+                        }
+                        for (i in externalLinksTitles.size until externalLinks.size) {
+                            ClickableLinkText(externalLinks[i], externalLinks[i])
+                        }
+                    }
+
+                    else -> {
+                        externalLinks.zip(externalLinksTitles).forEach { (link, title) ->
+                            ClickableLinkText(title, link)
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -77,4 +108,23 @@ private fun extractAnnounceUpdateDate(updateAt: String): Triple<String, String, 
     val datePart = updateAt.split("T")[0]
     val (year, month, day) = datePart.split("-")
     return Triple(year, month, day)
+}
+
+@Composable
+fun ClickableLinkText(
+    linkTitle: String,
+    externalLinks: String,
+) {
+    val context = LocalContext.current
+    Text(
+        text = linkTitle,
+        modifier = Modifier
+            .padding(vertical = 20.dp)
+            .clickableWithoutRipple {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(externalLinks))
+                context.startActivity(intent)
+            },
+        style = OffroadTheme.typography.textRegular,
+        color = Sub2,
+    )
 }

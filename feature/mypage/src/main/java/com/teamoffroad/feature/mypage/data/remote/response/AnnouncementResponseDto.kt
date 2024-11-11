@@ -19,4 +19,10 @@ data class AnnouncementData(
     val isImportant: Boolean,
     @SerialName("updateAt")
     val updateAt: String,
+    @SerialName("hasExternalLinks")
+    val hasExternalLinks: Boolean,
+    @SerialName("externalLinks")
+    val externalLinks: List<String>,
+    @SerialName("externalLinksTitles")
+    val externalLinksTitles: List<String>,
 )

@@ -27,7 +27,7 @@ fun GainedEmblemsItems(
         item {
             Spacer(modifier = Modifier.height(4.dp))
         }
-        items(isEmblemState.emblemList) { it ->
+        items(isEmblemState.emblemList) {
             EmblemContainer(
                 title = it.emblemTitle,
                 subTitle = it.emblemSubtitle,
