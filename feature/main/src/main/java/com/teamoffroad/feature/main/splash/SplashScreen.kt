@@ -28,7 +28,6 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import com.teamoffroad.core.designsystem.component.ChangeBottomBarColor
 import com.teamoffroad.core.designsystem.theme.Main2
-import com.teamoffroad.feature.main.splash.navigation.SplashViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

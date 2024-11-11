@@ -1,11 +1,9 @@
-package com.teamoffroad.feature.main.splash.navigation
+package com.teamoffroad.feature.main.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.core.common.domain.usecase.GetAutoSignInUseCase
-import com.teamoffroad.feature.main.splash.SplashUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
