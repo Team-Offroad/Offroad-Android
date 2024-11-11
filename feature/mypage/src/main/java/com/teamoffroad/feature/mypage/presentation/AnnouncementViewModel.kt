@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.mypage.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.mypage.domain.usecase.GetAnnouncementUseCase

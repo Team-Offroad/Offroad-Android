@@ -107,7 +107,7 @@ internal fun SetGenderScreen(
     else if (isGenderState == SetGenderUiState.Error) {
         Toast.makeText(
             LocalContext.current,
-            "네트워크 연결을 확인해 주세요.",
+            stringResource(R.string.auth_set_gender_network_error),
             Toast.LENGTH_SHORT
         ).show()
         viewModel.updateGenderEmpty()
