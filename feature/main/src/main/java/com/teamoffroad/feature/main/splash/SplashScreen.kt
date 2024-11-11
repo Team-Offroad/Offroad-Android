@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.main
+package com.teamoffroad.feature.main.splash
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
@@ -23,19 +23,38 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntOffset
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.flowWithLifecycle
 import com.teamoffroad.core.designsystem.component.ChangeBottomBarColor
 import com.teamoffroad.core.designsystem.theme.Main2
+import com.teamoffroad.feature.main.splash.navigation.SplashViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 @Composable
-fun SplashScreen() {
+fun SplashScreen(
+    navigateToAuth: () -> Unit,
+    navigateToHome: () -> Unit,
+    viewModel: SplashViewModel = hiltViewModel(),
+) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+    LaunchedEffect(viewModel.splashUiState, lifecycleOwner) {
+        viewModel.splashUiState.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { splashUiState ->
+                when (splashUiState) {
+                    is SplashUiState.NavigateHome -> navigateToHome()
+                    is SplashUiState.NavigateLogin -> navigateToAuth()
+                }
+            }
+    }
+
     ChangeBottomBarColor(Main2)
     var backgroundVisibility by remember { mutableStateOf(true) }
     val scale = remember { Animatable(1f) }
     val offsetY = remember { Animatable(0f) }
-    val alpha = remember { Animatable(1f) } // 초기 alpha 값을 1f로 설정
+    val alpha = remember { Animatable(1f) }
 
     LaunchedEffect(Unit) {
         delay(300L)
