@@ -68,7 +68,7 @@ fun ShowSetCharacterPager(
         Image(
             modifier = Modifier
                 .padding(start = 24.dp)
-                .clickableWithoutRipple(interactionSource,
+                .clickableWithoutRipple(interactionSource = interactionSource,
                     onClick = {
                         coroutineScope.launch {
                             val previousPage = if (pagerState.currentPage - 1 < 0) {
@@ -88,7 +88,7 @@ fun ShowSetCharacterPager(
         Image(
             modifier = Modifier
                 .padding(end = 24.dp)
-                .clickableWithoutRipple(interactionSource, onClick = {
+                .clickableWithoutRipple(interactionSource = interactionSource, onClick = {
                     coroutineScope.launch {
                         val nextPage =
                             ((pagerState.currentPage + 1)).coerceAtMost(

@@ -5,12 +5,14 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.ui.Modifier
 
 fun Modifier.clickableWithoutRipple(
+    enabled: Boolean = true,
     interactionSource: MutableInteractionSource = MutableInteractionSource(),
     onClick: () -> Unit,
-): Modifier {
+    ): Modifier {
     return this.clickable(
+        enabled = enabled,
         interactionSource = interactionSource,
         indication = null,
-        onClick = onClick
+        onClick = onClick,
     )
 }

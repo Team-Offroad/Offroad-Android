@@ -190,7 +190,7 @@ class CharacterItem {
                 modifier = Modifier
                     .padding(top = 8.dp, bottom = 8.dp, end = 20.dp)
                     .clickableWithoutRipple(
-                        interactionSource
+                        interactionSource = interactionSource
                     ) {
                         isChangeEmblemDialogShown.value = true
                     }

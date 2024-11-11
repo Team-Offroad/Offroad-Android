@@ -50,7 +50,7 @@ internal fun SetGenderScreen(
         modifier = Modifier
             .navigationPadding()
             .fillMaxSize()
-            .clickableWithoutRipple(interactionSource) { viewModel.updateGenderEmpty() }
+            .clickableWithoutRipple(interactionSource = interactionSource) { viewModel.updateGenderEmpty() }
             .background(Main1),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -141,20 +141,20 @@ fun SetGenderButton(
         GenderHintButton(
             modifier = Modifier
                 .padding(bottom = 12.dp)
-                .clickableWithoutRipple(interactionSource) { viewModel.updateCheckedGender("MALE") },
+                .clickableWithoutRipple(interactionSource = interactionSource) { viewModel.updateCheckedGender("MALE") },
             value = stringResource(R.string.auth_set_gender_male),
             isActive = male
         )
         GenderHintButton(
             modifier = Modifier
                 .padding(bottom = 12.dp)
-                .clickableWithoutRipple(interactionSource) { viewModel.updateCheckedGender("FEMALE") },
+                .clickableWithoutRipple(interactionSource =interactionSource) { viewModel.updateCheckedGender("FEMALE") },
             value = stringResource(R.string.auth_set_gender_female),
             isActive = female
         )
         GenderHintButton(
             modifier = Modifier
-                .clickableWithoutRipple(interactionSource) { viewModel.updateCheckedGender("OTHER") },
+                .clickableWithoutRipple(interactionSource =interactionSource) { viewModel.updateCheckedGender("OTHER") },
             value = stringResource(R.string.auth_set_gender_other),
             isActive = other
         )
