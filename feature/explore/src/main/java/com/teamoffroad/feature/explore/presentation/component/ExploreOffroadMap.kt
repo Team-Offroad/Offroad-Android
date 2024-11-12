@@ -9,13 +9,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -49,6 +46,8 @@ import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberFusedLocationSource
 import com.naver.maps.map.overlay.OverlayImage
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
+import com.teamoffroad.core.designsystem.component.actionBarPadding
+import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Sub2
@@ -81,7 +80,7 @@ fun ExploreOffroadMap(
         animationSpec = tween(durationMillis = 500),
         label = "",
     )
-    val backgroundPadding = 104
+    val backgroundPadding = 48
 
     LaunchedEffect(locationState.cameraPositionState.cameraUpdateReason) {
         if (locationState.cameraPositionState.cameraUpdateReason == CameraUpdateReason.GESTURE) {
@@ -102,8 +101,8 @@ fun ExploreOffroadMap(
         Modifier
             .background(Main1)
             .fillMaxSize()
-            .padding(bottom = 72.dp)
-            .navigationBarsPadding()
+            .actionBarPadding()
+            .navigationPadding()
             .onGloballyPositioned { coordinates ->
                 mapViewSize = coordinates.size
             }) {
@@ -189,7 +188,8 @@ fun ExploreOffroadMap(
         Row(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 36.dp),
+                .navigationPadding()
+                .padding(bottom = 152.dp),
             horizontalArrangement = Arrangement.Center,
         ) {
             ExploreMapBottomButton(
@@ -197,8 +197,8 @@ fun ExploreOffroadMap(
                 text = stringResource(R.string.explore_quests),
                 onClick = { navigateToQuest() },
             )
-            Spacer(modifier = Modifier.size(16.dp))
             ExploreMapBottomButton(
+                modifier = Modifier.padding(start = 16.dp),
                 painter = painterResource(R.drawable.ic_explore_location),
                 text = stringResource(R.string.explore_places),
                 onClick = { navigateToPlace() },
