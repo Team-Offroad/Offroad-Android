@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.core.common.domain.usecase.GetAutoSignInUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -18,8 +19,11 @@ class SplashViewModel @Inject constructor(
     private val _splashUiState = MutableSharedFlow<SplashUiState>()
     val splashUiState: SharedFlow<SplashUiState> get() = _splashUiState.asSharedFlow()
 
-    init {
-        checkAutoSignIn()
+    fun showSplash() {
+        viewModelScope.launch {
+            delay(1550L)
+            checkAutoSignIn()
+        }
     }
 
     private fun checkAutoSignIn() {

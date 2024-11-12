@@ -38,10 +38,13 @@ fun SplashScreen(
     viewModel: SplashViewModel = hiltViewModel(),
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(Unit) {
+        viewModel.showSplash()
+    }
     LaunchedEffect(viewModel.splashUiState, lifecycleOwner) {
         viewModel.splashUiState.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { splashUiState ->
-                delay(1550L)
                 when (splashUiState) {
                     is SplashUiState.NavigateHome -> navigateToHome()
                     is SplashUiState.NavigateLogin -> navigateToAuth()
@@ -74,7 +77,7 @@ fun SplashScreen(
                 )
             )
         }
-        delay(1400L)
+        delay(1300L)
         backgroundVisibility = false
     }
 
