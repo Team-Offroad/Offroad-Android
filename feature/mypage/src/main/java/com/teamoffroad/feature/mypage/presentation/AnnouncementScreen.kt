@@ -25,7 +25,6 @@ import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Gray100
-import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.mypage.presentation.component.AnnouncementItems
 import com.teamoffroad.feature.mypage.presentation.component.SettingContainer
@@ -98,6 +97,7 @@ internal fun AnnouncementScreen(
             AnnouncementResult.Empty -> {
                 AnnouncementLoading()
             }
+
             AnnouncementResult.Error -> {}
         }
     }
