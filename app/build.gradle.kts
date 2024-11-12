@@ -3,6 +3,7 @@ import com.teamoffroad.app.setNamespace
 
 plugins {
     id("offroad.android.application")
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -54,4 +55,6 @@ dependencies {
     implementation(project(":feature:explore"))
     implementation(project(":feature:mypage"))
     implementation(libs.kakao.user)
+    implementation(libs.bundles.firebase)
+    implementation(platform(libs.firebase.bom))
 }

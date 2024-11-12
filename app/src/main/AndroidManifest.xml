@@ -23,7 +23,13 @@
         android:theme="@style/Theme.Offroad"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
+        <service
+            android:name=".OffRoadMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="${NAVER_CLIENT_ID}" />
