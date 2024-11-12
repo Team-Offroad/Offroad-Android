@@ -6,6 +6,6 @@ data class ExploreUiState(
     val authResultType: ExploreAuthState = ExploreAuthState.None,
     val selectedPlace: PlaceModel? = null,
     val loading: Boolean = true,
-    val permissionModel: ExplorePermissionModel = ExplorePermissionModel(),
+    val isLocationPermissionGranted: Boolean? = null,
     val isUpdatePlacesFailed: Boolean = false,
 )

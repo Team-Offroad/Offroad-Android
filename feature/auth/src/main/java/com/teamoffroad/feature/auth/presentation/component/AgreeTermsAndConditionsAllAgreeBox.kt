@@ -27,14 +27,13 @@ import com.teamoffroad.offroad.feature.auth.R
 fun AgreeTermsAndConditionsTopBarAllAgreeBox(
     isChecked: Boolean,
     onClick: () -> Unit,
-    onButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier
             .padding(horizontal = 34.dp)
+            .clip(shape = RoundedCornerShape(5.dp))
             .background(NametagInactive)
-            .clip(shape = RoundedCornerShape(30.dp))
             .clickableWithoutRipple { onClick() }
     ) {
         Row(

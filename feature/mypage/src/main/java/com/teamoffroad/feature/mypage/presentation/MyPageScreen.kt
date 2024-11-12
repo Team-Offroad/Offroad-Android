@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.SnackbarHostState
@@ -20,7 +22,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.theme.ErrorNew
 import com.teamoffroad.core.designsystem.theme.ListBg
+import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.mypage.presentation.component.AcquireCharacter
 import com.teamoffroad.feature.mypage.presentation.component.AcquireCoupon
@@ -51,15 +55,12 @@ internal fun MyPageScreen(
 
     Box(
         modifier = Modifier
-            .background(ListBg)
-            .fillMaxSize()
+            .background(Main1)
             .padding(horizontal = 24.dp)
-            .padding(top = 52.dp)
-            .padding(bottom = 74.dp)
+            .padding(top = 90.dp)
             .navigationBarsPadding()
     ) {
         Column {
-            OffroadActionBar(Color.Transparent)
             UserNickname(myPageViewModel.myPageUser.collectAsStateWithLifecycle().value.nickname)
             Spacer(modifier = Modifier.padding(vertical = 13.dp))
             UserAdventureInfo(
@@ -67,20 +68,40 @@ internal fun MyPageScreen(
                 LocalContext.current
             )
             Spacer(modifier = Modifier.padding(vertical = 8.dp))
-            Row(
-                modifier = Modifier.weight(1f)
-            ) {
-                Box(modifier = Modifier.weight(1f)) { AcquireCharacter(navigateToGainedCharacter) }
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Box(modifier = Modifier
+                    .weight(1f)
+                    .aspectRatio(150f / 124f)) {
+                    AcquireCharacter(
+                        navigateToGainedCharacter
+                    )
+                }
                 Spacer(modifier = Modifier.padding(horizontal = 6.dp))
-                Box(modifier = Modifier.weight(1f)) { AcquireCoupon(navigateToGainedCoupon) }
+                Box(modifier = Modifier
+                    .weight(1f)
+                    .aspectRatio(150f / 124f)) {
+                    AcquireCoupon(
+                        navigateToGainedCoupon
+                    )
+                }
             }
-            Spacer(modifier = Modifier.padding(vertical = 7.dp))
-            Row(
-                modifier = Modifier.weight(1f)
-            ) {
-                Box(modifier = Modifier.weight(1f)) { AcquireEmblem(navigateToGainedEmblems) }
+            Spacer(modifier = Modifier.padding(vertical = 8.dp))
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Box(modifier = Modifier
+                    .weight(1f)
+                    .aspectRatio(150f / 124f)) {
+                    AcquireEmblem(
+                        navigateToGainedEmblems
+                    )
+                }
                 Spacer(modifier = Modifier.padding(horizontal = 6.dp))
-                Box(modifier = Modifier.weight(1f)) { UserSettings(navigateToSetting) }
+                Box(modifier = Modifier
+                    .weight(1f)
+                    .aspectRatio(150f / 124f)) {
+                    UserSettings(
+                        navigateToSetting
+                    )
+                }
             }
             Spacer(modifier = Modifier.padding(vertical = 28.dp))
         }

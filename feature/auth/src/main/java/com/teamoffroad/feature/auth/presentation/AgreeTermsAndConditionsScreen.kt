@@ -57,7 +57,6 @@ internal fun AgreeTermsAndConditionsScreen(
         AgreeTermsAndConditionsTopBarAllAgreeBox(
             isChecked = isAllChecked,
             onClick = { viewModel.allCheckedChangedListener() },
-            onButtonClick = {},
             modifier = Modifier.padding(bottom = 22.dp)
         )
         AgreeTermsAndConditionsItem(
@@ -90,47 +89,90 @@ internal fun AgreeTermsAndConditionsScreen(
         )
         Spacer(modifier = Modifier.weight(1f))
         OffroadBasicBtn(
-            text = stringResource(R.string.auth_basic_button),
-            marketingAgree = { viewModel.changedMarketingAgree(viewModel.marketing.value) },
-            onClick = { navigateToSetNicknameScreen() },
-            isActive = isAgreeTermsAndConditionsUiState.name == AgreeTermsAndConditionsUiState.REQUIRED.name,
             modifier = Modifier
                 .padding(horizontal = 24.dp)
                 .padding(bottom = 72.dp)
                 .height(50.dp),
+            text = stringResource(R.string.auth_basic_button),
+            updateState = { viewModel.changedMarketingAgree(viewModel.marketing.value) },
+            onClick = { navigateToSetNicknameScreen() },
+            isActive = isAgreeTermsAndConditionsUiState.name == AgreeTermsAndConditionsUiState.REQUIRED.name,
         )
     }
 
     when (isDialogShown.name) {
         DialogState.SERVICE_DIALOG.name -> {
             AgreeTermsAndConditionsDialog(
-                text = stringResource(R.string.auth_agree_and_terms_conditions_service),
+                title = stringResource(R.string.auth_agree_and_terms_conditions_service),
+                content = stringResource(R.string.auth_agree_and_terms_conditions_dialog_service_content_first) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_service_content_second) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_service_content_third) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_service_content_fourth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_service_content_fifth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_service_content_sixth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_service_content_seventh) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_service_content_eighth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_service_content_ninth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_service_content_tenth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_service_content_eleventh) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_service_content_twelfth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_service_content_thirteenth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_service_content_fourteenth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_service_content_fifteenth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_service_content_sixteenth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_service_content_seventeenth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_service_content_eighteenth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_service_content_nineteenth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_service_content_twentieth),
                 onAgreeClick = { viewModel.serviceDialogCheckedChangedListener(true) },
-                onDisAgreeClick = {viewModel.serviceDialogCheckedChangedListener(false)},
+                onDisAgreeClick = { viewModel.serviceDialogCheckedChangedListener(false) },
                 onClickCancel = { viewModel.changeDialogState(DialogState.EMPTY) })
         }
 
         DialogState.PERSONAL_DIALOG.name -> {
             AgreeTermsAndConditionsDialog(
-                text = stringResource(R.string.auth_agree_and_terms_conditions_personal),
+                title = stringResource(R.string.auth_agree_and_terms_conditions_personal),
+                content = stringResource(R.string.auth_agree_and_terms_conditions_dialog_personal_content_first) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_personal_content_second) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_personal_content_third) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_personal_content_fourth),
                 onAgreeClick = { viewModel.personalDialogCheckedChangedListener(true) },
-                onDisAgreeClick = {viewModel.personalDialogCheckedChangedListener(false)},
+                onDisAgreeClick = { viewModel.personalDialogCheckedChangedListener(false) },
                 onClickCancel = { viewModel.changeDialogState(DialogState.EMPTY) })
         }
 
         DialogState.LOCATION_DIALOG.name -> {
             AgreeTermsAndConditionsDialog(
-                text = stringResource(R.string.auth_agree_and_terms_conditions_location),
+                title = stringResource(R.string.auth_agree_and_terms_conditions_location),
+                content = stringResource(R.string.auth_agree_and_terms_conditions_dialog_location_content_first) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_location_content_second) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_location_content_third) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_location_content_fourth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_location_content_fifth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_location_content_sixth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_location_content_seventh) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_location_content_eighth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_location_content_ninth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_location_content_tenth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_location_content_eleventh) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_location_content_twelfth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_location_content_thirteenth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_location_content_fourteenth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_location_content_fifteenth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_location_content_sixteenth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_location_content_seventeenth) +
+                        stringResource(R.string.auth_agree_and_terms_conditions_dialog_location_content_eighteenth),
                 onAgreeClick = { viewModel.locationDialogCheckedChangedListener(true) },
-                onDisAgreeClick = {viewModel.locationDialogCheckedChangedListener(false)},
+                onDisAgreeClick = { viewModel.locationDialogCheckedChangedListener(false) },
                 onClickCancel = { viewModel.changeDialogState(DialogState.EMPTY) })
         }
 
         DialogState.MARKETING_DIALOG.name -> {
             AgreeTermsAndConditionsDialog(
-                text = stringResource(R.string.auth_agree_and_terms_conditions_marketing),
+                title = stringResource(R.string.auth_agree_and_terms_conditions_marketing),
+                content = stringResource(R.string.auth_agree_and_terms_conditions_dialog_marketing_content),
                 onAgreeClick = { viewModel.marketingDialogCheckedChangedListener(true) },
-                onDisAgreeClick = {viewModel.marketingDialogCheckedChangedListener(false)},
+                onDisAgreeClick = { viewModel.marketingDialogCheckedChangedListener(false) },
                 onClickCancel = {
                     viewModel.changeDialogState(DialogState.EMPTY)
                 })

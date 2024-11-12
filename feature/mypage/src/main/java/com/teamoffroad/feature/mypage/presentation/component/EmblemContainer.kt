@@ -17,6 +17,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Black25
+import com.teamoffroad.core.designsystem.theme.Gray200
+import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Gray400
 import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -35,7 +37,7 @@ fun EmblemContainer(
         modifier = modifier
             .padding(horizontal = 24.dp)
             .fillMaxWidth()
-            .background(if (isLock) Black25 else Main3, shape = RoundedCornerShape(5.dp))
+            .background(if (isLock) Gray300 else Main3, shape = RoundedCornerShape(5.dp))
     ) {
         Column(
             modifier = modifier

@@ -15,6 +15,13 @@ android {
 
         manifestPlaceholders["NAVER_CLIENT_ID"] =
             gradleLocalProperties(rootDir, providers).getProperty("naver.client.id")
+        manifestPlaceholders["KAKAO_NATIVE_KEY"] =
+            gradleLocalProperties(rootDir, providers).getProperty("google.client.id")
+        buildConfigField(
+            "String",
+            "KAKAO_NATIVE_KEY",
+            gradleLocalProperties(rootDir, providers).getProperty("kakao.native.key")
+        )
     }
 
     packaging {
@@ -47,4 +54,5 @@ dependencies {
     implementation(project(":feature:explore"))
     implementation(project(":feature:mypage"))
     implementation(project(":feature:characterchat"))
+    implementation(libs.kakao.user)
 }

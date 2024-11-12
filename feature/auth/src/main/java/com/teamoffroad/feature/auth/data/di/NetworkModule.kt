@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.auth.data.di
 
+import com.teamoffroad.core.common.data.di.qualifier.Auth
 import com.teamoffroad.feature.auth.data.remote.service.AuthService
 import dagger.Module
 import dagger.Provides
@@ -14,7 +15,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideAuthService(retrofit: Retrofit): AuthService {
+    fun provideAuthService(@Auth retrofit: Retrofit): AuthService {
         return retrofit.create(AuthService::class.java)
     }
 }

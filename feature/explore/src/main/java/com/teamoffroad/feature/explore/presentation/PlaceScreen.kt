@@ -13,6 +13,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -36,8 +37,8 @@ fun PlaceScreen(
         modifier = Modifier
             .navigationPadding()
             .background(color = Main1)
+            .actionBarPadding()
     ) {
-        OffroadActionBar()
         NavigateBackAppBar(
             text = stringResource(id = R.string.explore_explore),
             modifier = Modifier.padding(top = 20.dp)

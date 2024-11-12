@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.home.data.di
 
+import com.teamoffroad.core.common.data.di.qualifier.Auth
 import com.teamoffroad.feature.home.data.remote.service.DummyUserService
 import com.teamoffroad.feature.home.data.remote.service.UserService
 import dagger.Module
@@ -15,13 +16,13 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideUserService(retrofit: Retrofit): DummyUserService {
+    fun provideUserService(@Auth retrofit: Retrofit): DummyUserService {
         return retrofit.create(DummyUserService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideEmblemService(retrofit: Retrofit): UserService {
+    fun provideEmblemService(@Auth retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
     }
 }

@@ -4,8 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -18,6 +20,7 @@ import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Gray100
+import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.mypage.presentation.component.GainedEmblemsHeader
 import com.teamoffroad.feature.mypage.presentation.component.GainedEmblemsItems
@@ -48,10 +51,11 @@ internal fun GainedEmblemsScreen(
             navigateToBack()
         }
         GainedEmblemsHeader()
-        Spacer(
+        HorizontalDivider(
+            color = Gray100,
+            thickness = 1.dp,
             modifier = Modifier
-                .height(1.dp)
-                .background(color = Gray100)
+                .fillMaxWidth()
         )
         if (isEmblemState.nicknameValidateResult == GainedEmblemsResult.Success) {
             GainedEmblemsItems(isEmblemState = isEmblemState)

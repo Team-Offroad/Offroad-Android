@@ -13,7 +13,7 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 @Composable
 fun ContentsTitle(
     title: String,
-    textColor: Color
+    textColor: Color = Main1
 ) {
     Text(
         text = title,

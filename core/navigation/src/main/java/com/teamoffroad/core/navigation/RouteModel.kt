@@ -44,10 +44,6 @@ sealed interface AuthRoute : Route {
 
 sealed interface ExploreRoute : Route {
     @Serializable
-    data class ExploreCameraScreen(val placeId: Long, val latitude: String, val longitude: String) :
-        ExploreRoute
-
-    @Serializable
     data object PlaceScreen : ExploreRoute
 
     @Serializable
@@ -85,6 +81,9 @@ sealed interface MyPageRoute : Route {
         val content: String,
         val isImportant: Boolean,
         val updateAt: String,
+        val hasExternalLinks: Boolean,
+        val externalLinks: List<String>,
+        val externalLinksTitles: List<String>,
     ) : MyPageRoute
 
     @Serializable

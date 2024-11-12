@@ -27,17 +27,10 @@ class ExploreViewModel @Inject constructor(
     val uiState: StateFlow<ExploreUiState> = _uiState.asStateFlow()
 
     fun updatePermission(
-        isSomePermissionRejected: Boolean?,
         isLocationPermissionGranted: Boolean,
-        isCameraPermissionGranted: Boolean,
     ) {
         _uiState.value = uiState.value.copy(
-            permissionModel = uiState.value.permissionModel.copy(
-                isSomePermissionRejected = isSomePermissionRejected,
-                isAllPermissionGranted = isLocationPermissionGranted && isCameraPermissionGranted,
-                isLocationPermissionGranted = isLocationPermissionGranted,
-                isCameraPermissionGranted = isCameraPermissionGranted,
-            )
+            isLocationPermissionGranted = isLocationPermissionGranted,
         )
     }
 
@@ -86,17 +79,6 @@ class ExploreViewModel @Inject constructor(
         _uiState.value = uiState.value.copy(
             selectedPlace = place,
         )
-    }
-
-    fun isValidDistance(place: PlaceModel, location: LatLng): Boolean {
-        return when (place.placeCategory) {
-            PlaceCategory.CAFFE -> place.location.distanceTo(location) <= 45
-            PlaceCategory.PARK -> place.location.distanceTo(location) <= 120
-            PlaceCategory.RESTAURANT -> place.location.distanceTo(location) <= 45
-            PlaceCategory.CULTURE -> place.location.distanceTo(location) <= 45
-            PlaceCategory.SPORT -> place.location.distanceTo(location) <= 120
-            else -> false
-        }
     }
 
     fun updateExploreAuthState(errorType: ExploreAuthState) {
