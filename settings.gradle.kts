@@ -38,3 +38,4 @@ include(
 include(":feature:mypage")
 include(":feature:explore")
 include(":feature:auth")
+include(":feature:characterchat")

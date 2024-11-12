@@ -39,6 +39,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 "implementation"(libs.findLibrary("androidx.lifecycle.runtime.compose").get())
                 "implementation"(libs.findLibrary("androidx.lifecycle.viewmodel.compose").get())
                 "implementation"(libs.findLibrary("coil").get())
+                "implementation"(libs.findLibrary("coil.svg").get())
                 "androidTestImplementation"(libs.findLibrary("navigation.test").get())
             }
         }
