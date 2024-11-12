@@ -50,12 +50,6 @@ internal fun MainNavHost(
                 navigateToHome = { category, completeQuests ->
                     navigator.navigateToHomeFromExplore(category, completeQuests)
                 },
-                navigateToExplore = { errorType, successImageUrl ->
-                    navigator.navigateToExplore(errorType, successImageUrl)
-                },
-                navigateToExploreCamera = { placeId, latitude, longitude ->
-                    navigator.navigateToExploreCameraScreen(placeId, latitude, longitude)
-                },
                 navigateToPlace = {
                     navigator.navigateToPlace()
                 },
