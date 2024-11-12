@@ -66,8 +66,8 @@ fun ExploreInfoWindow(
                 contentDescription = null,
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
-                    .size(98.dp)
-                    .offset(x = 24.dp, y = (-24).dp)
+                    .height(84.dp)
+                    .offset(x = (-22).dp, y = (-52).dp)
             )
 
             Column(

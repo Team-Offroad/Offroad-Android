@@ -27,6 +27,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.teamoffroad.core.designsystem.component.ChangeBottomBarColor
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
+import com.teamoffroad.core.designsystem.component.checkNavigationBar
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.BottomBarInactive
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -47,10 +48,15 @@ internal fun MainBottomBar(
 ) {
     ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
         StaticAnimationWrapper(visible = visible) {
+            val bottomNavPaddingOffset = when (checkNavigationBar()) {
+                true -> 15.dp
+                false -> 0.8.dp
+            }
             Box(
                 modifier = modifier
                     .fillMaxWidth()
                     .navigationPadding()
+                    .padding(bottom = bottomNavPaddingOffset)
             ) {
                 ChangeBottomBarColor(Sub4_80)
                 Box(
@@ -61,7 +67,9 @@ internal fun MainBottomBar(
                         painter = painterResource(id = R.drawable.img_main_bottombar),
                         contentDescription = "bottombar",
                         contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxWidth().background(Color.Transparent)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color.Transparent)
                     )
                 }
 
@@ -138,7 +146,7 @@ private fun RowScope.MainBottomBarItem(
                         }
                         .fillMaxHeight()
                         .padding(4.dp)
-                        .aspectRatio(70f / 70f),
+                        .aspectRatio(1f),
                     tint = Color.Unspecified,
                 )
             }
