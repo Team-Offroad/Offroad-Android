@@ -63,12 +63,8 @@ internal fun AuthScreen(
         EntryPointAccessors.fromActivity<OAuthEntryPoint>(context)
     val oAuthInteractor = entryPoint.getOAuthInteractor()
 
-    LaunchedEffect(Unit) {
-        viewModel.checkAutoSignIn()
-    }
     LaunchedEffect(isAuthUiState) {
         when {
-            isAuthUiState.isAutoSignIn -> navigateToHome()
             isAuthUiState.signInSuccess && !isAuthUiState.alreadyExist -> navigateToAgreeTermsAndConditions()
             isAuthUiState.signInSuccess && isAuthUiState.alreadyExist -> navigateToHome()
             isAuthUiState.kakaoSignIn -> {

@@ -1,6 +1,8 @@
 package com.teamoffroad.feature.mypage.presentation
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +16,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -39,6 +42,7 @@ internal fun SettingScreen(
     navigateToBack: () -> Unit,
     viewModel: SettingViewModel = hiltViewModel(),
 ) {
+    val context = LocalContext.current
     val isSettingUiState by viewModel.settingUiState.collectAsState()
 
     LaunchedEffect(isSettingUiState) {
@@ -77,11 +81,23 @@ internal fun SettingScreen(
         SettingContainer(
             title = stringResource(R.string.my_page_setting_item_play_guide),
             isImportant = false,
-            onClick = {})
+            onClick = {
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://tan-antlion-a47.notion.site/105120a9d80f80cea574f7d62179bfa8")
+                )
+                context.startActivity(intent)
+            })
         SettingContainer(
             title = stringResource(R.string.my_page_setting_item_service_term),
             isImportant = false,
-            onClick = {})
+            onClick = {
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://tan-antlion-a47.notion.site/90c70d8bf0974b37a3a4470022df303d")
+                )
+                context.startActivity(intent)
+            })
         SettingContainer(
             title = stringResource(R.string.my_page_setting_item_personal_information),
             isImportant = false,

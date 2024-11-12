@@ -1,26 +1,29 @@
 package com.teamoffroad.feature.mypage.presentation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Gray100
-import com.teamoffroad.core.designsystem.theme.Gray300
+import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.mypage.presentation.component.GainedEmblemsHeader
 import com.teamoffroad.feature.mypage.presentation.component.GainedEmblemsItems
@@ -57,8 +60,33 @@ internal fun GainedEmblemsScreen(
             modifier = Modifier
                 .fillMaxWidth()
         )
-        if (isEmblemState.nicknameValidateResult == GainedEmblemsResult.Success) {
-            GainedEmblemsItems(isEmblemState = isEmblemState)
+        when (isEmblemState.gainedEmblemsValidateResult) {
+            GainedEmblemsResult.Success -> {
+                GainedEmblemsItems(isEmblemState = isEmblemState)
+            }
+
+            GainedEmblemsResult.Error -> {
+            }
+
+            else -> {
+                GainedEmblemsLoading()
+            }
         }
+    }
+}
+
+@Composable
+fun GainedEmblemsLoading() {
+    Column(
+        modifier = Modifier
+            .background(ListBg)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(com.teamoffroad.offroad.core.designsystem.R.raw.loading_linear))
+        LottieAnimation(
+            composition = composition,
+        )
     }
 }
