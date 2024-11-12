@@ -80,7 +80,7 @@ fun ExploreOffroadMap(
         animationSpec = tween(durationMillis = 500),
         label = "",
     )
-    val backgroundPadding = 48
+    val backgroundPadding = 52
 
     LaunchedEffect(locationState.cameraPositionState.cameraUpdateReason) {
         if (locationState.cameraPositionState.cameraUpdateReason == CameraUpdateReason.GESTURE) {

@@ -35,7 +35,7 @@ fun ExploreAppBar(
                     stringResource(R.string.explore_title),
                     textAlign = TextAlign.Start,
                     style = OffroadTheme.typography.subtitle2Semibold,
-                    modifier = Modifier.padding(top = 12.dp),
+                    modifier = Modifier.padding(top = 14.dp),
                 )
             },
             modifier = Modifier.height(topPadding.dp),
