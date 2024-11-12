@@ -146,7 +146,7 @@ private fun RowScope.MainBottomBarItem(
                         }
                         .fillMaxHeight()
                         .padding(4.dp)
-                        .aspectRatio(70f / 70f),
+                        .aspectRatio(1f),
                     tint = Color.Unspecified,
                 )
             }
