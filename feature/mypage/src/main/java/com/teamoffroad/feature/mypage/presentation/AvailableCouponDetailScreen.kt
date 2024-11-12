@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -35,15 +36,14 @@ import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Black15
-import com.teamoffroad.core.designsystem.theme.Contents2
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Gray400
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
+import com.teamoffroad.core.designsystem.theme.Stroke
 import com.teamoffroad.core.designsystem.theme.Sub2
-import com.teamoffroad.core.designsystem.theme.Sub4
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.mypage.domain.model.UseCoupon
 import com.teamoffroad.feature.mypage.presentation.component.UseAvailableCouponDialog
@@ -66,9 +66,7 @@ fun AvailableCouponDetailScreen(
         availableCouponDetailViewModel.couponCodeSuccess.collectAsStateWithLifecycle().value
 
     Box(
-        modifier = Modifier
-            .navigationPadding()
-            .background(Sub4)
+        modifier = Modifier.navigationPadding()
     ) {
         Column(
             modifier = Modifier
@@ -118,7 +116,7 @@ fun AvailableCouponCard(
             .border(
                 width = borderWidth,
                 shape = shape,
-                color = Contents2
+                color = Stroke
             )
             .clip(shape = shape)
             .background(backgroundColor)
@@ -136,6 +134,7 @@ fun AvailableCouponCard(
                     .aspectRatio(260f / 260f)
                     .clip(shape = shape)
                     .fillMaxWidth()
+                    .background(White)
                     .border(
                         width = borderWidth,
                         shape = shape,
@@ -153,6 +152,7 @@ fun AvailableCouponCard(
                 painterResource(id = R.drawable.img_line),
                 contentDescription = "line",
                 alignment = Alignment.Center,
+                colorFilter = ColorFilter.tint(Stroke),
                 modifier = Modifier.padding(start = 8.dp, top = 12.dp, end = 8.dp)
             )
             Text(

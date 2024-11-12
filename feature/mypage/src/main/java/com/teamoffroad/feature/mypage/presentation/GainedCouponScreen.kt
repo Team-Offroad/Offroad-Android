@@ -22,10 +22,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.navigationPadding
-import com.teamoffroad.core.designsystem.theme.ListBg
+import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
-import com.teamoffroad.core.designsystem.theme.Sub4
+import com.teamoffroad.feature.mypage.presentation.GainedCouponViewModel.Companion.START_CURSOR_ID
 import com.teamoffroad.feature.mypage.presentation.component.GainedCouponViewPager
 import com.teamoffroad.offroad.feature.mypage.R
 
@@ -33,29 +33,27 @@ import com.teamoffroad.offroad.feature.mypage.R
 internal fun GainedCouponScreen(
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
     navigateToMyPage: () -> Unit,
-    backgroundColor: Color = ListBg,
+    backgroundColor: Color = Main1,
     viewModel: GainedCouponViewModel = hiltViewModel(),
 ) {
 
     LaunchedEffect(Unit) {
-        viewModel.getUserCoupons()
+        viewModel.getUserCoupons(true, START_CURSOR_ID)
+        viewModel.getUserCoupons(false, START_CURSOR_ID)
     }
 
     Box(
         modifier = Modifier
             .navigationPadding()
-            .background(Sub4)
+            .background(backgroundColor)
     ) {
         Column(
-            modifier = Modifier
-                .background(backgroundColor)
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
         ) {
             OffroadActionBar()
             NavigateBackAppBar(
                 modifier = Modifier.padding(top = 20.dp),
                 text = stringResource(id = R.string.my_page_my_page),
-                backgroundColor = backgroundColor
             ) { navigateToMyPage() }
 
             Row(
@@ -65,9 +63,12 @@ internal fun GainedCouponScreen(
             }
             Spacer(modifier = Modifier.padding(vertical = 10.dp))
             GainedCouponViewPager(
+                viewModel.availableCouponsCount.collectAsState().value,
+                viewModel.usedCouponsCount.collectAsState().value,
                 viewModel.userAvailableCoupons.collectAsState().value,
                 viewModel.userUsedCoupons.collectAsState().value,
-                navigateToAvailableCouponDetail
+                navigateToAvailableCouponDetail,
+                viewModel::getUserCoupons
             )
         }
     }

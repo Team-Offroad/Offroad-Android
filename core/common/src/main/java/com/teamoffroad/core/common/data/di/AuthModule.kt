@@ -1,13 +1,16 @@
 package com.teamoffroad.core.common.data.di
 
+import android.content.Context
 import com.teamoffroad.core.common.data.datasource.TokenPreferencesDataSource
 import com.teamoffroad.core.common.data.local.AuthAuthenticator
 import com.teamoffroad.core.common.data.local.AuthInterceptor
-import com.teamoffroad.core.common.domain.usecase.RefreshTokenUseCase
-import dagger.Lazy
+import com.teamoffroad.core.common.data.remote.service.TokenService
+import com.teamoffroad.core.common.domain.usecase.SetAutoSignInUseCase
+import com.teamoffroad.core.common.intentProvider.IntentProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -28,8 +31,11 @@ object AuthModule {
     @Singleton
     fun provideAuthAuthenticator(
         tokenPreferencesDataSource: TokenPreferencesDataSource,
-        refreshTokenUseCase: Lazy<RefreshTokenUseCase>,
+        refreshTokenUseCase: TokenService,
+        setAutoSignInUseCase: SetAutoSignInUseCase,
+        @ApplicationContext context: Context,
+        intentProvider: IntentProvider,
     ): AuthAuthenticator {
-        return AuthAuthenticator(tokenPreferencesDataSource, refreshTokenUseCase)
+        return AuthAuthenticator(tokenPreferencesDataSource, refreshTokenUseCase, setAutoSignInUseCase, context, intentProvider)
     }
 }

@@ -1,6 +1,7 @@
 package com.teamoffroad.feature.auth.presentation
 
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
@@ -10,8 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -46,70 +45,73 @@ internal fun SetGenderScreen(
 ) {
     val isGenderState by viewModel.genderUiState.collectAsState()
     val interactionSource = remember { MutableInteractionSource() }
-    Surface(
+
+    Column(
         modifier = Modifier
             .navigationPadding()
             .fillMaxSize()
-            .clickableWithoutRipple(interactionSource) { viewModel.updateGenderEmpty() },
-        color = Main1,
+            .clickableWithoutRipple(interactionSource = interactionSource) { viewModel.updateGenderEmpty() }
+            .background(Main1),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            OffroadActionBar()
-            Spacer(modifier = Modifier.padding(vertical = 22.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(end = 22.dp)
-            ) {
-                Spacer(modifier = Modifier.weight(1f))
-                Text(
-                    text = stringResource(R.string.auth_skip),
-                    color = Gray300,
-                    style = OffroadTheme.typography.hint,
-                    modifier = Modifier.clickable {
-                        viewModel.fetchUserProfile(nickname, birthDate, null)
-                    }
-                )
-            }
-            Spacer(modifier = Modifier.padding(vertical = 26.dp))
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(R.string.auth_on_boarding_title),
-                color = Main2,
-                style = OffroadTheme.typography.profileTitle,
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.padding(vertical = 6.dp))
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(R.string.auth_set_gender_sub_title),
-                color = Main2,
-                style = OffroadTheme.typography.subtitleReg,
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.padding(vertical = 28.dp))
-            SetGenderButton(viewModel, isGenderState, interactionSource)
+        OffroadActionBar()
+        Spacer(modifier = Modifier.padding(vertical = 20.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(end = 22.dp)
+        ) {
             Spacer(modifier = Modifier.weight(1f))
-            OffroadBasicBtn(
-                modifier = Modifier
-                    .width(312.dp)
-                    .height(50.dp)
-                    .align(Alignment.CenterHorizontally),
-                onClick = { viewModel.fetchUserProfile(nickname, birthDate) },
-                isActive = isGenderState != SetGenderUiState.Loading,
-                text = stringResource(R.string.auth_basic_button),
+            Text(
+                text = stringResource(R.string.auth_skip),
+                color = Gray300,
+                style = OffroadTheme.typography.hint,
+                modifier = Modifier.clickable {
+                    viewModel.fetchUserProfile(nickname, birthDate, null)
+                }
             )
-            Spacer(modifier = Modifier.height(72.dp))
         }
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 50.dp, bottom = 6.dp),
+            text = stringResource(R.string.auth_on_boarding_title),
+            color = Main2,
+            style = OffroadTheme.typography.profileTitle,
+            textAlign = TextAlign.Center
+        )
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            text = stringResource(R.string.auth_set_gender_sub_title),
+            color = Main2,
+            style = OffroadTheme.typography.subtitleReg,
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.padding(vertical = 28.dp))
+        SetGenderButton(viewModel, isGenderState, interactionSource)
+        Spacer(modifier = Modifier.weight(1f))
+        OffroadBasicBtn(
+            modifier = Modifier
+                .padding(horizontal = 24.dp)
+                .padding(bottom = 72.dp)
+                .height(50.dp)
+                .align(Alignment.CenterHorizontally),
+            text = stringResource(R.string.auth_basic_button),
+            onClick = { viewModel.fetchUserProfile(nickname, birthDate) },
+            isActive = isGenderState != SetGenderUiState.Loading,
+        )
     }
 
+
     if (isGenderState == SetGenderUiState.Success) navigateToSetCharacter()
-    else if (isGenderState == SetGenderUiState.Error) {Toast.makeText(
-        LocalContext.current,
-        "네트워크 연결을 확인해 주세요.",
-        Toast.LENGTH_SHORT
-    ).show()
-    viewModel.updateGenderEmpty()}
+    else if (isGenderState == SetGenderUiState.Error) {
+        Toast.makeText(
+            LocalContext.current,
+            stringResource(R.string.auth_set_gender_network_error),
+            Toast.LENGTH_SHORT
+        ).show()
+        viewModel.updateGenderEmpty()
+    }
 }
 
 @Composable
@@ -139,20 +141,20 @@ fun SetGenderButton(
         GenderHintButton(
             modifier = Modifier
                 .padding(bottom = 12.dp)
-                .clickableWithoutRipple(interactionSource) { viewModel.updateCheckedGender("MALE") },
+                .clickableWithoutRipple(interactionSource = interactionSource) { viewModel.updateCheckedGender("MALE") },
             value = stringResource(R.string.auth_set_gender_male),
             isActive = male
         )
         GenderHintButton(
             modifier = Modifier
                 .padding(bottom = 12.dp)
-                .clickableWithoutRipple(interactionSource) { viewModel.updateCheckedGender("FEMALE") },
+                .clickableWithoutRipple(interactionSource =interactionSource) { viewModel.updateCheckedGender("FEMALE") },
             value = stringResource(R.string.auth_set_gender_female),
             isActive = female
         )
         GenderHintButton(
             modifier = Modifier
-                .clickableWithoutRipple(interactionSource) { viewModel.updateCheckedGender("OTHER") },
+                .clickableWithoutRipple(interactionSource =interactionSource) { viewModel.updateCheckedGender("OTHER") },
             value = stringResource(R.string.auth_set_gender_other),
             isActive = other
         )

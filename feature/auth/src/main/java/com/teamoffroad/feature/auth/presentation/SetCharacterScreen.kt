@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -30,6 +32,7 @@ import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.CharacterSelectBg1
 import com.teamoffroad.core.designsystem.theme.CharacterSelectBg2
 import com.teamoffroad.core.designsystem.theme.CharacterSelectBg3
+import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -67,7 +70,8 @@ internal fun SetCharacterScreen(
     ) {
         Column(
             modifier = Modifier
-                .background(backgroundColor)
+                .weight(0.6f)
+                .background(backgroundColor),
         ) {
             OffroadActionBar(backgroundColor)
             Text(
@@ -78,7 +82,9 @@ internal fun SetCharacterScreen(
                 color = Main2,
                 style = OffroadTheme.typography.title,
             )
-            Box {
+            Box(
+                modifier = Modifier.weight(1f)
+            ) {
                 if (characters.isNotEmpty()) {
                     ShowSetCharacterPager(
                         pagerState = pagerState,
@@ -90,7 +96,7 @@ internal fun SetCharacterScreen(
             }
             SetCharacterIndicator(
                 Modifier
-                    .padding(bottom = 32.dp)
+                    .padding(top = 22.dp, bottom = 32.dp)
                     .align(Alignment.CenterHorizontally),
                 characters.size,
                 pagerState
@@ -98,56 +104,52 @@ internal fun SetCharacterScreen(
         }
         Column(
             modifier = Modifier
+                .weight(0.4f)
                 .fillMaxWidth()
                 .background(Main1),
             horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
         ) {
-            Column(
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            ) {
-                Spacer(modifier = Modifier.height(24.dp))
-                Text(
-                    text = selectedCharacter.name,
-                    style = OffroadTheme.typography.title,
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                )
-                Spacer(modifier = Modifier.height(20.dp))
-                Spacer(
-                    modifier = Modifier
-                        .width(260.dp)
-                        .height(1.dp)
-                        .background(Main1.copy(alpha = 0.25f))
-                )
-                Spacer(modifier = Modifier.height(14.dp))
-            }
-            Column(
-                Modifier
-                    .weight(1f)
+            Text(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(top = 24.dp, bottom = 20.dp),
+                text = selectedCharacter.name,
+                style = OffroadTheme.typography.title,
+            )
+            HorizontalDivider(
+                color = Gray300.copy(alpha = 0.25f),
+                thickness = 1.dp,
+                modifier = Modifier
+                    .padding(horizontal = 50.dp)
                     .fillMaxWidth()
-                    .align(Alignment.CenterHorizontally),
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = selectedCharacter.description,
-                    style = OffroadTheme.typography.textRegular,
-                    color = Main2,
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .fillMaxHeight()
-                        .weight(1f),
-                )
-            }
+            )
+            Spacer(
+                modifier = Modifier
+                    .width(260.dp)
+                    .height(1.dp)
+                    .background(Main1.copy(alpha = 0.25f))
+            )
+            Text(
+                modifier = Modifier
+                    .padding(top = 14.dp)
+                    .align(Alignment.CenterHorizontally)
+                    .fillMaxHeight()
+                    .weight(1f),
+                text = selectedCharacter.description,
+                style = OffroadTheme.typography.textRegular,
+                color = Main2,
+            )
             OffroadBasicBtn(
                 modifier = Modifier
-                    .width(312.dp)
+                    .padding(horizontal = 24.dp)
+                    .padding(bottom = 72.dp)
                     .height(50.dp)
                     .align(Alignment.CenterHorizontally),
+                text = stringResource(R.string.auth_basic_button),
                 onClick = { showDialog = true },
                 isActive = true,
-                text = stringResource(R.string.auth_basic_button)
             )
-            Spacer(modifier = Modifier.height(72.dp))
         }
     }
     if (showDialog) {

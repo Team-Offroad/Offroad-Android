@@ -19,8 +19,6 @@ fun OffroadActionBar(color: Color = Main1) {
     )
 }
 
-fun Modifier.actionBarPadding(color: Color = Main1): Modifier {
-    return this
-        .background(color)
-        .padding(top = 34.dp)
+fun Modifier.actionBarPadding(): Modifier {
+    return this.padding(top = 34.dp)
 }
