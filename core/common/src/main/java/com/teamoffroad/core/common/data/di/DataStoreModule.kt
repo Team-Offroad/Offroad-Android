@@ -44,6 +44,13 @@ object DataStoreModule {
         return context.createDataStore(AUTH_PREFERENCES)
     }
 
+    @Provides
+    @Singleton
+    fun provideDeviceTokenDataStore(@ApplicationContext context: Context): DataStore<Preferences> {
+        return context.createDataStore(DEVICE_TOKEN_PREFERENCES)
+    }
+
     private const val TOKEN_PREFERENCES = "com.teamoffroad.token_preferences"
     private const val AUTH_PREFERENCES = "com.teamoffroad.auth_preferences"
+    private const val DEVICE_TOKEN_PREFERENCES = "com.teamoffroad.device_token_preferences"
 }
