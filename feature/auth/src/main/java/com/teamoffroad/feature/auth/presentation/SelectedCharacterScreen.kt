@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -30,18 +31,33 @@ internal fun SelectedCharacterScreen(
     selectedCharacterUrl: String,
     navigateToHome: () -> Unit,
 ) {
+    val gradientBrush = Brush.verticalGradient(
+        colors = listOf(
+            Color(0xFF10101A),
+            Color(0xFF1A1A4D),
+            Color(0xFF1E1A78),
+            Color(0xFF4F4CBB),
+            Color(0xFF3E3B99),
+            Color(0xFF4C4A9A),
+        )
+    )
+    val overlayBrush = Brush.horizontalGradient(
+        colors = listOf(
+            Color(0xFF1A1A4D).copy(alpha = 0.3f),
+            Color(0xFF4F4CBB).copy(alpha = 0.1f),
+            Color(0xFF1A1A4D).copy(alpha = 0.3f),
+        )
+    )
     Column(
         modifier = Modifier
+            .shadow(
+                elevation = 4.dp,
+                spotColor = Color(0x40000000),
+                ambientColor = Color(0x40000000)
+            )
             .fillMaxSize()
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFF2E1A47),
-                        Color(0xFF5D4B8C),
-                        Color(0xFFB07DD2)
-                    )
-                )
-            ),
+            .background(gradientBrush)
+            .background(overlayBrush),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         OffroadActionBar()
