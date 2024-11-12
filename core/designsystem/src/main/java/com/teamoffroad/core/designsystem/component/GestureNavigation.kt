@@ -19,14 +19,14 @@ fun Modifier.navigationPadding(
         .background(color = backgroundColor)
         .then(
             when (isGestureNavigation) {
-                true -> padding(bottom = 14.dp)
-                false -> navigationBarsPadding()
+                true -> navigationBarsPadding()
+                false -> padding(bottom = (11.8).dp)
             }
         )
 }
 
 @Composable
-private fun checkNavigationBar(): Boolean {
+fun checkNavigationBar(): Boolean {
     val view = LocalView.current
     return remember {
         val systemBottomNavigationSetting = view.context.resources.getIdentifier(
