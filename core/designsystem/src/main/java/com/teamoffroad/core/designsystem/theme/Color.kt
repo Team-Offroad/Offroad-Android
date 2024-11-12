@@ -67,6 +67,13 @@ val HomeGradi4 = Color(0xFFC699DB)
 val HomeGradi5 = Color(0xFF8368AA)
 val HomeGradi6 = Color(0xFFF1C9E4)
 
+val SelectedCharacterGradi1 = Color(0xFF10101A)
+val SelectedCharacterGradi2 = Color(0xFF1A1A4D)
+val SelectedCharacterGradi3 = Color(0xFF1E1A78)
+val SelectedCharacterGradi4 = Color(0xFF4F4CBB)
+val SelectedCharacterGradi5 = Color(0xFF3E3B99)
+val SelectedCharacterGradi6 = Color(0xFF4C4A9A)
+
 val SettingCoupon = Color(0xFFFFDED8)
 val SettingSetting = Color(0xFFD2E0FF)
 val SettingCharacter = Color(0xFFFFF7D1)
@@ -74,7 +81,6 @@ val SettingNameTag = Color(0xFFFBDAED)
 
 val GetCharacter002 = Color(0xFFFFB141)
 val GetCharacterBg001 = Color(0xFFFFF0BC)
-
 //
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)

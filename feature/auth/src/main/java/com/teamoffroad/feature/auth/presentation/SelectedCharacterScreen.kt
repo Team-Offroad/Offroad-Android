@@ -22,6 +22,12 @@ import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
+import com.teamoffroad.core.designsystem.theme.SelectedCharacterGradi1
+import com.teamoffroad.core.designsystem.theme.SelectedCharacterGradi2
+import com.teamoffroad.core.designsystem.theme.SelectedCharacterGradi3
+import com.teamoffroad.core.designsystem.theme.SelectedCharacterGradi4
+import com.teamoffroad.core.designsystem.theme.SelectedCharacterGradi5
+import com.teamoffroad.core.designsystem.theme.SelectedCharacterGradi6
 import com.teamoffroad.core.designsystem.theme.SelectedCharacterText
 import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
 import com.teamoffroad.offroad.feature.auth.R
@@ -33,19 +39,19 @@ internal fun SelectedCharacterScreen(
 ) {
     val gradientBrush = Brush.verticalGradient(
         colors = listOf(
-            Color(0xFF10101A),
-            Color(0xFF1A1A4D),
-            Color(0xFF1E1A78),
-            Color(0xFF4F4CBB),
-            Color(0xFF3E3B99),
-            Color(0xFF4C4A9A),
+            SelectedCharacterGradi1,
+            SelectedCharacterGradi2,
+            SelectedCharacterGradi3,
+            SelectedCharacterGradi4,
+            SelectedCharacterGradi5,
+            SelectedCharacterGradi6,
         )
     )
     val overlayBrush = Brush.horizontalGradient(
         colors = listOf(
-            Color(0xFF1A1A4D).copy(alpha = 0.3f),
-            Color(0xFF4F4CBB).copy(alpha = 0.1f),
-            Color(0xFF1A1A4D).copy(alpha = 0.3f),
+            SelectedCharacterGradi2.copy(alpha = 0.3f),
+            SelectedCharacterGradi4.copy(alpha = 0.1f),
+            SelectedCharacterGradi2.copy(alpha = 0.3f),
         )
     )
     Column(
