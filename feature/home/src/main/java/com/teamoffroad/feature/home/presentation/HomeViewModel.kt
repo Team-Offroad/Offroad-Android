@@ -2,16 +2,19 @@ package com.teamoffroad.feature.home.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.teamoffroad.core.common.domain.repository.DeviceTokenRepository
 import com.teamoffroad.core.common.domain.usecase.SetAutoSignInUseCase
 import com.teamoffroad.feature.home.domain.model.Emblem
 import com.teamoffroad.feature.home.domain.model.UserQuests
 import com.teamoffroad.feature.home.domain.model.UsersAdventuresInformation
 import com.teamoffroad.feature.home.domain.repository.UserRepository
+import com.teamoffroad.feature.home.domain.usecase.PostFcmTokenUseCase
 import com.teamoffroad.feature.home.presentation.component.UiState
 import com.teamoffroad.feature.home.presentation.component.getErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,6 +22,8 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val setAutoSignInUseCase: SetAutoSignInUseCase,
+    private val deviceTokenRepository: DeviceTokenRepository,
+    private val fcmTokenUseCase: PostFcmTokenUseCase,
 ) : ViewModel() {
 
     private val _getUsersAdventuresInformationState =
@@ -134,10 +139,20 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun updateAutoSignIn(){
+    fun updateAutoSignIn() {
         viewModelScope.launch {
             setAutoSignInUseCase.invoke(true)
         }
     }
 
+    fun updateFcmToken() {
+        viewModelScope.launch {
+            val deviceToken = deviceTokenRepository.deviceToken.first()
+            if (deviceToken.isBlank()) return@launch
+            runCatching {
+                fcmTokenUseCase.invoke(deviceToken)
+            }.onSuccess { }
+                .onFailure {}
+        }
+    }
 }

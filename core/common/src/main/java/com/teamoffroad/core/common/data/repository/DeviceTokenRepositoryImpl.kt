@@ -9,7 +9,7 @@ class DeviceTokenRepositoryImpl @Inject constructor(
     private val deviceTokenPreferencesDataSource: DeviceTokenPreferencesDataSource,
 ) : DeviceTokenRepository {
 
-    override val isDeviceTokenEnabled: Flow<String> = deviceTokenPreferencesDataSource.deviceToken
+    override val deviceToken: Flow<String> = deviceTokenPreferencesDataSource.deviceToken
 
     override suspend fun updateDeviceTokenEnabled(deviceToken: String) {
         deviceTokenPreferencesDataSource.setDeviceToken(deviceToken)

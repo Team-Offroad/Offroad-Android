@@ -2,6 +2,7 @@ package com.teamoffroad.feature.home.data.di
 
 import com.teamoffroad.core.common.data.di.qualifier.Auth
 import com.teamoffroad.feature.home.data.remote.service.DummyUserService
+import com.teamoffroad.feature.home.data.remote.service.FcmTokenService
 import com.teamoffroad.feature.home.data.remote.service.UserService
 import dagger.Module
 import dagger.Provides
@@ -24,5 +25,11 @@ object NetworkModule {
     @Singleton
     fun provideEmblemService(@Auth retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFcmTokenService(@Auth retrofit: Retrofit): FcmTokenService {
+        return retrofit.create(FcmTokenService::class.java)
     }
 }
