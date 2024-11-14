@@ -23,11 +23,11 @@ import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.teamoffroad.core.designsystem.theme.BoxInfo
-import com.teamoffroad.core.designsystem.theme.CharacterSelectBg3
 import com.teamoffroad.core.designsystem.theme.Gray400
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.NametagInactive
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
+import com.teamoffroad.core.designsystem.theme.SettingSetting
 import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.feature.explore.presentation.model.PlaceModel
@@ -104,7 +104,7 @@ fun PlaceExtraItem(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 VerticalDivider(
-                    color = CharacterSelectBg3,
+                    color = SettingSetting,
                     modifier = Modifier
                         .padding(start = 8.dp, end = 6.dp)
                         .requiredHeight(20.dp),
