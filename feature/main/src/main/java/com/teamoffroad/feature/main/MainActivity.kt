@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
@@ -19,6 +20,13 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val a = intent.getStringExtra("type")
+        if (a != "CHARACTER_CHAT") {
+            val b = intent.getStringExtra("additionalProp1")
+            Log.d("fcmCHARACTER_CHAT", a.toString())
+            Log.d("fcmadditionalProp1", b.toString())
+        }
 
         setContent {
             val navigator: MainNavigator = rememberMainNavigator()
