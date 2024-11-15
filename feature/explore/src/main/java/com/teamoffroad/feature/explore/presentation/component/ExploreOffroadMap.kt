@@ -80,7 +80,7 @@ fun ExploreOffroadMap(
         animationSpec = tween(durationMillis = 500),
         label = "",
     )
-    val backgroundPadding = 52
+    val backgroundPadding = 76
 
     LaunchedEffect(locationState.cameraPositionState.cameraUpdateReason) {
         if (locationState.cameraPositionState.cameraUpdateReason == CameraUpdateReason.GESTURE) {
@@ -102,7 +102,6 @@ fun ExploreOffroadMap(
             .background(Main1)
             .fillMaxSize()
             .actionBarPadding()
-            .navigationPadding()
             .onGloballyPositioned { coordinates ->
                 mapViewSize = coordinates.size
             }) {
@@ -189,7 +188,7 @@ fun ExploreOffroadMap(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .navigationPadding()
-                .padding(bottom = 152.dp),
+                .padding(bottom = 148.dp),
             horizontalArrangement = Arrangement.Center,
         ) {
             ExploreMapBottomButton(

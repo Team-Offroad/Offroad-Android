@@ -9,6 +9,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.teamoffroad.characterchat.navigation.navigateToCharacterChat
+import com.teamoffroad.core.navigation.CharacterChatRoute
 import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.core.navigation.Route
 import com.teamoffroad.feature.auth.navigation.navigateToAgreeTermsAndConditions
@@ -82,7 +83,7 @@ internal class MainNavigator(
     @Composable
     fun setBottomBarVisibility() = MainNavTab.contains {
         currentDestination?.hasRoute(it::class) == true
-    }
+    } || currentDestination?.hasRoute<CharacterChatRoute.CharacterChat>() == true
 
     @Composable
     fun setBackButtonListenerEnabled() = MainNavTab.contains {
