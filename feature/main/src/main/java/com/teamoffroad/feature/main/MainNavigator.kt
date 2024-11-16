@@ -214,8 +214,8 @@ internal class MainNavigator(
         navController.navigateToHome(category, completeQuest, navOptions)
     }
 
-    fun navigateToCharacterChat() {
-        navController.navigateToCharacterChat()
+    fun navigateToCharacterChat(characterId: Int) {
+        navController.navigateToCharacterChat(characterId)
     }
 }
 

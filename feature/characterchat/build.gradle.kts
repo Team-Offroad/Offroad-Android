@@ -10,6 +10,5 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:home"))
     implementation(libs.retrofit.kotlinx.serialization)
 }

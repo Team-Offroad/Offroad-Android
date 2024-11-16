@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -28,12 +27,12 @@ import com.teamoffroad.characterchat.presentation.component.rememberKeyboardHeig
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.CharacterName
-import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
 fun CharacterChatScreen(
+    characterId: Int,
     navigateToBack: () -> Unit,
     characterChatViewModel: CharacterChatViewModel = hiltViewModel(),
 ) {
@@ -111,7 +110,7 @@ fun CharacterChatScreen(
             onClick = {
                 characterChatViewModel.updateIsChatting(true)
                 coroutineScope.launch {
-                    delay(300)
+                    delay(400)
                     listState.animateScrollToItem(listState.layoutInfo.totalItemsCount - 1)
                 }
             },
@@ -119,14 +118,4 @@ fun CharacterChatScreen(
     }
 
     characterChatViewModel.testInit()
-}
-
-@Preview(showBackground = true)
-@Composable
-fun CharacterChatScreenPreview() {
-    OffroadTheme {
-        CharacterChatScreen(
-            navigateToBack = {},
-        )
-    }
 }

@@ -95,5 +95,7 @@ sealed interface MyPageRoute : Route {
 
 sealed interface CharacterChatRoute : Route {
     @Serializable
-    data object CharacterChat : CharacterChatRoute
+    data class CharacterChat(
+        val characterId: Int,
+    ) : CharacterChatRoute
 }
