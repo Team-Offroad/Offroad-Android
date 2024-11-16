@@ -10,8 +10,8 @@ import com.teamoffroad.offroad.feature.explore.R
 
 data class LocationModel(
     val location: LatLng = LatLng(
-        DEFAULT_LOCATION_LATITUDE.toDouble(),
-        DEFAULT_LOCATION_LONGITUDE.toDouble(),
+        DEFAULT_LOCATION_LATITUDE,
+        DEFAULT_LOCATION_LONGITUDE,
     ),
     val previousLocation: LatLng = location,
     val isUserTrackingEnabled: Boolean = true,
@@ -20,14 +20,20 @@ data class LocationModel(
     val subIcon: OverlayImage? = OverlayImage.fromResource(R.drawable.ic_explore_location_overlay_sub),
     val circleAlpha: Float = FOLLOW_CIRCLE_ALPHA,
 ) {
+    private var isInit: Boolean = false
 
     fun updateLocation(latitude: Double, longitude: Double): LocationModel {
-        return copy(
-            location = LatLng(
-                latitude,
-                longitude,
-            ),
-        )
+        return if (isInit) {
+            isInit = false
+            copy(
+                location = LatLng(latitude, longitude),
+                cameraPositionState = CameraPositionState(CameraPosition(LatLng(latitude, longitude), 15.0)),
+            )
+        } else {
+            copy(
+                location = LatLng(latitude, longitude),
+            )
+        }
     }
 
     fun updateTrackingToggle(isUserTrackingEnabled: Boolean): LocationModel {
@@ -73,8 +79,8 @@ data class LocationModel(
     }
 
     private companion object {
-        private const val DEFAULT_LOCATION_LATITUDE = 37.588764f
-        private const val DEFAULT_LOCATION_LONGITUDE = 127.05879f
+        private const val DEFAULT_LOCATION_LATITUDE = 37.588764
+        private const val DEFAULT_LOCATION_LONGITUDE = 127.05879
 
         private const val FOLLOW_CIRCLE_ALPHA = 0.25f
         private const val NO_FOLLOW_CIRCLE_ALPHA = 0.07f
