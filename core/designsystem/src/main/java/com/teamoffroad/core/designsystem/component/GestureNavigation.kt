@@ -23,9 +23,9 @@ fun Modifier.navigationPadding(
 }
 
 @Composable
-fun getNavigationBarHeight(): Dp {
+private fun getNavigationBarHeight(): Dp {
     val view = LocalView.current
-    val insets = ViewCompat.getRootWindowInsets(view)?.getInsets(WindowInsetsCompat.Type.systemBars())
+    val insets = ViewCompat.getRootWindowInsets(view)?.getInsets(WindowInsetsCompat.Type.navigationBars())
     val navigationBarHeightPx = insets?.bottom ?: 0
     val density = LocalDensity.current
     return with(density) { navigationBarHeightPx.toDp() }

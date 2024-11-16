@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItemColors
@@ -50,7 +51,8 @@ internal fun MainBottomBar(
             Box(
                 modifier = modifier
                     .fillMaxWidth()
-                    .navigationPadding()
+                    .wrapContentHeight()
+                    .navigationPadding(),
             ) {
                 ChangeBottomBarColor(Sub4_80)
                 Box(

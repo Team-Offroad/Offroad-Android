@@ -81,9 +81,15 @@ internal class MainNavigator(
     }
 
     @Composable
-    fun setBottomBarVisibility() = MainNavTab.contains {
-        currentDestination?.hasRoute(it::class) == true
-    } || currentDestination?.hasRoute<CharacterChatRoute.CharacterChat>() == true
+    fun setBottomBarVisibility(): Boolean {
+        val isMainNavTabRoute = MainNavTab.contains {
+            currentDestination?.hasRoute(it::class) == true
+        }
+        val isCharacterChatRoute = currentDestination?.hasRoute<CharacterChatRoute.CharacterChat>() == true
+
+        return isMainNavTabRoute || isCharacterChatRoute
+    }
+
 
     @Composable
     fun setBackButtonListenerEnabled() = MainNavTab.contains {
