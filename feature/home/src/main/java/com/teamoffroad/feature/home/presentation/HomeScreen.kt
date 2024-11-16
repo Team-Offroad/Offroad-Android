@@ -10,10 +10,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -22,7 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -73,28 +73,37 @@ fun HomeScreen(
         if (completeQuests.isNotEmpty()) isCompleteQuestDialogShown.value = true
     }
 
-    StaticAnimationWrapper {
-        Surface(
+    Box(
+        modifier = Modifier
+            .background(homeGradientBackground)
+            .fillMaxSize()
+            .padding(bottom = 140.dp)
+        //.navigationBarsPadding(),
+    ) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            UsersAdventuresInformation(
+                context = context,
+                modifier = Modifier
+                    .weight(1f)
+                    .actionBarPadding(),
+                viewModel = viewModel,
+                navigateToGainedCharacter = navigateToGainedCharacter,
+            )
+            Spacer(modifier = Modifier.padding(top = 12.dp))
+            UsersQuestInformation(context, viewModel)
+        }
+
+        Box(
             modifier = Modifier
-                .background(homeGradientBackground)
-                .padding(bottom = 140.dp)
-                .navigationBarsPadding(),
-            color = Color.Transparent
+                .fillMaxSize(),
+            contentAlignment = Alignment.BottomCenter
         ) {
-            StaticAnimationWrapper {
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    UsersAdventuresInformation(
-                        context = context,
-                        modifier = Modifier
-                            .weight(1f)
-                            .actionBarPadding(),
-                        viewModel = viewModel,
-                        navigateToGainedCharacter = navigateToGainedCharacter,
-                    )
-                    Spacer(modifier = Modifier.padding(top = 12.dp))
-                    UsersQuestInformation(context, viewModel)
-                }
-            }
+            ChatTextField(
+                modifier = Modifier
+                    //.imePadding()
+                    .align(Alignment.BottomCenter),
+                isChatting = true
+            )
         }
     }
 
