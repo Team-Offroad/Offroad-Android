@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import com.teamoffroad.core.common.util.OnBackButtonListener
 import com.teamoffroad.core.designsystem.component.navigationPadding
@@ -17,7 +18,18 @@ import kotlinx.collections.immutable.toPersistentList
 internal fun MainScreen(
     modifier: Modifier = Modifier,
     navigator: MainNavigator = rememberMainNavigator(),
+    notificationType: String?,
+    notificationId: String?,
 ) {
+    LaunchedEffect(Unit) {
+        if (!notificationType.isNullOrBlank()) {
+            if (notificationType == "ANNOUNCEMENT_REDIRECT")
+                notificationId?.let { navigator.navigateToAnnouncement(it) }
+            else if (notificationType == "CHARACTER_CHAT") {
+                navigator.navigateToHome()
+            }
+        }
+    }
     MainScreenContent(
         navigator = navigator,
         modifier = modifier,

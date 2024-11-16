@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import coil.Coil
 import coil.request.ImageRequest
@@ -39,9 +40,9 @@ class OffRoadMessagingService : FirebaseMessagingService() {
             if (ActivityLifecycleHandler.isAppInForeground) {
                 //TODO. 키 밸류값 나오면 바꾸기
                 if (remoteMessage.data[KEY_TYPE] != TYPE_CHARACTER_CHAT)
-                    sendNotification(remoteMessage, true)
+                    sendForeGroundNotification(remoteMessage, true)
             } else {
-                sendNotification(remoteMessage, false)
+                sendBackGroundNotification(remoteMessage, false)
             }
         }
     }
@@ -84,8 +85,7 @@ class OffRoadMessagingService : FirebaseMessagingService() {
     private fun createNotificationIntent(remoteMessage: RemoteMessage): Intent {
         return Intent(this, MainActivity::class.java).apply {
             if (ActivityLifecycleHandler.isAppInForeground) {
-                action = Intent.ACTION_MAIN
-                addCategory(Intent.CATEGORY_LAUNCHER)
+                Log.d("asdasd", "forground")
             } else {
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             }
@@ -96,7 +96,37 @@ class OffRoadMessagingService : FirebaseMessagingService() {
         }
     }
 
-    private fun createNotificationBuilder(
+    private fun createForeGroundNotificationBuilder(
+        remoteMessage: RemoteMessage,
+        onLargeIconReady: (NotificationCompat.Builder) -> Unit
+    ): NotificationCompat.Builder {
+
+        val notificationBuilder = NotificationCompat.Builder(this, "channelId")
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setContentTitle(remoteMessage.data[KEY_TITLE])
+            .setContentText(remoteMessage.data[KEY_BODY])
+            .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_MAX)
+
+        val imageUrl = remoteMessage.data[KEY_IMAGE]
+        imageUrl?.let {
+            val request = ImageRequest.Builder(this)
+                .data(it)
+                .target { drawable ->
+                    val bitmap = (drawable as BitmapDrawable).bitmap
+                    notificationBuilder.setLargeIcon(bitmap)
+                    onLargeIconReady(notificationBuilder)
+                }
+                .build()
+
+            Coil.imageLoader(this).enqueue(request)
+        } ?: run {
+            onLargeIconReady(notificationBuilder)
+        }
+        return notificationBuilder
+    }
+
+    private fun createBackGroundNotificationBuilder(
         remoteMessage: RemoteMessage,
         pendingIntent: PendingIntent,
         onLargeIconReady: (NotificationCompat.Builder) -> Unit
@@ -128,11 +158,22 @@ class OffRoadMessagingService : FirebaseMessagingService() {
         return notificationBuilder
     }
 
-    private fun sendNotification(remoteMessage: RemoteMessage, isForeGround: Boolean) {
+    private fun sendForeGroundNotification(remoteMessage: RemoteMessage, isForeGround: Boolean) {
+        val uniqueIdentifier = generateUniqueIdentifier()
+        createForeGroundNotificationBuilder(remoteMessage) { notificationBuilder ->
+            showNotification(notificationBuilder, uniqueIdentifier)
+
+            if(isForeGround){
+
+            }
+        }
+    }
+
+    private fun sendBackGroundNotification(remoteMessage: RemoteMessage, isForeGround: Boolean) {
         val uniqueIdentifier = generateUniqueIdentifier()
         val intent = createNotificationIntent(remoteMessage)
         val pendingIntent = createPendingIntent(intent, uniqueIdentifier)
-        createNotificationBuilder(remoteMessage, pendingIntent) { notificationBuilder ->
+        createBackGroundNotificationBuilder(remoteMessage, pendingIntent) { notificationBuilder ->
             showNotification(notificationBuilder, uniqueIdentifier)
         }
     }
@@ -161,5 +202,7 @@ class OffRoadMessagingService : FirebaseMessagingService() {
         private const val KEY_IMAGE = "image"
         private const val KEY_ID = "additionalProp1"
         private const val TYPE_CHARACTER_CHAT = "CHARACTER_CHAT"
+        private const val TYPE_ANNOUNCEMENT = "ANNOUNCEMENT_REDIRECT"
+
     }
 }

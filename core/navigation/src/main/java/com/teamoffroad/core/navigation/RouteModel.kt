@@ -4,9 +4,6 @@ import kotlinx.serialization.Serializable
 
 sealed interface Route {
     @Serializable
-    data object Splash : Route
-
-    @Serializable
     data object Auth : Route
 }
 
@@ -76,7 +73,9 @@ sealed interface MyPageRoute : Route {
     data object Setting : MyPageRoute
 
     @Serializable
-    data object Announcement : MyPageRoute
+    data class Announcement(
+        val announcementId: String?,
+    ) : MyPageRoute
 
     @Serializable
     data class AnnouncementDetail(

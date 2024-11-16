@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.main.splash
+package com.teamoffroad.feature.main
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
@@ -23,9 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.lifecycle.flowWithLifecycle
 import com.teamoffroad.core.designsystem.component.ChangeBottomBarColor
 import com.teamoffroad.core.designsystem.theme.Main2
 import kotlinx.coroutines.delay
@@ -33,25 +30,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SplashScreen(
-    navigateToAuth: () -> Unit,
-    navigateToHome: () -> Unit,
-    viewModel: SplashViewModel = hiltViewModel(),
 ) {
-    val lifecycleOwner = LocalLifecycleOwner.current
-
-    LaunchedEffect(Unit) {
-        viewModel.showSplash()
-    }
-    LaunchedEffect(viewModel.splashUiState, lifecycleOwner) {
-        viewModel.splashUiState.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
-            .collect { splashUiState ->
-                when (splashUiState) {
-                    is SplashUiState.NavigateHome -> navigateToHome()
-                    is SplashUiState.NavigateLogin -> navigateToAuth()
-                }
-            }
-    }
-
     ChangeBottomBarColor(Main2)
     var backgroundVisibility by remember { mutableStateOf(true) }
     val scale = remember { Animatable(1f) }

@@ -34,6 +34,7 @@ import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
 internal fun AnnouncementScreen(
+    announcementId: String?,
     navigateToAnnouncementDetail: (String, String, Boolean, String, Boolean, List<String>, List<String>) -> Unit,
     navigateToBack: () -> Unit,
     viewModel: AnnouncementViewModel = hiltViewModel()

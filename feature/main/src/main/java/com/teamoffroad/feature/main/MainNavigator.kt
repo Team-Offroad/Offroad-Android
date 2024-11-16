@@ -21,9 +21,9 @@ import com.teamoffroad.feature.explore.navigation.navigateToExplore
 import com.teamoffroad.feature.explore.navigation.navigateToPlace
 import com.teamoffroad.feature.explore.navigation.navigateToQuest
 import com.teamoffroad.feature.home.navigation.navigateToHome
-import com.teamoffroad.feature.main.splash.navigation.navigateToAuth
 import com.teamoffroad.feature.mypage.navigation.navigateToAnnouncement
 import com.teamoffroad.feature.mypage.navigation.navigateToAnnouncementDetail
+import com.teamoffroad.feature.mypage.navigation.navigateToAuth
 import com.teamoffroad.feature.mypage.navigation.navigateToAvailableCouponDetail
 import com.teamoffroad.feature.mypage.navigation.navigateToCharacterDetail
 import com.teamoffroad.feature.mypage.navigation.navigateToGainedCharacter
@@ -39,7 +39,7 @@ internal class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    val startDestination = Route.Splash
+    val startDestination = Route.Auth
 
     val currentTab: MainNavTab?
         @Composable get() = MainNavTab.find { tab ->
@@ -169,8 +169,8 @@ internal class MainNavigator(
         navController.navigateToSetting()
     }
 
-    fun navigateToAnnouncement() {
-        navController.navigateToAnnouncement()
+    fun navigateToAnnouncement(announcementId: String?) {
+        navController.navigateToAnnouncement(announcementId)
     }
 
     fun navigateToAnnouncementDetail(
