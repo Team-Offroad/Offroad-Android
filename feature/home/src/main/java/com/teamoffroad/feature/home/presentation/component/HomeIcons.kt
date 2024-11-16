@@ -31,17 +31,12 @@ fun HomeIcons(
     imageUrl: String,
     navigateToGainedCharacter: () -> Unit,
 ) {
-//    val showTextField = remember { mutableStateOf(false) }
-//    val textState = remember { mutableStateOf(TextFieldValue()) }
-//    val focusRequester = remember { FocusRequester() }
-//    val focusManager = LocalFocusManager.current
-
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .clickableWithoutRipple {
-                isChatting.value = false
-            }
+//            .clickableWithoutRipple {
+//                isChatting.value = false
+//            }
     ) {
         Column(
             modifier = Modifier

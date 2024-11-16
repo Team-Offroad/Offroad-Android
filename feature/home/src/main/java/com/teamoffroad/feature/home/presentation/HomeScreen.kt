@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -17,6 +18,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -26,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -34,6 +38,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.actionBarPadding
+import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
+import com.teamoffroad.core.designsystem.theme.ErrorNew
 import com.teamoffroad.core.designsystem.theme.HomeGradi1
 import com.teamoffroad.core.designsystem.theme.HomeGradi2
 import com.teamoffroad.core.designsystem.theme.HomeGradi3
@@ -41,6 +47,9 @@ import com.teamoffroad.core.designsystem.theme.HomeGradi4
 import com.teamoffroad.core.designsystem.theme.HomeGradi5
 import com.teamoffroad.core.designsystem.theme.HomeGradi6
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
+import com.teamoffroad.core.designsystem.theme.Sub
+import com.teamoffroad.core.designsystem.theme.Sub55
+import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.home.domain.model.UserQuests
 import com.teamoffroad.feature.home.presentation.component.CompleteQuestDialog
 import com.teamoffroad.feature.home.presentation.component.HomeIcons
@@ -107,10 +116,25 @@ fun HomeScreen(
                     //.padding(bottom = with(LocalDensity.current) { imeHeight.toDp() })
                     .padding(bottom = 196.dp)
             ) {
-                HomeChatTextField(
-                    isChatting = isChatting,
-                    keyboard = true
-                )
+                Column {
+                    Box(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(end = 20.dp),
+                            contentAlignment = Alignment.CenterEnd
+                        ) {
+                            FinishChatting(isChatting)
+                        }
+                    }
+
+                    HomeChatTextField(
+                        isChatting = isChatting,
+                        keyboard = true
+                    )
+                }
             }
         }
     }
@@ -184,11 +208,31 @@ private fun UsersAdventuresInformation(
 }
 
 @Composable
-private fun HomeBackground() {
-    Image(
-        painter = painterResource(id = R.drawable.img_home_stamp),
-        contentDescription = "stamp",
-        modifier = Modifier.padding(top = 16.dp)
+fun FinishChatting(
+    isChatting: MutableState<Boolean>,
+    backgroundColor: Color = Sub55,
+    borderColor: Color = Sub
+) {
+    Text(
+        style = OffroadTheme.typography.subtitle2Semibold,
+        text = stringResource(id = R.string.home_chat_finish),
+        modifier = Modifier
+            .padding(bottom = 8.dp)
+            .background(
+                color = backgroundColor,
+                shape = RoundedCornerShape(20.dp)
+            )
+            .border(
+                width = 1.dp,
+                shape = RoundedCornerShape(20.dp),
+                color = borderColor
+            )
+            .padding(horizontal = 16.dp)
+            .padding(vertical = 8.dp)
+            .clickableWithoutRipple {
+                isChatting.value = false
+            },
+        color = White
     )
 }
 
