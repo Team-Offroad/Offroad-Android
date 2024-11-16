@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
+import com.teamoffroad.characterchat.navigation.characterChatNavGraph
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.auth.navigation.authNavGraph
 import com.teamoffroad.feature.explore.navigation.exploreNavGraph
@@ -83,6 +84,7 @@ internal fun MainNavHost(
                 navigateToSignIn = navigator::navigateToAuth,
                 navigateToCharacterDetail = navigator::navigateToCharacterDetail,
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
+                navigateToCharacterChat = navigator::navigateToCharacterChat,
             )
             authNavGraph(
                 navigateToHome = { navigator.navigateToHome() },
@@ -100,6 +102,9 @@ internal fun MainNavHost(
                 navigateToSelectedCharacter = { selectedCharacterUrl ->
                     navigator.navigateToSelectedCharacter(selectedCharacterUrl)
                 },
+                navigateToBack = navigator::popBackStackIfNotMainTabRoute,
+            )
+            characterChatNavGraph(
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
             )
         }

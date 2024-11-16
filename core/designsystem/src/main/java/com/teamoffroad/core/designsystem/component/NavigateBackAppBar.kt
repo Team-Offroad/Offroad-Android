@@ -29,7 +29,7 @@ fun NavigateBackAppBar(
     modifier: Modifier = Modifier,
     mainColor: Color = Main2,
     backgroundColor: Color = Main1,
-    text: String,
+    text: String = "",
     navigateToBack: () -> Unit,
 ) {
     Box(

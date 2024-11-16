@@ -95,6 +95,7 @@ fun NavGraphBuilder.myPageNavGraph(
     navigateToSignIn: () -> Unit,
     navigateToCharacterDetail: (Int, Boolean) -> Unit,
     navigateToBack: () -> Unit,
+    navigateToCharacterChat: (Int) -> Unit,
 ) {
     composable<MainTabRoute.MyPage> {
         MyPageScreen(
@@ -170,6 +171,6 @@ fun NavGraphBuilder.myPageNavGraph(
         val characterId = backStackEntry.toRoute<MyPageRoute.CharacterDetail>().characterId
         val isRepresentative =
             backStackEntry.toRoute<MyPageRoute.CharacterDetail>().isRepresentative
-        CharacterDetailScreen(characterId, isRepresentative, navigateToBack)
+        CharacterDetailScreen(characterId, isRepresentative, navigateToBack, navigateToCharacterChat)
     }
 }

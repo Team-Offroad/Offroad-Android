@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItemColors
@@ -27,7 +28,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.teamoffroad.core.designsystem.component.ChangeBottomBarColor
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
-import com.teamoffroad.core.designsystem.component.checkNavigationBar
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.BottomBarInactive
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -48,15 +48,11 @@ internal fun MainBottomBar(
 ) {
     ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
         StaticAnimationWrapper(visible = visible) {
-            val bottomNavPaddingOffset = when (checkNavigationBar()) {
-                true -> 15.dp
-                false -> 0.8.dp
-            }
             Box(
                 modifier = modifier
                     .fillMaxWidth()
-                    .navigationPadding()
-                    .padding(bottom = bottomNavPaddingOffset)
+                    .wrapContentHeight()
+                    .navigationPadding(),
             ) {
                 ChangeBottomBarColor(Sub4_80)
                 Box(
