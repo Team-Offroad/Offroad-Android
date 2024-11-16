@@ -41,14 +41,20 @@ class OffRoadMessagingService : FirebaseMessagingService() {
         CoroutineScope(Dispatchers.IO).launch { dataStore.updateDeviceTokenEnabled(token) }
     }
 
+    //FCM 메세지를 받을 때 호출됨
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
         if (remoteMessage.data.isNotEmpty()) {
             if (ActivityLifecycleHandler.isAppInForeground) {
                 if (remoteMessage.data[KEY_TYPE] != TYPE_CHARACTER_CHAT)
-                    sendForeGroundNotification(remoteMessage)
+                    sendNotification(remoteMessage, true)
+                else {
+                    // 앱이 포그라운드에 있고, 알림타임이 캐릭터채팅인 경우
+                    // 정현이 봐야할곳은 여기!! 요쪽 따라가십쇼
+                    sendCharacterNotificationInForeground(remoteMessage, true)
+                }
             } else {
-                sendBackGroundNotification(remoteMessage)
+                sendNotification(remoteMessage, false)
             }
         }
     }
@@ -88,47 +94,30 @@ class OffRoadMessagingService : FirebaseMessagingService() {
         )
     }
 
-    private fun createNotificationIntent(remoteMessage: RemoteMessage): Intent {
-        return Intent(this, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-            putExtra(KEY_TYPE, remoteMessage.data[KEY_TYPE])
-            if (remoteMessage.data[KEY_TYPE] != TYPE_CHARACTER_CHAT) {
-                putExtra(KEY_ID, remoteMessage.data[KEY_ID])
+    private fun createNotificationIntent(
+        remoteMessage: RemoteMessage,
+        isForeGround: Boolean
+    ): Intent {
+        if (isForeGround) {
+            return Intent(this, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+                putExtra(KEY_TYPE, remoteMessage.data[KEY_TYPE])
+                if (remoteMessage.data[KEY_TYPE] != TYPE_CHARACTER_CHAT) {
+                    putExtra(KEY_ID, remoteMessage.data[KEY_ID])
+                }
+            }
+        } else {
+            return Intent(this, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                putExtra(KEY_TYPE, remoteMessage.data[KEY_TYPE])
+                if (remoteMessage.data[KEY_TYPE] != TYPE_CHARACTER_CHAT) {
+                    putExtra(KEY_ID, remoteMessage.data[KEY_ID])
+                }
             }
         }
     }
 
-    private fun createForeGroundNotificationBuilder(
-        remoteMessage: RemoteMessage,
-        onLargeIconReady: (NotificationCompat.Builder) -> Unit
-    ): NotificationCompat.Builder {
-
-        val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle(remoteMessage.data[KEY_TITLE])
-            .setContentText(remoteMessage.data[KEY_BODY])
-            .setAutoCancel(true)
-            .setPriority(NotificationCompat.PRIORITY_MAX)
-
-        val imageUrl = remoteMessage.data[KEY_IMAGE]
-        imageUrl?.let {
-            val request = ImageRequest.Builder(this)
-                .data(it)
-                .target { drawable ->
-                    val bitmap = (drawable as BitmapDrawable).bitmap
-                    notificationBuilder.setLargeIcon(bitmap)
-                    onLargeIconReady(notificationBuilder)
-                }
-                .build()
-
-            Coil.imageLoader(this).enqueue(request)
-        } ?: run {
-            onLargeIconReady(notificationBuilder)
-        }
-        return notificationBuilder
-    }
-
-    private fun createBackGroundNotificationBuilder(
+    private fun createNotificationBuilder(
         remoteMessage: RemoteMessage,
         pendingIntent: PendingIntent,
         onLargeIconReady: (NotificationCompat.Builder) -> Unit
@@ -160,20 +149,27 @@ class OffRoadMessagingService : FirebaseMessagingService() {
         return notificationBuilder
     }
 
-    private fun sendForeGroundNotification(remoteMessage: RemoteMessage) {
+    private fun sendNotification(remoteMessage: RemoteMessage, isForeGround: Boolean) {
         val uniqueIdentifier = generateUniqueIdentifier()
-        createForeGroundNotificationBuilder(remoteMessage) { notificationBuilder ->
+        val intent = createNotificationIntent(remoteMessage, isForeGround)
+        val pendingIntent = createPendingIntent(intent, uniqueIdentifier)
+        createNotificationBuilder(remoteMessage, pendingIntent) { notificationBuilder ->
             showNotification(notificationBuilder, uniqueIdentifier)
         }
     }
 
-    private fun sendBackGroundNotification(remoteMessage: RemoteMessage) {
-        val uniqueIdentifier = generateUniqueIdentifier()
-        val intent = createNotificationIntent(remoteMessage)
-        val pendingIntent = createPendingIntent(intent, uniqueIdentifier)
-        createBackGroundNotificationBuilder(remoteMessage, pendingIntent) { notificationBuilder ->
-            showNotification(notificationBuilder, uniqueIdentifier)
+    //브로드캐스트리시버에 필요한 데이터(캐릭터이름, 대화내용, 알림타입) 저장하고 브로드캐스트 발신
+    //feature main의 CharacterChatBroadcastReceiver로 가면 됩니다.
+    private fun sendCharacterNotificationInForeground(
+        remoteMessage: RemoteMessage,
+        isForeGround: Boolean
+    ) {
+        val intent = Intent("com.teamoffroad.offroad.app.ACTION_RECEIVE_NOTIFICATION").apply {
+            putExtra(KEY_TITLE, remoteMessage.data[KEY_TITLE])
+            putExtra(KEY_BODY, remoteMessage.data[KEY_BODY])
+            putExtra(KEY_TYPE, remoteMessage.data[KEY_TYPE])
         }
+        sendBroadcast(intent)
     }
 
     private fun showNotification(

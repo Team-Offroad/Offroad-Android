@@ -23,7 +23,7 @@ internal fun MainScreen(
     notificationType: String?,
     notificationId: String?,
 ) {
-    LaunchedEffect(Unit) {
+    LaunchedEffect(notificationType, notificationId) {
         if (!notificationType.isNullOrBlank()) {
             if (notificationType == TYPE_ANNOUNCEMENT)
                 notificationId?.let {

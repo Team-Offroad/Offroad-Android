@@ -90,6 +90,10 @@ barcodeScanning = "17.1.0"
 # Process phoenix
 processPhoenix = "3.0.0"
 
+# Event Bus
+eventbus = "3.2.0"
+
+
 [libraries]
 # Core Libraries
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
@@ -200,6 +204,9 @@ barcode-scanning = { group = "com.google.mlkit", name = "barcode-scanning", vers
 
 # Process Phoenix
 process-phoenix = { group = "com.jakewharton", name = "process-phoenix", version.ref = "processPhoenix" }
+
+# Event Bus
+eventbus = { group = "org.greenrobot", name = "eventbus", version.ref = "eventbus" }
 
 [plugins]
 # Android Application Plugin

@@ -50,5 +50,10 @@
             </intent-filter>
 
         </activity>
+        <receiver android:name="com.teamoffroad.feature.main.CharacterChatBroadcastReceiver">
+            <intent-filter>
+                <action android:name="com.teamoffroad.offroad.app.ACTION_RECEIVE_NOTIFICATION" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>
