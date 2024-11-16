@@ -14,6 +14,8 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 
 @Composable
 fun UserChatBox(
+    text: String,
+    time: String,
 ) {
     Row(
         horizontalArrangement = Arrangement.End,
@@ -23,19 +25,14 @@ fun UserChatBox(
     ) {
         TimeLabel(
             modifier = Modifier.align(Alignment.Bottom),
+            time = time,
         )
         ChatTextBox {
             Text(
-                text = "오.. 맛있었겠네. 어차피 난 인간아라 이아니라서가나다라마바사아자아자",
+                text = text,
                 style = OffroadTheme.typography.textRegular,
                 color = Main2,
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun UserChatBoxPreview() {
-    UserChatBox()
 }

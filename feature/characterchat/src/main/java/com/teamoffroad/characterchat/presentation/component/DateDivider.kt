@@ -12,9 +12,11 @@ import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White25
+import java.time.LocalDate
 
 @Composable
 fun DateDivider(
+    date: LocalDate,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -29,10 +31,4 @@ fun DateDivider(
             modifier = Modifier.padding(top = 6.dp),
         )
     }
-}
-
-@Preview
-@Composable
-fun DateDividerPreview() {
-    DateDivider()
 }

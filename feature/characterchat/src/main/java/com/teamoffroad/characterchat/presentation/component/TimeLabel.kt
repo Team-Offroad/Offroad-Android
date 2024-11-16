@@ -12,18 +12,13 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 @Composable
 fun TimeLabel(
     modifier: Modifier = Modifier,
+    time: String,
 ) {
     Text(
-        text = "오전 10:00",
+        text = time,
         color = Main3,
         style = OffroadTheme.typography.textContents,
         modifier = modifier
             .padding(horizontal = 6.dp)
     )
-}
-
-@Preview
-@Composable
-fun TimeLabelPreview() {
-    TimeLabel()
 }
