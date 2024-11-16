@@ -7,6 +7,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import com.teamoffroad.core.common.domain.model.FcmNotificationKey.TYPE_ANNOUNCEMENT
 import com.teamoffroad.core.common.util.OnBackButtonListener
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.feature.main.component.MainBottomBar
@@ -23,9 +24,13 @@ internal fun MainScreen(
 ) {
     LaunchedEffect(Unit) {
         if (!notificationType.isNullOrBlank()) {
-            if (notificationType == "ANNOUNCEMENT_REDIRECT")
-                notificationId?.let { navigator.navigateToAnnouncement(it) }
-            else if (notificationType == "CHARACTER_CHAT") {
+            if (notificationType == TYPE_ANNOUNCEMENT)
+                notificationId?.let {
+                    navigator.navigateToMyPage()
+                    navigator.navigateToSetting()
+                    navigator.navigateToAnnouncement(it)
+                }
+            else {
                 navigator.navigateToHome()
             }
         }

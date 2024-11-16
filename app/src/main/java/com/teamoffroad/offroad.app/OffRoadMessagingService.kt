@@ -7,13 +7,20 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import coil.Coil
 import coil.request.ImageRequest
 import com.google.firebase.messaging.Constants.MessageNotificationKeys
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.teamoffroad.core.common.domain.model.FcmNotificationKey.CHANNEL_ID
+import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_BODY
+import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_ID
+import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_IMAGE
+import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_TITLE
+import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_TYPE
+import com.teamoffroad.core.common.domain.model.FcmNotificationKey.NOTICE
+import com.teamoffroad.core.common.domain.model.FcmNotificationKey.TYPE_CHARACTER_CHAT
 import com.teamoffroad.core.common.domain.repository.DeviceTokenRepository
 import com.teamoffroad.core.common.util.ActivityLifecycleHandler
 import com.teamoffroad.feature.main.MainActivity
@@ -38,11 +45,10 @@ class OffRoadMessagingService : FirebaseMessagingService() {
         super.onMessageReceived(remoteMessage)
         if (remoteMessage.data.isNotEmpty()) {
             if (ActivityLifecycleHandler.isAppInForeground) {
-                //TODO. 키 밸류값 나오면 바꾸기
                 if (remoteMessage.data[KEY_TYPE] != TYPE_CHARACTER_CHAT)
-                    sendForeGroundNotification(remoteMessage, true)
+                    sendForeGroundNotification(remoteMessage)
             } else {
-                sendBackGroundNotification(remoteMessage, false)
+                sendBackGroundNotification(remoteMessage)
             }
         }
     }
@@ -84,11 +90,7 @@ class OffRoadMessagingService : FirebaseMessagingService() {
 
     private fun createNotificationIntent(remoteMessage: RemoteMessage): Intent {
         return Intent(this, MainActivity::class.java).apply {
-            if (ActivityLifecycleHandler.isAppInForeground) {
-                Log.d("asdasd", "forground")
-            } else {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-            }
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             putExtra(KEY_TYPE, remoteMessage.data[KEY_TYPE])
             if (remoteMessage.data[KEY_TYPE] != TYPE_CHARACTER_CHAT) {
                 putExtra(KEY_ID, remoteMessage.data[KEY_ID])
@@ -101,7 +103,7 @@ class OffRoadMessagingService : FirebaseMessagingService() {
         onLargeIconReady: (NotificationCompat.Builder) -> Unit
     ): NotificationCompat.Builder {
 
-        val notificationBuilder = NotificationCompat.Builder(this, "channelId")
+        val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle(remoteMessage.data[KEY_TITLE])
             .setContentText(remoteMessage.data[KEY_BODY])
@@ -132,7 +134,7 @@ class OffRoadMessagingService : FirebaseMessagingService() {
         onLargeIconReady: (NotificationCompat.Builder) -> Unit
     ): NotificationCompat.Builder {
 
-        val notificationBuilder = NotificationCompat.Builder(this, "channelId")
+        val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle(remoteMessage.data[KEY_TITLE])
             .setContentText(remoteMessage.data[KEY_BODY])
@@ -158,18 +160,14 @@ class OffRoadMessagingService : FirebaseMessagingService() {
         return notificationBuilder
     }
 
-    private fun sendForeGroundNotification(remoteMessage: RemoteMessage, isForeGround: Boolean) {
+    private fun sendForeGroundNotification(remoteMessage: RemoteMessage) {
         val uniqueIdentifier = generateUniqueIdentifier()
         createForeGroundNotificationBuilder(remoteMessage) { notificationBuilder ->
             showNotification(notificationBuilder, uniqueIdentifier)
-
-            if(isForeGround){
-
-            }
         }
     }
 
-    private fun sendBackGroundNotification(remoteMessage: RemoteMessage, isForeGround: Boolean) {
+    private fun sendBackGroundNotification(remoteMessage: RemoteMessage) {
         val uniqueIdentifier = generateUniqueIdentifier()
         val intent = createNotificationIntent(remoteMessage)
         val pendingIntent = createPendingIntent(intent, uniqueIdentifier)
@@ -187,22 +185,10 @@ class OffRoadMessagingService : FirebaseMessagingService() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel =
-                NotificationChannel("channelId", "Notice", NotificationManager.IMPORTANCE_HIGH)
+                NotificationChannel(CHANNEL_ID, NOTICE, NotificationManager.IMPORTANCE_HIGH)
             notificationManager.createNotificationChannel(channel)
         }
 
         notificationManager.notify(uniqueIdentifier, notificationBuilder.build())
-    }
-
-    companion object {
-        //TODO. 나중에 정리 해야됨
-        private const val KEY_TITLE = "title"
-        private const val KEY_BODY = "body"
-        private const val KEY_TYPE = "type"
-        private const val KEY_IMAGE = "image"
-        private const val KEY_ID = "additionalProp1"
-        private const val TYPE_CHARACTER_CHAT = "CHARACTER_CHAT"
-        private const val TYPE_ANNOUNCEMENT = "ANNOUNCEMENT_REDIRECT"
-
     }
 }

@@ -13,6 +13,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_ID
+import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_TYPE
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.main.component.MainTransparentActionBar
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,8 +25,8 @@ import kotlinx.coroutines.delay
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val notificationType = intent.getStringExtra("type")
-        val notificationId = intent.getStringExtra("additionalProp1")
+        val notificationType = intent.getStringExtra(KEY_TYPE)
+        val notificationId = intent.getStringExtra(KEY_ID)
         setContent {
             val navigator: MainNavigator = rememberMainNavigator()
             val showSplash = remember { mutableStateOf(true) }
