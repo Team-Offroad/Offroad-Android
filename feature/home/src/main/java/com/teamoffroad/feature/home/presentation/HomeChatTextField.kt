@@ -20,7 +20,6 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -47,7 +46,7 @@ import com.teamoffroad.offroad.feature.home.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChatTextField(
+fun HomeChatTextField(
     modifier: Modifier = Modifier,
     text: String = "",
     isChatting: Boolean = false,

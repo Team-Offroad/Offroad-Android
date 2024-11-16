@@ -82,7 +82,7 @@ fun HomeScreen(
         modifier = Modifier
             .background(homeGradientBackground)
             .fillMaxSize()
-            .padding(bottom = 140.dp)
+            .padding(bottom = 180.dp)
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             UsersAdventuresInformation(
@@ -103,9 +103,9 @@ fun HomeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = 230.dp)
+                    //.padding(bottom = 196.dp)
             ) {
-                ChatTextField(
+                HomeChatTextField(
                     modifier = Modifier
                         .imePadding(),
                     isChatting = isChatting.value,
