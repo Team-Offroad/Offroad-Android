@@ -8,15 +8,18 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,12 +27,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.theme.HomeGradi1
 import com.teamoffroad.core.designsystem.theme.HomeGradi2
@@ -53,6 +56,7 @@ val homeGradientBackground = Brush.verticalGradient(
     colors = listOf(HomeGradi1, HomeGradi2, HomeGradi3, HomeGradi4, HomeGradi5, HomeGradi6)
 )
 
+@OptIn(ExperimentalLayoutApi::class)
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun HomeScreen(
@@ -63,7 +67,8 @@ fun HomeScreen(
     val context = LocalContext.current
     val viewModel: HomeViewModel = hiltViewModel()
     val isCompleteQuestDialogShown = remember { mutableStateOf(false) }
-
+    val imeHeight = WindowInsets.ime.getBottom(LocalDensity.current)
+    val isChatting = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.updateAutoSignIn()
@@ -78,10 +83,10 @@ fun HomeScreen(
             .background(homeGradientBackground)
             .fillMaxSize()
             .padding(bottom = 140.dp)
-        //.navigationBarsPadding(),
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             UsersAdventuresInformation(
+                isChatting = isChatting,
                 context = context,
                 modifier = Modifier
                     .weight(1f)
@@ -93,17 +98,20 @@ fun HomeScreen(
             UsersQuestInformation(context, viewModel)
         }
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize(),
-            contentAlignment = Alignment.BottomCenter
-        ) {
-            ChatTextField(
+        if (isChatting.value) {
+            Box(
                 modifier = Modifier
-                    //.imePadding()
-                    .align(Alignment.BottomCenter),
-                isChatting = true
-            )
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 230.dp)
+            ) {
+                ChatTextField(
+                    modifier = Modifier
+                        .imePadding(),
+                    isChatting = isChatting.value,
+                    keyboard = true
+                )
+            }
         }
     }
 
@@ -121,6 +129,7 @@ fun HomeScreen(
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 private fun UsersAdventuresInformation(
+    isChatting: MutableState<Boolean>,
     context: Context,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel,
@@ -150,6 +159,7 @@ private fun UsersAdventuresInformation(
             contentAlignment = Alignment.TopEnd
         ) {
             HomeIcons(
+                isChatting = isChatting,
                 context = context,
                 imageUrl = imageUrl,
                 navigateToGainedCharacter = navigateToGainedCharacter,

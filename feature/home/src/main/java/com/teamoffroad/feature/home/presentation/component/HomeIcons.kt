@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -37,21 +38,21 @@ import com.teamoffroad.offroad.feature.home.R
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun HomeIcons(
+    isChatting: MutableState<Boolean>,
     context: Context,
     imageUrl: String,
     navigateToGainedCharacter: () -> Unit,
 ) {
-    val showTextField = remember { mutableStateOf(false) }
-    val textState = remember { mutableStateOf(TextFieldValue()) }
-    val focusRequester = remember { FocusRequester() }
-    val focusManager = LocalFocusManager.current
+//    val showTextField = remember { mutableStateOf(false) }
+//    val textState = remember { mutableStateOf(TextFieldValue()) }
+//    val focusRequester = remember { FocusRequester() }
+//    val focusManager = LocalFocusManager.current
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .clickableWithoutRipple {
-                focusManager.clearFocus()
-                showTextField.value = false
+                isChatting.value = false
             }
     ) {
         Column(
@@ -65,7 +66,7 @@ fun HomeIcons(
                     painter = painterResource(id = R.drawable.ic_home_chat),
                     contentDescription = "chat",
                     modifier = Modifier.clickableWithoutRipple {
-                        showTextField.value = true
+                        isChatting.value = true
                     }
                 )
                 Box(
