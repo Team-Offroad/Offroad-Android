@@ -41,9 +41,14 @@ fun CharacterChatScreen(
     val chattingText = characterChatViewModel.chattingText.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
     val imeHeight = rememberKeyboardHeight()
+    val keyboardOffset = if (imeHeight == DEFAULT_IME_PADDING) 0 else (imeHeight - DEFAULT_IME_PADDING)
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
-    val keyboardOffset = if (imeHeight == DEFAULT_IME_PADDING) 0 else (imeHeight - DEFAULT_IME_PADDING)
+
+    LaunchedEffect(Unit) {
+        characterChatViewModel.initCharacterId(characterId)
+        characterChatViewModel.getChats()
+    }
 
     LaunchedEffect(uiState.value.chats) {
         coroutineScope.launch {
@@ -116,6 +121,4 @@ fun CharacterChatScreen(
             },
         )
     }
-
-    characterChatViewModel.testInit()
 }

@@ -143,7 +143,9 @@ fun ChatTextField(
                     .padding(end = 2.dp)
                     .size(36.dp)
                     .align(Alignment.CenterEnd)
-                    .clickableWithoutRipple { onSendClick() },
+                    .clickableWithoutRipple {
+                        if (text.isNotBlank()) onSendClick()
+                    },
             )
         }
     }

@@ -8,14 +8,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import com.teamoffroad.characterchat.presentation.model.TimeType
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 
 @Composable
 fun UserChatBox(
     text: String,
-    time: String,
+    time: Triple<TimeType, Int, Int>,
 ) {
     Row(
         horizontalArrangement = Arrangement.End,
