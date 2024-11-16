@@ -61,7 +61,7 @@ internal fun MainNavHost(
             )
             myPageNavGraph(
                 navigateToGainedCoupon = {
-                    navigator.navigateToCharacterChat()
+                    navigator.navigateToGainedCoupon()
                 },
                 navigateToAvailableCouponDetail = { id, name, couponImageUrl, description, placeId ->
                     navigator.navigateToAvailableCouponDetail(
