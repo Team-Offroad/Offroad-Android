@@ -56,7 +56,6 @@ val homeGradientBackground = Brush.verticalGradient(
     colors = listOf(HomeGradi1, HomeGradi2, HomeGradi3, HomeGradi4, HomeGradi5, HomeGradi6)
 )
 
-@OptIn(ExperimentalLayoutApi::class)
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun HomeScreen(
@@ -96,6 +95,7 @@ fun HomeScreen(
             )
             Spacer(modifier = Modifier.padding(top = 12.dp))
             UsersQuestInformation(context, viewModel)
+
         }
 
         if (isChatting.value) {
@@ -103,12 +103,12 @@ fun HomeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter)
-                    //.padding(bottom = 196.dp)
+                    .imePadding()
+                    //.padding(bottom = with(LocalDensity.current) { imeHeight.toDp() })
+                    .padding(bottom = 196.dp)
             ) {
                 HomeChatTextField(
-                    modifier = Modifier
-                        .imePadding(),
-                    isChatting = isChatting.value,
+                    isChatting = isChatting,
                     keyboard = true
                 )
             }

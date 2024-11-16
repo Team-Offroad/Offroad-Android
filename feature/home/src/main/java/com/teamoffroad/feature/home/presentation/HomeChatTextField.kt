@@ -20,6 +20,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -49,7 +50,7 @@ import com.teamoffroad.offroad.feature.home.R
 fun HomeChatTextField(
     modifier: Modifier = Modifier,
     text: String = "",
-    isChatting: Boolean = false,
+    isChatting: MutableState<Boolean>,
     keyboard: Boolean,
     onValueChange: (String) -> Unit = {},
     onFocusChange: (Boolean) -> Unit = {},
@@ -63,7 +64,7 @@ fun HomeChatTextField(
     var keyboardVisible by remember { mutableStateOf(keyboard) }
 
     LaunchedEffect(isChatting) {
-        if (isChatting) {
+        if (isChatting.value) {
             focusRequester.requestFocus()
         }
     }
@@ -71,25 +72,26 @@ fun HomeChatTextField(
     LaunchedEffect(keyboardVisible) {
         if (!keyboardVisible) {
             focusManager.clearFocus()
+            isChatting.value = false
         }
     }
 
-    DisposableEffect(contextView) {
-        val rect = Rect()
-        val listener = ViewTreeObserver.OnGlobalLayoutListener {
-            contextView.getWindowVisibleDisplayFrame(rect)
-            val screenHeight = contextView.rootView.height
-            val keypadHeight = screenHeight - rect.bottom
-            keyboardVisible = keypadHeight > screenHeight * 0.15
-        }
-        contextView.viewTreeObserver.addOnGlobalLayoutListener(listener)
-        onDispose {
-            contextView.viewTreeObserver.removeOnGlobalLayoutListener(listener)
-        }
-    }
+//    DisposableEffect(contextView) {
+//        val rect = Rect()
+//        val listener = ViewTreeObserver.OnGlobalLayoutListener {
+//            contextView.getWindowVisibleDisplayFrame(rect)
+//            val screenHeight = contextView.rootView.height
+//            val keypadHeight = screenHeight - rect.bottom
+//            keyboardVisible = keypadHeight > screenHeight * 0.15
+//        }
+//        contextView.viewTreeObserver.addOnGlobalLayoutListener(listener)
+//        onDispose {
+//            contextView.viewTreeObserver.removeOnGlobalLayoutListener(listener)
+//        }
+//    }
 
     AnimatedVisibility(
-        visible = isChatting,
+        visible = isChatting.value,
     ) {
         Box(
             modifier = modifier
