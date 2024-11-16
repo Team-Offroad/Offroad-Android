@@ -11,6 +11,7 @@ import com.teamoffroad.feature.home.presentation.component.UiState
 import com.teamoffroad.feature.home.presentation.component.getErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -53,6 +54,12 @@ class HomeViewModel @Inject constructor(
 
     private val _linearProgressBar = MutableStateFlow(0f)
     val linearProgressBar = _linearProgressBar.asStateFlow()
+
+    private val _isChatting: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isChatting: StateFlow<Boolean> = _isChatting.asStateFlow()
+
+    private val _chattingText: MutableStateFlow<String> = MutableStateFlow("")
+    val chattingText: StateFlow<String> = _chattingText.asStateFlow()
 
     fun getUsersAdventuresInformation(category: String) {
         viewModelScope.launch {
@@ -138,6 +145,15 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             setAutoSignInUseCase.invoke(true)
         }
+    }
+
+    fun updateChattingText(text: String) {
+        _chattingText.value = text
+    }
+
+    fun updateIsChatting(boolean: Boolean) {
+        _isChatting.value = boolean
+        _chattingText.value = ""
     }
 
 }

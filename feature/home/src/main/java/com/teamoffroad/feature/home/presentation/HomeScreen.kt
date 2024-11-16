@@ -37,6 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.ErrorNew
@@ -77,6 +78,7 @@ fun HomeScreen(
     val isCompleteQuestDialogShown = remember { mutableStateOf(false) }
     val imeHeight = WindowInsets.ime.getBottom(LocalDensity.current)
     val isChatting = remember { mutableStateOf(false) }
+    val chattingText = viewModel.chattingText.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         viewModel.updateAutoSignIn()
@@ -131,8 +133,15 @@ fun HomeScreen(
                     }
 
                     HomeChatTextField(
+                        text = chattingText.value,
                         isChatting = isChatting,
-                        keyboard = true
+                        keyboard = true,
+                        onValueChange = { text ->
+                            viewModel.updateChattingText(text)
+                        },
+//                        onFocusChange = { isFocused ->
+//                            viewModel.updateIsChatting(isFocused)
+//                        }
                     )
                 }
             }
