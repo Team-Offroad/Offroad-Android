@@ -4,6 +4,9 @@ import kotlinx.serialization.Serializable
 
 sealed interface Route {
     @Serializable
+    data object Splash : Route
+
+    @Serializable
     data object Auth : Route
 }
 
@@ -95,5 +98,7 @@ sealed interface MyPageRoute : Route {
 
 sealed interface CharacterChatRoute : Route {
     @Serializable
-    data object CharacterChat : CharacterChatRoute
+    data class CharacterChat(
+        val characterId: Int,
+    ) : CharacterChatRoute
 }

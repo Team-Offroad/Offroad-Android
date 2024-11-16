@@ -1,7 +1,6 @@
 package com.teamoffroad.feature.auth.presentation.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,6 +19,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
@@ -39,15 +39,13 @@ fun OnboardingButton(
 
     Box(
         modifier = modifier
+            .clickableWithoutRipple(enabled = isActive == NicknameValidateResult.NicknameValidateSuccess) {
+                onButtonClick()
+                keyboardController?.hide()
+            }
             .fillMaxWidth()
             .background(color = Black.copy(alpha = backGroundColor), shape = shape)
-            .padding(vertical = 8.dp, horizontal = 6.dp)
-            .clickable(
-                enabled = isActive == NicknameValidateResult.NicknameValidateSuccess,
-                onClick = {
-                    onButtonClick()
-                    keyboardController?.hide()
-                }),
+            .padding(vertical = 8.dp, horizontal = 6.dp),
         contentAlignment = Alignment.Center
     ) {
         Row(

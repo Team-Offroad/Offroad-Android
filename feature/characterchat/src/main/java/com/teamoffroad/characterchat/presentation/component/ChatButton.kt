@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
@@ -14,6 +15,7 @@ import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.core.designsystem.theme.White25
+import com.teamoffroad.offroad.feature.characterchat.R
 
 @Composable
 fun ChatButton(
@@ -23,7 +25,7 @@ fun ChatButton(
 ) {
     StaticAnimationWrapper(visible = !isChatting) {
         Text(
-            text = "채팅하기",
+            text = stringResource(R.string.character_chat_chat),
             color = White,
             style = OffroadTheme.typography.textRegular,
             modifier = modifier

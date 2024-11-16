@@ -22,7 +22,7 @@ fun rememberKeyboardHeight(): Int {
         val listener = androidx.core.view.OnApplyWindowInsetsListener { _, insetsCompat ->
             val imeHeight = insetsCompat.getInsets(WindowInsetsCompat.Type.ime()).bottom
             keyboardHeightPx = imeHeight
-            insetsCompat // Return WindowInsetsCompat as required
+            insetsCompat
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(view, listener)

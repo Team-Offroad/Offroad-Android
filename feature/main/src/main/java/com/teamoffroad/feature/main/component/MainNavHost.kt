@@ -17,6 +17,7 @@ import com.teamoffroad.feature.auth.navigation.authNavGraph
 import com.teamoffroad.feature.explore.navigation.exploreNavGraph
 import com.teamoffroad.feature.home.navigation.homeNavGraph
 import com.teamoffroad.feature.main.MainNavigator
+import com.teamoffroad.feature.main.splash.navigation.splashNavGraph
 import com.teamoffroad.feature.mypage.navigation.myPageNavGraph
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -39,6 +40,10 @@ internal fun MainNavHost(
             exitTransition = { ExitTransition.None },
             popExitTransition = { ExitTransition.None },
         ) {
+            splashNavGraph(
+                navigateToAuth = { navigator.navigateToAuth() },
+                navigateToHome = { navigator.navigateToHome() }
+            )
             homeNavGraph(
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
                 navigateToGainedCharacter = {
@@ -79,9 +84,10 @@ internal fun MainNavHost(
                 navigateToSetting = navigator::navigateToSetting,
                 navigateToAnnouncement = navigator::navigateToAnnouncement,
                 navigateToAnnouncementDetail = navigator::navigateToAnnouncementDetail,
-                navigateToSignIn = navigator::navigateToSignIn,
+                navigateToSignIn = navigator::navigateToAuth,
                 navigateToCharacterDetail = navigator::navigateToCharacterDetail,
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
+                navigateToCharacterChat = navigator::navigateToCharacterChat,
             )
             authNavGraph(
                 navigateToHome = { navigator.navigateToHome() },
