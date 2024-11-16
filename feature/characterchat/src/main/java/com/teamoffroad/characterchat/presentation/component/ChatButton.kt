@@ -1,6 +1,5 @@
 package com.teamoffroad.characterchat.presentation.component
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
@@ -10,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
@@ -21,7 +21,7 @@ fun ChatButton(
     isChatting: Boolean = false,
     onClick: () -> Unit = {},
 ) {
-    AnimatedVisibility(visible = !isChatting) {
+    StaticAnimationWrapper(visible = !isChatting) {
         Text(
             text = "채팅하기",
             color = White,

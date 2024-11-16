@@ -1,5 +1,7 @@
 package com.teamoffroad.characterchat.presentation.component
 
+import android.graphics.Rect
+import android.view.ViewTreeObserver
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -16,9 +18,13 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -26,6 +32,8 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
@@ -48,9 +56,35 @@ fun ChatTextField(
 ) {
     val scrollState = rememberScrollState()
     val focusRequester = remember { FocusRequester() }
+    val focusManager = LocalFocusManager.current
+    val contextView = LocalView.current
+
+    var keyboardVisible by remember { mutableStateOf(false) }
 
     LaunchedEffect(isChatting) {
-        if (isChatting) focusRequester.requestFocus()
+        if (isChatting) {
+            focusRequester.requestFocus()
+        }
+    }
+
+    LaunchedEffect(keyboardVisible) {
+        if (!keyboardVisible) {
+            focusManager.clearFocus()
+        }
+    }
+
+    DisposableEffect(contextView) {
+        val rect = Rect()
+        val listener = ViewTreeObserver.OnGlobalLayoutListener {
+            contextView.getWindowVisibleDisplayFrame(rect)
+            val screenHeight = contextView.rootView.height
+            val keypadHeight = screenHeight - rect.bottom
+            keyboardVisible = keypadHeight > screenHeight * 0.15
+        }
+        contextView.viewTreeObserver.addOnGlobalLayoutListener(listener)
+        onDispose {
+            contextView.viewTreeObserver.removeOnGlobalLayoutListener(listener)
+        }
     }
 
     AnimatedVisibility(
@@ -90,8 +124,8 @@ fun ChatTextField(
                     .onGloballyPositioned { layoutCoordinates ->
                         textFieldHeight.intValue = layoutCoordinates.size.height
                     }
-                    .onFocusChanged {
-                        onFocusChange(it.isFocused)
+                    .onFocusChanged { focusState ->
+                        onFocusChange(focusState.isFocused)
                     },
                 maxLines = 2,
                 colors = TextFieldDefaults.textFieldColors(
