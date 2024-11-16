@@ -25,9 +25,11 @@ class DefaultLocationPreferencesDataSource @Inject constructor(
     }
 
     override suspend fun setLocation(latitude: Double, longitude: Double) {
-        dataStore.edit { preferences ->
-            preferences[PreferencesKey.LATITUDE_KEY] = latitude
-            preferences[PreferencesKey.LONGITUDE_KEY] = longitude
+        if (latitude != DEFAULT_LOCATION_LATITUDE || longitude != DEFAULT_LOCATION_LONGITUDE) {
+            dataStore.edit { preferences ->
+                preferences[PreferencesKey.LATITUDE_KEY] = latitude
+                preferences[PreferencesKey.LONGITUDE_KEY] = longitude
+            }
         }
     }
 
