@@ -6,7 +6,6 @@ import com.teamoffroad.feature.explore.domain.repository.UserRepository
 import com.teamoffroad.feature.explore.domain.usecase.GetPlaceListUseCase
 import com.teamoffroad.feature.explore.domain.usecase.GetQuestListUseCase
 import com.teamoffroad.feature.explore.domain.usecase.PostExploreLocationAuthUseCase
-import com.teamoffroad.feature.explore.domain.usecase.PostExploreQrAuthUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,14 +22,6 @@ object UseCaseModule {
         placeRepository: PlaceRepository,
     ): GetPlaceListUseCase {
         return GetPlaceListUseCase(placeRepository)
-    }
-
-    @Provides
-    @Singleton
-    fun providePostQrAuthUseCase(
-        userRepository: UserRepository,
-    ): PostExploreQrAuthUseCase {
-        return PostExploreQrAuthUseCase(userRepository)
     }
 
     @Provides
