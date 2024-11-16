@@ -35,6 +35,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun CharacterChatScreen(
     characterId: Int,
+    characterName: String,
     navigateToBack: () -> Unit,
     characterChatViewModel: CharacterChatViewModel = hiltViewModel(),
 ) {
@@ -48,7 +49,7 @@ fun CharacterChatScreen(
     val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
-        characterChatViewModel.initCharacterId(characterId)
+        characterChatViewModel.initCharacterId(characterId, characterName)
         characterChatViewModel.getChats()
     }
 

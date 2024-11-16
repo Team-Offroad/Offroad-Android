@@ -30,11 +30,8 @@ class CharacterChatViewModel @Inject constructor(
     private val _chattingText: MutableStateFlow<String> = MutableStateFlow("")
     val chattingText: StateFlow<String> = _chattingText.asStateFlow()
 
-    private val _characterId: MutableStateFlow<Int> = MutableStateFlow(-1)
-    private val characterId: StateFlow<Int> = _characterId.asStateFlow()
-
-    fun initCharacterId(characterId: Int) {
-        _characterId.value = characterId
+    fun initCharacterId(characterId: Int, characterName: String) {
+        _uiState.value = uiState.value.copy(characterId = characterId, characterName = characterName)
     }
 
     fun updateIsChatting(boolean: Boolean) {
@@ -50,7 +47,7 @@ class CharacterChatViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching {
                 _uiState.value = uiState.value.copy(isLoading = true)
-                characterChatRepository.fetchChats(characterId.value)
+                characterChatRepository.fetchChats(uiState.value.characterId)
             }.onSuccess { chats ->
                 _uiState.value = uiState.value.copy(
                     chats = chats.map { it.toUi() }.groupBy { it.date },
@@ -76,7 +73,7 @@ class CharacterChatViewModel @Inject constructor(
                 )
                 extendChat(userChat)
                 _uiState.value = uiState.value.copy(isLoading = true)
-                characterChatRepository.saveChat(characterId.value, chattingText)
+                characterChatRepository.saveChat(uiState.value.characterId, chattingText)
             }.onSuccess { chat ->
                 extendChat(chat.toUi())
                 _uiState.value = uiState.value.copy(isLoading = false)
