@@ -27,20 +27,25 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
+import com.teamoffroad.core.designsystem.theme.BtnInactive
 import com.teamoffroad.core.designsystem.theme.HomeGradi1
 import com.teamoffroad.core.designsystem.theme.HomeGradi2
 import com.teamoffroad.core.designsystem.theme.HomeGradi3
 import com.teamoffroad.core.designsystem.theme.HomeGradi4
 import com.teamoffroad.core.designsystem.theme.HomeGradi5
 import com.teamoffroad.core.designsystem.theme.HomeGradi6
+import com.teamoffroad.core.designsystem.theme.Main2
+import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
+import com.teamoffroad.core.designsystem.theme.Sub4
 import com.teamoffroad.core.designsystem.theme.Sub55
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.home.domain.model.UserQuests
@@ -143,6 +148,17 @@ fun HomeScreen(
                 }
             }
         }
+
+
+        Box(
+            contentAlignment = Alignment.TopCenter,
+            modifier = Modifier
+                .padding(start = 24.dp, top = 70.dp, end = 24.dp)
+        ) {
+            CharacterChat(
+                text = "맛있었겠다"
+            )
+        }
     }
 
     if (isCompleteQuestDialogShown.value) {
@@ -153,6 +169,47 @@ fun HomeScreen(
                 isCompleteQuestDialogShown.value = false
             },
         )
+    }
+}
+
+@Composable
+fun CharacterChat(
+    text: String,
+    characterTextColor: Color = Sub4,
+    characterTextStyle: TextStyle = OffroadTheme.typography.textBold,
+    messageTextColor: Color = Main2,
+    messageTextStyle: TextStyle = OffroadTheme.typography.textRegular,
+    backgroundColor: Color = Main3,
+    borderColor: Color = BtnInactive
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = backgroundColor,
+                shape = RoundedCornerShape(12.dp)
+            )
+            .padding(vertical = 14.dp, horizontal = 18.dp)
+    ) {
+        Column {
+            Row {
+                Text(
+                    text = "아루 : ",
+                    modifier = Modifier,
+                    color = characterTextColor,
+                    style = characterTextStyle
+                )
+                Text(
+                    text = "맛있었겠다!!",
+                    modifier = Modifier.fillMaxWidth(),
+                    color = messageTextColor,
+                    style = messageTextStyle,
+                    maxLines = 2
+                )
+            }
+            AnswerCharacterChat()
+        }
+
     }
 }
 
@@ -240,6 +297,31 @@ fun FinishChatting(
             },
         color = White
     )
+}
+
+@Composable
+fun AnswerCharacterChat(
+    backgroundColor: Color = Main2,
+    textColor: Color = Main3,
+    textStyle: TextStyle = OffroadTheme.typography.textContents
+) {
+    Box(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Box(contentAlignment = Alignment.CenterEnd, modifier = Modifier.fillMaxWidth()) {
+            Text(
+                text = "답장하기",
+                modifier = Modifier
+                    .background(
+                        color = backgroundColor,
+                        shape = RoundedCornerShape(8.dp)
+                    )
+                    .padding(horizontal = 14.dp, vertical = 6.dp),
+                color = textColor,
+                style = textStyle
+            )
+        }
+    }
 }
 
 @Composable
