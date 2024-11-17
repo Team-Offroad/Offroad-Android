@@ -74,6 +74,7 @@ fun HomeScreen(
 
     LaunchedEffect(Unit) {
         viewModel.updateAutoSignIn()
+        viewModel.updateFcmToken()
         viewModel.updateCategory(if (category.isNullOrEmpty()) "NONE" else category)
         viewModel.getUsersAdventuresInformation(viewModel.category.value)
         viewModel.getUserQuests()

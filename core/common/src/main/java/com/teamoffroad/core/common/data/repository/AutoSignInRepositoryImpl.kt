@@ -14,6 +14,4 @@ class AutoSignInRepositoryImpl @Inject constructor(
     override suspend fun updateAutoSignInEnabled(enabled: Boolean) {
         autoSignInPreferencesDataSource.setAutoLogin(enabled)
     }
-
-
 }

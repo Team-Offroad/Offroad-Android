@@ -13,6 +13,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:common"))
     implementation(project(":feature:auth"))
     implementation(project(":feature:home"))
     implementation(project(":feature:explore"))
@@ -25,7 +26,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.kotlinx.immutable)
-
+    implementation(libs.eventbus)
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.accompanist.insets)
 }
