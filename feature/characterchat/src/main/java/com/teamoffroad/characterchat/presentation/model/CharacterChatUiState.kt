@@ -7,5 +7,6 @@ data class CharacterChatUiState(
     val characterId: Int = -1,
     val characterName: String = "",
     val isLoading: Boolean = true,
+    val isSending: Boolean = false,
     val isError: Boolean = false,
 )

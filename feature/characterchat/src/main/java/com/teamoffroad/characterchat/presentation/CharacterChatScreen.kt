@@ -26,6 +26,7 @@ import com.teamoffroad.characterchat.presentation.component.ChatButton
 import com.teamoffroad.characterchat.presentation.component.ChatTextField
 import com.teamoffroad.characterchat.presentation.component.DEFAULT_IME_PADDING
 import com.teamoffroad.characterchat.presentation.component.rememberKeyboardHeight
+import com.teamoffroad.core.designsystem.component.FullLinearLoadingAnimation
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.offroad.feature.characterchat.R
@@ -119,14 +120,17 @@ fun CharacterChatScreen(
             modifier = Modifier
                 .padding(bottom = 198.dp)
                 .align(Alignment.BottomCenter),
-            isChatting = isChatting.value,
+            isVisible = isChatting.value && !uiState.value.isSending,
             onClick = {
                 characterChatViewModel.updateIsChatting(true)
                 coroutineScope.launch {
-                    delay(400)
+                    delay(KEYBOARD_LOADING_OFFSET)
                     listState.animateScrollToItem(listState.layoutInfo.totalItemsCount - 1)
                 }
             },
         )
     }
+    FullLinearLoadingAnimation(isLoading = uiState.value.isLoading)
 }
+
+const val KEYBOARD_LOADING_OFFSET = 400L

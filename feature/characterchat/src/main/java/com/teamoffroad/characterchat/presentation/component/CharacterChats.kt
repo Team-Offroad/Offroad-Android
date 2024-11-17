@@ -10,12 +10,17 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.teamoffroad.characterchat.presentation.KEYBOARD_LOADING_OFFSET
 import com.teamoffroad.characterchat.presentation.model.ChatModel
 import com.teamoffroad.characterchat.presentation.model.ChatType.ORB_CHARACTER
 import com.teamoffroad.characterchat.presentation.model.ChatType.USER
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 @Composable
@@ -27,6 +32,14 @@ fun CharacterChats(
     listState: LazyListState = rememberLazyListState(),
 ) {
     val animatedHeight = animateDpAsState(targetValue = (188 + bottomPadding).dp, label = "")
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(bottomPadding) {
+        coroutineScope.launch {
+            delay(KEYBOARD_LOADING_OFFSET)
+            listState.animateScrollToItem(listState.layoutInfo.totalItemsCount - 1)
+        }
+    }
 
     LazyColumn(
         state = listState,
