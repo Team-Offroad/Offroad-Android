@@ -3,11 +3,11 @@ package com.teamoffroad.feature.main.component
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -16,15 +16,18 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.teamoffroad.core.designsystem.component.ChangeBottomBarColor
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
@@ -46,6 +49,8 @@ internal fun MainBottomBar(
     currentTab: MainNavTab?,
     onTabSelected: (MainNavTab) -> Unit,
 ) {
+    var bottomBarHeight by remember { mutableIntStateOf(0) }
+
     ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
         StaticAnimationWrapper(visible = visible) {
             Box(
@@ -53,27 +58,30 @@ internal fun MainBottomBar(
                     .fillMaxWidth()
                     .wrapContentHeight()
                     .navigationPadding(),
+                contentAlignment = Alignment.BottomCenter,
             ) {
                 ChangeBottomBarColor(Sub4_80)
                 Box(
-                    modifier = modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.BottomCenter
+                    modifier = modifier
+                        .fillMaxWidth(),
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.img_main_bottombar),
-                        contentDescription = "bottombar",
+                        contentDescription = "Bottom bar background",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(Color.Transparent)
+                            .onGloballyPositioned { layoutCoordinates ->
+                                bottomBarHeight = layoutCoordinates.size.height
+                            },
                     )
                 }
-
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(Color.Transparent)
-                        .aspectRatio(360f / 75f)
+                        .background(Color.Transparent),
+                    verticalAlignment = Alignment.Bottom
                 ) {
                     tabs.forEach { tab ->
                         MainBottomBarItem(
@@ -101,7 +109,7 @@ private fun RowScope.MainBottomBarItem(
     colors: NavigationBarItemColors,
     onClick: () -> Unit,
 ) {
-    ConstraintLayout(
+    Row(
         modifier = Modifier
             .weight(1f)
             .selectable(
@@ -110,22 +118,18 @@ private fun RowScope.MainBottomBarItem(
                 role = null,
                 interactionSource = remember { MutableInteractionSource() },
                 onClick = onClick,
-            )
+            ),
+        horizontalArrangement = Arrangement.Center,
     ) {
-        val navBtn = createRef()
         when (ordinal) {
             HOME_TAB -> {
                 Icon(
                     painter = painterResource(tab.iconResId),
                     contentDescription = tab.contentDescription,
                     modifier = Modifier
-                        .aspectRatio(33f / 44f)
-                        .padding(vertical = 18.dp)
-                        .constrainAs(navBtn) {
-                            start.linkTo(parent.start, margin = 48.dp)
-                            top.linkTo(parent.top)
-                            bottom.linkTo(parent.bottom)
-                        },
+                        .padding(bottom = 20.dp)
+                        .aspectRatio(3f)
+                        .padding(start = 30.dp),
                     tint = if (selected) colors.selectedIconColor else colors.unselectedIconColor,
                 )
             }
@@ -135,14 +139,8 @@ private fun RowScope.MainBottomBarItem(
                     painter = painterResource(tab.iconResId),
                     contentDescription = tab.contentDescription,
                     modifier = Modifier
-                        .constrainAs(navBtn) {
-                            bottom.linkTo(parent.bottom, margin = 46.dp)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                        }
-                        .fillMaxHeight()
-                        .padding(4.dp)
-                        .aspectRatio(1f),
+                        .aspectRatio(1f)
+                        .padding(bottom = 54.dp),
                     tint = Color.Unspecified,
                 )
             }
@@ -152,13 +150,9 @@ private fun RowScope.MainBottomBarItem(
                     painter = painterResource(tab.iconResId),
                     contentDescription = tab.contentDescription,
                     modifier = Modifier
-                        .aspectRatio(33f / 44f)
-                        .padding(vertical = 18.dp)
-                        .constrainAs(navBtn) {
-                            end.linkTo(parent.end, margin = 48.dp)
-                            top.linkTo(parent.top)
-                            bottom.linkTo(parent.bottom)
-                        },
+                        .padding(bottom = 20.dp)
+                        .aspectRatio(3f)
+                        .padding(end = 30.dp),
                     tint = if (selected) colors.selectedIconColor else colors.unselectedIconColor,
                 )
             }
