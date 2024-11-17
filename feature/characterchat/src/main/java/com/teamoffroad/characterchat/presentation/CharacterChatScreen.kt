@@ -1,6 +1,6 @@
 package com.teamoffroad.characterchat.presentation
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,7 +14,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -26,13 +28,14 @@ import com.teamoffroad.characterchat.presentation.component.DEFAULT_IME_PADDING
 import com.teamoffroad.characterchat.presentation.component.rememberKeyboardHeight
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.navigationPadding
-import com.teamoffroad.core.designsystem.theme.CharacterName
+import com.teamoffroad.offroad.feature.characterchat.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
 fun CharacterChatScreen(
     characterId: Int,
+    characterName: String,
     navigateToBack: () -> Unit,
     characterChatViewModel: CharacterChatViewModel = hiltViewModel(),
 ) {
@@ -41,9 +44,14 @@ fun CharacterChatScreen(
     val chattingText = characterChatViewModel.chattingText.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
     val imeHeight = rememberKeyboardHeight()
+    val keyboardOffset = if (imeHeight == DEFAULT_IME_PADDING) 0 else (imeHeight - DEFAULT_IME_PADDING)
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
-    val keyboardOffset = if (imeHeight == DEFAULT_IME_PADDING) 0 else (imeHeight - DEFAULT_IME_PADDING)
+
+    LaunchedEffect(Unit) {
+        characterChatViewModel.initCharacterId(characterId, characterName)
+        characterChatViewModel.getChats()
+    }
 
     LaunchedEffect(uiState.value.chats) {
         coroutineScope.launch {
@@ -54,7 +62,6 @@ fun CharacterChatScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(CharacterName)
             .pointerInput(Unit) {
                 detectTapGestures(onTap = {
                     focusManager.clearFocus()
@@ -62,6 +69,12 @@ fun CharacterChatScreen(
             },
         contentAlignment = Alignment.BottomCenter,
     ) {
+        Image(
+            painter = painterResource(id = R.drawable.bg_character_chat),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize(),
+        )
         Column(
             modifier = Modifier
                 .navigationPadding()
@@ -116,6 +129,4 @@ fun CharacterChatScreen(
             },
         )
     }
-
-    characterChatViewModel.testInit()
 }
