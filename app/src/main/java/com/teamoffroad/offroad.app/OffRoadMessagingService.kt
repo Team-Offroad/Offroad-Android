@@ -51,7 +51,7 @@ class OffRoadMessagingService : FirebaseMessagingService() {
                 else {
                     // 앱이 포그라운드에 있고, 알림타임이 캐릭터채팅인 경우
                     // 정현이 봐야할곳은 여기!! 요쪽 따라가십쇼
-                    sendCharacterNotificationInForeground(remoteMessage, true)
+                    sendCharacterChatNotificationInForeground(remoteMessage)
                 }
             } else {
                 sendNotification(remoteMessage, false)
@@ -98,21 +98,12 @@ class OffRoadMessagingService : FirebaseMessagingService() {
         remoteMessage: RemoteMessage,
         isForeGround: Boolean
     ): Intent {
-        if (isForeGround) {
-            return Intent(this, MainActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
-                putExtra(KEY_TYPE, remoteMessage.data[KEY_TYPE])
-                if (remoteMessage.data[KEY_TYPE] != TYPE_CHARACTER_CHAT) {
-                    putExtra(KEY_ID, remoteMessage.data[KEY_ID])
-                }
-            }
-        } else {
-            return Intent(this, MainActivity::class.java).apply {
+        return Intent(this, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 putExtra(KEY_TYPE, remoteMessage.data[KEY_TYPE])
                 if (remoteMessage.data[KEY_TYPE] != TYPE_CHARACTER_CHAT) {
                     putExtra(KEY_ID, remoteMessage.data[KEY_ID])
-                }
+
             }
         }
     }
@@ -150,26 +141,44 @@ class OffRoadMessagingService : FirebaseMessagingService() {
     }
 
     private fun sendNotification(remoteMessage: RemoteMessage, isForeGround: Boolean) {
-        val uniqueIdentifier = generateUniqueIdentifier()
-        val intent = createNotificationIntent(remoteMessage, isForeGround)
-        val pendingIntent = createPendingIntent(intent, uniqueIdentifier)
-        createNotificationBuilder(remoteMessage, pendingIntent) { notificationBuilder ->
-            showNotification(notificationBuilder, uniqueIdentifier)
+        if (!isForeGround) {
+            val uniqueIdentifier = generateUniqueIdentifier()
+            val intent = createNotificationIntent(remoteMessage, isForeGround)
+            val pendingIntent = createPendingIntent(intent, uniqueIdentifier)
+            createNotificationBuilder(remoteMessage, pendingIntent) { notificationBuilder ->
+                showNotification(notificationBuilder, uniqueIdentifier)
+            }
+        } else {
+            val uniqueIdentifier = generateUniqueIdentifier()
+            val broadCastIntent =
+                Intent("com.teamoffroad.offroad.app.ANNOUNCEMENT_FOREGROUND").apply {
+                    putExtra(KEY_TITLE, remoteMessage.data[KEY_TITLE])
+                    putExtra(KEY_ID, remoteMessage.data[KEY_ID])
+                }
+            val pendingIntent = PendingIntent.getBroadcast(
+                this,
+                0,
+                broadCastIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE // FLAG_IMMUTABLE 추가
+            )
+            createNotificationBuilder(remoteMessage, pendingIntent) { notificationBuilder ->
+                showNotification(notificationBuilder, uniqueIdentifier)
+            }
         }
     }
 
     //브로드캐스트리시버에 필요한 데이터(캐릭터이름, 대화내용, 알림타입) 저장하고 브로드캐스트 발신
     //feature main의 CharacterChatBroadcastReceiver로 가면 됩니다.
-    private fun sendCharacterNotificationInForeground(
+    private fun sendCharacterChatNotificationInForeground(
         remoteMessage: RemoteMessage,
-        isForeGround: Boolean
     ) {
-        val intent = Intent("com.teamoffroad.offroad.app.ACTION_RECEIVE_NOTIFICATION").apply {
-            putExtra(KEY_TITLE, remoteMessage.data[KEY_TITLE])
-            putExtra(KEY_BODY, remoteMessage.data[KEY_BODY])
-            putExtra(KEY_TYPE, remoteMessage.data[KEY_TYPE])
-        }
-        sendBroadcast(intent)
+        val broadCastIntent =
+            Intent("com.teamoffroad.offroad.app.CHARACTER_CHAT_FOREGROUND").apply {
+                putExtra(KEY_TITLE, remoteMessage.data[KEY_TITLE])
+                putExtra(KEY_BODY, remoteMessage.data[KEY_BODY])
+                putExtra(KEY_TYPE, remoteMessage.data[KEY_TYPE])
+            }
+        sendBroadcast(broadCastIntent)
     }
 
     private fun showNotification(

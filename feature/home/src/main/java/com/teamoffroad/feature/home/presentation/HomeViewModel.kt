@@ -64,6 +64,7 @@ class HomeViewModel @Inject constructor(
     private val _linearProgressBar = MutableStateFlow(0f)
     val linearProgressBar = _linearProgressBar.asStateFlow()
 
+    var asd = MutableStateFlow("")
     init {
         //아까 CharacterChatBroadcastReceiver에서 게시한 브로드캐스트리시버를 여기서 받습니다.
         EventBus.getDefault().register(this)

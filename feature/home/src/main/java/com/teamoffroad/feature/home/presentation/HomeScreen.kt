@@ -64,7 +64,6 @@ fun HomeScreen(
     val viewModel: HomeViewModel = hiltViewModel()
     val isCompleteQuestDialogShown = remember { mutableStateOf(false) }
 
-
     LaunchedEffect(Unit) {
         viewModel.updateAutoSignIn()
         viewModel.updateFcmToken()

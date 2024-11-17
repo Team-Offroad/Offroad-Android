@@ -48,24 +48,24 @@ internal fun AnnouncementScreen(
     LaunchedEffect(Unit) {
         viewModel.updateAnnouncement()
     }
-//    LaunchedEffect(isAnnouncementState) {
-//        if (announcementId != null) {
-//            isAnnouncementState.announcementList.forEach {
-//                if (it.title.trim().equals(announcementId.trim(), ignoreCase = true)) {
-//                    Log.d("asdsad", "Navigating to detail for $announcementId")
-//                    navigateToAnnouncementDetail(
-//                        it.title,
-//                        it.content,
-//                        it.isImportant,
-//                        it.updateAt,
-//                        it.hasExternalLinks,
-//                        it.externalLinks,
-//                        it.externalLinksTitles,
-//                    )
-//                }
-//            }
-//        }
-//    }
+    LaunchedEffect(isAnnouncementState) {
+        if (announcementId != null) {
+            isAnnouncementState.announcementList.forEach {
+                if (it.title.trim().equals(announcementId.trim(), ignoreCase = true)) {
+                    Log.d("asdsad", "Navigating to detail for $announcementId")
+                    navigateToAnnouncementDetail(
+                        it.title,
+                        it.content,
+                        it.isImportant,
+                        it.updateAt,
+                        it.hasExternalLinks,
+                        it.externalLinks,
+                        it.externalLinksTitles,
+                    )
+                }
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
