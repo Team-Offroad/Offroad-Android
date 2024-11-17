@@ -55,10 +55,10 @@ fun QuestItems(
         state = listState,
         contentPadding = PaddingValues(vertical = 18.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = when (quests.isEmpty()) {
+        verticalArrangement = when (isLoading) {
             true -> Arrangement.Center
             false -> Arrangement.Top
-        }
+        },
     ) {
         item {
             LinearLoadingAnimation(isLoading = isLoading)

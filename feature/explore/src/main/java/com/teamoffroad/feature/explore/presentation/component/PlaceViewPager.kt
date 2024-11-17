@@ -94,8 +94,8 @@ fun PlaceViewPager(
             modifier = Modifier.fillMaxSize(),
         ) { page ->
             when (page) {
-                0 -> PlaceItems(uiState.unvisitedPlaces)
-                1 -> PlaceItems(uiState.visitedPlaces)
+                0 -> PlaceItems(uiState.unvisitedPlaces, uiState.loading)
+                1 -> PlaceItems(uiState.visitedPlaces, uiState.loading)
             }
         }
     }
