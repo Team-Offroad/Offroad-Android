@@ -29,7 +29,7 @@ fun CharacterDetailScreen(
     characterId: Int,
     isRepresentative: Boolean,
     navigateToBack: () -> Unit,
-    navigateToCharacterChat: (Int) -> Unit,
+    navigateToCharacterChat: (Int, String) -> Unit,
     characterDetailViewModel: CharacterDetailViewModel = hiltViewModel(),
 ) {
     val uiState = characterDetailViewModel.uiState.collectAsStateWithLifecycle()
@@ -50,7 +50,7 @@ fun CharacterDetailScreen(
             CharacterDetailAppBar(
                 backgroundColor = uiState.value.characterDetailModel.characterSubColorCode,
                 navigateToBack = navigateToBack,
-                onChatLogClick = { navigateToCharacterChat(characterId) },
+                onChatLogClick = { navigateToCharacterChat(characterId, uiState.value.characterDetailModel.characterName) },
             )
             when {
                 uiState.value.isLoading -> Unit
