@@ -23,16 +23,20 @@ data class LocationModel(
     private var isInit: Boolean = false
 
     fun updateLocation(latitude: Double, longitude: Double): LocationModel {
-        return if (isInit) {
-            isInit = false
-            copy(
-                location = LatLng(latitude, longitude),
-                cameraPositionState = CameraPositionState(CameraPosition(LatLng(latitude, longitude), 15.0)),
-            )
-        } else {
-            copy(
-                location = LatLng(latitude, longitude),
-            )
+        return when (isInit) {
+            true -> {
+                isInit = false
+                copy(
+                    location = LatLng(latitude, longitude),
+                    cameraPositionState = CameraPositionState(CameraPosition(LatLng(latitude, longitude), 15.0)),
+                )
+            }
+
+            false -> {
+                copy(
+                    location = LatLng(latitude, longitude),
+                )
+            }
         }
     }
 
