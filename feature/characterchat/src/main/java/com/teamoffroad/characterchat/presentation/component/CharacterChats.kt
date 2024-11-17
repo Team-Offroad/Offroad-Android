@@ -26,7 +26,7 @@ fun CharacterChats(
     bottomPadding: Int = 0,
     listState: LazyListState = rememberLazyListState(),
 ) {
-    val animatedHeight = animateDpAsState(targetValue = (192 + bottomPadding).dp, label = "")
+    val animatedHeight = animateDpAsState(targetValue = (188 + bottomPadding).dp, label = "")
 
     LazyColumn(
         state = listState,
@@ -47,6 +47,9 @@ fun CharacterChats(
                         ORB_CHARACTER -> CharacterChatBox(name = characterName, text = chat.text, time = chat.time)
                     }
                 }
+            }
+            item {
+                Spacer(modifier = Modifier.height(4.dp))
             }
         }
         item {
