@@ -81,12 +81,14 @@ class HomeViewModel @Inject constructor(
     private val _isCharacterChatting: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isCharacterChatting: StateFlow<Boolean> = _isCharacterChatting.asStateFlow()
 
+    private val _isCharacterChattingLoading = MutableStateFlow(false)
+    val isCharacterChattingLoading = _isCharacterChattingLoading.asStateFlow()
+
     private val _chattingText: MutableStateFlow<String> = MutableStateFlow("")
     val chattingText: StateFlow<String> = _chattingText.asStateFlow()
 
     private val _characterName = MutableStateFlow("")
     val characterName = _characterName.asStateFlow()
-
 
     var asd = MutableStateFlow("")
     init {
@@ -113,8 +115,7 @@ class HomeViewModel @Inject constructor(
         val characterName = event.characterName
         val characterContent = event.characterContent
         if(characterName != null && characterContent != null) {
-            _characterName.value = characterName
-            _getCharacterChat.value = CharacterChatModel(characterName, characterContent)
+            _getCharacterChat.value = CharacterChatModel(_characterName.value, characterContent)
             _isCharacterChatting.value = true
         }
 
@@ -216,6 +217,7 @@ class HomeViewModel @Inject constructor(
 
     fun sendChat() {
         val chattingText = chattingText.value
+        _isCharacterChattingLoading.value = true
 
         viewModelScope.launch {
             runCatching {
@@ -230,14 +232,8 @@ class HomeViewModel @Inject constructor(
             }.onSuccess { chat ->
                 // 보낸 채팅 내용 홈에 보여주어야 함
                 _sendChatState.emit(UiState.Success(chat))
-                /*
-                val characterName = event.characterName
-        val characterContent = event.characterContent
-        if(characterName != null && characterContent != null) {
-            _getCharacterChat.value = CharacterChatModel(characterName, characterContent)
-            _isCharacterChatting.value = true
-        }
-                 */
+                _isCharacterChattingLoading.value = false
+
                 val characterContent = chat.content
                 if (characterContent != null) {
                     _getCharacterChat.value = CharacterChatModel(_characterName.value, characterContent)

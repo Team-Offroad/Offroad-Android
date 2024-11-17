@@ -13,12 +13,15 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -32,6 +35,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.BtnInactive
@@ -78,7 +86,8 @@ fun HomeScreen(
     val sendMessage = remember { mutableStateOf("") }
     val characterChat = viewModel.getCharacterChat.collectAsStateWithLifecycle()
     val isCharacterChatting = viewModel.isCharacterChatting.collectAsStateWithLifecycle()
-    val answerCharacterChat = remember{ mutableStateOf(false) }
+    val isCharacterChattingLoading = viewModel.isCharacterChattingLoading.collectAsStateWithLifecycle()
+    val userSendChat = remember{ mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.updateAutoSignIn()
@@ -137,17 +146,13 @@ fun HomeScreen(
                         isChatting = isChatting,
                         keyboard = true,
                         onValueChange = { text ->
-                            // TODO: 입력 중일 때 로딩 로티 띄우기
                             viewModel.updateChattingText(text)
                         },
-//                        onFocusChange = { isFocused ->
-//                            viewModel.updateIsChatting(isFocused)
-//                        }
                         onSendClick = {
-                            answerCharacterChat.value = true
-                            sendMessage.value = chattingText.value
-                            viewModel.sendChat()
-                            viewModel.updateChattingText("")
+                            userSendChat.value = true // 사용자가 채팅 보냄
+                            sendMessage.value = chattingText.value // 보낼 메시지
+                            viewModel.sendChat() // 서버에 보내기
+                            viewModel.updateChattingText("") // 초기화
                         }
                     )
                 }
@@ -162,7 +167,8 @@ fun HomeScreen(
             ) {
                 CharacterChat(
                     isChatting = isChatting,
-                    answerCharacterChat = answerCharacterChat,
+                    isCharacterChattingLoading = isCharacterChattingLoading,
+                    answerCharacterChat = userSendChat,
                     characterName = characterChat.value.characterName,
                     characterContent = characterChat.value.characterContent
                 )
@@ -184,6 +190,7 @@ fun HomeScreen(
 @Composable
 fun CharacterChat(
     isChatting: MutableState<Boolean>,
+    isCharacterChattingLoading: State<Boolean>,
     answerCharacterChat: MutableState<Boolean>,
     characterName: String,
     characterContent: String,
@@ -206,23 +213,39 @@ fun CharacterChat(
         Column {
             Row {
                 Text(
-                    text = "${characterName} : ",
+                    text = "$characterName : ",
                     modifier = Modifier,
                     color = characterTextColor,
                     style = characterTextStyle
                 )
-                Text(
-                    text = characterContent,
-                    modifier = Modifier.fillMaxWidth(),
-                    color = messageTextColor,
-                    style = messageTextStyle,
-                    maxLines = 2
-                )
+
+                // 메세지를 보냈을 때 로티 띄우기
+                if (isCharacterChattingLoading.value) {
+                    Box(
+                        modifier = Modifier
+                            .size(width = 54.dp, height = 27.dp)
+                    ) {
+                        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(com.teamoffroad.offroad.core.designsystem.R.raw.loading_linear))
+                        val animationState = animateLottieCompositionAsState(composition, iterations = LottieConstants.IterateForever)
+
+                        if (animationState.isAtEnd && animationState.isPlaying) {
+                            LaunchedEffect(Unit) {  }
+                        }
+
+                        LottieAnimation(composition, animationState.progress)
+                    }
+                } else {
+                    Text(
+                        text = characterContent,
+                        modifier = Modifier.fillMaxWidth(),
+                        color = messageTextColor,
+                        style = messageTextStyle,
+                        maxLines = 2
+                    )
+                }
             }
             if (!answerCharacterChat.value) {
-                // 사용자가 답변을 보냈을 때
                 AnswerCharacterChat(isChatting = isChatting)
-                // TODO: 알림에 로딩 로티 띄우기
             }
         }
 
