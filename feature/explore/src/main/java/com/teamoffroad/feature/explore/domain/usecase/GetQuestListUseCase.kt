@@ -8,6 +8,6 @@ class GetQuestListUseCase(
 ) {
 
     suspend operator fun invoke(isProceeding: Boolean, cursor: Int, size: Int): List<Quest> {
-        return questRepository.fetchQuests(!isProceeding, cursor, size)
+        return questRepository.fetchQuests(isProceeding, cursor, size)
     }
 }

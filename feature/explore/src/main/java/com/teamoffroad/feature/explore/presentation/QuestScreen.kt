@@ -35,11 +35,22 @@ fun QuestScreen(
             modifier = Modifier.padding(top = 20.dp)
         ) { navigateToBack() }
         QuestHeader(
-            uiState.value.isProceedingToggle,
+            uiState.value.isProceedingQuest,
             questViewModel::updateProceedingToggle,
         )
         QuestItems(
-            quests = if (uiState.value.isProceedingToggle) uiState.value.totalQuests else uiState.value.proceedingQuests,
+            quests = when (uiState.value.isProceedingQuest) {
+                true -> uiState.value.proceedingQuests
+                false -> uiState.value.totalQuests
+            },
+            updateQuests = {
+                questViewModel.updateQuests(uiState.value.isProceedingQuest)
+            },
+            isLoading = uiState.value.isAdditionalLoading,
+            isLoadable = when (uiState.value.isProceedingQuest) {
+                true -> uiState.value.isLoadable.first
+                false -> uiState.value.isLoadable.second
+            },
         )
     }
 }

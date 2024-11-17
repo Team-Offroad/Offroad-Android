@@ -28,18 +28,22 @@ class QuestViewModel @Inject constructor(
 
     fun updateProceedingToggle() {
         _uiState.value = uiState.value.copy(
-            isProceedingToggle = !uiState.value.isProceedingToggle,
+            isProceedingQuest = !uiState.value.isProceedingQuest,
         )
     }
 
     fun updateQuests(isProceeding: Boolean) {
+        if (uiState.value.isAdditionalLoading) return
         viewModelScope.launch {
             runCatching {
                 val cursorId = getCursorId(isProceeding)
-                updateLoadingState(cursorId, isProceeding)
+                updateLoadingState(cursorId)
                 getQuestListUseCase(isProceeding, cursorId, 20)
             }.onSuccess { quests ->
-                updateExistQuests(isProceeding, quests)
+                when (quests.isEmpty()) {
+                    true -> updateLoadableState(isProceeding)
+                    false -> updateExistQuests(isProceeding, quests)
+                }
             }.onFailure {
                 _uiState.value = uiState.value.copy(
                     isLoading = false,
@@ -50,6 +54,17 @@ class QuestViewModel @Inject constructor(
         }
     }
 
+    private fun updateLoadableState(isProceeding: Boolean) {
+        _uiState.value = uiState.value.copy(
+            isLoadable = when (isProceeding) {
+                true -> uiState.value.isLoadable.copy(first = false)
+                false -> uiState.value.isLoadable.copy(second = false)
+            },
+            isLoading = false,
+            isAdditionalLoading = false,
+        )
+    }
+
     private fun getCursorId(isProceeding: Boolean): Int {
         return when (isProceeding) {
             true -> uiState.value.proceedingQuests.lastOrNull()?.cursorId ?: 0
@@ -57,19 +72,17 @@ class QuestViewModel @Inject constructor(
         }
     }
 
-    private fun updateLoadingState(cursorId: Int, isProceeding: Boolean) {
+    private fun updateLoadingState(cursorId: Int) {
         _uiState.value = when {
             cursorId == 0 -> uiState.value.copy(
                 isLoading = true,
                 isError = false,
             )
 
-            isProceeding -> uiState.value.copy(
+            else -> uiState.value.copy(
                 isAdditionalLoading = true,
                 isError = false,
             )
-
-            else -> uiState.value
         }
     }
 
@@ -82,13 +95,11 @@ class QuestViewModel @Inject constructor(
                 isAdditionalLoading = false,
             )
 
-            false -> {
-                uiState.value.copy(
-                    totalQuests = uiState.value.totalQuests + updatedQuests,
-                    isLoading = false,
-                    isAdditionalLoading = false,
-                )
-            }
+            false -> uiState.value.copy(
+                totalQuests = uiState.value.totalQuests + updatedQuests,
+                isLoading = false,
+                isAdditionalLoading = false,
+            )
         }
     }
 }
