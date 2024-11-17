@@ -10,5 +10,7 @@ interface QuestService {
     @GET("quests")
     suspend fun getQuests(
         @Query("isActive") isActive: Boolean,
+        @Query("cursor") cursor: Int,
+        @Query("size") size: Int,
     ): BaseResponse<QuestsResponseDto>
 }
