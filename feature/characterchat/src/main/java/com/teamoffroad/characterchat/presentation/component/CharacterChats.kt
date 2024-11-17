@@ -29,15 +29,18 @@ fun CharacterChats(
     characterName: String,
     arrangedChats: Map<LocalDate, List<ChatModel>>,
     bottomPadding: Int = 0,
+    isChatting: Boolean = false,
     listState: LazyListState = rememberLazyListState(),
 ) {
     val animatedHeight = animateDpAsState(targetValue = (188 + bottomPadding).dp, label = "")
     val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(bottomPadding) {
-        coroutineScope.launch {
-            delay(KEYBOARD_LOADING_OFFSET)
-            listState.animateScrollToItem(listState.layoutInfo.totalItemsCount - 1)
+        if (isChatting) {
+            coroutineScope.launch {
+                delay(KEYBOARD_LOADING_OFFSET)
+                listState.animateScrollToItem(listState.layoutInfo.totalItemsCount - 1)
+            }
         }
     }
 

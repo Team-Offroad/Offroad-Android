@@ -30,7 +30,6 @@ import com.teamoffroad.core.designsystem.component.FullLinearLoadingAnimation
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.offroad.feature.characterchat.R
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
@@ -54,7 +53,7 @@ fun CharacterChatScreen(
         characterChatViewModel.getChats()
     }
 
-    LaunchedEffect(uiState.value.chats) {
+    LaunchedEffect(uiState.value.chats.values.lastOrNull()?.size ?: 0) {
         coroutineScope.launch {
             listState.animateScrollToItem(listState.layoutInfo.totalItemsCount - 1)
         }
@@ -95,6 +94,7 @@ fun CharacterChatScreen(
                 characterName = uiState.value.characterName,
                 arrangedChats = uiState.value.chats,
                 bottomPadding = keyboardOffset,
+                isChatting = isChatting.value,
                 listState = listState,
             )
         }
@@ -123,10 +123,6 @@ fun CharacterChatScreen(
             isVisible = isChatting.value && !uiState.value.isSending,
             onClick = {
                 characterChatViewModel.updateIsChatting(true)
-                coroutineScope.launch {
-                    delay(KEYBOARD_LOADING_OFFSET)
-                    listState.animateScrollToItem(listState.layoutInfo.totalItemsCount - 1)
-                }
             },
         )
     }
