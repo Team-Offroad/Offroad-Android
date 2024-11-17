@@ -198,7 +198,7 @@ fun ExploreOffroadMap(
             )
             ExploreMapBottomButton(
                 modifier = Modifier.padding(start = 16.dp),
-                painter = painterResource(R.drawable.ic_explore_location_error),
+                painter = painterResource(R.drawable.ic_explore_location),
                 text = stringResource(R.string.explore_places),
                 onClick = { navigateToPlace() },
             )
