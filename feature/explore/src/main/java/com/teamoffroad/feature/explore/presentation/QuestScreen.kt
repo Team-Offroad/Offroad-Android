@@ -46,7 +46,8 @@ fun QuestScreen(
             updateQuests = {
                 questViewModel.updateQuests(uiState.value.isProceedingQuest)
             },
-            isLoading = uiState.value.isAdditionalLoading,
+            isLoading = uiState.value.isLoading,
+            isAdditionalLoading = uiState.value.isAdditionalLoading,
             isLoadable = when (uiState.value.isProceedingQuest) {
                 true -> uiState.value.isLoadable.first
                 false -> uiState.value.isLoadable.second

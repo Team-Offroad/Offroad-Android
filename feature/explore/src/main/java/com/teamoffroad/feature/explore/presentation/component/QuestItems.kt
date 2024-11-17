@@ -17,6 +17,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.teamoffroad.core.designsystem.component.CircularLoadingAnimationLine
 import com.teamoffroad.core.designsystem.component.ExpandableItem
 import com.teamoffroad.core.designsystem.component.LinearLoadingAnimation
 import com.teamoffroad.core.designsystem.theme.ListBg
@@ -27,6 +28,7 @@ fun QuestItems(
     quests: List<QuestModel>,
     updateQuests: () -> Unit,
     isLoading: Boolean,
+    isAdditionalLoading: Boolean,
     isLoadable: Boolean,
 ) {
     var expandedIndex by remember { mutableIntStateOf(NULL_INDEX) }
@@ -59,7 +61,7 @@ fun QuestItems(
         }
     ) {
         item {
-            LinearLoadingAnimation(isLoading = quests.isEmpty())
+            LinearLoadingAnimation(isLoading = isLoading)
         }
         items(quests.size) { index ->
             ExpandableItem(
@@ -75,6 +77,9 @@ fun QuestItems(
                 },
                 modifier = Modifier.padding(bottom = 14.dp)
             )
+        }
+        item {
+            CircularLoadingAnimationLine(isLoading = isAdditionalLoading)
         }
     }
 }
