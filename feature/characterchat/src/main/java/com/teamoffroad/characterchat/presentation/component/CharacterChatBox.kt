@@ -9,6 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.teamoffroad.characterchat.presentation.model.TimeType
+import com.teamoffroad.characterchat.presentation.model.TimeType.AM
+import com.teamoffroad.characterchat.presentation.model.TimeType.PM
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub4
@@ -17,7 +20,7 @@ import com.teamoffroad.core.designsystem.theme.Sub4
 fun CharacterChatBox(
     name: String = "",
     text: String = "",
-    time: String = "",
+    time: Triple<TimeType, Int, Int> = Triple(AM, 0, 0),
 ) {
     Row(
         modifier = Modifier
@@ -44,7 +47,7 @@ fun CharacterChatBox(
         }
         TimeLabel(
             modifier = Modifier.align(Alignment.Bottom),
-            time,
+            time = time,
         )
     }
 }

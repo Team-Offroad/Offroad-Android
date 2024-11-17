@@ -100,5 +100,6 @@ sealed interface CharacterChatRoute : Route {
     @Serializable
     data class CharacterChat(
         val characterId: Int,
+        val characterName: String,
     ) : CharacterChatRoute
 }
