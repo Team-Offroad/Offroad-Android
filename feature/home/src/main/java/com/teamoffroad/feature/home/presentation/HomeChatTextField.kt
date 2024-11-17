@@ -8,6 +8,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -40,9 +43,17 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.BtnInactive
+import com.teamoffroad.core.designsystem.theme.ErrorNew
+import com.teamoffroad.core.designsystem.theme.Kakao
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Transparent
@@ -65,6 +76,7 @@ fun HomeChatTextField(
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
     val contextView = LocalView.current
+    var showLottieLoading by remember { mutableStateOf(false) }
 
     var keyboardVisible by remember { mutableStateOf(keyboard) }
 
@@ -110,27 +122,48 @@ fun HomeChatTextField(
         ) {
             val textFieldHeight = remember { mutableIntStateOf(0) }
 
-            Column {
+            Column{
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 18.dp, bottom = 4.dp)
+                        .padding(top = 6.dp, bottom = 4.dp)
                 ) {
                     Text(
                         text = stringResource(id = R.string.home_chat_me),
                         color = Main2,
-                        style = OffroadTheme.typography.textBold
+                        style = OffroadTheme.typography.textBold,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(vertical = 6.dp)
                     )
-                    Text(
-                        text = sentMessage,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .onGloballyPositioned { layoutCoordinates ->
-                                textFieldHeight.intValue = layoutCoordinates.size.height
-                            },
-                        style = OffroadTheme.typography.textRegular,
-                        maxLines = 2,
-                    )
+                    Box{
+                        if (text.isNotBlank()) {
+                            Box(
+                                modifier = Modifier
+                                    .size(width = 54.dp, height = 27.dp)
+                            ) {
+                                val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(com.teamoffroad.offroad.core.designsystem.R.raw.loading_linear))
+                                val animationState = animateLottieCompositionAsState(composition, iterations = LottieConstants.IterateForever)
+
+                                if (animationState.isAtEnd && animationState.isPlaying) {
+                                    LaunchedEffect(Unit) {  }
+                                }
+
+                                LottieAnimation(composition, animationState.progress)
+                            }
+                        } else {
+                            Text(
+                                text = sentMessage,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 6.dp)
+                                    .onGloballyPositioned { layoutCoordinates ->
+                                        textFieldHeight.intValue = layoutCoordinates.size.height
+                                    },
+                                style = OffroadTheme.typography.textRegular,
+                                maxLines = 2,
+                            )
+                        }
+                    }
                 }
 
                 Box {

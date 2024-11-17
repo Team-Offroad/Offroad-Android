@@ -75,7 +75,10 @@ fun HomeScreen(
     val isCompleteQuestDialogShown = remember { mutableStateOf(false) }
     val isChatting = remember { mutableStateOf(false) }
     val chattingText = viewModel.chattingText.collectAsStateWithLifecycle()
-    val sentMessage = remember { mutableStateOf("") }
+    val sendMessage = remember { mutableStateOf("") }
+    val characterChat = viewModel.getCharacterChat.collectAsStateWithLifecycle()
+    val isCharacterChatting = viewModel.isCharacterChatting.collectAsStateWithLifecycle()
+    val answerCharacterChat = remember{ mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.updateAutoSignIn()
@@ -130,34 +133,40 @@ fun HomeScreen(
 
                     HomeChatTextField(
                         text = chattingText.value,
-                        sentMessage = sentMessage.value,
+                        sentMessage = sendMessage.value,
                         isChatting = isChatting,
                         keyboard = true,
                         onValueChange = { text ->
+                            // TODO: 입력 중일 때 로딩 로티 띄우기
                             viewModel.updateChattingText(text)
                         },
 //                        onFocusChange = { isFocused ->
 //                            viewModel.updateIsChatting(isFocused)
 //                        }
                         onSendClick = {
-                            sentMessage.value = chattingText.value
-                            viewModel.updateChattingText("")
+                            answerCharacterChat.value = true
+                            sendMessage.value = chattingText.value
                             viewModel.sendChat()
+                            viewModel.updateChattingText("")
                         }
                     )
                 }
             }
         }
 
-
-        Box(
-            contentAlignment = Alignment.TopCenter,
-            modifier = Modifier
-                .padding(start = 24.dp, top = 70.dp, end = 24.dp)
-        ) {
-            CharacterChat(
-                text = "맛있었겠다"
-            )
+        if (isCharacterChatting.value) {
+            Box(
+                contentAlignment = Alignment.TopCenter,
+                modifier = Modifier
+                    .padding(start = 24.dp, top = 70.dp, end = 24.dp)
+            ) {
+                CharacterChat(
+                    isChatting = isChatting,
+                    answerCharacterChat = answerCharacterChat,
+                    characterName = characterChat.value.characterName,
+                    characterContent = characterChat.value.characterContent
+                )
+            }
         }
     }
 
@@ -174,7 +183,10 @@ fun HomeScreen(
 
 @Composable
 fun CharacterChat(
-    text: String,
+    isChatting: MutableState<Boolean>,
+    answerCharacterChat: MutableState<Boolean>,
+    characterName: String,
+    characterContent: String,
     characterTextColor: Color = Sub4,
     characterTextStyle: TextStyle = OffroadTheme.typography.textBold,
     messageTextColor: Color = Main2,
@@ -194,20 +206,24 @@ fun CharacterChat(
         Column {
             Row {
                 Text(
-                    text = "아루 : ",
+                    text = "${characterName} : ",
                     modifier = Modifier,
                     color = characterTextColor,
                     style = characterTextStyle
                 )
                 Text(
-                    text = "맛있었겠다!!",
+                    text = characterContent,
                     modifier = Modifier.fillMaxWidth(),
                     color = messageTextColor,
                     style = messageTextStyle,
                     maxLines = 2
                 )
             }
-            AnswerCharacterChat()
+            if (!answerCharacterChat.value) {
+                // 사용자가 답변을 보냈을 때
+                AnswerCharacterChat(isChatting = isChatting)
+                // TODO: 알림에 로딩 로티 띄우기
+            }
         }
 
     }
@@ -301,6 +317,7 @@ fun FinishChatting(
 
 @Composable
 fun AnswerCharacterChat(
+    isChatting: MutableState<Boolean>,
     backgroundColor: Color = Main2,
     textColor: Color = Main3,
     textStyle: TextStyle = OffroadTheme.typography.textContents
@@ -316,7 +333,10 @@ fun AnswerCharacterChat(
                         color = backgroundColor,
                         shape = RoundedCornerShape(8.dp)
                     )
-                    .padding(horizontal = 14.dp, vertical = 6.dp),
+                    .padding(horizontal = 14.dp, vertical = 6.dp)
+                    .clickableWithoutRipple {
+                        isChatting.value = true
+                    },
                 color = textColor,
                 style = textStyle
             )
