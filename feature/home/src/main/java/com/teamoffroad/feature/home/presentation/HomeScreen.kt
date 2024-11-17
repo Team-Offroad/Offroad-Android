@@ -142,10 +142,8 @@ fun HomeScreen(
 //                            viewModel.updateIsChatting(isFocused)
 //                        }
                         onSendClick = {
-                            // 내가 보낸 메시지 표시
                             sentMessage.value = chattingText.value
                             viewModel.updateChattingText("")
-                            // 서버에 보내기
                             viewModel.sendChat()
                         }
                     )

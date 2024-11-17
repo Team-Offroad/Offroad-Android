@@ -123,8 +123,13 @@ fun HomeChatTextField(
                     )
                     Text(
                         text = sentMessage,
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .onGloballyPositioned { layoutCoordinates ->
+                                textFieldHeight.intValue = layoutCoordinates.size.height
+                            },
                         style = OffroadTheme.typography.textRegular,
+                        maxLines = 2,
                     )
                 }
 
