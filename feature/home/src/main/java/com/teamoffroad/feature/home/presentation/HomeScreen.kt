@@ -76,9 +76,9 @@ fun HomeScreen(
     val context = LocalContext.current
     val viewModel: HomeViewModel = hiltViewModel()
     val isCompleteQuestDialogShown = remember { mutableStateOf(false) }
-    val imeHeight = WindowInsets.ime.getBottom(LocalDensity.current)
     val isChatting = remember { mutableStateOf(false) }
     val chattingText = viewModel.chattingText.collectAsStateWithLifecycle()
+    val sentMessage = remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
         viewModel.updateAutoSignIn()
@@ -114,8 +114,6 @@ fun HomeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter)
-                    .imePadding()
-                    //.padding(bottom = with(LocalDensity.current) { imeHeight.toDp() })
                     .padding(bottom = 196.dp)
             ) {
                 Column {
@@ -134,6 +132,7 @@ fun HomeScreen(
 
                     HomeChatTextField(
                         text = chattingText.value,
+                        sentMessage = sentMessage.value,
                         isChatting = isChatting,
                         keyboard = true,
                         onValueChange = { text ->
@@ -142,6 +141,13 @@ fun HomeScreen(
 //                        onFocusChange = { isFocused ->
 //                            viewModel.updateIsChatting(isFocused)
 //                        }
+                        onSendClick = {
+                            // 내가 보낸 메시지 표시
+                            sentMessage.value = chattingText.value
+                            viewModel.updateChattingText("")
+                            // 서버에 보내기
+                            viewModel.sendChat()
+                        }
                     )
                 }
             }

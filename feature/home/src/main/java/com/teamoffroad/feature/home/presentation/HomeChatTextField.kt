@@ -54,6 +54,7 @@ import com.teamoffroad.offroad.feature.home.R
 fun HomeChatTextField(
     modifier: Modifier = Modifier,
     text: String = "",
+    sentMessage: String,
     isChatting: MutableState<Boolean>,
     keyboard: Boolean,
     onValueChange: (String) -> Unit = {},
@@ -121,9 +122,9 @@ fun HomeChatTextField(
                         style = OffroadTheme.typography.textBold
                     )
                     Text(
-                        text = "text",
+                        text = sentMessage,
                         modifier = Modifier.weight(1f),
-                        style = OffroadTheme.typography.textRegular
+                        style = OffroadTheme.typography.textRegular,
                     )
                 }
 
@@ -167,12 +168,12 @@ fun HomeChatTextField(
                     )
                     Image(
                         painter = painterResource(id = R.drawable.ic_character_chat_send),
-                        contentDescription = null,
+                        contentDescription = "send",
                         modifier = Modifier
                             .padding(end = 2.dp)
                             .size(36.dp)
                             .align(Alignment.CenterEnd)
-                            .clickableWithoutRipple { onSendClick() },
+                            .clickableWithoutRipple { if (text.isNotBlank()) onSendClick() },
                     )
                 }
             }

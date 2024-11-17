@@ -2,6 +2,11 @@ package com.teamoffroad.feature.home.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.teamoffroad.characterchat.domain.model.Chat
+import com.teamoffroad.characterchat.domain.repository.CharacterChatRepository
+import com.teamoffroad.characterchat.presentation.model.ChatModel
+import com.teamoffroad.characterchat.presentation.model.ChatType
+import com.teamoffroad.characterchat.presentation.model.TimeType
 import com.teamoffroad.core.common.domain.usecase.SetAutoSignInUseCase
 import com.teamoffroad.feature.home.domain.model.Emblem
 import com.teamoffroad.feature.home.domain.model.UserQuests
@@ -14,11 +19,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val userRepository: UserRepository,
+    private val characterChatRepository: CharacterChatRepository,
     private val setAutoSignInUseCase: SetAutoSignInUseCase,
 ) : ViewModel() {
 
@@ -48,6 +55,9 @@ class HomeViewModel @Inject constructor(
 
     private val _getUserQuestsState = MutableStateFlow<UiState<UserQuests>>(UiState.Loading)
     val getUserQuestsState = _getUserQuestsState.asStateFlow()
+
+    private val _sendChatState = MutableStateFlow<UiState<Chat>>(UiState.Loading)
+    val sendChatState = _sendChatState.asStateFlow()
 
     private val _circleProgressBar = MutableStateFlow(0f)
     val circleProgressBar = _circleProgressBar.asStateFlow()
@@ -141,7 +151,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun updateAutoSignIn(){
+    fun updateAutoSignIn() {
         viewModelScope.launch {
             setAutoSignInUseCase.invoke(true)
         }
@@ -154,6 +164,30 @@ class HomeViewModel @Inject constructor(
     fun updateIsChatting(boolean: Boolean) {
         _isChatting.value = boolean
         _chattingText.value = ""
+    }
+
+    fun sendChat() {
+        val chattingText = chattingText.value
+
+        viewModelScope.launch {
+            runCatching {
+                val now = LocalDateTime.now()
+                val userChat = ChatModel(
+                    chatType = ChatType.USER,
+                    text = chattingText,
+                    date = now.toLocalDate(),
+                    time = Triple(TimeType.toTimeType(now.hour), now.hour, now.minute),
+                )
+                characterChatRepository.saveChat(1, chattingText)
+            }.onSuccess { chat ->
+                // _patchEmblemState.emit(UiState.Success(state))
+                // 보낸 채팅 내용 홈에 보여주어야 함
+                _sendChatState.emit(UiState.Success(chat))
+            }.onFailure { t ->
+                val errorMessage = getErrorMessage(t)
+                _sendChatState.emit(UiState.Failure(errorMessage))
+            }
+        }
     }
 
 }

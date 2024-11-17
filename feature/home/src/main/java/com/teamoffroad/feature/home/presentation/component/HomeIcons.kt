@@ -32,11 +32,7 @@ fun HomeIcons(
     navigateToGainedCharacter: () -> Unit,
 ) {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-//            .clickableWithoutRipple {
-//                isChatting.value = false
-//            }
+        modifier = Modifier.fillMaxSize()
     ) {
         Column(
             modifier = Modifier
