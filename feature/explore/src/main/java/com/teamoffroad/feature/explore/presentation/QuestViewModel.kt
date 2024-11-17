@@ -32,8 +32,9 @@ class QuestViewModel @Inject constructor(
         )
     }
 
-    fun updateQuests(isProceeding: Boolean) {
+    fun updateQuests(isProceeding: Boolean = uiState.value.isProceedingQuest) {
         if (uiState.value.isAdditionalLoading) return
+
         viewModelScope.launch {
             runCatching {
                 val cursorId = getCursorId(isProceeding)
@@ -88,6 +89,7 @@ class QuestViewModel @Inject constructor(
 
     private fun updateExistQuests(isProceeding: Boolean, quests: List<Quest>) {
         val updatedQuests = quests.map { it.toUi() }
+
         _uiState.value = when (isProceeding) {
             true -> uiState.value.copy(
                 proceedingQuests = uiState.value.proceedingQuests + updatedQuests,
