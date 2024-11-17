@@ -145,6 +145,7 @@ fun HomeScreen(
                         sentMessage = sendMessage.value,
                         isChatting = isChatting,
                         keyboard = true,
+                        isCharacterChatting = viewModel::updateCharacterChatting,
                         onValueChange = { text ->
                             viewModel.updateChattingText(text)
                         },

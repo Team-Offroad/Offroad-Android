@@ -44,6 +44,7 @@ fun HomeIcons(
                 Image(
                     painter = painterResource(id = R.drawable.ic_home_chat),
                     contentDescription = "chat",
+                    //없앨 부분
                     modifier = Modifier.clickableWithoutRipple {
                         isChatting.value = true
                     }

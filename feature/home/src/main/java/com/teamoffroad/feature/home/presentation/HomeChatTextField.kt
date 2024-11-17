@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -68,6 +69,7 @@ fun HomeChatTextField(
     sentMessage: String,
     isChatting: MutableState<Boolean>,
     keyboard: Boolean,
+    isCharacterChatting: (Boolean) -> Unit,
     onValueChange: (String) -> Unit = {},
     onFocusChange: (Boolean) -> Unit = {},
     onSendClick: () -> Unit = {},
@@ -90,6 +92,7 @@ fun HomeChatTextField(
         if (!keyboardVisible) {
             focusManager.clearFocus()
             isChatting.value = false
+            isCharacterChatting(false)
         }
     }
 
