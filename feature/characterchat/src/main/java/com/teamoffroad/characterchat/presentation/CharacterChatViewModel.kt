@@ -53,6 +53,7 @@ class CharacterChatViewModel @Inject constructor(
                     chats = chats.map { it.toUi() }.groupBy { it.date },
                     isLoading = false,
                 )
+                _isChatting.value = true
             }.onFailure {
                 _uiState.value = uiState.value.copy(isLoading = false, isError = true)
             }
@@ -72,14 +73,14 @@ class CharacterChatViewModel @Inject constructor(
                     time = Triple(TimeType.toTimeType(now.hour), now.hour, now.minute),
                 )
                 extendChat(userChat)
-                _uiState.value = uiState.value.copy(isLoading = true)
+                _uiState.value = uiState.value.copy(isSending = true)
                 characterChatRepository.saveChat(uiState.value.characterId, chattingText)
             }.onSuccess { chat ->
                 extendChat(chat.toUi())
-                _uiState.value = uiState.value.copy(isLoading = false)
+                _uiState.value = uiState.value.copy(isSending = false)
             }.onFailure {
                 removeLastChat()
-                _uiState.value = uiState.value.copy(isLoading = false)
+                _uiState.value = uiState.value.copy(isSending = false)
             }
         }
     }
