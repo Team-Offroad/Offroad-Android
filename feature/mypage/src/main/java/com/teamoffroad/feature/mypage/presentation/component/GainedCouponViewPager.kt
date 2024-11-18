@@ -31,6 +31,7 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.feature.mypage.domain.model.UserCoupons
+import com.teamoffroad.feature.mypage.presentation.model.UiState
 import com.teamoffroad.offroad.feature.mypage.R
 import kotlinx.coroutines.launch
 
@@ -41,7 +42,8 @@ fun GainedCouponViewPager(
     availableCoupons: List<UserCoupons.Coupons>,
     usedCoupons: List<UserCoupons.Coupons>,
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
-    getUserCoupons: (Boolean, Int) -> Unit
+    getUserCoupons: (Boolean, Int) -> Unit,
+    uiState: UiState<UserCoupons>,
 ) {
     val tabTitles = listOf(
         stringResource(id = R.string.my_page_gained_coupon_available),
