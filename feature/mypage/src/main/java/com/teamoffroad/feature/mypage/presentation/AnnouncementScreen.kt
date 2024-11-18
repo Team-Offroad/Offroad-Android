@@ -41,18 +41,37 @@ internal fun AnnouncementScreen(
     viewModel: AnnouncementViewModel = hiltViewModel()
 ) {
     val isAnnouncementState by viewModel.announcementUiState.collectAsState()
-
     //TODO. id 어떻게 초기화?
     Log.d("asdsad", announcementId.toString())
 
     LaunchedEffect(Unit) {
         viewModel.updateAnnouncement()
     }
+
+    LaunchedEffect(Unit) {
+        if (announcementId != null) {
+            isAnnouncementState.announcementList.forEach {
+                if (it.title.trim().equals(announcementId.trim(), ignoreCase = true)) {
+                    Log.d("asdsad", "Navigating to detail for $announcementId")
+                    navigateToAnnouncementDetail(
+                        it.title,
+                        it.content,
+                        it.isImportant,
+                        it.updateAt,
+                        it.hasExternalLinks,
+                        it.externalLinks,
+                        it.externalLinksTitles,
+                    )
+                }
+            }
+        }
+    }
     LaunchedEffect(isAnnouncementState) {
         if (announcementId != null) {
             isAnnouncementState.announcementList.forEach {
                 if (it.title.trim().equals(announcementId.trim(), ignoreCase = true)) {
                     Log.d("asdsad", "Navigating to detail for $announcementId")
+
                     navigateToAnnouncementDetail(
                         it.title,
                         it.content,

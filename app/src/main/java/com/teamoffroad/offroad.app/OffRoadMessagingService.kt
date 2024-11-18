@@ -13,6 +13,8 @@ import coil.request.ImageRequest
 import com.google.firebase.messaging.Constants.MessageNotificationKeys
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.teamoffroad.core.common.domain.model.FcmNotificationKey.ACTION_ANNOUNCEMENT_FOREGROUND
+import com.teamoffroad.core.common.domain.model.FcmNotificationKey.ACTION_CHARACTER_CHAT_FOREGROUND
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.CHANNEL_ID
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_BODY
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_ID
@@ -37,11 +39,9 @@ class OffRoadMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-
         CoroutineScope(Dispatchers.IO).launch { dataStore.updateDeviceTokenEnabled(token) }
     }
 
-    //FCM 메세지를 받을 때 호출됨
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
         if (remoteMessage.data.isNotEmpty()) {
@@ -49,8 +49,6 @@ class OffRoadMessagingService : FirebaseMessagingService() {
                 if (remoteMessage.data[KEY_TYPE] != TYPE_CHARACTER_CHAT)
                     sendNotification(remoteMessage, true)
                 else {
-                    // 앱이 포그라운드에 있고, 알림타임이 캐릭터채팅인 경우
-                    // 정현이 봐야할곳은 여기!! 요쪽 따라가십쇼
                     sendCharacterChatNotificationInForeground(remoteMessage)
                 }
             } else {
@@ -96,14 +94,12 @@ class OffRoadMessagingService : FirebaseMessagingService() {
 
     private fun createNotificationIntent(
         remoteMessage: RemoteMessage,
-        isForeGround: Boolean
     ): Intent {
         return Intent(this, MainActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-                putExtra(KEY_TYPE, remoteMessage.data[KEY_TYPE])
-                if (remoteMessage.data[KEY_TYPE] != TYPE_CHARACTER_CHAT) {
-                    putExtra(KEY_ID, remoteMessage.data[KEY_ID])
-
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            putExtra(KEY_TYPE, remoteMessage.data[KEY_TYPE])
+            if (remoteMessage.data[KEY_TYPE] != TYPE_CHARACTER_CHAT) {
+                putExtra(KEY_ID, remoteMessage.data[KEY_ID])
             }
         }
     }
@@ -132,7 +128,6 @@ class OffRoadMessagingService : FirebaseMessagingService() {
                     onLargeIconReady(notificationBuilder)
                 }
                 .build()
-
             Coil.imageLoader(this).enqueue(request)
         } ?: run {
             onLargeIconReady(notificationBuilder)
@@ -143,7 +138,7 @@ class OffRoadMessagingService : FirebaseMessagingService() {
     private fun sendNotification(remoteMessage: RemoteMessage, isForeGround: Boolean) {
         if (!isForeGround) {
             val uniqueIdentifier = generateUniqueIdentifier()
-            val intent = createNotificationIntent(remoteMessage, isForeGround)
+            val intent = createNotificationIntent(remoteMessage)
             val pendingIntent = createPendingIntent(intent, uniqueIdentifier)
             createNotificationBuilder(remoteMessage, pendingIntent) { notificationBuilder ->
                 showNotification(notificationBuilder, uniqueIdentifier)
@@ -151,7 +146,7 @@ class OffRoadMessagingService : FirebaseMessagingService() {
         } else {
             val uniqueIdentifier = generateUniqueIdentifier()
             val broadCastIntent =
-                Intent("com.teamoffroad.offroad.app.ANNOUNCEMENT_FOREGROUND").apply {
+                Intent(ACTION_ANNOUNCEMENT_FOREGROUND).apply {
                     putExtra(KEY_TITLE, remoteMessage.data[KEY_TITLE])
                     putExtra(KEY_ID, remoteMessage.data[KEY_ID])
                 }
@@ -167,13 +162,11 @@ class OffRoadMessagingService : FirebaseMessagingService() {
         }
     }
 
-    //브로드캐스트리시버에 필요한 데이터(캐릭터이름, 대화내용, 알림타입) 저장하고 브로드캐스트 발신
-    //feature main의 CharacterChatBroadcastReceiver로 가면 됩니다.
     private fun sendCharacterChatNotificationInForeground(
         remoteMessage: RemoteMessage,
     ) {
         val broadCastIntent =
-            Intent("com.teamoffroad.offroad.app.CHARACTER_CHAT_FOREGROUND").apply {
+            Intent(ACTION_CHARACTER_CHAT_FOREGROUND).apply {
                 putExtra(KEY_TITLE, remoteMessage.data[KEY_TITLE])
                 putExtra(KEY_BODY, remoteMessage.data[KEY_BODY])
                 putExtra(KEY_TYPE, remoteMessage.data[KEY_TYPE])

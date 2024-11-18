@@ -85,6 +85,7 @@ internal fun MainNavHost(
                 navigateToCharacterDetail = navigator::navigateToCharacterDetail,
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
                 navigateToCharacterChat = navigator::navigateToCharacterChat,
+                navigateToAnnouncementDeleteStack = navigator::navigateToAnnouncementDeleteStack,
             )
             authNavGraph(
                 navigateToHome = { navigator.navigateToHome() },
