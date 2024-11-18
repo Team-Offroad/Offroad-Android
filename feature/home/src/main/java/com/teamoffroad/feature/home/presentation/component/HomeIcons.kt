@@ -71,7 +71,7 @@ fun HomeIcons(
                 painter = painterResource(id = R.drawable.ic_home_chat),
                 contentDescription = "chat",
                 modifier = Modifier
-                    .clickableWithoutRipple(characterChatInteractionSource) {
+                    .clickableWithoutRipple(interactionSource = characterChatInteractionSource) {
 
                     }
             )
@@ -81,7 +81,7 @@ fun HomeIcons(
                 painter = painterResource(id = R.drawable.ic_home_upload),
                 contentDescription = "upload",
                 modifier = Modifier
-                    .clickableWithoutRipple(uploadInteractionSource) {
+                    .clickableWithoutRipple(interactionSource = uploadInteractionSource) {
                         val allPermissionsGranted = permissions.all {
                             ContextCompat.checkSelfPermission(
                                 context,
