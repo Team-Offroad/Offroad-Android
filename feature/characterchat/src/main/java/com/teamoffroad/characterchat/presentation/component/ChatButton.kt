@@ -20,10 +20,10 @@ import com.teamoffroad.offroad.feature.characterchat.R
 @Composable
 fun ChatButton(
     modifier: Modifier = Modifier,
-    isChatting: Boolean = false,
+    isVisible: Boolean = false,
     onClick: () -> Unit = {},
 ) {
-    StaticAnimationWrapper(visible = !isChatting) {
+    StaticAnimationWrapper(visible = !isVisible) {
         Text(
             text = stringResource(R.string.character_chat_chat),
             color = White,
