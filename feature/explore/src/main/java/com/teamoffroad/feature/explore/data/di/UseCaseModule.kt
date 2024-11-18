@@ -1,12 +1,14 @@
 package com.teamoffroad.feature.explore.data.di
 
+import com.teamoffroad.feature.explore.domain.repository.LocationRepository
 import com.teamoffroad.feature.explore.domain.repository.PlaceRepository
 import com.teamoffroad.feature.explore.domain.repository.QuestRepository
 import com.teamoffroad.feature.explore.domain.repository.UserRepository
 import com.teamoffroad.feature.explore.domain.usecase.GetPlaceListUseCase
+import com.teamoffroad.feature.explore.domain.usecase.GetPreviousLocationUseCase
 import com.teamoffroad.feature.explore.domain.usecase.GetQuestListUseCase
 import com.teamoffroad.feature.explore.domain.usecase.PostExploreLocationAuthUseCase
-import com.teamoffroad.feature.explore.domain.usecase.PostExploreQrAuthUseCase
+import com.teamoffroad.feature.explore.domain.usecase.SavePreviousLocationUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,14 +29,6 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun providePostQrAuthUseCase(
-        userRepository: UserRepository,
-    ): PostExploreQrAuthUseCase {
-        return PostExploreQrAuthUseCase(userRepository)
-    }
-
-    @Provides
-    @Singleton
     fun providePostLocationAuthUseCase(
         userRepository: UserRepository,
     ): PostExploreLocationAuthUseCase {
@@ -47,5 +41,21 @@ object UseCaseModule {
         questRepository: QuestRepository,
     ): GetQuestListUseCase {
         return GetQuestListUseCase(questRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetPreviousLocationUseCase(
+        locationRepository: LocationRepository,
+    ): GetPreviousLocationUseCase {
+        return GetPreviousLocationUseCase(locationRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSavePreviousLocationUseCase(
+        locationRepository: LocationRepository,
+    ): SavePreviousLocationUseCase {
+        return SavePreviousLocationUseCase(locationRepository)
     }
 }

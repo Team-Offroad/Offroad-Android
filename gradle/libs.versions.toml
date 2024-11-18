@@ -78,12 +78,6 @@ accompanistInsets = "0.31.5-beta"
 # Kakao
 kakao = "2.20.6"
 
-# Camera
-androidxCamera = "1.2.2"
-
-# Barcode Scanning
-barcodeScanning = "17.1.0"
-
 # Process phoenix
 processPhoenix = "3.0.0"
 
@@ -180,14 +174,6 @@ accompanist-insets = { module = "com.google.accompanist:accompanist-insets", ver
 # Kakao
 kakao-user = { module = "com.kakao.sdk:v2-user", version.ref = "kakao" }
 
-# Camera
-camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "androidxCamera" }
-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "androidxCamera" }
-camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "androidxCamera" }
-
-# Barcode Scanning
-barcode-scanning = { group = "com.google.mlkit", name = "barcode-scanning", version.ref = "barcodeScanning" }
-
 # Process Phoenix
 process-phoenix = { group = "com.jakewharton", name = "process-phoenix", version.ref = "processPhoenix" }
 
@@ -221,9 +207,3 @@ offroad-map = [
     "google-accompanist-permissions",
 ]
 
-# Offroad Camera Libraries
-offroad-camera = [
-    "camera-camera2",
-    "camera-lifecycle",
-    "camera-view",
-]
