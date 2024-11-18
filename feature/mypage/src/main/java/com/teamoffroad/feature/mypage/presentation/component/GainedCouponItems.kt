@@ -37,10 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.animateLottieCompositionAsState
-import com.airbnb.lottie.compose.rememberLottieComposition
+import com.teamoffroad.core.designsystem.component.CircularLoadingAnimationLine
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Black25
 import com.teamoffroad.core.designsystem.theme.Black55
@@ -51,6 +48,7 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Stroke
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.mypage.domain.model.UserCoupons
+import com.teamoffroad.feature.mypage.presentation.model.UiState
 import com.teamoffroad.offroad.feature.mypage.R
 import com.teamoffroad.offroad.feature.mypage.R.drawable
 
@@ -59,7 +57,8 @@ fun AvailableCouponItems(
     availableCouponsCount: Int,
     coupons: List<UserCoupons.Coupons>,
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
-    getUserCoupons: (Boolean, Int) -> Unit
+    getUserCoupons: (Boolean, Int) -> Unit,
+    uiState: UiState<UserCoupons> = UiState.Loading,
 ) {
     if (availableCouponsCount == 0) {
         Column(
@@ -86,7 +85,11 @@ fun AvailableCouponItems(
             )
         }
     } else {
-        CouponGrid(coupons, getUserCoupons) { coupon ->
+        CouponGrid(
+            coupons = coupons,
+            getUserCoupons = getUserCoupons,
+            uiState = uiState,
+        ) { coupon ->
             AvailableCouponItem(coupon, navigateToAvailableCouponDetail)
         }
     }
@@ -95,7 +98,7 @@ fun AvailableCouponItems(
 @Composable
 private fun AvailableCouponItem(
     coupon: UserCoupons.Coupons,
-    navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit
+    navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -160,7 +163,7 @@ fun UsedCouponItems(
     usedCouponsCount: Int,
     coupons: List<UserCoupons.Coupons>,
     context: Context,
-    getUserCoupons: (Boolean, Int) -> Unit
+    getUserCoupons: (Boolean, Int) -> Unit,
 ) {
     if (usedCouponsCount == 0) {
         Column(
@@ -196,7 +199,7 @@ fun UsedCouponItems(
 @Composable
 private fun UsedCouponItem(
     coupon: UserCoupons.Coupons,
-    context: Context
+    context: Context,
 ) {
     Box(
         modifier = Modifier
@@ -237,7 +240,8 @@ private fun UsedCouponItem(
 fun CouponGrid(
     coupons: List<UserCoupons.Coupons>,
     getUserCoupons: (Boolean, Int) -> Unit,
-    couponContent: @Composable (UserCoupons.Coupons) -> Unit
+    uiState: UiState<UserCoupons> = UiState.Loading,
+    couponContent: @Composable (UserCoupons.Coupons) -> Unit,
 ) {
     val gridState = rememberLazyGridState()
     var showLottieLoading by remember { mutableStateOf(false) }
@@ -266,38 +270,9 @@ fun CouponGrid(
         items(coupons.size) { index ->
             couponContent(coupons[index])
         }
-
-        if (showLottieLoading) {
-            item(span = { GridItemSpan(2) }) {
-                LoadingIndicator {
-                    val lastItem = coupons.lastOrNull()
-                    if (lastItem != null) {
-                        getUserCoupons(false, lastItem.cursorId)
-                    }
-                    showLottieLoading = false
-                }
-            }
+        item(span = { GridItemSpan(2) }) {
+            CircularLoadingAnimationLine(isLoading = uiState is UiState.AdditionalLoading)
         }
-    }
-}
-
-@Composable
-private fun LoadingIndicator(onAnimationEnd: () -> Unit) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 10.dp)
-            .size(38.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(com.teamoffroad.offroad.core.designsystem.R.raw.loading_circle))
-        val animationState = animateLottieCompositionAsState(composition, iterations = 1)
-
-        if (animationState.isAtEnd && animationState.isPlaying) {
-            LaunchedEffect(Unit) { onAnimationEnd() }
-        }
-
-        LottieAnimation(composition, animationState.progress)
     }
 }
 
