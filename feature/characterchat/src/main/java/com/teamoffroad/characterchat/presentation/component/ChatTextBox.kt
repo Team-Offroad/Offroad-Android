@@ -15,11 +15,12 @@ import com.teamoffroad.core.designsystem.theme.Main3
 
 @Composable
 fun ChatTextBox(
+    maxWidth: Int,
     content: @Composable () -> Unit,
 ) {
     Row(
         modifier = Modifier
-            .widthIn(max = 262.dp)
+            .widthIn(max = maxWidth.dp)
             .wrapContentWidth()
             .border(1.dp, BtnInactive, shape = RoundedCornerShape(12.dp))
             .background(color = Main3, shape = RoundedCornerShape(12.dp))
