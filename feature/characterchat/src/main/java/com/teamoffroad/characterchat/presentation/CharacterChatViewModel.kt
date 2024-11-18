@@ -6,6 +6,7 @@ import com.teamoffroad.characterchat.domain.repository.CharacterChatRepository
 import com.teamoffroad.characterchat.presentation.mapper.toUi
 import com.teamoffroad.characterchat.presentation.model.CharacterChatUiState
 import com.teamoffroad.characterchat.presentation.model.ChatModel
+import com.teamoffroad.characterchat.presentation.model.ChatModel.Companion.toTwelveHour
 import com.teamoffroad.characterchat.presentation.model.ChatType.USER
 import com.teamoffroad.characterchat.presentation.model.TimeType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -70,7 +71,7 @@ class CharacterChatViewModel @Inject constructor(
                     chatType = USER,
                     text = chattingText,
                     date = now.toLocalDate(),
-                    time = Triple(TimeType.toTimeType(now.hour), now.hour, now.minute),
+                    time = Triple(TimeType.toTimeType(now.hour), now.hour.toTwelveHour(), now.minute),
                 )
                 extendChat(userChat)
                 _uiState.value = uiState.value.copy(isSending = true)
