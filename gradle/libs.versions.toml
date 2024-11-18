@@ -1,6 +1,7 @@
 [versions]
 # Android Core Libraries
 activityCompose = "1.9.0"
+androidsvgAar = "1.4"
 appcompat = "1.7.0"
 coilSvg = "2.2.2"
 coreKtx = "1.13.1"
@@ -88,6 +89,7 @@ processPhoenix = "3.0.0"
 
 [libraries]
 # Core Libraries
+androidsvg-aar = { module = "com.caverock:androidsvg-aar", version.ref = "androidsvgAar" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
