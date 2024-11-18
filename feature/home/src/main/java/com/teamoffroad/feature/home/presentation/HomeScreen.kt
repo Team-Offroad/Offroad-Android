@@ -5,6 +5,7 @@ import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,6 +30,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -73,6 +76,7 @@ import com.teamoffroad.feature.home.presentation.component.quest.progressbar.Rec
 import com.teamoffroad.feature.home.presentation.component.user.NicknameText
 import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 import com.teamoffroad.offroad.feature.home.R
+import kotlinx.coroutines.launch
 
 val homeGradientBackground = Brush.verticalGradient(
     colors = listOf(HomeGradi1, HomeGradi2, HomeGradi3, HomeGradi4, HomeGradi5, HomeGradi6)
@@ -173,9 +177,22 @@ fun HomeScreen(
         }
 
         if (isCharacterChatting.value) {
+            val offsetY = remember { Animatable(-10.dp.value) }
+            val coroutineScope = rememberCoroutineScope()
+
+            LaunchedEffect(isCharacterChatting) {
+                coroutineScope.launch {
+                    offsetY.animateTo(
+                        targetValue = 0.dp.value,
+                        animationSpec = tween(durationMillis = 500)
+                    )
+                }
+            }
+
             Box(
                 contentAlignment = Alignment.TopCenter,
                 modifier = Modifier
+                    .offset(y = offsetY.value.dp)
                     .padding(start = 24.dp, top = 70.dp, end = 24.dp)
             ) {
                 CharacterChat(
