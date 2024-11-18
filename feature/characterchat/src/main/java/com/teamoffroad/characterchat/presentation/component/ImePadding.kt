@@ -8,6 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
+import androidx.core.view.OnApplyWindowInsetsListener
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
@@ -19,7 +20,7 @@ fun rememberKeyboardHeight(): Int {
     val density = LocalDensity.current
 
     DisposableEffect(view) {
-        val listener = androidx.core.view.OnApplyWindowInsetsListener { _, insetsCompat ->
+        val listener = OnApplyWindowInsetsListener { _, insetsCompat ->
             val imeHeight = insetsCompat.getInsets(WindowInsetsCompat.Type.ime()).bottom
             keyboardHeightPx = imeHeight
             insetsCompat
