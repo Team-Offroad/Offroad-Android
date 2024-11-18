@@ -7,7 +7,7 @@ class GetQuestListUseCase(
     private val questRepository: QuestRepository,
 ) {
 
-    suspend operator fun invoke(isProceeding: Boolean): List<Quest> {
-        return questRepository.fetchQuests(!isProceeding)
+    suspend operator fun invoke(isProceeding: Boolean, cursor: Int, size: Int): List<Quest> {
+        return questRepository.fetchQuests(isProceeding, cursor, size)
     }
 }

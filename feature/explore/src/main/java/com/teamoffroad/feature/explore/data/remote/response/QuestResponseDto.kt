@@ -17,4 +17,6 @@ data class QuestResponseDto(
     val requirement: String,
     @SerialName("reward")
     val reward: String,
+    @SerialName("cursorId")
+    val cursorId: Int,
 )

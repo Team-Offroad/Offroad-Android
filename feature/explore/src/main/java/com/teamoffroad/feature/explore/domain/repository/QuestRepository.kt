@@ -4,5 +4,5 @@ import com.teamoffroad.feature.explore.domain.model.Quest
 
 interface QuestRepository {
 
-    suspend fun fetchQuests(isActive: Boolean): List<Quest>
+    suspend fun fetchQuests(isActive: Boolean, cursor: Int, size: Int): List<Quest>
 }

@@ -10,7 +10,7 @@ class QuestRepositoryImpl @Inject constructor(
     private val questService: QuestService,
 ) : QuestRepository {
 
-    override suspend fun fetchQuests(isActive: Boolean): List<Quest> {
-        return questService.getQuests(isActive).data?.questList?.map { it.toDomain() } ?: emptyList()
+    override suspend fun fetchQuests(isActive: Boolean, cursor: Int, size: Int): List<Quest> {
+        return questService.getQuests(isActive, cursor, size).data?.questList?.map { it.toDomain() } ?: emptyList()
     }
 }

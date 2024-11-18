@@ -129,4 +129,4 @@ fun CharacterChatScreen(
     FullLinearLoadingAnimation(isLoading = uiState.value.isLoading)
 }
 
-const val KEYBOARD_LOADING_OFFSET = 400L
+const val KEYBOARD_LOADING_OFFSET = 25L
