@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -25,10 +24,6 @@ fun QuestScreen(
 ) {
     val uiState = questViewModel.uiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
-        questViewModel.updateQuests(false)
-    }
-
     Column(
         modifier = Modifier
             .navigationPadding()
@@ -40,11 +35,23 @@ fun QuestScreen(
             modifier = Modifier.padding(top = 20.dp)
         ) { navigateToBack() }
         QuestHeader(
-            uiState.value.isProceedingToggle,
+            uiState.value.isProceedingQuest,
             questViewModel::updateProceedingToggle,
         )
         QuestItems(
-            quests = if (uiState.value.isProceedingToggle) uiState.value.totalQuests else uiState.value.proceedingQuests,
+            quests = when (uiState.value.isProceedingQuest) {
+                true -> uiState.value.proceedingQuests
+                false -> uiState.value.totalQuests
+            },
+            updateQuests = {
+                questViewModel.updateQuests()
+            },
+            isLoading = uiState.value.isLoading,
+            isAdditionalLoading = uiState.value.isAdditionalLoading,
+            isLoadable = when (uiState.value.isProceedingQuest) {
+                true -> uiState.value.isLoadable.first
+                false -> uiState.value.isLoadable.second
+            },
         )
     }
 }
