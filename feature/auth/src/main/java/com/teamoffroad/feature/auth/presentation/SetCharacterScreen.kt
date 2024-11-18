@@ -32,13 +32,13 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Black
-import com.teamoffroad.core.designsystem.theme.CharacterSelectBg1
-import com.teamoffroad.core.designsystem.theme.CharacterSelectBg2
-import com.teamoffroad.core.designsystem.theme.CharacterSelectBg3
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
+import com.teamoffroad.core.designsystem.theme.SettingCharacter
+import com.teamoffroad.core.designsystem.theme.SettingCoupon
+import com.teamoffroad.core.designsystem.theme.SettingSetting
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
 import com.teamoffroad.feature.auth.presentation.component.SetCharacterDialog
@@ -58,9 +58,9 @@ internal fun SetCharacterScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val pagerState = rememberPagerState(pageCount = { Int.MAX_VALUE })
     val backgroundColor = when (selectedCharacter.id) {
-        1 -> CharacterSelectBg1
-        2 -> CharacterSelectBg2
-        3 -> CharacterSelectBg3
+        1 -> SettingCharacter
+        2 -> SettingSetting
+        3 -> SettingCoupon
         else -> White
     }
     LaunchedEffect(Unit) {
