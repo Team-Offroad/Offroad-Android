@@ -5,6 +5,7 @@ import com.teamoffroad.feature.mypage.domain.model.Announcement
 
 fun AnnouncementData.toAnnouncement() =
     Announcement(
+        id = id,
         title = title,
         content = content,
         isImportant = isImportant,
