@@ -16,6 +16,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.teamoffroad.core.designsystem.component.FullLinearLoadingAnimation
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.feature.explore.presentation.component.ExploreOffroadMap
 import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
@@ -31,7 +32,6 @@ internal fun ExploreScreen(
     authResultState: String?,
     qrResultImageUrl: String?,
     navigateToHome: (String, List<String>) -> Unit,
-    navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
     navigateToPlace: () -> Unit,
     navigateToQuest: () -> Unit,
     exploreViewModel: ExploreViewModel = hiltViewModel(),
@@ -82,33 +82,33 @@ internal fun ExploreScreen(
         updatePermission = exploreViewModel::updatePermission,
     )
 
-    if (uiState.permissionModel.isSomePermissionRejected == true) {
-        ExplorePermissionRejectedHandler(
-            context = context,
-            uiState = uiState,
-            navigateToHome = { navigateToHome(PlaceCategory.NONE.name, emptyList()) },
-            updatePermission = exploreViewModel::updatePermission,
-        )
-    }
+    uiState.isLocationPermissionGranted.let { isLocationPermissionGranted ->
+        when (isLocationPermissionGranted) {
+            true -> StaticAnimationWrapper {
+                ExploreOffroadMap(
+                    uiState.locationModel,
+                    uiState.places,
+                    uiState.selectedPlace,
+                    navigateToPlace,
+                    navigateToQuest,
+                    exploreViewModel::updateLocation,
+                    exploreViewModel::updateTrackingToggle,
+                    exploreViewModel::updateSelectedPlace,
+                    exploreViewModel::updatePlaces,
+                    exploreViewModel::updateExploreResult,
+                    mapKey,
+                )
+            }
 
-    if (uiState.permissionModel.isAllPermissionGranted) {
-        StaticAnimationWrapper {
-            ExploreOffroadMap(
-                uiState.locationModel,
-                uiState.places,
-                uiState.selectedPlace,
-                navigateToExploreCameraScreen,
-                navigateToPlace,
-                navigateToQuest,
-                exploreViewModel::updateLocation,
-                exploreViewModel::updateTrackingToggle,
-                exploreViewModel::updateSelectedPlace,
-                exploreViewModel::updatePlaces,
-                exploreViewModel::updateExploreAuthState,
-                exploreViewModel::isValidDistance,
-                exploreViewModel::updateExploreResult,
-                mapKey,
+            false -> ExplorePermissionRejectedHandler(
+                context = context,
+                navigateToHome = { navigateToHome(PlaceCategory.NONE.name, emptyList()) },
+                updatePermission = exploreViewModel::updatePermission,
             )
+
+            else -> Unit
         }
     }
+
+    FullLinearLoadingAnimation(isLoading = uiState.loading)
 }

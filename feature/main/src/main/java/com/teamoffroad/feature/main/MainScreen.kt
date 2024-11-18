@@ -2,7 +2,6 @@ package com.teamoffroad.feature.main
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -35,6 +34,7 @@ private fun MainScreenContent(
             MainNavHost(
                 navigator = navigator,
                 padding = padding,
+                modifier = Modifier,
             )
             OnBackButtonListener(
                 navigator::popBackStackIfNotMainTabRoute,
@@ -43,12 +43,10 @@ private fun MainScreenContent(
         },
         bottomBar = {
             MainBottomBar(
-                modifier = Modifier
-                    .wrapContentHeight(),
                 visible = navigator.setBottomBarVisibility(),
                 tabs = MainNavTab.entries.toPersistentList(),
                 currentTab = navigator.currentTab,
-                onTabSelected = { navigator.navigate(it) }
+                onTabSelected = { navigator.navigate(it) },
             )
         }
     )

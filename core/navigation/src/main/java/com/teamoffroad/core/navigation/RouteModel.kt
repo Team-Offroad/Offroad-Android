@@ -4,6 +4,9 @@ import kotlinx.serialization.Serializable
 
 sealed interface Route {
     @Serializable
+    data object Splash : Route
+
+    @Serializable
     data object Auth : Route
 }
 
@@ -44,10 +47,6 @@ sealed interface AuthRoute : Route {
 
 sealed interface ExploreRoute : Route {
     @Serializable
-    data class ExploreCameraScreen(val placeId: Long, val latitude: String, val longitude: String) :
-        ExploreRoute
-
-    @Serializable
     data object PlaceScreen : ExploreRoute
 
     @Serializable
@@ -85,6 +84,9 @@ sealed interface MyPageRoute : Route {
         val content: String,
         val isImportant: Boolean,
         val updateAt: String,
+        val hasExternalLinks: Boolean,
+        val externalLinks: List<String>,
+        val externalLinksTitles: List<String>,
     ) : MyPageRoute
 
     @Serializable
@@ -92,4 +94,12 @@ sealed interface MyPageRoute : Route {
         val characterId: Int,
         val isRepresentative: Boolean,
     ) : MyPageRoute
+}
+
+sealed interface CharacterChatRoute : Route {
+    @Serializable
+    data class CharacterChat(
+        val characterId: Int,
+        val characterName: String,
+    ) : CharacterChatRoute
 }

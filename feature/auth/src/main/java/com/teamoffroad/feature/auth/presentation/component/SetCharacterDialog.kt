@@ -22,7 +22,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.teamoffroad.core.designsystem.theme.Main2
+import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
+import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.auth.domain.model.Character
 import com.teamoffroad.offroad.feature.auth.R
 
@@ -32,29 +34,29 @@ fun SetCharacterDialog(
     onDismissRequest: () -> Unit,
     onConfirm: () -> Unit,
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 30.dp, vertical = 40.dp)
-    ) {
+    Box{
         AlertDialog(
             onDismissRequest = onDismissRequest,
             properties = DialogProperties(dismissOnClickOutside = false),
             title = null,
             text = {
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .padding(top = 15.dp)
+                        .fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
+                        modifier = Modifier,
                         text = stringResource(R.string.auth_character_question_title, character.name),
                         style = OffroadTheme.typography.title,
                         color = Main2,
                         textAlign = TextAlign.Center
                     )
-                    Spacer(modifier = Modifier.height(12.dp))
                     Text(
+                        modifier = Modifier
+                            .padding(top = 10.dp),
                         text = stringResource(R.string.auth_character_question_label, character.name),
                         style = OffroadTheme.typography.textRegular,
                         color = Main2,
@@ -100,7 +102,7 @@ fun SetCharacterDialog(
                 }
             },
             shape = RoundedCornerShape(12.dp),
-            containerColor = Color(0xFFF9E5D2),
+            containerColor = (Main3),
         )
     }
 }

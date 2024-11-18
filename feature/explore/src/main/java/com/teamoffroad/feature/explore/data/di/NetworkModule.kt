@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.explore.data.di
 
+import com.teamoffroad.core.common.data.di.qualifier.Auth
 import com.teamoffroad.feature.explore.data.remote.service.PlaceService
 import com.teamoffroad.feature.explore.data.remote.service.QuestService
 import com.teamoffroad.feature.explore.data.remote.service.UserService
@@ -16,19 +17,19 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideUserService(retrofit: Retrofit): UserService {
+    fun provideUserService(@Auth retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
     }
 
     @Provides
     @Singleton
-    fun providePlaceService(retrofit: Retrofit): PlaceService {
+    fun providePlaceService(@Auth retrofit: Retrofit): PlaceService {
         return retrofit.create(PlaceService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideQuestService(retrofit: Retrofit): QuestService {
+    fun provideQuestService(@Auth retrofit: Retrofit): QuestService {
         return retrofit.create(QuestService::class.java)
     }
 }

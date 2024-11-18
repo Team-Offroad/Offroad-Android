@@ -9,13 +9,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -49,10 +46,11 @@ import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberFusedLocationSource
 import com.naver.maps.map.overlay.OverlayImage
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
+import com.teamoffroad.core.designsystem.component.actionBarPadding
+import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Sub2
-import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
 import com.teamoffroad.feature.explore.presentation.model.LocationModel
 import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 import com.teamoffroad.feature.explore.presentation.model.PlaceModel
@@ -64,15 +62,12 @@ fun ExploreOffroadMap(
     locationState: LocationModel,
     places: List<PlaceModel>,
     selectedPlace: PlaceModel?,
-    navigateToExploreCameraScreen: (Long, Double, Double) -> Unit,
     navigateToPlace: () -> Unit,
     navigateToQuest: () -> Unit,
     updateLocation: (Double, Double) -> Unit,
     updateTrackingToggle: (Boolean) -> Unit,
     updateSelectedPlace: (PlaceModel?) -> Unit,
     updatePlaces: (Double, Double) -> Unit,
-    updateAuthState: (ExploreAuthState) -> Unit,
-    isValidDistance: (PlaceModel, LatLng) -> Boolean,
     updateExploreResult: (Long, Double, Double, PlaceCategory) -> Unit,
     mapKey: Int,
 ) {
@@ -85,7 +80,7 @@ fun ExploreOffroadMap(
         animationSpec = tween(durationMillis = 500),
         label = "",
     )
-    val backgroundPadding = 104
+    val backgroundPadding = 76
 
     LaunchedEffect(locationState.cameraPositionState.cameraUpdateReason) {
         if (locationState.cameraPositionState.cameraUpdateReason == CameraUpdateReason.GESTURE) {
@@ -106,8 +101,7 @@ fun ExploreOffroadMap(
         Modifier
             .background(Main1)
             .fillMaxSize()
-            .padding(bottom = 72.dp)
-            .navigationBarsPadding()
+            .actionBarPadding()
             .onGloballyPositioned { coordinates ->
                 mapViewSize = coordinates.size
             }) {
@@ -193,7 +187,8 @@ fun ExploreOffroadMap(
         Row(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 36.dp),
+                .navigationPadding()
+                .padding(bottom = 148.dp),
             horizontalArrangement = Arrangement.Center,
         ) {
             ExploreMapBottomButton(
@@ -201,8 +196,8 @@ fun ExploreOffroadMap(
                 text = stringResource(R.string.explore_quests),
                 onClick = { navigateToQuest() },
             )
-            Spacer(modifier = Modifier.size(16.dp))
             ExploreMapBottomButton(
+                modifier = Modifier.padding(start = 16.dp),
                 painter = painterResource(R.drawable.ic_explore_location),
                 text = stringResource(R.string.explore_places),
                 onClick = { navigateToPlace() },
@@ -233,28 +228,6 @@ fun ExploreOffroadMap(
                         visitCount = place.visitCount,
                         categoryImage = place.categoryImageUrl,
                         onButtonClick = {
-                            /* TODO: QR 및 거리 로직 정
-                            when (isValidDistance(place, locationState.location)) {
-                                true -> {
-                                    if (selectedPlace.placeCategory == PlaceCategory.CAFFE || selectedPlace.placeCategory == PlaceCategory.RESTAURANT) {
-                                        navigateToExploreCameraScreen(
-                                            place.id,
-                                            locationState.location.latitude,
-                                            locationState.location.longitude,
-                                        )
-                                    } else {
-                                        updateExploreResult(
-                                            place.id,
-                                            locationState.location.latitude,
-                                            locationState.location.longitude,
-                                            place.placeCategory,
-                                        )
-                                    }
-                                }
-
-                                false -> updateAuthState(ExploreAuthState.LocationError)
-                            }
-                             */
                             updateExploreResult(
                                 place.id,
                                 locationState.location.latitude,

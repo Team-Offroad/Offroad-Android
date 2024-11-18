@@ -7,6 +7,7 @@ import com.teamoffroad.feature.auth.domain.usecase.GetCharacterListUseCase
 import com.teamoffroad.feature.auth.domain.usecase.UpdateCharacterUseCase
 import com.teamoffroad.feature.auth.presentation.model.SetCharacterUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -34,6 +35,7 @@ class SetCharacterViewModel @Inject constructor(
                 getCharacterListUseCase.invoke()
             }.onSuccess { characters ->
                 _characters.value = characters
+                _uiState.value = SetCharacterUiState.FetchCharacter
                 updateSelectedCharacter(characters.first().id)
             }.onFailure {
                 _uiState.value = SetCharacterUiState.Error

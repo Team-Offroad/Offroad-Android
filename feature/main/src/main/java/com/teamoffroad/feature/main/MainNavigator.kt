@@ -8,6 +8,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import com.teamoffroad.characterchat.navigation.navigateToCharacterChat
+import com.teamoffroad.core.navigation.CharacterChatRoute
 import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.core.navigation.Route
 import com.teamoffroad.feature.auth.navigation.navigateToAgreeTermsAndConditions
@@ -17,10 +19,10 @@ import com.teamoffroad.feature.auth.navigation.navigateToSetCharacter
 import com.teamoffroad.feature.auth.navigation.navigateToSetGender
 import com.teamoffroad.feature.auth.navigation.navigateToSetNickname
 import com.teamoffroad.feature.explore.navigation.navigateToExplore
-import com.teamoffroad.feature.explore.navigation.navigateToExploreCamera
 import com.teamoffroad.feature.explore.navigation.navigateToPlace
 import com.teamoffroad.feature.explore.navigation.navigateToQuest
 import com.teamoffroad.feature.home.navigation.navigateToHome
+import com.teamoffroad.feature.main.splash.navigation.navigateToAuth
 import com.teamoffroad.feature.mypage.navigation.navigateToAnnouncement
 import com.teamoffroad.feature.mypage.navigation.navigateToAnnouncementDetail
 import com.teamoffroad.feature.mypage.navigation.navigateToAvailableCouponDetail
@@ -30,7 +32,6 @@ import com.teamoffroad.feature.mypage.navigation.navigateToGainedCoupon
 import com.teamoffroad.feature.mypage.navigation.navigateToGainedEmblems
 import com.teamoffroad.feature.mypage.navigation.navigateToMyPage
 import com.teamoffroad.feature.mypage.navigation.navigateToSetting
-import com.teamoffroad.feature.mypage.navigation.navigateToSignIn
 
 internal class MainNavigator(
     val navController: NavHostController,
@@ -39,7 +40,7 @@ internal class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    val startDestination = Route.Auth
+    val startDestination = Route.Splash
 
     val currentTab: MainNavTab?
         @Composable get() = MainNavTab.find { tab ->
@@ -52,7 +53,7 @@ internal class MainNavigator(
                 saveState = true
             }
             launchSingleTop = true
-            restoreState = true
+            restoreState = false
         }
     }
 
@@ -80,17 +81,23 @@ internal class MainNavigator(
     }
 
     @Composable
-    fun setBottomBarVisibility() = MainNavTab.contains {
-        currentDestination?.hasRoute(it::class) == true
+    fun setBottomBarVisibility(): Boolean {
+        val isMainNavTabRoute = MainNavTab.contains {
+            currentDestination?.hasRoute(it::class) == true
+        }
+        val isCharacterChatRoute = currentDestination?.hasRoute<CharacterChatRoute.CharacterChat>() == true
+
+        return isMainNavTabRoute || isCharacterChatRoute
     }
+
 
     @Composable
     fun setBackButtonListenerEnabled() = MainNavTab.contains {
         currentDestination?.hasRoute(it::class) == true
     } || currentDestination?.hasRoute<Route.Auth>() == true
 
-    fun navigateToSignIn() {
-        navController.navigateToSignIn()
+    fun navigateToAuth() {
+        navController.navigateToAuth()
     }
 
     fun navigateToHome(category: String? = null, completeQuest: List<String> = emptyList()) {
@@ -115,10 +122,6 @@ internal class MainNavigator(
 
     fun navigateToSetCharacter() {
         navController.navigateToSetCharacter()
-    }
-
-    fun navigateToExploreCameraScreen(placeId: Long, latitude: Double, longitude: Double) {
-        navController.navigateToExploreCamera(placeId, latitude, longitude)
     }
 
     fun navigateToSelectedCharacter(selectedCharacterUrl: String) {
@@ -182,8 +185,19 @@ internal class MainNavigator(
         content: String,
         isImportant: Boolean,
         updateAt: String,
+        hasExternalLinks: Boolean,
+        externalLinks: List<String>,
+        externalLinksTitles: List<String>,
     ) {
-        navController.navigateToAnnouncementDetail(title, content, isImportant, updateAt)
+        navController.navigateToAnnouncementDetail(
+            title,
+            content,
+            isImportant,
+            updateAt,
+            hasExternalLinks,
+            externalLinks,
+            externalLinksTitles
+        )
     }
 
     fun navigateToCharacterDetail(characterId: Int, isRepresentative: Boolean) {
@@ -198,6 +212,10 @@ internal class MainNavigator(
             launchSingleTop = true
         }
         navController.navigateToHome(category, completeQuest, navOptions)
+    }
+
+    fun navigateToCharacterChat(characterId: Int, characterName: String) {
+        navController.navigateToCharacterChat(characterId, characterName)
     }
 }
 

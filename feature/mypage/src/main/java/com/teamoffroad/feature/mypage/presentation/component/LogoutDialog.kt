@@ -34,7 +34,6 @@ fun LogoutDialog(
     shape: Shape = RoundedCornerShape(14.dp),
     onClick: () -> Unit,
     onClickCancel: () -> Unit,
-    navigateToSignIn: () -> Unit,
 ) {
     Dialog(
         onDismissRequest = { onClickCancel() },
@@ -67,22 +66,23 @@ fun LogoutDialog(
                 )
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     LogoutButton(
+                        modifier = Modifier
+                            .clickableWithoutRipple { onClickCancel() }
+                            .weight(1f),
                         text = stringResource(R.string.my_page_setting_logout_dialog_disagree),
-                        onClick = onClickCancel,
                         textColor = Main2,
                         backgroundColor = Main3,
-                        modifier = Modifier.weight(1f)
                     )
                     LogoutButton(
+                        modifier = Modifier
+                            .clickableWithoutRipple {
+                                onClick()
+                                onClickCancel()
+                            }
+                            .weight(1f),
                         text = stringResource(R.string.my_page_setting_logout_dialog_agree),
-                        onClick = {
-                            onClick()
-                            onClickCancel()
-                            navigateToSignIn()
-                        },
                         textColor = White,
                         backgroundColor = Main2,
-                        modifier = Modifier.weight(1f)
                     )
                 }
             }
@@ -94,11 +94,11 @@ fun LogoutDialog(
 private fun LogoutButton(
     modifier: Modifier = Modifier,
     text: String,
-    onClick: () -> Unit,
     textColor: Color,
     backgroundColor: Color,
 ) {
-    Text(text = text,
+    Text(
+        text = text,
         color = textColor,
         style = OffroadTheme.typography.btnSmall,
         textAlign = TextAlign.Center,
@@ -109,5 +109,5 @@ private fun LogoutButton(
             )
             .border(width = 1.dp, shape = RoundedCornerShape(5.dp), color = Main2)
             .padding(vertical = 14.dp, horizontal = 38.dp)
-            .clickableWithoutRipple { onClick() })
+    )
 }

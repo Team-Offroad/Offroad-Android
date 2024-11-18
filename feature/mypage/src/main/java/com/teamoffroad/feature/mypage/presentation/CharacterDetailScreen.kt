@@ -11,26 +11,25 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.feature.mypage.presentation.component.CharacterDescriptionContainer
+import com.teamoffroad.feature.mypage.presentation.component.CharacterDetailAppBar
 import com.teamoffroad.feature.mypage.presentation.component.CharacterDetailImageItem
 import com.teamoffroad.feature.mypage.presentation.component.CharacterMotionsContainer
 import com.teamoffroad.feature.mypage.presentation.component.RepresentativeUpdateResultSnackBar
 import com.teamoffroad.feature.mypage.presentation.component.UpdateRepresentativeCharacterButton
-import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
 fun CharacterDetailScreen(
     characterId: Int,
     isRepresentative: Boolean,
     navigateToBack: () -> Unit,
+    navigateToCharacterChat: (Int, String) -> Unit,
     characterDetailViewModel: CharacterDetailViewModel = hiltViewModel(),
 ) {
     val uiState = characterDetailViewModel.uiState.collectAsStateWithLifecycle()
@@ -48,13 +47,11 @@ fun CharacterDetailScreen(
                 .background(Color(uiState.value.characterDetailModel.characterSubColorCode)),
         ) {
             OffroadActionBar()
-            NavigateBackAppBar(
-                text = stringResource(R.string.my_page_gained_character),
-                backgroundColor = Color(uiState.value.characterDetailModel.characterSubColorCode),
-                modifier = Modifier.padding(top = 20.dp),
-            ) {
-                navigateToBack()
-            }
+            CharacterDetailAppBar(
+                backgroundColor = uiState.value.characterDetailModel.characterSubColorCode,
+                navigateToBack = navigateToBack,
+                onChatLogClick = { navigateToCharacterChat(characterId, uiState.value.characterDetailModel.characterName) },
+            )
             when {
                 uiState.value.isLoading -> Unit
                 uiState.value.isError -> Unit

@@ -2,7 +2,6 @@ package com.teamoffroad.feature.explore.presentation.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
@@ -35,7 +34,6 @@ fun ExploreAppBar(
                     stringResource(R.string.explore_title),
                     textAlign = TextAlign.Start,
                     style = OffroadTheme.typography.subtitle2Semibold,
-                    modifier = Modifier.padding(top = 32.dp),
                 )
             },
             modifier = Modifier.height(topPadding.dp),

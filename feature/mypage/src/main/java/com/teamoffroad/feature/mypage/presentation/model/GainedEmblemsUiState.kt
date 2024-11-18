@@ -6,5 +6,5 @@ import kotlinx.collections.immutable.toImmutableList
 
 data class GainedEmblemsUiState(
     val emblemList: ImmutableList<GainedEmblem> = emptyList<GainedEmblem>().toImmutableList(),
-    val nicknameValidateResult: GainedEmblemsResult = GainedEmblemsResult.Empty,
+    val gainedEmblemsValidateResult: GainedEmblemsResult = GainedEmblemsResult.Empty,
 )

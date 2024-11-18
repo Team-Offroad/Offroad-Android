@@ -2,7 +2,7 @@ package com.teamoffroad.feature.mypage.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.teamoffroad.feature.mypage.domain.model.UserCouponList
+import com.teamoffroad.feature.mypage.domain.model.UserCoupons
 import com.teamoffroad.feature.mypage.domain.repository.UserCouponRepository
 import com.teamoffroad.feature.mypage.presentation.component.getErrorMessage
 import com.teamoffroad.feature.mypage.presentation.model.UiState
@@ -18,38 +18,49 @@ class GainedCouponViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _getUserCouponListState =
-        MutableStateFlow<UiState<UserCouponList>>(UiState.Loading)
-    val getUserCouponsState = _getUserCouponListState.asStateFlow()
+        MutableStateFlow<UiState<UserCoupons>>(UiState.Loading)
+    val getUserCouponListState = _getUserCouponListState.asStateFlow()
 
-    private val _userAvailableCoupons =
-        MutableStateFlow<List<UserCouponList.AvailableCoupon>>(emptyList())
+    private val _availableCouponsCount = MutableStateFlow<Int>(0)
+    val availableCouponsCount = _availableCouponsCount.asStateFlow()
+
+    private val _usedCouponsCount = MutableStateFlow<Int>(0)
+    val usedCouponsCount = _usedCouponsCount.asStateFlow()
+
+    private val _userAvailableCoupons = MutableStateFlow<List<UserCoupons.Coupons>>(emptyList())
     val userAvailableCoupons = _userAvailableCoupons.asStateFlow()
 
-    private val _userUsedCoupons =
-        MutableStateFlow<List<UserCouponList.UsedCoupon>>(emptyList())
+    private val _userUsedCoupons = MutableStateFlow<List<UserCoupons.Coupons>>(emptyList())
     val userUsedCoupons = _userUsedCoupons.asStateFlow()
 
-    fun getUserCoupons() {
+    fun getUserCoupons(isUsed: Boolean, cursorId: Int) {
+        _getUserCouponListState.value = UiState.Loading
+
         viewModelScope.launch {
             runCatching {
-                userCouponRepository.fetchUserCoupons()
-            }.onSuccess { state ->
-                _getUserCouponListState.emit(UiState.Success(state))
-                updateAvailableCoupons(state.availableCoupons)
-                updateUsedCoupons(state.usedCoupons)
-            }.onFailure { t ->
-                val errorMessage = getErrorMessage(t)
-                _getUserCouponListState.emit(UiState.Failure(errorMessage))
+                userCouponRepository.fetchUserCoupons(isUsed, COUPON_SIZE, cursorId)
+            }.onSuccess { coupons ->
+                _getUserCouponListState.emit(UiState.Success(coupons))
+                _availableCouponsCount.emit(coupons.availableCouponsCount)
+                _usedCouponsCount.emit(coupons.usedCouponsCount)
+                applyCoupons(isUsed, coupons.coupons)
+            }.onFailure { throwable ->
+                _getUserCouponListState.emit(UiState.Failure(getErrorMessage(throwable)))
             }
         }
     }
 
-
-    private fun updateAvailableCoupons(coupons: List<UserCouponList.AvailableCoupon>) {
-        _userAvailableCoupons.value = coupons
+    private fun applyCoupons(isUsed: Boolean, coupons: List<UserCoupons.Coupons>) {
+        if (isUsed) {
+            _userUsedCoupons.value += coupons
+        } else {
+            _userAvailableCoupons.value += coupons
+        }
     }
 
-    private fun updateUsedCoupons(coupons: List<UserCouponList.UsedCoupon>) {
-        _userUsedCoupons.value = coupons
+
+    companion object {
+        const val COUPON_SIZE: Int = 8
+        const val START_CURSOR_ID: Int = 0
     }
 }

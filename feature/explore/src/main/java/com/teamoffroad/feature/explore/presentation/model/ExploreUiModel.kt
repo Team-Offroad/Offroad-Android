@@ -48,10 +48,10 @@ data class LocationModel(
         }
     }
 
-    private fun getSubIconImage(isUserTrackingEnabled: Boolean): OverlayImage? {
+    private fun getSubIconImage(isUserTrackingEnabled: Boolean): OverlayImage {
         return when (isUserTrackingEnabled) {
             true -> OverlayImage.fromResource(R.drawable.ic_explore_location_overlay_sub)
-            false -> null
+            false -> OverlayImage.fromResource(R.drawable.ic_explore_location_overlay_sub_copy)
         }
     }
 
@@ -94,11 +94,4 @@ data class PlaceModel(
     val location: LatLng,
     val visitCount: Int,
     val isVisited: Boolean,
-)
-
-data class ExplorePermissionModel(
-    val isSomePermissionRejected: Boolean? = null,
-    val isAllPermissionGranted: Boolean = false,
-    val isLocationPermissionGranted: Boolean = false,
-    val isCameraPermissionGranted: Boolean = false,
 )
