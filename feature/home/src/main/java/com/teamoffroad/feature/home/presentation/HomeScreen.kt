@@ -2,8 +2,11 @@ package com.teamoffroad.feature.home.presentation
 
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -29,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -89,8 +93,9 @@ fun HomeScreen(
     val sendMessage = remember { mutableStateOf("") }
     val characterChat = viewModel.getCharacterChat.collectAsStateWithLifecycle()
     val isCharacterChatting = viewModel.isCharacterChatting.collectAsStateWithLifecycle()
-    val isCharacterChattingLoading = viewModel.isCharacterChattingLoading.collectAsStateWithLifecycle()
-    val userSendChat = remember{ mutableStateOf(false) }
+    val isCharacterChattingLoading =
+        viewModel.isCharacterChattingLoading.collectAsStateWithLifecycle()
+    val userSendChat = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.updateAutoSignIn()
@@ -206,6 +211,13 @@ fun CharacterChat(
     borderColor: Color = BtnInactive
 ) {
     val checkCharacterChattingLines = remember { mutableStateOf(false) }
+    val isExpanded = remember { mutableStateOf(false) }
+
+    val rotationAngle by animateFloatAsState(
+        targetValue = if (isExpanded.value) 180f else 0f,
+        animationSpec = tween(durationMillis = 300), label = ""
+    )
+
 
     Box(
         modifier = Modifier
@@ -213,6 +225,11 @@ fun CharacterChat(
             .background(
                 color = backgroundColor,
                 shape = RoundedCornerShape(12.dp)
+            )
+            .border(
+                width = 1.dp,
+                shape = RoundedCornerShape(12.dp),
+                color = borderColor
             )
             .padding(vertical = 14.dp, horizontal = 18.dp)
     ) {
@@ -230,11 +247,18 @@ fun CharacterChat(
                         modifier = Modifier
                             .size(width = 54.dp, height = 27.dp)
                     ) {
-                        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(com.teamoffroad.offroad.core.designsystem.R.raw.loading_linear))
-                        val animationState = animateLottieCompositionAsState(composition, iterations = LottieConstants.IterateForever)
+                        val composition by rememberLottieComposition(
+                            LottieCompositionSpec.RawRes(
+                                com.teamoffroad.offroad.core.designsystem.R.raw.loading_linear
+                            )
+                        )
+                        val animationState = animateLottieCompositionAsState(
+                            composition,
+                            iterations = LottieConstants.IterateForever
+                        )
 
                         if (animationState.isAtEnd && animationState.isPlaying) {
-                            LaunchedEffect(Unit) {  }
+                            LaunchedEffect(Unit) { }
                         }
 
                         LottieAnimation(composition, animationState.progress)
@@ -248,12 +272,21 @@ fun CharacterChat(
                         onTextLayout = { textLayoutResult ->
                             checkCharacterChattingLines.value = textLayoutResult.lineCount >= 3
                         },
-                        maxLines = 2,
+                        maxLines = if (isExpanded.value) Int.MAX_VALUE else 2,
                         overflow = TextOverflow.Ellipsis,
+                    )
+
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_home_accordion),
+                        contentDescription = "accordion down",
+                        modifier = Modifier
+                            .graphicsLayer(rotationX = rotationAngle)
+                            .clickableWithoutRipple {
+                                isExpanded.value = !isExpanded.value
+                            }
                     )
                 }
 
-                Image(painter = painterResource(id = R.drawable.ic_home_accordion), contentDescription = "accordion down")
             }
 
             if (!answerCharacterChat.value) {
@@ -358,7 +391,9 @@ fun AnswerCharacterChat(
     textStyle: TextStyle = OffroadTheme.typography.textContents
 ) {
     Box(
-        modifier = Modifier.fillMaxWidth().padding(top = 10.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 10.dp)
     ) {
         Box(contentAlignment = Alignment.CenterEnd, modifier = Modifier.fillMaxWidth()) {
             Text(
