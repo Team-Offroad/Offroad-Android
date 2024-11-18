@@ -19,9 +19,12 @@ data class ChatModel(
         fun String.toTime(): Triple<TimeType, Int, Int> {
             val localDateTime = LocalDateTime.parse(this)
             val timeType = TimeType.toTimeType(localDateTime.hour)
-            val formattedHour = if (timeType == AM) localDateTime.hour else localDateTime.hour - 12
 
-            return Triple(timeType, formattedHour, localDateTime.minute)
+            return Triple(timeType, localDateTime.hour.toTwelveHour(), localDateTime.minute)
+        }
+
+        fun Int.toTwelveHour(): Int {
+            return if (this == 0) 12 else if (this > 12) this - 12 else this
         }
     }
 }
