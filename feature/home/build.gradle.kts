@@ -17,4 +17,5 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.lottie.compose)
     implementation(libs.coil.svg)
+    //implementation(libs.androidsvg.aar)
 }

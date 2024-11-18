@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -69,7 +68,6 @@ fun ExploreOffroadMap(
     updateSelectedPlace: (PlaceModel?) -> Unit,
     updatePlaces: (Double, Double) -> Unit,
     updateExploreResult: (Long, Double, Double, PlaceCategory) -> Unit,
-    mapKey: Int,
 ) {
     val density = LocalDensity.current
     var markerOffset by remember { mutableStateOf(IntOffset.Zero) }
@@ -105,55 +103,53 @@ fun ExploreOffroadMap(
             .onGloballyPositioned { coordinates ->
                 mapViewSize = coordinates.size
             }) {
-        key(mapKey) {
-            StaticAnimationWrapper {
-                NaverMap(
-                    properties = locationState.mapProperties,
-                    uiSettings = MapUiSettings(
-                        isScaleBarEnabled = false,
-                        isZoomControlEnabled = false,
-                        isLogoClickEnabled = false,
-                        logoGravity = Gravity.TOP,
-                        // TODO: 릴리즈 이전에 로고 이미지 수정
-                        logoMargin = PaddingValues(top = 0.dp, start = 22.dp),
-                    ),
-                    locationSource = rememberFusedLocationSource(isCompassEnabled = true),
-                    cameraPositionState = locationState.cameraPositionState,
-                    onLocationChange = { location ->
-                        updateLocation(location.latitude, location.longitude)
-                    },
-                    onMapClick = { _, _ ->
-                        updateSelectedPlace(null)
-                    },
-                ) {
-                    LocationOverlay(
-                        position = locationState.location,
-                        icon = OverlayImage.fromResource(R.drawable.ic_explore_location_overlay),
-                        subIcon = locationState.subIcon,
-                        subIconWidth = 48,
-                        subIconHeight = 40,
-                        circleColor = Sub2.copy(alpha = locationState.circleAlpha),
+        StaticAnimationWrapper {
+            NaverMap(
+                properties = locationState.mapProperties,
+                uiSettings = MapUiSettings(
+                    isScaleBarEnabled = false,
+                    isZoomControlEnabled = false,
+                    isLogoClickEnabled = false,
+                    logoGravity = Gravity.TOP,
+                    // TODO: 릴리즈 이전에 로고 이미지 수정
+                    logoMargin = PaddingValues(top = 0.dp, start = 22.dp),
+                ),
+                locationSource = rememberFusedLocationSource(isCompassEnabled = true),
+                cameraPositionState = locationState.cameraPositionState,
+                onLocationChange = { location ->
+                    updateLocation(location.latitude, location.longitude)
+                },
+                onMapClick = { _, _ ->
+                    updateSelectedPlace(null)
+                },
+            ) {
+                LocationOverlay(
+                    position = locationState.location,
+                    icon = OverlayImage.fromResource(R.drawable.ic_explore_location_overlay),
+                    subIcon = locationState.subIcon,
+                    subIconWidth = 48,
+                    subIconHeight = 40,
+                    circleColor = Sub2.copy(alpha = locationState.circleAlpha),
+                )
+                places.forEach { place ->
+                    Marker(
+                        state = MarkerState(position = place.location),
+                        icon = OverlayImage.fromResource(R.drawable.ic_explore_place_marker),
+                        onClick = {
+                            val offsetResult = getMarkerOffset(
+                                place.location, locationState.cameraPositionState, density, mapViewSize, infoWindowHeight,
+                            )
+                            markerOffset = offsetResult.first
+                            val newLatLng = getAdjustedLocationFromMarkerOffset(
+                                offsetResult.second, locationState.cameraPositionState, mapViewSize,
+                            )
+                            newLatLng?.let {
+                                locationState.cameraPositionState.move(CameraUpdate.scrollTo(it).animate(CameraAnimation.Easing, 500))
+                            }
+                            updateSelectedPlace(place)
+                            true
+                        },
                     )
-                    places.forEach { place ->
-                        Marker(
-                            state = MarkerState(position = place.location),
-                            icon = OverlayImage.fromResource(R.drawable.ic_explore_place_marker),
-                            onClick = {
-                                val offsetResult = getMarkerOffset(
-                                    place.location, locationState.cameraPositionState, density, mapViewSize, infoWindowHeight,
-                                )
-                                markerOffset = offsetResult.first
-                                val newLatLng = getAdjustedLocationFromMarkerOffset(
-                                    offsetResult.second, locationState.cameraPositionState, mapViewSize,
-                                )
-                                newLatLng?.let {
-                                    locationState.cameraPositionState.move(CameraUpdate.scrollTo(it).animate(CameraAnimation.Easing, 500))
-                                }
-                                updateSelectedPlace(place)
-                                true
-                            },
-                        )
-                    }
                 }
             }
         }
