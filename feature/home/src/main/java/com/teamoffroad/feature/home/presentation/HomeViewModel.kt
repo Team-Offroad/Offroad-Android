@@ -116,12 +116,8 @@ class HomeViewModel @Inject constructor(
         val characterContent = event.characterContent
         if(characterName != null && characterContent != null) {
             _getCharacterChat.value = CharacterChatModel(_characterName.value, characterContent)
-            //_isCharacterChatting.value = true
             updateCharacterChatting(true)
         }
-
-
-        // 2. 로컬에 내용 저장 characterName,characterContent, confirm (이건 우선 나중에)
 
     }
 
@@ -242,7 +238,6 @@ class HomeViewModel @Inject constructor(
                 val characterContent = chat.content
                 if (characterContent != null) {
                     _getCharacterChat.value = CharacterChatModel(_characterName.value, characterContent)
-                    //_isCharacterChatting.value = true
                     updateCharacterChatting(true)
                 }
 

@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -29,8 +30,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -202,6 +205,8 @@ fun CharacterChat(
     backgroundColor: Color = Main3,
     borderColor: Color = BtnInactive
 ) {
+    val checkCharacterChattingLines = remember { mutableStateOf(false) }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -220,7 +225,6 @@ fun CharacterChat(
                     style = characterTextStyle
                 )
 
-                // 메세지를 보냈을 때 로티 띄우기
                 if (isCharacterChattingLoading.value) {
                     Box(
                         modifier = Modifier
@@ -238,13 +242,20 @@ fun CharacterChat(
                 } else {
                     Text(
                         text = characterContent,
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.weight(1f),
                         color = messageTextColor,
                         style = messageTextStyle,
-                        maxLines = 2
+                        onTextLayout = { textLayoutResult ->
+                            checkCharacterChattingLines.value = textLayoutResult.lineCount >= 3
+                        },
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
                     )
                 }
+
+                Image(painter = painterResource(id = R.drawable.ic_home_accordion), contentDescription = "accordion down")
             }
+
             if (!answerCharacterChat.value) {
                 AnswerCharacterChat(isChatting = isChatting)
             }
@@ -347,7 +358,7 @@ fun AnswerCharacterChat(
     textStyle: TextStyle = OffroadTheme.typography.textContents
 ) {
     Box(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth().padding(top = 10.dp)
     ) {
         Box(contentAlignment = Alignment.CenterEnd, modifier = Modifier.fillMaxWidth()) {
             Text(
