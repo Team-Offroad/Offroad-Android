@@ -29,7 +29,9 @@ fun HomeIcons(
     isChatting: MutableState<Boolean>,
     context: Context,
     imageUrl: String,
+    characterName: String,
     navigateToGainedCharacter: () -> Unit,
+    navigateToCharacterChatScreen: (Int, String) -> Unit
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
@@ -44,10 +46,10 @@ fun HomeIcons(
                 Image(
                     painter = painterResource(id = R.drawable.ic_home_chat),
                     contentDescription = "chat",
-                    //없앨 부분
-                    modifier = Modifier.clickableWithoutRipple {
-                        isChatting.value = true
-                    }
+                    modifier = Modifier
+                        .clickableWithoutRipple {
+                            navigateToCharacterChatScreen(-1, characterName)
+                        }
                 )
                 Box(
                     modifier = Modifier.fillMaxWidth(),

@@ -84,6 +84,7 @@ fun HomeScreen(
     category: String?,
     completeQuests: List<String> = emptyList(),
     navigateToGainedCharacter: () -> Unit = {},
+    navigateToCharacterChatScreen: (Int, String) -> Unit
 ) {
     val context = LocalContext.current
     val viewModel: HomeViewModel = hiltViewModel()
@@ -96,6 +97,7 @@ fun HomeScreen(
     val isCharacterChattingLoading =
         viewModel.isCharacterChattingLoading.collectAsStateWithLifecycle()
     val userSendChat = remember { mutableStateOf(false) }
+    val characterName = viewModel.characterName.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         viewModel.updateAutoSignIn()
@@ -116,11 +118,13 @@ fun HomeScreen(
             UsersAdventuresInformation(
                 isChatting = isChatting,
                 context = context,
+                characterName = characterName.value,
                 modifier = Modifier
                     .weight(1f)
                     .actionBarPadding(),
                 viewModel = viewModel,
                 navigateToGainedCharacter = navigateToGainedCharacter,
+                navigateToCharacterChatScreen = navigateToCharacterChatScreen
             )
             Spacer(modifier = Modifier.padding(top = 12.dp))
             UsersQuestInformation(context, viewModel)
@@ -178,8 +182,9 @@ fun HomeScreen(
                     isChatting = isChatting,
                     isCharacterChattingLoading = isCharacterChattingLoading,
                     answerCharacterChat = userSendChat,
-                    characterName = characterChat.value.characterName,
-                    characterContent = characterChat.value.characterContent
+                    characterName = characterName.value,
+                    characterContent = characterChat.value.characterContent,
+                    navigateToCharacterChatScreen = navigateToCharacterChatScreen
                 )
             }
         }
@@ -208,7 +213,8 @@ fun CharacterChat(
     messageTextColor: Color = Main2,
     messageTextStyle: TextStyle = OffroadTheme.typography.textRegular,
     backgroundColor: Color = Main3,
-    borderColor: Color = BtnInactive
+    borderColor: Color = BtnInactive,
+    navigateToCharacterChatScreen: (Int, String) -> Unit
 ) {
     val checkCharacterChattingLines = remember { mutableStateOf(false) }
     val isExpanded = remember { mutableStateOf(false) }
@@ -217,7 +223,6 @@ fun CharacterChat(
         targetValue = if (isExpanded.value) 180f else 0f,
         animationSpec = tween(durationMillis = 300), label = ""
     )
-
 
     Box(
         modifier = Modifier
@@ -232,6 +237,10 @@ fun CharacterChat(
                 color = borderColor
             )
             .padding(vertical = 14.dp, horizontal = 18.dp)
+            .clickableWithoutRipple {
+                // 채팅 로그로 이동
+                navigateToCharacterChatScreen(1, characterName)
+            }
     ) {
         Column {
             Row {
@@ -302,9 +311,11 @@ fun CharacterChat(
 private fun UsersAdventuresInformation(
     isChatting: MutableState<Boolean>,
     context: Context,
+    characterName: String,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel,
     navigateToGainedCharacter: () -> Unit,
+    navigateToCharacterChatScreen: (Int, String) -> Unit
 ) {
     val adventuresInformationState =
         viewModel.getUsersAdventuresInformationState.collectAsState(initial = UiState.Loading).value
@@ -333,7 +344,9 @@ private fun UsersAdventuresInformation(
                 isChatting = isChatting,
                 context = context,
                 imageUrl = imageUrl,
+                characterName = characterName,
                 navigateToGainedCharacter = navigateToGainedCharacter,
+                navigateToCharacterChatScreen = navigateToCharacterChatScreen
             )
         }
 
@@ -474,7 +487,8 @@ fun HomeScreenPreview() {
     OffroadTheme {
         HomeScreen(
             //padding = PaddingValues(),
-            category = "NONE"
+            category = "NONE",
+            navigateToCharacterChatScreen = { _, _ -> }
         )
     }
 }
