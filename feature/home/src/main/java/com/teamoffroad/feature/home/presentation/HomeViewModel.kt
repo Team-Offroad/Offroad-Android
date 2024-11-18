@@ -3,6 +3,11 @@ package com.teamoffroad.feature.home.presentation
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.teamoffroad.characterchat.domain.model.Chat
+import com.teamoffroad.characterchat.domain.repository.CharacterChatRepository
+import com.teamoffroad.characterchat.presentation.model.ChatModel
+import com.teamoffroad.characterchat.presentation.model.ChatType
+import com.teamoffroad.characterchat.presentation.model.TimeType
 import com.teamoffroad.core.common.domain.model.NotificationEvent
 import com.teamoffroad.core.common.domain.repository.DeviceTokenRepository
 import com.teamoffroad.core.common.domain.usecase.SetAutoSignInUseCase
@@ -13,11 +18,14 @@ import com.teamoffroad.feature.home.domain.repository.UserRepository
 import com.teamoffroad.feature.home.domain.usecase.PostFcmTokenUseCase
 import com.teamoffroad.feature.home.presentation.component.UiState
 import com.teamoffroad.feature.home.presentation.component.getErrorMessage
+import com.teamoffroad.feature.home.presentation.model.CharacterChatModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -26,10 +34,13 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val userRepository: UserRepository,
+    private val characterChatRepository: CharacterChatRepository,
     private val setAutoSignInUseCase: SetAutoSignInUseCase,
     private val deviceTokenRepository: DeviceTokenRepository,
     private val fcmTokenUseCase: PostFcmTokenUseCase,
 ) : ViewModel() {
+    private val _getCharacterChat = MutableStateFlow<CharacterChatModel>(CharacterChatModel("", ""))
+    val getCharacterChat = _getCharacterChat.asStateFlow()
 
     private val _getUsersAdventuresInformationState =
         MutableStateFlow<UiState<UsersAdventuresInformation>>(
@@ -58,11 +69,26 @@ class HomeViewModel @Inject constructor(
     private val _getUserQuestsState = MutableStateFlow<UiState<UserQuests>>(UiState.Loading)
     val getUserQuestsState = _getUserQuestsState.asStateFlow()
 
+    private val _sendChatState = MutableStateFlow<UiState<Chat>>(UiState.Loading)
+    val sendChatState = _sendChatState.asStateFlow()
+
     private val _circleProgressBar = MutableStateFlow(0f)
     val circleProgressBar = _circleProgressBar.asStateFlow()
 
     private val _linearProgressBar = MutableStateFlow(0f)
     val linearProgressBar = _linearProgressBar.asStateFlow()
+
+    private val _isCharacterChatting: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isCharacterChatting: StateFlow<Boolean> = _isCharacterChatting.asStateFlow()
+
+    private val _isCharacterChattingLoading = MutableStateFlow(false)
+    val isCharacterChattingLoading = _isCharacterChattingLoading.asStateFlow()
+
+    private val _chattingText: MutableStateFlow<String> = MutableStateFlow("")
+    val chattingText: StateFlow<String> = _chattingText.asStateFlow()
+
+    private val _characterName = MutableStateFlow("")
+    val characterName = _characterName.asStateFlow()
 
     var asd = MutableStateFlow("")
     init {
@@ -84,6 +110,19 @@ class HomeViewModel @Inject constructor(
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onNotificationEvent(event: NotificationEvent) {
         Log.d("characterChat data", event.toString())
+
+        // 1. 홈 화면에서 캐릭터한테 메시지가 왔을 때
+        val characterName = event.characterName
+        val characterContent = event.characterContent
+        if(characterName != null && characterContent != null) {
+            _getCharacterChat.value = CharacterChatModel(_characterName.value, characterContent)
+            updateCharacterChatting(true)
+        }
+
+    }
+
+    fun updateCharacterChatting(state: Boolean) {
+        _isCharacterChatting.value = state
     }
 
     fun getUsersAdventuresInformation(category: String) {
@@ -92,6 +131,7 @@ class HomeViewModel @Inject constructor(
                 userRepository.getUsersAdventuresInformation(category)
             }.onSuccess { state ->
                 _getUsersAdventuresInformationState.emit(UiState.Success(state))
+                _characterName.value = state.characterName
                 updateSelectedEmblem(state.emblemName)
                 updateCharacterImage(state.baseImageUrl)
                 updateMotionImageUrl(state.motionImageUrl)
@@ -169,6 +209,42 @@ class HomeViewModel @Inject constructor(
     fun updateAutoSignIn() {
         viewModelScope.launch {
             setAutoSignInUseCase.invoke(true)
+        }
+    }
+
+    fun updateChattingText(text: String) {
+        _chattingText.value = text
+    }
+
+    fun sendChat() {
+        val chattingText = chattingText.value
+        _isCharacterChattingLoading.value = true
+
+        viewModelScope.launch {
+            runCatching {
+                val now = LocalDateTime.now()
+                val userChat = ChatModel(
+                    chatType = ChatType.USER,
+                    text = chattingText,
+                    date = now.toLocalDate(),
+                    time = Triple(TimeType.toTimeType(now.hour), now.hour, now.minute),
+                )
+                characterChatRepository.saveChat(1, chattingText)
+            }.onSuccess { chat ->
+                // 보낸 채팅 내용 홈에 보여주어야 함
+                _sendChatState.emit(UiState.Success(chat))
+                _isCharacterChattingLoading.value = false
+
+                val characterContent = chat.content
+                if (characterContent != null) {
+                    _getCharacterChat.value = CharacterChatModel(_characterName.value, characterContent)
+                    updateCharacterChatting(true)
+                }
+
+            }.onFailure { t ->
+                val errorMessage = getErrorMessage(t)
+                _sendChatState.emit(UiState.Failure(errorMessage))
+            }
         }
     }
 

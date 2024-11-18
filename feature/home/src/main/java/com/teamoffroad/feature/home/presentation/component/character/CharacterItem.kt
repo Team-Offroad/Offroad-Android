@@ -73,23 +73,22 @@ class CharacterItem {
                         .fillMaxHeight()
                         .align(Alignment.BottomCenter)
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.img_home_character),
-                        contentDescription = "character",
-                        modifier = Modifier.fillMaxSize()
-                    )
-
-//                    AsyncImage(
-//                        model = ImageRequest.Builder(context)
-//                            .data(baseCharacterImage)
-//                            .decoderFactory(SvgDecoder.Factory())
-//                            .build(),
-//                        contentDescription = "explorer",
-//                        modifier = Modifier
-//                            .fillMaxSize()
-//                            .align(Alignment.BottomCenter),
-//                        // TODO: placeholder, error일 때
+//                    Image(
+//                        painter = painterResource(id = R.drawable.img_home_character),
+//                        contentDescription = "character",
+//                        modifier = Modifier.fillMaxSize()
 //                    )
+
+                    AsyncImage(
+                        model = ImageRequest.Builder(context)
+                            .data(baseCharacterImage)
+                            .decoderFactory(SvgDecoder.Factory())
+                            .build(),
+                        contentDescription = "explorer",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .align(Alignment.BottomCenter),
+                    )
                 }
             } else {
                 val composition by rememberLottieComposition(
