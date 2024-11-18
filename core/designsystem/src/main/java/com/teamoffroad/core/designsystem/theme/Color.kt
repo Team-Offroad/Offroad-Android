@@ -10,13 +10,6 @@ val ErrorNew = Color(0xFFF72585)
 val MapGradiStart = Color(0x005B5B5B)
 val MapGradiEnd = Color(0x8C5B5B5B)
 
-val CharacterSelectBg1 = Color(0xFFD8D6FF)
-val CharacterSelectBg2 = Color(0xFFFFE1C5)
-val CharacterSelectBg3 = Color(0xFFF9E5D2)
-
-val Wall = Color(0xFF452B0F)
-val Ground = Color(0xFF685440)
-
 val ChatGradientStart = Color(0xB25665BB)
 val ChatGradientEnd = Color(0x0081ADFF)
 

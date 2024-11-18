@@ -10,6 +10,7 @@ fun QuestResponseDto.toDomain(): Quest {
         description = description,
         requirement = requirement,
         reward = reward,
+        cursorId = cursorId,
         progress = QuestProgressModel(
             currentCount = currentCount,
             totalCount = totalCount,

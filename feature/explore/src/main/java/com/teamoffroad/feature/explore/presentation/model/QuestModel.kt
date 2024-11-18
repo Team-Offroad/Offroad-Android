@@ -5,6 +5,7 @@ data class QuestModel(
     val description: String,
     val requirement: String,
     val reward: String,
+    val cursorId: Int,
     val questProgressModel: QuestProgressModel,
 ) {
     data class QuestProgressModel(
