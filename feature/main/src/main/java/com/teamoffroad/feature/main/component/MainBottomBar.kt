@@ -116,7 +116,7 @@ private fun RowScope.MainBottomBarItem(
         when (ordinal) {
             HOME_TAB -> {
                 Icon(
-                    painter = painterResource(tab.iconResId),
+                    painter = painterResource(if (selected) R.drawable.ic_main_home_inactvie else tab.iconResId),
                     contentDescription = tab.contentDescription,
                     modifier = Modifier
                         .aspectRatio(33f / 44f)
@@ -126,7 +126,7 @@ private fun RowScope.MainBottomBarItem(
                             top.linkTo(parent.top)
                             bottom.linkTo(parent.bottom)
                         },
-                    tint = if (selected) colors.selectedIconColor else colors.unselectedIconColor,
+                    tint = Main1,
                 )
             }
 
@@ -149,7 +149,7 @@ private fun RowScope.MainBottomBarItem(
 
             MY_PAGE_TAB -> {
                 Icon(
-                    painter = painterResource(tab.iconResId),
+                    painter = painterResource(if (selected) R.drawable.ic_main_my_page_inactive else tab.iconResId),
                     contentDescription = tab.contentDescription,
                     modifier = Modifier
                         .aspectRatio(33f / 44f)
@@ -159,7 +159,7 @@ private fun RowScope.MainBottomBarItem(
                             top.linkTo(parent.top)
                             bottom.linkTo(parent.bottom)
                         },
-                    tint = if (selected) colors.selectedIconColor else colors.unselectedIconColor,
+                    tint = Main1,
                 )
             }
         }

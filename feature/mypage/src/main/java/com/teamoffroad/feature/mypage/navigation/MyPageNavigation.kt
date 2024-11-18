@@ -93,7 +93,7 @@ fun NavGraphBuilder.myPageNavGraph(
     navigateToSignIn: () -> Unit,
     navigateToCharacterDetail: (Int, Boolean) -> Unit,
     navigateToBack: () -> Unit,
-    navigateToCharacterChat: (Int) -> Unit,
+    navigateToCharacterChat: (Int, String) -> Unit,
 ) {
     composable<MainTabRoute.MyPage> {
         MyPageScreen(

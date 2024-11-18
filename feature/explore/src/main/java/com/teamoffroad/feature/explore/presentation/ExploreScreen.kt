@@ -8,6 +8,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.teamoffroad.core.designsystem.component.FullLinearLoadingAnimation
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.feature.explore.presentation.component.ExploreOffroadMap
 import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
@@ -79,4 +80,6 @@ internal fun ExploreScreen(
             else -> Unit
         }
     }
+
+    FullLinearLoadingAnimation(isLoading = uiState.loading)
 }

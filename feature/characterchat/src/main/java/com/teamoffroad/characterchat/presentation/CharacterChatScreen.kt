@@ -1,6 +1,6 @@
 package com.teamoffroad.characterchat.presentation
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,7 +14,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -24,15 +26,16 @@ import com.teamoffroad.characterchat.presentation.component.ChatButton
 import com.teamoffroad.characterchat.presentation.component.ChatTextField
 import com.teamoffroad.characterchat.presentation.component.DEFAULT_IME_PADDING
 import com.teamoffroad.characterchat.presentation.component.rememberKeyboardHeight
+import com.teamoffroad.core.designsystem.component.FullLinearLoadingAnimation
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.navigationPadding
-import com.teamoffroad.core.designsystem.theme.CharacterName
-import kotlinx.coroutines.delay
+import com.teamoffroad.offroad.feature.characterchat.R
 import kotlinx.coroutines.launch
 
 @Composable
 fun CharacterChatScreen(
     characterId: Int,
+    characterName: String,
     navigateToBack: () -> Unit,
     characterChatViewModel: CharacterChatViewModel = hiltViewModel(),
 ) {
@@ -41,11 +44,16 @@ fun CharacterChatScreen(
     val chattingText = characterChatViewModel.chattingText.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
     val imeHeight = rememberKeyboardHeight()
+    val keyboardOffset = if (imeHeight == DEFAULT_IME_PADDING) 0 else (imeHeight - DEFAULT_IME_PADDING)
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
-    val keyboardOffset = if (imeHeight == DEFAULT_IME_PADDING) 0 else (imeHeight - DEFAULT_IME_PADDING)
 
-    LaunchedEffect(uiState.value.chats) {
+    LaunchedEffect(Unit) {
+        characterChatViewModel.initCharacterId(characterId, characterName)
+        characterChatViewModel.getChats()
+    }
+
+    LaunchedEffect(uiState.value.chats.values.lastOrNull()?.size ?: 0) {
         coroutineScope.launch {
             listState.animateScrollToItem(listState.layoutInfo.totalItemsCount - 1)
         }
@@ -54,7 +62,6 @@ fun CharacterChatScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(CharacterName)
             .pointerInput(Unit) {
                 detectTapGestures(onTap = {
                     focusManager.clearFocus()
@@ -62,6 +69,12 @@ fun CharacterChatScreen(
             },
         contentAlignment = Alignment.BottomCenter,
     ) {
+        Image(
+            painter = painterResource(id = R.drawable.bg_character_chat),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize(),
+        )
         Column(
             modifier = Modifier
                 .navigationPadding()
@@ -81,6 +94,7 @@ fun CharacterChatScreen(
                 characterName = uiState.value.characterName,
                 arrangedChats = uiState.value.chats,
                 bottomPadding = keyboardOffset,
+                isChatting = isChatting.value,
                 listState = listState,
             )
         }
@@ -106,16 +120,13 @@ fun CharacterChatScreen(
             modifier = Modifier
                 .padding(bottom = 198.dp)
                 .align(Alignment.BottomCenter),
-            isChatting = isChatting.value,
+            isVisible = isChatting.value && !uiState.value.isSending,
             onClick = {
                 characterChatViewModel.updateIsChatting(true)
-                coroutineScope.launch {
-                    delay(400)
-                    listState.animateScrollToItem(listState.layoutInfo.totalItemsCount - 1)
-                }
             },
         )
     }
-
-    characterChatViewModel.testInit()
+    FullLinearLoadingAnimation(isLoading = uiState.value.isLoading)
 }
+
+const val KEYBOARD_LOADING_OFFSET = 400L

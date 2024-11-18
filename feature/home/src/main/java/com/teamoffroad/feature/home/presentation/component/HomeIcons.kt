@@ -2,6 +2,7 @@ package com.teamoffroad.feature.home.presentation.component
 
 import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -20,8 +21,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
+import com.teamoffroad.feature.home.presentation.component.upload.uploadImage
 import com.teamoffroad.offroad.feature.home.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
@@ -31,52 +37,78 @@ fun HomeIcons(
     navigateToGainedCharacter: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
-    val permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
+
+    val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        listOf(Manifest.permission.READ_MEDIA_IMAGES)
+    } else {
+        listOf(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
+    }
 
     val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (isGranted) {
-            Toast.makeText(context, "권한이 허용되었습니다.", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(context, "권한이 허용되지 않았습니다.", Toast.LENGTH_SHORT).show()
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        scope.launch {
+            if (permissions.values.all { it }) {
+                showToast(context, context.getString(R.string.allowed_permissions))
+            } else {
+                showToast(context, context.getString(R.string.not_allowed_permissions))
+            }
         }
     }
 
     Box(
         contentAlignment = Alignment.TopEnd,
-        modifier = Modifier.aspectRatio(48f / 144f).padding(top = 80.dp, end = 20.dp)
+        modifier = Modifier
+            .aspectRatio(48f / 144f)
+            .padding(top = 80.dp, end = 20.dp)
     ) {
         Column {
-            val downloadInteractionSource = remember { MutableInteractionSource() }
+            val characterChatInteractionSource = remember { MutableInteractionSource() }
             Image(
                 painter = painterResource(id = R.drawable.ic_home_chat),
                 contentDescription = "chat",
                 modifier = Modifier
-//                modifier = Modifier
-//                    .clickableWithoutRipple(downloadInteractionSource) {
-//                        if (ContextCompat.checkSelfPermission(
-//                                context,
-//                                permission
-//                            ) == PackageManager.PERMISSION_GRANTED
-//                        ) {
-//                            downloadImage(context, imageUrl, scope)
-//                            Toast.makeText(context, "이미지 다운 완료", Toast.LENGTH_SHORT).show()
-//                        } else {
-//                            launcher.launch(permission)
-//                        }
-//                    }
+                    .clickableWithoutRipple(characterChatInteractionSource) {
+
+                    }
             )
 
+            val uploadInteractionSource = remember { MutableInteractionSource() }
             Image(
                 painter = painterResource(id = R.drawable.ic_home_upload),
                 contentDescription = "upload",
+                modifier = Modifier
+                    .clickableWithoutRipple(uploadInteractionSource) {
+                        val allPermissionsGranted = permissions.all {
+                            ContextCompat.checkSelfPermission(
+                                context,
+                                Manifest.permission.READ_EXTERNAL_STORAGE
+                            ) == PackageManager.PERMISSION_GRANTED
+                        }
+                        if (allPermissionsGranted) {
+                            scope.launch {
+                                uploadImage(context, imageUrl)
+                            }
+                        } else {
+                            launcher.launch(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE))
+                        }
+                    }
             )
+
             Image(
                 painter = painterResource(id = R.drawable.ic_home_change),
                 contentDescription = "change",
                 modifier = Modifier.clickableWithoutRipple { navigateToGainedCharacter() }
             )
         }
+    }
+}
+
+private suspend fun showToast(context: Context, message: String) {
+    withContext(Dispatchers.Main) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 }

@@ -11,7 +11,7 @@ internal enum class MainNavTab(
     val route: MainTabRoute,
 ) {
     HOME(
-        iconResId = R.drawable.ic_main_home,
+        iconResId = R.drawable.ic_main_home_active,
         contentDescription = "홈",
         MainTabRoute.Home(),
     ),
@@ -21,7 +21,7 @@ internal enum class MainNavTab(
         MainTabRoute.Explore(),
     ),
     MYPAGE(
-        iconResId = R.drawable.ic_main_my_page,
+        iconResId = R.drawable.ic_main_my_page_active,
         contentDescription = "마이페이지",
         MainTabRoute.MyPage,
     );
