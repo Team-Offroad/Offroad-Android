@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.naver.maps.geometry.LatLng
 import com.teamoffroad.feature.explore.domain.usecase.GetPlaceListUseCase
+import com.teamoffroad.feature.explore.domain.usecase.GetPreviousLocationUseCase
 import com.teamoffroad.feature.explore.domain.usecase.PostExploreLocationAuthUseCase
+import com.teamoffroad.feature.explore.domain.usecase.SavePreviousLocationUseCase
 import com.teamoffroad.feature.explore.presentation.mapper.toUi
 import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
 import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
@@ -14,6 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,10 +24,24 @@ import javax.inject.Inject
 class ExploreViewModel @Inject constructor(
     private val getPlaceListUseCase: GetPlaceListUseCase,
     private val postExploreLocationAuthUseCase: PostExploreLocationAuthUseCase,
+    private val getPreviousLocationUseCase: GetPreviousLocationUseCase,
+    private val savePreviousLocationUseCase: SavePreviousLocationUseCase,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<ExploreUiState> = MutableStateFlow(ExploreUiState())
     val uiState: StateFlow<ExploreUiState> = _uiState.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            runCatching {
+                getPreviousLocationUseCase()
+                    .firstOrNull()
+                    ?.let { (latitude, longitude) ->
+                        updateLocation(latitude, longitude)
+                    }
+            }
+        }
+    }
 
     fun updatePermission(
         isLocationPermissionGranted: Boolean,
@@ -44,9 +61,13 @@ class ExploreViewModel @Inject constructor(
             )
             updatePlaces(latitude, longitude)
         }
+        viewModelScope.launch {
+            savePreviousLocationUseCase(latitude, longitude)
+        }
     }
 
     fun updateTrackingToggle(isUserTrackingEnabled: Boolean) {
+        if (!isUserTrackingEnabled) updatePlaces()
         _uiState.value = uiState.value.copy(
             locationModel = uiState.value.locationModel.updateTrackingToggle(isUserTrackingEnabled)
         )
@@ -70,7 +91,6 @@ class ExploreViewModel @Inject constructor(
                     loading = false,
                     isUpdatePlacesFailed = true,
                 )
-
             }
         }
     }

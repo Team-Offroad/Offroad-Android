@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.characterchat.presentation.model.TimeType
 import com.teamoffroad.characterchat.presentation.model.TimeType.AM
-import com.teamoffroad.characterchat.presentation.model.TimeType.PM
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub4
@@ -27,7 +26,9 @@ fun CharacterChatBox(
             .fillMaxWidth()
             .wrapContentHeight()
     ) {
-        ChatTextBox {
+        ChatTextBox(
+            maxWidth = 268,
+        ) {
             Text(
                 text = name,
                 style = OffroadTheme.typography.textBold,

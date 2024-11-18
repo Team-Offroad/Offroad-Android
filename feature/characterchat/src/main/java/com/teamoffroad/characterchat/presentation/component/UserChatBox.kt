@@ -27,7 +27,9 @@ fun UserChatBox(
             modifier = Modifier.align(Alignment.Bottom),
             time = time,
         )
-        ChatTextBox {
+        ChatTextBox(
+            maxWidth = 206,
+        ) {
             Text(
                 text = text,
                 style = OffroadTheme.typography.textRegular,

@@ -13,7 +13,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:common"))
     implementation(project(":feature:auth"))
     implementation(project(":feature:home"))
     implementation(project(":feature:explore"))
