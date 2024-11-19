@@ -10,6 +10,7 @@ fun Quest.toUi(): QuestModel {
         description = description,
         requirement = requirement,
         reward = reward,
+        cursorId = cursorId,
         questProgressModel = progress.toUi()
     )
 }

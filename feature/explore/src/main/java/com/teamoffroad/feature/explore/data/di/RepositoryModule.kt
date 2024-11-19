@@ -1,8 +1,10 @@
 package com.teamoffroad.feature.explore.data.di
 
+import com.teamoffroad.feature.explore.data.repository.LocationRepositoryImpl
 import com.teamoffroad.feature.explore.data.repository.PlaceRepositoryImpl
 import com.teamoffroad.feature.explore.data.repository.QuestRepositoryImpl
 import com.teamoffroad.feature.explore.data.repository.UserRepositoryImpl
+import com.teamoffroad.feature.explore.domain.repository.LocationRepository
 import com.teamoffroad.feature.explore.domain.repository.PlaceRepository
 import com.teamoffroad.feature.explore.domain.repository.QuestRepository
 import com.teamoffroad.feature.explore.domain.repository.UserRepository
@@ -29,4 +31,9 @@ abstract class RepositoryModule {
     abstract fun bindQuestRepository(
         questRepositoryImpl: QuestRepositoryImpl,
     ): QuestRepository
+
+    @Binds
+    abstract fun bindLocationRepository(
+        locationRepositoryImpl: LocationRepositoryImpl,
+    ): LocationRepository
 }
