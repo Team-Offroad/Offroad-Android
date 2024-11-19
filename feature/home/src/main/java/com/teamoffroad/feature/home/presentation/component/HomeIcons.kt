@@ -1,13 +1,19 @@
 package com.teamoffroad.feature.home.presentation.component
 
+import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,6 +21,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.drawscope.Fill
@@ -62,22 +70,7 @@ fun HomeIcons(
         }
     }
 
-    Box(
-        contentAlignment = Alignment.TopEnd,
-        modifier = Modifier
-            .aspectRatio(48f / 144f)
-            .padding(top = 80.dp, end = 20.dp)
-    ) {
-        Column {
-            val characterChatInteractionSource = remember { MutableInteractionSource() }
-            Image(
-                painter = painterResource(id = R.drawable.ic_home_chat),
-                contentDescription = "chat",
-                modifier = Modifier
-                    .clickableWithoutRipple(interactionSource = characterChatInteractionSource) {
-
-                    }
-            )
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .align(Alignment.TopEnd)
@@ -110,7 +103,6 @@ fun HomeIcons(
                 }
             }
 
-
             val uploadInteractionSource = remember { MutableInteractionSource() }
             Image(
                 painter = painterResource(id = R.drawable.ic_home_upload),
@@ -142,7 +134,7 @@ fun HomeIcons(
     }
 }
 
-private suspend fun showToast(context: Context, message: String) {
+suspend fun showToast(context: Context, message: String) {
     withContext(Dispatchers.Main) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
