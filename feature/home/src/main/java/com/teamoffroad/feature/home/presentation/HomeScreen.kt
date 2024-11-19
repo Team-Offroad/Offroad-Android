@@ -2,7 +2,6 @@ package com.teamoffroad.feature.home.presentation
 
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.Animatable
@@ -70,10 +69,13 @@ import com.teamoffroad.feature.home.domain.model.UserQuests
 import com.teamoffroad.feature.home.presentation.component.CompleteQuestDialog
 import com.teamoffroad.feature.home.presentation.component.HomeIcons
 import com.teamoffroad.feature.home.presentation.component.UiState
+import com.teamoffroad.feature.home.presentation.component.character.CharacterChat
+import com.teamoffroad.feature.home.presentation.component.character.CharacterChatAnimation
 import com.teamoffroad.feature.home.presentation.component.character.CharacterItem
 import com.teamoffroad.feature.home.presentation.component.quest.progressbar.CloseCompleteRequest
 import com.teamoffroad.feature.home.presentation.component.quest.progressbar.RecentQuest
 import com.teamoffroad.feature.home.presentation.component.user.NicknameText
+import com.teamoffroad.feature.home.presentation.component.user.UserChat
 import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 import com.teamoffroad.offroad.feature.home.R
 import kotlinx.coroutines.launch
@@ -93,9 +95,9 @@ fun HomeScreen(
     val context = LocalContext.current
     val viewModel: HomeViewModel = hiltViewModel()
     val isCompleteQuestDialogShown = remember { mutableStateOf(false) }
-    val isChatting = remember { mutableStateOf(false) }
-    val chattingText = viewModel.chattingText.collectAsStateWithLifecycle()
-    val sendMessage = remember { mutableStateOf("") }
+    val isUserChatting = remember { mutableStateOf(false) }
+    val userChattingText = viewModel.chattingText.collectAsStateWithLifecycle()
+    val userSendMessage = remember { mutableStateOf("") }
     val characterChat = viewModel.getCharacterChat.collectAsStateWithLifecycle()
     val isCharacterChatting = viewModel.isCharacterChatting.collectAsStateWithLifecycle()
     val isCharacterChattingLoading =
@@ -120,7 +122,7 @@ fun HomeScreen(
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             UsersAdventuresInformation(
-                isChatting = isChatting,
+                isChatting = isUserChatting,
                 context = context,
                 characterName = characterName.value,
                 modifier = Modifier
@@ -135,75 +137,36 @@ fun HomeScreen(
 
         }
 
-        if (isChatting.value) {
+        if (isUserChatting.value) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter)
                     .padding(bottom = 196.dp)
             ) {
-                Column {
-                    Box(
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(end = 20.dp),
-                            contentAlignment = Alignment.CenterEnd
-                        ) {
-                            FinishChatting(isChatting)
-                        }
-                    }
-
-                    HomeChatTextField(
-                        text = chattingText.value,
-                        sentMessage = sendMessage.value,
-                        isChatting = isChatting,
-                        keyboard = true,
-                        isCharacterChatting = viewModel::updateCharacterChatting,
-                        onValueChange = { text ->
-                            viewModel.updateChattingText(text)
-                        },
-                        onSendClick = {
-                            userSendChat.value = true // 사용자가 채팅 보냄
-                            sendMessage.value = chattingText.value // 보낼 메시지
-                            viewModel.sendChat() // 서버에 보내기
-                            viewModel.updateChattingText("") // 초기화
-                        }
-                    )
-                }
+                UserChat(
+                    isChatting = isUserChatting,
+                    chattingText = userChattingText,
+                    sendMessage = userSendMessage,
+                    userSendChat = userSendChat,
+                    updateCharacterChatting = viewModel::updateCharacterChatting,
+                    updateChattingText = viewModel::updateChattingText,
+                    sendChat = viewModel::sendChat
+                )
             }
         }
 
+
         if (isCharacterChatting.value) {
-            val offsetY = remember { Animatable(-10.dp.value) }
-            val coroutineScope = rememberCoroutineScope()
-
-            LaunchedEffect(isCharacterChatting) {
-                coroutineScope.launch {
-                    offsetY.animateTo(
-                        targetValue = 0.dp.value,
-                        animationSpec = tween(durationMillis = 500)
-                    )
-                }
-            }
-
-            Box(
-                contentAlignment = Alignment.TopCenter,
-                modifier = Modifier
-                    .offset(y = offsetY.value.dp)
-                    .padding(start = 24.dp, top = 70.dp, end = 24.dp)
-            ) {
-                CharacterChat(
-                    isChatting = isChatting,
-                    isCharacterChattingLoading = isCharacterChattingLoading,
-                    answerCharacterChat = userSendChat,
-                    characterName = characterName.value,
-                    characterContent = characterChat.value.characterContent,
-                    navigateToCharacterChatScreen = navigateToCharacterChatScreen
-                )
-            }
+            CharacterChatAnimation(
+                isCharacterChatting = isCharacterChatting,
+                isChatting = isUserChatting,
+                isCharacterChattingLoading = isCharacterChattingLoading,
+                answerCharacterChat = userSendChat,
+                characterName = characterName.value,
+                characterContent = characterChat.value.characterContent,
+                navigateToCharacterChatScreen = navigateToCharacterChatScreen
+            )
         }
     }
 
@@ -211,115 +174,8 @@ fun HomeScreen(
         CompleteQuestDialog(
             isCompleteQuestDialogShown = isCompleteQuestDialogShown,
             completeQuests = completeQuests,
-            onClickCancel = {
-                isCompleteQuestDialogShown.value = false
-            },
+            onClickCancel = { isCompleteQuestDialogShown.value = false },
         )
-    }
-}
-
-@Composable
-fun CharacterChat(
-    isChatting: MutableState<Boolean>,
-    isCharacterChattingLoading: State<Boolean>,
-    answerCharacterChat: MutableState<Boolean>,
-    characterName: String,
-    characterContent: String,
-    characterTextColor: Color = Sub4,
-    characterTextStyle: TextStyle = OffroadTheme.typography.textBold,
-    messageTextColor: Color = Main2,
-    messageTextStyle: TextStyle = OffroadTheme.typography.textRegular,
-    backgroundColor: Color = Main3,
-    borderColor: Color = BtnInactive,
-    navigateToCharacterChatScreen: (Int, String) -> Unit
-) {
-    val checkCharacterChattingLines = remember { mutableStateOf(false) }
-    val isExpanded = remember { mutableStateOf(false) }
-
-    val rotationAngle by animateFloatAsState(
-        targetValue = if (isExpanded.value) 180f else 0f,
-        animationSpec = tween(durationMillis = 300), label = ""
-    )
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(
-                color = backgroundColor,
-                shape = RoundedCornerShape(12.dp)
-            )
-            .border(
-                width = 1.dp,
-                shape = RoundedCornerShape(12.dp),
-                color = borderColor
-            )
-            .padding(vertical = 14.dp, horizontal = 18.dp)
-            .clickableWithoutRipple {
-                // 채팅 로그로 이동
-                navigateToCharacterChatScreen(1, characterName)
-            }
-    ) {
-        Column {
-            Row {
-                Text(
-                    text = "$characterName : ",
-                    modifier = Modifier,
-                    color = characterTextColor,
-                    style = characterTextStyle
-                )
-
-                if (isCharacterChattingLoading.value) {
-                    Box(
-                        modifier = Modifier
-                            .size(width = 54.dp, height = 27.dp)
-                    ) {
-                        val composition by rememberLottieComposition(
-                            LottieCompositionSpec.RawRes(
-                                com.teamoffroad.offroad.core.designsystem.R.raw.loading_linear
-                            )
-                        )
-                        val animationState = animateLottieCompositionAsState(
-                            composition,
-                            iterations = LottieConstants.IterateForever
-                        )
-
-                        if (animationState.isAtEnd && animationState.isPlaying) {
-                            LaunchedEffect(Unit) { }
-                        }
-
-                        LottieAnimation(composition, animationState.progress)
-                    }
-                } else {
-                    Text(
-                        text = characterContent,
-                        modifier = Modifier.weight(1f),
-                        color = messageTextColor,
-                        style = messageTextStyle,
-                        onTextLayout = { textLayoutResult ->
-                            checkCharacterChattingLines.value = textLayoutResult.lineCount >= 3
-                        },
-                        maxLines = if (isExpanded.value) Int.MAX_VALUE else 2,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_home_accordion),
-                        contentDescription = "accordion down",
-                        modifier = Modifier
-                            .graphicsLayer(rotationX = rotationAngle)
-                            .clickableWithoutRipple {
-                                isExpanded.value = !isExpanded.value
-                            }
-                    )
-                }
-
-            }
-
-            if (!answerCharacterChat.value) {
-                AnswerCharacterChat(isChatting = isChatting)
-            }
-        }
-
     }
 }
 
@@ -382,66 +238,6 @@ private fun UsersAdventuresInformation(
     }
     Spacer(modifier = Modifier.padding(10.dp))
     CharacterItem().EmblemNameText(context, Modifier)
-}
-
-@Composable
-fun FinishChatting(
-    isChatting: MutableState<Boolean>,
-    backgroundColor: Color = Sub55,
-    borderColor: Color = Sub
-) {
-    Text(
-        style = OffroadTheme.typography.subtitle2Semibold,
-        text = stringResource(id = R.string.home_chat_finish),
-        modifier = Modifier
-            .padding(bottom = 8.dp)
-            .background(
-                color = backgroundColor,
-                shape = RoundedCornerShape(20.dp)
-            )
-            .border(
-                width = 1.dp,
-                shape = RoundedCornerShape(20.dp),
-                color = borderColor
-            )
-            .padding(horizontal = 16.dp)
-            .padding(vertical = 8.dp)
-            .clickableWithoutRipple {
-                isChatting.value = false
-            },
-        color = White
-    )
-}
-
-@Composable
-fun AnswerCharacterChat(
-    isChatting: MutableState<Boolean>,
-    backgroundColor: Color = Main2,
-    textColor: Color = Main3,
-    textStyle: TextStyle = OffroadTheme.typography.textContents
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 10.dp)
-    ) {
-        Box(contentAlignment = Alignment.CenterEnd, modifier = Modifier.fillMaxWidth()) {
-            Text(
-                text = "답장하기",
-                modifier = Modifier
-                    .background(
-                        color = backgroundColor,
-                        shape = RoundedCornerShape(8.dp)
-                    )
-                    .padding(horizontal = 14.dp, vertical = 6.dp)
-                    .clickableWithoutRipple {
-                        isChatting.value = true
-                    },
-                color = textColor,
-                style = textStyle
-            )
-        }
-    }
 }
 
 @Composable
