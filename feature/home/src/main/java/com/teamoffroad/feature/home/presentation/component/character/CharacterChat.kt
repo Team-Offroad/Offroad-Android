@@ -6,6 +6,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,13 +21,16 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -189,10 +193,13 @@ fun CharacterChatAnimation(
     answerCharacterChat: MutableState<Boolean>,
     characterName: String,
     characterContent: String,
+    updateCharacterChatting: (Boolean) -> Unit,
     navigateToCharacterChatScreen: (Int, String) -> Unit
 ) {
     val offsetY = remember { Animatable(-10.dp.value) }
     val coroutineScope = rememberCoroutineScope()
+    var dragOffsetY by remember { mutableFloatStateOf(0f) }
+    var isSwipedUp by remember { mutableStateOf(false) }
 
     LaunchedEffect(isCharacterChatting) {
         coroutineScope.launch {
@@ -206,8 +213,30 @@ fun CharacterChatAnimation(
     Box(
         contentAlignment = Alignment.TopCenter,
         modifier = Modifier
-            .offset(y = offsetY.value.dp)
+            .offset(y = offsetY.value.dp + dragOffsetY.dp)
             .padding(start = 24.dp, top = 70.dp, end = 24.dp)
+            .pointerInput(Unit) {
+                detectDragGestures(
+                    onDrag = { _, dragAmount ->
+                        val newDragOffsetY = dragOffsetY + dragAmount.y
+                        if (newDragOffsetY <= 0f) dragOffsetY = newDragOffsetY
+                    },
+                    onDragEnd = {
+                        if (dragOffsetY < -50f) isSwipedUp = true
+                        else {
+                            coroutineScope.launch {
+                                offsetY.animateTo(
+                                    targetValue = 0.dp.value,
+                                    animationSpec = tween(durationMillis = 300)
+                                )
+                                dragOffsetY = 0f
+                            }
+                        }
+                    }
+                )
+
+
+            }
     ) {
         CharacterChat(
             isChatting = isChatting,
@@ -217,5 +246,19 @@ fun CharacterChatAnimation(
             characterContent = characterContent,
             navigateToCharacterChatScreen = navigateToCharacterChatScreen
         )
+    }
+
+    LaunchedEffect(isSwipedUp) {
+        if (isSwipedUp) {
+            coroutineScope.launch {
+                offsetY.animateTo(
+                    targetValue = -50.dp.value,
+                    animationSpec = tween(durationMillis = 500)
+                )
+                updateCharacterChatting(false)
+                dragOffsetY = 0f
+                isSwipedUp = false
+            }
+        }
     }
 }

@@ -165,6 +165,7 @@ fun HomeScreen(
                 answerCharacterChat = userSendChat,
                 characterName = characterName.value,
                 characterContent = characterChat.value.characterContent,
+                updateCharacterChatting = viewModel::updateCharacterChatting,
                 navigateToCharacterChatScreen = navigateToCharacterChatScreen
             )
         }
