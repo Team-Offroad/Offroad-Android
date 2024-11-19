@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.home.presentation.component.character
 
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,6 +22,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,6 +43,7 @@ import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub4
 import com.teamoffroad.offroad.feature.home.R
+import kotlinx.coroutines.launch
 
 @Composable
 fun CharacterChat(
@@ -173,5 +177,44 @@ fun AnswerCharacterChat(
                 style = textStyle
             )
         }
+    }
+}
+
+@Composable
+fun CharacterChatAnimation(
+    isCharacterChatting: State<Boolean>,
+    isChatting: MutableState<Boolean>,
+    isCharacterChattingLoading: State<Boolean>,
+    answerCharacterChat: MutableState<Boolean>,
+    characterName: String,
+    characterContent: String,
+    navigateToCharacterChatScreen: (Int, String) -> Unit
+) {
+    val offsetY = remember { Animatable(-10.dp.value) }
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(isCharacterChatting) {
+        coroutineScope.launch {
+            offsetY.animateTo(
+                targetValue = 0.dp.value,
+                animationSpec = tween(durationMillis = 500)
+            )
+        }
+    }
+
+    Box(
+        contentAlignment = Alignment.TopCenter,
+        modifier = Modifier
+            .offset(y = offsetY.value.dp)
+            .padding(start = 24.dp, top = 70.dp, end = 24.dp)
+    ) {
+        CharacterChat(
+            isChatting = isChatting,
+            isCharacterChattingLoading = isCharacterChattingLoading,
+            answerCharacterChat = answerCharacterChat,
+            characterName = characterName,
+            characterContent = characterContent,
+            navigateToCharacterChatScreen = navigateToCharacterChatScreen
+        )
     }
 }
