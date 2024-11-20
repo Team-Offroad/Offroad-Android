@@ -22,15 +22,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
-import coil.decode.SvgDecoder
-import coil.request.ImageRequest
+import com.teamoffroad.core.designsystem.component.AdaptationImage
 import com.teamoffroad.core.designsystem.theme.Gray400
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
@@ -55,7 +52,7 @@ fun ExploreInfoWindow(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box(
-            Modifier
+            modifier
                 .background(color = Main3, shape = RoundedCornerShape(8.dp))
                 .width(230.dp)
                 .wrapContentHeight()
@@ -87,12 +84,8 @@ fun ExploreInfoWindow(
                         style = OffroadTheme.typography.tooltipTitle,
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(categoryImage)
-                            .decoderFactory(SvgDecoder.Factory())
-                            .build(),
-                        contentDescription = "Category Image",
+                    AdaptationImage(
+                        imageUrl = categoryImage,
                         modifier = Modifier
                             .size(width = 32.dp, height = 18.dp)
                             .padding(start = 4.dp, end = 8.dp),

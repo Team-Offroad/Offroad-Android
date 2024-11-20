@@ -2,6 +2,7 @@ package com.teamoffroad.core.designsystem.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import coil.ImageLoader
 import coil.compose.AsyncImage
@@ -13,16 +14,15 @@ import coil.request.ImageRequest
 fun AdaptationImage(
     modifier: Modifier = Modifier,
     imageUrl: String,
+    contentScale: ContentScale = ContentScale.Fit,
     contentDescription: String? = null,
 ) {
     val context = LocalContext.current
 
     val imageLoader = ImageLoader.Builder(context)
         .components {
-            when {
-                imageUrl.endsWith(".svg") -> add(SvgDecoder.Factory())
-                imageUrl.endsWith(".gif") -> add(GifDecoder.Factory())
-            }
+            add(SvgDecoder.Factory())
+            add(GifDecoder.Factory())
         }
         .build()
 
@@ -34,6 +34,7 @@ fun AdaptationImage(
     AsyncImage(
         model = request,
         imageLoader = imageLoader,
+        contentScale = contentScale,
         contentDescription = contentDescription,
         modifier = modifier,
     )

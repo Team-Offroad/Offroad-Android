@@ -13,13 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
-import coil.decode.SvgDecoder
-import coil.request.ImageRequest
+import com.teamoffroad.core.designsystem.component.AdaptationImage
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.SelectedCharacterGradi1
@@ -83,18 +80,13 @@ internal fun SelectedCharacterScreen(
             color = SelectedCharacterText,
             style = OffroadTheme.typography.title
         )
-        AsyncImage(
+        AdaptationImage(
+            imageUrl = selectedCharacterUrl,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
                 .padding(bottom = 60.dp),
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(selectedCharacterUrl)
-                .decoderFactory(SvgDecoder.Factory())
-                .build(),
-            contentDescription = "character"
         )
-
         OffroadBasicBtn(
             modifier = Modifier
                 .padding(horizontal = 24.dp)
