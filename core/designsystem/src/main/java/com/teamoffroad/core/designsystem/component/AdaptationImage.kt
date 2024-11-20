@@ -3,6 +3,7 @@ package com.teamoffroad.core.designsystem.component
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.decode.GifDecoder
 import coil.decode.SvgDecoder
@@ -14,18 +15,25 @@ fun AdaptationImage(
     imageUrl: String,
     contentDescription: String? = null,
 ) {
-    val model = ImageRequest.Builder(LocalContext.current)
-        .data(imageUrl)
-        .apply {
+    val context = LocalContext.current
+
+    val imageLoader = ImageLoader.Builder(context)
+        .components {
             when {
-                imageUrl.endsWith(".svg", ignoreCase = true) -> SvgDecoder.Factory()
-                imageUrl.endsWith(".gif", ignoreCase = true) -> GifDecoder.Factory()
+                imageUrl.endsWith(".svg") -> add(SvgDecoder.Factory())
+                imageUrl.endsWith(".gif") -> add(GifDecoder.Factory())
             }
         }
         .build()
 
+    val request = ImageRequest.Builder(context)
+        .data(imageUrl)
+        .crossfade(true)
+        .build()
+
     AsyncImage(
-        model = model,
+        model = request,
+        imageLoader = imageLoader,
         contentDescription = contentDescription,
         modifier = modifier,
     )
