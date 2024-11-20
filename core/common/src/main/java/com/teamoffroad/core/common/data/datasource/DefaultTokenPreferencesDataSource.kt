@@ -16,6 +16,7 @@ class DefaultTokenPreferencesDataSource @Inject constructor(
     object PreferencesKey {
         val ACCESS_TOKEN_KEY = stringPreferencesKey("ACCESS_TOKEN_KEY")
         val REFRESH_TOKEN_KEY = stringPreferencesKey("REFRESH_TOKEN_KEY")
+        val DEVICE_TOKEN_KEY = stringPreferencesKey("DEVICE_TOKEN_KEY")
     }
 
     override val accessToken: Flow<String> = dataStore.data.map { preferences ->
@@ -24,6 +25,10 @@ class DefaultTokenPreferencesDataSource @Inject constructor(
 
     override val refreshToken: Flow<String> = dataStore.data.map { preferences ->
         preferences[PreferencesKey.REFRESH_TOKEN_KEY].orEmpty()
+    }
+
+    override val deviceToken: Flow<String> = dataStore.data.map { preferences ->
+        preferences[PreferencesKey.DEVICE_TOKEN_KEY].orEmpty()
     }
 
     override suspend fun setAccessToken(accessToken: String) {
@@ -42,6 +47,12 @@ class DefaultTokenPreferencesDataSource @Inject constructor(
         dataStore.edit { preferences ->
             preferences.remove(PreferencesKey.ACCESS_TOKEN_KEY)
             preferences.remove(PreferencesKey.REFRESH_TOKEN_KEY)
+        }
+    }
+
+    override suspend fun setDeviceToken(deviceToken: String) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.DEVICE_TOKEN_KEY] = deviceToken
         }
     }
 }

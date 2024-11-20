@@ -36,4 +36,10 @@ class TokenRepositoryImpl @Inject constructor(
     override suspend fun clearTokens() {
         tokenPreferencesDataSource.clearTokens()
     }
+
+    override suspend fun updateDeviceTokenEnabled(deviceToken: String) {
+        tokenPreferencesDataSource.setDeviceToken(deviceToken)
+    }
+
+    override fun getDeviceToken(): Flow<String> = tokenPreferencesDataSource.deviceToken
 }

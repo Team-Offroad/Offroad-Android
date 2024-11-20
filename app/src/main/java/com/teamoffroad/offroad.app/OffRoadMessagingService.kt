@@ -23,7 +23,7 @@ import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_TITLE
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_TYPE
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.NOTICE
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.TYPE_CHARACTER_CHAT
-import com.teamoffroad.core.common.domain.repository.DeviceTokenRepository
+import com.teamoffroad.core.common.domain.repository.TokenRepository
 import com.teamoffroad.core.common.util.ActivityLifecycleHandler
 import com.teamoffroad.feature.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,11 +35,10 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class OffRoadMessagingService : FirebaseMessagingService() {
     @Inject
-    lateinit var dataStore: DeviceTokenRepository
-
+    lateinit var tokenRepository: TokenRepository
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-        CoroutineScope(Dispatchers.IO).launch { dataStore.updateDeviceTokenEnabled(token) }
+        CoroutineScope(Dispatchers.IO).launch { tokenRepository.updateDeviceTokenEnabled(token) }
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {

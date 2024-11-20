@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.core.common.domain.model.NotificationEvent
-import com.teamoffroad.core.common.domain.repository.DeviceTokenRepository
+import com.teamoffroad.core.common.domain.repository.TokenRepository
 import com.teamoffroad.core.common.domain.usecase.SetAutoSignInUseCase
 import com.teamoffroad.feature.home.domain.model.Emblem
 import com.teamoffroad.feature.home.domain.model.UserQuests
@@ -27,7 +27,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val setAutoSignInUseCase: SetAutoSignInUseCase,
-    private val deviceTokenRepository: DeviceTokenRepository,
+    private val tokenRepository: TokenRepository,
     private val fcmTokenUseCase: PostFcmTokenUseCase,
 ) : ViewModel() {
 
@@ -65,6 +65,7 @@ class HomeViewModel @Inject constructor(
     val linearProgressBar = _linearProgressBar.asStateFlow()
 
     var asd = MutableStateFlow("")
+
     init {
         //아까 CharacterChatBroadcastReceiver에서 게시한 브로드캐스트리시버를 여기서 받습니다.
         EventBus.getDefault().register(this)
@@ -174,7 +175,7 @@ class HomeViewModel @Inject constructor(
 
     fun updateFcmToken() {
         viewModelScope.launch {
-            val deviceToken = deviceTokenRepository.deviceToken.first()
+            val deviceToken = tokenRepository.getDeviceToken().first()
             if (deviceToken.isBlank()) return@launch
             runCatching {
                 fcmTokenUseCase.invoke(deviceToken)
