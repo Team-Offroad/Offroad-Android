@@ -7,7 +7,7 @@ object FcmNotificationKey {
     const val KEY_BODY = "body"
     const val KEY_TYPE = "type"
     const val KEY_IMAGE = "image"
-    const val KEY_ID = "additionalProp1"
+    const val KEY_ID = "announcementId"
     const val TYPE_CHARACTER_CHAT = "CHARACTER_CHAT"
     const val TYPE_ANNOUNCEMENT = "ANNOUNCEMENT_REDIRECT"
     const val ACTION_ANNOUNCEMENT_FOREGROUND = "com.teamoffroad.offroad.app.ANNOUNCEMENT_FOREGROUND"
