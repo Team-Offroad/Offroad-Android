@@ -56,7 +56,7 @@ dependencies {
     implementation(project(":feature:mypage"))
     implementation(project(":feature:characterchat"))
     implementation(libs.kakao.user)
-    implementation(libs.coil)
     implementation(libs.bundles.firebase)
+    implementation(libs.bundles.coil)
     implementation(platform(libs.firebase.bom))
 }
