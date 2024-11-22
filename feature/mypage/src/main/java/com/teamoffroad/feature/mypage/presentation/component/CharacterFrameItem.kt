@@ -16,12 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.decode.SvgDecoder
-import coil.request.ImageRequest
+import com.teamoffroad.core.designsystem.component.AdaptationImage
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -59,12 +56,8 @@ fun CharacterFrameItem(
                         shape = RoundedCornerShape(size = 10.dp)
                     )
             ) {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(characterThumbnailImageUrl)
-                        .decoderFactory(SvgDecoder.Factory())
-                        .build(),
-                    contentDescription = null,
+                AdaptationImage(
+                    imageUrl = characterThumbnailImageUrl,
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .padding(horizontal = 28.dp)

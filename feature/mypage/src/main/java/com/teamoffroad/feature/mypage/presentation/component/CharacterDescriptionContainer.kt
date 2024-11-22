@@ -20,13 +20,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.decode.SvgDecoder
-import coil.request.ImageRequest
+import com.teamoffroad.core.designsystem.component.AdaptationImage
 import com.teamoffroad.core.designsystem.theme.Contents2
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Gray400
@@ -64,12 +61,8 @@ private fun CharacterNameItem(uiState: CharacterDetailUiState) {
                 .padding(start = 22.dp)
                 .padding(vertical = 16.dp)
         ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(uiState.characterDetailModel.characterIconImageUrl)
-                    .decoderFactory(SvgDecoder.Factory())
-                    .build(),
-                contentDescription = null,
+            AdaptationImage(
+                imageUrl = uiState.characterDetailModel.characterIconImageUrl,
                 modifier = Modifier
                     .size(50.dp)
                     .clip(shape = CircleShape),

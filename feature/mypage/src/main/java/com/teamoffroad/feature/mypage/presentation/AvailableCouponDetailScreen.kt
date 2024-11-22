@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
+import com.teamoffroad.core.designsystem.component.AdaptationImage
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
@@ -127,9 +127,8 @@ fun AvailableCouponCard(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            AsyncImage(
-                model = couponImageUrl,
-                contentDescription = "couponImageUrl",
+            AdaptationImage(
+                imageUrl = couponImageUrl,
                 modifier = Modifier
                     .aspectRatio(260f / 260f)
                     .clip(shape = shape)
