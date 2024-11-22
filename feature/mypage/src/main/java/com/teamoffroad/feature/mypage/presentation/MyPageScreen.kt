@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -15,15 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.teamoffroad.core.designsystem.component.OffroadActionBar
-import com.teamoffroad.core.designsystem.theme.ErrorNew
-import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.mypage.presentation.component.AcquireCharacter
@@ -65,21 +59,24 @@ internal fun MyPageScreen(
             Spacer(modifier = Modifier.padding(vertical = 13.dp))
             UserAdventureInfo(
                 myPageViewModel.myPageUser.collectAsStateWithLifecycle().value,
-                LocalContext.current
             )
             Spacer(modifier = Modifier.padding(vertical = 8.dp))
             Row(modifier = Modifier.fillMaxWidth()) {
-                Box(modifier = Modifier
-                    .weight(1f)
-                    .aspectRatio(150f / 124f)) {
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .aspectRatio(150f / 124f)
+                ) {
                     AcquireCharacter(
                         navigateToGainedCharacter
                     )
                 }
                 Spacer(modifier = Modifier.padding(horizontal = 6.dp))
-                Box(modifier = Modifier
-                    .weight(1f)
-                    .aspectRatio(150f / 124f)) {
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .aspectRatio(150f / 124f)
+                ) {
                     AcquireCoupon(
                         navigateToGainedCoupon
                     )
@@ -87,17 +84,21 @@ internal fun MyPageScreen(
             }
             Spacer(modifier = Modifier.padding(vertical = 8.dp))
             Row(modifier = Modifier.fillMaxWidth()) {
-                Box(modifier = Modifier
-                    .weight(1f)
-                    .aspectRatio(150f / 124f)) {
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .aspectRatio(150f / 124f)
+                ) {
                     AcquireEmblem(
                         navigateToGainedEmblems
                     )
                 }
                 Spacer(modifier = Modifier.padding(horizontal = 6.dp))
-                Box(modifier = Modifier
-                    .weight(1f)
-                    .aspectRatio(150f / 124f)) {
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .aspectRatio(150f / 124f)
+                ) {
                     UserSettings(
                         navigateToSetting
                     )

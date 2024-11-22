@@ -9,12 +9,9 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.decode.SvgDecoder
-import coil.request.ImageRequest
+import com.teamoffroad.core.designsystem.component.AdaptationImage
 import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
@@ -33,12 +30,8 @@ fun ExploreFailedDialogContent(
                 .padding(top = 4.dp, bottom = 72.dp)
                 .align(Alignment.BottomCenter),
         ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(imageUrl)
-                    .decoderFactory(SvgDecoder.Factory())
-                    .build(),
-                contentDescription = null,
+            AdaptationImage(
+                imageUrl = imageUrl ?: "",
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
             )
