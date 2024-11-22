@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
@@ -36,6 +37,7 @@ internal fun GainedEmblemsScreen(
     viewModel: GainedEmblemsViewModel = hiltViewModel(),
 ) {
     val isEmblemState by viewModel.emblemsUiState.collectAsState()
+    val isLoadMoreEmblemsUiState by viewModel.loadMoreEmblemsUiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         viewModel.getEmblems()
@@ -62,7 +64,11 @@ internal fun GainedEmblemsScreen(
         )
         when (isEmblemState.gainedEmblemsValidateResult) {
             GainedEmblemsResult.Success -> {
-                GainedEmblemsItems(isEmblemState = isEmblemState)
+                GainedEmblemsItems(
+                    isEmblemState = isEmblemState,
+                    onLoadMore = { viewModel.loadMoreEmblems() },
+                    isLoading = isLoadMoreEmblemsUiState
+                )
             }
 
             GainedEmblemsResult.Error -> {

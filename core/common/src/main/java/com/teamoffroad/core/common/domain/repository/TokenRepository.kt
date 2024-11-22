@@ -15,4 +15,8 @@ interface TokenRepository {
     fun getRefreshToken(): Flow<String?>
 
     suspend fun clearTokens()
+
+    suspend fun updateDeviceTokenEnabled(deviceToken: String)
+
+    fun getDeviceToken():Flow<String>
 }

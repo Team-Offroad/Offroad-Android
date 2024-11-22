@@ -11,6 +11,7 @@ import androidx.navigation.navOptions
 import com.teamoffroad.characterchat.navigation.navigateToCharacterChat
 import com.teamoffroad.core.navigation.CharacterChatRoute
 import com.teamoffroad.core.navigation.MainTabRoute
+import com.teamoffroad.core.navigation.MyPageRoute
 import com.teamoffroad.core.navigation.Route
 import com.teamoffroad.feature.auth.navigation.navigateToAgreeTermsAndConditions
 import com.teamoffroad.feature.auth.navigation.navigateToSelectedCharacter
@@ -22,9 +23,9 @@ import com.teamoffroad.feature.explore.navigation.navigateToExplore
 import com.teamoffroad.feature.explore.navigation.navigateToPlace
 import com.teamoffroad.feature.explore.navigation.navigateToQuest
 import com.teamoffroad.feature.home.navigation.navigateToHome
-import com.teamoffroad.feature.main.splash.navigation.navigateToAuth
 import com.teamoffroad.feature.mypage.navigation.navigateToAnnouncement
 import com.teamoffroad.feature.mypage.navigation.navigateToAnnouncementDetail
+import com.teamoffroad.feature.mypage.navigation.navigateToAuth
 import com.teamoffroad.feature.mypage.navigation.navigateToAvailableCouponDetail
 import com.teamoffroad.feature.mypage.navigation.navigateToCharacterDetail
 import com.teamoffroad.feature.mypage.navigation.navigateToGainedCharacter
@@ -40,7 +41,7 @@ internal class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    val startDestination = Route.Splash
+    val startDestination = Route.Auth
 
     val currentTab: MainNavTab?
         @Composable get() = MainNavTab.find { tab ->
@@ -85,7 +86,8 @@ internal class MainNavigator(
         val isMainNavTabRoute = MainNavTab.contains {
             currentDestination?.hasRoute(it::class) == true
         }
-        val isCharacterChatRoute = currentDestination?.hasRoute<CharacterChatRoute.CharacterChat>() == true
+        val isCharacterChatRoute =
+            currentDestination?.hasRoute<CharacterChatRoute.CharacterChat>() == true
 
         return isMainNavTabRoute || isCharacterChatRoute
     }
@@ -176,8 +178,17 @@ internal class MainNavigator(
         navController.navigateToSetting()
     }
 
-    fun navigateToAnnouncement() {
-        navController.navigateToAnnouncement()
+    fun navigateToAnnouncement(announcementId: String?) {
+        navController.navigateToAnnouncement(announcementId)
+    }
+
+    fun navigateToAnnouncementDeleteStack() {
+        navController.navigateToAnnouncement(null,
+            navOptions {
+                popUpTo<MyPageRoute.AnnouncementDetail> { inclusive = true }
+                launchSingleTop = true
+            }
+        )
     }
 
     fun navigateToAnnouncementDetail(

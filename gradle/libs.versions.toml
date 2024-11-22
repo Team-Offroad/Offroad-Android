@@ -73,12 +73,19 @@ naverMapSdk = "3.18.0"
 googlePlayService = "21.1.0"
 googleAccompanistPermissions = "0.32.0"
 accompanistInsets = "0.31.5-beta"
+googleServices = "4.4.2"
+
+# Firebase
+firebase_bom = "33.5.1"
 
 # Kakao
 kakao = "2.20.6"
 
 # Process phoenix
 processPhoenix = "3.0.0"
+
+# Event Bus
+eventbus = "3.2.0"
 
 [libraries]
 # Core Libraries
@@ -171,11 +178,22 @@ google-accompanist-permissions = { group = "com.google.accompanist", name = "acc
 google-play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "googlePlayService" }
 accompanist-insets = { module = "com.google.accompanist:accompanist-insets", version.ref = "accompanistInsets" }
 
+# Firebase
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase_bom" }
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging-ktx" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
+firebase-remoteConfig = { group = "com.google.firebase", name = "firebase-config-ktx" }
+firebase-database = { group = "com.google.firebase", name = "firebase-database-ktx" }
+
 # Kakao
 kakao-user = { module = "com.kakao.sdk:v2-user", version.ref = "kakao" }
 
 # Process Phoenix
 process-phoenix = { group = "com.jakewharton", name = "process-phoenix", version.ref = "processPhoenix" }
+
+# Event Bus
+eventbus = { group = "org.greenrobot", name = "eventbus", version.ref = "eventbus" }
 
 [plugins]
 # Android Application Plugin
@@ -198,6 +216,9 @@ android-library = { id = "com.android.library", version.ref = "androidGradlePlug
 # Kotlin Symbol Processing Plugin
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
+# Google
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
+
 [bundles]
 # Offroad Map Libraries
 offroad-map = [
@@ -212,3 +233,10 @@ coil = [
     "coil-svg",
     "coil-gif",
 ]
+firebase = [
+    "firebase-analytics",
+    "firebase-database",
+    "firebase-messaging",
+    "firebase-remoteConfig"
+]
+

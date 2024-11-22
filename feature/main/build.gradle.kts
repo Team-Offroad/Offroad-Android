@@ -25,5 +25,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.kotlinx.immutable)
+    implementation(libs.eventbus)
+    implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.accompanist.insets)
 }

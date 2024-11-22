@@ -1,6 +1,7 @@
 package com.teamoffroad.feature.mypage.domain.model
 
 data class Announcement(
+    val id: Int,
     val title: String,
     val content: String,
     val isImportant: Boolean,

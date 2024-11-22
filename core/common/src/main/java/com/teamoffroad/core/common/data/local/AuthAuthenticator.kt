@@ -1,7 +1,6 @@
 package com.teamoffroad.core.common.data.local
 
 import android.content.Context
-import android.util.Log
 import com.jakewharton.processphoenix.ProcessPhoenix
 import com.teamoffroad.core.common.data.datasource.TokenPreferencesDataSource
 import com.teamoffroad.core.common.data.remote.service.TokenService
@@ -26,33 +25,26 @@ class AuthAuthenticator @Inject constructor(
 
     override fun authenticate(route: Route?, response: Response): Request? {
         val tokenResponse = runCatching {
-                runBlocking {
-                    refreshTokenUseCase.refreshAccessToken("Bearer ${tokenPreferencesDataSource.refreshToken.first()}")
+            runBlocking {
+                refreshTokenUseCase.refreshAccessToken("Bearer ${tokenPreferencesDataSource.refreshToken.first()}")
+            }
+        }.onSuccess {
+            runBlocking {
+                tokenPreferencesDataSource.apply {
+                    setAccessToken(it.data?.accessToken ?: return@runBlocking)
+                    setRefreshToken(it.data.refreshToken ?: return@runBlocking)
                 }
-            }.onSuccess {
-
-            Log.d("asdasd", "재발급성공")
-                runBlocking {
-                    tokenPreferencesDataSource.apply {
-                        if (it != null) {
-                            setAccessToken(it.data?.accessToken ?: return@runBlocking)
-                            setRefreshToken(it.data?.refreshToken ?: return@runBlocking)
-                        }
-                    }
-                }
-            }.onFailure {
-
-            Log.d("asdasd", "재발급실패")
-                runBlocking {
-                    setAutoSignInUseCase.invoke(false)
-                }
-                ProcessPhoenix.triggerRebirth(context, intentProvider.getIntent())
-            }.getOrThrow()
+            }
+        }.onFailure {
+            runBlocking {
+                setAutoSignInUseCase.invoke(false)
+            }
+            ProcessPhoenix.triggerRebirth(context, intentProvider.getIntent())
+        }.getOrThrow()
 
         return response.request.newBuilder()
-            .header(AUTHORIZATION, "Bearer ${tokenResponse?.data?.accessToken}")
+            .header(AUTHORIZATION, "Bearer ${tokenResponse.data?.accessToken}")
             .build()
-        Log.d("asdasd", response.message)
     }
 
     companion object {

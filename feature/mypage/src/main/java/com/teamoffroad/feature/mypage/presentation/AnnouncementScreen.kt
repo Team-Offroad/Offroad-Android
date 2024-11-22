@@ -34,14 +34,34 @@ import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
 internal fun AnnouncementScreen(
+    announcementId: String?,
     navigateToAnnouncementDetail: (String, String, Boolean, String, Boolean, List<String>, List<String>) -> Unit,
     navigateToBack: () -> Unit,
     viewModel: AnnouncementViewModel = hiltViewModel()
 ) {
     val isAnnouncementState by viewModel.announcementUiState.collectAsState()
+
     LaunchedEffect(Unit) {
         viewModel.updateAnnouncement()
     }
+    LaunchedEffect(isAnnouncementState) {
+        if (announcementId != null) {
+            isAnnouncementState.announcementList.forEach {
+                if (it.id == announcementId.toInt()) {
+                    navigateToAnnouncementDetail(
+                        it.title,
+                        it.content,
+                        it.isImportant,
+                        it.updateAt,
+                        it.hasExternalLinks,
+                        it.externalLinks,
+                        it.externalLinksTitles,
+                    )
+                }
+            }
+        }
+    }
+
     Column(
         modifier = Modifier
             .navigationPadding()

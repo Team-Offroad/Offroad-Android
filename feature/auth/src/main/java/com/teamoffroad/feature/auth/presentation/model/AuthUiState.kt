@@ -6,5 +6,6 @@ data class AuthUiState(
     val signInSuccess: Boolean = false,
     val alreadyExist: Boolean = false,
     val kakaoSignIn: Boolean = false,
+    val isAutoSignIn: Boolean = false,
 )
 

@@ -48,8 +48,11 @@ fun NavController.navigateToSetting() {
     navigate(MyPageRoute.Setting)
 }
 
-fun NavController.navigateToAnnouncement() {
-    navigate(MyPageRoute.Announcement)
+fun NavController.navigateToAnnouncement(announcementId: String?, navOptions: NavOptions? = null) {
+    navigate(
+        MyPageRoute.Announcement(announcementId)
+        ,navOptions
+    )
 }
 
 fun NavController.navigateToAnnouncementDetail(
@@ -74,7 +77,7 @@ fun NavController.navigateToAnnouncementDetail(
     )
 }
 
-fun NavController.navigateToSignIn() {
+fun NavController.navigateToAuth() {
     navigate(Route.Auth)
 }
 
@@ -88,12 +91,13 @@ fun NavGraphBuilder.myPageNavGraph(
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
     navigateToGainedEmblems: () -> Unit,
     navigateToSetting: () -> Unit,
-    navigateToAnnouncement: () -> Unit,
+    navigateToAnnouncement: (String?) -> Unit,
     navigateToAnnouncementDetail: (String, String, Boolean, String, Boolean, List<String>, List<String>) -> Unit,
     navigateToSignIn: () -> Unit,
     navigateToCharacterDetail: (Int, Boolean) -> Unit,
     navigateToBack: () -> Unit,
     navigateToCharacterChat: (Int, String) -> Unit,
+    navigateToAnnouncementDeleteStack: () -> Unit,
 ) {
     composable<MainTabRoute.MyPage> {
         MyPageScreen(
@@ -128,14 +132,16 @@ fun NavGraphBuilder.myPageNavGraph(
 
     composable<MyPageRoute.Setting> {
         SettingScreen(
-            navigateToAnnouncement = navigateToAnnouncement,
+            navigateToAnnouncement = { navigateToAnnouncement(null) },
             navigateToSignIn = navigateToSignIn,
             navigateToBack = navigateToBack
         )
     }
 
-    composable<MyPageRoute.Announcement> {
+    composable<MyPageRoute.Announcement> { backStackEntry ->
+        val announcementId = backStackEntry.toRoute<MyPageRoute.Announcement>().announcementId
         AnnouncementScreen(
+            announcementId,
             navigateToAnnouncementDetail,
             navigateToBack
         )
@@ -159,7 +165,7 @@ fun NavGraphBuilder.myPageNavGraph(
             hasExternalLinks,
             externalLinks,
             externalLinksTitles,
-            navigateToBack
+            navigateToAnnouncementDeleteStack,
         )
     }
 

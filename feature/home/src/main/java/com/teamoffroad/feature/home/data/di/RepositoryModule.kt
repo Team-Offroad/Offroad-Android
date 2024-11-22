@@ -1,8 +1,10 @@
 package com.teamoffroad.feature.home.data.di
 
 import com.teamoffroad.feature.home.data.repository.DummyDummyUserRepositoryImpl
+import com.teamoffroad.feature.home.data.repository.FcmTokenRepositoryImpl
 import com.teamoffroad.feature.home.data.repository.UserRepositoryImpl
 import com.teamoffroad.feature.home.domain.repository.DummyUserRepository
+import com.teamoffroad.feature.home.domain.repository.FcmTokenRepository
 import com.teamoffroad.feature.home.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
@@ -25,4 +27,10 @@ abstract class RepositoryModule {
     abstract fun bindUserRepository(
         userRepositoryImpl: UserRepositoryImpl
     ): UserRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindFcmRepository(
+        fcmTokenRepositoryImpl: FcmTokenRepositoryImpl
+    ): FcmTokenRepository
 }
