@@ -48,9 +48,10 @@ fun NavController.navigateToSetting() {
     navigate(MyPageRoute.Setting)
 }
 
-fun NavController.navigateToAnnouncement(announcementId: String?) {
+fun NavController.navigateToAnnouncement(announcementId: String?, navOptions: NavOptions? = null) {
     navigate(
         MyPageRoute.Announcement(announcementId)
+        ,navOptions
     )
 }
 
@@ -96,6 +97,7 @@ fun NavGraphBuilder.myPageNavGraph(
     navigateToCharacterDetail: (Int, Boolean) -> Unit,
     navigateToBack: () -> Unit,
     navigateToCharacterChat: (Int, String) -> Unit,
+    navigateToAnnouncementDeleteStack: () -> Unit,
 ) {
     composable<MainTabRoute.MyPage> {
         MyPageScreen(
@@ -163,7 +165,7 @@ fun NavGraphBuilder.myPageNavGraph(
             hasExternalLinks,
             externalLinks,
             externalLinksTitles,
-            navigateToBack
+            navigateToAnnouncementDeleteStack,
         )
     }
 

@@ -17,18 +17,9 @@ class MainViewModel @Inject constructor() : ViewModel() {
         )
     }
 
-    fun navigateToHome(characterName: String, characterChatting: String) {
-        _mainUiState.value = _mainUiState.value.copy(
-            characterName = characterName,
-            characterChatting = characterChatting,
-        )
-    }
-
     fun initState() {
         _mainUiState.value = _mainUiState.value.copy(
             announcementId = null,
-            characterName = null,
-            characterChatting = null,
         )
     }
 }

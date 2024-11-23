@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.mypage.presentation
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -42,17 +41,13 @@ internal fun AnnouncementScreen(
 ) {
     val isAnnouncementState by viewModel.announcementUiState.collectAsState()
 
-    //TODO. id 어떻게 초기화?
-    Log.d("asdsad", announcementId.toString())
-
     LaunchedEffect(Unit) {
         viewModel.updateAnnouncement()
     }
     LaunchedEffect(isAnnouncementState) {
         if (announcementId != null) {
             isAnnouncementState.announcementList.forEach {
-                if (it.title.trim().equals(announcementId.trim(), ignoreCase = true)) {
-                    Log.d("asdsad", "Navigating to detail for $announcementId")
+                if (it.id == announcementId.toInt()) {
                     navigateToAnnouncementDetail(
                         it.title,
                         it.content,

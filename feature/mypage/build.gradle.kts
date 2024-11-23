@@ -13,7 +13,6 @@ dependencies {
     implementation(project(":feature:auth"))
 
     implementation(libs.retrofit.kotlinx.serialization)
-    implementation(libs.coil.svg)
     implementation(libs.lottie.compose)
     implementation(libs.gson)
     implementation(libs.google.play.services.auth)

@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.mypage.presentation.component
 
-import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -36,7 +35,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
+import com.teamoffroad.core.designsystem.component.AdaptationImage
 import com.teamoffroad.core.designsystem.component.CircularLoadingAnimationLine
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Black25
@@ -122,9 +121,8 @@ private fun AvailableCouponItem(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            AsyncImage(
-                model = coupon.couponImageUrl,
-                contentDescription = "couponImageUrl",
+            AdaptationImage(
+                imageUrl = coupon.couponImageUrl,
                 modifier = Modifier
                     .aspectRatio(131f / 131f)
                     .clip(RoundedCornerShape(12.dp))
@@ -162,7 +160,6 @@ private fun AvailableCouponItem(
 fun UsedCouponItems(
     usedCouponsCount: Int,
     coupons: List<UserCoupons.Coupons>,
-    context: Context,
     getUserCoupons: (Boolean, Int) -> Unit,
 ) {
     if (usedCouponsCount == 0) {
@@ -191,7 +188,7 @@ fun UsedCouponItems(
         }
     } else {
         CouponGrid(coupons, getUserCoupons) { coupon ->
-            UsedCouponItem(coupon, context)
+            UsedCouponItem(coupon)
         }
     }
 }
@@ -199,7 +196,6 @@ fun UsedCouponItems(
 @Composable
 private fun UsedCouponItem(
     coupon: UserCoupons.Coupons,
-    context: Context,
 ) {
     Box(
         modifier = Modifier
@@ -213,9 +209,8 @@ private fun UsedCouponItem(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            AsyncImage(
-                model = coupon.couponImageUrl,
-                contentDescription = "couponImageUrl",
+            AdaptationImage(
+                imageUrl = coupon.couponImageUrl,
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(131f / 131f)

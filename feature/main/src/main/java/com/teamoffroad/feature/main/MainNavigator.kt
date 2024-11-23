@@ -11,6 +11,7 @@ import androidx.navigation.navOptions
 import com.teamoffroad.characterchat.navigation.navigateToCharacterChat
 import com.teamoffroad.core.navigation.CharacterChatRoute
 import com.teamoffroad.core.navigation.MainTabRoute
+import com.teamoffroad.core.navigation.MyPageRoute
 import com.teamoffroad.core.navigation.Route
 import com.teamoffroad.feature.auth.navigation.navigateToAgreeTermsAndConditions
 import com.teamoffroad.feature.auth.navigation.navigateToSelectedCharacter
@@ -85,7 +86,8 @@ internal class MainNavigator(
         val isMainNavTabRoute = MainNavTab.contains {
             currentDestination?.hasRoute(it::class) == true
         }
-        val isCharacterChatRoute = currentDestination?.hasRoute<CharacterChatRoute.CharacterChat>() == true
+        val isCharacterChatRoute =
+            currentDestination?.hasRoute<CharacterChatRoute.CharacterChat>() == true
 
         return isMainNavTabRoute || isCharacterChatRoute
     }
@@ -178,6 +180,15 @@ internal class MainNavigator(
 
     fun navigateToAnnouncement(announcementId: String?) {
         navController.navigateToAnnouncement(announcementId)
+    }
+
+    fun navigateToAnnouncementDeleteStack() {
+        navController.navigateToAnnouncement(null,
+            navOptions {
+                popUpTo<MyPageRoute.AnnouncementDetail> { inclusive = true }
+                launchSingleTop = true
+            }
+        )
     }
 
     fun navigateToAnnouncementDetail(

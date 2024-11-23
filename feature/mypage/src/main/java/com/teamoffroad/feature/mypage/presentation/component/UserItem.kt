@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.mypage.presentation.component
 
-import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -32,9 +31,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.decode.SvgDecoder
-import coil.request.ImageRequest
+import com.teamoffroad.core.designsystem.component.AdaptationImage
 import com.teamoffroad.core.designsystem.theme.Contents2
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
@@ -83,7 +80,6 @@ fun UserNickname(nickname: String) {
 @Composable
 fun UserAdventureInfo(
     user: MyPageUser,
-    context: Context
 ) {
     Column {
         Surface(
@@ -97,7 +93,7 @@ fun UserAdventureInfo(
                 modifier = Modifier.padding(vertical = 16.dp)
             ) {
                 Spacer(modifier = Modifier.padding(horizontal = 10.dp))
-                UserImage(user.characterImageUrl, context)
+                UserImage(user.characterImageUrl)
                 Spacer(modifier = Modifier.padding(horizontal = 15.dp))
                 UserInfo(user.elapsedDay, user.currentEmblem)
             }
@@ -170,23 +166,18 @@ fun UserInfo(date: Int, emblem: String) {
 @Composable
 fun UserImage(
     characterImageUrl: String,
-    context: Context,
     shape: RoundedCornerShape = CircleShape,
     contentScale: ContentScale = ContentScale.Crop,
     modifier: Modifier = Modifier,
-    borderColor: Color = Main1
+    borderColor: Color = Main1,
 ) {
 //    Image(
 //        painter = painterResource(id = R.drawable.test_img_user_home),
 //        contentDescription = "user image"
 //    )
 
-    AsyncImage(
-        model = ImageRequest.Builder(context)
-            .data(characterImageUrl)
-            .decoderFactory(SvgDecoder.Factory())
-            .build(),
-        contentDescription = "character image",
+    AdaptationImage(
+        imageUrl = characterImageUrl,
         contentScale = contentScale,
         modifier = modifier
             .aspectRatio(78f / 78f)

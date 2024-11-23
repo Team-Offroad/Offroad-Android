@@ -19,4 +19,6 @@ dependencies {
     implementation(libs.lottie.compose)
     implementation(libs.coil.svg)
     implementation(libs.eventbus)
+    implementation(libs.eventbus)
+    //implementation(libs.androidsvg.aar)
 }

@@ -11,6 +11,8 @@ data class AnnouncementResponseDto(
 
 @Serializable
 data class AnnouncementData(
+    @SerialName("id")
+    val id: Int,
     @SerialName("title")
     val title: String,
     @SerialName("content")
