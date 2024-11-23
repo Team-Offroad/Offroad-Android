@@ -134,7 +134,7 @@ fun CharacterChat(
                     )
 
                     Image(
-                        painter = painterResource(id = R.drawable.ic_home_accordion),
+                        painter = painterResource(id = R.drawable.ic_home_accordian),
                         contentDescription = "accordion down",
                         modifier = Modifier
                             .graphicsLayer(rotationX = rotationAngle)

@@ -202,7 +202,7 @@ fun HomeUserChatTextField(
                         shape = RoundedCornerShape(12.dp),
                     )
                     Image(
-                        painter = painterResource(id = R.drawable.ic_character_chat_send),
+                        painter = painterResource(id = com.teamoffroad.offroad.feature.characterchat.R.drawable.ic_character_chat_send),
                         contentDescription = "send",
                         modifier = Modifier
                             .padding(end = 2.dp)

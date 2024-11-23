@@ -87,10 +87,6 @@ processPhoenix = "3.0.0"
 # Event Bus
 eventbus = "3.2.0"
 
-# Event Bus
-eventbus = "3.2.0"
-
-
 [libraries]
 # Core Libraries
 androidsvg-aar = { module = "com.caverock:androidsvg-aar", version.ref = "androidsvgAar" }
