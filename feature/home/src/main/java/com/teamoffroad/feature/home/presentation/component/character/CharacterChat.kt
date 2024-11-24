@@ -52,6 +52,7 @@ import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub4
 import com.teamoffroad.offroad.feature.home.R
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
@@ -213,12 +214,28 @@ fun CharacterChatAnimation(
     var dragOffsetY by remember { mutableFloatStateOf(0f) }
     var isSwipedUp by remember { mutableStateOf(false) }
 
+    var isInactive by remember { mutableStateOf(false) }
+    var lastDragTime by remember { mutableStateOf(System.currentTimeMillis()) }
+
     LaunchedEffect(isCharacterChatting) {
         coroutineScope.launch {
             offsetY.animateTo(
                 targetValue = 0.dp.value,
                 animationSpec = tween(durationMillis = 500)
             )
+        }
+    }
+
+    LaunchedEffect(dragOffsetY, isCharacterChatting) {
+        if (isCharacterChatting.value) {
+            while (true) {
+                delay(1000)
+                val currentTime = System.currentTimeMillis()
+                if (currentTime - lastDragTime > 3000 && dragOffsetY == 0f) {
+                    isInactive = true
+                    break
+                }
+            }
         }
     }
 
@@ -270,6 +287,20 @@ fun CharacterChatAnimation(
                 updateCharacterChatting(false)
                 dragOffsetY = 0f
                 isSwipedUp = false
+            }
+        }
+    }
+
+    LaunchedEffect(isInactive) {
+        if (isInactive) {
+            coroutineScope.launch {
+                offsetY.animateTo(
+                    targetValue = -50.dp.value,
+                    animationSpec = tween(durationMillis = 500)
+                )
+                updateCharacterChatting(false)
+                dragOffsetY = 0f
+                isInactive = false
             }
         }
     }
