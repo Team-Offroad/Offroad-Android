@@ -95,6 +95,7 @@ fun CharacterChatScreen(
                 arrangedChats = uiState.value.chats,
                 bottomPadding = keyboardOffset,
                 isChatting = isChatting.value,
+                isSending = uiState.value.isSending,
                 listState = listState,
             )
         }

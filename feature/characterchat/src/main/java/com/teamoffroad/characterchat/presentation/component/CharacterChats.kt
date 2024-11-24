@@ -30,6 +30,7 @@ fun CharacterChats(
     arrangedChats: Map<LocalDate, List<ChatModel>>,
     bottomPadding: Int = 0,
     isChatting: Boolean = false,
+    isSending: Boolean = false,
     listState: LazyListState = rememberLazyListState(),
 ) {
     val animatedHeight = animateDpAsState(targetValue = (188 + bottomPadding).dp, label = "")
@@ -62,6 +63,11 @@ fun CharacterChats(
                         USER -> UserChatBox(text = chat.text, time = chat.time)
                         ORB_CHARACTER -> CharacterChatBox(name = characterName, text = chat.text, time = chat.time)
                     }
+                }
+            }
+            if (isSending) {
+                item {
+                    CharacterChatLoadingBox(name = characterName, time = chats.last().time)
                 }
             }
             item {
