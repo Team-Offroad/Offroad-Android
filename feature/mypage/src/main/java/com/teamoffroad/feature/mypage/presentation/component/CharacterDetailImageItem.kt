@@ -13,8 +13,8 @@ fun CharacterDetailImageItem(uiState: CharacterDetailUiState) {
     AdaptationImage(
         imageUrl = uiState.characterDetailModel.characterBaseImageUrl,
         modifier = Modifier
-            .padding(top = 120.dp)
-            .padding(horizontal = 120.dp)
+            .padding(top = 80.dp)
+            .padding(horizontal = 74.dp)
             .fillMaxWidth(),
     )
 }

@@ -34,7 +34,7 @@ import com.teamoffroad.offroad.feature.mypage.R
 fun CharacterDescriptionContainer(uiState: CharacterDetailUiState) {
     Column(
         modifier = Modifier
-            .padding(top = 24.dp)
+            .padding(top = 56.dp)
             .padding(horizontal = 24.dp)
             .fillMaxWidth(),
     ) {

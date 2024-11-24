@@ -58,9 +58,8 @@ fun CharacterFrameItem(
                 AdaptationImage(
                     imageUrl = characterThumbnailImageUrl,
                     modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(horizontal = 28.dp)
-                        .padding(bottom = 12.dp)
+                        .align(Alignment.Center)
+                        .padding(horizontal = 14.dp)
                         .fillMaxWidth(),
                 )
             }
