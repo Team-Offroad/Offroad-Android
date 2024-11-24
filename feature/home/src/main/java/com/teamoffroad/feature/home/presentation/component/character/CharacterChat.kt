@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.home.presentation.component.character
 
+import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -22,6 +23,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -35,7 +37,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.substring
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
@@ -66,12 +70,14 @@ fun CharacterChat(
     navigateToCharacterChatScreen: (Int, String) -> Unit
 ) {
     val checkCharacterChattingLines = remember { mutableStateOf(false) }
+    val hasCheckedCharacterChattingLines = remember { mutableStateOf(false) }
     val isExpanded = remember { mutableStateOf(false) }
 
     val rotationAngle by animateFloatAsState(
         targetValue = if (isExpanded.value) 180f else 0f,
         animationSpec = tween(durationMillis = 300), label = ""
     )
+
 
     Box(
         modifier = Modifier
@@ -127,21 +133,27 @@ fun CharacterChat(
                         color = messageTextColor,
                         style = messageTextStyle,
                         onTextLayout = { textLayoutResult ->
-                            checkCharacterChattingLines.value = textLayoutResult.lineCount >= 3
+                            if (!hasCheckedCharacterChattingLines.value) {
+                                checkCharacterChattingLines.value = textLayoutResult.lineCount >= 3
+                                hasCheckedCharacterChattingLines.value = true
+                            }
                         },
-                        maxLines = if (isExpanded.value) Int.MAX_VALUE else 2,
+                        maxLines = if (!isExpanded.value && checkCharacterChattingLines.value) 2 else Int.MAX_VALUE,
                         overflow = TextOverflow.Ellipsis,
                     )
 
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_home_accordian),
-                        contentDescription = "accordion down",
-                        modifier = Modifier
-                            .graphicsLayer(rotationX = rotationAngle)
-                            .clickableWithoutRipple {
-                                isExpanded.value = !isExpanded.value
-                            }
-                    )
+                    if(checkCharacterChattingLines.value) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_home_accordian),
+                            contentDescription = "accordion down",
+                            modifier = Modifier
+                                .graphicsLayer(rotationX = rotationAngle)
+                                .clickableWithoutRipple {
+                                    isExpanded.value = !isExpanded.value
+                                }
+                        )
+                    }
+
                 }
 
             }
