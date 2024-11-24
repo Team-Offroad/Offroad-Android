@@ -18,7 +18,7 @@ data class CharacterDetailResponseDto(
     @SerialName("characterDescription")
     val characterDescription: String,
     @SerialName("characterMainColorCode")
-    val characterMainColorCdoe: String,
+    val characterMainColorCode: String,
     @SerialName("characterSubColorCode")
     val characterSubColorCode: String,
 )
