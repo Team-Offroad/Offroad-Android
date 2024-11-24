@@ -65,6 +65,7 @@ fun CharacterChatLoadingBox(
                 modifier = Modifier
                     .height(18.dp)
                     .width(80.dp)
+                    .padding(bottom = 2.dp)
                     .align(Alignment.CenterEnd),
             )
         }
