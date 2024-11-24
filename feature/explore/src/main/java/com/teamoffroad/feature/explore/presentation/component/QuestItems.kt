@@ -27,6 +27,7 @@ import com.teamoffroad.feature.explore.presentation.model.QuestModel
 fun QuestItems(
     quests: List<QuestModel>,
     updateQuests: () -> Unit,
+    isProceeding: Boolean,
     isLoading: Boolean,
     isAdditionalLoading: Boolean,
     isLoadable: Boolean,
@@ -43,7 +44,7 @@ fun QuestItems(
             }
     }
 
-    LaunchedEffect(quests) {
+    LaunchedEffect(isProceeding) {
         listState.scrollToItem(0)
     }
 
