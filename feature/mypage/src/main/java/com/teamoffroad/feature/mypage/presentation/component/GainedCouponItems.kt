@@ -35,6 +35,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.teamoffroad.core.designsystem.component.AdaptationImage
 import com.teamoffroad.core.designsystem.component.CircularLoadingAnimationLine
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
@@ -57,7 +61,6 @@ fun AvailableCouponItems(
     coupons: List<UserCoupons.Coupons>,
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
     getUserCoupons: (Boolean, Int) -> Unit,
-    uiState: UiState<UserCoupons> = UiState.Loading,
 ) {
     if (availableCouponsCount == 0) {
         Column(
@@ -87,7 +90,6 @@ fun AvailableCouponItems(
         CouponGrid(
             coupons = coupons,
             getUserCoupons = getUserCoupons,
-            uiState = uiState,
         ) { coupon ->
             AvailableCouponItem(coupon, navigateToAvailableCouponDetail)
         }
@@ -235,7 +237,6 @@ private fun UsedCouponItem(
 fun CouponGrid(
     coupons: List<UserCoupons.Coupons>,
     getUserCoupons: (Boolean, Int) -> Unit,
-    uiState: UiState<UserCoupons> = UiState.Loading,
     couponContent: @Composable (UserCoupons.Coupons) -> Unit,
 ) {
     val gridState = rememberLazyGridState()
@@ -265,12 +266,40 @@ fun CouponGrid(
         items(coupons.size) { index ->
             couponContent(coupons[index])
         }
-        item(span = { GridItemSpan(2) }) {
-            CircularLoadingAnimationLine(isLoading = uiState is UiState.AdditionalLoading)
+
+        if (showLottieLoading) {
+            item(span = { GridItemSpan(2) }) {
+                LoadingIndicator {
+                    val lastItem = coupons.lastOrNull()
+                    if (lastItem != null) {
+                        getUserCoupons(false, lastItem.cursorId)
+                    }
+                    showLottieLoading = false
+                }
+            }
         }
     }
 }
 
+@Composable
+private fun LoadingIndicator(onAnimationEnd: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 10.dp)
+            .size(38.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(com.teamoffroad.offroad.core.designsystem.R.raw.loading_circle))
+        val animationState = animateLottieCompositionAsState(composition, iterations = 1)
+
+        if (animationState.isAtEnd && animationState.isPlaying) {
+            LaunchedEffect(Unit) { onAnimationEnd() }
+        }
+
+        LottieAnimation(composition, animationState.progress)
+    }
+}
 
 @Composable
 private fun GainedCouponLockedCover() {

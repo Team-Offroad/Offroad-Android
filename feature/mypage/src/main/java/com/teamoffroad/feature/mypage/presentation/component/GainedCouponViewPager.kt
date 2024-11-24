@@ -42,7 +42,6 @@ fun GainedCouponViewPager(
     usedCoupons: List<UserCoupons.Coupons>,
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
     getUserCoupons: (Boolean, Int) -> Unit,
-    uiState: UiState<UserCoupons>,
 ) {
     val tabTitles = listOf(
         stringResource(id = R.string.my_page_gained_coupon_available),

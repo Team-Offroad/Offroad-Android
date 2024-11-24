@@ -33,22 +33,11 @@ class GainedCouponViewModel @Inject constructor(
     private val _userUsedCoupons = MutableStateFlow<List<UserCoupons.Coupons>>(emptyList())
     val userUsedCoupons = _userUsedCoupons.asStateFlow()
 
-    private var isLoadable = true
-
     fun getUserCoupons(isUsed: Boolean, cursorId: Int) {
-        if (!isLoadable) return
-        _getUserCouponListState.value = when (cursorId) {
-            START_CURSOR_ID -> UiState.Loading
-            else -> UiState.AdditionalLoading
-        }
-
         viewModelScope.launch {
             runCatching {
                 userCouponRepository.fetchUserCoupons(isUsed, COUPON_SIZE, cursorId)
             }.onSuccess { coupons ->
-                if (coupons.coupons.isEmpty() && cursorId != START_CURSOR_ID) {
-                    isLoadable = false
-                }
                 _getUserCouponListState.emit(UiState.Success(coupons))
                 _availableCouponsCount.emit(coupons.availableCouponsCount)
                 _usedCouponsCount.emit(coupons.usedCouponsCount)
@@ -65,6 +54,11 @@ class GainedCouponViewModel @Inject constructor(
         } else {
             _userAvailableCoupons.value += coupons
         }
+    }
+
+    fun initCoupons() {
+        _userUsedCoupons.value = emptyList()
+        _userAvailableCoupons.value = emptyList()
     }
 
 
