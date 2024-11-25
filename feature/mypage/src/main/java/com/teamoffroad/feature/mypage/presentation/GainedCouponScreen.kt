@@ -38,8 +38,8 @@ internal fun GainedCouponScreen(
 ) {
     LaunchedEffect(Unit) {
         viewModel.initCoupons()
-        viewModel.getUserCoupons(true, START_CURSOR_ID)
-        viewModel.getUserCoupons(false, START_CURSOR_ID)
+        viewModel.getUserAvailableCoupons(false, START_CURSOR_ID)
+        viewModel.getUserUsedCoupons(true, START_CURSOR_ID)
     }
 
     Box(
@@ -68,7 +68,8 @@ internal fun GainedCouponScreen(
                 viewModel.userAvailableCoupons.collectAsState().value,
                 viewModel.userUsedCoupons.collectAsState().value,
                 navigateToAvailableCouponDetail,
-                viewModel::getUserCoupons,
+                viewModel::getUserAvailableCoupons,
+                viewModel::getUserUsedCoupons
             )
         }
     }

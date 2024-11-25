@@ -40,7 +40,6 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.teamoffroad.core.designsystem.component.AdaptationImage
-import com.teamoffroad.core.designsystem.component.CircularLoadingAnimationLine
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Black25
 import com.teamoffroad.core.designsystem.theme.Black55
@@ -50,15 +49,16 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Stroke
 import com.teamoffroad.core.designsystem.theme.White
-import com.teamoffroad.feature.mypage.domain.model.UserCoupons
-import com.teamoffroad.feature.mypage.presentation.model.UiState
+import com.teamoffroad.feature.mypage.domain.model.UserAvailableCoupons
+import com.teamoffroad.feature.mypage.domain.model.UserUsedCoupons
+import com.teamoffroad.feature.mypage.presentation.GainedCouponViewModel.Companion.COUPON_SIZE
 import com.teamoffroad.offroad.feature.mypage.R
 import com.teamoffroad.offroad.feature.mypage.R.drawable
 
 @Composable
 fun AvailableCouponItems(
     availableCouponsCount: Int,
-    coupons: List<UserCoupons.Coupons>,
+    coupons: List<UserAvailableCoupons.AvailableCoupons>,
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
     getUserCoupons: (Boolean, Int) -> Unit,
 ) {
@@ -87,7 +87,7 @@ fun AvailableCouponItems(
             )
         }
     } else {
-        CouponGrid(
+        AvailableCouponGrid(
             coupons = coupons,
             getUserCoupons = getUserCoupons,
         ) { coupon ->
@@ -98,7 +98,7 @@ fun AvailableCouponItems(
 
 @Composable
 private fun AvailableCouponItem(
-    coupon: UserCoupons.Coupons,
+    coupon: UserAvailableCoupons.AvailableCoupons,
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
 ) {
     Box(
@@ -161,7 +161,7 @@ private fun AvailableCouponItem(
 @Composable
 fun UsedCouponItems(
     usedCouponsCount: Int,
-    coupons: List<UserCoupons.Coupons>,
+    coupons: List<UserUsedCoupons.UsedCoupons>,
     getUserCoupons: (Boolean, Int) -> Unit,
 ) {
     if (usedCouponsCount == 0) {
@@ -189,7 +189,7 @@ fun UsedCouponItems(
             )
         }
     } else {
-        CouponGrid(coupons, getUserCoupons) { coupon ->
+        UsedCouponGrid(coupons, getUserCoupons) { coupon ->
             UsedCouponItem(coupon)
         }
     }
@@ -197,7 +197,7 @@ fun UsedCouponItems(
 
 @Composable
 private fun UsedCouponItem(
-    coupon: UserCoupons.Coupons,
+    coupon: UserUsedCoupons.UsedCoupons,
 ) {
     Box(
         modifier = Modifier
@@ -234,10 +234,10 @@ private fun UsedCouponItem(
 }
 
 @Composable
-fun CouponGrid(
-    coupons: List<UserCoupons.Coupons>,
+fun AvailableCouponGrid(
+    coupons: List<UserAvailableCoupons.AvailableCoupons>,
     getUserCoupons: (Boolean, Int) -> Unit,
-    couponContent: @Composable (UserCoupons.Coupons) -> Unit,
+    couponContent: @Composable (UserAvailableCoupons.AvailableCoupons) -> Unit,
 ) {
     val gridState = rememberLazyGridState()
     var showLottieLoading by remember { mutableStateOf(false) }
@@ -267,14 +267,66 @@ fun CouponGrid(
             couponContent(coupons[index])
         }
 
-        if (showLottieLoading) {
-            item(span = { GridItemSpan(2) }) {
-                LoadingIndicator {
-                    val lastItem = coupons.lastOrNull()
-                    if (lastItem != null) {
-                        getUserCoupons(false, lastItem.cursorId)
+        if (coupons.size >= COUPON_SIZE) {
+            if (showLottieLoading) {
+                item(span = { GridItemSpan(2) }) {
+                    LoadingIndicator {
+                        val lastItem = coupons.lastOrNull()
+                        if (lastItem != null) {
+                            getUserCoupons(false, lastItem.cursorId)
+                        }
+                        showLottieLoading = false
                     }
-                    showLottieLoading = false
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun UsedCouponGrid(
+    coupons: List<UserUsedCoupons.UsedCoupons>,
+    getUserCoupons: (Boolean, Int) -> Unit,
+    couponContent: @Composable (UserUsedCoupons.UsedCoupons) -> Unit,
+) {
+    val gridState = rememberLazyGridState()
+    var showLottieLoading by remember { mutableStateOf(false) }
+
+    LaunchedEffect(gridState, coupons) {
+        snapshotFlow { gridState.layoutInfo.visibleItemsInfo }
+            .collect { visibleItems ->
+                val lastVisibleItem = visibleItems.lastOrNull()
+                if (lastVisibleItem != null && lastVisibleItem.index == coupons.size - 1 && !showLottieLoading) {
+                    showLottieLoading = true
+                }
+            }
+    }
+
+    LazyVerticalGrid(
+        state = gridState,
+        columns = GridCells.Fixed(2),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(ListBg)
+            .padding(horizontal = 24.dp),
+        contentPadding = PaddingValues(vertical = 18.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        items(coupons.size) { index ->
+            couponContent(coupons[index])
+        }
+
+        if (coupons.size >= COUPON_SIZE) {
+            if (showLottieLoading) {
+                item(span = { GridItemSpan(2) }) {
+                    LoadingIndicator {
+                        val lastItem = coupons.lastOrNull()
+                        if (lastItem != null) {
+                            getUserCoupons(false, lastItem.cursorId)
+                        }
+                        showLottieLoading = false
+                    }
                 }
             }
         }
