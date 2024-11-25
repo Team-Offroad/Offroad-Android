@@ -2,10 +2,8 @@ package com.teamoffroad.feature.main
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -22,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.TYPE_ANNOUNCEMENT
 import com.teamoffroad.core.common.util.OnBackButtonListener
-import com.teamoffroad.core.designsystem.theme.Kakao
 import com.teamoffroad.feature.main.component.CharacterChatAnimation
 import com.teamoffroad.feature.main.component.MainBottomBar
 import com.teamoffroad.feature.main.component.MainNavHost
@@ -139,21 +136,17 @@ private fun MainScreenContent(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(top = 350.dp) // TODO: TextField 위치 조정 필요
-                            //.background(Kakao)
                     ) {
                         Box(
                             contentAlignment = Alignment.BottomCenter
                         ) {
                             if (characterChatUiState.value.isAnswerButtonClicked) {
                                 UserChat(
-//                            isChatting = ,
                                     chattingText = userChattingText,
                                     updateShowUserChatTextField = updateShowUserChatTextField,
                                     updateUserWatchingCharacterChat = updateUserWatchingCharacterChat,
                                     userChatUiState = userChatUiState,
-//                            sendMessage = ,
                                     sendChat = sendChat,
-//                            updateCharacterChatting = ,
                                     updateUserChattingText = updateUserChattingText
                                 )
                             }

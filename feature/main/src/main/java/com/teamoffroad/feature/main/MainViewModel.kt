@@ -76,29 +76,23 @@ class MainViewModel @Inject constructor(
     fun onNotificationEvent(event: NotificationEvent) {
         Log.d("characterChat data", event.toString())
 
-//        _characterChatUiState.value = _characterChatUiState.value.copy(
-//            isCharacterChattingLoading = true
-//        )
-//        if (_userChatUiState.value.isUserChattingLoading) {
-//            _characterChatUiState.value = _characterChatUiState.value.copy(
-//                isUserWatchingCharacterChat = true
-//            )
-//        }
+        _characterChatUiState.value = _characterChatUiState.value.copy(
+            isCharacterChattingLoading = true
+        )
+
         val characterName = event.characterName
         val characterContent = event.characterContent
-        Log.d("chatchat", "${characterName} ${characterContent}")
         if (characterName != null && characterContent != null) {
             _characterChatUiState.value = characterChatUiState.value.copy(
                 characterName = characterName,
                 characterChatContent = characterContent,
                 isCharacterChattingExist = true,
-//                isUserWatchingCharacterChat = false,
                 isAnswerButtonClicked = false
             )
         }
-//        _characterChatUiState.value = _characterChatUiState.value.copy(
-//            isCharacterChattingLoading = false
-//        )
+        _characterChatUiState.value = _characterChatUiState.value.copy(
+            isCharacterChattingLoading = false
+        )
     }
 
     fun updateAnswerCharacterChatButtonState(state: Boolean) {
@@ -159,7 +153,6 @@ class MainViewModel @Inject constructor(
                     _characterChatUiState.value = _characterChatUiState.value.copy(
                         characterChatContent = characterContent,
                         isCharacterChattingExist = true,
-                        isUserWatchingCharacterChat = false,
                         isAnswerButtonClicked = false,
                         isCharacterChattingLoading = false
                     )
