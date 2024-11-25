@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.home.presentation
+package com.teamoffroad.feature.main.component
 
 import android.graphics.Rect
 import android.view.ViewTreeObserver
@@ -23,7 +23,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -53,6 +53,7 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Transparent
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.feature.main.UserChattingUiState
 import com.teamoffroad.offroad.feature.home.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -60,12 +61,10 @@ import com.teamoffroad.offroad.feature.home.R
 fun HomeUserChatTextField(
     modifier: Modifier = Modifier,
     text: String = "",
-    sentMessage: String,
-    isChatting: MutableState<Boolean>,
+    userChatUiState: State<UserChattingUiState>,
+    updateShowUserChatTextField: (Boolean) -> Unit,
     keyboard: Boolean,
-    isCharacterChatting: (Boolean) -> Unit,
     onValueChange: (String) -> Unit = {},
-    onFocusChange: (Boolean) -> Unit = {},
     onSendClick: () -> Unit = {},
 ) {
     val scrollState = rememberScrollState()
@@ -76,8 +75,8 @@ fun HomeUserChatTextField(
 
     var keyboardVisible by remember { mutableStateOf(keyboard) }
 
-    LaunchedEffect(isChatting) {
-        if (isChatting.value) {
+    LaunchedEffect(userChatUiState.value.showUserChatTextField) {
+        if (userChatUiState.value.showUserChatTextField) {
             focusRequester.requestFocus()
         }
     }
@@ -85,8 +84,9 @@ fun HomeUserChatTextField(
     LaunchedEffect(keyboardVisible) {
         if (!keyboardVisible) {
             focusManager.clearFocus()
-            isChatting.value = false
-            isCharacterChatting(false)
+//            isChatting.value = false
+//            isCharacterChatting(false)
+            updateShowUserChatTextField(false)
         }
     }
 
@@ -105,7 +105,7 @@ fun HomeUserChatTextField(
     }
 
     AnimatedVisibility(
-        visible = isChatting.value,
+        visible = userChatUiState.value.showUserChatTextField,
     ) {
         Box(
             modifier = modifier
@@ -149,7 +149,7 @@ fun HomeUserChatTextField(
                             }
                         } else {
                             Text(
-                                text = sentMessage,
+                                text = userChatUiState.value.chatContent,
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(vertical = 6.dp)
@@ -188,10 +188,10 @@ fun HomeUserChatTextField(
                             .focusRequester(focusRequester)
                             .onGloballyPositioned { layoutCoordinates ->
                                 textFieldHeight.intValue = layoutCoordinates.size.height
-                            }
-                            .onFocusChanged { focusState ->
-                                onFocusChange(focusState.isFocused)
                             },
+//                            .onFocusChanged { focusState ->
+//                                onFocusChange(focusState.isFocused)
+//                            },
                         maxLines = 2,
                         colors = TextFieldDefaults.textFieldColors(
                             containerColor = Transparent,

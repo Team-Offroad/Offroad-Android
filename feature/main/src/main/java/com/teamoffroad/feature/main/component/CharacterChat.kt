@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.home.presentation.component.character
+package com.teamoffroad.feature.main.component
 
 import android.util.Log
 import androidx.compose.animation.core.Animatable
@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -23,7 +24,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -37,9 +37,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.text.substring
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
@@ -47,28 +45,31 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.BtnInactive
+import com.teamoffroad.core.designsystem.theme.Kakao
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub4
+import com.teamoffroad.feature.main.CharacterChattingUiState
+import com.teamoffroad.feature.main.UserChattingUiState
 import com.teamoffroad.offroad.feature.home.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
 fun CharacterChat(
-    isChatting: MutableState<Boolean>,
-    isCharacterChattingLoading: State<Boolean>,
-    answerCharacterChat: MutableState<Boolean>,
-    characterName: String,
-    characterContent: String,
+//    isCharacterChattingLoading: State<Boolean>,
+    characterChatUiState: State<CharacterChattingUiState>,
     characterTextColor: Color = Sub4,
     characterTextStyle: TextStyle = OffroadTheme.typography.textBold,
     messageTextColor: Color = Main2,
     messageTextStyle: TextStyle = OffroadTheme.typography.textRegular,
     backgroundColor: Color = Main3,
     borderColor: Color = BtnInactive,
-    navigateToCharacterChatScreen: (Int, String) -> Unit
+    updateAnswerCharacterChatButtonState: (Boolean) -> Unit,
+    updateUserWatchingCharacterChat: (Boolean) -> Unit,
+    updateShowUserChatTextField: (Boolean) -> Unit,
+    //navigateToCharacterChatScreen: (Int, String) -> Unit
 ) {
     val checkCharacterChattingLines = remember { mutableStateOf(false) }
     val hasCheckedCharacterChattingLines = remember { mutableStateOf(false) }
@@ -94,42 +95,42 @@ fun CharacterChat(
             )
             .padding(vertical = 14.dp, horizontal = 18.dp)
             .clickableWithoutRipple {
-                navigateToCharacterChatScreen(-1, characterName)
+                //navigateToCharacterChatScreen(-1, characterName)
             }
     ) {
         Column {
             Row {
                 Text(
-                    text = "$characterName : ",
+                    text = "${characterChatUiState.value.characterName} : ",
                     modifier = Modifier,
                     color = characterTextColor,
                     style = characterTextStyle
                 )
 
-                if (isCharacterChattingLoading.value) {
-                    Box(
-                        modifier = Modifier
-                            .size(width = 54.dp, height = 27.dp)
-                    ) {
-                        val composition by rememberLottieComposition(
-                            LottieCompositionSpec.RawRes(
-                                com.teamoffroad.offroad.core.designsystem.R.raw.loading_linear
-                            )
-                        )
-                        val animationState = animateLottieCompositionAsState(
-                            composition,
-                            iterations = LottieConstants.IterateForever
-                        )
-
-                        if (animationState.isAtEnd && animationState.isPlaying) {
-                            LaunchedEffect(Unit) { }
-                        }
-
-                        LottieAnimation(composition, animationState.progress)
-                    }
-                } else {
+//                if (isCharacterChattingLoading.value) {
+//                    Box(
+//                        modifier = Modifier
+//                            .size(width = 54.dp, height = 27.dp)
+//                    ) {
+//                        val composition by rememberLottieComposition(
+//                            LottieCompositionSpec.RawRes(
+//                                com.teamoffroad.offroad.core.designsystem.R.raw.loading_linear
+//                            )
+//                        )
+//                        val animationState = animateLottieCompositionAsState(
+//                            composition,
+//                            iterations = LottieConstants.IterateForever
+//                        )
+//
+//                        if (animationState.isAtEnd && animationState.isPlaying) {
+//                            LaunchedEffect(Unit) { }
+//                        }
+//
+//                        LottieAnimation(composition, animationState.progress)
+//                    }
+//                } else {
                     Text(
-                        text = characterContent,
+                        text = characterChatUiState.value.characterChatContent,
                         modifier = Modifier.weight(1f),
                         color = messageTextColor,
                         style = messageTextStyle,
@@ -142,7 +143,7 @@ fun CharacterChat(
                         maxLines = if (!isExpanded.value && checkCharacterChattingLines.value) 2 else Int.MAX_VALUE,
                         overflow = TextOverflow.Ellipsis,
                     )
-
+//
                     if(checkCharacterChattingLines.value) {
                         Image(
                             painter = painterResource(id = R.drawable.ic_home_accordian),
@@ -150,17 +151,25 @@ fun CharacterChat(
                             modifier = Modifier
                                 .graphicsLayer(rotationX = rotationAngle)
                                 .clickableWithoutRipple {
+                                    // 이때도 3초 이후에 채팅이 올라가면 안딤
+                                    updateUserWatchingCharacterChat(true)
                                     isExpanded.value = !isExpanded.value
                                 }
                         )
                     }
 
-                }
+//                }
 
             }
 
-            if (!answerCharacterChat.value) {
-                AnswerCharacterChat(isChatting = isChatting)
+
+            if (characterChatUiState.value.isCharacterChattingExist) {
+                AnswerCharacterChat(
+                    characterChatUiState = characterChatUiState,
+                    updateAnswerCharacterChatButtonState = updateAnswerCharacterChatButtonState,
+                    updateUserWatchingCharacterChat = updateUserWatchingCharacterChat,
+                    updateShowUserChatTextField = updateShowUserChatTextField,
+                )
             }
         }
 
@@ -169,10 +178,13 @@ fun CharacterChat(
 
 @Composable
 fun AnswerCharacterChat(
-    isChatting: MutableState<Boolean>,
+    characterChatUiState: State<CharacterChattingUiState>,
     backgroundColor: Color = Main2,
     textColor: Color = Main3,
-    textStyle: TextStyle = OffroadTheme.typography.textContents
+    textStyle: TextStyle = OffroadTheme.typography.textContents,
+    updateAnswerCharacterChatButtonState: (Boolean) -> Unit,
+    updateUserWatchingCharacterChat: (Boolean) -> Unit,
+    updateShowUserChatTextField: (Boolean) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -189,7 +201,9 @@ fun AnswerCharacterChat(
                     )
                     .padding(horizontal = 14.dp, vertical = 6.dp)
                     .clickableWithoutRipple {
-                        isChatting.value = true
+                        updateUserWatchingCharacterChat(true)
+                        updateAnswerCharacterChatButtonState(true)
+                        updateShowUserChatTextField(true)
                     },
                 color = textColor,
                 style = textStyle
@@ -200,14 +214,18 @@ fun AnswerCharacterChat(
 
 @Composable
 fun CharacterChatAnimation(
-    isCharacterChatting: State<Boolean>,
-    isChatting: MutableState<Boolean>,
-    isCharacterChattingLoading: State<Boolean>,
-    answerCharacterChat: MutableState<Boolean>,
-    characterName: String,
-    characterContent: String,
-    updateCharacterChatting: (Boolean) -> Unit,
-    navigateToCharacterChatScreen: (Int, String) -> Unit
+//    isCharacterChatting: State<Boolean>,
+//    isChatting: MutableState<Boolean>,
+//    isCharacterChattingLoading: State<Boolean>,
+//    answerCharacterChat: MutableState<Boolean>,
+    characterChatUiState: State<CharacterChattingUiState>,
+    userChatUiState: State<UserChattingUiState>,
+    updateAnswerCharacterChatButtonState: (Boolean) -> Unit,
+    updateCharacterChatExist: (Boolean) -> Unit,
+    updateUserWatchingCharacterChat: (Boolean) -> Unit,
+    updateShowUserChatTextField: (Boolean) -> Unit,
+    //updateCharacterChatting: (Boolean) -> Unit,
+    //navigateToCharacterChatScreen: (Int, String) -> Unit
 ) {
     val offsetY = remember { Animatable(-10.dp.value) }
     val coroutineScope = rememberCoroutineScope()
@@ -217,7 +235,7 @@ fun CharacterChatAnimation(
     var isInactive by remember { mutableStateOf(false) }
     var lastDragTime by remember { mutableStateOf(System.currentTimeMillis()) }
 
-    LaunchedEffect(isCharacterChatting) {
+    LaunchedEffect(characterChatUiState.value.isCharacterChattingExist) { // 제자리
         coroutineScope.launch {
             offsetY.animateTo(
                 targetValue = 0.dp.value,
@@ -226,14 +244,17 @@ fun CharacterChatAnimation(
         }
     }
 
-    LaunchedEffect(dragOffsetY, isCharacterChatting) {
-        if (isCharacterChatting.value) {
+    LaunchedEffect(dragOffsetY, characterChatUiState.value.isCharacterChattingExist) { // 3초 후 상승
+        if (characterChatUiState.value.isCharacterChattingExist && !characterChatUiState.value.isCharacterChattingLoading) {
             while (true) {
                 delay(1000)
                 val currentTime = System.currentTimeMillis()
                 if (currentTime - lastDragTime > 3000 && dragOffsetY == 0f) {
-                    isInactive = true
-                    break
+                    if (!characterChatUiState.value.isUserWatchingCharacterChat) {
+                        isInactive = true
+                        break
+                    }
+
                 }
             }
         }
@@ -268,23 +289,25 @@ fun CharacterChatAnimation(
             }
     ) {
         CharacterChat(
-            isChatting = isChatting,
-            isCharacterChattingLoading = isCharacterChattingLoading,
-            answerCharacterChat = answerCharacterChat,
-            characterName = characterName,
-            characterContent = characterContent,
-            navigateToCharacterChatScreen = navigateToCharacterChatScreen
+//            isChatting = isChatting,
+//            isCharacterChattingLoading = isCharacterChattingLoading,
+            //answerCharacterChat = answerCharacterChat,
+            characterChatUiState = characterChatUiState,
+            updateAnswerCharacterChatButtonState = updateAnswerCharacterChatButtonState,
+            updateUserWatchingCharacterChat = updateUserWatchingCharacterChat,
+            updateShowUserChatTextField = updateShowUserChatTextField,
+            //navigateToCharacterChatScreen = navigateToCharacterChatScreen
         )
     }
 
-    LaunchedEffect(isSwipedUp) {
+    LaunchedEffect(isSwipedUp) { // 사용자가 스와이프해서 캐릭터 채팅 자연스럽게 없애기
         if (isSwipedUp) {
             coroutineScope.launch {
                 offsetY.animateTo(
                     targetValue = -50.dp.value,
                     animationSpec = tween(durationMillis = 500)
                 )
-                updateCharacterChatting(false)
+                updateCharacterChatExist(false)
                 dragOffsetY = 0f
                 isSwipedUp = false
             }
@@ -298,7 +321,7 @@ fun CharacterChatAnimation(
                     targetValue = -50.dp.value,
                     animationSpec = tween(durationMillis = 500)
                 )
-                updateCharacterChatting(false)
+                updateCharacterChatExist(false)
                 dragOffsetY = 0f
                 isInactive = false
             }

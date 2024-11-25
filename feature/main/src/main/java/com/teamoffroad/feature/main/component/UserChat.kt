@@ -1,5 +1,6 @@
-package com.teamoffroad.feature.home.presentation.component.user
+package com.teamoffroad.feature.main.component
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -21,17 +22,20 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.Sub55
 import com.teamoffroad.core.designsystem.theme.White
-import com.teamoffroad.feature.home.presentation.HomeUserChatTextField
+import com.teamoffroad.feature.main.UserChattingUiState
 import com.teamoffroad.offroad.feature.home.R
 
 @Composable
 fun UserChat(
-    isChatting: MutableState<Boolean>,
+//    isChatting: MutableState<Boolean>,
     chattingText: State<String>,
-    sendMessage: MutableState<String>,
-    userSendChat: MutableState<Boolean>,
-    updateCharacterChatting: (Boolean) -> Unit,
-    updateChattingText: (String) -> Unit,
+    userChatUiState: State<UserChattingUiState>,
+    updateUserWatchingCharacterChat: (Boolean) -> Unit,
+//    sendMessage: MutableState<String>,
+//    userSendChat: MutableState<Boolean>,
+//    updateCharacterChatting: (Boolean) -> Unit,
+    updateUserChattingText: (String) -> Unit,
+    updateShowUserChatTextField: (Boolean) -> Unit,
     sendChat: () -> Unit,
 ) {
     Column {
@@ -44,24 +48,23 @@ fun UserChat(
                     .padding(end = 20.dp),
                 contentAlignment = Alignment.CenterEnd
             ) {
-                FinishChatting(isChatting)
+                FinishChatting()
             }
         }
 
         HomeUserChatTextField(
             text = chattingText.value,
-            sentMessage = sendMessage.value,
-            isChatting = isChatting,
+            userChatUiState = userChatUiState,
+            updateShowUserChatTextField = updateShowUserChatTextField,
             keyboard = true,
-            isCharacterChatting = updateCharacterChatting,
             onValueChange = { text ->
-                updateChattingText(text)
+                updateUserChattingText(text)
             },
             onSendClick = {
-                userSendChat.value = true // 사용자가 채팅 보냄
-                sendMessage.value = chattingText.value // 보낼 메시지
+                // TODO: 캐릭터 챗이 계속 보이도록
+                updateUserWatchingCharacterChat(true)
                 sendChat() // 서버에 보내기
-                updateChattingText("") // 초기화
+                updateUserChattingText("") // 초기화
             }
         )
     }
@@ -69,7 +72,7 @@ fun UserChat(
 
 @Composable
 fun FinishChatting(
-    isChatting: MutableState<Boolean>,
+    //isChatting: MutableState<Boolean>,
     backgroundColor: Color = Sub55,
     borderColor: Color = Sub
 ) {
@@ -90,7 +93,7 @@ fun FinishChatting(
             .padding(horizontal = 16.dp)
             .padding(vertical = 8.dp)
             .clickableWithoutRipple {
-                isChatting.value = false
+                //isChatting.value = false
             },
         color = White
     )

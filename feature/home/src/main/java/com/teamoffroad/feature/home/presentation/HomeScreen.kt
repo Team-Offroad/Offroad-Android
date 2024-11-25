@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,12 +43,10 @@ import com.teamoffroad.feature.home.domain.model.UserQuests
 import com.teamoffroad.feature.home.presentation.component.CompleteQuestDialog
 import com.teamoffroad.feature.home.presentation.component.HomeIcons
 import com.teamoffroad.feature.home.presentation.component.UiState
-import com.teamoffroad.feature.home.presentation.component.character.CharacterChatAnimation
 import com.teamoffroad.feature.home.presentation.component.character.CharacterItem
 import com.teamoffroad.feature.home.presentation.component.quest.progressbar.CloseCompleteRequest
 import com.teamoffroad.feature.home.presentation.component.quest.progressbar.RecentQuest
 import com.teamoffroad.feature.home.presentation.component.user.NicknameText
-import com.teamoffroad.feature.home.presentation.component.user.UserChat
 import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 import com.teamoffroad.offroad.feature.home.R
 
@@ -68,14 +65,14 @@ fun HomeScreen(
     val context = LocalContext.current
     val viewModel: HomeViewModel = hiltViewModel()
     val isCompleteQuestDialogShown = remember { mutableStateOf(false) }
-    val isUserChatting = remember { mutableStateOf(false) }
-    val userChattingText = viewModel.chattingText.collectAsStateWithLifecycle()
-    val userSendMessage = remember { mutableStateOf("") }
-    val characterChat = viewModel.getCharacterChat.collectAsStateWithLifecycle()
-    val isCharacterChatting = viewModel.isCharacterChatting.collectAsStateWithLifecycle()
-    val isCharacterChattingLoading =
-        viewModel.isCharacterChattingLoading.collectAsStateWithLifecycle()
-    val userSendChat = remember { mutableStateOf(false) }
+//    val isUserChatting = remember { mutableStateOf(false) }
+//    val userChattingText = viewModel.chattingText.collectAsStateWithLifecycle()
+//    val userSendMessage = remember { mutableStateOf("") }
+//    val characterChat = viewModel.getCharacterChat.collectAsStateWithLifecycle()
+//    val isCharacterChatting = viewModel.isCharacterChatting.collectAsStateWithLifecycle()
+//    val isCharacterChattingLoading =
+//        viewModel.isCharacterChattingLoading.collectAsStateWithLifecycle()
+//    val userSendChat = remember { mutableStateOf(false) }
     val characterName = viewModel.characterName.collectAsStateWithLifecycle()
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) {}
@@ -106,7 +103,7 @@ fun HomeScreen(
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             UsersAdventuresInformation(
-                isChatting = isUserChatting,
+                //isChatting = isUserChatting,
                 context = context,
                 characterName = characterName.value,
                 modifier = Modifier
@@ -121,38 +118,25 @@ fun HomeScreen(
 
         }
 
-        if (isUserChatting.value) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 196.dp)
-            ) {
-                UserChat(
-                    isChatting = isUserChatting,
-                    chattingText = userChattingText,
-                    sendMessage = userSendMessage,
-                    userSendChat = userSendChat,
-                    updateCharacterChatting = viewModel::updateCharacterChatting,
-                    updateChattingText = viewModel::updateChattingText,
-                    sendChat = viewModel::sendChat
-                )
-            }
-        }
+//        if (isUserChatting.value) {
+//            Box(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .align(Alignment.BottomCenter)
+//                    .padding(bottom = 196.dp)
+//            ) {
+//                UserChat(
+//                    isChatting = isUserChatting,
+//                    chattingText = userChattingText,
+//                    sendMessage = userSendMessage,
+//                    userSendChat = userSendChat,
+//                    updateCharacterChatting = viewModel::updateCharacterChatting,
+//                    updateChattingText = viewModel::updateChattingText,
+//                    sendChat = viewModel::sendChat
+//                )
+//            }
+//        }
 
-
-        if (isCharacterChatting.value) {
-            CharacterChatAnimation(
-                isCharacterChatting = isCharacterChatting,
-                isChatting = isUserChatting,
-                isCharacterChattingLoading = isCharacterChattingLoading,
-                answerCharacterChat = userSendChat,
-                characterName = characterName.value,
-                characterContent = characterChat.value.characterContent,
-                updateCharacterChatting = viewModel::updateCharacterChatting,
-                navigateToCharacterChatScreen = navigateToCharacterChatScreen
-            )
-        }
     }
 
     if (isCompleteQuestDialogShown.value) {
@@ -167,7 +151,7 @@ fun HomeScreen(
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 private fun UsersAdventuresInformation(
-    isChatting: MutableState<Boolean>,
+    //isChatting: MutableState<Boolean>,
     context: Context,
     characterName: String,
     modifier: Modifier = Modifier,
@@ -199,7 +183,7 @@ private fun UsersAdventuresInformation(
             contentAlignment = Alignment.TopEnd
         ) {
             HomeIcons(
-                isChatting = isChatting,
+                //isChatting = isChatting,
                 context = context,
                 imageUrl = imageUrl,
                 characterName = characterName,
