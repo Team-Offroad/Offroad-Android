@@ -28,4 +28,5 @@ dependencies {
     implementation(libs.eventbus)
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.accompanist.insets)
+    implementation(libs.eventbus)
 }
