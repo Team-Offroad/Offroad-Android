@@ -125,10 +125,10 @@ class MainViewModel @Inject constructor(
 
     fun sendChat() {
         _userChatUiState.value = _userChatUiState.value.copy(
-            chatContent = userChattingText.value
+            chatContent = userChattingText.value,
+            showUserChatTextField = true
         )
         _characterChatUiState.value = _characterChatUiState.value.copy(
-            isUserWatchingCharacterChat = true,
             isCharacterChattingLoading = true
         )
 
@@ -145,7 +145,7 @@ class MainViewModel @Inject constructor(
             }.onSuccess { chat ->
                 _sendChatState.emit(UiState.Success(chat))
                 _userChatUiState.value = _userChatUiState.value.copy(
-                    isUserChattingLoading = true
+                    isUserChattingLoading = true,
                 )
 
                 val characterContent = chat.content
@@ -153,7 +153,7 @@ class MainViewModel @Inject constructor(
                     _characterChatUiState.value = _characterChatUiState.value.copy(
                         characterChatContent = characterContent,
                         isCharacterChattingExist = true,
-                        isAnswerButtonClicked = false,
+                        isAnswerButtonClicked = true,
                         isCharacterChattingLoading = false
                     )
                 }

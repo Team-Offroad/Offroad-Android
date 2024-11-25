@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -135,13 +136,15 @@ private fun MainScreenContent(
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(top = 350.dp) // TODO: TextField 위치 조정 필요
+                            .padding(top = 370.dp) // TODO: TextField 위치 조정 필요
                     ) {
                         Box(
+                            modifier = Modifier.fillMaxWidth(),
                             contentAlignment = Alignment.BottomCenter
                         ) {
                             if (characterChatUiState.value.isAnswerButtonClicked) {
                                 UserChat(
+                                    characterChatUiState = characterChatUiState,
                                     chattingText = userChattingText,
                                     updateShowUserChatTextField = updateShowUserChatTextField,
                                     updateUserWatchingCharacterChat = updateUserWatchingCharacterChat,

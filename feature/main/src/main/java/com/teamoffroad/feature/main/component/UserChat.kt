@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.main.component
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,59 +20,65 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.Sub55
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.feature.main.CharacterChattingUiState
 import com.teamoffroad.feature.main.UserChattingUiState
 import com.teamoffroad.offroad.feature.home.R
 
 @Composable
 fun UserChat(
-//    isChatting: MutableState<Boolean>,
+    characterChatUiState: State<CharacterChattingUiState>,
     chattingText: State<String>,
     userChatUiState: State<UserChattingUiState>,
     updateUserWatchingCharacterChat: (Boolean) -> Unit,
-//    sendMessage: MutableState<String>,
-//    userSendChat: MutableState<Boolean>,
-//    updateCharacterChatting: (Boolean) -> Unit,
     updateUserChattingText: (String) -> Unit,
     updateShowUserChatTextField: (Boolean) -> Unit,
     sendChat: () -> Unit,
 ) {
-    Column {
-        Box(
-            modifier = Modifier.fillMaxWidth()
-        ) {
+    if (userChatUiState.value.showUserChatTextField) {
+        Column {
             Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(end = 20.dp),
-                contentAlignment = Alignment.CenterEnd
+                modifier = Modifier.fillMaxWidth()
             ) {
-                FinishChatting()
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(end = 20.dp),
+                    contentAlignment = Alignment.CenterEnd
+                ) {
+                    FinishChatting(
+                        updateShowUserChatTextField = updateShowUserChatTextField,
+                        updateUserWatchingCharacterChat = updateUserWatchingCharacterChat,
+                        characterChatUiState = characterChatUiState
+                    )
+                }
             }
-        }
 
-        HomeUserChatTextField(
-            text = chattingText.value,
-            userChatUiState = userChatUiState,
-            updateShowUserChatTextField = updateShowUserChatTextField,
-            keyboard = true,
-            onValueChange = { text ->
-                updateUserChattingText(text)
-            },
-            onSendClick = {
-                // TODO: 캐릭터 챗이 계속 보이도록
-                updateUserWatchingCharacterChat(true)
-                sendChat() // 서버에 보내기
-                updateUserChattingText("") // 초기화
-            }
-        )
+            HomeUserChatTextField(
+                text = chattingText.value,
+                userChatUiState = userChatUiState,
+                updateShowUserChatTextField = updateShowUserChatTextField,
+                keyboard = true,
+                onValueChange = { text ->
+                    updateUserChattingText(text)
+                },
+                onSendClick = {
+                    updateUserWatchingCharacterChat(true)
+                    sendChat() // 서버에 보내기
+                    updateUserChattingText("") // 초기화
+                }
+            )
+        }
     }
+
 }
 
 @Composable
 fun FinishChatting(
-    //isChatting: MutableState<Boolean>,
     backgroundColor: Color = Sub55,
-    borderColor: Color = Sub
+    borderColor: Color = Sub,
+    characterChatUiState: State<CharacterChattingUiState>,
+    updateShowUserChatTextField: (Boolean) -> Unit,
+    updateUserWatchingCharacterChat: (Boolean) -> Unit,
 ) {
     Text(
         style = OffroadTheme.typography.subtitle2Semibold,
@@ -93,7 +97,10 @@ fun FinishChatting(
             .padding(horizontal = 16.dp)
             .padding(vertical = 8.dp)
             .clickableWithoutRipple {
-                //isChatting.value = false
+                if (!characterChatUiState.value.isCharacterChattingLoading) {
+                    updateShowUserChatTextField(false)
+                    updateUserWatchingCharacterChat(false)
+                }
             },
         color = White
     )
