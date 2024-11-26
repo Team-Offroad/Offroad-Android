@@ -1,16 +1,13 @@
 package com.teamoffroad.feature.mypage.data.model
 
-data class UserCouponsEntity(
-    val coupons: List<CouponsEntity>,
+data class UserUsedCouponsEntity(
+    val coupons: List<UserCouponsEntity>,
     val availableCouponsCount: Int,
     val usedCouponsCount: Int
 ) {
-    data class CouponsEntity(
-        val id: Int,
+    data class UserCouponsEntity(
         val name: String,
         val couponImageUrl: String,
-        val description: String,
-        val isNewGained: Boolean,
         val cursorId: Int,
     )
 }

@@ -68,7 +68,7 @@ fun UseAvailableCouponDialog(
     Dialog(
         onDismissRequest = { onClickCancel() },
         properties = DialogProperties(
-            dismissOnClickOutside = true,
+            dismissOnClickOutside = false,
             dismissOnBackPress = true,
         )
     ) {

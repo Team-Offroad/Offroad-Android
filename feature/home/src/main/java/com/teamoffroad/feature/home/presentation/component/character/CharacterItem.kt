@@ -40,6 +40,7 @@ import com.airbnb.lottie.compose.rememberLottieAnimatable
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.teamoffroad.core.designsystem.component.OffroadTagItem
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
+import com.teamoffroad.core.designsystem.theme.Kakao
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.Sub55
@@ -68,28 +69,22 @@ class CharacterItem {
             if (motionCharacterUrl == null) {
                 Box(
                     modifier = Modifier
-                        .width(300.dp)
-                        .padding(top = 140.dp)
+                        .padding(top = 120.dp)
                         .fillMaxHeight()
                         .align(Alignment.BottomCenter)
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.img_home_character),
-                        contentDescription = "character",
-                        modifier = Modifier.fillMaxSize()
+                    AsyncImage(
+                        model = ImageRequest.Builder(context)
+                            .data(baseCharacterImage)
+                            .decoderFactory(SvgDecoder.Factory())
+                            .build(),
+                        contentDescription = "explorer",
+                        modifier = Modifier
+                            .aspectRatio(210f / 210f)
+                            .fillMaxSize()
+                            .align(Alignment.BottomCenter),
+                        // TODO: placeholder, error일 때
                     )
-
-//                    AsyncImage(
-//                        model = ImageRequest.Builder(context)
-//                            .data(baseCharacterImage)
-//                            .decoderFactory(SvgDecoder.Factory())
-//                            .build(),
-//                        contentDescription = "explorer",
-//                        modifier = Modifier
-//                            .fillMaxSize()
-//                            .align(Alignment.BottomCenter),
-//                        // TODO: placeholder, error일 때
-//                    )
                 }
             } else {
                 val composition by rememberLottieComposition(
@@ -110,14 +105,17 @@ class CharacterItem {
                     )
                 }
 
-                Box {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 140.dp)
+                        .aspectRatio(210f / 210f)
+                ) {
                     LottieAnimation(
                         composition = composition,
                         progress = progress,
-                        contentScale = ContentScale.FillHeight,
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(top = 30.dp)
                             .align(Alignment.BottomCenter)
                     )
                 }

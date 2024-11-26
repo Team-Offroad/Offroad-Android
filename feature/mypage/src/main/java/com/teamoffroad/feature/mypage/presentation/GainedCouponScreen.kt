@@ -36,12 +36,10 @@ internal fun GainedCouponScreen(
     backgroundColor: Color = Main1,
     viewModel: GainedCouponViewModel = hiltViewModel(),
 ) {
-
-    val uiState = viewModel.getUserCouponListState.collectAsState().value
-
     LaunchedEffect(Unit) {
-        viewModel.getUserCoupons(true, START_CURSOR_ID)
-        viewModel.getUserCoupons(false, START_CURSOR_ID)
+        viewModel.initCoupons()
+        viewModel.getUserAvailableCoupons(false, START_CURSOR_ID)
+        viewModel.getUserUsedCoupons(true, START_CURSOR_ID)
     }
 
     Box(
@@ -70,8 +68,8 @@ internal fun GainedCouponScreen(
                 viewModel.userAvailableCoupons.collectAsState().value,
                 viewModel.userUsedCoupons.collectAsState().value,
                 navigateToAvailableCouponDetail,
-                viewModel::getUserCoupons,
-                uiState,
+                viewModel::getUserAvailableCoupons,
+                viewModel::getUserUsedCoupons
             )
         }
     }

@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier,
                     notificationType = notificationTypeState.value,
                     notificationId = notificationIdState.value,
-                    viewModel = viewModel
+                    viewModel = viewModel,
                 )
             }
         }

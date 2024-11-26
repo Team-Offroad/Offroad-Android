@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.mypage.presentation.component
 
+import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -29,8 +30,8 @@ import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
-import com.teamoffroad.feature.mypage.domain.model.UserCoupons
-import com.teamoffroad.feature.mypage.presentation.model.UiState
+import com.teamoffroad.feature.mypage.domain.model.UserAvailableCoupons
+import com.teamoffroad.feature.mypage.domain.model.UserUsedCoupons
 import com.teamoffroad.offroad.feature.mypage.R
 import kotlinx.coroutines.launch
 
@@ -38,12 +39,15 @@ import kotlinx.coroutines.launch
 fun GainedCouponViewPager(
     availableCouponsCount: Int,
     usedCouponsCount: Int,
-    availableCoupons: List<UserCoupons.Coupons>,
-    usedCoupons: List<UserCoupons.Coupons>,
+    availableCoupons: List<UserAvailableCoupons.AvailableCoupons>,
+    usedCoupons: List<UserUsedCoupons.UsedCoupons>,
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
-    getUserCoupons: (Boolean, Int) -> Unit,
-    uiState: UiState<UserCoupons>,
+    getUserAvailableCoupons: (Boolean, Int) -> Unit,
+    getUserUsedCoupons: (Boolean, Int) -> Unit,
 ) {
+    Log.d("viewpager availableCoupons", availableCoupons.toString())
+    Log.d("viewpager usedCoupons", usedCoupons.toString())
+
     val tabTitles = listOf(
         stringResource(id = R.string.my_page_gained_coupon_available),
         stringResource(id = R.string.my_page_gained_coupon_used)
@@ -105,13 +109,13 @@ fun GainedCouponViewPager(
                     availableCouponsCount,
                     coupons = availableCoupons,
                     navigateToAvailableCouponDetail = navigateToAvailableCouponDetail,
-                    getUserCoupons,
+                    getUserAvailableCoupons,
                 )
 
                 1 -> UsedCouponItems(
                     usedCouponsCount,
                     coupons = usedCoupons,
-                    getUserCoupons,
+                    getUserUsedCoupons,
                 )
             }
 
