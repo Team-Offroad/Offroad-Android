@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.main.component
 
+import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -55,6 +56,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun CharacterChat(
     characterChatUiState: State<CharacterChattingUiState>,
+    userChatUiState: State<UserChattingUiState>,
     characterTextColor: Color = Sub4,
     characterTextStyle: TextStyle = OffroadTheme.typography.textBold,
     messageTextColor: Color = Main2,
@@ -157,12 +159,13 @@ fun CharacterChat(
             }
 
 
-            if (characterChatUiState.value.isCharacterChattingExist) {
+            if (characterChatUiState.value.isCharacterChattingExist && !userChatUiState.value.showUserChatTextField) {
                 AnswerCharacterChat(
                     characterChatUiState = characterChatUiState,
                     updateAnswerCharacterChatButtonState = updateAnswerCharacterChatButtonState,
                     updateUserWatchingCharacterChat = updateUserWatchingCharacterChat,
                     updateShowUserChatTextField = updateShowUserChatTextField,
+                    userChatUiState = userChatUiState
                 )
             }
         }
@@ -173,6 +176,7 @@ fun CharacterChat(
 @Composable
 fun AnswerCharacterChat(
     characterChatUiState: State<CharacterChattingUiState>,
+    userChatUiState: State<UserChattingUiState>,
     backgroundColor: Color = Main2,
     textColor: Color = Main3,
     textStyle: TextStyle = OffroadTheme.typography.textContents,
@@ -282,6 +286,7 @@ fun CharacterChatAnimation(
             updateAnswerCharacterChatButtonState = updateAnswerCharacterChatButtonState,
             updateUserWatchingCharacterChat = updateUserWatchingCharacterChat,
             updateShowUserChatTextField = updateShowUserChatTextField,
+            userChatUiState = userChatUiState,
             //navigateToCharacterChatScreen = navigateToCharacterChatScreen
         )
     }

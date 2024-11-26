@@ -142,7 +142,7 @@ private fun MainScreenContent(
                             modifier = Modifier.fillMaxWidth(),
                             contentAlignment = Alignment.BottomCenter
                         ) {
-                            if (characterChatUiState.value.isAnswerButtonClicked) {
+                            if (userChatUiState.value.showUserChatTextField) {
                                 UserChat(
                                     characterChatUiState = characterChatUiState,
                                     chattingText = userChattingText,
@@ -150,11 +150,11 @@ private fun MainScreenContent(
                                     updateUserWatchingCharacterChat = updateUserWatchingCharacterChat,
                                     userChatUiState = userChatUiState,
                                     sendChat = sendChat,
-                                    updateUserChattingText = updateUserChattingText
+                                    updateUserChattingText = updateUserChattingText,
+                                    updateCharacterChatExist = updateCharacterChatExist
                                 )
                             }
                         }
-
                     }
 
                 }

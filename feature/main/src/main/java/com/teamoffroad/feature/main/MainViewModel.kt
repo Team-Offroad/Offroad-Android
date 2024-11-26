@@ -149,14 +149,12 @@ class MainViewModel @Inject constructor(
                 )
 
                 val characterContent = chat.content
-                if (characterContent != null) {
-                    _characterChatUiState.value = _characterChatUiState.value.copy(
-                        characterChatContent = characterContent,
-                        isCharacterChattingExist = true,
-                        isAnswerButtonClicked = true,
-                        isCharacterChattingLoading = false
-                    )
-                }
+                _characterChatUiState.value = _characterChatUiState.value.copy(
+                    characterChatContent = characterContent,
+                    isCharacterChattingExist = true,
+                    isAnswerButtonClicked = true,
+                    isCharacterChattingLoading = false
+                )
 
             }.onFailure { t ->
                 val errorMessage = getErrorMessage(t)

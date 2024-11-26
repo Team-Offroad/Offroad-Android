@@ -81,15 +81,6 @@ fun HomeUserChatTextField(
         }
     }
 
-    LaunchedEffect(keyboardVisible) {
-        if (!keyboardVisible) {
-            focusManager.clearFocus()
-//            isChatting.value = false
-//            isCharacterChatting(false)
-            updateShowUserChatTextField(false)
-        }
-    }
-
     DisposableEffect(contextView) {
         val rect = Rect()
         val listener = ViewTreeObserver.OnGlobalLayoutListener {

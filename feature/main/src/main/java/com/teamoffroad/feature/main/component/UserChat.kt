@@ -33,6 +33,7 @@ fun UserChat(
     updateUserChattingText: (String) -> Unit,
     updateShowUserChatTextField: (Boolean) -> Unit,
     sendChat: () -> Unit,
+    updateCharacterChatExist: (Boolean) -> Unit,
 ) {
     if (userChatUiState.value.showUserChatTextField) {
         Column {
@@ -48,7 +49,8 @@ fun UserChat(
                     FinishChatting(
                         updateShowUserChatTextField = updateShowUserChatTextField,
                         updateUserWatchingCharacterChat = updateUserWatchingCharacterChat,
-                        characterChatUiState = characterChatUiState
+                        characterChatUiState = characterChatUiState,
+                        updateCharacterChatExist = updateCharacterChatExist,
                     )
                 }
             }
@@ -79,6 +81,7 @@ fun FinishChatting(
     characterChatUiState: State<CharacterChattingUiState>,
     updateShowUserChatTextField: (Boolean) -> Unit,
     updateUserWatchingCharacterChat: (Boolean) -> Unit,
+    updateCharacterChatExist: (Boolean) -> Unit,
 ) {
     Text(
         style = OffroadTheme.typography.subtitle2Semibold,
@@ -98,8 +101,9 @@ fun FinishChatting(
             .padding(vertical = 8.dp)
             .clickableWithoutRipple {
                 if (!characterChatUiState.value.isCharacterChattingLoading) {
-                    updateShowUserChatTextField(false)
                     updateUserWatchingCharacterChat(false)
+                    updateShowUserChatTextField(false)
+                    updateCharacterChatExist(false)
                 }
             },
         color = White
