@@ -44,8 +44,13 @@ import com.teamoffroad.feature.mypage.domain.model.MyPageUser
 import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
-fun UserNickname(nickname: String) {
-    Column {
+fun UserNickname(
+    modifier: Modifier = Modifier,
+    nickname: String,
+) {
+    Column(
+        modifier = modifier,
+    ) {
         Text(
             style = OffroadTheme.typography.bothSubtitle3,
             color = Main2,
@@ -79,9 +84,12 @@ fun UserNickname(nickname: String) {
 
 @Composable
 fun UserAdventureInfo(
+    modifier: Modifier = Modifier,
     user: MyPageUser,
 ) {
-    Column {
+    Column(
+        modifier = modifier,
+    ) {
         Surface(
             color = Main1,
             modifier = Modifier

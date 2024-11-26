@@ -91,7 +91,7 @@ fun HomeScreen(
         modifier = Modifier
             .background(homeGradientBackground)
             .fillMaxSize()
-            .padding(bottom = 180.dp)
+            .padding(bottom = 192.dp)
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             UsersAdventuresInformation(
