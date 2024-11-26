@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import com.teamoffroad.characterchat.navigation.DEFAULT_CHARACTER_ID
 import com.teamoffroad.characterchat.navigation.navigateToCharacterChat
 import com.teamoffroad.core.navigation.CharacterChatRoute
 import com.teamoffroad.core.navigation.MainTabRoute
@@ -225,7 +226,7 @@ internal class MainNavigator(
         navController.navigateToHome(category, completeQuest, navOptions)
     }
 
-    fun navigateToCharacterChat(characterId: Int? = null, characterName: String) {
+    fun navigateToCharacterChat(characterId: Int = DEFAULT_CHARACTER_ID, characterName: String) {
         navController.navigateToCharacterChat(characterId, characterName)
     }
 }

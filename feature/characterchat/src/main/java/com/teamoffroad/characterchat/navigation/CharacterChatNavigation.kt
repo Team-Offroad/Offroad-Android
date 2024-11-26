@@ -7,7 +7,7 @@ import androidx.navigation.toRoute
 import com.teamoffroad.characterchat.presentation.CharacterChatScreen
 import com.teamoffroad.core.navigation.CharacterChatRoute
 
-fun NavController.navigateToCharacterChat(characterId: Int?, characterName: String) {
+fun NavController.navigateToCharacterChat(characterId: Int, characterName: String) {
     navigate(CharacterChatRoute.CharacterChat(characterId, characterName))
 }
 
@@ -19,9 +19,14 @@ fun NavGraphBuilder.characterChatNavGraph(
         val characterId = backStackEntry.toRoute<CharacterChatRoute.CharacterChat>().characterId
 
         CharacterChatScreen(
-            characterId = characterId,
+            characterId = when (characterId) {
+                DEFAULT_CHARACTER_ID -> null
+                else -> characterId
+            },
             characterName = characterName,
             navigateToBack = navigateToBack,
         )
     }
 }
+
+const val DEFAULT_CHARACTER_ID = -1
