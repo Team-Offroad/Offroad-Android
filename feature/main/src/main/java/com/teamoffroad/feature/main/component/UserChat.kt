@@ -67,7 +67,8 @@ fun UserChat(
                     updateUserWatchingCharacterChat(true)
                     sendChat() // 서버에 보내기
                     updateUserChattingText("") // 초기화
-                }
+                },
+                characterChatUiState = characterChatUiState
             )
         }
     }

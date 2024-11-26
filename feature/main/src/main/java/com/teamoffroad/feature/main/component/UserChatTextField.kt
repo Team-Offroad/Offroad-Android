@@ -53,6 +53,7 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Transparent
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.feature.main.CharacterChattingUiState
 import com.teamoffroad.feature.main.UserChattingUiState
 import com.teamoffroad.offroad.feature.home.R
 
@@ -62,6 +63,7 @@ fun HomeUserChatTextField(
     modifier: Modifier = Modifier,
     text: String = "",
     userChatUiState: State<UserChattingUiState>,
+    characterChatUiState: State<CharacterChattingUiState>,
     updateShowUserChatTextField: (Boolean) -> Unit,
     keyboard: Boolean,
     onValueChange: (String) -> Unit = {},
@@ -180,9 +182,6 @@ fun HomeUserChatTextField(
                             .onGloballyPositioned { layoutCoordinates ->
                                 textFieldHeight.intValue = layoutCoordinates.size.height
                             },
-//                            .onFocusChanged { focusState ->
-//                                onFocusChange(focusState.isFocused)
-//                            },
                         maxLines = 2,
                         colors = TextFieldDefaults.textFieldColors(
                             containerColor = Transparent,
@@ -199,7 +198,7 @@ fun HomeUserChatTextField(
                             .padding(end = 2.dp)
                             .size(36.dp)
                             .align(Alignment.CenterEnd)
-                            .clickableWithoutRipple { if (text.isNotBlank()) onSendClick() },
+                            .clickableWithoutRipple { if (text.isNotBlank() && !characterChatUiState.value.isCharacterChattingLoading) onSendClick() },
                     )
                 }
             }
