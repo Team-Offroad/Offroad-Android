@@ -11,7 +11,11 @@ fun CharacterDetailResponseDto.toDomain(): CharacterDetail {
         characterIconImageUrl = characterIconImageUrl,
         characterSummaryDescription = characterSummaryDescription,
         characterDescription = characterDescription,
-        characterMainColorCode = characterMainColorCdoe.toLong(radix = 16),
-        characterSubColorCode = characterSubColorCode.toLong(radix = 16),
+        characterMainColorCode = characterMainColorCode.toLongWithAlpha(),
+        characterSubColorCode = characterSubColorCode.toLongWithAlpha(),
     )
+}
+
+fun String.toLongWithAlpha(): Long {
+    return ("FF$this").toLong(radix = 16)
 }

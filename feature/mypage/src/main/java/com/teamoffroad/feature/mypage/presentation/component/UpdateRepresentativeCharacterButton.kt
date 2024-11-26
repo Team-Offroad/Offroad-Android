@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Main1
+import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.offroad.feature.mypage.R
 
@@ -25,7 +26,7 @@ fun UpdateRepresentativeCharacterButton(
             .fillMaxWidth()
             .padding(top = 18.dp)
             .padding(horizontal = 24.dp)
-            .background(color = Main1, shape = RoundedCornerShape(20.dp))
+            .background(color = Main2, shape = RoundedCornerShape(20.dp))
             .padding(vertical = 12.dp)
             .clickable {
                 updateRepresentativeCharacter()
