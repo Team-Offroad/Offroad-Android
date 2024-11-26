@@ -13,10 +13,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -25,14 +24,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.theme.HomeGradi1
 import com.teamoffroad.core.designsystem.theme.HomeGradi2
@@ -62,10 +60,12 @@ fun HomeScreen(
     category: String?,
     completeQuests: List<String> = emptyList(),
     navigateToGainedCharacter: () -> Unit = {},
+    navigateToCharacterChatScreen: (Int, String) -> Unit
 ) {
     val context = LocalContext.current
     val viewModel: HomeViewModel = hiltViewModel()
     val isCompleteQuestDialogShown = remember { mutableStateOf(false) }
+    val characterName = viewModel.characterName.collectAsStateWithLifecycle()
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) {}
 
@@ -87,28 +87,27 @@ fun HomeScreen(
         if (completeQuests.isNotEmpty()) isCompleteQuestDialogShown.value = true
     }
 
-    StaticAnimationWrapper {
-        Surface(
-            modifier = Modifier
-                .background(homeGradientBackground)
-                .padding(bottom = 140.dp)
-                .navigationBarsPadding(),
-            color = Color.Transparent
-        ) {
-            StaticAnimationWrapper {
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    UsersAdventuresInformation(
-                        context = context,
-                        modifier = Modifier
-                            .weight(1f)
-                            .actionBarPadding(),
-                        viewModel = viewModel,
-                        navigateToGainedCharacter = navigateToGainedCharacter,
-                    )
-                    Spacer(modifier = Modifier.padding(top = 12.dp))
-                    UsersQuestInformation(context, viewModel)
-                }
-            }
+    Box(
+        modifier = Modifier
+            .background(homeGradientBackground)
+            .fillMaxSize()
+            .padding(bottom = 180.dp)
+    ) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            UsersAdventuresInformation(
+                //isChatting = isUserChatting,
+                context = context,
+                characterName = characterName.value,
+                modifier = Modifier
+                    .weight(1f)
+                    .actionBarPadding(),
+                viewModel = viewModel,
+                navigateToGainedCharacter = navigateToGainedCharacter,
+                navigateToCharacterChatScreen = navigateToCharacterChatScreen
+            )
+            Spacer(modifier = Modifier.padding(top = 12.dp))
+            UsersQuestInformation(context, viewModel)
+
         }
     }
 
@@ -116,9 +115,7 @@ fun HomeScreen(
         CompleteQuestDialog(
             isCompleteQuestDialogShown = isCompleteQuestDialogShown,
             completeQuests = completeQuests,
-            onClickCancel = {
-                isCompleteQuestDialogShown.value = false
-            },
+            onClickCancel = { isCompleteQuestDialogShown.value = false },
         )
     }
 }
@@ -127,9 +124,11 @@ fun HomeScreen(
 @Composable
 private fun UsersAdventuresInformation(
     context: Context,
+    characterName: String,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel,
     navigateToGainedCharacter: () -> Unit,
+    navigateToCharacterChatScreen: (Int, String) -> Unit
 ) {
     val adventuresInformationState =
         viewModel.getUsersAdventuresInformationState.collectAsState(initial = UiState.Loading).value
@@ -157,7 +156,9 @@ private fun UsersAdventuresInformation(
             HomeIcons(
                 context = context,
                 imageUrl = imageUrl,
+                characterName = characterName,
                 navigateToGainedCharacter = navigateToGainedCharacter,
+                navigateToCharacterChatScreen = navigateToCharacterChatScreen
             )
         }
 
@@ -238,7 +239,8 @@ fun HomeScreenPreview() {
     OffroadTheme {
         HomeScreen(
             //padding = PaddingValues(),
-            category = "NONE"
+            category = "NONE",
+            navigateToCharacterChatScreen = { _, _ -> }
         )
     }
 }
