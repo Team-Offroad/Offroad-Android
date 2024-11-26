@@ -65,14 +65,6 @@ fun HomeScreen(
     val context = LocalContext.current
     val viewModel: HomeViewModel = hiltViewModel()
     val isCompleteQuestDialogShown = remember { mutableStateOf(false) }
-//    val isUserChatting = remember { mutableStateOf(false) }
-//    val userChattingText = viewModel.chattingText.collectAsStateWithLifecycle()
-//    val userSendMessage = remember { mutableStateOf("") }
-//    val characterChat = viewModel.getCharacterChat.collectAsStateWithLifecycle()
-//    val isCharacterChatting = viewModel.isCharacterChatting.collectAsStateWithLifecycle()
-//    val isCharacterChattingLoading =
-//        viewModel.isCharacterChattingLoading.collectAsStateWithLifecycle()
-//    val userSendChat = remember { mutableStateOf(false) }
     val characterName = viewModel.characterName.collectAsStateWithLifecycle()
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) {}
@@ -117,26 +109,6 @@ fun HomeScreen(
             UsersQuestInformation(context, viewModel)
 
         }
-
-//        if (isUserChatting.value) {
-//            Box(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .align(Alignment.BottomCenter)
-//                    .padding(bottom = 196.dp)
-//            ) {
-//                UserChat(
-//                    isChatting = isUserChatting,
-//                    chattingText = userChattingText,
-//                    sendMessage = userSendMessage,
-//                    userSendChat = userSendChat,
-//                    updateCharacterChatting = viewModel::updateCharacterChatting,
-//                    updateChattingText = viewModel::updateChattingText,
-//                    sendChat = viewModel::sendChat
-//                )
-//            }
-//        }
-
     }
 
     if (isCompleteQuestDialogShown.value) {
@@ -151,7 +123,6 @@ fun HomeScreen(
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 private fun UsersAdventuresInformation(
-    //isChatting: MutableState<Boolean>,
     context: Context,
     characterName: String,
     modifier: Modifier = Modifier,
@@ -183,7 +154,6 @@ private fun UsersAdventuresInformation(
             contentAlignment = Alignment.TopEnd
         ) {
             HomeIcons(
-                //isChatting = isChatting,
                 context = context,
                 imageUrl = imageUrl,
                 characterName = characterName,
