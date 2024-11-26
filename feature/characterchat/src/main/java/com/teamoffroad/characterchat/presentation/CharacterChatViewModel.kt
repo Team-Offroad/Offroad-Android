@@ -33,7 +33,7 @@ class CharacterChatViewModel @Inject constructor(
     private val _chattingText: MutableStateFlow<String> = MutableStateFlow("")
     val chattingText: StateFlow<String> = _chattingText.asStateFlow()
 
-    fun initCharacterId(characterId: Int, characterName: String) {
+    fun initCharacterId(characterId: Int?, characterName: String) {
         _uiState.value = uiState.value.copy(characterId = characterId, characterName = characterName)
     }
 

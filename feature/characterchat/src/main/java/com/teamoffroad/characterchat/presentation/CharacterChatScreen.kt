@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun CharacterChatScreen(
-    characterId: Int,
+    characterId: Int?,
     characterName: String,
     navigateToBack: () -> Unit,
     characterChatViewModel: CharacterChatViewModel = hiltViewModel(),

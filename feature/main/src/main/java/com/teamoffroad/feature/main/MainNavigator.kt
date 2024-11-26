@@ -225,7 +225,7 @@ internal class MainNavigator(
         navController.navigateToHome(category, completeQuest, navOptions)
     }
 
-    fun navigateToCharacterChat(characterId: Int, characterName: String) {
+    fun navigateToCharacterChat(characterId: Int? = null, characterName: String) {
         navController.navigateToCharacterChat(characterId, characterName)
     }
 }
