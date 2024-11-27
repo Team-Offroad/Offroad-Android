@@ -4,7 +4,7 @@ import java.time.LocalDate
 
 data class CharacterChatUiState(
     val chats: Map<LocalDate, List<ChatModel>> = emptyMap(),
-    val characterId: Int = -1,
+    val characterId: Int? = null,
     val characterName: String = "",
     val isLoading: Boolean = true,
     val isSending: Boolean = false,

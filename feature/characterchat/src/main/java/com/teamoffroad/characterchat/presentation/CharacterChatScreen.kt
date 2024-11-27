@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun CharacterChatScreen(
-    characterId: Int,
+    characterId: Int?,
     characterName: String,
     navigateToBack: () -> Unit,
     characterChatViewModel: CharacterChatViewModel = hiltViewModel(),
@@ -95,6 +95,7 @@ fun CharacterChatScreen(
                 arrangedChats = uiState.value.chats,
                 bottomPadding = keyboardOffset,
                 isChatting = isChatting.value,
+                isSending = uiState.value.isSending,
                 listState = listState,
             )
         }
@@ -116,15 +117,17 @@ fun CharacterChatScreen(
                 characterChatViewModel.updateIsChatting(false)
             },
         )
-        ChatButton(
-            modifier = Modifier
-                .padding(bottom = 198.dp)
-                .align(Alignment.BottomCenter),
-            isVisible = isChatting.value && !uiState.value.isSending,
-            onClick = {
-                characterChatViewModel.updateIsChatting(true)
-            },
-        )
+        if (!uiState.value.isSending) {
+            ChatButton(
+                modifier = Modifier
+                    .padding(bottom = 198.dp)
+                    .align(Alignment.BottomCenter),
+                isVisible = isChatting.value && !uiState.value.isSending,
+                onClick = {
+                    characterChatViewModel.updateIsChatting(true)
+                },
+            )
+        }
     }
     FullLinearLoadingAnimation(isLoading = uiState.value.isLoading)
 }

@@ -55,13 +55,19 @@ internal fun MyPageScreen(
             .navigationBarsPadding()
     ) {
         Column {
-            UserNickname(myPageViewModel.myPageUser.collectAsStateWithLifecycle().value.nickname)
-            Spacer(modifier = Modifier.padding(vertical = 13.dp))
-            UserAdventureInfo(
-                myPageViewModel.myPageUser.collectAsStateWithLifecycle().value,
+            UserNickname(
+                modifier = Modifier.padding(bottom = 13.dp),
+                nickname = myPageViewModel.myPageUser.collectAsStateWithLifecycle().value.nickname,
             )
-            Spacer(modifier = Modifier.padding(vertical = 8.dp))
-            Row(modifier = Modifier.fillMaxWidth()) {
+            UserAdventureInfo(
+                modifier = Modifier.padding(vertical = 8.dp),
+                user = myPageViewModel.myPageUser.collectAsStateWithLifecycle().value,
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
+            ) {
                 Box(
                     modifier = Modifier
                         .weight(1f)
@@ -82,8 +88,10 @@ internal fun MyPageScreen(
                     )
                 }
             }
-            Spacer(modifier = Modifier.padding(vertical = 8.dp))
-            Row(modifier = Modifier.fillMaxWidth()) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
                 Box(
                     modifier = Modifier
                         .weight(1f)
@@ -104,7 +112,6 @@ internal fun MyPageScreen(
                     )
                 }
             }
-            Spacer(modifier = Modifier.padding(vertical = 28.dp))
         }
     }
 }

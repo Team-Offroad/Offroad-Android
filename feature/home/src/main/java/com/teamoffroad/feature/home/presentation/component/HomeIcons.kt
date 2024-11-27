@@ -13,14 +13,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -45,7 +43,7 @@ fun HomeIcons(
     imageUrl: String,
     characterName: String,
     navigateToGainedCharacter: () -> Unit,
-    navigateToCharacterChatScreen: (Int, String) -> Unit
+    navigateToCharacterChatScreen: (String) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
 
@@ -83,7 +81,7 @@ fun HomeIcons(
                     contentDescription = "chat",
                     modifier = Modifier
                         .clickableWithoutRipple {
-                            navigateToCharacterChatScreen(-1, characterName)
+                            navigateToCharacterChatScreen(characterName)
                         }
                 )
                 Box(

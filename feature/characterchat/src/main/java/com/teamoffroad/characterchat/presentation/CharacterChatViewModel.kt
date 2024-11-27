@@ -2,7 +2,8 @@ package com.teamoffroad.characterchat.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.teamoffroad.characterchat.domain.repository.CharacterChatRepository
+import com.teamoffroad.characterchat.domain.usecase.GetChatListUseCase
+import com.teamoffroad.characterchat.domain.usecase.PostChatUseCase
 import com.teamoffroad.characterchat.presentation.mapper.toUi
 import com.teamoffroad.characterchat.presentation.model.CharacterChatUiState
 import com.teamoffroad.characterchat.presentation.model.ChatModel
@@ -19,7 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CharacterChatViewModel @Inject constructor(
-    private val characterChatRepository: CharacterChatRepository,
+    private val getChatListUseCase: GetChatListUseCase,
+    private val postChatUseCase: PostChatUseCase,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<CharacterChatUiState> = MutableStateFlow(CharacterChatUiState())
@@ -31,7 +33,7 @@ class CharacterChatViewModel @Inject constructor(
     private val _chattingText: MutableStateFlow<String> = MutableStateFlow("")
     val chattingText: StateFlow<String> = _chattingText.asStateFlow()
 
-    fun initCharacterId(characterId: Int, characterName: String) {
+    fun initCharacterId(characterId: Int?, characterName: String) {
         _uiState.value = uiState.value.copy(characterId = characterId, characterName = characterName)
     }
 
@@ -48,7 +50,7 @@ class CharacterChatViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching {
                 _uiState.value = uiState.value.copy(isLoading = true)
-                characterChatRepository.fetchChats(uiState.value.characterId)
+                getChatListUseCase(uiState.value.characterId)
             }.onSuccess { chats ->
                 _uiState.value = uiState.value.copy(
                     chats = chats.map { it.toUi() }.groupBy { it.date },
@@ -75,7 +77,7 @@ class CharacterChatViewModel @Inject constructor(
                 )
                 extendChat(userChat)
                 _uiState.value = uiState.value.copy(isSending = true)
-                characterChatRepository.saveChat(uiState.value.characterId, chattingText)
+                postChatUseCase(uiState.value.characterId, chattingText)
             }.onSuccess { chat ->
                 extendChat(chat.toUi())
                 _uiState.value = uiState.value.copy(isSending = false)

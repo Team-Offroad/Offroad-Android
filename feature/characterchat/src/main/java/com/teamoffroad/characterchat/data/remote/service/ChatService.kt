@@ -6,14 +6,18 @@ import com.teamoffroad.core.common.data.remote.response.BaseResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface ChatService {
 
     @GET("chats")
-    suspend fun getChats(): BaseResponse<List<CharacterChatResponseDto>>
+    suspend fun getChats(
+        @Query("characterId") characterId: Int?,
+    ): BaseResponse<List<CharacterChatResponseDto>>
 
     @POST("chats")
     suspend fun sendChat(
+        @Query("characterId") characterId: Int?,
         @Body request: CharacterChatSendRequestDto,
     ): BaseResponse<CharacterChatResponseDto>
 }

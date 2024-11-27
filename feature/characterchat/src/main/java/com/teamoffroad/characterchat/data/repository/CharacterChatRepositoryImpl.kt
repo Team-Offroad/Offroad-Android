@@ -11,12 +11,11 @@ class CharacterChatRepositoryImpl @Inject constructor(
     private val chatService: ChatService,
 ) : CharacterChatRepository {
 
-    override suspend fun fetchChats(characterId: Int): List<Chat> {
-        return chatService.getChats().data?.map { it.toDomain() } ?: emptyList()
+    override suspend fun fetchChats(characterId: Int?): List<Chat> {
+        return chatService.getChats(characterId).data?.map { it.toDomain() } ?: emptyList()
     }
 
-    override suspend fun saveChat(characterId: Int, text: String): Chat {
-        // TODO: Implement characterId
-        return chatService.sendChat(CharacterChatSendRequestDto(text)).data?.toDomain() ?: Chat("", "", "")
+    override suspend fun saveChat(characterId: Int?, text: String): Chat {
+        return chatService.sendChat(characterId, CharacterChatSendRequestDto(text)).data?.toDomain() ?: Chat("", "", "")
     }
 }

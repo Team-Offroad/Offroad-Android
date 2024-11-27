@@ -60,7 +60,7 @@ fun HomeScreen(
     category: String?,
     completeQuests: List<String> = emptyList(),
     navigateToGainedCharacter: () -> Unit = {},
-    navigateToCharacterChatScreen: (Int, String) -> Unit
+    navigateToCharacterChatScreen: (String) -> Unit,
 ) {
     val context = LocalContext.current
     val viewModel: HomeViewModel = hiltViewModel()
@@ -91,7 +91,7 @@ fun HomeScreen(
         modifier = Modifier
             .background(homeGradientBackground)
             .fillMaxSize()
-            .padding(bottom = 180.dp)
+            .padding(bottom = 192.dp)
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             UsersAdventuresInformation(
@@ -128,7 +128,7 @@ private fun UsersAdventuresInformation(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel,
     navigateToGainedCharacter: () -> Unit,
-    navigateToCharacterChatScreen: (Int, String) -> Unit
+    navigateToCharacterChatScreen: (String) -> Unit,
 ) {
     val adventuresInformationState =
         viewModel.getUsersAdventuresInformationState.collectAsState(initial = UiState.Loading).value
@@ -240,7 +240,7 @@ fun HomeScreenPreview() {
         HomeScreen(
             //padding = PaddingValues(),
             category = "NONE",
-            navigateToCharacterChatScreen = { _, _ -> }
+            navigateToCharacterChatScreen = { _ -> }
         )
     }
 }
