@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,8 +23,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,12 +32,6 @@ import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.actionBarPadding
-import com.teamoffroad.core.designsystem.theme.HomeGradi1
-import com.teamoffroad.core.designsystem.theme.HomeGradi2
-import com.teamoffroad.core.designsystem.theme.HomeGradi3
-import com.teamoffroad.core.designsystem.theme.HomeGradi4
-import com.teamoffroad.core.designsystem.theme.HomeGradi5
-import com.teamoffroad.core.designsystem.theme.HomeGradi6
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.home.domain.model.UserQuests
 import com.teamoffroad.feature.home.presentation.component.CompleteQuestDialog
@@ -49,10 +43,6 @@ import com.teamoffroad.feature.home.presentation.component.quest.progressbar.Rec
 import com.teamoffroad.feature.home.presentation.component.user.NicknameText
 import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 import com.teamoffroad.offroad.feature.home.R
-
-val homeGradientBackground = Brush.verticalGradient(
-    colors = listOf(HomeGradi1, HomeGradi2, HomeGradi3, HomeGradi4, HomeGradi5, HomeGradi6)
-)
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
@@ -89,7 +79,17 @@ fun HomeScreen(
 
     Box(
         modifier = Modifier
-            .background(homeGradientBackground)
+            .fillMaxSize()
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.img_home_background),
+            contentDescription = "home background",
+            modifier = Modifier.fillMaxSize()
+        )
+    }
+
+    Box(
+        modifier = Modifier
             .fillMaxSize()
             .padding(bottom = 192.dp)
     ) {
