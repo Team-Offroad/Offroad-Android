@@ -124,7 +124,7 @@ fun HomeIcons(
             )
 
             Image(
-                painter = painterResource(id = R.drawable.ic_home_change),
+                painter = painterResource(id = R.drawable.ic_home_change_character),
                 contentDescription = "change",
                 modifier = Modifier.clickableWithoutRipple { navigateToGainedCharacter() }
             )
