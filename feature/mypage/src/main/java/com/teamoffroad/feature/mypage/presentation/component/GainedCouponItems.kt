@@ -30,6 +30,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -81,7 +82,7 @@ fun AvailableCouponItems(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 12.dp),
-                style = OffroadTheme.typography.boxMedi.copy(lineHeight = 20.sp),
+                style = OffroadTheme.typography.boxMedi.copy(lineHeight = with(LocalDensity.current) { 20.dp.toSp() }),
                 color = Black55,
                 textAlign = TextAlign.Center,
             )
@@ -183,7 +184,7 @@ fun UsedCouponItems(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 12.dp),
-                style = OffroadTheme.typography.boxMedi.copy(lineHeight = 20.sp),
+                style = OffroadTheme.typography.boxMedi.copy(lineHeight = with(LocalDensity.current) { 20.dp.toSp() }),
                 color = Black55,
                 textAlign = TextAlign.Center,
             )

@@ -24,13 +24,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.addFocusCleaner
@@ -110,7 +110,7 @@ internal fun SetBirthDateScreen(
             Text(
                 text = stringResource(R.string.auth_set_birth_date_text_field_hint),
                 color = Main2,
-                fontSize = 16.sp,
+                fontSize =  with(LocalDensity.current) { 16.dp.toSp() },
                 style = OffroadTheme.typography.subtitle2Bold,
                 textAlign = TextAlign.Start,
                 modifier = Modifier.align(Alignment.Start)

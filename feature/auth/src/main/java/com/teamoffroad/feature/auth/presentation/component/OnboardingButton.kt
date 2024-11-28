@@ -15,10 +15,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -52,7 +52,7 @@ fun OnboardingButton(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                fontSize = 13.sp,
+                fontSize = with(LocalDensity.current) { 13.dp.toSp() },
                 text = text,
                 color = White,
             )

@@ -13,9 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.teamoffroad.core.designsystem.component.AdaptationImage
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -68,7 +68,7 @@ internal fun SelectedCharacterScreen(
             modifier = Modifier
                 .padding(top = 70.dp, bottom = 5.dp),
             text = stringResource(R.string.auth_selected_character_title),
-            fontSize = 22.sp,
+            fontSize = with(LocalDensity.current) { 22.dp.toSp() },
             color = SelectedCharacterText,
             style = OffroadTheme.typography.title,
         )
@@ -76,7 +76,7 @@ internal fun SelectedCharacterScreen(
             modifier = Modifier
                 .padding(bottom = 100.dp),
             text = stringResource(R.string.auth_selected_character_sub_title),
-            fontSize = 22.sp,
+            fontSize = with(LocalDensity.current) { 22.dp.toSp() },
             color = SelectedCharacterText,
             style = OffroadTheme.typography.title
         )
