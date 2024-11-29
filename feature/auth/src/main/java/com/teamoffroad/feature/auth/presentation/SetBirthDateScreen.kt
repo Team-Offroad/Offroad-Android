@@ -16,6 +16,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -58,6 +59,10 @@ internal fun SetBirthDateScreen(
     val monthFocusRequester = remember { FocusRequester() }
     val dayFocusRequester = remember { FocusRequester() }
     val isBirthDateState by viewModel.birthDateUiState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.initState()
+    }
 
     Column(
         modifier = Modifier
