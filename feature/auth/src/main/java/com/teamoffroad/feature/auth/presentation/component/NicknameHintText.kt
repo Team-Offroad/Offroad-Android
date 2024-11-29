@@ -38,8 +38,8 @@ fun NicknameHintText(
 fun checkNicknameHint(text: String): Color {
     if (text.isEmpty()) return Gray400
 
-    val koreanRegex = Regex("^[가-힣]*$")
-    val englishRegex = Regex("^[a-zA-Z]*$")
+    val koreanRegex = Regex("^[가-힣0-9]*$")
+    val englishRegex = Regex("^[a-zA-Z0-9]*$")
 
     return when {
         koreanRegex.matches(text) && text.length in 2..8 -> Gray400

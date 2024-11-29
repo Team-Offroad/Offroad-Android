@@ -24,10 +24,9 @@ class SetNicknameViewModel @Inject constructor(
     val nicknameUiState: StateFlow<SetNicknameUiState> = _nicknameUiState.asStateFlow()
 
     fun updateNicknamesValid(nickname: String) {
-        viewModelScope.launch {
             _nicknameUiState.value =
                 SetNicknameUiState(nickname, getNicknameValidateUseCase.invoke(nickname))
-        }
+
     }
 
     fun getDuplicateNickname() {
