@@ -1,7 +1,6 @@
 package com.teamoffroad.feature.home.presentation.component.dialog
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -28,7 +27,6 @@ fun DialogChangeButton(
     textColor: Color,
     style: TextStyle,
     backgroundColor: Color,
-    borderColor: Color,
     onItemClick: () -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -42,11 +40,6 @@ fun DialogChangeButton(
             .background(
                 color = backgroundColor,
                 shape = RoundedCornerShape(5.dp),
-            )
-            .border(
-                width = 1.dp,
-                shape = RoundedCornerShape(5.dp),
-                color = borderColor
             )
             .padding(vertical = 14.dp)
             .clickableWithoutRipple(
@@ -65,7 +58,6 @@ fun DialogChangeButtonPreview() {
             textColor = White,
             style = OffroadTheme.typography.textRegular,
             backgroundColor = Main2,
-            borderColor = Main2,
             onItemClick = {}
         )
     }

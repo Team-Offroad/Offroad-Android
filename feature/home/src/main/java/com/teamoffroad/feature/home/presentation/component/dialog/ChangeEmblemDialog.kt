@@ -230,7 +230,6 @@ fun ChangeCharacterTitle(
         textColor = White,
         style = OffroadTheme.typography.textRegular,
         backgroundColor = if (isSelected) Main2 else Black15,
-        borderColor = if (isSelected) Main2 else Black15,
         onItemClick = {
             if (isSelected) onClickChange()
         }

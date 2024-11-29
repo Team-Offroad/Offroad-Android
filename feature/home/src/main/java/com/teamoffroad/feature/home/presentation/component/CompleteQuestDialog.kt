@@ -86,7 +86,6 @@ fun CompleteQuestDialog(
                     textColor = White,
                     style = OffroadTheme.typography.hint,
                     backgroundColor = Main2,
-                    borderColor = Main2,
                     onItemClick = {
                         isCompleteQuestDialogShown.value = false
                     }
