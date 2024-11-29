@@ -7,12 +7,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.auth.presentation.component.AgreeTermsAndConditionsDialog
@@ -20,10 +22,8 @@ import com.teamoffroad.feature.auth.presentation.component.AgreeTermsAndConditio
 import com.teamoffroad.feature.auth.presentation.component.AgreeTermsAndConditionsTopBar
 import com.teamoffroad.feature.auth.presentation.component.AgreeTermsAndConditionsTopBarAllAgreeBox
 import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
-import com.teamoffroad.feature.auth.presentation.model.AgreeTermsAndConditionsUiState
 import com.teamoffroad.feature.auth.presentation.model.DialogState
 import com.teamoffroad.offroad.feature.auth.R
-import kotlin.reflect.KFunction1
 
 @Composable
 internal fun AgreeTermsAndConditionsScreen(
@@ -32,20 +32,12 @@ internal fun AgreeTermsAndConditionsScreen(
     viewModel: AgreeTermsAndConditionsViewModel = hiltViewModel(),
 ) {
     val isDialogShown by viewModel.dialogState.collectAsState()
-    val isAllChecked by viewModel.allChecked.collectAsState()
-    val isServiceUtil by viewModel.serviceUtil.collectAsState()
-    val isPersonalInfo by viewModel.personalInfo.collectAsState()
-    val isLocation by viewModel.location.collectAsState()
-    val isMarketing by viewModel.marketing.collectAsState()
-    val isAgreeTermsAndConditionsUiState by
-    viewModel.agreeTermsAndConditionsUiState.collectAsState()
-    checkRequired(
-        isServiceUtil = isServiceUtil,
-        isLocation = isLocation,
-        isPersonalInfo = isPersonalInfo,
-        isMarketing = isMarketing,
-        updateAgreeTermsAndConditionsUiState = viewModel::updateAgreeTermsAndConditionsUiState
-    )
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    LaunchedEffect(uiState) {
+        viewModel.apply {
+            updateAgreeTermsAndConditionsUiState()
+        }
+    }
 
     Column(
         Modifier
@@ -55,34 +47,34 @@ internal fun AgreeTermsAndConditionsScreen(
     ) {
         AgreeTermsAndConditionsTopBar(modifier.padding(bottom = 24.dp))
         AgreeTermsAndConditionsTopBarAllAgreeBox(
-            isChecked = isAllChecked,
+            isChecked = uiState.serviceUtil && uiState.personalInfo && uiState.location && uiState.marketing,
             onClick = { viewModel.allCheckedChangedListener() },
             modifier = Modifier.padding(bottom = 22.dp)
         )
         AgreeTermsAndConditionsItem(
             text = stringResource(R.string.auth_agree_and_terms_conditions_service),
-            isChecked = isServiceUtil,
+            isChecked = uiState.serviceUtil,
             isRequired = true,
             onClick = { viewModel.serviceCheckedChangedListener() },
             dialogShown = { viewModel.changeDialogState(DialogState.SERVICE_DIALOG) }
         )
         AgreeTermsAndConditionsItem(
             text = stringResource(R.string.auth_agree_and_terms_conditions_personal),
-            isChecked = isPersonalInfo,
+            isChecked = uiState.personalInfo,
             isRequired = true,
             onClick = { viewModel.personalCheckedChangedListener() },
             dialogShown = { viewModel.changeDialogState(DialogState.PERSONAL_DIALOG) }
         )
         AgreeTermsAndConditionsItem(
             text = stringResource(R.string.auth_agree_and_terms_conditions_location),
-            isChecked = isLocation,
+            isChecked = uiState.location,
             isRequired = true,
             onClick = { viewModel.locationCheckedChangedListener() },
             dialogShown = { viewModel.changeDialogState(DialogState.LOCATION_DIALOG) }
         )
         AgreeTermsAndConditionsItem(
             text = stringResource(R.string.auth_agree_and_terms_conditions_marketing),
-            isChecked = isMarketing,
+            isChecked = uiState.marketing,
             isRequired = false,
             onClick = { viewModel.marketingCheckedChangedListener() },
             dialogShown = { viewModel.changeDialogState(DialogState.MARKETING_DIALOG) }
@@ -94,9 +86,9 @@ internal fun AgreeTermsAndConditionsScreen(
                 .padding(bottom = 72.dp)
                 .height(50.dp),
             text = stringResource(R.string.auth_basic_button),
-            updateState = { viewModel.changedMarketingAgree(viewModel.marketing.value) },
+            updateState = { viewModel.changedMarketingAgree(uiState.marketing) },
             onClick = { navigateToSetNicknameScreen() },
-            isActive = isAgreeTermsAndConditionsUiState.name == AgreeTermsAndConditionsUiState.REQUIRED.name,
+            isActive = uiState.success,
         )
     }
 
@@ -179,17 +171,3 @@ internal fun AgreeTermsAndConditionsScreen(
         }
     }
 }
-
-fun checkRequired(
-    isServiceUtil: Boolean,
-    isPersonalInfo: Boolean,
-    isLocation: Boolean,
-    isMarketing: Boolean,
-    updateAgreeTermsAndConditionsUiState: KFunction1<Boolean, Unit>,
-) {
-    if (isLocation && isServiceUtil && isPersonalInfo) {
-        updateAgreeTermsAndConditionsUiState(true)
-    } else
-        updateAgreeTermsAndConditionsUiState(false)
-}
-

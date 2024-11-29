@@ -16,105 +16,127 @@ import javax.inject.Inject
 class AgreeTermsAndConditionsViewModel @Inject constructor(
     private val marketingInfoUseCase: UserMarketingAgreeUseCase,
 ) : ViewModel() {
-    private val _allChecked: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val allChecked: StateFlow<Boolean> = _allChecked.asStateFlow()
-    private val _serviceUtil: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val serviceUtil: StateFlow<Boolean> = _serviceUtil.asStateFlow()
-    private val _personalInfo: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val personalInfo: StateFlow<Boolean> = _personalInfo.asStateFlow()
-    private val _location: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val location: StateFlow<Boolean> = _location.asStateFlow()
-    private val _marketing: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val marketing: StateFlow<Boolean> = _marketing.asStateFlow()
     private val _dialogState: MutableStateFlow<DialogState> = MutableStateFlow(DialogState.EMPTY)
     val dialogState: StateFlow<DialogState> = _dialogState.asStateFlow()
-    private val _agreeTermsAndConditionsUiState: MutableStateFlow<AgreeTermsAndConditionsUiState> =
-        MutableStateFlow(
-            AgreeTermsAndConditionsUiState.EMPTY
-        )
-    val agreeTermsAndConditionsUiState: StateFlow<AgreeTermsAndConditionsUiState> =
-        _agreeTermsAndConditionsUiState.asStateFlow()
+
+    private val _uiState: MutableStateFlow<AgreeTermsAndConditionsUiState> =
+        MutableStateFlow(AgreeTermsAndConditionsUiState())
+    val uiState: StateFlow<AgreeTermsAndConditionsUiState> = _uiState.asStateFlow()
+
 
     fun allCheckedChangedListener() {
-        if (allChecked.value) {
-            _allChecked.value = false
-            _serviceUtil.value = false
-            _personalInfo.value = false
-            _location.value = false
-            _marketing.value = false
-        } else if (!allChecked.value) {
-            _allChecked.value = true
-            _serviceUtil.value = true
-            _personalInfo.value = true
-            _location.value = true
-            _marketing.value = true
-        }
+        if (!uiState.value.serviceUtil || !uiState.value.personalInfo || !uiState.value.location || !uiState.value.marketing)
+            _uiState.value = uiState.value.copy(
+                serviceUtil = true,
+                personalInfo = true,
+                location = true,
+                marketing = true,
+            )
+        else _uiState.value = uiState.value.copy(
+            serviceUtil = false,
+            personalInfo = false,
+            location = false,
+            marketing = false,
+        )
     }
 
     fun serviceCheckedChangedListener() {
-        _serviceUtil.value = !serviceUtil.value
+        if (!uiState.value.serviceUtil)
+            _uiState.value = uiState.value.copy(
+                serviceUtil = true
+            )
+        else _uiState.value = uiState.value.copy(
+            serviceUtil = false
+        )
     }
 
     fun personalCheckedChangedListener() {
-        _personalInfo.value = !personalInfo.value
+        if (!uiState.value.personalInfo)
+            _uiState.value = uiState.value.copy(
+                personalInfo = true
+            )
+        else _uiState.value = uiState.value.copy(
+            personalInfo = false
+        )
     }
 
     fun locationCheckedChangedListener() {
-        _location.value = !location.value
+        if (!uiState.value.location)
+            _uiState.value = uiState.value.copy(
+                location = true
+            )
+        else _uiState.value = uiState.value.copy(
+            location = false
+        )
     }
 
     fun marketingCheckedChangedListener() {
-        _marketing.value = !marketing.value
+        if (!uiState.value.marketing)
+            _uiState.value = uiState.value.copy(
+                marketing = true
+            )
+        else _uiState.value = uiState.value.copy(
+            marketing = false
+        )
     }
 
     fun serviceDialogCheckedChangedListener(dialogClickState: Boolean) {
         when (dialogClickState) {
-            true -> _serviceUtil.value = true
-            false -> _serviceUtil.value = false
+            true -> _uiState.value = uiState.value.copy(
+                serviceUtil = true
+            )
+
+            false -> _uiState.value = uiState.value.copy(
+                serviceUtil = false
+            )
         }
     }
 
     fun personalDialogCheckedChangedListener(dialogClickState: Boolean) {
         when (dialogClickState) {
-            true -> {
-                _personalInfo.value = true
-            }
+            true -> _uiState.value = uiState.value.copy(
+                personalInfo = true
+            )
 
-            false -> {
-                _personalInfo.value = false
-            }
+            false -> _uiState.value = uiState.value.copy(
+                personalInfo = false
+            )
         }
     }
 
     fun locationDialogCheckedChangedListener(dialogClickState: Boolean) {
         when (dialogClickState) {
-            true -> {
-                _location.value = true
-            }
+            true -> _uiState.value = uiState.value.copy(
+                location = true
+            )
 
-            false -> {
-                _location.value = false
-            }
+            false -> _uiState.value = uiState.value.copy(
+                location = false
+            )
         }
     }
 
     fun marketingDialogCheckedChangedListener(dialogClickState: Boolean) {
         when (dialogClickState) {
-            true -> {
-                _marketing.value = true
-            }
+            true -> _uiState.value = uiState.value.copy(
+                marketing = true
+            )
 
-            false -> {
-                _marketing.value = false
-            }
+            false -> _uiState.value = uiState.value.copy(
+                marketing = false
+            )
         }
     }
 
-    fun updateAgreeTermsAndConditionsUiState(required: Boolean) {
-        if (required)
-            _agreeTermsAndConditionsUiState.value = AgreeTermsAndConditionsUiState.REQUIRED
+    fun updateAgreeTermsAndConditionsUiState() {
+        if (uiState.value.serviceUtil && uiState.value.personalInfo && uiState.value.location)
+            _uiState.value = uiState.value.copy(
+                success = true
+            )
         else
-            _agreeTermsAndConditionsUiState.value = AgreeTermsAndConditionsUiState.EMPTY
+            _uiState.value = uiState.value.copy(
+                success = false
+            )
     }
 
     fun changeDialogState(dialogState: DialogState) {

@@ -76,24 +76,26 @@ fun AgreeTermsAndConditionsDialog(
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     AgreeButton(
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickableWithoutRipple {
+                                onClickCancel()
+                                onDisAgreeClick()
+                            },
                         text = stringResource(R.string.auth_agree_and_terms_conditions_dialog_disagree),
-                        onClick = {
-                            onClickCancel()
-                            onDisAgreeClick()
-                        },
                         textColor = Main2,
                         backgroundColor = Main3,
-                        modifier = Modifier.weight(1f)
                     )
                     AgreeButton(
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickableWithoutRipple {
+                                onClickCancel()
+                                onAgreeClick()
+                            },
                         text = stringResource(R.string.auth_agree_and_terms_conditions_dialog_agree),
-                        onClick = {
-                            onClickCancel()
-                            onAgreeClick()
-                        },
                         textColor = White,
                         backgroundColor = Main2,
-                        modifier = Modifier.weight(1f)
                     )
                 }
             }
@@ -105,11 +107,11 @@ fun AgreeTermsAndConditionsDialog(
 private fun AgreeButton(
     modifier: Modifier = Modifier,
     text: String,
-    onClick: () -> Unit,
     textColor: Color,
     backgroundColor: Color,
 ) {
-    Text(text = text,
+    Text(
+        text = text,
         color = textColor,
         style = OffroadTheme.typography.btnSmall,
         textAlign = TextAlign.Center,
@@ -120,5 +122,5 @@ private fun AgreeButton(
             )
             .border(width = 1.dp, shape = RoundedCornerShape(5.dp), color = Main2)
             .padding(vertical = 14.dp, horizontal = 38.dp)
-            .clickableWithoutRipple { onClick() })
+    )
 }

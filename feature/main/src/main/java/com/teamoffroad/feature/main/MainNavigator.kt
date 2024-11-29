@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.teamoffroad.characterchat.navigation.DEFAULT_CHARACTER_ID
 import com.teamoffroad.characterchat.navigation.navigateToCharacterChat
+import com.teamoffroad.core.navigation.AuthRoute
 import com.teamoffroad.core.navigation.CharacterChatRoute
 import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.core.navigation.MyPageRoute
@@ -42,7 +43,7 @@ internal class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    val startDestination = Route.Auth
+    val startDestination = AuthRoute.AgreeTermsAndConditions
 
     val currentTab: MainNavTab?
         @Composable get() = MainNavTab.find { tab ->
