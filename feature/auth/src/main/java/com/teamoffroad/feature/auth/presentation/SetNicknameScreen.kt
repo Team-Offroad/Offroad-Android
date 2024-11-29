@@ -54,7 +54,8 @@ internal fun SetNicknameScreen(
             .addFocusCleaner(focusManager) {
                 isFocused.value = false
             }
-            .background(Main1),
+            .background(Main1)
+            .padding(horizontal = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         OffroadActionBar()
@@ -119,7 +120,6 @@ internal fun SetNicknameScreen(
         Spacer(modifier = Modifier.weight(1f))
         OffroadBasicBtn(
             modifier = Modifier
-                .padding(horizontal = 24.dp)
                 .padding(bottom = 72.dp)
                 .height(50.dp),
             text = stringResource(R.string.auth_basic_button),
