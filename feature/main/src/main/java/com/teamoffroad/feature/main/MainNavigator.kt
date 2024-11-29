@@ -43,7 +43,7 @@ internal class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    val startDestination = AuthRoute.AgreeTermsAndConditions
+    val startDestination = Route.Auth
 
     val currentTab: MainNavTab?
         @Composable get() = MainNavTab.find { tab ->

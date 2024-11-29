@@ -30,9 +30,9 @@ import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
-import com.teamoffroad.feature.auth.domain.model.UserGender
 import com.teamoffroad.feature.auth.presentation.component.GenderHintButton
 import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
+import com.teamoffroad.feature.auth.presentation.model.SetGenderStateResult
 import com.teamoffroad.feature.auth.presentation.model.SetGenderUiState
 import com.teamoffroad.offroad.feature.auth.R
 
@@ -50,6 +50,7 @@ internal fun SetGenderScreen(
         modifier = Modifier
             .navigationPadding()
             .fillMaxSize()
+            .padding(horizontal = 24.dp)
             .clickableWithoutRipple(interactionSource = interactionSource) { viewModel.updateGenderEmpty() }
             .background(Main1),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -59,7 +60,6 @@ internal fun SetGenderScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(end = 22.dp)
         ) {
             Spacer(modifier = Modifier.weight(1f))
             Text(
@@ -92,19 +92,18 @@ internal fun SetGenderScreen(
         Spacer(modifier = Modifier.weight(1f))
         OffroadBasicBtn(
             modifier = Modifier
-                .padding(horizontal = 24.dp)
                 .padding(bottom = 72.dp)
                 .height(50.dp)
                 .align(Alignment.CenterHorizontally),
             text = stringResource(R.string.auth_basic_button),
             onClick = { viewModel.fetchUserProfile(nickname, birthDate) },
-            isActive = isGenderState != SetGenderUiState.Loading,
+            isActive = isGenderState.genderResult == SetGenderStateResult.Select,
         )
     }
 
 
-    if (isGenderState == SetGenderUiState.Success) navigateToSetCharacter()
-    else if (isGenderState == SetGenderUiState.Error) {
+    if (isGenderState.genderResult == SetGenderStateResult.Success) navigateToSetCharacter()
+    else if (isGenderState.genderResult == SetGenderStateResult.Error) {
         Toast.makeText(
             LocalContext.current,
             stringResource(R.string.auth_set_gender_network_error),
@@ -120,16 +119,16 @@ fun SetGenderButton(
     isGenderState: SetGenderUiState,
     interactionSource: MutableInteractionSource,
 ) {
-    val (male, female, other) = when (isGenderState) {
-        SetGenderUiState.Select(UserGender.MALE.name) -> {
+    val (male, female, other) = when (isGenderState.selectedGender) {
+        "MALE" -> {
             Triple(true, false, false)
         }
 
-        SetGenderUiState.Select(UserGender.FEMALE.name) -> {
+        "FEMALE" -> {
             Triple(false, true, false)
         }
 
-        SetGenderUiState.Select(UserGender.OTHER.name) -> {
+        "OTHER" -> {
             Triple(false, false, true)
         }
 

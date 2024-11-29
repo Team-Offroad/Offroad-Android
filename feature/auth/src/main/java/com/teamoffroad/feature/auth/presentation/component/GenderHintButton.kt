@@ -3,6 +3,7 @@ package com.teamoffroad.feature.auth.presentation.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -30,9 +31,10 @@ fun GenderHintButton(
         Triple(Gray100, Gray300, Main3)
     }
 
-    Box() {
+    Box {
         Text(
             modifier = modifier
+                .fillMaxWidth()
                 .background(backGroundColor, shape = shape)
                 .border(
                     width = 1.dp,
