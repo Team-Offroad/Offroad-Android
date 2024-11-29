@@ -7,9 +7,11 @@ import com.teamoffroad.feature.auth.domain.repository.AuthRepository
 import com.teamoffroad.feature.auth.presentation.model.SetGenderStateResult
 import com.teamoffroad.feature.auth.presentation.model.SetGenderUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,6 +24,9 @@ class SetGenderViewModel @Inject constructor(
         SetGenderUiState()
     )
     val genderUiState: StateFlow<SetGenderUiState> = _genderUiState.asStateFlow()
+
+    private val _sideEffect: Channel<Boolean> = Channel()
+    val sideEffect = _sideEffect.receiveAsFlow()
 
     fun updateGenderEmpty() {
         _genderUiState.value = genderUiState.value.copy(
@@ -63,14 +68,19 @@ class SetGenderViewModel @Inject constructor(
                     )
                 )
             }.onSuccess {
-                _genderUiState.value = genderUiState.value.copy(
-                    genderResult = SetGenderStateResult.Success
-                )
+                _sideEffect.send(true)
             }.onFailure {
-                _genderUiState.value = genderUiState.value.copy(
-                    genderResult = SetGenderStateResult.Error
-                )
+                _sideEffect.send(false)
+
             }
         }
+    }
+
+    fun initGenderState() {
+        _genderUiState.value = genderUiState.value.copy(
+            selectedGender = "",
+            genderResult = SetGenderStateResult.Empty
+        )
+
     }
 }

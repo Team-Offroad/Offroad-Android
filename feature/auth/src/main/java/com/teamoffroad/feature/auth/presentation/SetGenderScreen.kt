@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -33,6 +34,7 @@ import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
 import com.teamoffroad.feature.auth.presentation.model.SetGenderStateResult
 import com.teamoffroad.feature.auth.presentation.model.SetGenderUiState
 import com.teamoffroad.offroad.feature.auth.R
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 internal fun SetGenderScreen(
@@ -42,6 +44,18 @@ internal fun SetGenderScreen(
     viewModel: SetGenderViewModel = hiltViewModel(),
 ) {
     val isGenderState by viewModel.genderUiState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.initGenderState()
+    }
+    LaunchedEffect(Unit) {
+        viewModel.sideEffect.collectLatest { sideEffect ->
+            when (sideEffect) {
+                true -> navigateToSetCharacter()
+                false -> {}
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -97,9 +111,7 @@ internal fun SetGenderScreen(
         )
     }
 
-
-    if (isGenderState.genderResult == SetGenderStateResult.Success) navigateToSetCharacter()
-    else if (isGenderState.genderResult == SetGenderStateResult.Error) {
+    if (isGenderState.genderResult == SetGenderStateResult.Error) {
         Toast.makeText(
             LocalContext.current,
             stringResource(R.string.auth_set_gender_network_error),
