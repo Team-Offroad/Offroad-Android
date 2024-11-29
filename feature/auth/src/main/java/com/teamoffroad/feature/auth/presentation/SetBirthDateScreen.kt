@@ -68,6 +68,7 @@ internal fun SetBirthDateScreen(
         modifier = Modifier
             .navigationPadding()
             .fillMaxSize()
+            .padding(horizontal = 24.dp)
             .addFocusCleaner(focusManager)
             .background(color = Main1),
     ) {
@@ -76,7 +77,6 @@ internal fun SetBirthDateScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(end = 22.dp)
         ) {
             Spacer(modifier = Modifier.weight(1f))
             Text(
@@ -109,7 +109,7 @@ internal fun SetBirthDateScreen(
         )
         Column(
             modifier = Modifier
-                .padding(horizontal = 24.dp)
+                .fillMaxWidth()
                 .align(Alignment.CenterHorizontally)
         ) {
             Text(
@@ -243,7 +243,6 @@ internal fun SetBirthDateScreen(
         )
         OffroadBasicBtn(
             modifier = Modifier
-                .padding(horizontal = 24.dp)
                 .padding(bottom = 72.dp)
                 .height(50.dp)
                 .align(Alignment.CenterHorizontally),
