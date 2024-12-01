@@ -9,6 +9,7 @@ import androidx.compose.ui.res.stringResource
 import com.teamoffroad.core.designsystem.theme.ErrorNew
 import com.teamoffroad.core.designsystem.theme.Gray400
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
+import com.teamoffroad.feature.auth.presentation.model.NicknameValidateResult
 import com.teamoffroad.offroad.feature.auth.R
 
 @Composable

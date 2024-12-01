@@ -1,6 +1,6 @@
 package com.teamoffroad.feature.auth.domain.usecase
 
-import com.teamoffroad.feature.auth.presentation.component.NicknameValidateResult
+import com.teamoffroad.feature.auth.presentation.model.NicknameValidateResult
 
 class GetNicknameValidateUseCase {
     operator fun invoke(nickname: String): NicknameValidateResult {

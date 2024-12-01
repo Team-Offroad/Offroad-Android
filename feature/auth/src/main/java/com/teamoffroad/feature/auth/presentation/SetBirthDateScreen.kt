@@ -43,7 +43,7 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.auth.presentation.component.BirthDateHintText
 import com.teamoffroad.feature.auth.presentation.component.BirthDateTextField
-import com.teamoffroad.feature.auth.presentation.component.DateValidateResult
+import com.teamoffroad.feature.auth.presentation.model.DateValidateResult
 import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
 import com.teamoffroad.offroad.feature.auth.R
 

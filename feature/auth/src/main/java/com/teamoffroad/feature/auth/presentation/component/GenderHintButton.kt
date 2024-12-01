@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Gray100
@@ -34,6 +36,7 @@ fun GenderHintButton(
     Box {
         Text(
             modifier = modifier
+                .align(Alignment.Center)
                 .fillMaxWidth()
                 .background(backGroundColor, shape = shape)
                 .border(
@@ -43,7 +46,8 @@ fun GenderHintButton(
                 )
                 .padding(vertical = 18.dp, horizontal = 142.dp),
             text = value,
-            color = contentColor
+            color = contentColor,
+            textAlign = TextAlign.Center,
         )
     }
 }

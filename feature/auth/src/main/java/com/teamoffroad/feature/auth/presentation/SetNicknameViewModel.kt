@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.auth.domain.repository.AuthRepository
 import com.teamoffroad.feature.auth.domain.usecase.GetNicknameValidateUseCase
-import com.teamoffroad.feature.auth.presentation.component.NicknameValidateResult
+import com.teamoffroad.feature.auth.presentation.model.NicknameValidateResult
 import com.teamoffroad.feature.auth.presentation.model.SetNicknameUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

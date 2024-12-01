@@ -13,9 +13,11 @@ import com.teamoffroad.feature.auth.domain.model.SocialSignInPlatform
 import com.teamoffroad.feature.auth.domain.usecase.AuthUseCase
 import com.teamoffroad.feature.auth.presentation.model.AuthUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,6 +32,9 @@ class AuthViewModel @Inject constructor(
     private val _authUiState: MutableStateFlow<AuthUiState> =
         MutableStateFlow(AuthUiState(empty = true))
     val authUiState: StateFlow<AuthUiState> = _authUiState.asStateFlow()
+
+    private val _sideEffect: Channel<Boolean> = Channel()
+    val sideEffect = _sideEffect.receiveAsFlow()
 
     fun startKakaoSignIn() {
         viewModelScope.launch {
@@ -88,5 +93,21 @@ class AuthViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    fun updateSignInResult() {
+        viewModelScope.launch {
+            _sideEffect.send(true)
+        }
+    }
+
+    fun initState() {
+        _authUiState.value = authUiState.value.copy(
+            empty = true,
+            signInSuccess = false,
+            alreadyExist = false,
+            kakaoSignIn = false,
+            isAutoSignIn = false
+        )
     }
 }

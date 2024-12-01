@@ -32,7 +32,7 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.auth.presentation.component.NicknameHintText
 import com.teamoffroad.feature.auth.presentation.component.NicknameTextField
-import com.teamoffroad.feature.auth.presentation.component.NicknameValidateResult
+import com.teamoffroad.feature.auth.presentation.model.NicknameValidateResult
 import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
 import com.teamoffroad.feature.auth.presentation.component.OnboardingButton
 import com.teamoffroad.offroad.feature.auth.R

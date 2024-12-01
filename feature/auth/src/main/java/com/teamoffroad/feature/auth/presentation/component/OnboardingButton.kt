@@ -23,6 +23,7 @@ import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.feature.auth.presentation.model.NicknameValidateResult
 
 @Composable
 fun OnboardingButton(
