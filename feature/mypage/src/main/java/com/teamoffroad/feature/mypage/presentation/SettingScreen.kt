@@ -101,7 +101,13 @@ internal fun SettingScreen(
         SettingContainer(
             title = stringResource(R.string.my_page_setting_item_personal_information),
             isImportant = false,
-            onClick = {})
+            onClick = {
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://tan-antlion-a47.notion.site/105120a9d80f80739f54fa78902015d7")
+                )
+                context.startActivity(intent)
+            })
         SettingContainer(
             title = stringResource(R.string.my_page_setting_item_marketing_agree),
             isImportant = false,
