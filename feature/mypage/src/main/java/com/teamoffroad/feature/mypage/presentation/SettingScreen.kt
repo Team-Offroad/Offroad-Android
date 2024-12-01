@@ -11,10 +11,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -32,6 +40,7 @@ import com.teamoffroad.feature.mypage.presentation.component.SettingDialogState
 import com.teamoffroad.feature.mypage.presentation.component.SettingHeader
 import com.teamoffroad.feature.mypage.presentation.component.WithDrawDialog
 import com.teamoffroad.offroad.feature.mypage.R
+import kotlinx.coroutines.launch
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
@@ -44,6 +53,28 @@ internal fun SettingScreen(
 ) {
     val context = LocalContext.current
     val isSettingUiState by viewModel.settingUiState.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
+    val snackBarHostState = remember { SnackbarHostState() }
+    var snackBarShowState by remember { mutableStateOf(false) }
+
+    LaunchedEffect(snackBarShowState) {
+        if (snackBarShowState) {
+            coroutineScope.launch {
+                val snackBar = snackBarHostState.showSnackbar(
+                    message = if (isSettingUiState.marketingAgree == true) context.getString(R.string.my_page_setting_marketing_snackbar_agree) else context.getString(
+                        R.string.my_page_setting_marketing_snackbar_disagree
+                    ),
+                    actionLabel = "닫기",
+                    duration = SnackbarDuration.Short
+                )
+                when (snackBar) {
+                    SnackbarResult.ActionPerformed -> {}
+                    SnackbarResult.Dismissed -> {}
+                }
+            }
+            snackBarShowState = false
+        }
+    }
 
     LaunchedEffect(isSettingUiState) {
         if (isSettingUiState.reset) navigateToSignIn()
@@ -120,6 +151,13 @@ internal fun SettingScreen(
             title = stringResource(R.string.my_page_setting_item_withdraw),
             isImportant = false,
             onClick = { viewModel.changeDialogState(SettingDialogState.WithDrawVisible) })
+        Spacer(modifier = Modifier.weight(1f))
+        SnackbarHost(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 30.dp),
+            hostState = snackBarHostState
+        )
     }
 
     when (isSettingUiState.dialogVisible) {
@@ -131,6 +169,7 @@ internal fun SettingScreen(
             onDisAgreeClick = { viewModel.changedMarketingAgree(false) },
             onClickCancel = {
                 viewModel.changeDialogState(SettingDialogState.InVisible)
+                snackBarShowState = true
             })
 
         SettingDialogState.LogoutVisible -> LogoutDialog(

@@ -45,6 +45,9 @@
     <string name="my_page_setting_marketing_dialog_title">마케팅 정보 수신 동의</string>
     <string name="my_page_setting_marketing_dialog_agree">동의</string>
     <string name="my_page_setting_marketing_dialog_disagree">비동의</string>
+    <string name="my_page_setting_marketing_snackbar_agree">마케팅 정보 수신에 동의되었습니다.</string>
+    <string name="my_page_setting_marketing_snackbar_disagree">마케팅 정보 수신에 동의되지 않았습니다.</string>
+
     <string name="my_page_setting_logout_dialog_sub_title">정말 로그아웃 하시겠어요?</string>
     <string name="my_page_setting_logout_dialog_agree">네</string>
     <string name="my_page_setting_logout_dialog_disagree">아니요</string>

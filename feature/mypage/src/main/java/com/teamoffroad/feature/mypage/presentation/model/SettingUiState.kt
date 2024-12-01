@@ -7,4 +7,5 @@ data class SettingUiState(
     val withDrawInputState: String = "",
     val withDrawResult: Boolean = false,
     val reset: Boolean = false,
+    val marketingAgree: Boolean? = null,
 )
