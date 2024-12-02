@@ -25,69 +25,69 @@ class AgreeTermsAndConditionsViewModel @Inject constructor(
 
 
     fun allCheckedChangedListener() {
-        if (!uiState.value.serviceUtil || !uiState.value.personalInfo || !uiState.value.location || !uiState.value.marketing)
+        if (!uiState.value.isServiceUtil || !uiState.value.isPersonalInfo || !uiState.value.isLocation || !uiState.value.isMarketing)
             _uiState.value = uiState.value.copy(
-                serviceUtil = true,
-                personalInfo = true,
-                location = true,
-                marketing = true,
+                isServiceUtil = true,
+                isPersonalInfo = true,
+                isLocation = true,
+                isMarketing = true,
             )
         else _uiState.value = uiState.value.copy(
-            serviceUtil = false,
-            personalInfo = false,
-            location = false,
-            marketing = false,
+            isServiceUtil = false,
+            isPersonalInfo = false,
+            isLocation = false,
+            isMarketing = false,
         )
     }
 
     fun serviceCheckedChangedListener() {
-        if (!uiState.value.serviceUtil)
+        if (!uiState.value.isServiceUtil)
             _uiState.value = uiState.value.copy(
-                serviceUtil = true
+                isServiceUtil = true
             )
         else _uiState.value = uiState.value.copy(
-            serviceUtil = false
+            isServiceUtil = false
         )
     }
 
     fun personalCheckedChangedListener() {
-        if (!uiState.value.personalInfo)
+        if (!uiState.value.isPersonalInfo)
             _uiState.value = uiState.value.copy(
-                personalInfo = true
+                isPersonalInfo = true
             )
         else _uiState.value = uiState.value.copy(
-            personalInfo = false
+            isPersonalInfo = false
         )
     }
 
     fun locationCheckedChangedListener() {
-        if (!uiState.value.location)
+        if (!uiState.value.isLocation)
             _uiState.value = uiState.value.copy(
-                location = true
+                isLocation = true
             )
         else _uiState.value = uiState.value.copy(
-            location = false
+            isLocation = false
         )
     }
 
     fun marketingCheckedChangedListener() {
-        if (!uiState.value.marketing)
+        if (!uiState.value.isMarketing)
             _uiState.value = uiState.value.copy(
-                marketing = true
+                isMarketing = true
             )
         else _uiState.value = uiState.value.copy(
-            marketing = false
+            isMarketing = false
         )
     }
 
     fun serviceDialogCheckedChangedListener(dialogClickState: Boolean) {
         when (dialogClickState) {
             true -> _uiState.value = uiState.value.copy(
-                serviceUtil = true
+                isServiceUtil = true
             )
 
             false -> _uiState.value = uiState.value.copy(
-                serviceUtil = false
+                isServiceUtil = false
             )
         }
     }
@@ -95,11 +95,11 @@ class AgreeTermsAndConditionsViewModel @Inject constructor(
     fun personalDialogCheckedChangedListener(dialogClickState: Boolean) {
         when (dialogClickState) {
             true -> _uiState.value = uiState.value.copy(
-                personalInfo = true
+                isPersonalInfo = true
             )
 
             false -> _uiState.value = uiState.value.copy(
-                personalInfo = false
+                isPersonalInfo = false
             )
         }
     }
@@ -107,11 +107,11 @@ class AgreeTermsAndConditionsViewModel @Inject constructor(
     fun locationDialogCheckedChangedListener(dialogClickState: Boolean) {
         when (dialogClickState) {
             true -> _uiState.value = uiState.value.copy(
-                location = true
+                isLocation = true
             )
 
             false -> _uiState.value = uiState.value.copy(
-                location = false
+                isLocation = false
             )
         }
     }
@@ -119,17 +119,17 @@ class AgreeTermsAndConditionsViewModel @Inject constructor(
     fun marketingDialogCheckedChangedListener(dialogClickState: Boolean) {
         when (dialogClickState) {
             true -> _uiState.value = uiState.value.copy(
-                marketing = true
+                isMarketing = true
             )
 
             false -> _uiState.value = uiState.value.copy(
-                marketing = false
+                isMarketing = false
             )
         }
     }
 
     fun updateAgreeTermsAndConditionsUiState() {
-        if (uiState.value.serviceUtil && uiState.value.personalInfo && uiState.value.location)
+        if (uiState.value.isServiceUtil && uiState.value.isPersonalInfo && uiState.value.isLocation)
             _uiState.value = uiState.value.copy(
                 success = true
             )

@@ -138,14 +138,6 @@ class SetBirthDateViewModel @Inject constructor(
     }
 
     fun initState() {
-        _birthDateUiState.value = birthDateUiState.value.copy(
-            year = "",
-            month = "",
-            day = "",
-            date = "",
-            yearValidateResult = DateValidateResult.Empty,
-            monthValidateResult = DateValidateResult.Empty,
-            dayValidateResult = DateValidateResult.Empty,
-        )
+        _birthDateUiState.value = SetBirthDateUiState()
     }
 }

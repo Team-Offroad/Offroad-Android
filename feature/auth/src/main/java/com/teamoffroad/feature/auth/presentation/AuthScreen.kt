@@ -83,13 +83,9 @@ internal fun AuthScreen(
     }
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { sideEffect ->
-            when (sideEffect) {
-                true -> {
-                    viewModel.initState()
-                    navigateToAgreeTermsAndConditions()
-                }
-
-                false -> {}
+            if (sideEffect) {
+                viewModel.initState()
+                navigateToAgreeTermsAndConditions()
             }
         }
     }

@@ -62,7 +62,7 @@ internal fun AgreeTermsAndConditionsScreen(
         if (snackBarShowState) {
             coroutineScope.launch {
                 val snackBar = snackBarHostState.showSnackbar(
-                    message = if (uiState.marketing) "${currentDateTime.format(formatter)}부로 마케팅 정보 수신 동의 처리되었습니다."
+                    message = if (uiState.isMarketing) "${currentDateTime.format(formatter)}부로 마케팅 정보 수신 동의 처리되었습니다."
                     else "${currentDateTime.format(formatter)}부로 마케팅 정보 수신 비동의 처리되었습니다.",
                     actionLabel = "닫기",
                     duration = SnackbarDuration.Short
@@ -90,7 +90,7 @@ internal fun AgreeTermsAndConditionsScreen(
         Column {
             AgreeTermsAndConditionsTopBar(modifier.padding(bottom = 24.dp))
             AgreeTermsAndConditionsTopBarAllAgreeBox(
-                isChecked = uiState.serviceUtil && uiState.personalInfo && uiState.location && uiState.marketing,
+                isChecked = uiState.isServiceUtil && uiState.isPersonalInfo && uiState.isLocation && uiState.isMarketing,
                 onClick = {
                     viewModel.allCheckedChangedListener()
                     snackBarShowState = true
@@ -99,28 +99,28 @@ internal fun AgreeTermsAndConditionsScreen(
             )
             AgreeTermsAndConditionsItem(
                 text = stringResource(R.string.auth_agree_and_terms_conditions_service),
-                isChecked = uiState.serviceUtil,
+                isChecked = uiState.isServiceUtil,
                 isRequired = true,
                 onClick = { viewModel.serviceCheckedChangedListener() },
                 dialogShown = { viewModel.changeDialogState(DialogState.SERVICE_DIALOG) }
             )
             AgreeTermsAndConditionsItem(
                 text = stringResource(R.string.auth_agree_and_terms_conditions_personal),
-                isChecked = uiState.personalInfo,
+                isChecked = uiState.isPersonalInfo,
                 isRequired = true,
                 onClick = { viewModel.personalCheckedChangedListener() },
                 dialogShown = { viewModel.changeDialogState(DialogState.PERSONAL_DIALOG) }
             )
             AgreeTermsAndConditionsItem(
                 text = stringResource(R.string.auth_agree_and_terms_conditions_location),
-                isChecked = uiState.location,
+                isChecked = uiState.isLocation,
                 isRequired = true,
                 onClick = { viewModel.locationCheckedChangedListener() },
                 dialogShown = { viewModel.changeDialogState(DialogState.LOCATION_DIALOG) }
             )
             AgreeTermsAndConditionsItem(
                 text = stringResource(R.string.auth_agree_and_terms_conditions_marketing),
-                isChecked = uiState.marketing,
+                isChecked = uiState.isMarketing,
                 isRequired = false,
                 onClick = {
                     snackBarShowState = true
@@ -135,7 +135,7 @@ internal fun AgreeTermsAndConditionsScreen(
                     .padding(bottom = 72.dp)
                     .height(50.dp),
                 text = stringResource(R.string.auth_basic_button),
-                updateState = { viewModel.changedMarketingAgree(uiState.marketing) },
+                updateState = { viewModel.changedMarketingAgree(uiState.isMarketing) },
                 onClick = { navigateToSetNicknameScreen() },
                 isActive = uiState.success,
             )

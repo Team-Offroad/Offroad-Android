@@ -1,10 +1,10 @@
 package com.teamoffroad.feature.auth.presentation.model
 
 data class AgreeTermsAndConditionsUiState(
-    val serviceUtil: Boolean = false,
-    val personalInfo: Boolean = false,
-    val location: Boolean = false,
-    val marketing: Boolean = false,
+    val isServiceUtil: Boolean = false,
+    val isPersonalInfo: Boolean = false,
+    val isLocation: Boolean = false,
+    val isMarketing: Boolean = false,
     val success: Boolean = false,
 )
 

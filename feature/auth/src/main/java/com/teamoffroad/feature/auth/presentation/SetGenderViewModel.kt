@@ -77,10 +77,6 @@ class SetGenderViewModel @Inject constructor(
     }
 
     fun initGenderState() {
-        _genderUiState.value = genderUiState.value.copy(
-            selectedGender = "",
-            genderResult = SetGenderStateResult.Empty
-        )
-
+        _genderUiState.value = SetGenderUiState()
     }
 }

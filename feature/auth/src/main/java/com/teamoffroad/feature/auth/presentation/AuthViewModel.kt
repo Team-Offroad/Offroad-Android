@@ -33,8 +33,8 @@ class AuthViewModel @Inject constructor(
         MutableStateFlow(AuthUiState(empty = true))
     val authUiState: StateFlow<AuthUiState> = _authUiState.asStateFlow()
 
-    private val _sideEffect: Channel<Boolean> = Channel()
-    val sideEffect = _sideEffect.receiveAsFlow()
+    private val _authSideEffect: Channel<Boolean> = Channel()
+    val sideEffect = _authSideEffect.receiveAsFlow()
 
     fun startKakaoSignIn() {
         viewModelScope.launch {
@@ -97,7 +97,7 @@ class AuthViewModel @Inject constructor(
 
     fun updateSignInResult() {
         viewModelScope.launch {
-            _sideEffect.send(true)
+            _authSideEffect.send(true)
         }
     }
 
