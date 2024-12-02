@@ -41,6 +41,9 @@ import com.teamoffroad.feature.mypage.presentation.component.SettingHeader
 import com.teamoffroad.feature.mypage.presentation.component.WithDrawDialog
 import com.teamoffroad.offroad.feature.mypage.R
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
@@ -56,14 +59,21 @@ internal fun SettingScreen(
     val coroutineScope = rememberCoroutineScope()
     val snackBarHostState = remember { SnackbarHostState() }
     var snackBarShowState by remember { mutableStateOf(false) }
+    val currentDateTime = remember { LocalDateTime.now() }
+    val formatter = remember {
+        DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm", Locale.getDefault())
+    }
 
     LaunchedEffect(snackBarShowState) {
         if (snackBarShowState) {
             coroutineScope.launch {
                 val snackBar = snackBarHostState.showSnackbar(
-                    message = if (isSettingUiState.marketingAgree == true) context.getString(R.string.my_page_setting_marketing_snackbar_agree) else context.getString(
-                        R.string.my_page_setting_marketing_snackbar_disagree
-                    ),
+                    message = if (isSettingUiState.marketingAgree == true) "${
+                        currentDateTime.format(
+                            formatter
+                        )
+                    }부로 마케팅 정보 수신 동의 처리되었습니다."
+                    else "${currentDateTime.format(formatter)}부로 마케팅 정보 수신 비동의 처리되었습니다.",
                     actionLabel = "닫기",
                     duration = SnackbarDuration.Short
                 )

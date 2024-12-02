@@ -64,7 +64,7 @@ class SettingViewModel @Inject constructor(
 
     fun changedMarketingAgree(marketingAgree: Boolean) {
         viewModelScope.launch {
-            _settingUiState.value = _settingUiState.value.copy(marketingAgree = marketingAgree)
+            _settingUiState.value = settingUiState.value.copy(marketingAgree = marketingAgree)
             marketingInfoUseCase.invoke(marketingAgree)
         }
     }
