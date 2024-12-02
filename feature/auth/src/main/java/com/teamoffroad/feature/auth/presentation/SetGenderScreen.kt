@@ -46,9 +46,6 @@ internal fun SetGenderScreen(
     val isGenderState by viewModel.genderUiState.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.initGenderState()
-    }
-    LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
                 true -> navigateToSetCharacter()
@@ -78,6 +75,7 @@ internal fun SetGenderScreen(
                 style = OffroadTheme.typography.hint,
                 modifier = Modifier.clickable {
                     viewModel.fetchUserProfile(nickname, birthDate, null)
+                    viewModel.initGenderState()
                 }
             )
         }
