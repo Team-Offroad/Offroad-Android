@@ -4,12 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.auth.domain.model.UserProfile
 import com.teamoffroad.feature.auth.domain.repository.AuthRepository
-import com.teamoffroad.core.common.domain.usecase.SetAutoSignInUseCase
+import com.teamoffroad.feature.auth.presentation.model.SetGenderStateResult
 import com.teamoffroad.feature.auth.presentation.model.SetGenderUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,22 +20,39 @@ class SetGenderViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
-    private val _genderUiState = MutableStateFlow<SetGenderUiState>(SetGenderUiState.Loading)
+    private val _genderUiState: MutableStateFlow<SetGenderUiState> = MutableStateFlow(
+        SetGenderUiState()
+    )
     val genderUiState: StateFlow<SetGenderUiState> = _genderUiState.asStateFlow()
 
+    private val _sideEffect: Channel<Boolean> = Channel()
+    val sideEffect = _sideEffect.receiveAsFlow()
+
     fun updateGenderEmpty() {
-        _genderUiState.value = SetGenderUiState.Loading
+        _genderUiState.value = genderUiState.value.copy(
+            genderResult = SetGenderStateResult.Empty,
+        )
     }
 
     fun updateCheckedGender(gender: String) {
-        _genderUiState.value = SetGenderUiState.Select(gender)
+        if (gender == genderUiState.value.selectedGender) {
+            _genderUiState.value = genderUiState.value.copy(
+                selectedGender = "",
+                genderResult = SetGenderStateResult.Empty
+
+            )
+        } else
+            _genderUiState.value = genderUiState.value.copy(
+                selectedGender = gender,
+                genderResult = SetGenderStateResult.Select
+            )
     }
 
     fun fetchUserProfile(
         nickname: String,
         birthDate: String?,
-        gender: String? = when (val state = genderUiState.value) {
-            is SetGenderUiState.Select -> state.selectedGender
+        gender: String? = when (genderUiState.value.genderResult) {
+            is SetGenderStateResult.Select -> genderUiState.value.selectedGender
             else -> null
         },
     ) {
@@ -49,10 +68,15 @@ class SetGenderViewModel @Inject constructor(
                     )
                 )
             }.onSuccess {
-                _genderUiState.value = SetGenderUiState.Success
+                _sideEffect.send(true)
             }.onFailure {
-                _genderUiState.value = SetGenderUiState.Error
+                _sideEffect.send(false)
+
             }
         }
+    }
+
+    fun initGenderState() {
+        _genderUiState.value = SetGenderUiState()
     }
 }

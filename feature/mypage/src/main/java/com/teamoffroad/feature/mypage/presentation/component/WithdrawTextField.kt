@@ -17,9 +17,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Gray300
+import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
 import kotlin.reflect.KFunction1
@@ -41,6 +43,10 @@ fun WithdrawTextField(
         onValueChange = {
             onValueChanged(it)
         },
+        textStyle = OffroadTheme.typography.hint.copy(
+            fontWeight = FontWeight.Bold,
+            color = Main2,
+        ),
         singleLine = maxLines == 1,
         maxLines = if (minLines > maxLines) minLines else maxLines,
         minLines = minLines,

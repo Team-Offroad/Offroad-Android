@@ -3,7 +3,6 @@ package com.teamoffroad.feature.auth.presentation
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,9 +12,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -30,11 +29,12 @@ import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
-import com.teamoffroad.feature.auth.domain.model.UserGender
 import com.teamoffroad.feature.auth.presentation.component.GenderHintButton
 import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
+import com.teamoffroad.feature.auth.presentation.model.SetGenderStateResult
 import com.teamoffroad.feature.auth.presentation.model.SetGenderUiState
 import com.teamoffroad.offroad.feature.auth.R
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 internal fun SetGenderScreen(
@@ -44,13 +44,21 @@ internal fun SetGenderScreen(
     viewModel: SetGenderViewModel = hiltViewModel(),
 ) {
     val isGenderState by viewModel.genderUiState.collectAsState()
-    val interactionSource = remember { MutableInteractionSource() }
+
+    LaunchedEffect(Unit) {
+        viewModel.sideEffect.collectLatest { sideEffect ->
+            when (sideEffect) {
+                true -> navigateToSetCharacter()
+                false -> {}
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
             .navigationPadding()
             .fillMaxSize()
-            .clickableWithoutRipple(interactionSource = interactionSource) { viewModel.updateGenderEmpty() }
+            .padding(horizontal = 24.dp)
             .background(Main1),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -59,7 +67,6 @@ internal fun SetGenderScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(end = 22.dp)
         ) {
             Spacer(modifier = Modifier.weight(1f))
             Text(
@@ -68,6 +75,7 @@ internal fun SetGenderScreen(
                 style = OffroadTheme.typography.hint,
                 modifier = Modifier.clickable {
                     viewModel.fetchUserProfile(nickname, birthDate, null)
+                    viewModel.initGenderState()
                 }
             )
         }
@@ -88,23 +96,20 @@ internal fun SetGenderScreen(
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.padding(vertical = 28.dp))
-        SetGenderButton(viewModel, isGenderState, interactionSource)
+        SetGenderButton(viewModel, isGenderState)
         Spacer(modifier = Modifier.weight(1f))
         OffroadBasicBtn(
             modifier = Modifier
-                .padding(horizontal = 24.dp)
                 .padding(bottom = 72.dp)
                 .height(50.dp)
                 .align(Alignment.CenterHorizontally),
             text = stringResource(R.string.auth_basic_button),
             onClick = { viewModel.fetchUserProfile(nickname, birthDate) },
-            isActive = isGenderState != SetGenderUiState.Loading,
+            isActive = isGenderState.genderResult == SetGenderStateResult.Select,
         )
     }
 
-
-    if (isGenderState == SetGenderUiState.Success) navigateToSetCharacter()
-    else if (isGenderState == SetGenderUiState.Error) {
+    if (isGenderState.genderResult == SetGenderStateResult.Error) {
         Toast.makeText(
             LocalContext.current,
             stringResource(R.string.auth_set_gender_network_error),
@@ -118,18 +123,17 @@ internal fun SetGenderScreen(
 fun SetGenderButton(
     viewModel: SetGenderViewModel,
     isGenderState: SetGenderUiState,
-    interactionSource: MutableInteractionSource,
 ) {
-    val (male, female, other) = when (isGenderState) {
-        SetGenderUiState.Select(UserGender.MALE.name) -> {
+    val (male, female, other) = when (isGenderState.selectedGender) {
+        "MALE" -> {
             Triple(true, false, false)
         }
 
-        SetGenderUiState.Select(UserGender.FEMALE.name) -> {
+        "FEMALE" -> {
             Triple(false, true, false)
         }
 
-        SetGenderUiState.Select(UserGender.OTHER.name) -> {
+        "OTHER" -> {
             Triple(false, false, true)
         }
 
@@ -141,7 +145,7 @@ fun SetGenderButton(
         GenderHintButton(
             modifier = Modifier
                 .padding(bottom = 12.dp)
-                .clickableWithoutRipple(interactionSource = interactionSource) {
+                .clickableWithoutRipple {
                     viewModel.updateCheckedGender(
                         "MALE"
                     )
@@ -152,7 +156,7 @@ fun SetGenderButton(
         GenderHintButton(
             modifier = Modifier
                 .padding(bottom = 12.dp)
-                .clickableWithoutRipple(interactionSource = interactionSource) {
+                .clickableWithoutRipple {
                     viewModel.updateCheckedGender(
                         "FEMALE"
                     )
@@ -162,7 +166,7 @@ fun SetGenderButton(
         )
         GenderHintButton(
             modifier = Modifier
-                .clickableWithoutRipple(interactionSource = interactionSource) {
+                .clickableWithoutRipple {
                     viewModel.updateCheckedGender(
                         "OTHER"
                     )

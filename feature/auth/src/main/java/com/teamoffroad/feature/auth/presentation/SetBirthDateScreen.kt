@@ -42,8 +42,8 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.auth.presentation.component.BirthDateHintText
 import com.teamoffroad.feature.auth.presentation.component.BirthDateTextField
-import com.teamoffroad.feature.auth.presentation.component.DateValidateResult
 import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
+import com.teamoffroad.feature.auth.presentation.model.DateValidateResult
 import com.teamoffroad.offroad.feature.auth.R
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -63,6 +63,7 @@ internal fun SetBirthDateScreen(
         modifier = Modifier
             .navigationPadding()
             .fillMaxSize()
+            .padding(horizontal = 24.dp)
             .addFocusCleaner(focusManager)
             .background(color = Main1),
     ) {
@@ -71,7 +72,6 @@ internal fun SetBirthDateScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(end = 22.dp)
         ) {
             Spacer(modifier = Modifier.weight(1f))
             Text(
@@ -81,6 +81,7 @@ internal fun SetBirthDateScreen(
                 modifier = Modifier
                     .clickableWithoutRipple {
                         navigateToSetGender(nickname, null)
+                        viewModel.initState()
                     }
             )
         }
@@ -104,7 +105,7 @@ internal fun SetBirthDateScreen(
         )
         Column(
             modifier = Modifier
-                .padding(horizontal = 24.dp)
+                .fillMaxWidth()
                 .align(Alignment.CenterHorizontally)
         ) {
             Text(
@@ -238,7 +239,6 @@ internal fun SetBirthDateScreen(
         )
         OffroadBasicBtn(
             modifier = Modifier
-                .padding(horizontal = 24.dp)
                 .padding(bottom = 72.dp)
                 .height(50.dp)
                 .align(Alignment.CenterHorizontally),

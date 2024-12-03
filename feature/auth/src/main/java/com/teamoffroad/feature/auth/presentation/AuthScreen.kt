@@ -42,6 +42,7 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.offroad.feature.auth.R
 import dagger.hilt.android.EntryPointAccessors
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 internal fun AuthScreen(
@@ -69,7 +70,7 @@ internal fun AuthScreen(
     LaunchedEffect(isAuthUiState) {
         when {
             isAuthUiState.isAutoSignIn -> navigateToHome()
-            isAuthUiState.signInSuccess && !isAuthUiState.alreadyExist -> navigateToAgreeTermsAndConditions()
+            isAuthUiState.signInSuccess && !isAuthUiState.alreadyExist -> viewModel.updateSignInResult()
             isAuthUiState.signInSuccess && isAuthUiState.alreadyExist -> navigateToHome()
             isAuthUiState.kakaoSignIn -> {
                 val result = oAuthInteractor.signInKakao()
@@ -77,6 +78,14 @@ internal fun AuthScreen(
                     viewModel.performKakaoSignIn(it.accessToken)
                 }.onFailure {
                 }
+            }
+        }
+    }
+    LaunchedEffect(Unit) {
+        viewModel.sideEffect.collectLatest { sideEffect ->
+            if (sideEffect) {
+                viewModel.initState()
+                navigateToAgreeTermsAndConditions()
             }
         }
     }
