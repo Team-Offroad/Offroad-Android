@@ -6,7 +6,7 @@ import com.teamoffroad.feature.auth.domain.model.ValidateResult
 import com.teamoffroad.feature.auth.domain.usecase.DayValidateUseCase
 import com.teamoffroad.feature.auth.domain.usecase.MonthValidateUseCase
 import com.teamoffroad.feature.auth.domain.usecase.YearValidateUseCase
-import com.teamoffroad.feature.auth.presentation.component.DateValidateResult
+import com.teamoffroad.feature.auth.presentation.model.DateValidateResult
 import com.teamoffroad.feature.auth.presentation.model.SetBirthDateUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -135,5 +135,9 @@ class SetBirthDateViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    fun initState() {
+        _birthDateUiState.value = SetBirthDateUiState()
     }
 }

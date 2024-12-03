@@ -37,7 +37,7 @@ fun EmblemContainer(
         modifier = modifier
             .padding(horizontal = 24.dp)
             .fillMaxWidth()
-            .background(if (isLock) Gray300 else Main3, shape = RoundedCornerShape(5.dp))
+            .background(if (isLock) Gray200 else Main3, shape = RoundedCornerShape(5.dp))
     ) {
         Column(
             modifier = modifier

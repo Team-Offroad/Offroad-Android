@@ -84,6 +84,7 @@ internal fun SelectedCharacterScreen(
             imageUrl = selectedCharacterUrl,
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(horizontal = 78.dp)
                 .weight(1f)
                 .padding(bottom = 60.dp),
         )
