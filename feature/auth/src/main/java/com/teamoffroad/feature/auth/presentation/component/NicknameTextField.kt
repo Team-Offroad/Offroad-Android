@@ -30,6 +30,7 @@ import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.feature.auth.presentation.model.NicknameValidateResult
 
 @Composable
 fun NicknameTextField(

@@ -17,9 +17,9 @@ class DayValidateUseCase @Inject constructor() {
 
             2 -> {
                 if (year.isEmpty()) return checkValidateDay(28, day.toInt())
-                if (checkLeapYear(year.toInt())) return checkValidateDay(29, day.toInt())
+                return if (checkLeapYear(year.toInt())) checkValidateDay(29, day.toInt())
                 else {
-                    return checkValidateDay(28, day.toInt())
+                    checkValidateDay(28, day.toInt())
                 }
             }
 
