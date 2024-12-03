@@ -38,13 +38,34 @@ fun NicknameHintText(
 
 fun checkNicknameHint(text: String): Color {
     if (text.isEmpty()) return Gray400
+    val koreanRegex = Regex("[가-힣]")
+    val englishOrDigitRegex = Regex("[a-zA-Z0-9]")
 
-    val koreanRegex = Regex("^[가-힣0-9]*$")
-    val englishRegex = Regex("^[a-zA-Z0-9]*$")
+    var totalLength = 0
+    var containsKorean = false
+    var containsEnglishOrDigit = false
+
+    for (char in text) {
+        totalLength += when {
+            koreanRegex.matches(char.toString()) -> {
+                containsKorean = true
+                2
+            }
+
+            englishOrDigitRegex.matches(char.toString()) -> {
+                containsEnglishOrDigit = true
+                1
+            }
+
+            else -> 0
+        }
+
+        if (totalLength > 16) return ErrorNew
+    }
 
     return when {
-        koreanRegex.matches(text) && text.length in 2..8 -> Gray400
-        englishRegex.matches(text) && text.length in 2..16 -> Gray400
-        else -> ErrorNew
+        containsKorean && !containsEnglishOrDigit -> if (totalLength in 4..16) Gray400 else ErrorNew
+        containsEnglishOrDigit && !containsKorean -> if (totalLength in 2..16) Gray400 else ErrorNew
+        else -> if (totalLength in 2..16) Gray400 else ErrorNew
     }
 }
