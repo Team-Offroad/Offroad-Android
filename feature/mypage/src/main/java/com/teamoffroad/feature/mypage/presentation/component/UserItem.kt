@@ -206,15 +206,15 @@ fun UserEmblem(emblem: String) {
     Box {
         Image(
             painterResource(id = R.drawable.img_emblem_tag),
-            contentDescription = "emblem tag"
+            contentDescription = "emblem tag",
         )
         Text(
             text = emblem,
             color = Sub,
             style = OffroadTheme.typography.textContents,
             modifier = Modifier
-                .padding(start = 10.dp, top = 6.dp, bottom = 6.dp)
-                .align(Alignment.CenterStart)
+                .padding(start = 10.dp, top = 6.dp, bottom = 6.dp, end = 26.dp)
+                .align(Alignment.Center)
         )
     }
 }
