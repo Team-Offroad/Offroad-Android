@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -67,7 +68,7 @@ fun WithDrawDialog(
                 Text(
                     text = stringResource(R.string.my_page_setting_withdraw_dialog_sub_title),
                     color = Main2,
-                    style = OffroadTheme.typography.textRegular,
+                    style = OffroadTheme.typography.textRegular.copy(fontWeight = FontWeight.Bold),
                     textAlign = TextAlign.Center,
                     modifier = modifier
                         .padding(bottom = 16.dp)
