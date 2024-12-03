@@ -42,6 +42,7 @@ fun AgreeTermsAndConditionsDialog(
     onDisAgreeClick: () -> Unit,
     onClickCancel: () -> Unit,
 ) {
+    val scrollState = rememberScrollState()
     Dialog(
         onDismissRequest = { onClickCancel() },
         properties = DialogProperties(dismissOnClickOutside = false, dismissOnBackPress = true)
@@ -53,7 +54,8 @@ fun AgreeTermsAndConditionsDialog(
         ) {
             Column(
                 modifier = modifier
-                    .padding(vertical = 32.dp, horizontal = 40.dp)
+                    .padding(vertical = 32.dp)
+                    .padding(start = 40.dp, end = 28.dp)
             ) {
                 Text(
                     text = title,
@@ -69,33 +71,36 @@ fun AgreeTermsAndConditionsDialog(
                     style = OffroadTheme.typography.marketing,
                     modifier = Modifier
                         .height(290.dp)
-                        .verticalScroll(rememberScrollState())
+                        .padding(end = 12.dp)
+                        .verticalScroll(scrollState)
+                        .verticalScrollbar(scrollState)
                 )
                 Spacer(modifier = Modifier.padding(bottom = 30.dp))
                 Row(
+                    modifier = Modifier.padding(end = 12.dp),
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     AgreeButton(
-                        text = stringResource(R.string.auth_agree_and_terms_conditions_dialog_disagree),
-                        textColor = Main2,
-                        backgroundColor = Main3,
                         modifier = Modifier
+                            .weight(1f)
                             .clickableWithoutRipple {
                                 onClickCancel()
                                 onDisAgreeClick()
-                            }
-                            .weight(1f)
+                            },
+                        text = stringResource(R.string.auth_agree_and_terms_conditions_dialog_disagree),
+                        textColor = Main2,
+                        backgroundColor = Main3,
                     )
                     AgreeButton(
-                        text = stringResource(R.string.auth_agree_and_terms_conditions_dialog_agree),
-                        textColor = White,
-                        backgroundColor = Main2,
                         modifier = Modifier
+                            .weight(1f)
                             .clickableWithoutRipple {
                                 onClickCancel()
                                 onAgreeClick()
-                            }
-                            .weight(1f)
+                            },
+                        text = stringResource(R.string.auth_agree_and_terms_conditions_dialog_agree),
+                        textColor = White,
+                        backgroundColor = Main2,
                     )
                 }
             }

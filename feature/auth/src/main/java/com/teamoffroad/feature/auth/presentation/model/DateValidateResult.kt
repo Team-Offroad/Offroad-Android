@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.auth.presentation.component
+package com.teamoffroad.feature.auth.presentation.model
 
 sealed interface DateValidateResult {
     data object Success : DateValidateResult

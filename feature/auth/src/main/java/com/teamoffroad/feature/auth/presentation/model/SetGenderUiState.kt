@@ -1,8 +1,14 @@
 package com.teamoffroad.feature.auth.presentation.model
 
-sealed interface SetGenderUiState {
-    data object Loading : SetGenderUiState
-    data object Error : SetGenderUiState
-    data class Select(val selectedGender: String) : SetGenderUiState
-    data object Success : SetGenderUiState
+data class SetGenderUiState(
+    val selectedGender: String = "",
+    val genderResult: SetGenderStateResult = SetGenderStateResult.Empty
+)
+
+sealed interface SetGenderStateResult {
+    data object Empty : SetGenderStateResult
+    data object Loading : SetGenderStateResult
+    data object Error : SetGenderStateResult
+    data object Select : SetGenderStateResult
+    data object Success : SetGenderStateResult
 }

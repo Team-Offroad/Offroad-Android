@@ -1,7 +1,5 @@
 package com.teamoffroad.feature.auth.presentation.model
 
-import com.teamoffroad.feature.auth.presentation.component.DateValidateResult
-
 data class SetBirthDateUiState(
     val year: String = "",
     val month: String = "",
