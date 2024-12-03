@@ -25,7 +25,7 @@ fun Modifier.drawScrollbar(state: LazyListState): Modifier {
     var debouncedFirstVisibleItemIndex by remember { mutableFloatStateOf(0f) }
 
     LaunchedEffect(state.firstVisibleItemIndex) {
-        delay(50) // 50ms 지연 (조정 가능)
+        delay(50)
         debouncedFirstVisibleItemIndex = state.firstVisibleItemIndex.toFloat()
     }
 
@@ -39,7 +39,7 @@ fun Modifier.drawScrollbar(state: LazyListState): Modifier {
         ), label = "fraction"
     )
 
-    return if (totalItems <= 4) {
+    return if (totalItems < 6) {
         this
     } else {
         this.then(
