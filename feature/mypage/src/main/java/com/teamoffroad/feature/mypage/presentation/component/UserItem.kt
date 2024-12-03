@@ -2,7 +2,6 @@ package com.teamoffroad.feature.mypage.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -21,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -174,27 +171,13 @@ fun UserInfo(date: Int, emblem: String) {
 @Composable
 fun UserImage(
     characterImageUrl: String,
-    shape: RoundedCornerShape = CircleShape,
     contentScale: ContentScale = ContentScale.Crop,
     modifier: Modifier = Modifier,
-    borderColor: Color = Main1,
 ) {
-//    Image(
-//        painter = painterResource(id = R.drawable.test_img_user_home),
-//        contentDescription = "user image"
-//    )
-
     AdaptationImage(
         imageUrl = characterImageUrl,
         contentScale = contentScale,
-        modifier = modifier
-            .aspectRatio(78f / 78f)
-            .clip(CircleShape)
-            .border(
-                width = 2.dp,
-                shape = shape,
-                color = borderColor
-            )
+        modifier = modifier.aspectRatio(78f / 78f)
     )
 }
 
