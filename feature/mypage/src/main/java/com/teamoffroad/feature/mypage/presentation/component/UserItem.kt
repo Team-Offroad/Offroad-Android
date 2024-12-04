@@ -138,7 +138,7 @@ fun UserAdventureInfo(
                         modifier = Modifier
                             .height(18.dp)
                             .width(1.dp)
-                            .background(Contents2)
+                            .background(Stroke)
                     )
                     Box(
                         modifier = Modifier
