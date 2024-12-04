@@ -116,9 +116,7 @@ fun ChangeEmblemDialog(
                         }
                     }
                     Spacer(
-                        modifier = Modifier
-                            .padding(top = 12.dp)
-                            .weight(1f)
+                        modifier = Modifier.padding(top = 12.dp)
                     )
                     ChangeCharacterTitle(
                         isSelected = selectedItem.value != null,
