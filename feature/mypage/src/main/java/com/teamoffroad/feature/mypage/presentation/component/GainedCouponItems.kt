@@ -108,7 +108,7 @@ private fun AvailableCouponItem(
             .border(1.dp, Stroke, RoundedCornerShape(12.dp))
             .clip(RoundedCornerShape(12.dp))
             .background(Main1)
-            .padding(8.dp)
+            .padding(10.dp)
             .clickableWithoutRipple(interactionSource = remember { MutableInteractionSource() }) {
                 navigateToAvailableCouponDetail(
                     coupon.id,
