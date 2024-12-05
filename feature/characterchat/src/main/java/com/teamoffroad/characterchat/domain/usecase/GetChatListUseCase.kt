@@ -6,7 +6,7 @@ import com.teamoffroad.characterchat.domain.repository.CharacterChatRepository
 class GetChatListUseCase(
     private val characterChatRepository: CharacterChatRepository,
 ) {
-    suspend operator fun invoke(characterId: Int? = null): List<Chat> {
-        return characterChatRepository.fetchChats(characterId)
+    suspend operator fun invoke(characterId: Int? = null, limit: Int, cursor: Int? = null): Result<List<Chat>> {
+        return characterChatRepository.fetchChats(characterId, limit, cursor)
     }
 }

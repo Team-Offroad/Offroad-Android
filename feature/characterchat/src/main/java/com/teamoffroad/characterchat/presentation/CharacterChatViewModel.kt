@@ -50,8 +50,9 @@ class CharacterChatViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching {
                 _uiState.value = uiState.value.copy(isLoading = true)
-                getChatListUseCase(uiState.value.characterId)
-            }.onSuccess { chats ->
+                getChatListUseCase(uiState.value.characterId, 20)
+            }.onSuccess { result ->
+                val chats = result.getOrNull() ?: emptyList()
                 _uiState.value = uiState.value.copy(
                     chats = chats.map { it.toUi() }.groupBy { it.date },
                     isLoading = false,

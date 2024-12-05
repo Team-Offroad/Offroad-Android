@@ -13,6 +13,8 @@ interface ChatService {
     @GET("chats")
     suspend fun getChats(
         @Query("characterId") characterId: Int?,
+        @Query("limit") limit: Int,
+        @Query("cursor") cursor: Int?,
     ): BaseResponse<List<CharacterChatResponseDto>>
 
     @POST("chats")
