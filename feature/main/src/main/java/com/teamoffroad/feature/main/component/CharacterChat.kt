@@ -66,7 +66,6 @@ fun CharacterChat(
     updateAnswerCharacterChatButtonState: (Boolean) -> Unit,
     updateUserWatchingCharacterChat: (Boolean) -> Unit,
     updateShowUserChatTextField: (Boolean) -> Unit,
-    //navigateToCharacterChatScreen: (Int, String) -> Unit
 ) {
     val checkCharacterChattingLines = remember { mutableStateOf(false) }
     val hasCheckedCharacterChattingLines = remember { mutableStateOf(false) }
