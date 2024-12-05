@@ -237,7 +237,15 @@ private fun UsedCouponItem(
                 )
             }
         }
-        GainedCouponLockedCover()
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Black25, RoundedCornerShape(10.dp))
+
+        ) {
+            GainedCouponLockedCover()
+        }
     }
 }
 
@@ -363,17 +371,13 @@ private fun LoadingIndicator(onAnimationEnd: () -> Unit) {
 
 @Composable
 private fun GainedCouponLockedCover() {
-    Box(
+    Image(
         modifier = Modifier
             .fillMaxSize()
-            .background(Black25, RoundedCornerShape(10.dp))
             .padding(60.dp)
-    ) {
-        Image(
-            modifier = Modifier.fillMaxSize(),
-            painter = painterResource(id = drawable.ic_my_page_coupon_locked),
-            contentDescription = "locked",
-            alignment = Alignment.Center
-        )
-    }
+            .padding(bottom = 36.dp),
+        painter = painterResource(id = drawable.ic_my_page_coupon_locked),
+        contentDescription = "locked",
+        alignment = Alignment.Center
+    )
 }
