@@ -86,7 +86,7 @@ private fun GainedCouponHeader() {
         painter = painterResource(id = R.drawable.img_mypage_coupon),
         contentDescription = "coupon",
         modifier = Modifier
-            .padding(start = 6.dp)
+            .padding(start = 6.dp, top = 2.dp)
             .size(24.dp)
     )
 }
