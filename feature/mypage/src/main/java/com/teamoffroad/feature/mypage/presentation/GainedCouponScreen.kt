@@ -19,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.navigationPadding
@@ -63,13 +64,15 @@ internal fun GainedCouponScreen(
             }
             Spacer(modifier = Modifier.padding(vertical = 10.dp))
             GainedCouponViewPager(
-                viewModel.availableCouponsCount.collectAsState().value,
-                viewModel.usedCouponsCount.collectAsState().value,
-                viewModel.userAvailableCoupons.collectAsState().value,
-                viewModel.userUsedCoupons.collectAsState().value,
-                navigateToAvailableCouponDetail,
-                viewModel::getUserAvailableCoupons,
-                viewModel::getUserUsedCoupons
+                availableCouponListState = viewModel.availableCouponListState.collectAsStateWithLifecycle(),
+                usedCouponListState = viewModel.usedCouponListState.collectAsStateWithLifecycle(),
+                availableCouponsCount = viewModel.availableCouponsCount.collectAsState().value,
+                usedCouponsCount = viewModel.usedCouponsCount.collectAsState().value,
+                availableCoupons = viewModel.userAvailableCoupons.collectAsState().value,
+                usedCoupons = viewModel.userUsedCoupons.collectAsState().value,
+                navigateToAvailableCouponDetail = navigateToAvailableCouponDetail,
+                getUserAvailableCoupons = viewModel::getUserAvailableCoupons,
+                getUserUsedCoupons = viewModel::getUserUsedCoupons
             )
         }
     }
