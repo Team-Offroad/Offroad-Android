@@ -31,4 +31,7 @@ dependencies {
     implementation(libs.retrofit.kotlinx.serialization)
     implementation(libs.kakao.user)
     implementation(libs.lottie.compose)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.google.id)
 }

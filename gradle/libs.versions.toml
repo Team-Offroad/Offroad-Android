@@ -75,6 +75,10 @@ googleAccompanistPermissions = "0.32.0"
 accompanistInsets = "0.31.5-beta"
 googleServices = "4.4.2"
 
+# Credential
+credential = "1.2.0"
+googleId = "1.1.0"
+
 # Firebase
 firebase_bom = "33.5.1"
 
@@ -177,6 +181,12 @@ google-play-services-location = { group = "com.google.android.gms", name = "play
 google-accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "googleAccompanistPermissions" }
 google-play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "googlePlayService" }
 accompanist-insets = { module = "com.google.accompanist:accompanist-insets", version.ref = "accompanistInsets" }
+
+# Credential
+#noinspection CredentialDependency
+androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "credential" }
+androidx-credentials-play-services-auth = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "credential" }
+google-id = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleId" }
 
 # Firebase
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase_bom" }

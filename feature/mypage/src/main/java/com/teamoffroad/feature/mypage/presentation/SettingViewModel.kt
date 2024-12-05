@@ -22,7 +22,6 @@ import javax.inject.Inject
 class SettingViewModel @Inject constructor(
     private val marketingInfoUseCase: UserMarketingAgreeUseCase,
     private val deleteUserInfoUseCase: DeleteUserInfoUseCase,
-    private val googleSignInClient: GoogleSignInClient,
     private val clearTokensUseCase: ClearTokensUseCase,
     private val setAutoSignInUseCase: SetAutoSignInUseCase,
     @ApplicationContext private val context: Context,
@@ -72,7 +71,6 @@ class SettingViewModel @Inject constructor(
     fun performSignOut() {
         viewModelScope.launch {
             runCatching {
-                googleSignInClient.signOut()
                 clearTokensUseCase()
                 setAutoSignInUseCase.invoke(false)
             }

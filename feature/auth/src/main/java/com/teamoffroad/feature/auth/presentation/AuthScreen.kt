@@ -1,9 +1,6 @@
 package com.teamoffroad.feature.auth.presentation
 
-import android.app.Activity
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,7 +27,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.teamoffroad.core.designsystem.component.ChangeBottomBarColor
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.navigationPadding
@@ -51,14 +47,6 @@ internal fun AuthScreen(
     viewModel: AuthViewModel = hiltViewModel(),
 ) {
     val isAuthUiState by viewModel.authUiState.collectAsStateWithLifecycle()
-    val googleSignInLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-            viewModel.performGoogleSignIn(task)
-        }
-    }
     val context = LocalContext.current as ComponentActivity
     val entryPoint =
         EntryPointAccessors.fromActivity<OAuthEntryPoint>(context)
@@ -72,11 +60,21 @@ internal fun AuthScreen(
             isAuthUiState.isAutoSignIn -> navigateToHome()
             isAuthUiState.signInSuccess && !isAuthUiState.alreadyExist -> viewModel.updateSignInResult()
             isAuthUiState.signInSuccess && isAuthUiState.alreadyExist -> navigateToHome()
-            isAuthUiState.kakaoSignIn -> {
+            isAuthUiState.startKakaoSignIn -> {
                 val result = oAuthInteractor.signInKakao()
                 result.onSuccess {
                     viewModel.performKakaoSignIn(it.accessToken)
                 }.onFailure {
+                    viewModel.initState()
+                }
+            }
+
+            isAuthUiState.startGoogleSignIn -> {
+                val result = oAuthInteractor.signInGoogle()
+                result.onSuccess {
+                    viewModel.performGoogleSignIn(it)
+                }.onFailure {
+                    viewModel.initState()
                 }
             }
         }
@@ -125,9 +123,7 @@ internal fun AuthScreen(
             painter = painterResource(id = R.drawable.ic_auth_google_logo),
             background = White,
             contentDescription = "auth_google",
-            onClick = {
-                googleSignInLauncher.launch(viewModel.googleSignInClient.signInIntent)
-            },
+            onClick = { viewModel.startGoogleSignIn() },
         )
         Spacer(modifier = Modifier.weight(1f))
     }
