@@ -42,7 +42,7 @@ fun CharacterChats(
     LaunchedEffect(listState, arrangedChats, isLoadable) {
         snapshotFlow { listState.firstVisibleItemIndex }
             .collect { firstVisibleItemIndex ->
-                if (isLoadable && arrangedChats.values.isNotEmpty() && firstVisibleItemIndex < 15) {
+                if (isLoadable && arrangedChats.values.isNotEmpty() && firstVisibleItemIndex < LOAD_THRESHOLD) {
                     updateChats()
                 }
             }
@@ -93,3 +93,5 @@ fun CharacterChats(
         }
     }
 }
+
+private const val LOAD_THRESHOLD = 15

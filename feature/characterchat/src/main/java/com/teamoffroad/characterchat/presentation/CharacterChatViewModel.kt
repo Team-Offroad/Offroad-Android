@@ -51,7 +51,7 @@ class CharacterChatViewModel @Inject constructor(
         if (!uiState.value.isLoadable || uiState.value.isLoading && previousChats.isNotEmpty()) return
         if (previousChats.isEmpty()) updateIsChatting(true)
 
-        val limit = if (previousChats.isEmpty()) 30 else 10
+        val limit = if (previousChats.isEmpty()) INITIAL_LOAD_LIMIT else ADDITIONAL_LOAD_LIMIT
         val cursor = if (previousChats.isEmpty()) Long.MAX_VALUE else previousChats.minOf { it.id }
 
         updateChats(limit, cursor, previousChats)
@@ -122,3 +122,6 @@ class CharacterChatViewModel @Inject constructor(
         )
     }
 }
+
+private const val INITIAL_LOAD_LIMIT = 30
+private const val ADDITIONAL_LOAD_LIMIT = 10
