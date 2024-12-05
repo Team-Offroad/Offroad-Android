@@ -35,7 +35,7 @@ fun QuestItems(
     var expandedIndex by remember { mutableIntStateOf(NULL_INDEX) }
     val listState = rememberLazyListState()
 
-    LaunchedEffect(listState, isLoadable) {
+    LaunchedEffect(listState) {
         snapshotFlow { listState.firstVisibleItemIndex }
             .collect { index ->
                 if (index + LOAD_THRESHOLD >= quests.size && isLoadable) {

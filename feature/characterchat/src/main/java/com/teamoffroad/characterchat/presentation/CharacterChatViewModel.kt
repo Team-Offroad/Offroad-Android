@@ -46,18 +46,29 @@ class CharacterChatViewModel @Inject constructor(
         _chattingText.value = text
     }
 
-    fun updateChats(limit: Int = 30, cursor: Int? = null) {
+    fun handleChatState() {
+        val previousChats = uiState.value.chats.values.flatten()
+        if (!uiState.value.isLoadable || uiState.value.isLoading && previousChats.isNotEmpty()) return
+        if (previousChats.isEmpty()) updateIsChatting(true)
+
+        val limit = if (previousChats.isEmpty()) 30 else 10
+        val cursor = if (previousChats.isEmpty()) Long.MAX_VALUE else previousChats.minOf { it.id }
+
+        updateChats(limit, cursor, previousChats)
+    }
+
+    private fun updateChats(
+        limit: Int,
+        cursor: Long,
+        previousChats: List<ChatModel>,
+    ) {
         viewModelScope.launch {
             runCatching {
-                if (!uiState.value.isLoadable || uiState.value.isLoading) return@launch
-                _uiState.value = uiState.value.copy(isLoading = true)
                 getChatListUseCase(uiState.value.characterId, limit, cursor)
             }.onSuccess { result ->
                 val chats = result.getOrNull() ?: emptyList()
-                val previousChats = uiState.value.chats
-                if (previousChats.isEmpty()) updateIsChatting(true)
                 _uiState.value = uiState.value.copy(
-                    chats = chats.map { it.toUi() }.groupBy { it.date } + previousChats,
+                    chats = (chats.map { it.toUi() } + previousChats).sortedBy { it.id }.groupBy { it.date }.toSortedMap(),
                     isLoading = false,
                     isLoadable = chats.isNotEmpty(),
                 )

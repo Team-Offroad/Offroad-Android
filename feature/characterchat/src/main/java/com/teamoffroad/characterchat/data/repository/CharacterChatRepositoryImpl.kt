@@ -11,7 +11,7 @@ class CharacterChatRepositoryImpl @Inject constructor(
     private val chatService: ChatService,
 ) : CharacterChatRepository {
 
-    override suspend fun fetchChats(characterId: Int?, limit: Int, cursor: Int?): Result<List<Chat>> {
+    override suspend fun fetchChats(characterId: Int?, limit: Int, cursor: Long?): Result<List<Chat>> {
         return runCatching {
             chatService.getChats(characterId, limit, cursor).data?.map { it.toDomain() } ?: emptyList()
         }

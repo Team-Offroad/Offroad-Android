@@ -34,16 +34,16 @@ fun CharacterChats(
     isSending: Boolean = false,
     isLoadable: Boolean = true,
     listState: LazyListState = rememberLazyListState(),
-    updateChats: (Int, Int) -> Unit,
+    updateChats: () -> Unit,
 ) {
     val animatedHeight = animateDpAsState(targetValue = (188 + bottomPadding).dp, label = "")
     val coroutineScope = rememberCoroutineScope()
 
-    LaunchedEffect(listState) {
+    LaunchedEffect(listState, arrangedChats, isLoadable) {
         snapshotFlow { listState.firstVisibleItemIndex }
             .collect { firstVisibleItemIndex ->
-                if (isLoadable && arrangedChats.isNotEmpty() && firstVisibleItemIndex < 15) {
-                    updateChats(10, arrangedChats.values.flatten().first().id)
+                if (isLoadable && arrangedChats.values.isNotEmpty() && firstVisibleItemIndex < 15) {
+                    updateChats()
                 }
             }
     }
