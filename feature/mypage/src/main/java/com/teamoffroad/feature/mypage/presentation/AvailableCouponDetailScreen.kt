@@ -76,7 +76,7 @@ fun AvailableCouponDetailScreen(
             OffroadActionBar()
             NavigateBackAppBar(
                 modifier = Modifier.padding(top = 20.dp),
-                text = stringResource(id = R.string.my_page_my_page),
+                text = stringResource(id = R.string.my_page_gained_coupon),
                 backgroundColor = backgroundColor
             ) { navigateToGainedCoupon() }
             AvailableCouponCard(name, couponImageUrl, description)
