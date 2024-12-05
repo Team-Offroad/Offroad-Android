@@ -116,9 +116,7 @@ fun ChangeEmblemDialog(
                         }
                     }
                     Spacer(
-                        modifier = Modifier
-                            .padding(top = 12.dp)
-                            .weight(1f)
+                        modifier = Modifier.padding(top = 12.dp)
                     )
                     ChangeCharacterTitle(
                         isSelected = selectedItem.value != null,
@@ -230,7 +228,6 @@ fun ChangeCharacterTitle(
         textColor = White,
         style = OffroadTheme.typography.textRegular,
         backgroundColor = if (isSelected) Main2 else Black15,
-        borderColor = if (isSelected) Main2 else Black15,
         onItemClick = {
             if (isSelected) onClickChange()
         }
