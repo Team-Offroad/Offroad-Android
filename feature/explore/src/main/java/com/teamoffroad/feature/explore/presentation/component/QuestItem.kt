@@ -92,7 +92,7 @@ fun QuestExtraItem(
         Column(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(top = 14.dp)
+                .padding(top = 14.dp, bottom = 4.dp)
                 .background(color = BoxInfo, shape = RoundedCornerShape(6.dp))
                 .padding(vertical = 6.dp, horizontal = 10.dp),
         ) {
