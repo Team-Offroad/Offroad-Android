@@ -29,7 +29,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.AdaptationImage
-import com.teamoffroad.core.designsystem.theme.Contents2
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -73,7 +72,8 @@ fun UserNickname(
             Spacer(modifier = Modifier.padding(horizontal = 6.dp))
             Image(
                 painter = painterResource(id = R.drawable.img_flag),
-                contentDescription = "flag"
+                contentDescription = "flag",
+                modifier = Modifier.padding(top = 4.dp)
             )
         }
     }
