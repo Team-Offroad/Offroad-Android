@@ -90,7 +90,8 @@ fun GainedCouponViewPager(
                         Text(
                             text = if (index == 0) "$title $availableCouponsCount"
                             else "$title $usedCouponsCount",
-                            style = OffroadTheme.typography.tooltipTitle
+                            style = if (pagerState.currentPage == index) OffroadTheme.typography.tooltipTitle
+                            else OffroadTheme.typography.tabBarMedi
                         )
                     },
                     selectedContentColor = Main2,
