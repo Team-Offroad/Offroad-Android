@@ -11,7 +11,6 @@ android {
 
 dependencies {
     implementation(project(":feature:auth"))
-
     implementation(libs.retrofit.kotlinx.serialization)
     implementation(libs.lottie.compose)
     implementation(libs.gson)

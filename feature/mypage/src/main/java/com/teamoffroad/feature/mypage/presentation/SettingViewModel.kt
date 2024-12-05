@@ -3,7 +3,6 @@ package com.teamoffroad.feature.mypage.presentation
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.teamoffroad.core.common.domain.usecase.ClearTokensUseCase
 import com.teamoffroad.core.common.domain.usecase.SetAutoSignInUseCase
 import com.teamoffroad.feature.auth.domain.usecase.UserMarketingAgreeUseCase
@@ -73,13 +72,11 @@ class SettingViewModel @Inject constructor(
             runCatching {
                 clearTokensUseCase()
                 setAutoSignInUseCase.invoke(false)
+            }.onSuccess {
+                _settingUiState.value = _settingUiState.value.copy(reset = true)
+            }.onFailure {
+                it.message.toString()
             }
-                .onSuccess {
-                    _settingUiState.value = _settingUiState.value.copy(reset = true)
-                }
-                .onFailure {
-                    it.message.toString()
-                }
         }
     }
 }
