@@ -18,6 +18,6 @@ class CharacterChatRepositoryImpl @Inject constructor(
     }
 
     override suspend fun saveChat(characterId: Int?, text: String): Chat {
-        return chatService.sendChat(characterId, CharacterChatSendRequestDto(text)).data?.toDomain() ?: Chat("", "", "")
+        return chatService.sendChat(characterId, CharacterChatSendRequestDto(text)).data?.toDomain() ?: Chat()
     }
 }

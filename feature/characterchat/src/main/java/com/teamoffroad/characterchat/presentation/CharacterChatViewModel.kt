@@ -46,25 +46,28 @@ class CharacterChatViewModel @Inject constructor(
         _chattingText.value = text
     }
 
-    fun getChats() {
+    fun updateChats(limit: Int = 30, cursor: Int? = null) {
         viewModelScope.launch {
             runCatching {
+                if (!uiState.value.isLoadable || uiState.value.isLoading) return@launch
                 _uiState.value = uiState.value.copy(isLoading = true)
-                getChatListUseCase(uiState.value.characterId, 20)
+                getChatListUseCase(uiState.value.characterId, limit, cursor)
             }.onSuccess { result ->
                 val chats = result.getOrNull() ?: emptyList()
+                val previousChats = uiState.value.chats
+                if (previousChats.isEmpty()) updateIsChatting(true)
                 _uiState.value = uiState.value.copy(
-                    chats = chats.map { it.toUi() }.groupBy { it.date },
+                    chats = chats.map { it.toUi() }.groupBy { it.date } + previousChats,
                     isLoading = false,
+                    isLoadable = chats.isNotEmpty(),
                 )
-                _isChatting.value = true
             }.onFailure {
                 _uiState.value = uiState.value.copy(isLoading = false, isError = true)
             }
         }
     }
 
-    fun sendChat() {
+    fun performChat() {
         val chattingText = chattingText.value
 
         viewModelScope.launch {

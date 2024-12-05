@@ -8,5 +8,6 @@ fun CharacterChatResponseDto.toDomain(): Chat {
         role = role,
         content = content,
         createdAt = createdAt,
+        id = id,
     )
 }

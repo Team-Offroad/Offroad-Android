@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -31,10 +32,21 @@ fun CharacterChats(
     bottomPadding: Int = 0,
     isChatting: Boolean = false,
     isSending: Boolean = false,
+    isLoadable: Boolean = true,
     listState: LazyListState = rememberLazyListState(),
+    updateChats: (Int, Int) -> Unit,
 ) {
     val animatedHeight = animateDpAsState(targetValue = (188 + bottomPadding).dp, label = "")
     val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(listState) {
+        snapshotFlow { listState.firstVisibleItemIndex }
+            .collect { firstVisibleItemIndex ->
+                if (isLoadable && arrangedChats.isNotEmpty() && firstVisibleItemIndex < 15) {
+                    updateChats(10, arrangedChats.values.flatten().first().id)
+                }
+            }
+    }
 
     LaunchedEffect(bottomPadding) {
         if (isChatting) {

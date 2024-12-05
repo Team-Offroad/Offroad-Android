@@ -50,7 +50,7 @@ fun CharacterChatScreen(
 
     LaunchedEffect(Unit) {
         characterChatViewModel.initCharacterId(characterId, characterName)
-        characterChatViewModel.getChats()
+        characterChatViewModel.updateChats()
     }
 
     LaunchedEffect(uiState.value.chats.values.lastOrNull()?.size ?: 0) {
@@ -96,7 +96,9 @@ fun CharacterChatScreen(
                 bottomPadding = keyboardOffset,
                 isChatting = isChatting.value,
                 isSending = uiState.value.isSending,
+                isLoadable = uiState.value.isLoadable,
                 listState = listState,
+                updateChats = characterChatViewModel::updateChats,
             )
         }
         ChatTextField(
@@ -113,7 +115,7 @@ fun CharacterChatScreen(
                 characterChatViewModel.updateIsChatting(isFocused)
             },
             onSendClick = {
-                characterChatViewModel.sendChat()
+                characterChatViewModel.performChat()
                 characterChatViewModel.updateIsChatting(false)
             },
         )
