@@ -46,7 +46,7 @@ internal fun AuthScreen(
     navigateToAgreeTermsAndConditions: () -> Unit,
     viewModel: AuthViewModel = hiltViewModel(),
 ) {
-    val isAuthUiState by viewModel.authUiState.collectAsStateWithLifecycle()
+    val authUiState by viewModel.authUiState.collectAsStateWithLifecycle()
     val context = LocalContext.current as ComponentActivity
     val entryPoint =
         EntryPointAccessors.fromActivity<OAuthEntryPoint>(context)
@@ -55,12 +55,12 @@ internal fun AuthScreen(
     LaunchedEffect(Unit) {
         viewModel.checkAutoSignIn()
     }
-    LaunchedEffect(isAuthUiState) {
+    LaunchedEffect(authUiState) {
         when {
-            isAuthUiState.isAutoSignIn -> navigateToHome()
-            isAuthUiState.signInSuccess && !isAuthUiState.alreadyExist -> viewModel.updateSignInResult()
-            isAuthUiState.signInSuccess && isAuthUiState.alreadyExist -> navigateToHome()
-            isAuthUiState.startKakaoSignIn -> {
+            authUiState.isAutoSignIn -> navigateToHome()
+            authUiState.signInSuccess && !authUiState.alreadyExist -> viewModel.updateSignInResult()
+            authUiState.signInSuccess && authUiState.alreadyExist -> navigateToHome()
+            authUiState.startKakaoSignIn -> {
                 val result = oAuthInteractor.signInKakao()
                 result.onSuccess {
                     viewModel.performKakaoSignIn(it.accessToken)
@@ -69,7 +69,7 @@ internal fun AuthScreen(
                 }
             }
 
-            isAuthUiState.startGoogleSignIn -> {
+            authUiState.startGoogleSignIn -> {
                 val result = oAuthInteractor.signInGoogle()
                 result.onSuccess {
                     viewModel.performGoogleSignIn(it)

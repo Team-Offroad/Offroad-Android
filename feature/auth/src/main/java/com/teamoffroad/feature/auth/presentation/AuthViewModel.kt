@@ -2,7 +2,6 @@ package com.teamoffroad.feature.auth.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.teamoffroad.core.common.domain.usecase.GetAutoSignInUseCase
 import com.teamoffroad.core.common.domain.usecase.SaveAccessTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.SaveRefreshTokenUseCase
@@ -25,21 +24,20 @@ class AuthViewModel @Inject constructor(
     private val saveRefreshTokenUseCase: SaveRefreshTokenUseCase,
     private val getAutoSignInUseCase: GetAutoSignInUseCase,
 ) : ViewModel() {
-    private val _authUiState: MutableStateFlow<AuthUiState> =
-        MutableStateFlow(AuthUiState())
+    private val _authUiState: MutableStateFlow<AuthUiState> = MutableStateFlow(AuthUiState())
     val authUiState: StateFlow<AuthUiState> = _authUiState.asStateFlow()
 
     private val _authSideEffect: Channel<Boolean> = Channel()
     val sideEffect = _authSideEffect.receiveAsFlow()
 
     fun startKakaoSignIn() {
-        _authUiState.value = _authUiState.value.copy(
+        _authUiState.value = authUiState.value.copy(
             startKakaoSignIn = true
         )
     }
 
     fun startGoogleSignIn() {
-        _authUiState.value = _authUiState.value.copy(
+        _authUiState.value = authUiState.value.copy(
             startGoogleSignIn = true
         )
     }
