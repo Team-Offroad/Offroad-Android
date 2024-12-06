@@ -34,6 +34,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
@@ -186,7 +187,7 @@ fun UsedCouponItems(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 12.dp),
-                style = OffroadTheme.typography.boxMedi.copy(lineHeight = with(LocalDensity.current) { 20.dp.toSp() }),
+                style = OffroadTheme.typography.boxMedi.copy(lineHeight = 20.sp),
                 color = Black55,
                 textAlign = TextAlign.Center,
             )

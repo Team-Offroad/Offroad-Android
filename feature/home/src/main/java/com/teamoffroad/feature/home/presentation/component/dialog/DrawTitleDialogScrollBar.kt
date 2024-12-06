@@ -17,6 +17,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Gray100
+import com.teamoffroad.feature.home.presentation.HomeViewModel.Companion.MIN_SHOWN_EMBLEM_DIALOG
 import kotlinx.coroutines.delay
 
 @Composable
@@ -39,7 +40,7 @@ fun Modifier.drawScrollbar(state: LazyListState): Modifier {
         ), label = "fraction"
     )
 
-    return if (totalItems < 6) {
+    return if (totalItems < MIN_SHOWN_EMBLEM_DIALOG) {
         this
     } else {
         this.then(
@@ -60,3 +61,4 @@ fun Modifier.drawScrollbar(state: LazyListState): Modifier {
         )
     }
 }
+
