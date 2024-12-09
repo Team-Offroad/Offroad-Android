@@ -171,4 +171,8 @@ class HomeViewModel @Inject constructor(
                 .onFailure {}
         }
     }
+
+    companion object {
+        const val MIN_SHOWN_EMBLEM_DIALOG = 6
+    }
 }

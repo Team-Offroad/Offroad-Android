@@ -53,13 +53,6 @@ val Contents1GraphSub = Color(0xFF9B429D)
 val Contents2 = Color(0xB24437A1)
 val CharacterName = Color(0x40000000)
 
-val HomeGradi1 = Color(0xFF92B2E3)
-val HomeGradi2 = Color(0xFFBFB6E1)
-val HomeGradi3 = Color(0xFFF1D3B1)
-val HomeGradi4 = Color(0xFFC699DB)
-val HomeGradi5 = Color(0xFF8368AA)
-val HomeGradi6 = Color(0xFFF1C9E4)
-
 val SelectedCharacterGradi1 = Color(0xFF10101A)
 val SelectedCharacterGradi2 = Color(0xFF1A1A4D)
 val SelectedCharacterGradi3 = Color(0xFF1E1A78)
