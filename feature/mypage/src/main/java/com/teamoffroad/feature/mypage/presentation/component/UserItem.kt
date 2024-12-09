@@ -2,7 +2,6 @@ package com.teamoffroad.feature.mypage.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -21,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -32,7 +29,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.AdaptationImage
-import com.teamoffroad.core.designsystem.theme.Contents2
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -76,7 +72,8 @@ fun UserNickname(
             Spacer(modifier = Modifier.padding(horizontal = 6.dp))
             Image(
                 painter = painterResource(id = R.drawable.img_flag),
-                contentDescription = "flag"
+                contentDescription = "flag",
+                modifier = Modifier.padding(top = 4.dp)
             )
         }
     }
@@ -141,7 +138,7 @@ fun UserAdventureInfo(
                         modifier = Modifier
                             .height(18.dp)
                             .width(1.dp)
-                            .background(Contents2)
+                            .background(Stroke)
                     )
                     Box(
                         modifier = Modifier
@@ -174,27 +171,13 @@ fun UserInfo(date: Int, emblem: String) {
 @Composable
 fun UserImage(
     characterImageUrl: String,
-    shape: RoundedCornerShape = CircleShape,
     contentScale: ContentScale = ContentScale.Crop,
     modifier: Modifier = Modifier,
-    borderColor: Color = Main1,
 ) {
-//    Image(
-//        painter = painterResource(id = R.drawable.test_img_user_home),
-//        contentDescription = "user image"
-//    )
-
     AdaptationImage(
         imageUrl = characterImageUrl,
         contentScale = contentScale,
-        modifier = modifier
-            .aspectRatio(78f / 78f)
-            .clip(CircleShape)
-            .border(
-                width = 2.dp,
-                shape = shape,
-                color = borderColor
-            )
+        modifier = modifier.aspectRatio(78f / 78f)
     )
 }
 
@@ -223,15 +206,15 @@ fun UserEmblem(emblem: String) {
     Box {
         Image(
             painterResource(id = R.drawable.img_emblem_tag),
-            contentDescription = "emblem tag"
+            contentDescription = "emblem tag",
         )
         Text(
             text = emblem,
             color = Sub,
             style = OffroadTheme.typography.textContents,
             modifier = Modifier
-                .padding(start = 10.dp, top = 6.dp, bottom = 6.dp)
-                .align(Alignment.CenterStart)
+                .padding(start = 10.dp, top = 6.dp, bottom = 6.dp, end = 26.dp)
+                .align(Alignment.Center)
         )
     }
 }

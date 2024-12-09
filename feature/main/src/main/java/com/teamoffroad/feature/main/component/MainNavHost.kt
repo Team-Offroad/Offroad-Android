@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.teamoffroad.characterchat.navigation.characterChatNavGraph
+import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.auth.navigation.authNavGraph
 import com.teamoffroad.feature.explore.navigation.exploreNavGraph
@@ -29,7 +30,7 @@ internal fun MainNavHost(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(Main1)
+            .background(ListBg)
     ) {
         NavHost(
             navController = navigator.navController,
