@@ -8,8 +8,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.teamoffroad.core.navigation.AuthRoute
 import com.teamoffroad.core.navigation.Route
-import com.teamoffroad.feature.auth.presentation.AgreeTermsAndConditionsScreen
-import com.teamoffroad.feature.auth.presentation.AuthScreen
+import com.teamoffroad.feature.auth.presentation.termandcondition.AgreeTermsAndConditionsScreen
+import com.teamoffroad.feature.auth.presentation.signin.SignInScreen
 import com.teamoffroad.feature.auth.presentation.SelectedCharacterScreen
 import com.teamoffroad.feature.auth.presentation.SetBirthDateScreen
 import com.teamoffroad.feature.auth.presentation.SetCharacterScreen
@@ -65,7 +65,7 @@ fun NavGraphBuilder.authNavGraph(
     navigateToBack: () -> Unit,
 ) {
     composable<Route.Auth> {
-        AuthScreen(
+        SignInScreen(
             navigateToHome,
             navigateToAgreeTermsAndConditions,
         )
