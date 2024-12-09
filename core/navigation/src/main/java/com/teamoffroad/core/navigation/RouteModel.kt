@@ -36,7 +36,11 @@ sealed interface AuthRoute : Route {
     data class SetGender(val nickname: String, val birthDate: String? = null) : AuthRoute
 
     @Serializable
-    data object SetCharacter : AuthRoute
+    data class SetCharacter(
+        val nickname: String,
+        val birthDate: String? = null,
+        val gender: String?
+    ) : AuthRoute
 
     @Serializable
     data class SelectedCharacter(val encodedUrl: String) : AuthRoute

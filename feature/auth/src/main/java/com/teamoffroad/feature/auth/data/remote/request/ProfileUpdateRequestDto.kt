@@ -15,4 +15,6 @@ data class ProfileUpdateRequestDto(
     val day: Int?,
     @SerialName("gender")
     val gender: String?,
+    @SerialName("characterId")
+    val characterId: Int
 )

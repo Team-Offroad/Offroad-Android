@@ -1,7 +1,7 @@
 package com.teamoffroad.feature.auth.presentation.model
 
 data class SetGenderUiState(
-    val selectedGender: String = "",
+    val selectedGender: String? = null,
     val genderResult: SetGenderStateResult = SetGenderStateResult.Empty
 )
 

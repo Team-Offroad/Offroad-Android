@@ -100,8 +100,8 @@ internal fun MainNavHost(
                 navigateToSetGender = { nickname, birthDate ->
                     navigator.navigateToSetGender(nickname, birthDate)
                 },
-                navigateToSetCharacter = {
-                    navigator.navigateToSetCharacter()
+                navigateToSetCharacter = { nickname, birthDate, gender ->
+                    navigator.navigateToSetCharacter(nickname, birthDate, gender)
                 },
                 navigateToSelectedCharacter = { selectedCharacterUrl ->
                     navigator.navigateToSelectedCharacter(selectedCharacterUrl)

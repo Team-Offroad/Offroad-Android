@@ -50,6 +50,9 @@ import com.teamoffroad.offroad.feature.auth.R
 
 @Composable
 internal fun SetCharacterScreen(
+    nickname: String,
+    birthDate: String?,
+    gender: String?,
     navigateToSelectedCharacter: (String) -> Unit,
     viewModel: SetCharacterViewModel = hiltViewModel(),
 ) {
@@ -178,7 +181,12 @@ internal fun SetCharacterScreen(
             onDismissRequest = { showDialog = false },
             onConfirm = {
                 showDialog = false
-                viewModel.updateCharacter(selectedCharacter.id)
+                viewModel.fetchUserProfile(
+                    nickname = nickname,
+                    birthDate = birthDate,
+                    gender = gender,
+                    characterId = selectedCharacter.id
+                )
             }
         )
     }

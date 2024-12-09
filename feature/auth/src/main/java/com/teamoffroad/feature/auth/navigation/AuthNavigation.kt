@@ -38,8 +38,12 @@ fun NavController.navigateToSetGender(
     navigate(AuthRoute.SetGender(nickname, birthDate))
 }
 
-fun NavController.navigateToSetCharacter() {
-    navigate(AuthRoute.SetCharacter)
+fun NavController.navigateToSetCharacter(
+    nickname: String,
+    birthDate: String? = null,
+    gender: String? = null,
+) {
+    navigate(AuthRoute.SetCharacter(nickname, birthDate, gender))
 }
 
 fun NavController.navigateToSelectedCharacter(
@@ -56,7 +60,7 @@ fun NavGraphBuilder.authNavGraph(
     navigateToSetNickname: () -> Unit,
     navigateToSetBirthDate: (String) -> Unit,
     navigateToSetGender: (String, String?) -> Unit,
-    navigateToSetCharacter: () -> Unit,
+    navigateToSetCharacter: (String, String?, String?) -> Unit,
     navigateToSelectedCharacter: (String) -> Unit,
     navigateToBack: () -> Unit,
 ) {
@@ -89,8 +93,14 @@ fun NavGraphBuilder.authNavGraph(
         val birthDate = backStackEntry.toRoute<AuthRoute.SetGender>().birthDate
         SetGenderScreen(nickname, birthDate, navigateToSetCharacter)
     }
-    composable<AuthRoute.SetCharacter> {
+    composable<AuthRoute.SetCharacter> { backStackEntry ->
+        val nickname = backStackEntry.toRoute<AuthRoute.SetCharacter>().nickname
+        val birthDate = backStackEntry.toRoute<AuthRoute.SetCharacter>().birthDate
+        val gender = backStackEntry.toRoute<AuthRoute.SetCharacter>().gender
         SetCharacterScreen(
+            nickname,
+            birthDate,
+            gender,
             navigateToSelectedCharacter,
         )
     }

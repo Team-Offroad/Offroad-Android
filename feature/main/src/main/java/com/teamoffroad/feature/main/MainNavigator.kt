@@ -123,8 +123,8 @@ internal class MainNavigator(
         navController.navigateToSetGender(nickname, birthDate)
     }
 
-    fun navigateToSetCharacter() {
-        navController.navigateToSetCharacter()
+    fun navigateToSetCharacter(nickname: String, birthDate: String?, gender: String?) {
+        navController.navigateToSetCharacter(nickname, birthDate, gender)
     }
 
     fun navigateToSelectedCharacter(selectedCharacterUrl: String) {

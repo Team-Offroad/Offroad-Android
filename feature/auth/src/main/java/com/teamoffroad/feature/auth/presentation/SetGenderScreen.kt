@@ -40,7 +40,7 @@ import kotlinx.coroutines.flow.collectLatest
 internal fun SetGenderScreen(
     nickname: String,
     birthDate: String?,
-    navigateToSetCharacter: () -> Unit,
+    navigateToSetCharacter: (String, String?, String?) -> Unit,
     viewModel: SetGenderViewModel = hiltViewModel(),
 ) {
     val isGenderState by viewModel.genderUiState.collectAsState()
@@ -48,7 +48,7 @@ internal fun SetGenderScreen(
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
-                true -> navigateToSetCharacter()
+                true -> navigateToSetCharacter(nickname, birthDate, isGenderState.selectedGender)
                 false -> {}
             }
         }
@@ -74,7 +74,7 @@ internal fun SetGenderScreen(
                 color = Gray300,
                 style = OffroadTheme.typography.hint,
                 modifier = Modifier.clickable {
-                    viewModel.fetchUserProfile(nickname, birthDate, null)
+                    viewModel.saveGenderState()
                     viewModel.initGenderState()
                 }
             )
@@ -104,7 +104,7 @@ internal fun SetGenderScreen(
                 .height(50.dp)
                 .align(Alignment.CenterHorizontally),
             text = stringResource(R.string.auth_basic_button),
-            onClick = { viewModel.fetchUserProfile(nickname, birthDate) },
+            onClick = { viewModel.saveGenderState() },
             isActive = isGenderState.genderResult == SetGenderStateResult.Select,
         )
     }
@@ -115,7 +115,7 @@ internal fun SetGenderScreen(
             stringResource(R.string.auth_set_gender_network_error),
             Toast.LENGTH_SHORT
         ).show()
-        viewModel.updateGenderEmpty()
+        viewModel.initGenderState()
     }
 }
 
