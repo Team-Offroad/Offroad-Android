@@ -38,7 +38,6 @@ import kotlinx.coroutines.withContext
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun HomeIcons(
-    //isChatting: MutableState<Boolean>,
     context: Context,
     imageUrl: String,
     characterName: String,
