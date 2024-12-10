@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.main.component
 
-import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -67,8 +66,6 @@ fun CharacterChat(
     updateUserWatchingCharacterChat: (Boolean) -> Unit,
     updateShowUserChatTextField: (Boolean) -> Unit,
 ) {
-    val checkCharacterChattingLines = remember { mutableStateOf(false) }
-    val hasCheckedCharacterChattingLines = remember { mutableStateOf(false) }
     val isExpanded = remember { mutableStateOf(false) }
 
     val rotationAngle by animateFloatAsState(
@@ -125,22 +122,17 @@ fun CharacterChat(
                         LottieAnimation(composition, animationState.progress)
                     }
                 } else {
+                    val chatLine = characterChatUiState.value.characterChatContent.length
                     Text(
                         text = characterChatUiState.value.characterChatContent,
                         modifier = Modifier.weight(1f),
                         color = messageTextColor,
                         style = messageTextStyle,
-                        onTextLayout = { textLayoutResult ->
-                            if (!hasCheckedCharacterChattingLines.value) {
-                                checkCharacterChattingLines.value = textLayoutResult.lineCount >= 3
-                                hasCheckedCharacterChattingLines.value = true
-                            }
-                        },
-                        maxLines = if (!isExpanded.value && checkCharacterChattingLines.value) 2 else Int.MAX_VALUE,
+                        maxLines = if (!isExpanded.value && chatLine >= MAX_CHARACTER_CHAT_LINE) 2 else Int.MAX_VALUE,
                         overflow = TextOverflow.Ellipsis,
                     )
 
-                    if(checkCharacterChattingLines.value) {
+                    if (chatLine >= MAX_CHARACTER_CHAT_LINE) {
                         Image(
                             painter = painterResource(id = R.drawable.ic_home_accordian),
                             contentDescription = "accordion down",
@@ -318,3 +310,5 @@ fun CharacterChatAnimation(
         }
     }
 }
+
+const val MAX_CHARACTER_CHAT_LINE = 60
