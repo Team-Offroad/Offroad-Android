@@ -21,6 +21,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -67,12 +68,10 @@ fun CharacterChat(
     updateShowUserChatTextField: (Boolean) -> Unit,
 ) {
     val isExpanded = remember { mutableStateOf(false) }
-
-    val rotationAngle by animateFloatAsState(
+    val characterChatAccordionAngle by animateFloatAsState(
         targetValue = if (isExpanded.value) 180f else 0f,
         animationSpec = tween(durationMillis = 300), label = ""
     )
-
 
     Box(
         modifier = Modifier
@@ -137,7 +136,7 @@ fun CharacterChat(
                             painter = painterResource(id = R.drawable.ic_home_accordian),
                             contentDescription = "accordion down",
                             modifier = Modifier
-                                .graphicsLayer(rotationX = rotationAngle)
+                                .graphicsLayer(rotationX = characterChatAccordionAngle)
                                 .clickableWithoutRipple {
                                     updateUserWatchingCharacterChat(true)
                                     isExpanded.value = !isExpanded.value
@@ -211,13 +210,13 @@ fun CharacterChatAnimation(
     updateShowUserChatTextField: (Boolean) -> Unit,
     //navigateToCharacterChatScreen: (Int, String) -> Unit
 ) {
-    val offsetY = remember { Animatable(-10.dp.value) }
+    val offsetY = remember { Animatable(-100.dp.value) }
     val coroutineScope = rememberCoroutineScope()
     var dragOffsetY by remember { mutableFloatStateOf(0f) }
     var isSwipedUp by remember { mutableStateOf(false) }
 
     var isInactive by remember { mutableStateOf(false) }
-    var lastDragTime by remember { mutableStateOf(System.currentTimeMillis()) }
+    val lastDragTime by remember { mutableLongStateOf(System.currentTimeMillis()) }
 
     LaunchedEffect(characterChatUiState.value.isCharacterChattingExist) { // 제자리
         coroutineScope.launch {
@@ -256,7 +255,7 @@ fun CharacterChatAnimation(
                         if (newDragOffsetY <= 0f) dragOffsetY = newDragOffsetY
                     },
                     onDragEnd = {
-                        if (dragOffsetY < -50f) isSwipedUp = true
+                        if (dragOffsetY < -100f) isSwipedUp = true
                         else {
                             coroutineScope.launch {
                                 offsetY.animateTo(
@@ -286,7 +285,7 @@ fun CharacterChatAnimation(
         if (isSwipedUp) {
             coroutineScope.launch {
                 offsetY.animateTo(
-                    targetValue = -50.dp.value,
+                    targetValue = -100.dp.value,
                     animationSpec = tween(durationMillis = 500)
                 )
                 updateCharacterChatExist(false)
@@ -300,7 +299,7 @@ fun CharacterChatAnimation(
         if (isInactive) {
             coroutineScope.launch {
                 offsetY.animateTo(
-                    targetValue = -50.dp.value,
+                    targetValue = -100.dp.value,
                     animationSpec = tween(durationMillis = 500)
                 )
                 updateCharacterChatExist(false)
