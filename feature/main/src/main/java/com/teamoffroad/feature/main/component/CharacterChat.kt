@@ -148,8 +148,7 @@ fun CharacterChat(
 
             }
 
-
-            if (characterChatUiState.value.isCharacterChattingExist && !userChatUiState.value.showUserChatTextField) {
+            if (!characterChatUiState.value.isAnswerButtonClicked && !userChatUiState.value.showUserChatTextField) {
                 AnswerCharacterChat(
                     characterChatUiState = characterChatUiState,
                     updateAnswerCharacterChatButtonState = updateAnswerCharacterChatButtonState,

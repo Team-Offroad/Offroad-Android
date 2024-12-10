@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.main.component
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -104,7 +105,6 @@ fun FinishChatting(
                 if (!characterChatUiState.value.isCharacterChattingLoading) {
                     updateUserWatchingCharacterChat(false)
                     updateShowUserChatTextField(false)
-                    updateCharacterChatExist(false)
                 }
             },
         color = White
