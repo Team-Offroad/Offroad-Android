@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.main
+package com.teamoffroad.characterchat.presentation.model
 
 data class UserChattingUiState(
     val chatContent: String = "",

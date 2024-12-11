@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.main.component
+package com.teamoffroad.characterchat.presentation.component
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateFloatAsState
@@ -41,15 +41,15 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.teamoffroad.characterchat.presentation.model.CharacterChattingUiState
+import com.teamoffroad.characterchat.presentation.model.UserChattingUiState
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.BtnInactive
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub4
-import com.teamoffroad.feature.main.CharacterChattingUiState
-import com.teamoffroad.feature.main.UserChattingUiState
-import com.teamoffroad.offroad.feature.home.R
+import com.teamoffroad.offroad.feature.characterchat.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -66,6 +66,8 @@ fun CharacterChat(
     updateAnswerCharacterChatButtonState: (Boolean) -> Unit,
     updateUserWatchingCharacterChat: (Boolean) -> Unit,
     updateShowUserChatTextField: (Boolean) -> Unit,
+    updateCharacterChatExist: (Boolean) -> Unit,
+    navigateToCharacterChatScreen: (Int, String) -> Unit,
 ) {
     val isExpanded = remember { mutableStateOf(false) }
     val characterChatAccordionAngle by animateFloatAsState(
@@ -87,7 +89,8 @@ fun CharacterChat(
             )
             .padding(vertical = 14.dp, horizontal = 18.dp)
             .clickableWithoutRipple {
-                //navigateToCharacterChatScreen(-1, characterName)
+                navigateToCharacterChatScreen(-1, characterChatUiState.value.characterName)
+                updateCharacterChatExist(false)// 선톡 이제 안보이게
             }
     ) {
         Column {
@@ -207,7 +210,7 @@ fun CharacterChatAnimation(
     updateCharacterChatExist: (Boolean) -> Unit,
     updateUserWatchingCharacterChat: (Boolean) -> Unit,
     updateShowUserChatTextField: (Boolean) -> Unit,
-    //navigateToCharacterChatScreen: (Int, String) -> Unit
+    navigateToCharacterChatScreen: (Int, String) -> Unit,
 ) {
     val offsetY = remember { Animatable(-100.dp.value) }
     val coroutineScope = rememberCoroutineScope()
@@ -276,7 +279,8 @@ fun CharacterChatAnimation(
             updateUserWatchingCharacterChat = updateUserWatchingCharacterChat,
             updateShowUserChatTextField = updateShowUserChatTextField,
             userChatUiState = userChatUiState,
-            //navigateToCharacterChatScreen = navigateToCharacterChatScreen
+            updateCharacterChatExist = updateCharacterChatExist,
+            navigateToCharacterChatScreen = navigateToCharacterChatScreen
         )
     }
 
@@ -306,6 +310,29 @@ fun CharacterChatAnimation(
                 isInactive = false
             }
         }
+    }
+}
+
+@Composable
+fun showCharacterChat(
+    characterChatUiState: State<CharacterChattingUiState>,
+    userChatUiState: State<UserChattingUiState>,
+    updateAnswerCharacterChatButtonState: (Boolean) -> Unit,
+    updateCharacterChatExist: (Boolean) -> Unit,
+    updateUserWatchingCharacterChat: (Boolean) -> Unit,
+    updateShowUserChatTextField: (Boolean) -> Unit,
+    navigateToCharacterChatScreen: (Int, String) -> Unit
+) {
+    if (characterChatUiState.value.isCharacterChattingExist) {
+        CharacterChatAnimation(
+            characterChatUiState = characterChatUiState,
+            userChatUiState = userChatUiState,
+            updateAnswerCharacterChatButtonState = updateAnswerCharacterChatButtonState,
+            updateCharacterChatExist = updateCharacterChatExist,
+            updateUserWatchingCharacterChat = updateUserWatchingCharacterChat,
+            updateShowUserChatTextField = updateShowUserChatTextField,
+            navigateToCharacterChatScreen = navigateToCharacterChatScreen
+        )
     }
 }
 

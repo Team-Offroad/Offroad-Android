@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.main.component
+package com.teamoffroad.characterchat.presentation.component
 
 import android.graphics.Rect
 import android.view.ViewTreeObserver
@@ -33,7 +33,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
@@ -47,15 +46,15 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.teamoffroad.characterchat.presentation.model.CharacterChattingUiState
+import com.teamoffroad.characterchat.presentation.model.UserChattingUiState
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.BtnInactive
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Transparent
 import com.teamoffroad.core.designsystem.theme.White
-import com.teamoffroad.feature.main.CharacterChattingUiState
-import com.teamoffroad.feature.main.UserChattingUiState
-import com.teamoffroad.offroad.feature.home.R
+import com.teamoffroad.offroad.feature.characterchat.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
