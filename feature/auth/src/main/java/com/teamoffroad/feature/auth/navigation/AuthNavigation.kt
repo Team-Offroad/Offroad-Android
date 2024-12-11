@@ -8,19 +8,24 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.teamoffroad.core.navigation.AuthRoute
 import com.teamoffroad.core.navigation.Route
-import com.teamoffroad.feature.auth.presentation.termandcondition.AgreeTermsAndConditionsScreen
-import com.teamoffroad.feature.auth.presentation.signin.SignInScreen
 import com.teamoffroad.feature.auth.presentation.SelectedCharacterScreen
 import com.teamoffroad.feature.auth.presentation.SetBirthDateScreen
 import com.teamoffroad.feature.auth.presentation.SetCharacterScreen
 import com.teamoffroad.feature.auth.presentation.SetGenderScreen
 import com.teamoffroad.feature.auth.presentation.SetNicknameScreen
+import com.teamoffroad.feature.auth.presentation.signin.SignInScreen
+import com.teamoffroad.feature.auth.presentation.signup.SignUpScreen
+import com.teamoffroad.feature.auth.presentation.termandcondition.AgreeTermsAndConditionsScreen
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
 fun NavController.navigateToAgreeTermsAndConditions() {
     navigate(AuthRoute.AgreeTermsAndConditions)
+}
+
+fun NavController.navigateToSignUp() {
+    navigate(AuthRoute.SignUp)
 }
 
 fun NavController.navigateToSetNickname() {
@@ -57,6 +62,7 @@ fun NavController.navigateToSelectedCharacter(
 fun NavGraphBuilder.authNavGraph(
     navigateToHome: () -> Unit,
     navigateToAgreeTermsAndConditions: () -> Unit,
+    navigateToSignUp: () -> Unit,
     navigateToSetNickname: () -> Unit,
     navigateToSetBirthDate: (String) -> Unit,
     navigateToSetGender: (String, String?) -> Unit,
@@ -72,7 +78,12 @@ fun NavGraphBuilder.authNavGraph(
     }
     composable<AuthRoute.AgreeTermsAndConditions> {
         AgreeTermsAndConditionsScreen(
-            navigateToSetNickname
+            navigateToSignUp
+        )
+    }
+    composable<AuthRoute.SignUp> {
+        SignUpScreen(
+            navigateToHome = navigateToHome
         )
     }
 

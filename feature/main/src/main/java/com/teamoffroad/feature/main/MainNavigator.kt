@@ -20,6 +20,7 @@ import com.teamoffroad.feature.auth.navigation.navigateToSetBirthDate
 import com.teamoffroad.feature.auth.navigation.navigateToSetCharacter
 import com.teamoffroad.feature.auth.navigation.navigateToSetGender
 import com.teamoffroad.feature.auth.navigation.navigateToSetNickname
+import com.teamoffroad.feature.auth.navigation.navigateToSignUp
 import com.teamoffroad.feature.explore.navigation.navigateToExplore
 import com.teamoffroad.feature.explore.navigation.navigateToPlace
 import com.teamoffroad.feature.explore.navigation.navigateToQuest
@@ -109,6 +110,10 @@ internal class MainNavigator(
 
     fun navigateToAgreeTermsAndConditions() {
         navController.navigateToAgreeTermsAndConditions()
+    }
+
+    fun navigateToSignUp() {
+        navController.navigateToSignUp()
     }
 
     fun navigateToSetNickname() {

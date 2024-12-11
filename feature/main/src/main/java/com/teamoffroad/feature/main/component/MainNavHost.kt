@@ -94,6 +94,7 @@ internal fun MainNavHost(
             authNavGraph(
                 navigateToHome = { navigator.navigateToHome() },
                 navigateToAgreeTermsAndConditions = { navigator.navigateToAgreeTermsAndConditions() },
+                navigateToSignUp = { navigator.navigateToSignUp() },
                 navigateToSetNickname = { navigator.navigateToSetNickname() },
                 navigateToSetBirthDate = { nickname ->
                     navigator.navigateToSetBirthDate(nickname)
