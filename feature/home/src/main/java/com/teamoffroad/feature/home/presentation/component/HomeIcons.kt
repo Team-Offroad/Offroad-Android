@@ -91,7 +91,6 @@ fun HomeIcons(
                             if (tempFlag) updateShowUserChatTextField(true) // 모든 채팅 읽은 경우 - 키보드만 올라옴
                             else {
                                 updateCharacterChatExist(true) // 마지막 채팅 내려오기
-
                                 // 읽음 처리하기
 
                             }
