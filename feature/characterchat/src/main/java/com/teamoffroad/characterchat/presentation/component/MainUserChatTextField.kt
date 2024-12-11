@@ -58,7 +58,7 @@ import com.teamoffroad.offroad.feature.characterchat.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeUserChatTextField(
+fun MainUserChatTextField(
     modifier: Modifier = Modifier,
     text: String = "",
     userChatUiState: State<UserChattingUiState>,

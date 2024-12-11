@@ -56,7 +56,7 @@ fun UserChat(
                 }
             }
 
-            HomeUserChatTextField(
+            MainUserChatTextField(
                 text = chattingText.value,
                 userChatUiState = userChatUiState,
                 updateShowUserChatTextField = updateShowUserChatTextField,
