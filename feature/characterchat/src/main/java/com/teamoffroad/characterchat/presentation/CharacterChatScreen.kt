@@ -63,11 +63,14 @@ fun CharacterChatScreen(
         characterChatViewModel.getChats()
     }
 
-    LaunchedEffect(uiState.value.chats.values.lastOrNull()?.size ?: 0) {
-        coroutineScope.launch {
-            listState.animateScrollToItem(listState.layoutInfo.totalItemsCount - 1)
+    LaunchedEffect(isChatting.value, keyboardHeight.intValue) {
+        if (isChatting.value && keyboardHeight.intValue > 0) {
+            coroutineScope.launch {
+                listState.animateScrollToItem(listState.layoutInfo.totalItemsCount - 1)
+            }
         }
     }
+
 
     DisposableEffect(contextView) {
         val rect = Rect()
@@ -115,7 +118,11 @@ fun CharacterChatScreen(
                     .weight(1f)
                     .then(
                         if (isChatting.value) {
-                            Modifier.padding(bottom = LocalDensity.current.run { keyboardHeight.intValue.toDp() })
+                            Modifier.padding(bottom = LocalDensity.current.run {
+                                (keyboardHeight.intValue.toDp() - 50.dp).coerceAtLeast(
+                                    0.dp
+                                )
+                            })
                         } else {
                             Modifier
                         }
