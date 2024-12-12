@@ -1,5 +1,7 @@
 package com.teamoffroad.characterchat.presentation.component
 
+import android.graphics.Rect
+import android.view.ViewTreeObserver
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -10,10 +12,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.characterchat.presentation.model.CharacterChattingUiState
@@ -122,13 +129,31 @@ fun showUserChat(
     updateShowUserChatTextField: (Boolean) -> Unit,
     sendChat: () -> Unit,
 ) {
+    val contextView = LocalView.current
+    val keyboardHeight = remember { mutableIntStateOf(0) }
+
+    DisposableEffect(contextView) {
+        val rect = Rect()
+        val listener = ViewTreeObserver.OnGlobalLayoutListener {
+            contextView.getWindowVisibleDisplayFrame(rect)
+            val screenHeight = contextView.rootView.height
+            val keypadHeight = screenHeight - rect.bottom
+            keyboardHeight.value = if (keypadHeight > screenHeight * 0.15) keypadHeight else 0
+        }
+        contextView.viewTreeObserver.addOnGlobalLayoutListener(listener)
+        onDispose {
+            contextView.viewTreeObserver.removeOnGlobalLayoutListener(listener)
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 370.dp) // TODO: TextField 위치 조정 필요
     ) {
         Box(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = LocalDensity.current.run { keyboardHeight.intValue.toDp() }),
             contentAlignment = Alignment.BottomCenter
         ) {
             if (userChatUiState.value.showUserChatTextField) {

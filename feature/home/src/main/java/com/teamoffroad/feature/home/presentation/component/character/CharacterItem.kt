@@ -63,7 +63,7 @@ class CharacterItem {
 
         Box(
             modifier = Modifier
-                .fillMaxWidth(),
+                .aspectRatio(280f / 280f),
             contentAlignment = Alignment.Center
         ) {
             if (motionCharacterUrl == null) {
