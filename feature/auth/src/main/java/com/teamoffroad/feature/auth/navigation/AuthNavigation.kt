@@ -28,21 +28,6 @@ fun NavController.navigateToSignUp() {
     navigate(AuthRoute.SignUp)
 }
 
-fun NavController.navigateToSetNickname() {
-    navigate(AuthRoute.SetNickname)
-}
-
-fun NavController.navigateToSetBirthDate(nickname: String) {
-    navigate(AuthRoute.SetBirthDate(nickname))
-}
-
-fun NavController.navigateToSetGender(
-    nickname: String,
-    birthDate: String? = null,
-) {
-    navigate(AuthRoute.SetGender(nickname, birthDate))
-}
-
 fun NavController.navigateToSetCharacter(
     nickname: String,
     birthDate: String? = null,
@@ -63,9 +48,6 @@ fun NavGraphBuilder.authNavGraph(
     navigateToHome: () -> Unit,
     navigateToAgreeTermsAndConditions: () -> Unit,
     navigateToSignUp: () -> Unit,
-    navigateToSetNickname: () -> Unit,
-    navigateToSetBirthDate: (String) -> Unit,
-    navigateToSetGender: (String, String?) -> Unit,
     navigateToSetCharacter: (String, String?, String?) -> Unit,
     navigateToSelectedCharacter: (String) -> Unit,
     navigateToBack: () -> Unit,
@@ -83,26 +65,8 @@ fun NavGraphBuilder.authNavGraph(
     }
     composable<AuthRoute.SignUp> {
         SignUpScreen(
-            navigateToHome = navigateToHome
+            navigateToSetCharacter = navigateToSetCharacter
         )
-    }
-
-    composable<AuthRoute.SetNickname> {
-        SetNicknameScreen(
-            navigateToSetBirthDate,
-        )
-    }
-    composable<AuthRoute.SetBirthDate> { backStackEntry ->
-        val nickname = backStackEntry.toRoute<AuthRoute.SetBirthDate>().nickname
-        SetBirthDateScreen(
-            nickname,
-            navigateToSetGender,
-        )
-    }
-    composable<AuthRoute.SetGender> { backStackEntry ->
-        val nickname = backStackEntry.toRoute<AuthRoute.SetGender>().nickname
-        val birthDate = backStackEntry.toRoute<AuthRoute.SetGender>().birthDate
-        SetGenderScreen(nickname, birthDate, navigateToSetCharacter)
     }
     composable<AuthRoute.SetCharacter> { backStackEntry ->
         val nickname = backStackEntry.toRoute<AuthRoute.SetCharacter>().nickname

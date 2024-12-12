@@ -16,10 +16,7 @@ import com.teamoffroad.core.navigation.MyPageRoute
 import com.teamoffroad.core.navigation.Route
 import com.teamoffroad.feature.auth.navigation.navigateToAgreeTermsAndConditions
 import com.teamoffroad.feature.auth.navigation.navigateToSelectedCharacter
-import com.teamoffroad.feature.auth.navigation.navigateToSetBirthDate
 import com.teamoffroad.feature.auth.navigation.navigateToSetCharacter
-import com.teamoffroad.feature.auth.navigation.navigateToSetGender
-import com.teamoffroad.feature.auth.navigation.navigateToSetNickname
 import com.teamoffroad.feature.auth.navigation.navigateToSignUp
 import com.teamoffroad.feature.explore.navigation.navigateToExplore
 import com.teamoffroad.feature.explore.navigation.navigateToPlace
@@ -114,18 +111,6 @@ internal class MainNavigator(
 
     fun navigateToSignUp() {
         navController.navigateToSignUp()
-    }
-
-    fun navigateToSetNickname() {
-        navController.navigateToSetNickname()
-    }
-
-    fun navigateToSetBirthDate(nickname: String) {
-        navController.navigateToSetBirthDate(nickname)
-    }
-
-    fun navigateToSetGender(nickname: String, birthDate: String?) {
-        navController.navigateToSetGender(nickname, birthDate)
     }
 
     fun navigateToSetCharacter(nickname: String, birthDate: String?, gender: String?) {

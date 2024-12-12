@@ -95,13 +95,6 @@ internal fun MainNavHost(
                 navigateToHome = { navigator.navigateToHome() },
                 navigateToAgreeTermsAndConditions = { navigator.navigateToAgreeTermsAndConditions() },
                 navigateToSignUp = { navigator.navigateToSignUp() },
-                navigateToSetNickname = { navigator.navigateToSetNickname() },
-                navigateToSetBirthDate = { nickname ->
-                    navigator.navigateToSetBirthDate(nickname)
-                },
-                navigateToSetGender = { nickname, birthDate ->
-                    navigator.navigateToSetGender(nickname, birthDate)
-                },
                 navigateToSetCharacter = { nickname, birthDate, gender ->
                     navigator.navigateToSetCharacter(nickname, birthDate, gender)
                 },

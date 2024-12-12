@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.auth.presentation.signup
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -32,16 +34,29 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
 import com.teamoffroad.offroad.feature.auth.R
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun SignUpScreen(
     modifier: Modifier = Modifier,
-    navigateToHome: () -> Unit,
+    navigateToSetCharacter: (String, String?, String?) -> Unit,
     viewModel: SignUpViewModel = hiltViewModel()
 ) {
     val signUpUiState by viewModel.signUpUiState.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(initialPage = 0, pageCount = { 3 })
+
+    BackHandler(
+        enabled = pagerState.currentPage == 1 || pagerState.currentPage == 2
+    ) {
+        coroutineScope.launch {
+            when (pagerState.currentPage) {
+                1, 2 -> pagerState.animateScrollToPage(
+                    pagerState.currentPage - 1,
+                )
+            }
+        }
+    }
 
     LaunchedEffect(Unit) {
         viewModel.signUpSideEffect.collectLatest { sideEffect ->
@@ -49,7 +64,11 @@ internal fun SignUpScreen(
                 SignUpSideEffect.Empty -> TODO()
                 SignUpSideEffect.Error -> TODO()
                 SignUpSideEffect.Loading -> TODO()
-                SignUpSideEffect.Success -> navigateToHome()
+                SignUpSideEffect.Success -> navigateToSetCharacter(
+                    signUpUiState.nickname,
+                    signUpUiState.date,
+                    signUpUiState.selectedGender
+                )
             }
         }
     }
@@ -69,14 +88,23 @@ internal fun SignUpScreen(
         ) {
             Spacer(modifier = Modifier.weight(1f))
             Text(
+                modifier = Modifier
+                    .alpha(
+                        if (pagerState.currentPage == 1 || pagerState.currentPage == 2) 1f else 0f,
+                    )
+                    .padding(top = 40.dp)
+                    .clickableWithoutRipple {
+                        if (pagerState.currentPage == 0 || pagerState.currentPage == 1) {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                            }
+                        } else {
+                            viewModel.navigateSetCharacter()
+                        }
+                    },
                 text = stringResource(R.string.auth_skip),
                 color = Gray300,
                 style = OffroadTheme.typography.hint,
-                modifier = Modifier
-                    .padding(top = 40.dp)
-                    .clickableWithoutRipple {
-
-                    }
             )
         }
         Text(
@@ -90,7 +118,12 @@ internal fun SignUpScreen(
         )
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = stringResource(R.string.auth_set_gender_sub_title),
+            text = when (pagerState.currentPage) {
+                0 -> stringResource(R.string.auth_set_nickname_sub_title)
+                1 -> stringResource(R.string.auth_set_birth_date_sub_title)
+                2 -> stringResource(R.string.auth_set_gender_sub_title)
+                else -> stringResource(R.string.auth_set_nickname_sub_title)
+            },
             color = Main2,
             style = OffroadTheme.typography.subtitleReg,
             textAlign = TextAlign.Center
@@ -102,9 +135,9 @@ internal fun SignUpScreen(
             verticalAlignment = Alignment.Top,
         ) { page ->
             when (page) {
-                0 -> {}
-                1 -> {}
-                2 -> {}
+                0 -> NicknameScreen()
+                1 -> BirthDateScreen()
+                2 -> GenderScreen()
                 else -> {}
             }
         }
@@ -116,9 +149,21 @@ internal fun SignUpScreen(
                 .height(50.dp),
             text = stringResource(R.string.auth_basic_button),
             onClick = {
-
+                if (pagerState.currentPage == 0 || pagerState.currentPage == 1) {
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                    }
+                } else {
+                    viewModel.navigateSetCharacter()
+                }
             },
-            isActive = true,
+            isActive = true
+//            when (pagerState.currentPage) {
+//                0 -> signUpUiState.nicknameScreenResult
+//                1 -> signUpUiState.birthDateScreenResult
+//                2 -> signUpUiState.genderScreenResult
+//                else -> false
+//            },
         )
     }
 }
