@@ -4,6 +4,7 @@ import com.teamoffroad.characterchat.data.mapper.toDomain
 import com.teamoffroad.characterchat.data.remote.request.CharacterChatSendRequestDto
 import com.teamoffroad.characterchat.data.remote.service.ChatService
 import com.teamoffroad.characterchat.domain.model.Chat
+import com.teamoffroad.characterchat.domain.model.ChatLastUnread
 import com.teamoffroad.characterchat.domain.repository.CharacterChatRepository
 import javax.inject.Inject
 
@@ -18,4 +19,9 @@ class CharacterChatRepositoryImpl @Inject constructor(
     override suspend fun saveChat(characterId: Int?, text: String): Chat {
         return chatService.sendChat(characterId, CharacterChatSendRequestDto(text)).data?.toDomain() ?: Chat("", "", "")
     }
+
+    override suspend fun fetchChatsLastUnread(): ChatLastUnread {
+        return chatService.getLastUnread().data?.toDomain() ?: ChatLastUnread(false, null, null)
+    }
+
 }

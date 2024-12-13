@@ -3,12 +3,8 @@ package com.teamoffroad.feature.home.presentation
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.teamoffroad.characterchat.domain.model.Chat
 import com.teamoffroad.characterchat.domain.repository.CharacterChatRepository
-import com.teamoffroad.characterchat.presentation.model.ChatModel
-import com.teamoffroad.characterchat.presentation.model.ChatType
-import com.teamoffroad.characterchat.presentation.model.TimeType
-import com.teamoffroad.core.common.domain.model.NotificationEvent
+import com.teamoffroad.characterchat.presentation.model.CharacterChatLastUnreadUiState
 import com.teamoffroad.core.common.domain.repository.TokenRepository
 import com.teamoffroad.core.common.domain.usecase.SetAutoSignInUseCase
 import com.teamoffroad.feature.home.domain.model.Emblem
@@ -18,17 +14,11 @@ import com.teamoffroad.feature.home.domain.repository.UserRepository
 import com.teamoffroad.feature.home.domain.usecase.PostFcmTokenUseCase
 import com.teamoffroad.feature.home.presentation.component.UiState
 import com.teamoffroad.feature.home.presentation.component.getErrorMessage
-import com.teamoffroad.feature.home.presentation.model.CharacterChatModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,12 +27,16 @@ class HomeViewModel @Inject constructor(
     private val setAutoSignInUseCase: SetAutoSignInUseCase,
     private val deviceTokenRepository: TokenRepository,
     private val fcmTokenUseCase: PostFcmTokenUseCase,
+    private val characterChatRepository: CharacterChatRepository
 ) : ViewModel() {
     private val _getUsersAdventuresInformationState =
         MutableStateFlow<UiState<UsersAdventuresInformation>>(
             UiState.Loading
         )
     val getUsersAdventuresInformationState = _getUsersAdventuresInformationState.asStateFlow()
+
+    private val _characterChatLastUnreadUiState = MutableStateFlow(CharacterChatLastUnreadUiState())
+    val characterChatLastUnreadUiState = _characterChatLastUnreadUiState.asStateFlow()
 
     private val _selectedEmblem = MutableStateFlow("")
     val selectedEmblem = _selectedEmblem.asStateFlow()
@@ -87,6 +81,29 @@ class HomeViewModel @Inject constructor(
             }.onFailure { t ->
                 val errorMessage = getErrorMessage(t)
                 _getUsersAdventuresInformationState.emit(UiState.Failure(errorMessage))
+            }
+        }
+    }
+
+    fun getCharacterChatLastUnread() {
+        _characterChatLastUnreadUiState.value = _characterChatLastUnreadUiState.value.copy(
+            isLoading = true
+        )
+        viewModelScope.launch {
+            runCatching {
+                characterChatRepository.fetchChatsLastUnread()
+            }.onSuccess { data ->
+                _characterChatLastUnreadUiState.value = _characterChatLastUnreadUiState.value.copy(
+                    doesAllRead = data.doesAllRead,
+                    characterName = data.characterName,
+                    content = data.content,
+                    isLoading = false,
+                )
+            }.onFailure { t ->
+                _characterChatLastUnreadUiState.value = _characterChatLastUnreadUiState.value.copy(
+                    isLoading = false,
+                    errorMessage = getErrorMessage(t)
+                )
             }
         }
     }
