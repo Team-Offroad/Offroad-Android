@@ -89,6 +89,10 @@ fun MainUserChatTextField(
             val screenHeight = contextView.rootView.height
             val keypadHeight = screenHeight - rect.bottom
             keyboardVisible = keypadHeight > screenHeight * 0.15
+
+            if (!keyboardVisible) {
+                updateShowUserChatTextField(false)
+            }
         }
         contextView.viewTreeObserver.addOnGlobalLayoutListener(listener)
         onDispose {
