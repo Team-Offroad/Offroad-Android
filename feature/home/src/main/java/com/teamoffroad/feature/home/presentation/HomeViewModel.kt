@@ -35,9 +35,6 @@ class HomeViewModel @Inject constructor(
         )
     val getUsersAdventuresInformationState = _getUsersAdventuresInformationState.asStateFlow()
 
-    private val _characterChatLastUnreadUiState = MutableStateFlow(CharacterChatLastUnreadUiState())
-    val characterChatLastUnreadUiState = _characterChatLastUnreadUiState.asStateFlow()
-
     private val _selectedEmblem = MutableStateFlow("")
     val selectedEmblem = _selectedEmblem.asStateFlow()
 
@@ -81,29 +78,6 @@ class HomeViewModel @Inject constructor(
             }.onFailure { t ->
                 val errorMessage = getErrorMessage(t)
                 _getUsersAdventuresInformationState.emit(UiState.Failure(errorMessage))
-            }
-        }
-    }
-
-    fun getCharacterChatLastUnread() {
-        _characterChatLastUnreadUiState.value = _characterChatLastUnreadUiState.value.copy(
-            isLoading = true
-        )
-        viewModelScope.launch {
-            runCatching {
-                characterChatRepository.fetchChatsLastUnread()
-            }.onSuccess { data ->
-                _characterChatLastUnreadUiState.value = _characterChatLastUnreadUiState.value.copy(
-                    doesAllRead = data.doesAllRead,
-                    characterName = data.characterName,
-                    content = data.content,
-                    isLoading = false,
-                )
-            }.onFailure { t ->
-                _characterChatLastUnreadUiState.value = _characterChatLastUnreadUiState.value.copy(
-                    isLoading = false,
-                    errorMessage = getErrorMessage(t)
-                )
             }
         }
     }

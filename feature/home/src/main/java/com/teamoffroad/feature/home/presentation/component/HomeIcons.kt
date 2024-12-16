@@ -42,10 +42,12 @@ import kotlinx.coroutines.withContext
 fun HomeIcons(
     context: Context,
     imageUrl: String,
+    characterName: String,
     characterChatLastUnreadUiState: State<CharacterChatLastUnreadUiState>,
     navigateToGainedCharacter: () -> Unit,
     updateShowUserChatTextField: (Boolean) -> Unit,
     updateCharacterChatExist: (Boolean) -> Unit,
+    updateCharacterName: (String) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
 
@@ -87,6 +89,7 @@ fun HomeIcons(
                     modifier = Modifier
                         .clickableWithoutRipple {
                             if (characterChatLastUnreadUiState.value.doesAllRead) {
+                                updateCharacterName(characterName)
                                 updateShowUserChatTextField(true)
                             } else {
                                 updateCharacterChatExist(true) // 마지막 채팅 내려오기

@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -63,8 +64,9 @@ fun HomeScreen(
     val mainViewModel: MainCharacterChatViewModel = hiltViewModel()
     val characterChatUiState = mainViewModel.characterChatUiState.collectAsStateWithLifecycle()
     val userChatUiState = mainViewModel.userChatUiState.collectAsStateWithLifecycle()
-    val characterChatLastUnreadUiState = homeViewModel.characterChatLastUnreadUiState.collectAsStateWithLifecycle()
+    val characterChatLastUnreadUiState = mainViewModel.characterChatLastUnreadUiState.collectAsStateWithLifecycle()
     val isCompleteQuestDialogShown = remember { mutableStateOf(false) }
+    //val characterName = mainViewModel.characterName.collectAsStateWithLifecycle()
     val characterName = homeViewModel.characterName.collectAsStateWithLifecycle()
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) {}
@@ -85,7 +87,8 @@ fun HomeScreen(
         homeViewModel.getUsersAdventuresInformation(homeViewModel.category.value)
         homeViewModel.getUserQuests()
         if (completeQuests.isNotEmpty()) isCompleteQuestDialogShown.value = true
-        homeViewModel.getCharacterChatLastUnread()
+        mainViewModel.getCharacterChatLastUnread()
+        //mainViewModel.updateCharacterName(characterName.value)
     }
 
     Box(
@@ -116,7 +119,8 @@ fun HomeScreen(
                 characterChatLastUnreadUiState = characterChatLastUnreadUiState,
                 navigateToGainedCharacter = navigateToGainedCharacter,
                 updateShowUserChatTextField = mainViewModel::updateShowUserChatTextField,
-                updateCharacterChatExist = mainViewModel::updateCharacterChatExist
+                updateCharacterChatExist = mainViewModel::updateCharacterChatExist,
+                updateCharacterName = mainViewModel::updateCharacterName
             )
             Spacer(modifier = Modifier.padding(top = 12.dp))
             UsersQuestInformation(context, homeViewModel)
@@ -165,6 +169,7 @@ private fun UsersAdventuresInformation(
     navigateToGainedCharacter: () -> Unit,
     updateShowUserChatTextField: (Boolean) -> Unit,
     updateCharacterChatExist: (Boolean) -> Unit,
+    updateCharacterName: (String) -> Unit,
 ) {
     val adventuresInformationState =
         homeViewModel.getUsersAdventuresInformationState.collectAsState(initial = UiState.Loading).value
@@ -192,10 +197,12 @@ private fun UsersAdventuresInformation(
             HomeIcons(
                 context = context,
                 imageUrl = imageUrl,
+                characterName = characterName,
                 characterChatLastUnreadUiState = characterChatLastUnreadUiState,
                 navigateToGainedCharacter = navigateToGainedCharacter,
                 updateShowUserChatTextField = updateShowUserChatTextField,
-                updateCharacterChatExist = updateCharacterChatExist
+                updateCharacterChatExist = updateCharacterChatExist,
+                updateCharacterName = updateCharacterName
             )
         }
 
