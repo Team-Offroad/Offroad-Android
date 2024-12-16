@@ -48,6 +48,7 @@ fun HomeIcons(
     updateShowUserChatTextField: (Boolean) -> Unit,
     updateCharacterChatExist: (Boolean) -> Unit,
     updateCharacterName: (String) -> Unit,
+    updateLastUnreadChatDosAllRead: (Boolean) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
 
@@ -93,7 +94,7 @@ fun HomeIcons(
                                 updateShowUserChatTextField(true)
                             } else {
                                 updateCharacterChatExist(true) // 마지막 채팅 내려오기
-                                // 읽음 처리하기
+                                updateLastUnreadChatDosAllRead(true) // 읽음 처리
                             }
                         }
                 )

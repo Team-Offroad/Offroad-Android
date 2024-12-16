@@ -7,9 +7,6 @@ import com.teamoffroad.characterchat.domain.model.Chat
 import com.teamoffroad.characterchat.domain.repository.CharacterChatRepository
 import com.teamoffroad.characterchat.presentation.model.CharacterChatLastUnreadUiState
 import com.teamoffroad.characterchat.presentation.model.CharacterChattingUiState
-import com.teamoffroad.characterchat.presentation.model.ChatModel
-import com.teamoffroad.characterchat.presentation.model.ChatType
-import com.teamoffroad.characterchat.presentation.model.TimeType
 import com.teamoffroad.characterchat.presentation.model.UiState
 import com.teamoffroad.characterchat.presentation.model.UserChattingUiState
 import com.teamoffroad.core.common.domain.model.NotificationEvent
@@ -21,7 +18,6 @@ import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -112,8 +108,13 @@ class MainCharacterChatViewModel @Inject constructor(
         }
     }
 
+    fun updateLastUnreadChatDosAllRead(state: Boolean) {
+        _characterChatLastUnreadUiState.value = _characterChatLastUnreadUiState.value.copy(
+            doesAllRead = state
+        )
+    }
+
     fun updateCharacterName(name: String) {
-        Log.d("mainviewmodel", name)
         _characterChatUiState.value = _characterChatUiState.value.copy(
             characterName = name
         )

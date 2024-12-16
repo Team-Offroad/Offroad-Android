@@ -120,7 +120,8 @@ fun HomeScreen(
                 navigateToGainedCharacter = navigateToGainedCharacter,
                 updateShowUserChatTextField = mainViewModel::updateShowUserChatTextField,
                 updateCharacterChatExist = mainViewModel::updateCharacterChatExist,
-                updateCharacterName = mainViewModel::updateCharacterName
+                updateCharacterName = mainViewModel::updateCharacterName,
+                updateLastUnreadChatDosAllRead = mainViewModel::updateLastUnreadChatDosAllRead
             )
             Spacer(modifier = Modifier.padding(top = 12.dp))
             UsersQuestInformation(context, homeViewModel)
@@ -170,6 +171,7 @@ private fun UsersAdventuresInformation(
     updateShowUserChatTextField: (Boolean) -> Unit,
     updateCharacterChatExist: (Boolean) -> Unit,
     updateCharacterName: (String) -> Unit,
+    updateLastUnreadChatDosAllRead: (Boolean) -> Unit,
 ) {
     val adventuresInformationState =
         homeViewModel.getUsersAdventuresInformationState.collectAsState(initial = UiState.Loading).value
@@ -202,7 +204,8 @@ private fun UsersAdventuresInformation(
                 navigateToGainedCharacter = navigateToGainedCharacter,
                 updateShowUserChatTextField = updateShowUserChatTextField,
                 updateCharacterChatExist = updateCharacterChatExist,
-                updateCharacterName = updateCharacterName
+                updateCharacterName = updateCharacterName,
+                updateLastUnreadChatDosAllRead = updateLastUnreadChatDosAllRead
             )
         }
 
