@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -32,13 +33,12 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
 import com.teamoffroad.offroad.feature.explore.R
+import java.util.Stack
 
 @Composable
 fun ExploreResultDialog(
     errorType: ExploreAuthState,
-    previousText: String = "",
-    nextText: String = "",
-    boldText: String = "",
+    text: String = "",
     content: @Composable () -> Unit,
     onDismissRequest: () -> Unit,
 ) {
@@ -80,13 +80,7 @@ fun ExploreResultDialog(
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
-                    text = buildAnnotatedString {
-                        append(previousText)
-                        pushStyle(SpanStyle(fontWeight = FontWeight.Bold))
-                        append(boldText)
-                        pop()
-                        append(nextText)
-                    },
+                    text = applyBoldToText(text),
                     color = Main2,
                     textAlign = TextAlign.Center,
                     style = OffroadTheme.typography.textRegular
@@ -123,6 +117,39 @@ fun ExploreResultDialog(
                     )
                 }
             }
+        }
+    }
+}
+
+private fun applyBoldToText(inputText: String): AnnotatedString {
+    return buildAnnotatedString {
+        val boldDelimiter = "**"
+        var currentIndex = 0
+        val boldStack = Stack<Int>()
+
+        while (currentIndex < inputText.length) {
+            val boldStart = inputText.indexOf(boldDelimiter, currentIndex)
+
+            if (boldStart == -1) {
+                append(inputText.substring(currentIndex))
+                break
+            }
+
+            append(inputText.substring(currentIndex, boldStart))
+
+            when (boldStack.isEmpty()) {
+                true -> boldStack.push(length)
+                false -> {
+                    val start = boldStack.pop()
+                    addStyle(
+                        style = SpanStyle(fontWeight = FontWeight.Bold),
+                        start = start,
+                        end = length
+                    )
+                }
+            }
+
+            currentIndex = boldStart + boldDelimiter.length
         }
     }
 }

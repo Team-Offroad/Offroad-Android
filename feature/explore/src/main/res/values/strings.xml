@@ -12,9 +12,7 @@
     <string name="explore_camera_hint_first">QR 코드</string>
     <string name="explore_camera_hint_second">가 잘 보이도록\n카메라를 비춰주세요.</string>
     <string name="explore_places_failed">위치 정보를 불러오는 데 실패했어요.</string>
-    <string name="explore_location_failed_label_previous">위치 정보를 수신할 수 없어요.\n</string>
-    <string name="explore_location_failed_label_bold">GPS 기능</string>
-    <string name="explore_location_failed_label_next">을 확인해 주세요.</string>
+    <string name="explore_location_failed_label">위치 정보를 수신할 수 없어요.\n**GPS 기능**을 확인해 주세요.</string>
     <string name="explore_code_failed_label">탐험에 실패했어요.\nQR코드를 다시 한번 확인해 주세요.</string>
     <string name="explore_etc_failed_label">알 수 없는 오류가 발생했어요.</string>
     <string name="explore_dialog_success">탐험 성공</string>
