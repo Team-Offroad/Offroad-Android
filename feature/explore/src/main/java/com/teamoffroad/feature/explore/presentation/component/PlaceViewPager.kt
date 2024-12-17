@@ -35,6 +35,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun PlaceViewPager(
     uiState: PlaceUiState,
+    updatePlaces: () -> Unit,
 ) {
     val tabTitles = listOf(
         stringResource(R.string.explore_unvisited_place),
@@ -93,10 +94,17 @@ fun PlaceViewPager(
             state = pagerState,
             modifier = Modifier.fillMaxSize(),
         ) { page ->
-            when (page) {
-                0 -> PlaceItems(uiState.unvisitedPlaces, uiState.loading)
-                1 -> PlaceItems(uiState.visitedPlaces, uiState.loading)
-            }
+            PlaceItems(
+                places = when (page) {
+                    0 -> uiState.unvisitedPlaces
+                    1 -> uiState.visitedPlaces + uiState.unvisitedPlaces
+                    else -> emptyList()
+                },
+                isLoading = uiState.isLoading,
+                isLoadable = uiState.isLoadable,
+                isAdditionalLoading = uiState.isAdditionalLoading,
+                updatePlaces = updatePlaces
+            )
         }
     }
 }

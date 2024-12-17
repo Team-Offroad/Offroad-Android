@@ -25,25 +25,26 @@ class PlaceViewModel @Inject constructor(
             runCatching {
                 _uiState.value = uiState.value.copy(
                     isAdditionalLoading = true,
-                    error = false,
+                    isError = false,
                 )
                 val places = uiState.value.visitedPlaces + uiState.value.unvisitedPlaces
+                val cursorDistance = if (places.isEmpty()) null else places.maxOf { it.distanceFromUser }
                 val count = if (places.isEmpty()) INITIAL_LOAD_LIMIT else ADDITIONAL_LOAD_LIMIT
-                getPlaceListUseCase(0.0, 0.0, count, places.maxOf { it.distanceFromUser })
+                getPlaceListUseCase(0.0, 0.0, count, cursorDistance)
             }.onSuccess { places ->
                 _uiState.value = uiState.value.copy(
-                    visitedPlaces = places.map { it.toUi() }.filter { it.isVisited },
-                    unvisitedPlaces = places.map { it.toUi() }.filter { it.isVisited.not() },
-                    loading = false,
+                    visitedPlaces = uiState.value.visitedPlaces + places.map { it.toUi() }.filter { it.isVisited },
+                    unvisitedPlaces = uiState.value.unvisitedPlaces + places.map { it.toUi() }.filter { it.isVisited.not() },
+                    isLoading = false,
                     isLoadable = places.isEmpty().not(),
                     isAdditionalLoading = false,
-                    error = false,
+                    isError = false,
                 )
             }.onFailure {
                 _uiState.value = uiState.value.copy(
-                    loading = false,
+                    isLoading = false,
                     isAdditionalLoading = false,
-                    error = true,
+                    isError = true,
                 )
             }
         }
