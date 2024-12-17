@@ -86,8 +86,8 @@ fun ExploreInfoWindow(
                     AdaptationImage(
                         imageUrl = categoryImage,
                         modifier = Modifier
-                            .size(width = 32.dp, height = 18.dp)
                             .padding(bottom = 2.dp)
+                            .size(width = 32.dp, height = 18.dp)
                             .padding(start = 4.dp, end = 8.dp)
                             .align(Alignment.Bottom),
                         contentScale = ContentScale.FillWidth,
