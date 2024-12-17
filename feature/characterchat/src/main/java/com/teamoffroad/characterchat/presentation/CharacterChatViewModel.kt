@@ -91,6 +91,7 @@ class CharacterChatViewModel @Inject constructor(
                     text = chattingText,
                     date = now.toLocalDate(),
                     time = Triple(TimeType.toTimeType(now.hour), now.hour.toTwelveHour(), now.minute),
+                    id = uiState.value.chats.values.flatten().maxOf { it.id } + 1
                 )
                 extendChat(userChat)
                 _uiState.value = uiState.value.copy(isSending = true)

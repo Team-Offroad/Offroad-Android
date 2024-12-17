@@ -34,6 +34,7 @@ fun CharacterChats(
     isSending: Boolean = false,
     isLoadable: Boolean = true,
     updateChats: () -> Unit,
+    updateIsChatting: (Boolean) -> Unit,
 ) {
     val animatedHeight = animateDpAsState(targetValue = (188 + bottomPadding).dp, label = "")
     val coroutineScope = rememberCoroutineScope()
@@ -104,11 +105,17 @@ fun CharacterChats(
                 }
             }
             item {
-                if (isSending) CharacterChatLoadingBox(name = characterName, time = chats.last().time)
+                CharacterChatLoadingBox(name = characterName, time = chats.last().time, isSending = isSending)
                 Spacer(modifier = Modifier.height(4.dp))
             }
         }
         item {
+            ChatButton(
+                isVisible = !isChatting && !isSending,
+                onClick = {
+                    updateIsChatting(true)
+                },
+            )
             Spacer(
                 modifier = Modifier.height(animatedHeight.value)
             )

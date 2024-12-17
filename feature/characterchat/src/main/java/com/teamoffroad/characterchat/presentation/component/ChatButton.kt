@@ -23,7 +23,7 @@ fun ChatButton(
     isVisible: Boolean = false,
     onClick: () -> Unit = {},
 ) {
-    StaticAnimationWrapper(visible = !isVisible) {
+    StaticAnimationWrapper(visible = isVisible) {
         Text(
             text = stringResource(R.string.character_chat_chat),
             color = White,

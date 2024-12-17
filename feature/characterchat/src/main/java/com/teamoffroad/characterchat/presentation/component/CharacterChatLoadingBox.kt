@@ -29,11 +29,13 @@ import com.teamoffroad.core.designsystem.theme.Sub4
 fun CharacterChatLoadingBox(
     name: String = "",
     time: Triple<TimeType, Int, Int> = Triple(AM, 0, 0),
+    isSending: Boolean,
 ) {
+    if (!isSending) return
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .wrapContentHeight()
+            .wrapContentHeight(),
     ) {
         Box(
             modifier = Modifier

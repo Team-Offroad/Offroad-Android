@@ -20,7 +20,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.characterchat.presentation.component.CharacterChatHeader
 import com.teamoffroad.characterchat.presentation.component.CharacterChats
-import com.teamoffroad.characterchat.presentation.component.ChatButton
 import com.teamoffroad.characterchat.presentation.component.ChatTextField
 import com.teamoffroad.characterchat.presentation.component.DEFAULT_IME_PADDING
 import com.teamoffroad.characterchat.presentation.component.rememberKeyboardHeight
@@ -87,6 +86,7 @@ fun CharacterChatScreen(
                 isSending = uiState.value.isSending,
                 isLoadable = uiState.value.isLoadable,
                 updateChats = characterChatViewModel::handleChatState,
+                updateIsChatting = characterChatViewModel::updateIsChatting,
             )
         }
         ChatTextField(
@@ -107,17 +107,6 @@ fun CharacterChatScreen(
                 characterChatViewModel.updateIsChatting(false)
             },
         )
-        if (!uiState.value.isSending) {
-            ChatButton(
-                modifier = Modifier
-                    .padding(bottom = 198.dp)
-                    .align(Alignment.BottomCenter),
-                isVisible = isChatting.value && !uiState.value.isSending,
-                onClick = {
-                    characterChatViewModel.updateIsChatting(true)
-                },
-            )
-        }
     }
     FullLinearLoadingAnimation(isLoading = uiState.value.isLoading && uiState.value.chats.values.isEmpty())
 }
