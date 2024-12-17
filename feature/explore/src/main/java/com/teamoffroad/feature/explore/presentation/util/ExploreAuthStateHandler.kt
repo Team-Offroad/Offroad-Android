@@ -19,7 +19,9 @@ fun ExploreAuthStateHandler(
         is ExploreAuthState.LocationError -> {
             ExploreResultDialog(
                 errorType = ExploreAuthState.LocationError(),
-                text = stringResource(R.string.explore_location_failed_label),
+                previousText = stringResource(R.string.explore_location_failed_label_previous),
+                boldText = stringResource(R.string.explore_location_failed_label_bold),
+                nextText = stringResource(R.string.explore_location_failed_label_next),
                 content = {
                     ExploreFailedDialogContent(
                         imageUrl = uiState.authResultType.characterImageUrl
@@ -32,7 +34,7 @@ fun ExploreAuthStateHandler(
         ExploreAuthState.EtcError -> {
             ExploreResultDialog(
                 errorType = ExploreAuthState.EtcError,
-                text = stringResource(R.string.explore_etc_failed_label),
+                previousText = stringResource(R.string.explore_etc_failed_label),
                 content = { ExploreFailedDialogContent(imageUrl = "") },
                 onDismissRequest = { updateExploreAuthState(ExploreAuthState.None) }
             )
@@ -41,7 +43,7 @@ fun ExploreAuthStateHandler(
         is ExploreAuthState.Success -> {
             ExploreResultDialog(
                 errorType = ExploreAuthState.Success(),
-                text = stringResource(R.string.explore_dialog_success),
+                previousText = stringResource(R.string.explore_dialog_success),
                 content = { ExploreSuccessDialogContent(url = uiState.authResultType.characterImageUrl) },
                 onDismissRequest = {
                     updateExploreAuthState(ExploreAuthState.None)

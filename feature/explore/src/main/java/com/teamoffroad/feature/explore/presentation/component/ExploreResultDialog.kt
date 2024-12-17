@@ -19,6 +19,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -33,7 +36,9 @@ import com.teamoffroad.offroad.feature.explore.R
 @Composable
 fun ExploreResultDialog(
     errorType: ExploreAuthState,
-    text: String = "",
+    previousText: String = "",
+    nextText: String = "",
+    boldText: String = "",
     content: @Composable () -> Unit,
     onDismissRequest: () -> Unit,
 ) {
@@ -76,7 +81,13 @@ fun ExploreResultDialog(
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
-                    text = text,
+                    text = buildAnnotatedString {
+                        append(previousText)
+                        pushStyle(SpanStyle(fontWeight = FontWeight.Bold))
+                        append(boldText)
+                        pop()
+                        append(nextText)
+                    },
                     color = Main2,
                     textAlign = TextAlign.Center,
                     style = OffroadTheme.typography.textRegular
