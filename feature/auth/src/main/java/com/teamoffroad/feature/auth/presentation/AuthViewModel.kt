@@ -2,10 +2,6 @@ package com.teamoffroad.feature.auth.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 import com.teamoffroad.core.common.domain.usecase.GetAutoSignInUseCase
 import com.teamoffroad.core.common.domain.usecase.SaveAccessTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.SaveRefreshTokenUseCase
@@ -23,39 +19,36 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    val googleSignInClient: GoogleSignInClient,
     private val authUseCase: AuthUseCase,
     private val saveAccessTokenUseCase: SaveAccessTokenUseCase,
     private val saveRefreshTokenUseCase: SaveRefreshTokenUseCase,
     private val getAutoSignInUseCase: GetAutoSignInUseCase,
 ) : ViewModel() {
-    private val _authUiState: MutableStateFlow<AuthUiState> =
-        MutableStateFlow(AuthUiState(empty = true))
+    private val _authUiState: MutableStateFlow<AuthUiState> = MutableStateFlow(AuthUiState())
     val authUiState: StateFlow<AuthUiState> = _authUiState.asStateFlow()
 
     private val _authSideEffect: Channel<Boolean> = Channel()
     val sideEffect = _authSideEffect.receiveAsFlow()
 
     fun startKakaoSignIn() {
-        viewModelScope.launch {
-            _authUiState.value = _authUiState.value.copy(
-                kakaoSignIn = true
-            )
-        }
+        _authUiState.value = authUiState.value.copy(
+            startKakaoSignIn = true
+        )
     }
 
-    fun performGoogleSignIn(result: Task<GoogleSignInAccount>) {
+    fun startGoogleSignIn() {
+        _authUiState.value = authUiState.value.copy(
+            startGoogleSignIn = true
+        )
+    }
+
+    fun performGoogleSignIn(googleIdToken: String) {
         viewModelScope.launch {
-            runCatching {
-                result.getResult(ApiException::class.java)
-            }.onSuccess { account ->
-                signIn(
-                    SocialSignInPlatform.GOOGLE.name,
-                    null,
-                    account.serverAuthCode.toString(),
-                )
-            }.onFailure {
-            }
+            signIn(
+                SocialSignInPlatform.GOOGLE.name,
+                null,
+                googleIdToken
+            )
         }
     }
 
@@ -81,6 +74,7 @@ class AuthViewModel @Inject constructor(
                     alreadyExist = signInInfo.isAlreadyExist
                 )
             }.onFailure {
+                initState()
             }
         }
     }
@@ -102,12 +96,6 @@ class AuthViewModel @Inject constructor(
     }
 
     fun initState() {
-        _authUiState.value = authUiState.value.copy(
-            empty = true,
-            signInSuccess = false,
-            alreadyExist = false,
-            kakaoSignIn = false,
-            isAutoSignIn = false
-        )
+        _authUiState.value = AuthUiState()
     }
 }
