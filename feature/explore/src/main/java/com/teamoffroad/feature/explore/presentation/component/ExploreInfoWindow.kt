@@ -32,8 +32,7 @@ import com.teamoffroad.core.designsystem.theme.Gray400
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
-import com.teamoffroad.core.designsystem.theme.Sub
-import com.teamoffroad.core.designsystem.theme.Sub2
+import com.teamoffroad.core.designsystem.theme.Sub4
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.offroad.feature.explore.R
 
@@ -121,14 +120,14 @@ fun ExploreInfoWindow(
                     text = stringResource(R.string.explore_visit_count, visitCount),
                     overflow = TextOverflow.Ellipsis,
                     style = OffroadTheme.typography.tooltipNumber,
-                    color = Sub2,
+                    color = Main2,
                     modifier = Modifier.padding(vertical = 2.dp),
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(color = Sub, shape = RoundedCornerShape(6.dp))
+                        .background(color = Sub4, shape = RoundedCornerShape(6.dp))
                         .clickable { onButtonClick() },
                     contentAlignment = Alignment.Center,
                 ) {
