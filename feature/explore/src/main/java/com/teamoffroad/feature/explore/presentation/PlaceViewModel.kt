@@ -20,7 +20,10 @@ class PlaceViewModel @Inject constructor(
     private val _uiState: MutableStateFlow<PlaceUiState> = MutableStateFlow(PlaceUiState())
     val uiState: StateFlow<PlaceUiState> = _uiState.asStateFlow()
 
+    private var position: Pair<Double, Double> = 0.0 to 0.0
+
     fun updatePlaces() {
+        if (uiState.value.isAdditionalLoading || uiState.value.isLoadable.not()) return
         viewModelScope.launch {
             runCatching {
                 _uiState.value = uiState.value.copy(
@@ -30,7 +33,7 @@ class PlaceViewModel @Inject constructor(
                 val places = uiState.value.visitedPlaces + uiState.value.unvisitedPlaces
                 val cursorDistance = if (places.isEmpty()) null else places.maxOf { it.distanceFromUser }
                 val count = if (places.isEmpty()) INITIAL_LOAD_LIMIT else ADDITIONAL_LOAD_LIMIT
-                getPlaceListUseCase(0.0, 0.0, count, cursorDistance)
+                getPlaceListUseCase(position.first, position.second, count, cursorDistance)
             }.onSuccess { places ->
                 _uiState.value = uiState.value.copy(
                     visitedPlaces = uiState.value.visitedPlaces + places.map { it.toUi() }.filter { it.isVisited },
@@ -48,6 +51,10 @@ class PlaceViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    fun updatePosition(latitude: Double, longitude: Double) {
+        position = latitude to longitude
     }
 }
 

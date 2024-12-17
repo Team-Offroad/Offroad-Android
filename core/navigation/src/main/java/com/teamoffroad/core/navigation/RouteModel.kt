@@ -44,7 +44,10 @@ sealed interface AuthRoute : Route {
 
 sealed interface ExploreRoute : Route {
     @Serializable
-    data object PlaceScreen : ExploreRoute
+    data class PlaceScreen(
+        val latitude: String,
+        val longitude: String,
+    ) : ExploreRoute
 
     @Serializable
     data object QuestScreen : ExploreRoute

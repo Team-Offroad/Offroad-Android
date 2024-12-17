@@ -23,7 +23,7 @@ import com.teamoffroad.offroad.feature.explore.R
 internal fun ExploreScreen(
     authResultState: String?,
     navigateToHome: (String, List<String>) -> Unit,
-    navigateToPlace: () -> Unit,
+    navigateToPlace: (String, String) -> Unit,
     navigateToQuest: () -> Unit,
     exploreViewModel: ExploreViewModel = hiltViewModel(),
 ) {
