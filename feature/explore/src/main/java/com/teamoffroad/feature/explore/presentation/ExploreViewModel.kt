@@ -3,7 +3,7 @@ package com.teamoffroad.feature.explore.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.naver.maps.geometry.LatLng
-import com.teamoffroad.feature.explore.domain.usecase.GetPlaceListUseCase
+import com.teamoffroad.feature.explore.domain.usecase.GetMapPlaceListUseCase
 import com.teamoffroad.feature.explore.domain.usecase.GetPreviousLocationUseCase
 import com.teamoffroad.feature.explore.domain.usecase.PostExploreLocationAuthUseCase
 import com.teamoffroad.feature.explore.domain.usecase.SavePreviousLocationUseCase
@@ -22,7 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ExploreViewModel @Inject constructor(
-    private val getPlaceListUseCase: GetPlaceListUseCase,
+    private val getMapPlaceListUseCase: GetMapPlaceListUseCase,
     private val postExploreLocationAuthUseCase: PostExploreLocationAuthUseCase,
     private val getPreviousLocationUseCase: GetPreviousLocationUseCase,
     private val savePreviousLocationUseCase: SavePreviousLocationUseCase,
@@ -79,7 +79,7 @@ class ExploreViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             runCatching {
-                getPlaceListUseCase(latitude, longitude, LOAD_PLACES_LIMIT, true).map { it.toUi() }
+                getMapPlaceListUseCase(latitude, longitude, LOAD_PLACES_LIMIT).map { it.toUi() }
             }.onSuccess { places ->
                 _uiState.value = uiState.value.copy(
                     places = places,

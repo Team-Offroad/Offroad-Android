@@ -2,7 +2,7 @@ package com.teamoffroad.feature.explore.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.teamoffroad.feature.explore.domain.usecase.GetPlaceListUseCase
+import com.teamoffroad.feature.explore.domain.usecase.GetMapPlaceListUseCase
 import com.teamoffroad.feature.explore.presentation.mapper.toUi
 import com.teamoffroad.feature.explore.presentation.model.PlaceUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PlaceViewModel @Inject constructor(
-    private val getPlaceListUseCase: GetPlaceListUseCase,
+    private val getMapPlaceListUseCase: GetMapPlaceListUseCase,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<PlaceUiState> = MutableStateFlow(PlaceUiState())
@@ -27,7 +27,7 @@ class PlaceViewModel @Inject constructor(
                     loading = true,
                     error = false,
                 )
-                getPlaceListUseCase(0.0, 0.0, 10000000, false)
+                getMapPlaceListUseCase(0.0, 0.0, 10000000)
             }.onSuccess { places ->
                 _uiState.value = uiState.value.copy(
                     visitedPlaces = places.map { it.toUi() }.filter { it.isVisited },
