@@ -67,9 +67,8 @@ fun ExploreResultDialog(
                 modifier = Modifier
                     .wrapContentHeight()
                     .fillMaxWidth()
-                    .padding(top = 36.dp),
+                    .padding(top = 34.dp),
             ) {
-                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = if (errorType is ExploreAuthState.Success) {
                         stringResource(R.string.explore_dialog_success)

@@ -43,7 +43,7 @@ fun ExploreAuthStateHandler(
         is ExploreAuthState.Success -> {
             ExploreResultDialog(
                 errorType = ExploreAuthState.Success(),
-                previousText = stringResource(R.string.explore_dialog_success),
+                previousText = stringResource(R.string.explore_dialog_success_label),
                 content = { ExploreSuccessDialogContent(url = uiState.authResultType.characterImageUrl) },
                 onDismissRequest = {
                     updateExploreAuthState(ExploreAuthState.None)
