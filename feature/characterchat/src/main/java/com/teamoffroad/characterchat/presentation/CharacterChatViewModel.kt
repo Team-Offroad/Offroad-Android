@@ -48,7 +48,7 @@ class CharacterChatViewModel @Inject constructor(
 
     fun handleChatState() {
         val previousChats = uiState.value.chats.values.flatten()
-        if (!uiState.value.isLoadable || uiState.value.isLoading && previousChats.isNotEmpty()) return
+        if (!uiState.value.isLoadable || uiState.value.isLoading || uiState.value.isAdditionalLoading && previousChats.isNotEmpty()) return
         if (previousChats.isEmpty()) updateIsChatting(true)
 
         val limit = if (previousChats.isEmpty()) INITIAL_LOAD_LIMIT else ADDITIONAL_LOAD_LIMIT
@@ -64,6 +64,7 @@ class CharacterChatViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             runCatching {
+                _uiState.value = uiState.value.copy(isAdditionalLoading = true, isLoading = true)
                 getChatListUseCase(uiState.value.characterId, limit, cursor)
             }.onSuccess { result ->
                 val chats = result.getOrNull() ?: emptyList()
@@ -71,9 +72,10 @@ class CharacterChatViewModel @Inject constructor(
                     chats = (chats.map { it.toUi() } + previousChats).sortedBy { it.id }.groupBy { it.date }.toSortedMap(),
                     isLoading = false,
                     isLoadable = chats.isNotEmpty(),
+                    isAdditionalLoading = false,
                 )
             }.onFailure {
-                _uiState.value = uiState.value.copy(isLoading = false, isError = true)
+                _uiState.value = uiState.value.copy(isLoading = false, isAdditionalLoading = false, isError = true)
             }
         }
     }
@@ -123,5 +125,5 @@ class CharacterChatViewModel @Inject constructor(
     }
 }
 
-private const val INITIAL_LOAD_LIMIT = 30
-private const val ADDITIONAL_LOAD_LIMIT = 10
+private const val INITIAL_LOAD_LIMIT = 20
+private const val ADDITIONAL_LOAD_LIMIT = 15

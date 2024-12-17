@@ -7,10 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -30,7 +28,6 @@ import com.teamoffroad.core.designsystem.component.FullLinearLoadingAnimation
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.offroad.feature.characterchat.R
-import kotlinx.coroutines.launch
 
 @Composable
 fun CharacterChatScreen(
@@ -45,18 +42,10 @@ fun CharacterChatScreen(
     val focusManager = LocalFocusManager.current
     val imeHeight = rememberKeyboardHeight()
     val keyboardOffset = if (imeHeight == DEFAULT_IME_PADDING) 0 else (imeHeight - DEFAULT_IME_PADDING)
-    val listState = rememberLazyListState()
-    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
         characterChatViewModel.initCharacterId(characterId, characterName)
         characterChatViewModel.handleChatState()
-    }
-
-    LaunchedEffect(uiState.value.chats.values.lastOrNull()?.size ?: 0) {
-        coroutineScope.launch {
-            listState.animateScrollToItem(listState.layoutInfo.totalItemsCount - 1)
-        }
     }
 
     Box(
@@ -97,7 +86,6 @@ fun CharacterChatScreen(
                 isChatting = isChatting.value,
                 isSending = uiState.value.isSending,
                 isLoadable = uiState.value.isLoadable,
-                listState = listState,
                 updateChats = characterChatViewModel::handleChatState,
             )
         }
@@ -131,7 +119,5 @@ fun CharacterChatScreen(
             )
         }
     }
-    FullLinearLoadingAnimation(isLoading = uiState.value.isLoading)
+    FullLinearLoadingAnimation(isLoading = uiState.value.isLoading && uiState.value.chats.values.isEmpty())
 }
-
-const val KEYBOARD_LOADING_OFFSET = 25L

@@ -6,7 +6,7 @@ data class CharacterChatUiState(
     val chats: Map<LocalDate, List<ChatModel>> = emptyMap(),
     val characterId: Int? = null,
     val characterName: String = "",
-    val isLoading: Boolean = true,
+    val isLoading: Boolean = false,
     val isSending: Boolean = false,
     val isError: Boolean = false,
     val isLoadable: Boolean = true,
