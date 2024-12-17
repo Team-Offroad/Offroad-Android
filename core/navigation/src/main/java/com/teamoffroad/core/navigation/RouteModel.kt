@@ -15,7 +15,7 @@ sealed interface MainTabRoute : Route {
     ) : MainTabRoute
 
     @Serializable
-    data class Explore(val authResultState: String = "NONE", val imageUrl: String? = null) :
+    data class Explore(val authResultState: String = "NONE") :
         MainTabRoute
 
     @Serializable

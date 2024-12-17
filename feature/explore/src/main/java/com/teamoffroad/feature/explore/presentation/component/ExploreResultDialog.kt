@@ -7,11 +7,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -43,7 +43,8 @@ fun ExploreResultDialog(
     ) {
         Box(
             modifier = Modifier
-                .size(312.dp, 348.dp)
+                .width(312.dp)
+                .wrapContentHeight()
                 .background(Main3, shape = RoundedCornerShape(14.dp))
         ) {
             if (errorType is ExploreAuthState.Success) {
@@ -59,7 +60,8 @@ fun ExploreResultDialog(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Bottom,
                 modifier = Modifier
-                    .fillMaxSize()
+                    .wrapContentHeight()
+                    .fillMaxWidth()
                     .padding(top = 36.dp),
             ) {
                 Spacer(modifier = Modifier.height(8.dp))
@@ -84,7 +86,6 @@ fun ExploreResultDialog(
             }
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
                     .align(Alignment.BottomCenter)
                     .padding(horizontal = 40.dp)
                     .padding(bottom = 28.dp)

@@ -16,10 +16,9 @@ import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
 
 fun NavController.navigateToExplore(
     authResultType: String = ExploreAuthState.None.toString(),
-    imageUrl: String? = null,
     navOptions: NavOptions,
 ) {
-    navigate(MainTabRoute.Explore(authResultType, imageUrl), navOptions)
+    navigate(MainTabRoute.Explore(authResultType), navOptions)
 }
 
 fun NavController.navigateToPlace() {
@@ -39,8 +38,7 @@ fun NavGraphBuilder.exploreNavGraph(
 ) {
     composable<MainTabRoute.Explore> { backStackEntry ->
         val authResultState = backStackEntry.toRoute<MainTabRoute.Explore>().authResultState
-        val imageUrl = backStackEntry.toRoute<MainTabRoute.Explore>().imageUrl
-        ExploreScreen(authResultState, imageUrl, navigateToHome, navigateToPlace, navigateToQuest)
+        ExploreScreen(authResultState, navigateToHome, navigateToPlace, navigateToQuest)
     }
 
     composable<ExploreRoute.PlaceScreen> {

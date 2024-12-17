@@ -121,7 +121,11 @@ class ExploreViewModel @Inject constructor(
                         )
                     )
                 } else {
-                    updateExploreAuthState(ExploreAuthState.LocationError)
+                    updateExploreAuthState(
+                        ExploreAuthState.LocationError(
+                            exploreResult.successCharacterImageUrl
+                        )
+                    )
                 }
             }.onFailure {
                 updateExploreAuthState(ExploreAuthState.EtcError)

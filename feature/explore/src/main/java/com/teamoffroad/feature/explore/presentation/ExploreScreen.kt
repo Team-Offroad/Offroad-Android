@@ -22,7 +22,6 @@ import com.teamoffroad.offroad.feature.explore.R
 @Composable
 internal fun ExploreScreen(
     authResultState: String?,
-    qrResultImageUrl: String?,
     navigateToHome: (String, List<String>) -> Unit,
     navigateToPlace: () -> Unit,
     navigateToQuest: () -> Unit,
@@ -44,7 +43,6 @@ internal fun ExploreScreen(
     ExploreAuthStateHandler(
         uiState,
         exploreViewModel::updateExploreAuthState,
-        qrResultImageUrl,
         navigateToHome,
     )
 

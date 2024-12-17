@@ -155,8 +155,8 @@ internal class MainNavigator(
         )
     }
 
-    fun navigateToExplore(authResultType: String, imageUrl: String) {
-        navController.navigateToExplore(authResultType, imageUrl, mainTabNavOptions)
+    fun navigateToExplore(authResultType: String) {
+        navController.navigateToExplore(authResultType, mainTabNavOptions)
     }
 
     fun navigateToPlace() {
