@@ -41,9 +41,9 @@ internal fun ExploreScreen(
     }
 
     ExploreAuthStateHandler(
-        uiState,
-        exploreViewModel::updateExploreAuthState,
-        navigateToHome,
+        uiState = uiState,
+        updateExploreAuthState = exploreViewModel::updateExploreAuthState,
+        navigateToHome = navigateToHome,
     )
 
     ExplorePermissionHandler(
