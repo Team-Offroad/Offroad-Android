@@ -22,7 +22,7 @@ fun ExploreAuthStateHandler(
                 text = stringResource(R.string.explore_location_failed_label),
                 content = {
                     ExploreFailedDialogContent(
-                        imageUrl = uiState.authResultType.characterImageUrl
+                        url = uiState.authResultType.characterImageUrl
                     )
                 },
                 onDismissRequest = { updateExploreAuthState(ExploreAuthState.None) }
@@ -33,7 +33,11 @@ fun ExploreAuthStateHandler(
             ExploreResultDialog(
                 errorType = ExploreAuthState.EtcError,
                 text = stringResource(R.string.explore_etc_failed_label),
-                content = { ExploreFailedDialogContent(imageUrl = "") },
+                content = {
+                    ExploreFailedDialogContent(
+                        url = "https://github.com/user-attachments/assets/80c32e0e-8342-4e6b-af47-ab11532cbf4d"
+                    )
+                },
                 onDismissRequest = { updateExploreAuthState(ExploreAuthState.None) }
             )
         }
