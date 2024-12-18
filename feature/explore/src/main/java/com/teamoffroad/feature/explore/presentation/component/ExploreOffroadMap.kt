@@ -265,7 +265,7 @@ private fun getMarkerOffset(
     return screenPosition?.let {
         with(density) {
             var xOffset = (it.x.toDp() - infoWindowWith / 2).roundToPx()
-            var yOffset = (it.y.toDp() - infoWindowHeight - 50.dp).roundToPx()
+            var yOffset = (it.y.toDp() - infoWindowHeight + 28.dp).roundToPx()
 
             var xCameraMove = 0
             var yCameraMove = 0
