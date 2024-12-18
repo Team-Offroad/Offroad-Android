@@ -15,5 +15,6 @@ fun PlaceResponseDto.toDomain(): Place {
         latitude = latitude,
         longitude = longitude,
         visitCount = visitCount,
+        distanceFromUser = distanceFromUser,
     )
 }

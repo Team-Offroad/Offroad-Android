@@ -104,4 +104,5 @@ data class PlaceModel(
     val location: LatLng,
     val visitCount: Int,
     val isVisited: Boolean,
+    val distanceFromUser: Double,
 )
