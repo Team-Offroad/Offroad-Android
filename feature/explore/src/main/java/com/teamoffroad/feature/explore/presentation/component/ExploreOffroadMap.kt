@@ -112,7 +112,7 @@ fun ExploreOffroadMap(
                     uiSettings = MapUiSettings(
                         isScaleBarEnabled = false,
                         isZoomControlEnabled = false,
-                        isLogoClickEnabled = true,
+                        isLogoClickEnabled = false,
                         isCompassEnabled = false,
                         logoGravity = Gravity.TOP,
                         logoMargin = PaddingValues(top = 28.dp, start = 22.dp),
