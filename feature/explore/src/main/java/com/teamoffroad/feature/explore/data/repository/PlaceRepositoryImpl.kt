@@ -13,4 +13,8 @@ class PlaceRepositoryImpl @Inject constructor(
     override suspend fun fetchMapPlaces(latitude: Double, longitude: Double, limit: Int): List<Place> {
         return placeService.getMapPlaces(latitude, longitude, limit).data?.places?.map { it.toDomain() } ?: emptyList()
     }
+
+    override suspend fun fetchPlaces(latitude: Double, longitude: Double, limit: Int, cursorDistance: Double?): List<Place> {
+        return placeService.getPlaces(latitude, longitude, limit, cursorDistance).data?.places?.map { it.toDomain() } ?: emptyList()
+    }
 }

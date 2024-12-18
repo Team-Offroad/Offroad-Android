@@ -13,4 +13,13 @@ interface PlaceService {
         @Query("currentLongitude") currentLongitude: Double,
         @Query("limit") limit: Int,
     ): BaseResponse<PlacesResponseDto>
+
+
+    @GET("places/list")
+    suspend fun getPlaces(
+        @Query("currentLatitude") currentLatitude: Double,
+        @Query("currentLongitude") currentLongitude: Double,
+        @Query("limit") limit: Int,
+        @Query("cursorDistance") cursorDistance: Double?,
+    ): BaseResponse<PlacesResponseDto>
 }

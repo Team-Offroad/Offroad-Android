@@ -72,8 +72,8 @@ fun PlaceExtraItem(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 14.dp)
-            .background(color = BoxInfo, shape = RoundedCornerShape(4.dp))
-            .padding(vertical = 6.dp, horizontal = 10.dp),
+            .background(color = BoxInfo, shape = RoundedCornerShape(6.dp))
+            .padding(vertical = 8.dp, horizontal = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         AdaptationImage(
