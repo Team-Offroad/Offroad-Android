@@ -1,7 +1,7 @@
 package com.teamoffroad.feature.explore.presentation.model
 
 enum class PlacePage(val page: Int) {
-    TOTAL(0), UNVISITED(1), NONE(-1)
+    UNVISITED(0), TOTAL(1), NONE(-1)
     ;
 
     companion object {
