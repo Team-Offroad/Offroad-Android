@@ -4,6 +4,7 @@ import com.teamoffroad.feature.explore.domain.repository.LocationRepository
 import com.teamoffroad.feature.explore.domain.repository.PlaceRepository
 import com.teamoffroad.feature.explore.domain.repository.QuestRepository
 import com.teamoffroad.feature.explore.domain.repository.UserRepository
+import com.teamoffroad.feature.explore.domain.usecase.GetMapPlaceListUseCase
 import com.teamoffroad.feature.explore.domain.usecase.GetPlaceListUseCase
 import com.teamoffroad.feature.explore.domain.usecase.GetPreviousLocationUseCase
 import com.teamoffroad.feature.explore.domain.usecase.GetQuestListUseCase
@@ -18,6 +19,14 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object UseCaseModule {
+
+    @Provides
+    @Singleton
+    fun provideGetMapPlaceListUseCase(
+        placeRepository: PlaceRepository,
+    ): GetMapPlaceListUseCase {
+        return GetMapPlaceListUseCase(placeRepository)
+    }
 
     @Provides
     @Singleton

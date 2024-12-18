@@ -11,4 +11,5 @@ data class Place(
     val latitude: Double,
     val longitude: Double,
     val visitCount: Int,
+    val distanceFromUser: Double,
 )

@@ -155,12 +155,12 @@ internal class MainNavigator(
         )
     }
 
-    fun navigateToExplore(authResultType: String, imageUrl: String) {
-        navController.navigateToExplore(authResultType, imageUrl, mainTabNavOptions)
+    fun navigateToExplore(authResultType: String) {
+        navController.navigateToExplore(authResultType, mainTabNavOptions)
     }
 
-    fun navigateToPlace() {
-        navController.navigateToPlace()
+    fun navigateToPlace(latitude: String, longitude: String) {
+        navController.navigateToPlace(latitude, longitude)
     }
 
     fun navigateToQuest() {

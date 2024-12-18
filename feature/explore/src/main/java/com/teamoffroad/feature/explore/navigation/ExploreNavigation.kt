@@ -16,14 +16,13 @@ import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
 
 fun NavController.navigateToExplore(
     authResultType: String = ExploreAuthState.None.toString(),
-    imageUrl: String? = null,
     navOptions: NavOptions,
 ) {
-    navigate(MainTabRoute.Explore(authResultType, imageUrl), navOptions)
+    navigate(MainTabRoute.Explore(authResultType), navOptions)
 }
 
-fun NavController.navigateToPlace() {
-    navigate(ExploreRoute.PlaceScreen)
+fun NavController.navigateToPlace(latitude: String, longitude: String) {
+    navigate(ExploreRoute.PlaceScreen(latitude, longitude))
 }
 
 fun NavController.navigateToQuest() {
@@ -33,18 +32,19 @@ fun NavController.navigateToQuest() {
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun NavGraphBuilder.exploreNavGraph(
     navigateToHome: (String, List<String>) -> Unit,
-    navigateToPlace: () -> Unit,
+    navigateToPlace: (String, String) -> Unit,
     navigateToQuest: () -> Unit,
     navigateToBack: () -> Unit,
 ) {
     composable<MainTabRoute.Explore> { backStackEntry ->
         val authResultState = backStackEntry.toRoute<MainTabRoute.Explore>().authResultState
-        val imageUrl = backStackEntry.toRoute<MainTabRoute.Explore>().imageUrl
-        ExploreScreen(authResultState, imageUrl, navigateToHome, navigateToPlace, navigateToQuest)
+        ExploreScreen(authResultState, navigateToHome, navigateToPlace, navigateToQuest)
     }
 
-    composable<ExploreRoute.PlaceScreen> {
-        PlaceScreen(navigateToBack)
+    composable<ExploreRoute.PlaceScreen> { backStackEntry ->
+        val latitude = backStackEntry.toRoute<ExploreRoute.PlaceScreen>().latitude
+        val longitude = backStackEntry.toRoute<ExploreRoute.PlaceScreen>().longitude
+        PlaceScreen(latitude, longitude, navigateToBack)
     }
 
     composable<ExploreRoute.QuestScreen> {
