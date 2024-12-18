@@ -1,15 +1,16 @@
 package com.teamoffroad.feature.explore.presentation.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.AdaptationImage
 import com.teamoffroad.offroad.feature.explore.R
@@ -17,23 +18,32 @@ import com.teamoffroad.offroad.feature.explore.R
 @Composable
 fun ExploreFailedDialogContent(
     modifier: Modifier = Modifier,
-    imageUrl: String? = stringResource(id = R.string.explore_failed_img),
+    imageUrl: String,
 ) {
     Box(
         modifier = modifier
-            .fillMaxHeight()
-            .wrapContentWidth()
+            .wrapContentHeight()
+            .fillMaxWidth()
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 4.dp, bottom = 72.dp)
+                .padding(bottom = 88.dp)
                 .align(Alignment.BottomCenter),
         ) {
-            AdaptationImage(
-                imageUrl = imageUrl ?: "",
+            Image(
+                painter = painterResource(id = R.drawable.ic_explore_fail),
+                contentDescription = "",
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
+                    .size(28.dp)
+                    .padding(bottom = 8.dp),
+            )
+            AdaptationImage(
+                imageUrl = imageUrl,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(start = 10.dp)
+                    .size(96.dp),
             )
         }
     }

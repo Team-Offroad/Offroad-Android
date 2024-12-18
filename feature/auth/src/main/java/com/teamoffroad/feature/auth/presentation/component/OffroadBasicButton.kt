@@ -12,8 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.White
 
@@ -45,7 +45,7 @@ fun OffroadBasicBtn(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                fontSize = 13.sp,
+                fontSize = with(LocalDensity.current) { 13.dp.toSp() },
                 text = text,
                 color = White,
             )

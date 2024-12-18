@@ -10,7 +10,11 @@ class PlaceRepositoryImpl @Inject constructor(
     private val placeService: PlaceService,
 ) : PlaceRepository {
 
-    override suspend fun fetchPlaces(latitude: Double, longitude: Double, limit: Int, isBounded: Boolean): List<Place> {
-        return placeService.getPlaces(latitude, longitude, limit, isBounded).data?.places?.map { it.toDomain() } ?: emptyList()
+    override suspend fun fetchMapPlaces(latitude: Double, longitude: Double, limit: Int): List<Place> {
+        return placeService.getMapPlaces(latitude, longitude, limit).data?.places?.map { it.toDomain() } ?: emptyList()
+    }
+
+    override suspend fun fetchPlaces(latitude: Double, longitude: Double, limit: Int, cursorDistance: Double?): List<Place> {
+        return placeService.getPlaces(latitude, longitude, limit, cursorDistance).data?.places?.map { it.toDomain() } ?: emptyList()
     }
 }

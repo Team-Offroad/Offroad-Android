@@ -15,13 +15,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.teamoffroad.core.designsystem.theme.Contents1GraphMain
 import com.teamoffroad.core.designsystem.theme.Contents1GraphSub
 import com.teamoffroad.core.designsystem.theme.ErrorNew
@@ -59,7 +59,7 @@ fun CircleProgressBar(data: HomeProgressBarModel, viewModel: HomeViewModel) {
                         fontFamily = PretendardBold,
                         fontWeight = FontWeight.Bold,
                         color = Main1,
-                        fontSize = 20.sp
+                        fontSize = with(LocalDensity.current) { 20.dp.toSp() }
                     )
                 ) {
                     append(data.amount.toString())
@@ -69,7 +69,7 @@ fun CircleProgressBar(data: HomeProgressBarModel, viewModel: HomeViewModel) {
                         fontFamily = PretendardRegular,
                         fontWeight = FontWeight.Normal,
                         color = White25,
-                        fontSize = 20.sp
+                        fontSize = with(LocalDensity.current) { 20.dp.toSp() }
                     )
                 ) {
                     append(" / ")
