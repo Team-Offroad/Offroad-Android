@@ -5,12 +5,8 @@ enum class PlacePage(val page: Int) {
     ;
 
     companion object {
-        fun from(value: Int): PlacePage {
-            return when (value) {
-                0 -> TOTAL
-                1 -> UNVISITED
-                else -> NONE
-            }
+        fun from(page: Int): PlacePage {
+            return entries.find { it.page == page } ?: NONE
         }
     }
 }
