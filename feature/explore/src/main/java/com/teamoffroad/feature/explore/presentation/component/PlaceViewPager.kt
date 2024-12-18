@@ -28,6 +28,7 @@ import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
+import com.teamoffroad.feature.explore.presentation.model.PlacePage
 import com.teamoffroad.feature.explore.presentation.model.PlaceUiState
 import com.teamoffroad.offroad.feature.explore.R
 import kotlinx.coroutines.launch
@@ -95,10 +96,10 @@ fun PlaceViewPager(
             modifier = Modifier.fillMaxSize(),
         ) { page ->
             PlaceItems(
-                places = when (page) {
-                    0 -> uiState.unvisitedPlaces
-                    1 -> uiState.visitedPlaces + uiState.unvisitedPlaces
-                    else -> emptyList()
+                places = when (PlacePage.from(page)) {
+                    PlacePage.UNVISITED -> uiState.unvisitedPlaces
+                    PlacePage.TOTAL -> uiState.visitedPlaces + uiState.unvisitedPlaces
+                    PlacePage.NONE -> emptyList()
                 },
                 isLoading = uiState.isLoading,
                 isLoadable = uiState.isLoadable,
