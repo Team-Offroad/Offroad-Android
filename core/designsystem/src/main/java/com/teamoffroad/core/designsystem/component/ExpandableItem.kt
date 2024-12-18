@@ -32,7 +32,7 @@ fun ExpandableItem(
     defaultContent: @Composable (Boolean) -> Unit,
     extraContent: @Composable () -> Unit = {},
     backgroundColor: Color = Main3,
-    cornerRadius: Int = 4,
+    cornerRadius: Int = 5,
     verticalPadding: Int = 16,
     horizontalPadding: Int = 18,
 ) {
