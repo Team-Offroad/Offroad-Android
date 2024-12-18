@@ -19,10 +19,15 @@ fun AdaptationImage(
 ) {
     val context = LocalContext.current
 
+    val isSvg = containsExtension(imageUrl, "svg")
+    val isGif = containsExtension(imageUrl, "gif")
+
     val imageLoader = ImageLoader.Builder(context)
         .components {
-            add(SvgDecoder.Factory())
-            add(GifDecoder.Factory())
+            when {
+                isSvg -> add(SvgDecoder.Factory())
+                isGif -> add(GifDecoder.Factory())
+            }
         }
         .build()
 
@@ -38,4 +43,9 @@ fun AdaptationImage(
         contentDescription = contentDescription,
         modifier = modifier,
     )
+}
+
+private fun containsExtension(url: String, extension: String): Boolean {
+    val regex = Regex("\\.$extension(\\?|$)", RegexOption.IGNORE_CASE)
+    return regex.containsMatchIn(url)
 }
