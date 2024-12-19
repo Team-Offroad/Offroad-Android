@@ -278,17 +278,3 @@ private fun UsersQuestInformation(
         Spacer(modifier = Modifier.padding(end = 24.dp))
     }
 }
-
-@RequiresApi(Build.VERSION_CODES.TIRAMISU)
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-    OffroadTheme {
-        HomeScreen(
-            //padding = PaddingValues(),
-            category = "NONE",
-            navigateToCharacterChatScreen = { _, _  -> }
-        )
-    }
-}
-
