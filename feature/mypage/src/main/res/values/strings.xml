@@ -67,4 +67,5 @@
     <string name="my_page_setting_marketing_agree">%1$s부로 마케팅 정보 수신 동의 처리되었습니다.</string>
     <string name="my_page_setting_marketing_disagree">%1$s부로 마케팅 정보 수신 비동의 처리되었습니다.</string>
     <string name="my_page_setting_marketing_exit">닫기</string>
+    <string name="my_page_setting_customer_support">고객 문의</string>
 </resources>

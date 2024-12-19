@@ -51,6 +51,7 @@ internal fun SettingScreen(
     modifier: Modifier = Modifier,
     navigateToAnnouncement: () -> Unit,
     navigateToSignIn: () -> Unit,
+    navigateToSupport: () -> Unit,
     navigateToBack: () -> Unit,
     viewModel: SettingViewModel = hiltViewModel(),
 ) {
@@ -152,6 +153,10 @@ internal fun SettingScreen(
             title = stringResource(R.string.my_page_setting_item_marketing_agree),
             isImportant = false,
             onClick = { viewModel.changeDialogState(SettingDialogState.MarketingVisible) })
+        SettingContainer(
+            title = stringResource(R.string.my_page_setting_customer_support),
+            isImportant = false,
+            onClick = { navigateToSupport() })
         SettingContainer(
             title = stringResource(R.string.my_page_setting_item_logout),
             isImportant = false,
