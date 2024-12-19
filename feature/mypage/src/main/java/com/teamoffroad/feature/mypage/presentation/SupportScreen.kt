@@ -65,7 +65,7 @@ fun SupportScreen(
 @Composable
 private fun SupportDescription() {
     Text(
-        text = "오브를 플레이하시면서 불편한 점이나 궁금한 점이 있으시다면, 아래 연락처로 편하게 문의주세요.",
+        text = stringResource(R.string.my_page_support_description),
         style = OffroadTheme.typography.textBold,
         color = Main2,
         modifier = Modifier.padding(top = 30.dp),
@@ -75,7 +75,7 @@ private fun SupportDescription() {
 @Composable
 private fun SupportDescriptionLabel() {
     Text(
-        text = "확인 후 이메일로 답변드리겠습니다.",
+        text = stringResource(R.string.my_page_support_description_label),
         style = OffroadTheme.typography.textAuto,
         color = Gray400,
         modifier = Modifier.padding(top = 12.dp),
@@ -85,7 +85,7 @@ private fun SupportDescriptionLabel() {
 @Composable
 private fun SupportEmailBox() {
     Text(
-        text = "contact.track1@gmail.com",
+        text = stringResource(R.string.my_page_support_email),
         style = OffroadTheme.typography.textRegular,
         color = Main2,
         textAlign = TextAlign.Center,
