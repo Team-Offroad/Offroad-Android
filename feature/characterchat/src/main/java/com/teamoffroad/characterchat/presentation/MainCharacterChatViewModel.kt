@@ -99,6 +99,10 @@ class MainCharacterChatViewModel @Inject constructor(
                     characterName = data.characterName ?: "",
                     characterChatContent = data.content ?: ""
                 )
+                // 답장하기 버튼 없애기
+                _characterChatUiState.value = _characterChatUiState.value.copy(
+                    isAnswerButtonClicked = true
+                )
             }.onFailure { t ->
                 _characterChatLastUnreadUiState.value = _characterChatLastUnreadUiState.value.copy(
                     isLoading = false,

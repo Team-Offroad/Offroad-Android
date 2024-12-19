@@ -54,8 +54,6 @@ fun HomeIcons(
 
     val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         listOf(Manifest.permission.READ_MEDIA_IMAGES)
-    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        listOf(Manifest.permission.READ_EXTERNAL_STORAGE)
     } else {
         listOf(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
