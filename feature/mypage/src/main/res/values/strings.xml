@@ -71,4 +71,5 @@
     <string name="my_page_support_description">오브를 플레이하시면서 불편한 점이나 궁금한 점이 있으시다면, 아래 연락처로 편하게 문의주세요.</string>
     <string name="my_page_support_description_label">확인 후 이메일로 답변드리겠습니다.</string>
     <string name="my_page_support_email">contact.track1@gmail.com</string>
+    <string name="my_page_setting_naver_map_support">네이버 지도 약관</string>
 </resources>
