@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.teamoffroad.characterchat.navigation.characterChatNavGraph
-import com.teamoffroad.core.designsystem.theme.Main1
+import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.feature.auth.navigation.authNavGraph
 import com.teamoffroad.feature.explore.navigation.exploreNavGraph
 import com.teamoffroad.feature.home.navigation.homeNavGraph
@@ -29,7 +29,7 @@ internal fun MainNavHost(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(Main1)
+            .background(ListBg)
     ) {
         NavHost(
             navController = navigator.navController,
@@ -54,8 +54,8 @@ internal fun MainNavHost(
                 navigateToHome = { category, completeQuests ->
                     navigator.navigateToHomeFromExplore(category, completeQuests)
                 },
-                navigateToPlace = {
-                    navigator.navigateToPlace()
+                navigateToPlace = { latitude, longitude ->
+                    navigator.navigateToPlace(latitude, longitude)
                 },
                 navigateToQuest = {
                     navigator.navigateToQuest()

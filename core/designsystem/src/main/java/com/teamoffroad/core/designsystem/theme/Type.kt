@@ -5,11 +5,12 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.dp
 import com.teamoffroad.offroad.core.designsystem.R
 
 val PretendardBold = FontFamily(Font(R.font.pretendard_bold, FontWeight.Bold))
@@ -182,133 +183,135 @@ class OffroadTypography internal constructor(
 
 @Composable
 fun offroadTypography(): OffroadTypography {
+    val density = LocalDensity.current
+
     return OffroadTypography(
         title = TextStyle(
             fontFamily = PretendardBold,
             fontWeight = FontWeight.Bold,
-            fontSize = 22.sp
+            fontSize = with(density) { 22.dp.toSp() }
         ),
         subtitle2Bold = TextStyle(
             fontFamily = PretendardBold,
             fontWeight = FontWeight.Bold,
-            fontSize = 18.sp
+            fontSize = with(density) { 18.dp.toSp() }
         ),
         subtitleReg = TextStyle(
             fontFamily = PretendardRegular,
             fontWeight = FontWeight.Normal,
-            fontSize = 18.sp
+            fontSize = with(density) { 18.dp.toSp() }
         ),
         tooltipTitle = TextStyle(
             fontFamily = PretendardBold,
             fontWeight = FontWeight.Bold,
-            fontSize = 17.sp
+            fontSize = with(density) { 17.dp.toSp() }
         ),
         subtitle2Semibold = TextStyle(
             fontFamily = PretendardSemiBold,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 16.sp
+            fontSize = with(density) { 16.dp.toSp() }
         ),
         textBold = TextStyle(
             fontFamily = PretendardBold,
             fontWeight = FontWeight.Bold,
-            fontSize = 14.sp,
-            lineHeight = 21.sp
+            fontSize = with(density) { 14.dp.toSp() },
+            lineHeight = with(density) { 21.dp.toSp() }
         ),
         textRegular = TextStyle(
             fontFamily = PretendardRegular,
             fontWeight = FontWeight.Normal,
-            fontSize = 14.sp,
-            lineHeight = 21.sp
+            fontSize = with(density) { 14.dp.toSp() },
+            lineHeight = with(density) { 21.dp.toSp() }
         ),
         textAuto = TextStyle(
             fontFamily = PretendardRegular,
             fontWeight = FontWeight.Normal,
-            fontSize = 14.sp
+            fontSize = with(density) { 14.dp.toSp() }
         ),
         btnSmall = TextStyle(
             fontFamily = PretendardMedium,
             fontWeight = FontWeight.Medium,
-            fontSize = 13.sp
+            fontSize = with(density) { 13.dp.toSp() }
         ),
         hint = TextStyle(
             fontFamily = PretendardMedium,
             fontWeight = FontWeight.Medium,
-            fontSize = 12.sp
+            fontSize = with(density) { 12.dp.toSp() }
         ),
         tooltipNumber = TextStyle(
             fontFamily = PretendardBold,
             fontWeight = FontWeight.Bold,
-            fontSize = 11.sp
+            fontSize = with(density) { 11.dp.toSp() }
         ),
         textContentsSmall = TextStyle(
             fontFamily = PretendardMedium,
             fontWeight = FontWeight.Medium,
-            fontSize = 11.sp
+            fontSize = with(density) { 11.dp.toSp() }
         ),
         textContents = TextStyle(
             fontFamily = PretendardSemiBold,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 13.sp
+            fontSize = with(density) { 13.dp.toSp() }
         ),
         profileTitle = TextStyle(
             fontFamily = PretendardBold,
             fontWeight = FontWeight.Bold,
-            fontSize = 24.sp
+            fontSize = with(density) { 24.dp.toSp() }
         ),
         bothLogin = TextStyle(
             fontFamily = PretendardSemiBold,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 15.sp
+            fontSize = with(density) { 15.dp.toSp() }
         ),
         bothBottomLabel = TextStyle(
             fontFamily = OpticianSansRegular,
             fontWeight = FontWeight.Normal,
-            fontSize = 14.sp
+            fontSize = with(density) { 14.dp.toSp() }
         ),
         homeViewBothRecentNumBold = TextStyle(
             fontFamily = OpticianSansRegular,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 24.sp
+            fontSize = with(density) { 24.dp.toSp() }
         ),
         homeViewBothRecentNumRegular = TextStyle(
             fontFamily = PretendardRegular,
             fontWeight = FontWeight.Normal,
-            fontSize = 20.sp
+            fontSize = with(density) { 20.dp.toSp() }
         ),
         homeViewBothUpcomingNumBold = TextStyle(
             fontFamily = PretendardBold,
             fontWeight = FontWeight.Bold,
-            fontSize = 28.sp
+            fontSize = with(density) { 28.dp.toSp() }
         ),
         homeViewBothUpcomingNumRegular = TextStyle(
             fontFamily = PretendardRegular,
             fontWeight = FontWeight.Normal,
-            fontSize = 28.sp
+            fontSize = with(density) { 28.dp.toSp() }
         ),
         bothSubtitle3 = TextStyle(
             fontFamily = PretendardMedium,
             fontWeight = FontWeight.Medium,
-            fontSize = 24.sp
+            fontSize = with(density) { 24.dp.toSp() }
         ),
         tabBarMedi = TextStyle(
             fontFamily = PretendardMedium,
             fontWeight = FontWeight.Medium,
-            fontSize = 17.sp
+            fontSize = with(density) { 17.dp.toSp() }
         ),
         boxMedi = TextStyle(
             fontFamily = PretendardMedium,
             fontWeight = FontWeight.Medium,
-            fontSize = 12.sp
+            fontSize = with(density) { 12.dp.toSp() }
         ),
         marketing = TextStyle(
             fontFamily = PretendardRegular,
             fontWeight = FontWeight.Normal,
-            fontSize = 12.sp
+            fontSize = with(density) { 12.dp.toSp() }
         ),
         questCompleted = TextStyle(
             fontFamily = PretendardBold,
             fontWeight = FontWeight.Bold,
-            fontSize = 12.sp
+            fontSize = with(density) { 12.dp.toSp() }
         ),
     )
 }

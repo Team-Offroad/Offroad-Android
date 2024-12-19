@@ -7,11 +7,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,6 +19,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -29,6 +33,7 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
 import com.teamoffroad.offroad.feature.explore.R
+import java.util.Stack
 
 @Composable
 fun ExploreResultDialog(
@@ -43,7 +48,8 @@ fun ExploreResultDialog(
     ) {
         Box(
             modifier = Modifier
-                .size(312.dp, 348.dp)
+                .width(312.dp)
+                .wrapContentHeight()
                 .background(Main3, shape = RoundedCornerShape(14.dp))
         ) {
             if (errorType is ExploreAuthState.Success) {
@@ -59,10 +65,10 @@ fun ExploreResultDialog(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Bottom,
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 36.dp),
+                    .wrapContentHeight()
+                    .fillMaxWidth()
+                    .padding(top = 34.dp),
             ) {
-                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = if (errorType is ExploreAuthState.Success) {
                         stringResource(R.string.explore_dialog_success)
@@ -74,7 +80,7 @@ fun ExploreResultDialog(
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
-                    text = text,
+                    text = applyBoldToText(text),
                     color = Main2,
                     textAlign = TextAlign.Center,
                     style = OffroadTheme.typography.textRegular
@@ -84,7 +90,6 @@ fun ExploreResultDialog(
             }
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
                     .align(Alignment.BottomCenter)
                     .padding(horizontal = 40.dp)
                     .padding(bottom = 28.dp)
@@ -112,6 +117,39 @@ fun ExploreResultDialog(
                     )
                 }
             }
+        }
+    }
+}
+
+private fun applyBoldToText(inputText: String): AnnotatedString {
+    return buildAnnotatedString {
+        val boldDelimiter = "**"
+        var currentIndex = 0
+        val boldStack = Stack<Int>()
+
+        while (currentIndex < inputText.length) {
+            val boldStart = inputText.indexOf(boldDelimiter, currentIndex)
+
+            if (boldStart == -1) {
+                append(inputText.substring(currentIndex))
+                break
+            }
+
+            append(inputText.substring(currentIndex, boldStart))
+
+            when (boldStack.isEmpty()) {
+                true -> boldStack.push(length)
+                false -> {
+                    val start = boldStack.pop()
+                    addStyle(
+                        style = SpanStyle(fontWeight = FontWeight.Bold),
+                        start = start,
+                        end = length
+                    )
+                }
+            }
+
+            currentIndex = boldStart + boldDelimiter.length
         }
     }
 }

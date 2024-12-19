@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -30,6 +29,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -81,7 +81,7 @@ fun AvailableCouponItems(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 12.dp),
-                style = OffroadTheme.typography.boxMedi.copy(lineHeight = 20.sp),
+                style = OffroadTheme.typography.boxMedi.copy(lineHeight = with(LocalDensity.current) { 20.dp.toSp() }),
                 color = Black55,
                 textAlign = TextAlign.Center,
             )
@@ -107,7 +107,7 @@ private fun AvailableCouponItem(
             .border(1.dp, Stroke, RoundedCornerShape(12.dp))
             .clip(RoundedCornerShape(12.dp))
             .background(Main1)
-            .padding(8.dp)
+            .padding(top = 10.dp, start = 10.dp, end = 10.dp)
             .clickableWithoutRipple(interactionSource = remember { MutableInteractionSource() }) {
                 navigateToAvailableCouponDetail(
                     coupon.id,
@@ -131,14 +131,19 @@ private fun AvailableCouponItem(
                     .background(White)
                     .fillMaxWidth()
             )
-            Text(
-                text = coupon.name,
+            Box(
                 modifier = Modifier
-                    .wrapContentHeight()
+                    .fillMaxWidth()
                     .weight(1f),
-                color = Main2,
-                style = OffroadTheme.typography.textContentsSmall
-            )
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = coupon.name,
+                    color = Main2,
+                    style = OffroadTheme.typography.textContentsSmall,
+                    textAlign = TextAlign.Center
+                )
+            }
         }
 
         if (coupon.isNewGained) {
@@ -177,7 +182,6 @@ fun UsedCouponItems(
                     .padding(start = 110.dp, top = 132.dp, end = 110.dp)
                     .size(138.dp)
             )
-
             Text(
                 text = stringResource(id = R.string.my_page_used_coupon_empty),
                 modifier = Modifier
@@ -201,10 +205,10 @@ private fun UsedCouponItem(
 ) {
     Box(
         modifier = Modifier
-            .fillMaxWidth()
             .aspectRatio(148f / 176f)
             .border(1.dp, Stroke.copy(alpha = 0.25f), RoundedCornerShape(12.dp))
             .clip(RoundedCornerShape(12.dp))
+            .background(Main1)
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -214,22 +218,35 @@ private fun UsedCouponItem(
             AdaptationImage(
                 imageUrl = coupon.couponImageUrl,
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .padding(top = 10.dp, start = 10.dp, end = 10.dp)
                     .aspectRatio(131f / 131f)
-                    .padding(8.dp)
                     .clip(RoundedCornerShape(12.dp))
                     .background(White)
+                    .fillMaxWidth()
             )
-            Text(
-                text = coupon.name,
+            Box(
                 modifier = Modifier
-                    .wrapContentHeight()
+                    .fillMaxWidth()
                     .weight(1f),
-                color = Main2,
-                style = OffroadTheme.typography.textContentsSmall
-            )
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = coupon.name,
+                    color = Main2,
+                    style = OffroadTheme.typography.textContentsSmall,
+                    textAlign = TextAlign.Center
+                )
+            }
         }
-        GainedCouponLockedCover()
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Black25, RoundedCornerShape(10.dp))
+
+        ) {
+            GainedCouponLockedCover()
+        }
     }
 }
 
@@ -355,17 +372,13 @@ private fun LoadingIndicator(onAnimationEnd: () -> Unit) {
 
 @Composable
 private fun GainedCouponLockedCover() {
-    Box(
+    Image(
         modifier = Modifier
             .fillMaxSize()
-            .background(Black25, RoundedCornerShape(10.dp))
             .padding(60.dp)
-    ) {
-        Image(
-            modifier = Modifier.fillMaxSize(),
-            painter = painterResource(id = drawable.ic_my_page_coupon_locked),
-            contentDescription = "locked",
-            alignment = Alignment.Center
-        )
-    }
+            .padding(bottom = 36.dp),
+        painter = painterResource(id = drawable.ic_my_page_coupon_locked),
+        contentDescription = "locked",
+        alignment = Alignment.Center
+    )
 }

@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -43,7 +44,7 @@ fun LinearProgressBar(data: HomeProgressBarModel, viewModel: HomeViewModel) {
                         fontFamily = PretendardBold,
                         fontWeight = FontWeight.Bold,
                         color = Main1,
-                        fontSize = 28.sp
+                        fontSize = with(LocalDensity.current) { 28.dp.toSp() }
                     )
                 ) {
                     append(data.amount.toString())
@@ -52,7 +53,7 @@ fun LinearProgressBar(data: HomeProgressBarModel, viewModel: HomeViewModel) {
                     SpanStyle(
                         fontFamily = PretendardRegular,
                         fontWeight = FontWeight.Normal,
-                        fontSize = 28.sp,
+                        fontSize = with(LocalDensity.current) { 28.dp.toSp() },
                         color = White25
                     )
                 ) {

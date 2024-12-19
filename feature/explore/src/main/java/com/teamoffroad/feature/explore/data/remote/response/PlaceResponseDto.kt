@@ -25,4 +25,6 @@ data class PlaceResponseDto(
     val longitude: Double,
     @SerialName("visitCount")
     val visitCount: Int,
+    @SerialName("distanceFromUser")
+    val distanceFromUser: Double,
 )

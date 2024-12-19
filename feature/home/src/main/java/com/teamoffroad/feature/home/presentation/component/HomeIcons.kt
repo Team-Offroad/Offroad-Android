@@ -38,7 +38,6 @@ import kotlinx.coroutines.withContext
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun HomeIcons(
-    //isChatting: MutableState<Boolean>,
     context: Context,
     imageUrl: String,
     characterName: String,
@@ -60,10 +59,12 @@ fun HomeIcons(
         contract = ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
         scope.launch {
-            if (permissions.values.all { it }) {
+            val deniedPermissions = permissions.filterValues { !it }.keys
+            if (deniedPermissions.isEmpty()) {
                 showToast(context, context.getString(R.string.allowed_permissions))
             } else {
-                showToast(context, context.getString(R.string.not_allowed_permissions))
+                showToast(context, context.getString(R.string.not_allowed_permissions,)
+                )
             }
         }
     }
@@ -107,24 +108,44 @@ fun HomeIcons(
                 contentDescription = "upload",
                 modifier = Modifier
                     .clickableWithoutRipple(interactionSource = uploadInteractionSource) {
-                        val allPermissionsGranted = permissions.all {
-                            ContextCompat.checkSelfPermission(
-                                context,
-                                Manifest.permission.READ_EXTERNAL_STORAGE
-                            ) == PackageManager.PERMISSION_GRANTED
+                        val allPermissionsGranted = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            permissions.all {
+                                ContextCompat.checkSelfPermission(
+                                    context,
+                                    Manifest.permission.READ_MEDIA_IMAGES
+                                ) == PackageManager.PERMISSION_GRANTED
+                            }
+                        }else {
+                            permissions.all {
+                                ContextCompat.checkSelfPermission(
+                                    context,
+                                    it
+                                ) == PackageManager.PERMISSION_GRANTED
+                            }
                         }
+
                         if (allPermissionsGranted) {
                             scope.launch {
                                 uploadImage(context, imageUrl)
                             }
                         } else {
-                            launcher.launch(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE))
+                            launcher.launch(
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                    arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
+                                } else {
+                                    arrayOf(
+                                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                        Manifest.permission.READ_EXTERNAL_STORAGE
+                                    )
+                                }
+                            )
                         }
+
                     }
             )
 
             Image(
-                painter = painterResource(id = R.drawable.ic_home_change),
+                painter = painterResource(id = R.drawable.ic_home_change_character),
                 contentDescription = "change",
                 modifier = Modifier.clickableWithoutRipple { navigateToGainedCharacter() }
             )
