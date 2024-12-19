@@ -20,19 +20,21 @@ fun ExplorePermissionHandler(
     val launcherLocationPermissions = getPermissionsLauncher(updatePermission)
 
     LaunchedEffect(uiState.isLocationPermissionGranted) {
+        val isCoarseLocationGranted = ContextCompat.checkSelfPermission(
+            context, Manifest.permission.ACCESS_COARSE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
         val isFineLocationGranted = ContextCompat.checkSelfPermission(
             context, Manifest.permission.ACCESS_FINE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
 
-        when (isFineLocationGranted) {
-            true -> updatePermission(true)
-            false -> {
-                launcherLocationPermissions.launch(
-                    arrayOf(
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                    )
+        when {
+            isCoarseLocationGranted && isFineLocationGranted -> updatePermission(true)
+            else -> launcherLocationPermissions.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
                 )
-            }
+            )
         }
     }
 }
