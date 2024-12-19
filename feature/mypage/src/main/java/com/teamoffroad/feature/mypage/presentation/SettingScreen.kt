@@ -68,13 +68,12 @@ internal fun SettingScreen(
         if (snackBarShowState) {
             coroutineScope.launch {
                 val snackBar = snackBarHostState.showSnackbar(
-                    message = if (isSettingUiState.marketingAgree == true) "${
-                        currentDateTime.format(
-                            formatter
-                        )
-                    }부로 마케팅 정보 수신 동의 처리되었습니다."
-                    else "${currentDateTime.format(formatter)}부로 마케팅 정보 수신 비동의 처리되었습니다.",
-                    actionLabel = "닫기",
+                    message = when (isSettingUiState.marketingAgree == true) {
+                        true -> context.getString(R.string.my_page_setting_marketing_agree, currentDateTime.format(formatter))
+
+                        false -> context.getString(R.string.my_page_setting_marketing_disagree, currentDateTime.format(formatter))
+                    },
+                    actionLabel = context.getString(R.string.my_page_setting_marketing_exit),
                     duration = SnackbarDuration.Short
                 )
                 when (snackBar) {
