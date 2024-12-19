@@ -191,14 +191,14 @@ private fun UsersAdventuresInformation(
         modifier = modifier
             .fillMaxWidth()
     ) {
-        val imageUrl = adventuresInformationData?.baseImageUrl ?: "" // TODO: svg & lottie
+        //val imageUrl = adventuresInformationData?.baseImageUrl ?: "" // TODO: svg & lottie
         Box(
             modifier = Modifier.fillMaxWidth(),
             contentAlignment = Alignment.TopEnd
         ) {
             HomeIcons(
                 context = context,
-                imageUrl = imageUrl,
+                imageUrl = adventuresInformationData?.baseImageUrl ?: "",
                 characterName = characterName,
                 characterChatLastUnreadUiState = characterChatLastUnreadUiState,
                 navigateToGainedCharacter = navigateToGainedCharacter,
