@@ -22,7 +22,7 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
-import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -37,7 +37,7 @@ internal fun AnnouncementScreen(
     announcementId: String?,
     navigateToAnnouncementDetail: (String, String, Boolean, String, Boolean, List<String>, List<String>) -> Unit,
     navigateToBack: () -> Unit,
-    viewModel: AnnouncementViewModel = hiltViewModel()
+    viewModel: AnnouncementViewModel = hiltViewModel(),
 ) {
     val isAnnouncementState by viewModel.announcementUiState.collectAsState()
 
@@ -67,8 +67,8 @@ internal fun AnnouncementScreen(
             .navigationPadding()
             .fillMaxSize()
             .background(Main1)
+            .actionBarPadding()
     ) {
-        OffroadActionBar()
         NavigateBackAppBar(
             text = stringResource(R.string.my_page_setting_title),
             modifier = Modifier.padding(top = 20.dp)
