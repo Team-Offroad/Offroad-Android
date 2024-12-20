@@ -112,6 +112,7 @@ class CharacterItem {
                         progress = progress,
                         modifier = Modifier
                             .fillMaxSize()
+                            .padding(30.dp)
                             .align(Alignment.BottomCenter)
                     )
                 }
