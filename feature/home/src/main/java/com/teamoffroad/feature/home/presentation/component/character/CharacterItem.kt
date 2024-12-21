@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,7 +24,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -40,7 +38,6 @@ import com.airbnb.lottie.compose.rememberLottieAnimatable
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.teamoffroad.core.designsystem.component.OffroadTagItem
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
-import com.teamoffroad.core.designsystem.theme.Kakao
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.Sub55
@@ -63,7 +60,7 @@ class CharacterItem {
 
         Box(
             modifier = Modifier
-                .fillMaxWidth(),
+                .aspectRatio(280f / 280f),
             contentAlignment = Alignment.Center
         ) {
             if (motionCharacterUrl == null) {
@@ -83,7 +80,6 @@ class CharacterItem {
                             .aspectRatio(210f / 210f)
                             .fillMaxSize()
                             .align(Alignment.BottomCenter),
-                        // TODO: placeholder, error일 때
                     )
                 }
             } else {
@@ -93,7 +89,7 @@ class CharacterItem {
 
                 val progress by animateLottieCompositionAsState(
                     composition = composition,
-                    iterations = LottieConstants.IterateForever
+                    iterations = 60
                 )
 
                 val lottieAnimatable = rememberLottieAnimatable()
@@ -116,6 +112,7 @@ class CharacterItem {
                         progress = progress,
                         modifier = Modifier
                             .fillMaxSize()
+                            .padding(30.dp)
                             .align(Alignment.BottomCenter)
                     )
                 }

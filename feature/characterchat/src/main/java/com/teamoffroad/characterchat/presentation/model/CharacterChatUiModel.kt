@@ -10,6 +10,7 @@ data class ChatModel(
     val text: String = "",
     val date: LocalDate = LocalDate.now(),
     val time: Triple<TimeType, Int, Int> = Triple(AM, 0, 0),
+    val id: Long = 0,
 ) {
     companion object {
         fun String.toDate(): LocalDate {

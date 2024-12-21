@@ -12,5 +12,6 @@ fun Chat.toUi(): ChatModel {
         text = content,
         date = createdAt.toDate(),
         time = createdAt.toTime(),
+        id = id,
     )
 }

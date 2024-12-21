@@ -22,7 +22,7 @@ fun NavController.navigateToHome(
 fun NavGraphBuilder.homeNavGraph(
     navigateToBack: () -> Unit,
     navigateToGainedCharacter: () -> Unit,
-    navigateToCharacterChatScreen: (String) -> Unit,
+    navigateToCharacterChatScreen: (Int, String) -> Unit,
 ) {
     composable<MainTabRoute.Home> { backStackEntry ->
         val category = backStackEntry.toRoute<MainTabRoute.Home>().category

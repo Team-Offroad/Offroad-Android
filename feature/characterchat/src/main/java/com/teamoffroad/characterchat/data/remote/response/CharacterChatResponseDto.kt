@@ -11,4 +11,6 @@ data class CharacterChatResponseDto(
     val content: String,
     @SerialName("createdAt")
     val createdAt: String,
+    @SerialName("id")
+    val id: Long,
 )

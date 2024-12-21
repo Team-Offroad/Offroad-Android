@@ -2,4 +2,8 @@
 <resources>
     <string name="character_chat_chat">채팅하기</string>
     <string name="character_chat_date">%1$s월 %2$s일 %3$s</string>
+
+    <string name="home_chat_me">나 : &#160;</string>
+    <string name="home_chat_finish">채팅 종료</string>
+    <string name="home_chat_answer">답장하기</string>
 </resources>

@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,11 +19,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -31,6 +34,10 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.teamoffroad.characterchat.presentation.MainCharacterChatViewModel
+import com.teamoffroad.characterchat.presentation.component.showCharacterChat
+import com.teamoffroad.characterchat.presentation.component.showUserChat
+import com.teamoffroad.characterchat.presentation.model.CharacterChatLastUnreadUiState
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.home.domain.model.UserQuests
@@ -50,12 +57,16 @@ fun HomeScreen(
     category: String?,
     completeQuests: List<String> = emptyList(),
     navigateToGainedCharacter: () -> Unit = {},
-    navigateToCharacterChatScreen: (String) -> Unit,
+    navigateToCharacterChatScreen: (Int, String) -> Unit,
 ) {
     val context = LocalContext.current
-    val viewModel: HomeViewModel = hiltViewModel()
+    val homeViewModel: HomeViewModel = hiltViewModel()
+    val mainViewModel: MainCharacterChatViewModel = hiltViewModel()
+    val characterChatUiState = mainViewModel.characterChatUiState.collectAsStateWithLifecycle()
+    val userChatUiState = mainViewModel.userChatUiState.collectAsStateWithLifecycle()
+    val characterChatLastUnreadUiState = mainViewModel.characterChatLastUnreadUiState.collectAsStateWithLifecycle()
     val isCompleteQuestDialogShown = remember { mutableStateOf(false) }
-    val characterName = viewModel.characterName.collectAsStateWithLifecycle()
+    val characterName = homeViewModel.characterName.collectAsStateWithLifecycle()
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) {}
 
@@ -69,12 +80,13 @@ fun HomeScreen(
         }
     }
     LaunchedEffect(Unit) {
-        viewModel.updateAutoSignIn()
-        viewModel.updateFcmToken()
-        viewModel.updateCategory(if (category.isNullOrEmpty()) "NONE" else category)
-        viewModel.getUsersAdventuresInformation(viewModel.category.value)
-        viewModel.getUserQuests()
+        homeViewModel.updateAutoSignIn()
+        homeViewModel.updateFcmToken()
+        homeViewModel.updateCategory(if (category.isNullOrEmpty()) "NONE" else category)
+        homeViewModel.getUsersAdventuresInformation(homeViewModel.category.value)
+        homeViewModel.getUserQuests()
         if (completeQuests.isNotEmpty()) isCompleteQuestDialogShown.value = true
+        mainViewModel.getCharacterChatLastUnread()
     }
 
     Box(
@@ -84,7 +96,8 @@ fun HomeScreen(
         Image(
             painter = painterResource(id = R.drawable.img_home_background),
             contentDescription = "home background",
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
         )
     }
 
@@ -95,18 +108,21 @@ fun HomeScreen(
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             UsersAdventuresInformation(
-                //isChatting = isUserChatting,
                 context = context,
                 characterName = characterName.value,
                 modifier = Modifier
                     .weight(1f)
                     .actionBarPadding(),
-                viewModel = viewModel,
+                homeViewModel = homeViewModel,
+                characterChatLastUnreadUiState = characterChatLastUnreadUiState,
                 navigateToGainedCharacter = navigateToGainedCharacter,
-                navigateToCharacterChatScreen = navigateToCharacterChatScreen
+                updateShowUserChatTextField = mainViewModel::updateShowUserChatTextField,
+                updateCharacterChatExist = mainViewModel::updateCharacterChatExist,
+                updateCharacterName = mainViewModel::updateCharacterName,
+                updateLastUnreadChatDosAllRead = mainViewModel::updateLastUnreadChatDosAllRead
             )
             Spacer(modifier = Modifier.padding(top = 12.dp))
-            UsersQuestInformation(context, viewModel)
+            UsersQuestInformation(context, homeViewModel)
 
         }
     }
@@ -118,6 +134,27 @@ fun HomeScreen(
             onClickCancel = { isCompleteQuestDialogShown.value = false },
         )
     }
+
+    showCharacterChat(
+        characterChatUiState = characterChatUiState,
+        userChatUiState = userChatUiState,
+        updateAnswerCharacterChatButtonState = mainViewModel::updateAnswerCharacterChatButtonState,
+        updateCharacterChatExist = mainViewModel::updateCharacterChatExist,
+        updateUserWatchingCharacterChat = mainViewModel::updateUserWatchingCharacterChat,
+        updateShowUserChatTextField = mainViewModel::updateShowUserChatTextField,
+        navigateToCharacterChatScreen = navigateToCharacterChatScreen
+    )
+
+    showUserChat(
+        userChatUiState = userChatUiState,
+        characterChatUiState = characterChatUiState,
+        userChattingText = mainViewModel.userChattingText.collectAsStateWithLifecycle(),
+        updateCharacterChatExist = mainViewModel::updateCharacterChatExist,
+        updateUserWatchingCharacterChat = mainViewModel::updateUserWatchingCharacterChat,
+        updateUserChattingText = mainViewModel::updateUserChattingText,
+        updateShowUserChatTextField = mainViewModel::updateShowUserChatTextField,
+        sendChat = mainViewModel::sendChat
+    )
 }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -126,12 +163,16 @@ private fun UsersAdventuresInformation(
     context: Context,
     characterName: String,
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel,
+    homeViewModel: HomeViewModel,
+    characterChatLastUnreadUiState: State<CharacterChatLastUnreadUiState>,
     navigateToGainedCharacter: () -> Unit,
-    navigateToCharacterChatScreen: (String) -> Unit,
+    updateShowUserChatTextField: (Boolean) -> Unit,
+    updateCharacterChatExist: (Boolean) -> Unit,
+    updateCharacterName: (String) -> Unit,
+    updateLastUnreadChatDosAllRead: (Boolean) -> Unit,
 ) {
     val adventuresInformationState =
-        viewModel.getUsersAdventuresInformationState.collectAsState(initial = UiState.Loading).value
+        homeViewModel.getUsersAdventuresInformationState.collectAsState(initial = UiState.Loading).value
 
     val adventuresInformationData = when (adventuresInformationState) {
         is UiState.Success -> adventuresInformationState.data
@@ -148,17 +189,20 @@ private fun UsersAdventuresInformation(
         modifier = modifier
             .fillMaxWidth()
     ) {
-        val imageUrl = adventuresInformationData?.baseImageUrl ?: "" // TODO: svg & lottie
         Box(
             modifier = Modifier.fillMaxWidth(),
             contentAlignment = Alignment.TopEnd
         ) {
             HomeIcons(
                 context = context,
-                imageUrl = imageUrl,
+                imageUrl = adventuresInformationData?.baseImageUrl ?: "",
                 characterName = characterName,
+                characterChatLastUnreadUiState = characterChatLastUnreadUiState,
                 navigateToGainedCharacter = navigateToGainedCharacter,
-                navigateToCharacterChatScreen = navigateToCharacterChatScreen
+                updateShowUserChatTextField = updateShowUserChatTextField,
+                updateCharacterChatExist = updateCharacterChatExist,
+                updateCharacterName = updateCharacterName,
+                updateLastUnreadChatDosAllRead = updateLastUnreadChatDosAllRead
             )
         }
 
@@ -172,7 +216,7 @@ private fun UsersAdventuresInformation(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
         ) {
-            CharacterItem().CharacterImage(viewModel, context)
+            CharacterItem().CharacterImage(homeViewModel, context)
         }
     }
     Spacer(modifier = Modifier.padding(10.dp))
@@ -231,17 +275,3 @@ private fun UsersQuestInformation(
         Spacer(modifier = Modifier.padding(end = 24.dp))
     }
 }
-
-@RequiresApi(Build.VERSION_CODES.TIRAMISU)
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-    OffroadTheme {
-        HomeScreen(
-            //padding = PaddingValues(),
-            category = "NONE",
-            navigateToCharacterChatScreen = { _ -> }
-        )
-    }
-}
-
