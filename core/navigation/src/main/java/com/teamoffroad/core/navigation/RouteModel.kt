@@ -23,20 +23,12 @@ sealed interface MainTabRoute : Route {
 }
 
 sealed interface AuthRoute : Route {
-    @Serializable
-    data object SetNickname : AuthRoute
 
     @Serializable
     data object AgreeTermsAndConditions : AuthRoute
 
     @Serializable
     data object SignUp : AuthRoute
-
-    @Serializable
-    data class SetBirthDate(val nickname: String) : AuthRoute
-
-    @Serializable
-    data class SetGender(val nickname: String, val birthDate: String? = null) : AuthRoute
 
     @Serializable
     data class SetCharacter(
