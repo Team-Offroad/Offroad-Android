@@ -1,5 +1,7 @@
 package com.teamoffroad.feature.mypage.presentation
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,11 +12,15 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.actionBarPadding
+import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Gray400
@@ -29,6 +35,8 @@ import com.teamoffroad.offroad.feature.mypage.R
 fun SupportScreen(
     navigateToBack: () -> Unit,
 ) {
+    val context = LocalContext.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -57,7 +65,7 @@ fun SupportScreen(
         ) {
             SupportDescription()
             SupportDescriptionLabel()
-            SupportEmailBox()
+            SupportEmailBox(context)
         }
     }
 }
@@ -83,9 +91,12 @@ private fun SupportDescriptionLabel() {
 }
 
 @Composable
-private fun SupportEmailBox() {
+private fun SupportEmailBox(context: Context) {
+    val clipboardManager = LocalClipboardManager.current
+    val email = stringResource(R.string.my_page_support_email)
+
     Text(
-        text = stringResource(R.string.my_page_support_email),
+        text = email,
         style = OffroadTheme.typography.textRegular,
         color = Main2,
         textAlign = TextAlign.Center,
@@ -93,6 +104,12 @@ private fun SupportEmailBox() {
             .fillMaxWidth()
             .padding(top = 26.dp)
             .background(color = NametagInactive, shape = RoundedCornerShape(5.dp))
-            .padding(vertical = 14.dp),
+            .padding(vertical = 14.dp)
+            .clickableWithoutRipple {
+                clipboardManager.setText(AnnotatedString(email))
+                Toast
+                    .makeText(context, context.getString(R.string.my_page_support_email_copied), Toast.LENGTH_SHORT)
+                    .show()
+            },
     )
 }

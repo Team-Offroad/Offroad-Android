@@ -72,4 +72,5 @@
     <string name="my_page_support_description_label">확인 후 이메일로 답변드리겠습니다.</string>
     <string name="my_page_support_email">contact.track1@gmail.com</string>
     <string name="my_page_setting_naver_map_support">네이버 지도 약관</string>
+    <string name="my_page_support_email_copied">이메일이 클립보드에 복사되었습니다.</string>
 </resources>
