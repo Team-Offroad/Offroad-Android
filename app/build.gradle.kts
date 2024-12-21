@@ -17,11 +17,11 @@ android {
         manifestPlaceholders["NAVER_CLIENT_ID"] =
             gradleLocalProperties(rootDir, providers).getProperty("naver.client.id")
         manifestPlaceholders["KAKAO_NATIVE_KEY"] =
-            gradleLocalProperties(rootDir, providers).getProperty("google.client.id")
+            gradleLocalProperties(rootDir, providers).getProperty("kakao.native.key").replace("\"", "")
         buildConfigField(
             "String",
             "KAKAO_NATIVE_KEY",
-            gradleLocalProperties(rootDir, providers).getProperty("kakao.native.key")
+            gradleLocalProperties(rootDir, providers).getProperty("kakao.native.key"),
         )
     }
 
