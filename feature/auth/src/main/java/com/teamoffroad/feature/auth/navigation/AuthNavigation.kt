@@ -8,11 +8,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.teamoffroad.core.navigation.AuthRoute
 import com.teamoffroad.core.navigation.Route
-import com.teamoffroad.feature.auth.presentation.SelectedCharacterScreen
-import com.teamoffroad.feature.auth.presentation.SetBirthDateScreen
-import com.teamoffroad.feature.auth.presentation.SetCharacterScreen
-import com.teamoffroad.feature.auth.presentation.SetGenderScreen
-import com.teamoffroad.feature.auth.presentation.SetNicknameScreen
+import com.teamoffroad.feature.auth.presentation.signup.SelectedCharacterScreen
+import com.teamoffroad.feature.auth.presentation.signup.SetCharacterScreen
 import com.teamoffroad.feature.auth.presentation.signin.SignInScreen
 import com.teamoffroad.feature.auth.presentation.signup.SignUpScreen
 import com.teamoffroad.feature.auth.presentation.termandcondition.AgreeTermsAndConditionsScreen
