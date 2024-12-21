@@ -19,12 +19,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.addFocusCleaner
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Gray300
@@ -32,6 +34,7 @@ import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
+import com.teamoffroad.feature.auth.presentation.model.DateValidateResult
 import com.teamoffroad.offroad.feature.auth.R
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -45,6 +48,7 @@ internal fun SignUpScreen(
     val signUpUiState by viewModel.signUpUiState.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(initialPage = 0, pageCount = { 3 })
+    val focusManager = LocalFocusManager.current
 
     BackHandler(
         enabled = pagerState.currentPage == 1 || pagerState.currentPage == 2
@@ -77,6 +81,7 @@ internal fun SignUpScreen(
         modifier = Modifier
             .navigationPadding()
             .fillMaxSize()
+            .addFocusCleaner(focusManager)
             .background(Main1),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -136,7 +141,16 @@ internal fun SignUpScreen(
         ) { page ->
             when (page) {
                 0 -> NicknameScreen()
-                1 -> BirthDateScreen()
+                1 -> BirthDateScreen(
+                    focusManager = focusManager,
+                    uiState = signUpUiState,
+                    updateYear = viewModel::updateYear,
+                    updateMonth = viewModel::updateMonth,
+                    updateDate = viewModel::updateDay,
+                    updateMonthLength = viewModel::updateMonthLength,
+                    updateDateLength = viewModel::updateDayLength
+                )
+
                 2 -> GenderScreen()
                 else -> {}
             }
@@ -157,13 +171,16 @@ internal fun SignUpScreen(
                     viewModel.navigateSetCharacter()
                 }
             },
-            isActive = true
-//            when (pagerState.currentPage) {
-//                0 -> signUpUiState.nicknameScreenResult
-//                1 -> signUpUiState.birthDateScreenResult
-//                2 -> signUpUiState.genderScreenResult
-//                else -> false
-//            },
+            isActive = when (pagerState.currentPage) {
+                0 -> true
+                1 -> signUpUiState.yearValidateResult == DateValidateResult.Success &&
+                        signUpUiState.monthValidateResult == DateValidateResult.Success &&
+                        signUpUiState.dayValidateResult == DateValidateResult.Success
+
+                2 -> true
+
+                else -> false
+            },
         )
     }
 }
