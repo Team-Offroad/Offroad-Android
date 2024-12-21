@@ -5,7 +5,7 @@ import com.teamoffroad.characterchat.domain.model.ChatLastUnread
 
 interface CharacterChatRepository {
 
-    suspend fun fetchChats(characterId: Int?): List<Chat>
+    suspend fun fetchChats(characterId: Int?, limit: Int, cursor: Long?): Result<List<Chat>>
 
     suspend fun saveChat(characterId: Int?, text: String): Chat
 
