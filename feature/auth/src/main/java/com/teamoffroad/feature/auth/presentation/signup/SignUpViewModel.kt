@@ -133,6 +133,39 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
+    fun updateCheckedGender(gender: String) {
+        if (gender == signUpUiState.value.selectedGender) {
+            _signUpUiState.value = signUpUiState.value.copy(
+                selectedGender = null,
+                genderScreenResult = false
+
+            )
+        } else
+            _signUpUiState.value = signUpUiState.value.copy(
+                selectedGender = gender,
+                genderScreenResult = true
+            )
+    }
+
+    fun initBirthDate() {
+        _signUpUiState.value = signUpUiState.value.copy(
+            year = "",
+            month = "",
+            day = "",
+            date = "",
+            yearValidateResult = DateValidateResult.Empty,
+            monthValidateResult = DateValidateResult.Empty,
+            dayValidateResult = DateValidateResult.Empty
+        )
+    }
+
+    fun initGender() {
+        _signUpUiState.value = signUpUiState.value.copy(
+            selectedGender = null,
+            genderScreenResult = false
+        )
+    }
+
     fun navigateSetCharacter() {
         viewModelScope.launch {
             _signUpSideEffect.send(SignUpSideEffect.Success)

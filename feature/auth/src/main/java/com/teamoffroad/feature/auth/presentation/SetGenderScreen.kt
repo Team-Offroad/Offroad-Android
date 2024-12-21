@@ -96,7 +96,6 @@ internal fun SetGenderScreen(
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.padding(vertical = 28.dp))
-        SetGenderButton(viewModel, isGenderState)
         Spacer(modifier = Modifier.weight(1f))
         OffroadBasicBtn(
             modifier = Modifier
@@ -120,7 +119,7 @@ internal fun SetGenderScreen(
 }
 
 @Composable
-fun SetGenderButton(
+fun SetGendedrButton(
     viewModel: SetGenderViewModel,
     isGenderState: SetGenderUiState,
 ) {

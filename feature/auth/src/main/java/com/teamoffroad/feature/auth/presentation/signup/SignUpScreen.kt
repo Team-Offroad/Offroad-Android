@@ -103,7 +103,9 @@ internal fun SignUpScreen(
                             coroutineScope.launch {
                                 pagerState.animateScrollToPage(pagerState.currentPage + 1)
                             }
+                            if (pagerState.currentPage == 1) viewModel.initBirthDate()
                         } else {
+                            viewModel.initGender()
                             viewModel.navigateSetCharacter()
                         }
                     },
@@ -151,7 +153,11 @@ internal fun SignUpScreen(
                     updateDateLength = viewModel::updateDayLength
                 )
 
-                2 -> GenderScreen()
+                2 -> GenderScreen(
+                    uiState = signUpUiState,
+                    updateCheckedGender = viewModel::updateCheckedGender
+                )
+
                 else -> {}
             }
         }
@@ -177,8 +183,7 @@ internal fun SignUpScreen(
                         signUpUiState.monthValidateResult == DateValidateResult.Success &&
                         signUpUiState.dayValidateResult == DateValidateResult.Success
 
-                2 -> true
-
+                2 -> signUpUiState.genderScreenResult
                 else -> false
             },
         )
