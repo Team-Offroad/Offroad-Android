@@ -15,9 +15,9 @@ class PatchUserProfileUseCase(
         return authRepository.saveUserProfile(
             userProfile = UserProfile(
                 nickname = nickname,
-                year = birthDate?.split("-")?.get(0)?.toInt(),
-                month = birthDate?.split("-")?.get(1)?.toInt(),
-                day = birthDate?.split("-")?.get(2)?.toInt(),
+                year = birthDate?.split(",")?.get(0)?.toInt(),
+                month = birthDate?.split(",")?.get(1)?.toInt(),
+                day = birthDate?.split(",")?.get(2)?.toInt(),
                 gender = gender,
                 characterId = characterId,
             )
