@@ -8,6 +8,7 @@
             android:name="com.teamoffroad.feature.main.MainActivity"
             android:configChanges="uiMode"
             android:exported="true"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.Offroad">
 
             <intent-filter>

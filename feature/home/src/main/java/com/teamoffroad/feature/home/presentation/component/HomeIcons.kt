@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -27,6 +28,7 @@ import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import com.teamoffroad.characterchat.presentation.model.CharacterChatLastUnreadUiState
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.ErrorNew
 import com.teamoffroad.feature.home.presentation.component.upload.uploadImage
@@ -41,8 +43,12 @@ fun HomeIcons(
     context: Context,
     imageUrl: String,
     characterName: String,
+    characterChatLastUnreadUiState: State<CharacterChatLastUnreadUiState>,
     navigateToGainedCharacter: () -> Unit,
-    navigateToCharacterChatScreen: (String) -> Unit,
+    updateShowUserChatTextField: (Boolean) -> Unit,
+    updateCharacterChatExist: (Boolean) -> Unit,
+    updateCharacterName: (String) -> Unit,
+    updateLastUnreadChatDosAllRead: (Boolean) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
 
@@ -63,7 +69,8 @@ fun HomeIcons(
             if (deniedPermissions.isEmpty()) {
                 showToast(context, context.getString(R.string.allowed_permissions))
             } else {
-                showToast(context, context.getString(R.string.not_allowed_permissions,)
+                showToast(
+                    context, context.getString(R.string.not_allowed_permissions)
                 )
             }
         }
@@ -82,24 +89,17 @@ fun HomeIcons(
                     contentDescription = "chat",
                     modifier = Modifier
                         .clickableWithoutRipple {
-                            navigateToCharacterChatScreen(characterName)
+                            if (characterChatLastUnreadUiState.value.doesAllRead) {
+                                updateCharacterName(characterName)
+                                updateShowUserChatTextField(true)
+                            } else {
+                                updateCharacterChatExist(true) // 마지막 채팅 내려오기
+                                updateLastUnreadChatDosAllRead(true) // 읽음 처리
+                            }
                         }
                 )
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.TopEnd
-                ) {
-                    Canvas(
-                        modifier = Modifier
-                            .padding(top = 6.dp, end = 6.dp)
-                            .size(8.dp)
-                    ) {
-                        drawCircle(
-                            color = ErrorNew,
-                            style = Fill
-                        )
-                    }
-                }
+
+                showCharacterChatExist(characterChatLastUnreadUiState)
             }
 
             val uploadInteractionSource = remember { MutableInteractionSource() }
@@ -108,21 +108,22 @@ fun HomeIcons(
                 contentDescription = "upload",
                 modifier = Modifier
                     .clickableWithoutRipple(interactionSource = uploadInteractionSource) {
-                        val allPermissionsGranted = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            permissions.all {
-                                ContextCompat.checkSelfPermission(
-                                    context,
-                                    Manifest.permission.READ_MEDIA_IMAGES
-                                ) == PackageManager.PERMISSION_GRANTED
+                        val allPermissionsGranted =
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                permissions.all {
+                                    ContextCompat.checkSelfPermission(
+                                        context,
+                                        Manifest.permission.READ_MEDIA_IMAGES
+                                    ) == PackageManager.PERMISSION_GRANTED
+                                }
+                            } else {
+                                permissions.all {
+                                    ContextCompat.checkSelfPermission(
+                                        context,
+                                        it
+                                    ) == PackageManager.PERMISSION_GRANTED
+                                }
                             }
-                        }else {
-                            permissions.all {
-                                ContextCompat.checkSelfPermission(
-                                    context,
-                                    it
-                                ) == PackageManager.PERMISSION_GRANTED
-                            }
-                        }
 
                         if (allPermissionsGranted) {
                             scope.launch {
@@ -148,6 +149,27 @@ fun HomeIcons(
                 painter = painterResource(id = R.drawable.ic_home_change_character),
                 contentDescription = "change",
                 modifier = Modifier.clickableWithoutRipple { navigateToGainedCharacter() }
+            )
+        }
+    }
+}
+
+@Composable
+private fun showCharacterChatExist(
+    characterChatLastUnreadUiState: State<CharacterChatLastUnreadUiState>,
+) {
+    Box(
+        modifier = Modifier.fillMaxWidth(),
+        contentAlignment = Alignment.TopEnd
+    ) {
+        Canvas(
+            modifier = Modifier
+                .padding(top = 6.dp, end = 6.dp)
+                .size(if (!characterChatLastUnreadUiState.value.doesAllRead) 8.dp else 0.dp)
+        ) {
+            drawCircle(
+                color = ErrorNew,
+                style = Fill
             )
         }
     }

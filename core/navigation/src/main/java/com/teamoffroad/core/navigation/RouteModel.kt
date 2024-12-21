@@ -15,7 +15,7 @@ sealed interface MainTabRoute : Route {
     ) : MainTabRoute
 
     @Serializable
-    data class Explore(val authResultState: String = "NONE", val imageUrl: String? = null) :
+    data class Explore(val authResultState: String = "NONE") :
         MainTabRoute
 
     @Serializable
@@ -51,7 +51,10 @@ sealed interface AuthRoute : Route {
 
 sealed interface ExploreRoute : Route {
     @Serializable
-    data object PlaceScreen : ExploreRoute
+    data class PlaceScreen(
+        val latitude: String,
+        val longitude: String,
+    ) : ExploreRoute
 
     @Serializable
     data object QuestScreen : ExploreRoute
@@ -100,6 +103,9 @@ sealed interface MyPageRoute : Route {
         val characterId: Int,
         val isRepresentative: Boolean,
     ) : MyPageRoute
+
+    @Serializable
+    data object Support : MyPageRoute
 }
 
 sealed interface CharacterChatRoute : Route {

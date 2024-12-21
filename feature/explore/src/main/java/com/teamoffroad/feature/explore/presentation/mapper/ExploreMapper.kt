@@ -19,5 +19,6 @@ fun Place.toUi(): PlaceModel {
         location = LatLng(latitude, longitude),
         visitCount = visitCount,
         isVisited = visitCount > 0,
+        distanceFromUser = distanceFromUser,
     )
 }

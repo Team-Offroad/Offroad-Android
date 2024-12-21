@@ -60,6 +60,7 @@ fun ChatTextField(
     val contextView = LocalView.current
 
     var keyboardVisible by remember { mutableStateOf(false) }
+    val keyboardHeight = remember { mutableIntStateOf(0) }
 
     LaunchedEffect(isChatting) {
         if (isChatting) {
@@ -79,6 +80,8 @@ fun ChatTextField(
             contextView.getWindowVisibleDisplayFrame(rect)
             val screenHeight = contextView.rootView.height
             val keypadHeight = screenHeight - rect.bottom
+            keyboardHeight.value = if (keypadHeight > screenHeight * 0.15) keypadHeight else 0
+
             keyboardVisible = keypadHeight > screenHeight * 0.15
         }
         contextView.viewTreeObserver.addOnGlobalLayoutListener(listener)
@@ -94,7 +97,10 @@ fun ChatTextField(
             modifier = modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .background(color = White, shape = RoundedCornerShape(topStart = 18.dp, topEnd = 18.dp))
+                .background(
+                    color = White,
+                    shape = RoundedCornerShape(topStart = 18.dp, topEnd = 18.dp)
+                )
                 .padding(horizontal = 22.dp, vertical = 4.dp),
         ) {
             val textFieldHeight = remember { mutableIntStateOf(0) }

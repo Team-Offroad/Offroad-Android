@@ -28,6 +28,10 @@ import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
+import com.teamoffroad.feature.explore.presentation.model.PlacePage
+import com.teamoffroad.feature.explore.presentation.model.PlacePage.NONE
+import com.teamoffroad.feature.explore.presentation.model.PlacePage.TOTAL
+import com.teamoffroad.feature.explore.presentation.model.PlacePage.UNVISITED
 import com.teamoffroad.feature.explore.presentation.model.PlaceUiState
 import com.teamoffroad.offroad.feature.explore.R
 import kotlinx.coroutines.launch
@@ -35,6 +39,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun PlaceViewPager(
     uiState: PlaceUiState,
+    updatePlaces: () -> Unit,
 ) {
     val tabTitles = listOf(
         stringResource(R.string.explore_unvisited_place),
@@ -93,10 +98,17 @@ fun PlaceViewPager(
             state = pagerState,
             modifier = Modifier.fillMaxSize(),
         ) { page ->
-            when (page) {
-                0 -> PlaceItems(uiState.unvisitedPlaces, uiState.loading)
-                1 -> PlaceItems(uiState.visitedPlaces, uiState.loading)
-            }
+            PlaceItems(
+                places = when (PlacePage.from(page)) {
+                    UNVISITED -> uiState.unvisitedPlaces
+                    TOTAL -> uiState.visitedPlaces + uiState.unvisitedPlaces
+                    NONE -> emptyList()
+                },
+                isLoading = uiState.isLoading,
+                isLoadable = uiState.isLoadable,
+                isAdditionalLoading = uiState.isAdditionalLoading,
+                updatePlaces = updatePlaces
+            )
         }
     }
 }

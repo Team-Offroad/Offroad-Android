@@ -61,7 +61,7 @@ fun ExploreOffroadMap(
     locationState: LocationModel,
     places: List<PlaceModel>,
     selectedPlace: PlaceModel?,
-    navigateToPlace: () -> Unit,
+    navigateToPlace: (String, String) -> Unit,
     navigateToQuest: () -> Unit,
     updateLocation: (Double, Double) -> Unit,
     updateTrackingToggle: (Boolean) -> Unit,
@@ -196,7 +196,12 @@ fun ExploreOffroadMap(
                 modifier = Modifier.padding(start = 16.dp),
                 painter = painterResource(R.drawable.ic_explore_location),
                 text = stringResource(R.string.explore_places),
-                onClick = { navigateToPlace() },
+                onClick = {
+                    navigateToPlace(
+                        locationState.location.latitude.toString(),
+                        locationState.location.longitude.toString(),
+                    )
+                },
             )
         }
         ExploreAppBar(backgroundPadding)

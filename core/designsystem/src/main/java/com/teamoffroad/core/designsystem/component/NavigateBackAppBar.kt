@@ -50,7 +50,7 @@ fun NavigateBackAppBar(
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(mainColor),
                 modifier = Modifier
-                    .padding(start = 12.dp)
+                    .padding(start = 6.dp)
                     .size(48.dp)
                     .padding(12.dp),
             )

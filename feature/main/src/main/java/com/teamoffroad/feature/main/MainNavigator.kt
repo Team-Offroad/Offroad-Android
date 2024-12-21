@@ -32,6 +32,7 @@ import com.teamoffroad.feature.mypage.navigation.navigateToGainedCoupon
 import com.teamoffroad.feature.mypage.navigation.navigateToGainedEmblems
 import com.teamoffroad.feature.mypage.navigation.navigateToMyPage
 import com.teamoffroad.feature.mypage.navigation.navigateToSetting
+import com.teamoffroad.feature.mypage.navigation.navigateToSupport
 
 internal class MainNavigator(
     val navController: NavHostController,
@@ -145,12 +146,12 @@ internal class MainNavigator(
         )
     }
 
-    fun navigateToExplore(authResultType: String, imageUrl: String) {
-        navController.navigateToExplore(authResultType, imageUrl, mainTabNavOptions)
+    fun navigateToExplore(authResultType: String) {
+        navController.navigateToExplore(authResultType, mainTabNavOptions)
     }
 
-    fun navigateToPlace() {
-        navController.navigateToPlace()
+    fun navigateToPlace(latitude: String, longitude: String) {
+        navController.navigateToPlace(latitude, longitude)
     }
 
     fun navigateToQuest() {
@@ -218,6 +219,10 @@ internal class MainNavigator(
 
     fun navigateToCharacterChat(characterId: Int = DEFAULT_CHARACTER_ID, characterName: String) {
         navController.navigateToCharacterChat(characterId, characterName)
+    }
+
+    fun navigateToSupport() {
+        navController.navigateToSupport()
     }
 }
 

@@ -17,8 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
-import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
+import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -50,8 +50,8 @@ fun GainedCharacterScreen(
                 .navigationPadding()
                 .fillMaxSize()
                 .background(color = Main1)
+                .actionBarPadding()
         ) {
-            OffroadActionBar()
             NavigateBackAppBar(
                 text = stringResource(R.string.my_page_my_page),
                 modifier = Modifier.padding(top = 20.dp),
