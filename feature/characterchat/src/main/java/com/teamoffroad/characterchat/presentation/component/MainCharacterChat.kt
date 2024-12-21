@@ -1,6 +1,5 @@
-package com.teamoffroad.feature.main.component
+package com.teamoffroad.characterchat.presentation.component
 
-import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -22,6 +21,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -41,15 +41,15 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.teamoffroad.characterchat.presentation.model.CharacterChattingUiState
+import com.teamoffroad.characterchat.presentation.model.UserChattingUiState
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.BtnInactive
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub4
-import com.teamoffroad.feature.main.CharacterChattingUiState
-import com.teamoffroad.feature.main.UserChattingUiState
-import com.teamoffroad.offroad.feature.home.R
+import com.teamoffroad.offroad.feature.characterchat.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -66,17 +66,14 @@ fun CharacterChat(
     updateAnswerCharacterChatButtonState: (Boolean) -> Unit,
     updateUserWatchingCharacterChat: (Boolean) -> Unit,
     updateShowUserChatTextField: (Boolean) -> Unit,
-    //navigateToCharacterChatScreen: (Int, String) -> Unit
+    updateCharacterChatExist: (Boolean) -> Unit,
+    navigateToCharacterChatScreen: (Int, String) -> Unit,
 ) {
-    val checkCharacterChattingLines = remember { mutableStateOf(false) }
-    val hasCheckedCharacterChattingLines = remember { mutableStateOf(false) }
     val isExpanded = remember { mutableStateOf(false) }
-
-    val rotationAngle by animateFloatAsState(
+    val characterChatAccordionAngle by animateFloatAsState(
         targetValue = if (isExpanded.value) 180f else 0f,
         animationSpec = tween(durationMillis = 300), label = ""
     )
-
 
     Box(
         modifier = Modifier
@@ -92,7 +89,8 @@ fun CharacterChat(
             )
             .padding(vertical = 14.dp, horizontal = 18.dp)
             .clickableWithoutRipple {
-                //navigateToCharacterChatScreen(-1, characterName)
+                navigateToCharacterChatScreen(-1, characterChatUiState.value.characterName)
+                updateCharacterChatExist(false)
             }
     ) {
         Column {
@@ -126,27 +124,22 @@ fun CharacterChat(
                         LottieAnimation(composition, animationState.progress)
                     }
                 } else {
+                    val chatLine = characterChatUiState.value.characterChatContent.length
                     Text(
                         text = characterChatUiState.value.characterChatContent,
                         modifier = Modifier.weight(1f),
                         color = messageTextColor,
                         style = messageTextStyle,
-                        onTextLayout = { textLayoutResult ->
-                            if (!hasCheckedCharacterChattingLines.value) {
-                                checkCharacterChattingLines.value = textLayoutResult.lineCount >= 3
-                                hasCheckedCharacterChattingLines.value = true
-                            }
-                        },
-                        maxLines = if (!isExpanded.value && checkCharacterChattingLines.value) 2 else Int.MAX_VALUE,
+                        maxLines = if (!isExpanded.value && chatLine >= MAX_CHARACTER_CHAT_LINE) 2 else Int.MAX_VALUE,
                         overflow = TextOverflow.Ellipsis,
                     )
 
-                    if(checkCharacterChattingLines.value) {
+                    if (chatLine >= MAX_CHARACTER_CHAT_LINE) {
                         Image(
                             painter = painterResource(id = R.drawable.ic_home_accordian),
                             contentDescription = "accordion down",
                             modifier = Modifier
-                                .graphicsLayer(rotationX = rotationAngle)
+                                .graphicsLayer(rotationX = characterChatAccordionAngle)
                                 .clickableWithoutRipple {
                                     updateUserWatchingCharacterChat(true)
                                     isExpanded.value = !isExpanded.value
@@ -158,8 +151,7 @@ fun CharacterChat(
 
             }
 
-
-            if (characterChatUiState.value.isCharacterChattingExist && !userChatUiState.value.showUserChatTextField) {
+            if (!characterChatUiState.value.isAnswerButtonClicked && !userChatUiState.value.showUserChatTextField) {
                 AnswerCharacterChat(
                     characterChatUiState = characterChatUiState,
                     updateAnswerCharacterChatButtonState = updateAnswerCharacterChatButtonState,
@@ -218,15 +210,15 @@ fun CharacterChatAnimation(
     updateCharacterChatExist: (Boolean) -> Unit,
     updateUserWatchingCharacterChat: (Boolean) -> Unit,
     updateShowUserChatTextField: (Boolean) -> Unit,
-    //navigateToCharacterChatScreen: (Int, String) -> Unit
+    navigateToCharacterChatScreen: (Int, String) -> Unit,
 ) {
-    val offsetY = remember { Animatable(-10.dp.value) }
+    val offsetY = remember { Animatable(-100.dp.value) }
     val coroutineScope = rememberCoroutineScope()
     var dragOffsetY by remember { mutableFloatStateOf(0f) }
     var isSwipedUp by remember { mutableStateOf(false) }
 
     var isInactive by remember { mutableStateOf(false) }
-    var lastDragTime by remember { mutableStateOf(System.currentTimeMillis()) }
+    val lastDragTime by remember { mutableLongStateOf(System.currentTimeMillis()) }
 
     LaunchedEffect(characterChatUiState.value.isCharacterChattingExist) { // 제자리
         coroutineScope.launch {
@@ -265,7 +257,7 @@ fun CharacterChatAnimation(
                         if (newDragOffsetY <= 0f) dragOffsetY = newDragOffsetY
                     },
                     onDragEnd = {
-                        if (dragOffsetY < -50f) isSwipedUp = true
+                        if (dragOffsetY < -100f) isSwipedUp = true
                         else {
                             coroutineScope.launch {
                                 offsetY.animateTo(
@@ -287,7 +279,8 @@ fun CharacterChatAnimation(
             updateUserWatchingCharacterChat = updateUserWatchingCharacterChat,
             updateShowUserChatTextField = updateShowUserChatTextField,
             userChatUiState = userChatUiState,
-            //navigateToCharacterChatScreen = navigateToCharacterChatScreen
+            updateCharacterChatExist = updateCharacterChatExist,
+            navigateToCharacterChatScreen = navigateToCharacterChatScreen
         )
     }
 
@@ -295,7 +288,7 @@ fun CharacterChatAnimation(
         if (isSwipedUp) {
             coroutineScope.launch {
                 offsetY.animateTo(
-                    targetValue = -50.dp.value,
+                    targetValue = -100.dp.value,
                     animationSpec = tween(durationMillis = 500)
                 )
                 updateCharacterChatExist(false)
@@ -309,7 +302,7 @@ fun CharacterChatAnimation(
         if (isInactive) {
             coroutineScope.launch {
                 offsetY.animateTo(
-                    targetValue = -50.dp.value,
+                    targetValue = -100.dp.value,
                     animationSpec = tween(durationMillis = 500)
                 )
                 updateCharacterChatExist(false)
@@ -319,3 +312,28 @@ fun CharacterChatAnimation(
         }
     }
 }
+
+@Composable
+fun showCharacterChat(
+    characterChatUiState: State<CharacterChattingUiState>,
+    userChatUiState: State<UserChattingUiState>,
+    updateAnswerCharacterChatButtonState: (Boolean) -> Unit,
+    updateCharacterChatExist: (Boolean) -> Unit,
+    updateUserWatchingCharacterChat: (Boolean) -> Unit,
+    updateShowUserChatTextField: (Boolean) -> Unit,
+    navigateToCharacterChatScreen: (Int, String) -> Unit
+) {
+    if (characterChatUiState.value.isCharacterChattingExist) {
+        CharacterChatAnimation(
+            characterChatUiState = characterChatUiState,
+            userChatUiState = userChatUiState,
+            updateAnswerCharacterChatButtonState = updateAnswerCharacterChatButtonState,
+            updateCharacterChatExist = updateCharacterChatExist,
+            updateUserWatchingCharacterChat = updateUserWatchingCharacterChat,
+            updateShowUserChatTextField = updateShowUserChatTextField,
+            navigateToCharacterChatScreen = navigateToCharacterChatScreen
+        )
+    }
+}
+
+const val MAX_CHARACTER_CHAT_LINE = 60

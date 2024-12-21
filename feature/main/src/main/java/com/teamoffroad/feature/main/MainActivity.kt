@@ -10,6 +10,7 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
+import com.teamoffroad.characterchat.presentation.MainCharacterChatViewModel
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_ID
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_TYPE
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -23,6 +24,7 @@ class MainActivity : ComponentActivity() {
     private val notificationIdState = mutableStateOf<String?>(null)
     private lateinit var characterBroadcastReceiver: CharacterChatBroadcastReceiver
     private val viewModel by viewModels<MainViewModel>()
+    private val mainCharacterViewModel by viewModels<MainCharacterChatViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +45,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier,
                     notificationType = notificationTypeState.value,
                     notificationId = notificationIdState.value,
-                    viewModel = viewModel,
+                    mainViewModel = viewModel,
+                    mainCharacterViewModel = mainCharacterViewModel,
                 )
             }
         }
