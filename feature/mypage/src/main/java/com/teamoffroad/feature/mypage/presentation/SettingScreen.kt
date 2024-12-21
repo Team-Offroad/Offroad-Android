@@ -202,7 +202,6 @@ internal fun SettingScreen(
                 .padding(bottom = 30.dp),
             hostState = snackBarHostState
         )
-
     }
     when (isSettingUiState.dialogVisible) {
         SettingDialogState.InVisible -> {}
