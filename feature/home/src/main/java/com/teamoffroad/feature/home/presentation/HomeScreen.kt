@@ -66,7 +66,6 @@ fun HomeScreen(
     val userChatUiState = mainViewModel.userChatUiState.collectAsStateWithLifecycle()
     val characterChatLastUnreadUiState = mainViewModel.characterChatLastUnreadUiState.collectAsStateWithLifecycle()
     val isCompleteQuestDialogShown = remember { mutableStateOf(false) }
-    //val characterName = mainViewModel.characterName.collectAsStateWithLifecycle()
     val characterName = homeViewModel.characterName.collectAsStateWithLifecycle()
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) {}
@@ -88,7 +87,6 @@ fun HomeScreen(
         homeViewModel.getUserQuests()
         if (completeQuests.isNotEmpty()) isCompleteQuestDialogShown.value = true
         mainViewModel.getCharacterChatLastUnread()
-        //mainViewModel.updateCharacterName(characterName.value)
     }
 
     Box(
@@ -191,7 +189,6 @@ private fun UsersAdventuresInformation(
         modifier = modifier
             .fillMaxWidth()
     ) {
-        //val imageUrl = adventuresInformationData?.baseImageUrl ?: "" // TODO: svg & lottie
         Box(
             modifier = Modifier.fillMaxWidth(),
             contentAlignment = Alignment.TopEnd

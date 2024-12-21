@@ -119,13 +119,9 @@ fun CharacterChatScreen(
                     .then(
                         if (isChatting.value) {
                             Modifier.padding(bottom = LocalDensity.current.run {
-                                (keyboardHeight.intValue.toDp() - 50.dp).coerceAtLeast(
-                                    0.dp
-                                )
+                                (keyboardHeight.intValue.toDp() - 50.dp).coerceAtLeast(0.dp)
                             })
-                        } else {
-                            Modifier
-                        }
+                        } else Modifier
                     ),
                 characterName = uiState.value.characterName,
                 arrangedChats = uiState.value.chats,

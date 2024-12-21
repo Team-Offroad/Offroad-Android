@@ -42,8 +42,6 @@ class MainCharacterChatViewModel @Inject constructor(
     private val _characterName = MutableStateFlow("")
     val characterName = _characterName.asStateFlow()
 
-    var asd = MutableStateFlow("")
-
     init {
         //아까 CharacterChatBroadcastReceiver에서 게시한 브로드캐스트리시버를 여기서 받습니다.
         EventBus.getDefault().register(this)

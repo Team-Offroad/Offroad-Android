@@ -90,7 +90,7 @@ fun CharacterChat(
             .padding(vertical = 14.dp, horizontal = 18.dp)
             .clickableWithoutRipple {
                 navigateToCharacterChatScreen(-1, characterChatUiState.value.characterName)
-                updateCharacterChatExist(false)// 선톡 이제 안보이게
+                updateCharacterChatExist(false)
             }
     ) {
         Column {
