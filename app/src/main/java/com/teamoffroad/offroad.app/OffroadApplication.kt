@@ -6,7 +6,7 @@ import com.teamoffroad.core.common.util.ActivityLifecycleHandler
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class OffroadApplication : Application(){
+class OffroadApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         setKakaoSdk()
@@ -14,6 +14,6 @@ class OffroadApplication : Application(){
     }
 
     private fun setKakaoSdk() {
-        KakaoSdk.init(this, BuildConfig.KAKAO_NATIVE_KEY)
+        KakaoSdk.init(this, BuildConfig.KAKAO_APP_KEY)
     }
 }
