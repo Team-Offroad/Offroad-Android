@@ -1,6 +1,7 @@
 package com.teamoffroad.feature.mypage.presentation
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.background
@@ -10,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -28,8 +31,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.naver.maps.map.app.LegalNoticeActivity
+import com.naver.maps.map.app.OpenSourceLicenseActivity
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
-import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -51,12 +56,14 @@ internal fun SettingScreen(
     modifier: Modifier = Modifier,
     navigateToAnnouncement: () -> Unit,
     navigateToSignIn: () -> Unit,
+    navigateToSupport: () -> Unit,
     navigateToBack: () -> Unit,
     viewModel: SettingViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
     val isSettingUiState by viewModel.settingUiState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
+    val scrollState = rememberScrollState()
     val snackBarHostState = remember { SnackbarHostState() }
     var snackBarShowState by remember { mutableStateOf(false) }
     val currentDateTime = remember { LocalDateTime.now() }
@@ -68,13 +75,12 @@ internal fun SettingScreen(
         if (snackBarShowState) {
             coroutineScope.launch {
                 val snackBar = snackBarHostState.showSnackbar(
-                    message = if (isSettingUiState.marketingAgree == true) "${
-                        currentDateTime.format(
-                            formatter
-                        )
-                    }부로 마케팅 정보 수신 동의 처리되었습니다."
-                    else "${currentDateTime.format(formatter)}부로 마케팅 정보 수신 비동의 처리되었습니다.",
-                    actionLabel = "닫기",
+                    message = when (isSettingUiState.marketingAgree == true) {
+                        true -> context.getString(R.string.my_page_setting_marketing_agree, currentDateTime.format(formatter))
+
+                        false -> context.getString(R.string.my_page_setting_marketing_disagree, currentDateTime.format(formatter))
+                    },
+                    actionLabel = context.getString(R.string.my_page_setting_marketing_exit),
                     duration = SnackbarDuration.Short
                 )
                 when (snackBar) {
@@ -92,11 +98,12 @@ internal fun SettingScreen(
 
     Column(
         modifier = modifier
-            .navigationPadding()
             .background(Main1)
+            .navigationPadding()
+            .actionBarPadding()
             .fillMaxSize()
+            .verticalScroll(state = scrollState),
     ) {
-        OffroadActionBar()
         NavigateBackAppBar(
             text = stringResource(R.string.my_page_my_page),
             modifier = modifier.padding(top = 20.dp)
@@ -128,7 +135,8 @@ internal fun SettingScreen(
                     Uri.parse("https://tan-antlion-a47.notion.site/105120a9d80f80cea574f7d62179bfa8")
                 )
                 context.startActivity(intent)
-            })
+            }
+        )
         SettingContainer(
             title = stringResource(R.string.my_page_setting_item_service_term),
             isImportant = false,
@@ -138,7 +146,8 @@ internal fun SettingScreen(
                     Uri.parse("https://tan-antlion-a47.notion.site/90c70d8bf0974b37a3a4470022df303d")
                 )
                 context.startActivity(intent)
-            })
+            }
+        )
         SettingContainer(
             title = stringResource(R.string.my_page_setting_item_personal_information),
             isImportant = false,
@@ -148,11 +157,21 @@ internal fun SettingScreen(
                     Uri.parse("https://tan-antlion-a47.notion.site/105120a9d80f80739f54fa78902015d7")
                 )
                 context.startActivity(intent)
-            })
+            }
+        )
+        SettingContainer(
+            title = stringResource(R.string.my_page_setting_naver_map_support),
+            isImportant = false,
+            onClick = { navigateToNaverMapSupport(context) }
+        )
         SettingContainer(
             title = stringResource(R.string.my_page_setting_item_marketing_agree),
             isImportant = false,
             onClick = { viewModel.changeDialogState(SettingDialogState.MarketingVisible) })
+        SettingContainer(
+            title = stringResource(R.string.my_page_setting_customer_support),
+            isImportant = false,
+            onClick = { navigateToSupport() })
         SettingContainer(
             title = stringResource(R.string.my_page_setting_item_logout),
             isImportant = false,
@@ -180,7 +199,8 @@ internal fun SettingScreen(
             onClickCancel = {
                 viewModel.changeDialogState(SettingDialogState.InVisible)
                 snackBarShowState = true
-            })
+            }
+        )
 
         SettingDialogState.LogoutVisible -> LogoutDialog(
             onClick = { viewModel.performSignOut() },
@@ -197,7 +217,15 @@ internal fun SettingScreen(
             withDrawInputText = viewModel.settingUiState.value.withDrawInputState,
             onClickCancel = {
                 viewModel.changeDialogState(SettingDialogState.InVisible)
-            })
+            }
+        )
     }
 }
 
+private fun navigateToNaverMapSupport(context: Context) {
+    val openSourceLicenseIntent = Intent(context, OpenSourceLicenseActivity::class.java)
+    context.startActivity(openSourceLicenseIntent)
+
+    val legalNoticeIntent = Intent(context, LegalNoticeActivity::class.java)
+    context.startActivity(legalNoticeIntent)
+}

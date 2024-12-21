@@ -17,6 +17,7 @@ import com.teamoffroad.feature.mypage.presentation.GainedCouponScreen
 import com.teamoffroad.feature.mypage.presentation.GainedEmblemsScreen
 import com.teamoffroad.feature.mypage.presentation.MyPageScreen
 import com.teamoffroad.feature.mypage.presentation.SettingScreen
+import com.teamoffroad.feature.mypage.presentation.SupportScreen
 
 fun NavController.navigateToMyPage(navOptions: NavOptions) {
     navigate(MainTabRoute.MyPage, navOptions)
@@ -50,8 +51,7 @@ fun NavController.navigateToSetting() {
 
 fun NavController.navigateToAnnouncement(announcementId: String?, navOptions: NavOptions? = null) {
     navigate(
-        MyPageRoute.Announcement(announcementId)
-        ,navOptions
+        MyPageRoute.Announcement(announcementId), navOptions
     )
 }
 
@@ -85,6 +85,10 @@ fun NavController.navigateToCharacterDetail(characterId: Int, isRepresentative: 
     navigate(MyPageRoute.CharacterDetail(characterId, isRepresentative))
 }
 
+fun NavController.navigateToSupport() {
+    navigate(MyPageRoute.Support)
+}
+
 fun NavGraphBuilder.myPageNavGraph(
     navigateToGainedCharacter: () -> Unit,
     navigateToGainedCoupon: () -> Unit,
@@ -98,6 +102,7 @@ fun NavGraphBuilder.myPageNavGraph(
     navigateToBack: () -> Unit,
     navigateToCharacterChat: (Int, String) -> Unit,
     navigateToAnnouncementDeleteStack: () -> Unit,
+    navigateToSupport: () -> Unit,
 ) {
     composable<MainTabRoute.MyPage> {
         MyPageScreen(
@@ -134,6 +139,7 @@ fun NavGraphBuilder.myPageNavGraph(
         SettingScreen(
             navigateToAnnouncement = { navigateToAnnouncement(null) },
             navigateToSignIn = navigateToSignIn,
+            navigateToSupport = navigateToSupport,
             navigateToBack = navigateToBack
         )
     }
@@ -167,6 +173,10 @@ fun NavGraphBuilder.myPageNavGraph(
             externalLinksTitles,
             navigateToAnnouncementDeleteStack,
         )
+    }
+
+    composable<MyPageRoute.Support> {
+        SupportScreen(navigateToBack)
     }
 
     composable<MyPageRoute.CharacterDetail> { backStackEntry ->

@@ -34,6 +34,7 @@ import com.teamoffroad.feature.mypage.navigation.navigateToGainedCoupon
 import com.teamoffroad.feature.mypage.navigation.navigateToGainedEmblems
 import com.teamoffroad.feature.mypage.navigation.navigateToMyPage
 import com.teamoffroad.feature.mypage.navigation.navigateToSetting
+import com.teamoffroad.feature.mypage.navigation.navigateToSupport
 
 internal class MainNavigator(
     val navController: NavHostController,
@@ -228,6 +229,10 @@ internal class MainNavigator(
 
     fun navigateToCharacterChat(characterId: Int = DEFAULT_CHARACTER_ID, characterName: String) {
         navController.navigateToCharacterChat(characterId, characterName)
+    }
+
+    fun navigateToSupport() {
+        navController.navigateToSupport()
     }
 }
 

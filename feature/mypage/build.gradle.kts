@@ -16,4 +16,5 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.kotlinx.immutable)
     implementation(libs.process.phoenix)
+    implementation(libs.bundles.offroad.map)
 }
