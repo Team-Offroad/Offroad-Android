@@ -3,10 +3,13 @@ package com.teamoffroad.feature.auth.presentation.signup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.auth.domain.model.ValidateResult
+import com.teamoffroad.feature.auth.domain.repository.AuthRepository
 import com.teamoffroad.feature.auth.domain.usecase.DayValidateUseCase
+import com.teamoffroad.feature.auth.domain.usecase.GetNicknameValidateUseCase
 import com.teamoffroad.feature.auth.domain.usecase.MonthValidateUseCase
 import com.teamoffroad.feature.auth.domain.usecase.YearValidateUseCase
 import com.teamoffroad.feature.auth.presentation.model.DateValidateResult
+import com.teamoffroad.feature.auth.presentation.model.NicknameValidateResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +22,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
+    private val getNicknameValidateUseCase: GetNicknameValidateUseCase,
     private val yearValidateUseCase: YearValidateUseCase,
     private val monthValidateUseCase: MonthValidateUseCase,
     private val dayValidateUseCase: DayValidateUseCase,
@@ -37,6 +42,39 @@ class SignUpViewModel @Inject constructor(
                 )
                 checkDateValidate(signUpUiState.value.date)
             }
+        }
+    }
+
+    fun updateNicknamesValid(nickname: String) {
+        _signUpUiState.value = signUpUiState.value.copy(
+            nickname = nickname,
+            nicknameScreenResult = getNicknameValidateUseCase.invoke(nickname)
+        )
+    }
+
+    fun getDuplicateNickname() {
+        viewModelScope.launch {
+            runCatching { authRepository.fetchDuplicateNickname(_signUpUiState.value.nickname) }
+                .onSuccess {
+                    when (it) {
+                        true -> {
+                            _signUpUiState.value = signUpUiState.value.copy(
+                                nicknameScreenResult = NicknameValidateResult.Duplicate
+                            )
+                        }
+
+                        false -> {
+                            _signUpUiState.value = signUpUiState.value.copy(
+                                nicknameScreenResult = NicknameValidateResult.Success
+                            )
+                        }
+                    }
+                }
+                .onFailure {
+                    _signUpUiState.value = signUpUiState.value.copy(
+                        nicknameScreenResult = NicknameValidateResult.Error
+                    )
+                }
         }
     }
 

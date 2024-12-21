@@ -35,6 +35,7 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
 import com.teamoffroad.feature.auth.presentation.model.DateValidateResult
+import com.teamoffroad.feature.auth.presentation.model.NicknameValidateResult
 import com.teamoffroad.offroad.feature.auth.R
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -124,7 +125,9 @@ internal fun SignUpScreen(
             textAlign = TextAlign.Center
         )
         Text(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .padding(bottom = 64.dp)
+                .fillMaxWidth(),
             text = when (pagerState.currentPage) {
                 0 -> stringResource(R.string.auth_set_nickname_sub_title)
                 1 -> stringResource(R.string.auth_set_birth_date_sub_title)
@@ -142,7 +145,13 @@ internal fun SignUpScreen(
             verticalAlignment = Alignment.Top,
         ) { page ->
             when (page) {
-                0 -> NicknameScreen()
+                0 -> NicknameScreen(
+                    focusManager = focusManager,
+                    uiState = signUpUiState,
+                    updateNicknamesValid = viewModel::updateNicknamesValid,
+                    getDuplicateNickname = viewModel::getDuplicateNickname
+                )
+
                 1 -> BirthDateScreen(
                     focusManager = focusManager,
                     uiState = signUpUiState,
@@ -178,7 +187,7 @@ internal fun SignUpScreen(
                 }
             },
             isActive = when (pagerState.currentPage) {
-                0 -> true
+                0 -> signUpUiState.nicknameScreenResult == NicknameValidateResult.Success
                 1 -> signUpUiState.yearValidateResult == DateValidateResult.Success &&
                         signUpUiState.monthValidateResult == DateValidateResult.Success &&
                         signUpUiState.dayValidateResult == DateValidateResult.Success

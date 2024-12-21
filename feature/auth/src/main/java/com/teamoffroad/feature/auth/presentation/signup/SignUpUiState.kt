@@ -1,6 +1,7 @@
 package com.teamoffroad.feature.auth.presentation.signup
 
 import com.teamoffroad.feature.auth.presentation.model.DateValidateResult
+import com.teamoffroad.feature.auth.presentation.model.NicknameValidateResult
 
 data class SignUpState(
     val nickname: String = "",
@@ -12,8 +13,7 @@ data class SignUpState(
     val monthValidateResult: DateValidateResult = DateValidateResult.Empty,
     val dayValidateResult: DateValidateResult = DateValidateResult.Empty,
     val selectedGender: String? = null,
-    val nicknameScreenResult: Boolean = false,
-    val birthDateScreenResult: Boolean = false,
+    val nicknameScreenResult: NicknameValidateResult = NicknameValidateResult.Empty,
     val genderScreenResult: Boolean = false,
 
     )

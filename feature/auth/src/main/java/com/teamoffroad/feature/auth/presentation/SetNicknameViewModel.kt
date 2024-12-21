@@ -37,7 +37,7 @@ class SetNicknameViewModel @Inject constructor(
                         true -> {
                             _nicknameUiState.value =
                                 SetNicknameUiState(
-                                    _nicknameUiState.value.nickname,
+                                    nickname = _nicknameUiState.value.nickname,
                                     NicknameValidateResult.Duplicate
                                 )
                         }
