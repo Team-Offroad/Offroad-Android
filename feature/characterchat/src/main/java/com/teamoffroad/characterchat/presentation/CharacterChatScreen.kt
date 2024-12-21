@@ -1,36 +1,35 @@
 package com.teamoffroad.characterchat.presentation
 
+import android.graphics.Rect
+import android.view.ViewTreeObserver
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.characterchat.presentation.component.CharacterChatHeader
 import com.teamoffroad.characterchat.presentation.component.CharacterChats
-import com.teamoffroad.characterchat.presentation.component.ChatButton
 import com.teamoffroad.characterchat.presentation.component.ChatTextField
-import com.teamoffroad.characterchat.presentation.component.DEFAULT_IME_PADDING
-import com.teamoffroad.characterchat.presentation.component.rememberKeyboardHeight
 import com.teamoffroad.core.designsystem.component.FullLinearLoadingAnimation
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.offroad.feature.characterchat.R
-import kotlinx.coroutines.launch
 
 @Composable
 fun CharacterChatScreen(
@@ -43,9 +42,6 @@ fun CharacterChatScreen(
     val isChatting = characterChatViewModel.isChatting.collectAsStateWithLifecycle()
     val chattingText = characterChatViewModel.chattingText.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
-    val imeHeight = rememberKeyboardHeight()
-    val keyboardOffset = if (imeHeight == DEFAULT_IME_PADDING) 0 else (imeHeight - DEFAULT_IME_PADDING)
-
     val contextView = LocalView.current
     val keyboardHeight = remember { mutableIntStateOf(0) }
 
@@ -61,7 +57,7 @@ fun CharacterChatScreen(
             contextView.getWindowVisibleDisplayFrame(rect)
             val screenHeight = contextView.rootView.height
             val keypadHeight = screenHeight - rect.bottom
-            keyboardHeight.value = if (keypadHeight > screenHeight * 0.15) keypadHeight else 0
+            keyboardHeight.intValue = if (keypadHeight > screenHeight * 0.15) keypadHeight else 0
         }
         contextView.viewTreeObserver.addOnGlobalLayoutListener(listener)
         onDispose {
@@ -98,16 +94,16 @@ fun CharacterChatScreen(
             )
             CharacterChats(
                 modifier = Modifier
-                    .weight(1f)
-                    .then(
-                        if (isChatting.value) {
-                            Modifier.padding(bottom = LocalDensity.current.run {
-                                (keyboardHeight.intValue.toDp() - 50.dp).coerceAtLeast(0.dp)
-                            })
-                        } else Modifier
-                    ),
+                    .weight(1f),
                 characterName = uiState.value.characterName,
                 arrangedChats = uiState.value.chats,
+                bottomPadding = when (isChatting.value) {
+                    true -> LocalDensity.current.run {
+                        keyboardHeight.intValue
+                    }
+
+                    false -> 0
+                },
                 isChatting = isChatting.value,
                 isSending = uiState.value.isSending,
                 isLoadable = uiState.value.isLoadable,

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
@@ -19,6 +20,8 @@ import androidx.compose.ui.unit.dp
 import com.teamoffroad.characterchat.presentation.model.ChatModel
 import com.teamoffroad.characterchat.presentation.model.ChatType.ORB_CHARACTER
 import com.teamoffroad.characterchat.presentation.model.ChatType.USER
+import com.teamoffroad.characterchat.presentation.model.TimeType.AM
+import com.teamoffroad.core.designsystem.component.navigationPadding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
@@ -36,7 +39,7 @@ fun CharacterChats(
     updateChats: () -> Unit,
     updateIsChatting: (Boolean) -> Unit,
 ) {
-    val animatedHeight = animateDpAsState(targetValue = (188 + bottomPadding).dp, label = "")
+    val animatedHeight = animateDpAsState(targetValue = (bottomPadding.dp - 748.dp).coerceAtLeast(0.dp), label = "")
     val coroutineScope = rememberCoroutineScope()
     val listState = rememberLazyListState()
     var isInitialComposition = remember { true }
@@ -66,12 +69,10 @@ fun CharacterChats(
         }
     }
 
-    LaunchedEffect(bottomPadding) {
-        if (isChatting) {
-            coroutineScope.launch {
-                delay(KEYBOARD_LOADING_OFFSET)
-                listState.animateScrollToItem(listState.layoutInfo.totalItemsCount - 1)
-            }
+    LaunchedEffect(isChatting, bottomPadding) {
+        coroutineScope.launch {
+            delay(KEYBOARD_LOADING_OFFSET)
+            listState.animateScrollToItem(listState.layoutInfo.totalItemsCount - 1)
         }
     }
 
@@ -104,25 +105,30 @@ fun CharacterChats(
                     }
                 }
             }
-            item {
-                CharacterChatLoadingBox(name = characterName, time = chats.last().time, isSending = isSending)
-                Spacer(modifier = Modifier.height(4.dp))
-            }
         }
         item {
-            ChatButton(
-                isVisible = !isChatting && !isSending,
-                onClick = {
-                    updateIsChatting(true)
-                },
+            CharacterChatLoadingBox(
+                name = characterName,
+                time = arrangedChats.values.flatten().lastOrNull()?.time ?: Triple(AM, 0, 0),
+                isSending = isSending,
             )
             Spacer(
-                modifier = Modifier.height(animatedHeight.value)
+                modifier = Modifier.height(4.dp),
+            )
+            ChatButton(
+                isVisible = !isChatting && !isSending,
+                onClick = { updateIsChatting(true) },
+            )
+            Spacer(
+                modifier = Modifier
+                    .padding(bottom = animatedHeight.value)
+                    .height(172.dp)
+                    .navigationPadding(),
             )
         }
     }
 }
 
 private const val LOAD_THRESHOLD = 10
-private const val KEYBOARD_LOADING_OFFSET = 50L
+private const val KEYBOARD_LOADING_OFFSET = 300L
 private const val INITIAL_LOADING_OFFSET = 2000L
