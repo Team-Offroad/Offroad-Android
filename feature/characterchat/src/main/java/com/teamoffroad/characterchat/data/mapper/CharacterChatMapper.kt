@@ -1,7 +1,9 @@
 package com.teamoffroad.characterchat.data.mapper
 
+import com.teamoffroad.characterchat.data.remote.response.CharacterChatLastUnreadResponseDto
 import com.teamoffroad.characterchat.data.remote.response.CharacterChatResponseDto
 import com.teamoffroad.characterchat.domain.model.Chat
+import com.teamoffroad.characterchat.domain.model.ChatLastUnread
 
 fun CharacterChatResponseDto.toDomain(): Chat {
     return Chat(
@@ -9,5 +11,13 @@ fun CharacterChatResponseDto.toDomain(): Chat {
         content = content,
         createdAt = createdAt,
         id = id,
+    )
+}
+
+fun CharacterChatLastUnreadResponseDto.toDomain(): ChatLastUnread {
+    return ChatLastUnread(
+        doesAllRead = doesAllRead,
+        characterName = characterName,
+        content = content
     )
 }

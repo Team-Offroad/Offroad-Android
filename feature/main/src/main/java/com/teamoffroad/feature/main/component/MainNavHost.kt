@@ -41,8 +41,8 @@ internal fun MainNavHost(
         ) {
             homeNavGraph(
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
-                navigateToCharacterChatScreen = { characterName ->
-                    navigator.navigateToCharacterChat(characterName = characterName)
+                navigateToCharacterChatScreen = { characterId, characterName ->
+                    navigator.navigateToCharacterChat(characterId = characterId, characterName = characterName)
                 },
                 navigateToGainedCharacter = {
                     navigator.navigateToMyPage().also {
@@ -89,6 +89,7 @@ internal fun MainNavHost(
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
                 navigateToCharacterChat = navigator::navigateToCharacterChat,
                 navigateToAnnouncementDeleteStack = navigator::navigateToAnnouncementDeleteStack,
+                navigateToSupport = navigator::navigateToSupport,
             )
             authNavGraph(
                 navigateToHome = { navigator.navigateToHome() },

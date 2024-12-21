@@ -22,7 +22,7 @@ fun SettingHeader(
     Column(
         modifier = Modifier
             .padding(horizontal = 24.dp)
-            .padding(top = 42.dp, bottom = 24.dp)
+            .padding(top = 30.dp, bottom = 24.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
