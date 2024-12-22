@@ -17,13 +17,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
-import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.auth.domain.model.Character
 import com.teamoffroad.offroad.feature.auth.R
 
@@ -33,7 +35,20 @@ fun SetCharacterDialog(
     onDismissRequest: () -> Unit,
     onConfirm: () -> Unit,
 ) {
-    Box{
+    val boldCharacterName = buildAnnotatedString {
+        val characterName = character.name
+        val fullText = stringResource(R.string.auth_character_question_label, characterName)
+        append(fullText)
+        val nameStartIndex = fullText.indexOf(characterName)
+        val nameEndIndex = nameStartIndex + characterName.length
+        addStyle(
+            style = SpanStyle(fontWeight = FontWeight.Bold),
+            start = nameStartIndex,
+            end = nameEndIndex
+        )
+    }
+    
+    Box {
         AlertDialog(
             onDismissRequest = onDismissRequest,
             properties = DialogProperties(dismissOnClickOutside = false),
@@ -48,7 +63,10 @@ fun SetCharacterDialog(
                 ) {
                     Text(
                         modifier = Modifier,
-                        text = stringResource(R.string.auth_character_question_title, character.name),
+                        text = stringResource(
+                            R.string.auth_character_question_title,
+                            character.name
+                        ),
                         style = OffroadTheme.typography.title,
                         color = Main2,
                         textAlign = TextAlign.Center
@@ -56,7 +74,7 @@ fun SetCharacterDialog(
                     Text(
                         modifier = Modifier
                             .padding(top = 10.dp),
-                        text = stringResource(R.string.auth_character_question_label, character.name),
+                        text = boldCharacterName,
                         style = OffroadTheme.typography.textRegular,
                         color = Main2,
                         textAlign = TextAlign.Center
