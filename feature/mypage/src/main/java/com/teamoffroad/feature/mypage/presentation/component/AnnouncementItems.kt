@@ -6,12 +6,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.teamoffroad.feature.mypage.presentation.model.AnnouncementUiState
+import com.teamoffroad.feature.mypage.presentation.model.SettingItem
 
 @Composable
 fun AnnouncementItems(
     modifier: Modifier = Modifier,
     isAnnouncementState: AnnouncementUiState,
     onClick: (String, String, Boolean, String, Boolean, List<String>, List<String>) -> Unit,
+    defaultAnnouncementList: List<SettingItem>
 ) {
     LazyColumn(
         modifier = modifier
@@ -32,6 +34,13 @@ fun AnnouncementItems(
                         it.externalLinksTitles,
                     )
                 }
+            )
+        }
+        items(defaultAnnouncementList.size) { item ->
+            SettingContainer(
+                title = defaultAnnouncementList[item].title,
+                isImportant = defaultAnnouncementList[item].isImportant,
+                onClick = defaultAnnouncementList[item].onClick,
             )
         }
     }

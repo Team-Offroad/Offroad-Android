@@ -44,6 +44,7 @@ fun checkNicknameHint(text: String): Color {
     var totalLength = 0
     var containsKorean = false
     var containsEnglishOrDigit = false
+    val consonantRegex = Regex("[ㄱ-ㅎ]")
 
     for (char in text) {
         totalLength += when {
@@ -58,6 +59,10 @@ fun checkNicknameHint(text: String): Color {
             }
 
             else -> 0
+        }
+
+        if (consonantRegex.matches(char.toString())) {
+            return ErrorNew
         }
 
         if (totalLength > 16) return ErrorNew

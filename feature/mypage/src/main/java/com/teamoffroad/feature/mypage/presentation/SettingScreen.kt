@@ -5,14 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -26,6 +25,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -40,10 +40,11 @@ import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.auth.presentation.component.AgreeTermsAndConditionsDialog
 import com.teamoffroad.feature.mypage.presentation.component.LogoutDialog
-import com.teamoffroad.feature.mypage.presentation.component.SettingContainer
 import com.teamoffroad.feature.mypage.presentation.component.SettingDialogState
 import com.teamoffroad.feature.mypage.presentation.component.SettingHeader
+import com.teamoffroad.feature.mypage.presentation.component.SettingItems
 import com.teamoffroad.feature.mypage.presentation.component.WithDrawDialog
+import com.teamoffroad.feature.mypage.presentation.model.SettingItem
 import com.teamoffroad.offroad.feature.mypage.R
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
@@ -63,7 +64,6 @@ internal fun SettingScreen(
     val context = LocalContext.current
     val isSettingUiState by viewModel.settingUiState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
-    val scrollState = rememberScrollState()
     val snackBarHostState = remember { SnackbarHostState() }
     var snackBarShowState by remember { mutableStateOf(false) }
     val currentDateTime = remember { LocalDateTime.now() }
@@ -76,9 +76,15 @@ internal fun SettingScreen(
             coroutineScope.launch {
                 val snackBar = snackBarHostState.showSnackbar(
                     message = when (isSettingUiState.marketingAgree == true) {
-                        true -> context.getString(R.string.my_page_setting_marketing_agree, currentDateTime.format(formatter))
+                        true -> context.getString(
+                            R.string.my_page_setting_marketing_agree,
+                            currentDateTime.format(formatter)
+                        )
 
-                        false -> context.getString(R.string.my_page_setting_marketing_disagree, currentDateTime.format(formatter))
+                        false -> context.getString(
+                            R.string.my_page_setting_marketing_disagree,
+                            currentDateTime.format(formatter)
+                        )
                     },
                     actionLabel = context.getString(R.string.my_page_setting_marketing_exit),
                     duration = SnackbarDuration.Short
@@ -96,99 +102,107 @@ internal fun SettingScreen(
         if (isSettingUiState.reset) navigateToSignIn()
     }
 
-    Column(
-        modifier = modifier
-            .background(Main1)
+    Box(
+        modifier = Modifier
             .navigationPadding()
-            .actionBarPadding()
             .fillMaxSize()
-            .verticalScroll(state = scrollState),
+            .background(Main1)
+            .actionBarPadding()
     ) {
-        NavigateBackAppBar(
-            text = stringResource(R.string.my_page_my_page),
-            modifier = modifier.padding(top = 20.dp)
-        ) {
-            navigateToBack()
+        Column {
+            NavigateBackAppBar(
+                text = stringResource(R.string.my_page_my_page),
+                modifier = modifier.padding(top = 20.dp)
+            ) {
+                navigateToBack()
+            }
+            SettingHeader(
+                text = stringResource(R.string.my_page_setting_title),
+                painterResources = R.drawable.ic_setting_tag
+            )
+            HorizontalDivider(
+                color = Gray100,
+                thickness = 1.dp,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+            Spacer(Modifier.height(24.dp))
+            SettingItems(
+                settingItemList = listOf(
+                    SettingItem(
+                        title = stringResource(R.string.my_page_setting_item_announcement),
+                        isImportant = false,
+                        onClick = navigateToAnnouncement
+                    ),
+                    SettingItem(
+                        title = stringResource(R.string.my_page_setting_item_play_guide),
+                        isImportant = false,
+                        onClick = {
+                            val intent = Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("https://tan-antlion-a47.notion.site/105120a9d80f80cea574f7d62179bfa8")
+                            )
+                            context.startActivity(intent)
+                        }),
+                    SettingItem(
+                        title = stringResource(R.string.my_page_setting_item_service_term),
+                        isImportant = false,
+                        onClick = {
+                            val intent = Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("https://tan-antlion-a47.notion.site/90c70d8bf0974b37a3a4470022df303d")
+                            )
+                            context.startActivity(intent)
+                        }
+                    ),
+                    SettingItem(
+                        title = stringResource(R.string.my_page_setting_item_personal_information),
+                        isImportant = false,
+                        onClick = {
+                            val intent = Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("https://tan-antlion-a47.notion.site/105120a9d80f80739f54fa78902015d7")
+                            )
+                            context.startActivity(intent)
+                        }
+                    ),
+                    SettingItem(
+                        title = stringResource(R.string.my_page_setting_naver_map_support),
+                        isImportant = false,
+                        onClick = { navigateToNaverMapSupport(context) }
+                    ),
+                    SettingItem(
+                        title = stringResource(R.string.my_page_setting_item_marketing_agree),
+                        isImportant = false,
+                        onClick = { viewModel.changeDialogState(SettingDialogState.MarketingVisible) }
+                    ),
+                    SettingItem(
+                        title = stringResource(R.string.my_page_setting_customer_support),
+                        isImportant = false,
+                        onClick = { navigateToSupport() }
+                    ),
+                    SettingItem(
+                        title = stringResource(R.string.my_page_setting_item_logout),
+                        isImportant = false,
+                        onClick = { viewModel.changeDialogState(SettingDialogState.LogoutVisible) }
+                    ),
+                    SettingItem(
+                        title = stringResource(R.string.my_page_setting_item_withdraw),
+                        isImportant = false,
+                        onClick = { viewModel.changeDialogState(SettingDialogState.WithDrawVisible) }
+                    ),
+                )
+            )
+            Spacer(modifier = Modifier.weight(1f))
         }
-        SettingHeader(
-            text = stringResource(R.string.my_page_setting_title),
-            painterResources = R.drawable.ic_setting_tag
-        )
-        HorizontalDivider(
-            color = Gray100,
-            thickness = 1.dp,
-            modifier = Modifier
-                .fillMaxWidth()
-        )
-        Spacer(Modifier.height(24.dp))
-        SettingContainer(
-            title = stringResource(R.string.my_page_setting_item_announcement),
-            isImportant = false,
-            onClick = navigateToAnnouncement
-        )
-        SettingContainer(
-            title = stringResource(R.string.my_page_setting_item_play_guide),
-            isImportant = false,
-            onClick = {
-                val intent = Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://tan-antlion-a47.notion.site/105120a9d80f80cea574f7d62179bfa8")
-                )
-                context.startActivity(intent)
-            }
-        )
-        SettingContainer(
-            title = stringResource(R.string.my_page_setting_item_service_term),
-            isImportant = false,
-            onClick = {
-                val intent = Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://tan-antlion-a47.notion.site/90c70d8bf0974b37a3a4470022df303d")
-                )
-                context.startActivity(intent)
-            }
-        )
-        SettingContainer(
-            title = stringResource(R.string.my_page_setting_item_personal_information),
-            isImportant = false,
-            onClick = {
-                val intent = Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://tan-antlion-a47.notion.site/105120a9d80f80739f54fa78902015d7")
-                )
-                context.startActivity(intent)
-            }
-        )
-        SettingContainer(
-            title = stringResource(R.string.my_page_setting_naver_map_support),
-            isImportant = false,
-            onClick = { navigateToNaverMapSupport(context) }
-        )
-        SettingContainer(
-            title = stringResource(R.string.my_page_setting_item_marketing_agree),
-            isImportant = false,
-            onClick = { viewModel.changeDialogState(SettingDialogState.MarketingVisible) })
-        SettingContainer(
-            title = stringResource(R.string.my_page_setting_customer_support),
-            isImportant = false,
-            onClick = { navigateToSupport() })
-        SettingContainer(
-            title = stringResource(R.string.my_page_setting_item_logout),
-            isImportant = false,
-            onClick = { viewModel.changeDialogState(SettingDialogState.LogoutVisible) })
-        SettingContainer(
-            title = stringResource(R.string.my_page_setting_item_withdraw),
-            isImportant = false,
-            onClick = { viewModel.changeDialogState(SettingDialogState.WithDrawVisible) })
-        Spacer(modifier = Modifier.weight(1f))
         SnackbarHost(
             modifier = Modifier
+                .align(Alignment.BottomCenter)
                 .fillMaxWidth()
                 .padding(bottom = 30.dp),
             hostState = snackBarHostState
         )
     }
-
     when (isSettingUiState.dialogVisible) {
         SettingDialogState.InVisible -> {}
         SettingDialogState.MarketingVisible -> AgreeTermsAndConditionsDialog(
