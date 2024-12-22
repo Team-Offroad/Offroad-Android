@@ -146,7 +146,7 @@ fun ExploreInfoWindow(
             )
         }
         Image(
-            painter = painterResource(id = R.drawable.bg_explore_info_window_triangle),
+            painter = painterResource(id = R.drawable.bg_explore_info_window_arrow),
             contentDescription = "",
             modifier = Modifier.offset(y = (-2).dp),
         )

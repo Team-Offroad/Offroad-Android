@@ -41,9 +41,9 @@ internal fun ExploreScreen(
     }
 
     ExploreAuthStateHandler(
-        uiState,
-        exploreViewModel::updateExploreAuthState,
-        navigateToHome,
+        uiState = uiState,
+        updateExploreAuthState = exploreViewModel::updateExploreAuthState,
+        navigateToHome = navigateToHome,
     )
 
     ExplorePermissionHandler(
@@ -56,16 +56,16 @@ internal fun ExploreScreen(
         when (isLocationPermissionGranted) {
             true -> StaticAnimationWrapper {
                 ExploreOffroadMap(
-                    uiState.locationModel,
-                    uiState.places,
-                    uiState.selectedPlace,
-                    navigateToPlace,
-                    navigateToQuest,
-                    exploreViewModel::updateLocation,
-                    exploreViewModel::updateTrackingToggle,
-                    exploreViewModel::updateSelectedPlace,
-                    exploreViewModel::updatePlaces,
-                    exploreViewModel::updateExploreResult,
+                    locationState = uiState.locationModel,
+                    places = uiState.places,
+                    selectedPlace = uiState.selectedPlace,
+                    navigateToPlace = navigateToPlace,
+                    navigateToQuest = navigateToQuest,
+                    updateLocation = exploreViewModel::updateLocation,
+                    updateTrackingToggle = exploreViewModel::updateTrackingToggle,
+                    updateSelectedPlace = exploreViewModel::updateSelectedPlace,
+                    updatePlaces = exploreViewModel::updatePlaces,
+                    updateExploreResult = exploreViewModel::updateExploreResult,
                 )
             }
 
