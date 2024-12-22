@@ -52,6 +52,7 @@ internal fun NicknameScreen(
                     },
                     textAlign = Alignment.CenterStart,
                     modifier = Modifier
+                        .weight(1f)
                         .defaultMinSize(minWidth = 218.dp)
                         .height(43.dp)
                         .focusRequester(focusRequester = focusRequester)

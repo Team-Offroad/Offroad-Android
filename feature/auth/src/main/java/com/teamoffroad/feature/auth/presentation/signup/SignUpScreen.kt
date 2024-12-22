@@ -44,7 +44,7 @@ import kotlinx.coroutines.launch
 internal fun SignUpScreen(
     modifier: Modifier = Modifier,
     navigateToSetCharacter: (String, String?, String?) -> Unit,
-    viewModel: SignUpViewModel = hiltViewModel()
+    viewModel: SignUpViewModel = hiltViewModel(),
 ) {
     val signUpUiState by viewModel.signUpUiState.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
@@ -126,7 +126,7 @@ internal fun SignUpScreen(
         )
         Text(
             modifier = Modifier
-                .padding(bottom = 64.dp)
+                .padding(bottom = 56.dp)
                 .fillMaxWidth(),
             text = when (pagerState.currentPage) {
                 0 -> stringResource(R.string.auth_set_nickname_sub_title)
@@ -139,7 +139,7 @@ internal fun SignUpScreen(
             textAlign = TextAlign.Center
         )
         HorizontalPager(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(2f),
             state = pagerState,
             userScrollEnabled = false,
             verticalAlignment = Alignment.Top,

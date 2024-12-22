@@ -73,6 +73,7 @@ internal fun BirthDateScreen(
             val pattern = remember { Regex("^\\d+\$") }
             BirthDateTextField(
                 modifier = Modifier
+                    .weight(1.4f)
                     .width(84.dp)
                     .height(43.dp)
                     .focusRequester(yearFocusRequester),
@@ -95,6 +96,7 @@ internal fun BirthDateScreen(
                 keyboardActions = KeyboardActions(
                     onNext = { monthFocusRequester.requestFocus() }
                 ),
+                textAlign = Alignment.Center,
             )
             Text(
                 modifier = Modifier.padding(start = 6.dp, end = 8.dp),
@@ -104,6 +106,7 @@ internal fun BirthDateScreen(
             )
             BirthDateTextField(
                 modifier = Modifier
+                    .weight(1f)
                     .width(66.dp)
                     .height(43.dp)
                     .focusRequester(monthFocusRequester)
@@ -129,6 +132,7 @@ internal fun BirthDateScreen(
                 keyboardActions = KeyboardActions(
                     onNext = { dayFocusRequester.requestFocus() },
                 ),
+                textAlign = Alignment.Center,
             )
             Text(
                 modifier = Modifier.padding(start = 6.dp, end = 8.dp),
@@ -138,6 +142,7 @@ internal fun BirthDateScreen(
             )
             BirthDateTextField(
                 modifier = Modifier
+                    .weight(1f)
                     .width(66.dp)
                     .height(43.dp)
                     .focusRequester(dayFocusRequester)
@@ -163,6 +168,7 @@ internal fun BirthDateScreen(
                 keyboardActions = KeyboardActions(
                     onDone = { focusManager.clearFocus() }
                 ),
+                textAlign = Alignment.Center,
             )
             Text(
                 modifier = Modifier

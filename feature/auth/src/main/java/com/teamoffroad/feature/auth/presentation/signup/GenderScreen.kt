@@ -1,7 +1,7 @@
 package com.teamoffroad.feature.auth.presentation.signup
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,9 +18,10 @@ internal fun GenderScreen(
     updateCheckedGender: (String) -> Unit,
 ) {
     Column(
-        modifier = Modifier.padding(horizontal = 24.dp)
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 24.dp)
     ) {
-        Spacer(modifier = Modifier.padding(vertical = 28.dp))
         SetGenderButton(updateCheckedGender, uiState)
     }
 }
