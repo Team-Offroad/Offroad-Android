@@ -1,26 +1,20 @@
 package com.teamoffroad.feature.auth.presentation.termandcondition
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.SnackbarDuration
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -36,7 +30,6 @@ import com.teamoffroad.feature.auth.presentation.component.AgreeTermsAndConditio
 import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
 import com.teamoffroad.feature.auth.presentation.model.DialogState
 import com.teamoffroad.offroad.feature.auth.R
-import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -50,29 +43,27 @@ internal fun AgreeTermsAndConditionsScreen(
     val context = LocalContext.current
     val isDialogShown by viewModel.dialogState.collectAsState()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val coroutineScope = rememberCoroutineScope()
-    val snackBarHostState = remember { SnackbarHostState() }
-    var snackBarShowState by remember { mutableStateOf(false) }
+    var isToastShown by remember { mutableStateOf(false) }
     val currentDateTime = remember { LocalDateTime.now() }
     val formatter = remember {
         DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm", Locale.getDefault())
     }
 
-    LaunchedEffect(snackBarShowState) {
-        if (snackBarShowState) {
-            coroutineScope.launch {
-                val snackBar = snackBarHostState.showSnackbar(
-                    message = if (uiState.isMarketing) "${currentDateTime.format(formatter)}부로 마케팅 정보 수신 동의 처리되었습니다."
-                    else "${currentDateTime.format(formatter)}부로 마케팅 정보 수신 비동의 처리되었습니다.",
-                    actionLabel = "닫기",
-                    duration = SnackbarDuration.Short
+    LaunchedEffect(isToastShown) {
+        if (isToastShown) {
+            val toastMessage = when (uiState.isMarketing) {
+                true -> context.getString(
+                    R.string.onboarding_agree_marketing_agree,
+                    currentDateTime.format(formatter)
                 )
-                when (snackBar) {
-                    SnackbarResult.ActionPerformed -> {}
-                    SnackbarResult.Dismissed -> {}
-                }
+
+                false -> context.getString(
+                    R.string.onboarding_agree_marketing_disagree,
+                    currentDateTime.format(formatter)
+                )
             }
-            snackBarShowState = false
+            Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show()
+            isToastShown = false
         }
     }
     LaunchedEffect(uiState) {
@@ -91,10 +82,7 @@ internal fun AgreeTermsAndConditionsScreen(
             AgreeTermsAndConditionsTopBar(modifier.padding(bottom = 24.dp))
             AgreeTermsAndConditionsTopBarAllAgreeBox(
                 isChecked = uiState.isServiceUtil && uiState.isPersonalInfo && uiState.isLocation && uiState.isMarketing,
-                onClick = {
-                    viewModel.allCheckedChangedListener()
-                    snackBarShowState = true
-                },
+                onClick = { viewModel.allCheckedChangedListener() },
                 modifier = Modifier.padding(bottom = 22.dp)
             )
             AgreeTermsAndConditionsItem(
@@ -122,10 +110,7 @@ internal fun AgreeTermsAndConditionsScreen(
                 text = stringResource(R.string.auth_agree_and_terms_conditions_marketing),
                 isChecked = uiState.isMarketing,
                 isRequired = false,
-                onClick = {
-                    snackBarShowState = true
-                    viewModel.marketingCheckedChangedListener()
-                },
+                onClick = { viewModel.marketingCheckedChangedListener() },
                 dialogShown = { viewModel.changeDialogState(DialogState.MARKETING_DIALOG) }
             )
             Spacer(modifier = Modifier.weight(1f))
@@ -136,17 +121,13 @@ internal fun AgreeTermsAndConditionsScreen(
                     .height(50.dp),
                 text = stringResource(R.string.auth_basic_button),
                 updateState = { viewModel.changedMarketingAgree(uiState.isMarketing) },
-                onClick = { navigateToSetNicknameScreen() },
+                onClick = {
+                    isToastShown = true
+                    navigateToSetNicknameScreen()
+                },
                 isActive = uiState.success,
             )
         }
-        SnackbarHost(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .padding(bottom = 30.dp),
-            hostState = snackBarHostState
-        )
     }
 
     when (isDialogShown.name) {
@@ -224,7 +205,7 @@ internal fun AgreeTermsAndConditionsScreen(
                 onDisAgreeClick = { viewModel.marketingDialogCheckedChangedListener(false) },
                 onClickCancel = {
                     viewModel.changeDialogState(DialogState.EMPTY)
-                    snackBarShowState = true
+                    isToastShown = true
                 })
         }
     }
