@@ -32,21 +32,13 @@ fun SetGenderButton(
     isGenderState: SignUpState,
 ) {
     val (male, female, other) = when (isGenderState.selectedGender) {
-        "MALE" -> {
-            Triple(true, false, false)
-        }
+        "MALE" -> Triple(true, false, false)
 
-        "FEMALE" -> {
-            Triple(false, true, false)
-        }
+        "FEMALE" -> Triple(false, true, false)
 
-        "OTHER" -> {
-            Triple(false, false, true)
-        }
+        "OTHER" -> Triple(false, false, true)
 
-        else -> {
-            Triple(false, false, false)
-        }
+        else -> Triple(false, false, false)
     }
     Column {
         GenderHintButton(
