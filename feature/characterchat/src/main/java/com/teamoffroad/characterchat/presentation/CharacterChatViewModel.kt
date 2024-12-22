@@ -46,24 +46,41 @@ class CharacterChatViewModel @Inject constructor(
         _chattingText.value = text
     }
 
-    fun getChats() {
+    fun handleChatState() {
+        val previousChats = uiState.value.chats.values.flatten()
+        if (!uiState.value.isLoadable || uiState.value.isLoading || uiState.value.isAdditionalLoading && previousChats.isNotEmpty()) return
+        if (previousChats.isEmpty()) updateIsChatting(true)
+
+        val limit = if (previousChats.isEmpty()) INITIAL_LOAD_LIMIT else ADDITIONAL_LOAD_LIMIT
+        val cursor = if (previousChats.isEmpty()) Long.MAX_VALUE else previousChats.minOf { it.id }
+
+        updateChats(limit, cursor, previousChats)
+    }
+
+    private fun updateChats(
+        limit: Int,
+        cursor: Long,
+        previousChats: List<ChatModel>,
+    ) {
         viewModelScope.launch {
             runCatching {
-                _uiState.value = uiState.value.copy(isLoading = true)
-                getChatListUseCase(uiState.value.characterId)
-            }.onSuccess { chats ->
+                _uiState.value = uiState.value.copy(isAdditionalLoading = true, isLoading = true)
+                getChatListUseCase(uiState.value.characterId, limit, cursor)
+            }.onSuccess { result ->
+                val chats = result.getOrNull() ?: emptyList()
                 _uiState.value = uiState.value.copy(
-                    chats = chats.map { it.toUi() }.groupBy { it.date },
+                    chats = (chats.map { it.toUi() } + previousChats).sortedBy { it.id }.groupBy { it.date }.toSortedMap(),
                     isLoading = false,
+                    isLoadable = chats.isNotEmpty(),
+                    isAdditionalLoading = false,
                 )
-                _isChatting.value = true
             }.onFailure {
-                _uiState.value = uiState.value.copy(isLoading = false, isError = true)
+                _uiState.value = uiState.value.copy(isLoading = false, isAdditionalLoading = false, isError = true)
             }
         }
     }
 
-    fun sendChat() {
+    fun performChat() {
         val chattingText = chattingText.value
 
         viewModelScope.launch {
@@ -74,6 +91,7 @@ class CharacterChatViewModel @Inject constructor(
                     text = chattingText,
                     date = now.toLocalDate(),
                     time = Triple(TimeType.toTimeType(now.hour), now.hour.toTwelveHour(), now.minute),
+                    id = uiState.value.chats.values.flatten().maxOf { it.id } + 1
                 )
                 extendChat(userChat)
                 _uiState.value = uiState.value.copy(isSending = true)
@@ -107,3 +125,6 @@ class CharacterChatViewModel @Inject constructor(
         )
     }
 }
+
+private const val INITIAL_LOAD_LIMIT = 20
+private const val ADDITIONAL_LOAD_LIMIT = 15

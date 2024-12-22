@@ -8,13 +8,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.teamoffroad.core.navigation.AuthRoute
 import com.teamoffroad.core.navigation.Route
-import com.teamoffroad.feature.auth.presentation.AgreeTermsAndConditionsScreen
-import com.teamoffroad.feature.auth.presentation.AuthScreen
-import com.teamoffroad.feature.auth.presentation.SelectedCharacterScreen
-import com.teamoffroad.feature.auth.presentation.SetBirthDateScreen
-import com.teamoffroad.feature.auth.presentation.SetCharacterScreen
-import com.teamoffroad.feature.auth.presentation.SetGenderScreen
-import com.teamoffroad.feature.auth.presentation.SetNicknameScreen
+import com.teamoffroad.feature.auth.presentation.signup.SelectedCharacterScreen
+import com.teamoffroad.feature.auth.presentation.signup.SetCharacterScreen
+import com.teamoffroad.feature.auth.presentation.signin.SignInScreen
+import com.teamoffroad.feature.auth.presentation.signup.SignUpScreen
+import com.teamoffroad.feature.auth.presentation.termandcondition.AgreeTermsAndConditionsScreen
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
@@ -23,23 +21,16 @@ fun NavController.navigateToAgreeTermsAndConditions() {
     navigate(AuthRoute.AgreeTermsAndConditions)
 }
 
-fun NavController.navigateToSetNickname() {
-    navigate(AuthRoute.SetNickname)
+fun NavController.navigateToSignUp() {
+    navigate(AuthRoute.SignUp)
 }
 
-fun NavController.navigateToSetBirthDate(nickname: String) {
-    navigate(AuthRoute.SetBirthDate(nickname))
-}
-
-fun NavController.navigateToSetGender(
+fun NavController.navigateToSetCharacter(
     nickname: String,
     birthDate: String? = null,
+    gender: String? = null,
 ) {
-    navigate(AuthRoute.SetGender(nickname, birthDate))
-}
-
-fun NavController.navigateToSetCharacter() {
-    navigate(AuthRoute.SetCharacter)
+    navigate(AuthRoute.SetCharacter(nickname, birthDate, gender))
 }
 
 fun NavController.navigateToSelectedCharacter(
@@ -53,44 +44,35 @@ fun NavController.navigateToSelectedCharacter(
 fun NavGraphBuilder.authNavGraph(
     navigateToHome: () -> Unit,
     navigateToAgreeTermsAndConditions: () -> Unit,
-    navigateToSetNickname: () -> Unit,
-    navigateToSetBirthDate: (String) -> Unit,
-    navigateToSetGender: (String, String?) -> Unit,
-    navigateToSetCharacter: () -> Unit,
+    navigateToSignUp: () -> Unit,
+    navigateToSetCharacter: (String, String?, String?) -> Unit,
     navigateToSelectedCharacter: (String) -> Unit,
     navigateToBack: () -> Unit,
 ) {
     composable<Route.Auth> {
-        AuthScreen(
+        SignInScreen(
             navigateToHome,
             navigateToAgreeTermsAndConditions,
         )
     }
     composable<AuthRoute.AgreeTermsAndConditions> {
         AgreeTermsAndConditionsScreen(
-            navigateToSetNickname
+            navigateToSignUp
         )
     }
-
-    composable<AuthRoute.SetNickname> {
-        SetNicknameScreen(
-            navigateToSetBirthDate,
+    composable<AuthRoute.SignUp> {
+        SignUpScreen(
+            navigateToSetCharacter = navigateToSetCharacter
         )
     }
-    composable<AuthRoute.SetBirthDate> { backStackEntry ->
-        val nickname = backStackEntry.toRoute<AuthRoute.SetBirthDate>().nickname
-        SetBirthDateScreen(
-            nickname,
-            navigateToSetGender,
-        )
-    }
-    composable<AuthRoute.SetGender> { backStackEntry ->
-        val nickname = backStackEntry.toRoute<AuthRoute.SetGender>().nickname
-        val birthDate = backStackEntry.toRoute<AuthRoute.SetGender>().birthDate
-        SetGenderScreen(nickname, birthDate, navigateToSetCharacter)
-    }
-    composable<AuthRoute.SetCharacter> {
+    composable<AuthRoute.SetCharacter> { backStackEntry ->
+        val nickname = backStackEntry.toRoute<AuthRoute.SetCharacter>().nickname
+        val birthDate = backStackEntry.toRoute<AuthRoute.SetCharacter>().birthDate
+        val gender = backStackEntry.toRoute<AuthRoute.SetCharacter>().gender
         SetCharacterScreen(
+            nickname,
+            birthDate,
+            gender,
             navigateToSelectedCharacter,
         )
     }

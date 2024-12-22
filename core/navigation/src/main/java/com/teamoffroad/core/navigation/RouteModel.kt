@@ -23,20 +23,19 @@ sealed interface MainTabRoute : Route {
 }
 
 sealed interface AuthRoute : Route {
-    @Serializable
-    data object SetNickname : AuthRoute
 
     @Serializable
     data object AgreeTermsAndConditions : AuthRoute
 
     @Serializable
-    data class SetBirthDate(val nickname: String) : AuthRoute
+    data object SignUp : AuthRoute
 
     @Serializable
-    data class SetGender(val nickname: String, val birthDate: String? = null) : AuthRoute
-
-    @Serializable
-    data object SetCharacter : AuthRoute
+    data class SetCharacter(
+        val nickname: String,
+        val birthDate: String? = null,
+        val gender: String?
+    ) : AuthRoute
 
     @Serializable
     data class SelectedCharacter(val encodedUrl: String) : AuthRoute
@@ -96,6 +95,9 @@ sealed interface MyPageRoute : Route {
         val characterId: Int,
         val isRepresentative: Boolean,
     ) : MyPageRoute
+
+    @Serializable
+    data object Support : MyPageRoute
 }
 
 sealed interface CharacterChatRoute : Route {

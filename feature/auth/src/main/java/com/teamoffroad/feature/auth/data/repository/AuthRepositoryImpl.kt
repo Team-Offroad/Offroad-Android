@@ -46,13 +46,8 @@ class AuthRepositoryImpl @Inject constructor(
         return authService.setCharacter(characterId).data.toString()
     }
 
-    override suspend fun saveUserProfile(userProfile: UserProfile): Result<Unit> {
-        val patchUserProfile =
-            runCatching { authService.fetchUserProfile(userProfile.toData()) }
-        patchUserProfile
-            .onSuccess {}
-            .onFailure {}
-        return Result.failure(Exception())
+    override suspend fun saveUserProfile(userProfile: UserProfile): String {
+        return authService.fetchUserProfile(userProfile.toData()).data.toString()
     }
 
     override suspend fun saveMarketingAgree(marketingAgree: Boolean): Result<Unit> {

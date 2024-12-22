@@ -16,10 +16,8 @@ import com.teamoffroad.core.navigation.MyPageRoute
 import com.teamoffroad.core.navigation.Route
 import com.teamoffroad.feature.auth.navigation.navigateToAgreeTermsAndConditions
 import com.teamoffroad.feature.auth.navigation.navigateToSelectedCharacter
-import com.teamoffroad.feature.auth.navigation.navigateToSetBirthDate
 import com.teamoffroad.feature.auth.navigation.navigateToSetCharacter
-import com.teamoffroad.feature.auth.navigation.navigateToSetGender
-import com.teamoffroad.feature.auth.navigation.navigateToSetNickname
+import com.teamoffroad.feature.auth.navigation.navigateToSignUp
 import com.teamoffroad.feature.explore.navigation.navigateToExplore
 import com.teamoffroad.feature.explore.navigation.navigateToPlace
 import com.teamoffroad.feature.explore.navigation.navigateToQuest
@@ -34,6 +32,7 @@ import com.teamoffroad.feature.mypage.navigation.navigateToGainedCoupon
 import com.teamoffroad.feature.mypage.navigation.navigateToGainedEmblems
 import com.teamoffroad.feature.mypage.navigation.navigateToMyPage
 import com.teamoffroad.feature.mypage.navigation.navigateToSetting
+import com.teamoffroad.feature.mypage.navigation.navigateToSupport
 
 internal class MainNavigator(
     val navController: NavHostController,
@@ -111,20 +110,12 @@ internal class MainNavigator(
         navController.navigateToAgreeTermsAndConditions()
     }
 
-    fun navigateToSetNickname() {
-        navController.navigateToSetNickname()
+    fun navigateToSignUp() {
+        navController.navigateToSignUp()
     }
 
-    fun navigateToSetBirthDate(nickname: String) {
-        navController.navigateToSetBirthDate(nickname)
-    }
-
-    fun navigateToSetGender(nickname: String, birthDate: String?) {
-        navController.navigateToSetGender(nickname, birthDate)
-    }
-
-    fun navigateToSetCharacter() {
-        navController.navigateToSetCharacter()
+    fun navigateToSetCharacter(nickname: String, birthDate: String?, gender: String?) {
+        navController.navigateToSetCharacter(nickname, birthDate, gender)
     }
 
     fun navigateToSelectedCharacter(selectedCharacterUrl: String) {
@@ -228,6 +219,10 @@ internal class MainNavigator(
 
     fun navigateToCharacterChat(characterId: Int = DEFAULT_CHARACTER_ID, characterName: String) {
         navController.navigateToCharacterChat(characterId, characterName)
+    }
+
+    fun navigateToSupport() {
+        navController.navigateToSupport()
     }
 }
 

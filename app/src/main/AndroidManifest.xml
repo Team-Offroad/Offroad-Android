@@ -31,28 +31,6 @@
         android:theme="@style/Theme.Offroad"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <service
-            android:name=".OffRoadMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <meta-data
-            android:name="com.naver.maps.map.CLIENT_ID"
-            android:value="${NAVER_CLIENT_ID}" />
-
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.teamoffroad.offroad.app.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
-
-
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
@@ -64,10 +42,28 @@
 
                 <data
                     android:host="oauth"
-                    android:scheme="kakao${KAKAO_NATIVE_KEY}" />
+                    android:scheme="kakao${KAKAO_REDIRECT_SCHEME}" />
             </intent-filter>
-
         </activity>
+        <service
+            android:name=".OffRoadMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="${NAVER_CLIENT_ID}" />
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.teamoffroad.offroad.app.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
         <receiver
             android:name="com.teamoffroad.feature.main.CharacterChatBroadcastReceiver"
             android:exported="false">

@@ -6,4 +6,5 @@ data class UserProfile(
     val month: Int?,
     val day: Int?,
     val gender: String?,
+    val characterId: Int,
 )

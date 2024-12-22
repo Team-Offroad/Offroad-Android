@@ -20,6 +20,7 @@ class GetNicknameValidateUseCase {
         var totalLength = 0
         var containsKorean = false
         var containsEnglishOrDigit = false
+        val consonantRegex = Regex("[ㄱ-ㅎ]")
 
         for (char in text) {
             totalLength += when {
@@ -34,6 +35,10 @@ class GetNicknameValidateUseCase {
                 }
 
                 else -> 0
+            }
+
+            if (consonantRegex.matches(char.toString())) {
+                return false
             }
 
             if (totalLength > MAX_LENGTH_NICKNAME) return false
