@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import com.teamoffroad.core.designsystem.theme.Black
+import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.White
 
 @Composable
@@ -30,7 +30,7 @@ fun OffroadBasicBtn(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .background(color = Black.copy(alpha = backGroundOpacity), shape = shape)
+            .background(color = Main2.copy(alpha = backGroundOpacity), shape = shape)
             .padding(vertical = 8.dp, horizontal = 6.dp)
             .clickable(
                 enabled = isActive,
