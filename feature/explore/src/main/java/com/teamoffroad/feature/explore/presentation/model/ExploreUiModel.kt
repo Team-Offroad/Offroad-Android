@@ -15,7 +15,7 @@ data class LocationModel(
     ),
     val previousLocation: LatLng = location,
     val isUserTrackingEnabled: Boolean = true,
-    val mapProperties: MapProperties = MapProperties(locationTrackingMode = LocationTrackingMode.Follow),
+    val mapProperties: MapProperties = MapProperties(locationTrackingMode = LocationTrackingMode.Face),
     val cameraPositionState: CameraPositionState = CameraPositionState(CameraPosition(location, 15.0)),
     val subIcon: OverlayImage? = OverlayImage.fromResource(R.drawable.ic_explore_location_overlay_sub),
     val circleAlpha: Float = FOLLOW_CIRCLE_ALPHA,
@@ -53,7 +53,7 @@ data class LocationModel(
 
     private fun getTrackingMode(isUserTrackingEnabled: Boolean): LocationTrackingMode {
         return when (isUserTrackingEnabled) {
-            true -> LocationTrackingMode.Follow
+            true -> LocationTrackingMode.Face
             false -> LocationTrackingMode.NoFollow
         }
     }

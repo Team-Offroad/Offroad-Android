@@ -18,7 +18,7 @@ import com.teamoffroad.offroad.feature.explore.R
 @Composable
 fun ExploreFailedDialogContent(
     modifier: Modifier = Modifier,
-    imageUrl: String,
+    url: String,
 ) {
     Box(
         modifier = modifier
@@ -39,7 +39,7 @@ fun ExploreFailedDialogContent(
                     .padding(bottom = 8.dp),
             )
             AdaptationImage(
-                imageUrl = imageUrl,
+                imageUrl = url,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(start = 10.dp)

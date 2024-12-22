@@ -2,9 +2,9 @@ package com.teamoffroad.feature.auth.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,60 +32,57 @@ fun AgreeTermsAndConditionsItem(
     onClick: () -> Unit,
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 44.dp)
-            .padding(bottom = 18.dp),
+            .padding(bottom = 18.dp)
+            .clickableWithoutRipple { onClick() },
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
 
-    ) {
+        ) {
         Row(
-            modifier = Modifier.clickableWithoutRipple { onClick() },
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            if (isChecked) {
-                Image(
-                    painter = painterResource(R.drawable.ic_agree_check_fill),
-                    contentDescription = "check",
-                    modifier = Modifier.padding(end = 12.dp)
-                )
-            } else {
-                Image(
-                    painter = painterResource(R.drawable.ic_agree_check_empty),
-                    contentDescription = "check",
-                    modifier = Modifier.padding(end = 12.dp)
-                )
-            }
-            Box(
-                modifier = Modifier
-                    .border(
-                        width = 1.dp,
-                        color = if (isChecked) Sub2 else Gray300,
-                        shape = RoundedCornerShape(12.dp)
-                    )
-                    .padding(horizontal = 8.dp, vertical = 4.dp)
-            ) {
-                Text(
-                    text = if (isRequired) stringResource(R.string.auth_agree_and_terms_conditions_item_required) else stringResource(
-                        R.string.auth_agree_and_terms_conditions_item_optional
-                    ),
-                    color = if (isChecked) Sub2 else Gray300,
-                    style = OffroadTheme.typography.textRegular,
-                )
-            }
-            Text(
-                text = text,
-                color = Main2,
-                style = OffroadTheme.typography.hint,
-                modifier = Modifier
-                    .padding(start = 8.dp)
+            Image(
+                painter = when (isChecked) {
+                    true -> painterResource(R.drawable.ic_agree_check_fill)
+                    false -> painterResource(R.drawable.ic_agree_check_empty)
+                },
+                contentDescription = "check",
+                modifier = Modifier.padding(end = 12.dp)
             )
         }
+        Box(
+            modifier = Modifier
+                .border(
+                    width = 1.dp,
+                    color = if (isRequired) Sub2 else Gray300,
+                    shape = RoundedCornerShape(12.dp)
+                )
+                .padding(horizontal = 8.dp, vertical = 4.dp)
+        ) {
+            Text(
+                text = when (isRequired) {
+                    true -> stringResource(R.string.auth_agree_and_terms_conditions_item_required)
+                    false -> stringResource(R.string.auth_agree_and_terms_conditions_item_optional)
+                },
+                color = if (isRequired) Sub2 else Gray300,
+                style = OffroadTheme.typography.textRegular,
+            )
+        }
+        Text(
+            text = text,
+            color = Main2,
+            style = OffroadTheme.typography.hint,
+            modifier = Modifier
+                .padding(start = 8.dp)
+        )
+        Spacer(modifier = Modifier.weight(1f))
         Image(
             painter = painterResource(R.drawable.ic_agree_click_next),
             contentDescription = "next",
-            modifier = Modifier.clickableWithoutRipple { dialogShown() }
+            modifier = Modifier.clickableWithoutRipple { dialogShown() },
+            alignment = Alignment.CenterEnd,
         )
     }
 }
