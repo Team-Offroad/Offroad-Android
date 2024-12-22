@@ -2,7 +2,7 @@
 <resources>
     <string name="explore_auth_kakao">Kakao로 계속하기</string>
     <string name="explore_auth_google">Google로 계속하기</string>
-    <string name="auth_basic_button">다음</string>
+    <string name="auth_basic_button">선택</string>
     <string name="auth_skip">건너뛰기</string>
     <string name="auth_on_boarding_title">모험가 프로필 작성</string>
 
