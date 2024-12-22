@@ -23,13 +23,12 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.ErrorNew
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Gray300
-import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
@@ -41,11 +40,12 @@ fun BirthDateTextField(
     placeholder: String = "",
     value: String = "",
     onValueChange: (String) -> Unit = { _ -> },
+    innerPadding: Dp,
     maxLines: Int = 1,
     minLines: Int = 1,
-    maxLength: Int = 10,
-    textStyle: TextStyle = OffroadTheme.typography.textAuto.copy(textAlign = TextAlign.Center),
-    textAlign: Alignment = Alignment.Center,
+    maxLength: Int,
+    textStyle: TextStyle = OffroadTheme.typography.textAuto,
+    textAlign: Alignment = Alignment.CenterStart,
     isError: Boolean = false,
     keyboardOptions: KeyboardOptions,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
@@ -87,13 +87,13 @@ fun BirthDateTextField(
         maxLines = if (minLines > maxLines) minLines else maxLines,
         minLines = minLines,
         interactionSource = interactionSource,
-        cursorBrush = SolidColor(Main1),
+        cursorBrush = SolidColor(Main2),
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
         visualTransformation = visualTransformation,
         decorationBox = { innerText ->
             Column(
-                modifier = modifier
+                modifier = Modifier
                     .background(
                         color = White,
                         shape = shape
@@ -103,10 +103,10 @@ fun BirthDateTextField(
                         color = borderLineColor.value,
                         shape = shape,
                     )
-                    .padding(vertical = 12.dp, horizontal = 12.dp),
+                    .padding(vertical = 12.dp, horizontal = innerPadding),
             ) {
                 Box(
-                    modifier = modifier
+                    modifier = Modifier
                         .clip(shape = shape),
                     contentAlignment = textAlign,
                 ) {
