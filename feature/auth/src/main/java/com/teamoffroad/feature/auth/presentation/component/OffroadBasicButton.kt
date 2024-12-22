@@ -31,14 +31,14 @@ fun OffroadBasicBtn(
         modifier = modifier
             .fillMaxWidth()
             .background(color = Main2.copy(alpha = backGroundOpacity), shape = shape)
-            .padding(vertical = 8.dp, horizontal = 6.dp)
             .clickable(
                 enabled = isActive,
                 onClick = {
                     onClick()
                     updateState()
                 }
-            ),
+            )
+            .padding(vertical = 8.dp, horizontal = 6.dp),
         contentAlignment = Alignment.Center,
     ) {
         Row(
