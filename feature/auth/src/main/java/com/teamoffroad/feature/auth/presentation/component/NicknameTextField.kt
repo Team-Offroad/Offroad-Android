@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.ErrorNew
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Gray300
-import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
@@ -92,7 +91,7 @@ fun NicknameTextField(
         textStyle = updatedTextStyle,
         maxLines = if (minLines > maxLines) minLines else maxLines,
         minLines = minLines,
-        cursorBrush = SolidColor(Main1),
+        cursorBrush = SolidColor(Main2),
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
         visualTransformation = visualTransformation,
