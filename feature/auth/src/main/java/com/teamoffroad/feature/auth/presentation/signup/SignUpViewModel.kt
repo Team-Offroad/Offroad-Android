@@ -161,10 +161,16 @@ class SignUpViewModel @Inject constructor(
 
     fun checkDateValidate() {
         viewModelScope.launch {
-            _signUpUiState.value = signUpUiState.value.copy(
-                date = signUpUiState.value.year + "," + signUpUiState.value.month + "," + signUpUiState.value.day
-            )
-            checkDateValidate(signUpUiState.value.date)
+            if (signUpUiState.value.year.isBlank() && signUpUiState.value.month.isBlank() && signUpUiState.value.day.isBlank()) {
+                _signUpUiState.value = signUpUiState.value.copy(
+                    date = null
+                )
+            } else {
+                _signUpUiState.value = signUpUiState.value.copy(
+                    date = signUpUiState.value.year + "," + signUpUiState.value.month + "," + signUpUiState.value.day
+                )
+                signUpUiState.value.date?.let { checkDateValidate(it) }
+            }
         }
     }
 

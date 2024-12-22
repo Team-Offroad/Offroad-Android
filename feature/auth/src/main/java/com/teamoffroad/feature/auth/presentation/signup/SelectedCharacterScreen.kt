@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.auth.presentation.signup
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,6 +35,10 @@ internal fun SelectedCharacterScreen(
     selectedCharacterUrl: String,
     navigateToHome: () -> Unit,
 ) {
+    BackHandler {
+        navigateToHome()
+    }
+
     val gradientBrush = Brush.verticalGradient(
         colors = listOf(
             SelectedCharacterGradi1,

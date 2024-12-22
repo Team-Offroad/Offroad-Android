@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.auth.presentation.signup
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -63,7 +62,6 @@ internal fun SignUpScreen(
             )
         }
     }
-    Log.d("sadsad", signUpUiState.yearValidateResult.toString())
 
     LaunchedEffect(Unit) {
         viewModel.signUpSideEffect.collectLatest { sideEffect ->
