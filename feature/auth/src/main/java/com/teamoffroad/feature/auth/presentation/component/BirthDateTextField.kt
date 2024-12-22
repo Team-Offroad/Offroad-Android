@@ -63,14 +63,14 @@ fun BirthDateTextField(
             textColor.value = Main2
         }
 
-        isFocused || value.isNotBlank() -> {
+        isFocused -> {
             borderLineColor.value = Main2
             textColor.value = Main2
         }
 
         else -> {
             borderLineColor.value = Gray100
-            textColor.value = Gray300
+            textColor.value = Main2
         }
     }
 
