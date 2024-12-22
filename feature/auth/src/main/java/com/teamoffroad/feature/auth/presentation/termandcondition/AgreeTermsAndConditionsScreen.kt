@@ -229,12 +229,3 @@ internal fun AgreeTermsAndConditionsScreen(
         }
     }
 }
-
-@Composable
-fun getCurrentDateTime(): String {
-    val currentDateTime = remember { LocalDateTime.now() }
-    val formatter = remember {
-        DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm", Locale.getDefault())
-    }
-    return currentDateTime.format(formatter)
-}
