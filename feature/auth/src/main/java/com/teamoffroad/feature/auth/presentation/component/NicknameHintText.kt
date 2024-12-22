@@ -41,6 +41,7 @@ fun checkNicknameHint(text: String): Color {
     val koreanRegex = Regex("[가-힣]")
     val englishOrDigitRegex = Regex("[a-zA-Z0-9]")
     val vowelRegex = Regex("[ㅏ-ㅣ]")
+    val digitRegex = Regex("[0-9]")
 
     var totalLength = 0
     var containsKorean = false
@@ -62,11 +63,7 @@ fun checkNicknameHint(text: String): Color {
             else -> 0
         }
 
-        if (consonantRegex.matches(char.toString())) {
-            return ErrorNew
-        }
-
-        if (vowelRegex.matches(char.toString())) {
+        if (consonantRegex.matches(char.toString()) || vowelRegex.matches(char.toString()) || digitRegex.matches(char.toString())) {
             return ErrorNew
         }
 
