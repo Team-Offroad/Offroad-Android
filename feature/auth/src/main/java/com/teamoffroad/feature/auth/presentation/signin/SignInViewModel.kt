@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.auth.presentation
+package com.teamoffroad.feature.auth.presentation.signin
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,7 +7,6 @@ import com.teamoffroad.core.common.domain.usecase.SaveAccessTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.SaveRefreshTokenUseCase
 import com.teamoffroad.feature.auth.domain.model.SocialSignInPlatform
 import com.teamoffroad.feature.auth.domain.usecase.AuthUseCase
-import com.teamoffroad.feature.auth.presentation.model.AuthUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,26 +17,26 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AuthViewModel @Inject constructor(
+class SignInViewModel @Inject constructor(
     private val authUseCase: AuthUseCase,
     private val saveAccessTokenUseCase: SaveAccessTokenUseCase,
     private val saveRefreshTokenUseCase: SaveRefreshTokenUseCase,
     private val getAutoSignInUseCase: GetAutoSignInUseCase,
 ) : ViewModel() {
-    private val _authUiState: MutableStateFlow<AuthUiState> = MutableStateFlow(AuthUiState())
-    val authUiState: StateFlow<AuthUiState> = _authUiState.asStateFlow()
+    private val _signInUiState: MutableStateFlow<SignInUiState> = MutableStateFlow(SignInUiState())
+    val signInUiState: StateFlow<SignInUiState> = _signInUiState.asStateFlow()
 
-    private val _authSideEffect: Channel<Boolean> = Channel()
-    val sideEffect = _authSideEffect.receiveAsFlow()
+    private val _signInSideEffect: Channel<Boolean> = Channel()
+    val sideEffect = _signInSideEffect.receiveAsFlow()
 
     fun startKakaoSignIn() {
-        _authUiState.value = authUiState.value.copy(
+        _signInUiState.value = signInUiState.value.copy(
             startKakaoSignIn = true
         )
     }
 
     fun startGoogleSignIn() {
-        _authUiState.value = authUiState.value.copy(
+        _signInUiState.value = signInUiState.value.copy(
             startGoogleSignIn = true
         )
     }
@@ -69,7 +68,7 @@ class AuthViewModel @Inject constructor(
             }.onSuccess { signInInfo ->
                 saveAccessTokenUseCase.invoke(signInInfo.tokens.accessToken)
                 saveRefreshTokenUseCase.invoke(signInInfo.tokens.refreshToken)
-                _authUiState.value = _authUiState.value.copy(
+                _signInUiState.value = _signInUiState.value.copy(
                     signInSuccess = true,
                     alreadyExist = signInInfo.isAlreadyExist
                 )
@@ -82,7 +81,7 @@ class AuthViewModel @Inject constructor(
     fun checkAutoSignIn() {
         viewModelScope.launch {
             getAutoSignInUseCase().collect { isAutoSignIn ->
-                _authUiState.value = _authUiState.value.copy(
+                _signInUiState.value = _signInUiState.value.copy(
                     isAutoSignIn = isAutoSignIn
                 )
             }
@@ -91,11 +90,11 @@ class AuthViewModel @Inject constructor(
 
     fun updateSignInResult() {
         viewModelScope.launch {
-            _authSideEffect.send(true)
+            _signInSideEffect.send(true)
         }
     }
 
     fun initState() {
-        _authUiState.value = AuthUiState()
+        _signInUiState.value = SignInUiState()
     }
 }

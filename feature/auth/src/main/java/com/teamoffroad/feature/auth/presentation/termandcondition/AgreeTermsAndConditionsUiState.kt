@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.auth.presentation.model
+package com.teamoffroad.feature.auth.presentation.termandcondition
 
 data class AgreeTermsAndConditionsUiState(
     val isServiceUtil: Boolean = false,

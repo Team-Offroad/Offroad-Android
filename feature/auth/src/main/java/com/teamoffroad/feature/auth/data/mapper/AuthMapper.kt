@@ -35,5 +35,6 @@ fun UserProfile.toData(): ProfileUpdateRequestDto {
         month = this.month,
         day = this.day,
         gender = this.gender,
+        characterId = this.characterId,
     )
 }

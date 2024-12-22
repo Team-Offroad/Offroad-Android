@@ -4,6 +4,7 @@ import com.teamoffroad.feature.auth.domain.repository.AuthRepository
 import com.teamoffroad.feature.auth.domain.usecase.AuthUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetCharacterListUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetNicknameValidateUseCase
+import com.teamoffroad.feature.auth.domain.usecase.PatchUserProfileUseCase
 import com.teamoffroad.feature.auth.domain.usecase.UpdateCharacterUseCase
 import com.teamoffroad.feature.auth.domain.usecase.UserMarketingAgreeUseCase
 import dagger.Module
@@ -45,7 +46,15 @@ object UseCaseModule {
     fun provideGetNicknameValidateUseCase(): GetNicknameValidateUseCase {
         return GetNicknameValidateUseCase()
     }
-    
+
+    @Provides
+    @Singleton
+    fun providePatchUSerProfileUseCase(
+        authRepository: AuthRepository,
+    ): PatchUserProfileUseCase {
+        return PatchUserProfileUseCase(authRepository)
+    }
+
     @Provides
     @Singleton
     fun provideMarketingAgreeUseCase(

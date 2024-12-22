@@ -39,7 +39,7 @@ interface AuthService {
     @PATCH("users/profiles")
     suspend fun fetchUserProfile(
         @Body request: ProfileUpdateRequestDto,
-    ): BaseResponse<String>
+    ): BaseResponse<SettingCharacterResponseDto>
 
     @PATCH("users/agree")
     suspend fun patchMarketingInfo(

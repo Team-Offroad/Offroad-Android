@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.auth.presentation
+package com.teamoffroad.feature.auth.presentation.termandcondition
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
