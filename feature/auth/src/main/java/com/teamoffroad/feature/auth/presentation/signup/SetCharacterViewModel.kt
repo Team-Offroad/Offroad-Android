@@ -1,13 +1,12 @@
-package com.teamoffroad.feature.auth.presentation
+package com.teamoffroad.feature.auth.presentation.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.auth.domain.model.Character
 import com.teamoffroad.feature.auth.domain.usecase.GetCharacterListUseCase
-import com.teamoffroad.feature.auth.domain.usecase.UpdateCharacterUseCase
+import com.teamoffroad.feature.auth.domain.usecase.PatchUserProfileUseCase
 import com.teamoffroad.feature.auth.presentation.model.SetCharacterUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SetCharacterViewModel @Inject constructor(
     private val getCharacterListUseCase: GetCharacterListUseCase,
-    private val updateCharacterUseCase: UpdateCharacterUseCase,
+    private val patchUserProfileUseCase: PatchUserProfileUseCase,
 ) : ViewModel() {
 
     private val _characters = MutableStateFlow<List<Character>>(emptyList())
@@ -43,10 +42,20 @@ class SetCharacterViewModel @Inject constructor(
         }
     }
 
-    fun updateCharacter(characterId: Int) {
+    fun fetchUserProfile(
+        nickname: String,
+        birthDate: String?,
+        gender: String? = null,
+        characterId: Int,
+    ) {
         viewModelScope.launch {
             runCatching {
-                updateCharacterUseCase.invoke(characterId)
+                patchUserProfileUseCase.invoke(
+                    nickname = nickname,
+                    birthDate = birthDate,
+                    gender = gender,
+                    characterId = characterId,
+                )
             }.onSuccess { characterImgUrl ->
                 updateSelectedCharacter(characterId)
                 _uiState.value = SetCharacterUiState.Success(characterImgUrl)

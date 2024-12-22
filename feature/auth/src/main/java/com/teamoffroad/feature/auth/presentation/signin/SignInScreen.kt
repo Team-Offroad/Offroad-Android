@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.auth.presentation
+package com.teamoffroad.feature.auth.presentation.signin
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
@@ -41,12 +41,12 @@ import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-internal fun AuthScreen(
+internal fun SignInScreen(
     navigateToHome: () -> Unit,
     navigateToAgreeTermsAndConditions: () -> Unit,
-    viewModel: AuthViewModel = hiltViewModel(),
+    viewModel: SignInViewModel = hiltViewModel(),
 ) {
-    val authUiState by viewModel.authUiState.collectAsStateWithLifecycle()
+    val signInUiState by viewModel.signInUiState.collectAsStateWithLifecycle()
     val context = LocalContext.current as ComponentActivity
     val entryPoint =
         EntryPointAccessors.fromActivity<OAuthEntryPoint>(context)
@@ -55,12 +55,12 @@ internal fun AuthScreen(
     LaunchedEffect(Unit) {
         viewModel.checkAutoSignIn()
     }
-    LaunchedEffect(authUiState) {
+    LaunchedEffect(signInUiState) {
         when {
-            authUiState.isAutoSignIn -> navigateToHome()
-            authUiState.signInSuccess && !authUiState.alreadyExist -> viewModel.updateSignInResult()
-            authUiState.signInSuccess && authUiState.alreadyExist -> navigateToHome()
-            authUiState.startKakaoSignIn -> {
+            signInUiState.isAutoSignIn -> navigateToHome()
+            signInUiState.signInSuccess && !signInUiState.alreadyExist -> viewModel.updateSignInResult()
+            signInUiState.signInSuccess && signInUiState.alreadyExist -> navigateToHome()
+            signInUiState.startKakaoSignIn -> {
                 val result = oAuthInteractor.signInKakao()
                 result.onSuccess {
                     viewModel.performKakaoSignIn(it.accessToken)
@@ -69,7 +69,7 @@ internal fun AuthScreen(
                 }
             }
 
-            authUiState.startGoogleSignIn -> {
+            signInUiState.startGoogleSignIn -> {
                 val result = oAuthInteractor.signInGoogle()
                 result.onSuccess {
                     viewModel.performGoogleSignIn(it)

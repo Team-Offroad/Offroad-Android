@@ -1,6 +1,6 @@
-package com.teamoffroad.feature.auth.presentation.model
+package com.teamoffroad.feature.auth.presentation.signin
 
-data class AuthUiState(
+data class SignInUiState(
     val empty: Boolean = true,
     val signInSuccess: Boolean = false,
     val alreadyExist: Boolean = false,

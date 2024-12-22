@@ -1,9 +1,8 @@
-package com.teamoffroad.feature.auth.presentation
+package com.teamoffroad.feature.auth.presentation.termandcondition
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.auth.domain.usecase.UserMarketingAgreeUseCase
-import com.teamoffroad.feature.auth.presentation.model.AgreeTermsAndConditionsUiState
 import com.teamoffroad.feature.auth.presentation.model.DialogState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

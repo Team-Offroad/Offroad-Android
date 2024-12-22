@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.auth.presentation
+package com.teamoffroad.feature.auth.presentation.signin
 
 import com.teamoffroad.feature.auth.domain.repository.OAuthInteractor
 import dagger.hilt.EntryPoint
