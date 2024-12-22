@@ -61,6 +61,12 @@ internal fun SignUpScreen(
                 pagerState.currentPage - 1,
             )
         }
+        when(pagerState.currentPage.toSignUpPage()) {
+            SignUpPage.NICKNAME -> {}
+            SignUpPage.BIRTHDATE -> viewModel.initBirthDate()
+            SignUpPage.GENDER -> viewModel.initGender()
+            SignUpPage.ELSE -> {}
+        }
     }
 
     LaunchedEffect(Unit) {
