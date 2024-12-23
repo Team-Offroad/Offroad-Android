@@ -15,7 +15,6 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -33,17 +32,6 @@ class SignUpViewModel @Inject constructor(
 
     private val _signUpSideEffect: Channel<SignUpSideEffect> = Channel()
     val signUpSideEffect = _signUpSideEffect.receiveAsFlow()
-
-    init {
-        viewModelScope.launch {
-            _signUpUiState.collectLatest {
-                _signUpUiState.value = signUpUiState.value.copy(
-                    date = signUpUiState.value.year + "," + signUpUiState.value.month + "," + signUpUiState.value.day
-                )
-                checkDateValidate(signUpUiState.value.date)
-            }
-        }
-    }
 
     fun updateNicknamesValid(nickname: String) {
         _signUpUiState.value = signUpUiState.value.copy(
@@ -167,6 +155,21 @@ class SignUpViewModel @Inject constructor(
                 _signUpUiState.value = signUpUiState.value.copy(
                     dayValidateResult = DateValidateResult.Success
                 )
+            }
+        }
+    }
+
+    fun checkDateValidate() {
+        viewModelScope.launch {
+            if (signUpUiState.value.year.isBlank() && signUpUiState.value.month.isBlank() && signUpUiState.value.day.isBlank()) {
+                _signUpUiState.value = signUpUiState.value.copy(
+                    date = null
+                )
+            } else {
+                _signUpUiState.value = signUpUiState.value.copy(
+                    date = signUpUiState.value.year + "," + signUpUiState.value.month + "," + signUpUiState.value.day
+                )
+                signUpUiState.value.date?.let { checkDateValidate(it) }
             }
         }
     }

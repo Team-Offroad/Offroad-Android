@@ -29,7 +29,6 @@ import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.mypage.presentation.component.AnnouncementItems
 import com.teamoffroad.feature.mypage.presentation.component.SettingHeader
 import com.teamoffroad.feature.mypage.presentation.model.AnnouncementResult
-import com.teamoffroad.feature.mypage.presentation.model.SettingItem
 import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
@@ -91,33 +90,6 @@ internal fun AnnouncementScreen(
                 AnnouncementItems(
                     isAnnouncementState = isAnnouncementState,
                     onClick = navigateToAnnouncementDetail,
-                    defaultAnnouncementList = listOf(
-                        SettingItem(
-                            title = stringResource(R.string.my_page_setting_announcement_item_affiliate),
-                            isImportant = false,
-                            onClick = {}
-                        ),
-                        SettingItem(
-                            title = stringResource(R.string.my_page_setting_announcement_item_operation_information),
-                            isImportant = false,
-                            onClick = {}
-                        ),
-                        SettingItem(
-                            title = stringResource(R.string.my_page_setting_announcement_item_event_information),
-                            isImportant = false,
-                            onClick = {}
-                        ),
-                        SettingItem(
-                            title = stringResource(R.string.my_page_setting_announcement_item_closing_information),
-                            isImportant = false,
-                            onClick = {}
-                        ),
-                        SettingItem(
-                            title = stringResource(R.string.my_page_setting_announcement_item_operational_matters),
-                            isImportant = false,
-                            onClick = {}
-                        ),
-                    )
                 )
             }
 

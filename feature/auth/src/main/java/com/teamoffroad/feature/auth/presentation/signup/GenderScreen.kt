@@ -13,7 +13,6 @@ import com.teamoffroad.offroad.feature.auth.R
 
 @Composable
 internal fun GenderScreen(
-    modifier: Modifier = Modifier,
     uiState: SignUpState,
     updateCheckedGender: (String) -> Unit,
 ) {

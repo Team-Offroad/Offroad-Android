@@ -33,7 +33,7 @@ import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.characterchat.presentation.MainCharacterChatViewModel
-import com.teamoffroad.characterchat.presentation.component.showCharacterChat
+import com.teamoffroad.characterchat.presentation.component.ShowCharacterChat
 import com.teamoffroad.characterchat.presentation.component.showUserChat
 import com.teamoffroad.characterchat.presentation.model.CharacterChatLastUnreadUiState
 import com.teamoffroad.core.designsystem.component.actionBarPadding
@@ -54,7 +54,7 @@ fun HomeScreen(
     category: String?,
     completeQuests: List<String> = emptyList(),
     navigateToGainedCharacter: () -> Unit = {},
-    navigateToCharacterChatScreen: (Int, String) -> Unit,
+    navigateToCharacterChatScreen: (String) -> Unit,
 ) {
     val context = LocalContext.current
     val homeViewModel: HomeViewModel = hiltViewModel()
@@ -131,7 +131,7 @@ fun HomeScreen(
         )
     }
 
-    showCharacterChat(
+    ShowCharacterChat(
         characterChatUiState = characterChatUiState,
         userChatUiState = userChatUiState,
         updateAnswerCharacterChatButtonState = mainViewModel::updateAnswerCharacterChatButtonState,

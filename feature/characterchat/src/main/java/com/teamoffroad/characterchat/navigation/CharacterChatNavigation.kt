@@ -7,7 +7,7 @@ import androidx.navigation.toRoute
 import com.teamoffroad.characterchat.presentation.CharacterChatScreen
 import com.teamoffroad.core.navigation.CharacterChatRoute
 
-fun NavController.navigateToCharacterChat(characterId: Int, characterName: String) {
+fun NavController.navigateToCharacterChat(characterId: Int = DEFAULT_CHARACTER_ID, characterName: String) {
     navigate(CharacterChatRoute.CharacterChat(characterId, characterName))
 }
 
