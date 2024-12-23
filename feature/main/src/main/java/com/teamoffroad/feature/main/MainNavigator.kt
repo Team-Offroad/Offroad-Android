@@ -62,7 +62,7 @@ internal class MainNavigator(
         when (tab) {
             MainNavTab.HOME -> navController.navigateToHome(navOptions = mainTabNavOptions)
             MainNavTab.EXPLORE -> navController.navigateToExplore(navOptions = mainTabNavOptions)
-            MainNavTab.MYPAGE -> navController.navigateToMyPage(navOptions = mainTabNavOptions)
+            MainNavTab.MY_PAGE -> navController.navigateToMyPage(navOptions = mainTabNavOptions)
         }
     }
 

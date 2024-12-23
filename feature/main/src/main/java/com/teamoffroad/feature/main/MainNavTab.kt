@@ -6,24 +6,27 @@ import com.teamoffroad.core.navigation.Route
 import com.teamoffroad.offroad.feature.main.R
 
 internal enum class MainNavTab(
-    val iconResId: Int,
+    val selectedIconResId: Int,
+    val deselectedIconResId: Int = 0,
     internal val contentDescription: String,
     val route: MainTabRoute,
 ) {
     HOME(
-        iconResId = R.drawable.ic_main_home_active,
+        selectedIconResId = R.drawable.ic_main_home_selected,
+        deselectedIconResId = R.drawable.ic_main_home_deselected,
         contentDescription = "홈",
-        MainTabRoute.Home(),
+        route = MainTabRoute.Home(),
     ),
     EXPLORE(
-        iconResId = R.drawable.ic_main_explore,
+        selectedIconResId = R.drawable.ic_main_explore,
         contentDescription = "탐험",
-        MainTabRoute.Explore(),
+        route = MainTabRoute.Explore(),
     ),
-    MYPAGE(
-        iconResId = R.drawable.ic_main_my_page_active,
+    MY_PAGE(
+        selectedIconResId = R.drawable.ic_main_my_page_selected,
+        deselectedIconResId = R.drawable.ic_main_my_page_deselected,
         contentDescription = "마이페이지",
-        MainTabRoute.MyPage,
+        route = MainTabRoute.MyPage,
     );
 
     companion object {

@@ -82,6 +82,12 @@ data class LocationModel(
         )
     }
 
+    fun updateCameraPositionState(latitude: Double, longitude: Double): LocationModel {
+        return copy(
+            cameraPositionState = CameraPositionState(CameraPosition(LatLng(latitude, longitude), 15.0)),
+        )
+    }
+
     private companion object {
         private const val DEFAULT_LOCATION_LATITUDE = 37.588764
         private const val DEFAULT_LOCATION_LONGITUDE = 127.05879
