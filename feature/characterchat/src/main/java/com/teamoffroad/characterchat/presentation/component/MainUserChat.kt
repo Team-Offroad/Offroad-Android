@@ -119,7 +119,7 @@ fun FinishChatting(
 }
 
 @Composable
-fun showUserChat(
+fun ShowUserChat(
     userChatUiState: State<UserChattingUiState>,
     characterChatUiState: State<CharacterChattingUiState>,
     userChattingText: State<String>,

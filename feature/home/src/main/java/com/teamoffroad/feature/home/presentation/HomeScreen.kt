@@ -34,7 +34,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.characterchat.presentation.MainCharacterChatViewModel
 import com.teamoffroad.characterchat.presentation.component.ShowCharacterChat
-import com.teamoffroad.characterchat.presentation.component.showUserChat
+import com.teamoffroad.characterchat.presentation.component.ShowUserChat
 import com.teamoffroad.characterchat.presentation.model.CharacterChatLastUnreadUiState
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.feature.home.domain.model.UserQuests
@@ -141,7 +141,7 @@ fun HomeScreen(
         navigateToCharacterChatScreen = navigateToCharacterChatScreen
     )
 
-    showUserChat(
+    ShowUserChat(
         userChatUiState = userChatUiState,
         characterChatUiState = characterChatUiState,
         userChattingText = mainViewModel.userChattingText.collectAsStateWithLifecycle(),

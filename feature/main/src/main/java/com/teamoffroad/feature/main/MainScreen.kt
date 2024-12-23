@@ -14,7 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.characterchat.presentation.MainCharacterChatViewModel
-import com.teamoffroad.characterchat.presentation.component.showUserChat
+import com.teamoffroad.characterchat.presentation.component.ShowUserChat
 import com.teamoffroad.characterchat.presentation.model.CharacterChattingUiState
 import com.teamoffroad.characterchat.presentation.model.UserChattingUiState
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.TYPE_ANNOUNCEMENT
@@ -94,7 +94,7 @@ private fun MainScreenContent(
     updateUserChattingText: (String) -> Unit,
     updateShowUserChatTextField: (Boolean) -> Unit,
     sendChat: () -> Unit,
-    navigateToCharacterChatScreen: (Int, String) -> Unit
+    navigateToCharacterChatScreen: (Int, String) -> Unit,
 ) {
     val showSplash = remember { mutableStateOf(true) }
     LaunchedEffect(Unit) {
@@ -128,7 +128,7 @@ private fun MainScreenContent(
 //                        navigateToCharacterChatScreen = navigateToCharacterChatScreen
 //                    )
 
-                    showUserChat(
+                    ShowUserChat(
                         userChatUiState = userChatUiState,
                         characterChatUiState = characterChatUiState,
                         userChattingText = userChattingText,
