@@ -221,6 +221,10 @@ internal class MainNavigator(
         navController.navigateToCharacterChat(characterId, characterName)
     }
 
+    fun navigateToCharacterChat(characterName: String) {
+        navController.navigateToCharacterChat(characterName = characterName)
+    }
+
     fun navigateToSupport() {
         navController.navigateToSupport()
     }
