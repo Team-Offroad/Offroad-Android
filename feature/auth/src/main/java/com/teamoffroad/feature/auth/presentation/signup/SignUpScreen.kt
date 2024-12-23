@@ -60,7 +60,7 @@ internal fun SignUpScreen(
                 pagerState.currentPage - 1,
             )
         }
-        when(pagerState.currentPage.toSignUpPage()) {
+        when (pagerState.currentPage.toSignUpPage()) {
             SignUpPage.NICKNAME -> {}
             SignUpPage.BIRTHDATE -> viewModel.initBirthDate()
             SignUpPage.GENDER -> viewModel.initGender()
@@ -187,7 +187,7 @@ internal fun SignUpScreen(
                 .padding(horizontal = 24.dp)
                 .padding(bottom = 72.dp)
                 .height(50.dp),
-            text = stringResource(R.string.auth_basic_button),
+            text = stringResource(R.string.auth_next),
             onClick = {
                 if (pagerState.currentPage.toSignUpPage() == SignUpPage.NICKNAME || pagerState.currentPage.toSignUpPage() == SignUpPage.BIRTHDATE) {
                     coroutineScope.launch {
