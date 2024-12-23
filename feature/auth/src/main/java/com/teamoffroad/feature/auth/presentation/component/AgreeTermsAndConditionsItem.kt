@@ -36,7 +36,7 @@ fun AgreeTermsAndConditionsItem(
             .fillMaxWidth()
             .padding(horizontal = 44.dp)
             .padding(bottom = 18.dp)
-            .clickableWithoutRipple { onClick() },
+            .clickableWithoutRipple { dialogShown() },
         verticalAlignment = Alignment.CenterVertically,
 
         ) {
@@ -49,7 +49,9 @@ fun AgreeTermsAndConditionsItem(
                     false -> painterResource(R.drawable.ic_agree_check_empty)
                 },
                 contentDescription = "check",
-                modifier = Modifier.padding(end = 12.dp)
+                modifier = Modifier
+                    .padding(end = 12.dp)
+                    .clickableWithoutRipple { onClick() }
             )
         }
         Box(
@@ -81,7 +83,6 @@ fun AgreeTermsAndConditionsItem(
         Image(
             painter = painterResource(R.drawable.ic_agree_click_next),
             contentDescription = "next",
-            modifier = Modifier.clickableWithoutRipple { dialogShown() },
             alignment = Alignment.CenterEnd,
         )
     }
