@@ -47,7 +47,7 @@ val White75 = Color(0xBFFFFFFF)
 val White25 = Color(0x40FFFFFF)
 
 val NametagStroke = Color(0xFFFFD6AB)
-val Contents1 = Color(0xB2382D93)
+val Contents1 = Color(0xB3382D93)
 val Contents1GraphMain = Color(0xFFF477A1)
 val Contents1GraphSub = Color(0xFF9B429D)
 val Contents2 = Color(0xB24437A1)
@@ -67,7 +67,7 @@ val SettingNameTag = Color(0xFFFBDAED)
 
 val GetCharacter002 = Color(0xFFFFB141)
 val GetCharacterBg001 = Color(0xFFFFF0BC)
-//
+
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)
 val Pink80 = Color(0xFFEFB8C8)
