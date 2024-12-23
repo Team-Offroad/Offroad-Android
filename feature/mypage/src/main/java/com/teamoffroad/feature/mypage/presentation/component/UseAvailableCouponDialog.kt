@@ -19,12 +19,15 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
@@ -64,7 +67,6 @@ fun UseAvailableCouponDialog(
     shape: Shape = RoundedCornerShape(14.dp),
     backgroundColor: Color = Main3,
 ) {
-
     Dialog(
         onDismissRequest = { onClickCancel() },
         properties = DialogProperties(
@@ -277,8 +279,13 @@ private fun CodeTextField(
     updateCode: (String) -> Unit,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
+    val focusRequester = remember { FocusRequester() }
     val borderLineColor = remember { mutableStateOf(Gray100) }
     val couponCode = remember { mutableStateOf("") }
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
 
     BasicTextField(
         value = couponCode.value,
@@ -290,6 +297,7 @@ private fun CodeTextField(
         maxLines = if (minLines > maxLines) minLines else maxLines,
         minLines = minLines,
         interactionSource = interactionSource,
+        modifier = Modifier.focusRequester(focusRequester),
         decorationBox = { innerText ->
             Column(
                 modifier = modifier
