@@ -38,9 +38,16 @@ class ExploreViewModel @Inject constructor(
                     .firstOrNull()
                     ?.let { (latitude, longitude) ->
                         updateLocation(latitude, longitude)
+                        updateCameraState(latitude, longitude)
                     } ?: updateLocation(uiState.value.locationModel.location.latitude, uiState.value.locationModel.location.longitude)
             }
         }
+    }
+
+    private fun updateCameraState(latitude: Double, longitude: Double) {
+        _uiState.value = uiState.value.copy(
+            locationModel = uiState.value.locationModel.updateCameraPositionState(latitude, longitude)
+        )
     }
 
     fun updatePermission(
