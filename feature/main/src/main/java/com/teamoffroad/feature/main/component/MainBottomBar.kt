@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBarItemColors
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -32,7 +30,6 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.teamoffroad.core.designsystem.component.ChangeBottomBarColor
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.core.designsystem.component.navigationPadding
-import com.teamoffroad.core.designsystem.theme.BottomBarInactive
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub4_80
@@ -88,10 +85,6 @@ internal fun MainBottomBar(
                             tab = tab,
                             selected = tab == currentTab,
                             ordinal = tab.ordinal,
-                            colors = NavigationBarItemDefaults.colors(
-                                selectedIconColor = Main1,
-                                unselectedIconColor = BottomBarInactive,
-                            ),
                             onClick = { onTabSelected(tab) },
                         )
                     }
@@ -106,7 +99,6 @@ private fun RowScope.MainBottomBarItem(
     tab: MainNavTab,
     selected: Boolean,
     ordinal: Int,
-    colors: NavigationBarItemColors,
     onClick: () -> Unit,
 ) {
     Row(
@@ -124,22 +116,27 @@ private fun RowScope.MainBottomBarItem(
         when (ordinal) {
             HOME_TAB -> {
                 Icon(
-                    painter = painterResource(tab.iconResId),
+                    painter = painterResource(
+                        when (selected) {
+                            true -> tab.selectedIconResId
+                            false -> tab.deselectedIconResId
+                        }
+                    ),
                     contentDescription = tab.contentDescription,
                     modifier = Modifier
                         .padding(bottom = 20.dp)
-                        .aspectRatio(3f)
+                        .aspectRatio(ratio = 3f)
                         .padding(start = 30.dp),
-                    tint = if (selected) colors.selectedIconColor else colors.unselectedIconColor,
+                    tint = Main1,
                 )
             }
 
             EXPLORE_TAB -> {
                 Icon(
-                    painter = painterResource(tab.iconResId),
+                    painter = painterResource(tab.selectedIconResId),
                     contentDescription = tab.contentDescription,
                     modifier = Modifier
-                        .aspectRatio(1f)
+                        .aspectRatio(ratio = 1f)
                         .padding(bottom = 54.dp),
                     tint = Color.Unspecified,
                 )
@@ -147,13 +144,18 @@ private fun RowScope.MainBottomBarItem(
 
             MY_PAGE_TAB -> {
                 Icon(
-                    painter = painterResource(tab.iconResId),
+                    painter = painterResource(
+                        when (selected) {
+                            true -> tab.selectedIconResId
+                            false -> tab.deselectedIconResId
+                        }
+                    ),
                     contentDescription = tab.contentDescription,
                     modifier = Modifier
                         .padding(bottom = 20.dp)
-                        .aspectRatio(3f)
+                        .aspectRatio(ratio = 3f)
                         .padding(end = 30.dp),
-                    tint = if (selected) colors.selectedIconColor else colors.unselectedIconColor,
+                    tint = Main1,
                 )
             }
         }
