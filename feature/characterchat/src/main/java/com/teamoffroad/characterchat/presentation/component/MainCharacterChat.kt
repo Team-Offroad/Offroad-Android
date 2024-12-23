@@ -67,7 +67,7 @@ fun CharacterChat(
     updateUserWatchingCharacterChat: (Boolean) -> Unit,
     updateShowUserChatTextField: (Boolean) -> Unit,
     updateCharacterChatExist: (Boolean) -> Unit,
-    navigateToCharacterChatScreen: (Int, String) -> Unit,
+    navigateToCharacterChatScreen: (String) -> Unit,
 ) {
     val isExpanded = remember { mutableStateOf(false) }
     val characterChatAccordionAngle by animateFloatAsState(
@@ -89,7 +89,7 @@ fun CharacterChat(
             )
             .padding(vertical = 14.dp, horizontal = 18.dp)
             .clickableWithoutRipple {
-                navigateToCharacterChatScreen(-1, characterChatUiState.value.characterName)
+                navigateToCharacterChatScreen(characterChatUiState.value.characterName)
                 updateCharacterChatExist(false)
             }
     ) {
@@ -210,7 +210,7 @@ fun CharacterChatAnimation(
     updateCharacterChatExist: (Boolean) -> Unit,
     updateUserWatchingCharacterChat: (Boolean) -> Unit,
     updateShowUserChatTextField: (Boolean) -> Unit,
-    navigateToCharacterChatScreen: (Int, String) -> Unit,
+    navigateToCharacterChatScreen: (String) -> Unit,
 ) {
     val offsetY = remember { Animatable(-100.dp.value) }
     val coroutineScope = rememberCoroutineScope()
@@ -314,14 +314,14 @@ fun CharacterChatAnimation(
 }
 
 @Composable
-fun showCharacterChat(
+fun ShowCharacterChat(
     characterChatUiState: State<CharacterChattingUiState>,
     userChatUiState: State<UserChattingUiState>,
     updateAnswerCharacterChatButtonState: (Boolean) -> Unit,
     updateCharacterChatExist: (Boolean) -> Unit,
     updateUserWatchingCharacterChat: (Boolean) -> Unit,
     updateShowUserChatTextField: (Boolean) -> Unit,
-    navigateToCharacterChatScreen: (Int, String) -> Unit
+    navigateToCharacterChatScreen: (String) -> Unit,
 ) {
     if (characterChatUiState.value.isCharacterChattingExist) {
         CharacterChatAnimation(

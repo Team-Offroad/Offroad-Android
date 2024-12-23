@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -29,17 +28,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.characterchat.presentation.MainCharacterChatViewModel
-import com.teamoffroad.characterchat.presentation.component.showCharacterChat
+import com.teamoffroad.characterchat.presentation.component.ShowCharacterChat
 import com.teamoffroad.characterchat.presentation.component.showUserChat
 import com.teamoffroad.characterchat.presentation.model.CharacterChatLastUnreadUiState
 import com.teamoffroad.core.designsystem.component.actionBarPadding
-import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.home.domain.model.UserQuests
 import com.teamoffroad.feature.home.presentation.component.CompleteQuestDialog
 import com.teamoffroad.feature.home.presentation.component.HomeIcons
@@ -57,7 +54,7 @@ fun HomeScreen(
     category: String?,
     completeQuests: List<String> = emptyList(),
     navigateToGainedCharacter: () -> Unit = {},
-    navigateToCharacterChatScreen: (Int, String) -> Unit,
+    navigateToCharacterChatScreen: (String) -> Unit,
 ) {
     val context = LocalContext.current
     val homeViewModel: HomeViewModel = hiltViewModel()
@@ -135,7 +132,7 @@ fun HomeScreen(
         )
     }
 
-    showCharacterChat(
+    ShowCharacterChat(
         characterChatUiState = characterChatUiState,
         userChatUiState = userChatUiState,
         updateAnswerCharacterChatButtonState = mainViewModel::updateAnswerCharacterChatButtonState,
