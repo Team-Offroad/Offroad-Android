@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.AdaptationImage
+import com.teamoffroad.core.designsystem.component.ChangeBottomBarColor
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.SelectedCharacterGradi1
@@ -27,6 +28,7 @@ import com.teamoffroad.core.designsystem.theme.SelectedCharacterGradi4
 import com.teamoffroad.core.designsystem.theme.SelectedCharacterGradi5
 import com.teamoffroad.core.designsystem.theme.SelectedCharacterGradi6
 import com.teamoffroad.core.designsystem.theme.SelectedCharacterText
+import com.teamoffroad.core.designsystem.theme.Transparent
 import com.teamoffroad.feature.auth.presentation.component.OffroadBasicBtn
 import com.teamoffroad.offroad.feature.auth.R
 
@@ -56,6 +58,7 @@ internal fun SelectedCharacterScreen(
             SelectedCharacterGradi2.copy(alpha = 0.3f),
         )
     )
+    ChangeBottomBarColor(Transparent)
     Column(
         modifier = Modifier
             .shadow(
