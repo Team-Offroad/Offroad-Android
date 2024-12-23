@@ -137,7 +137,7 @@ fun ExploreOffroadMap(
                     places.forEach { place ->
                         Marker(
                             state = MarkerState(position = place.location),
-                            icon = OverlayImage.fromResource(R.drawable.ic_explore_place_marker),
+                            icon = OverlayImage.fromResource(R.drawable.ic_explore_marker),
                             onClick = {
                                 val offsetResult = getMarkerOffset(
                                     place.location, locationState.cameraPositionState, density, mapViewSize, infoWindowHeight,

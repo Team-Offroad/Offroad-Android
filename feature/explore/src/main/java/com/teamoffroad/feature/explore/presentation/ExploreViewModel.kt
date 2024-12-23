@@ -38,7 +38,7 @@ class ExploreViewModel @Inject constructor(
                     .firstOrNull()
                     ?.let { (latitude, longitude) ->
                         updateLocation(latitude, longitude)
-                    }
+                    } ?: updateLocation(uiState.value.locationModel.location.latitude, uiState.value.locationModel.location.longitude)
             }
         }
     }
@@ -55,7 +55,7 @@ class ExploreViewModel @Inject constructor(
         _uiState.value = uiState.value.copy(
             locationModel = uiState.value.locationModel.updateLocation(latitude, longitude)
         )
-        if (uiState.value.locationModel.isUserMoveFarEnough()) {
+        if (uiState.value.locationModel.isUserMoveFarEnough() || uiState.value.places.isEmpty()) {
             _uiState.value = uiState.value.copy(
                 locationModel = uiState.value.locationModel.updatePreviousLocation(LatLng(latitude, longitude)),
             )
