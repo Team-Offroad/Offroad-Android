@@ -6,6 +6,7 @@ import com.teamoffroad.feature.explore.domain.model.ExploreLocationResult
 fun ExploreLocationAuthResponseDto.toDomain(): ExploreLocationResult {
     return ExploreLocationResult(
         isValidPosition = isValidPosition,
+        isFirstVisitToday = isFirstVisitToday,
         successCharacterImageUrl = successCharacterImageUrl,
         completeQuests = completeQuestList?.map { it.name } ?: emptyList(),
     )

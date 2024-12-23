@@ -7,6 +7,8 @@ import kotlinx.serialization.Serializable
 data class ExploreLocationAuthResponseDto(
     @SerialName("isValidPosition")
     val isValidPosition: Boolean,
+    @SerialName("isFirstVisitToday")
+    val isFirstVisitToday: Boolean,
     @SerialName("successCharacterImageUrl")
     val successCharacterImageUrl: String,
     @SerialName("completeQuestList")
