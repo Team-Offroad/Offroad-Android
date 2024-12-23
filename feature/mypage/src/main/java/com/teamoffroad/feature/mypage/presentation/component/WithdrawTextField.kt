@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Gray100
@@ -24,7 +25,7 @@ import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
-import kotlin.reflect.KFunction1
+import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
 fun WithdrawTextField(
@@ -32,16 +33,18 @@ fun WithdrawTextField(
     shape: Shape = RoundedCornerShape(6.dp),
     placeholder: String = "상단의 문구를 그대로 입력해 주세요.",
     value: String = "",
-    onValueChanged: KFunction1<String, Unit>,
+    onValueChanged: (String, String) -> Unit,
     maxLines: Int = 1,
     minLines: Int = 1,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
     val borderLineColor = remember { mutableStateOf(Gray100) }
+    val validWithDrawText = stringResource(R.string.my_page_setting_withdraw_message)
+
     BasicTextField(
         value = value,
         onValueChange = {
-            onValueChanged(it)
+            onValueChanged(it, validWithDrawText)
         },
         textStyle = OffroadTheme.typography.hint.copy(
             fontWeight = FontWeight.Bold,

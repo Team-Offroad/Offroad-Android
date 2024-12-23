@@ -45,10 +45,10 @@ class SettingViewModel @Inject constructor(
         }
     }
 
-    fun changeWithDrawInputText(text: String) {
+    fun changeWithDrawInputText(text: String, validText: String) {
         _settingUiState.value = settingUiState.value.copy(withDrawInputState = text)
         _settingUiState.value = when (text) {
-            "오브 회원을 탈퇴하겠습니다." -> settingUiState.value.copy(withDrawResult = true)
+            validText -> settingUiState.value.copy(withDrawResult = true)
             else -> settingUiState.value.copy(withDrawResult = false)
         }
     }
