@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -22,7 +23,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.ChangeBottomBarColor
 import com.teamoffroad.core.designsystem.theme.Main2
 import kotlinx.coroutines.delay
@@ -77,10 +80,12 @@ fun SplashScreen(
         ) {
             Image(
                 modifier = Modifier
+                    .height(138.dp)
                     .scale(scale.value)
                     .graphicsLayer { this.alpha = alpha.value },
-                painter = painterResource(com.teamoffroad.offroad.feature.main.R.drawable.ic_splash_app_logo),
-                contentDescription = "splash"
+                painter = painterResource(com.teamoffroad.offroad.feature.main.R.drawable.ic_splash_logo),
+                contentDescription = "splash",
+                contentScale = ContentScale.FillHeight,
             )
         }
         AnimatedVisibility(

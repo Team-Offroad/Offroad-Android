@@ -137,7 +137,7 @@ private fun RowScope.MainBottomBarItem(
                     contentDescription = tab.contentDescription,
                     modifier = Modifier
                         .aspectRatio(ratio = 1f)
-                        .padding(bottom = 54.dp),
+                        .padding(bottom = 50.dp),
                     tint = Color.Unspecified,
                 )
             }
