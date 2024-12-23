@@ -32,8 +32,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.ChangeBottomBarColor
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.navigationPadding
-import com.teamoffroad.core.designsystem.theme.Black
-import com.teamoffroad.core.designsystem.theme.Kakao
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -108,6 +106,7 @@ internal fun SignInScreen(
             contentScale = ContentScale.FillHeight,
             contentDescription = "auth_logo",
         )
+        /*
         ClickableImage(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -118,6 +117,7 @@ internal fun SignInScreen(
             contentDescription = "auth_kakao",
             onClick = { viewModel.startKakaoSignIn() },
         )
+        */
         ClickableImage(
             modifier = Modifier
                 .fillMaxWidth(),
