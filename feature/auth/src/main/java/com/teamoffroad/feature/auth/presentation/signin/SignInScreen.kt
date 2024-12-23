@@ -102,7 +102,7 @@ internal fun SignInScreen(
         ChangeBottomBarColor(Main1)
         Image(
             modifier = Modifier
-                .padding(top = 228.dp, bottom = 30.dp)
+                .padding(top = 228.dp, bottom = 46.dp)
                 .height(42.dp),
             painter = painterResource(id = R.drawable.ic_app_logo),
             contentScale = ContentScale.FillHeight,
