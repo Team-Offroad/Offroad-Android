@@ -14,9 +14,10 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun saveLocationAuth(placeId: Long, latitude: Double, longitude: Double): ExploreLocationResult {
         return userService.postLocationAuth(ExploreLocationAuthRequestDto(placeId, latitude, longitude)).data?.toDomain()
             ?: ExploreLocationResult(
-                false,
-                "",
-                emptyList(),
+                isValidPosition = false,
+                isFirstVisitToday = false,
+                successCharacterImageUrl = "",
+                completeQuests = emptyList(),
             )
     }
 }

@@ -6,7 +6,9 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -18,12 +20,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.ErrorNew
@@ -45,7 +45,6 @@ fun BirthDateTextField(
     minLines: Int = 1,
     maxLength: Int,
     textStyle: TextStyle = OffroadTheme.typography.textAuto,
-    textAlign: Alignment = Alignment.CenterStart,
     isError: Boolean = false,
     keyboardOptions: KeyboardOptions,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
@@ -103,12 +102,12 @@ fun BirthDateTextField(
                         color = borderLineColor.value,
                         shape = shape,
                     )
-                    .padding(vertical = 12.dp, horizontal = innerPadding),
+                    .wrapContentWidth()
+                    .padding(vertical = 12.dp),
             ) {
                 Box(
-                    modifier = Modifier
-                        .clip(shape = shape),
-                    contentAlignment = textAlign,
+                    modifier = Modifier,
+                    contentAlignment = Alignment.CenterStart,
                 ) {
                     if (value.isEmpty()) {
                         Text(
@@ -116,10 +115,18 @@ fun BirthDateTextField(
                             color = Gray300,
                             style = textStyle,
                             maxLines = 1,
-                            overflow = TextOverflow.Clip,
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .wrapContentWidth(),
                         )
                     }
-                    innerText()
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = innerPadding)
+                    ) {
+                        innerText()
+                    }
                 }
             }
         },

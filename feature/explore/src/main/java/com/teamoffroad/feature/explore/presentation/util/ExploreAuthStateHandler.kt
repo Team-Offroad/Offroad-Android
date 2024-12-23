@@ -29,6 +29,19 @@ fun ExploreAuthStateHandler(
             )
         }
 
+        is ExploreAuthState.DuplicateError -> {
+            ExploreResultDialog(
+                errorType = ExploreAuthState.DuplicateError(),
+                text = stringResource(R.string.explore_duplicate_failed_label),
+                content = {
+                    ExploreFailedDialogContent(
+                        url = uiState.authResultType.characterImageUrl,
+                    )
+                },
+                onDismissRequest = { updateExploreAuthState(ExploreAuthState.None) }
+            )
+        }
+
         ExploreAuthState.EtcError -> {
             ExploreResultDialog(
                 errorType = ExploreAuthState.EtcError,

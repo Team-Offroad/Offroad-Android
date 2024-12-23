@@ -155,7 +155,7 @@ internal fun SetCharacterScreen(
                     .padding(bottom = 72.dp)
                     .height(50.dp)
                     .align(Alignment.CenterHorizontally),
-                text = stringResource(R.string.auth_basic_button),
+                text = stringResource(R.string.auth_select),
                 onClick = { showDialog = true },
                 isActive = true,
             )

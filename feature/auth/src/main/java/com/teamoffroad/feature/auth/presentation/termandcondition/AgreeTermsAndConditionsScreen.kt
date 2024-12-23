@@ -119,7 +119,7 @@ internal fun AgreeTermsAndConditionsScreen(
                     .padding(horizontal = 24.dp)
                     .padding(bottom = 72.dp)
                     .height(50.dp),
-                text = stringResource(R.string.auth_basic_button),
+                text = stringResource(R.string.auth_next),
                 updateState = { viewModel.changedMarketingAgree(uiState.isMarketing) },
                 onClick = {
                     isToastShown = true

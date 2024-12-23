@@ -119,20 +119,32 @@ class ExploreViewModel @Inject constructor(
             runCatching {
                 postExploreLocationAuthUseCase(placeId, latitude, longitude)
             }.onSuccess { exploreResult ->
-                if (exploreResult.isValidPosition) {
-                    updateExploreAuthState(
-                        ExploreAuthState.Success(
-                            category,
-                            exploreResult.successCharacterImageUrl,
-                            exploreResult.completeQuests,
+                when {
+                    !exploreResult.isValidPosition -> {
+                        updateExploreAuthState(
+                            ExploreAuthState.LocationError(
+                                exploreResult.successCharacterImageUrl
+                            )
                         )
-                    )
-                } else {
-                    updateExploreAuthState(
-                        ExploreAuthState.LocationError(
-                            exploreResult.successCharacterImageUrl
+                    }
+
+                    !exploreResult.isFirstVisitToday -> {
+                        updateExploreAuthState(
+                            ExploreAuthState.DuplicateError(
+                                exploreResult.successCharacterImageUrl
+                            )
                         )
-                    )
+                    }
+
+                    else -> {
+                        updateExploreAuthState(
+                            ExploreAuthState.Success(
+                                category,
+                                exploreResult.successCharacterImageUrl,
+                                exploreResult.completeQuests,
+                            )
+                        )
+                    }
                 }
             }.onFailure {
                 updateExploreAuthState(ExploreAuthState.EtcError)

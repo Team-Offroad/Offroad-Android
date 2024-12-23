@@ -7,6 +7,10 @@ sealed interface ExploreAuthState {
         val characterImageUrl: String = "",
     ) : ExploreAuthState
 
+    data class DuplicateError(
+        val characterImageUrl: String = "",
+    ) : ExploreAuthState
+
     data object EtcError : ExploreAuthState
     data class Success(
         val category: PlaceCategory = PlaceCategory.NONE,

@@ -34,7 +34,7 @@ import kotlin.reflect.KFunction1
 fun WithDrawDialog(
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(14.dp),
-    onInputTextChange: KFunction1<String, Unit>,
+    onInputTextChange: (String, String) -> Unit,
     isWithDrawText: String,
     isWithDrawResult: Boolean,
     withDrawInputText: String,

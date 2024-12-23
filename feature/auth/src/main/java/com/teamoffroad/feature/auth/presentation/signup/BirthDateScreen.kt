@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -76,7 +75,6 @@ internal fun BirthDateScreen(
             BirthDateTextField(
                 modifier = Modifier
                     .weight(1.4f)
-                    .width(84.dp)
                     .height(43.dp)
                     .focusRequester(focusRequester)
                     .onFocusChanged { updateFocus(BirthDateFocus.YEAR) },
@@ -87,7 +85,7 @@ internal fun BirthDateScreen(
                         updateYear(it)
                     }
                 },
-                innerPadding = 32.dp,
+                innerPadding = 30.dp,
                 maxLength = 4,
                 isError = uiState.yearValidateResult == DateValidateResult.Error,
                 keyboardOptions = KeyboardOptions.Default.copy(
@@ -107,7 +105,6 @@ internal fun BirthDateScreen(
             BirthDateTextField(
                 modifier = Modifier
                     .weight(1f)
-                    .width(66.dp)
                     .height(43.dp)
                     .focusRequester(focusRequester)
                     .onFocusChanged {
@@ -121,7 +118,7 @@ internal fun BirthDateScreen(
                         updateMonth(it)
                     }
                 },
-                innerPadding = 24.dp,
+                innerPadding = 23.dp,
                 maxLength = 2,
                 isError = uiState.monthValidateResult == DateValidateResult.Error,
                 keyboardOptions = KeyboardOptions.Default.copy(
@@ -141,7 +138,6 @@ internal fun BirthDateScreen(
             BirthDateTextField(
                 modifier = Modifier
                     .weight(1f)
-                    .width(66.dp)
                     .height(43.dp)
                     .focusRequester(focusRequester)
                     .onFocusChanged {
@@ -155,7 +151,7 @@ internal fun BirthDateScreen(
                         updateDate(it)
                     }
                 },
-                innerPadding = 24.dp,
+                innerPadding = 23.dp,
                 maxLength = 2,
                 isError = uiState.dayValidateResult == DateValidateResult.Error,
                 keyboardOptions = KeyboardOptions.Default.copy(
