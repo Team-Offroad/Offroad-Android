@@ -19,6 +19,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -51,6 +52,7 @@ internal fun SignUpScreen(
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(initialPage = 0, pageCount = { 3 })
     val focusManager = LocalFocusManager.current
+    val birthDateFocusManager = LocalFocusManager.current
 
     BackHandler(
         enabled = pagerState.currentPage.toSignUpPage() == SignUpPage.BIRTHDATE || pagerState.currentPage.toSignUpPage() == SignUpPage.GENDER
@@ -60,7 +62,7 @@ internal fun SignUpScreen(
                 pagerState.currentPage - 1,
             )
         }
-        when(pagerState.currentPage.toSignUpPage()) {
+        when (pagerState.currentPage.toSignUpPage()) {
             SignUpPage.NICKNAME -> {}
             SignUpPage.BIRTHDATE -> viewModel.initBirthDate()
             SignUpPage.GENDER -> viewModel.initGender()
@@ -71,21 +73,18 @@ internal fun SignUpScreen(
     LaunchedEffect(Unit) {
         viewModel.signUpSideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
-                SignUpSideEffect.Empty -> {}
-                SignUpSideEffect.Error -> {}
-                SignUpSideEffect.Loading -> {}
-                SignUpSideEffect.Success -> navigateToSetCharacter(
+                SignUpSideEffect.NavigateSetCharacter -> navigateToSetCharacter(
                     signUpUiState.nickname,
                     signUpUiState.date,
                     signUpUiState.selectedGender
                 )
-            }
-        }
-    }
 
-    LaunchedEffect(signUpUiState) {
-        viewModel.apply {
-            checkDateValidate()
+                SignUpSideEffect.FocusNext -> birthDateFocusManager.moveFocus(
+                    FocusDirection.Next
+                )
+
+                SignUpSideEffect.FocusClear -> birthDateFocusManager.clearFocus()
+            }
         }
     }
 
@@ -164,13 +163,14 @@ internal fun SignUpScreen(
                 )
 
                 SignUpPage.BIRTHDATE -> BirthDateScreen(
-                    focusManager = focusManager,
+                    focusManager = birthDateFocusManager,
                     uiState = signUpUiState,
                     updateYear = viewModel::updateYear,
                     updateMonth = viewModel::updateMonth,
                     updateDate = viewModel::updateDay,
                     updateMonthLength = viewModel::updateMonthLength,
-                    updateDateLength = viewModel::updateDayLength
+                    updateDateLength = viewModel::updateDayLength,
+                    updateFocus = viewModel::updateBirthDateFocus,
                 )
 
                 SignUpPage.GENDER -> GenderScreen(
