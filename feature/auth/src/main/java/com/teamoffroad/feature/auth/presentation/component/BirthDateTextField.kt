@@ -116,6 +116,7 @@ fun BirthDateTextField(
                             style = textStyle,
                             maxLines = 1,
                             modifier = Modifier
+                                .align(Alignment.Center)
                                 .wrapContentWidth(),
                         )
                     }
