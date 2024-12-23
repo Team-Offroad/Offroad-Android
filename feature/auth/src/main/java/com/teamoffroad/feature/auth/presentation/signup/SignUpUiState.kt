@@ -8,15 +8,14 @@ data class SignUpState(
     val year: String = "",
     val month: String = "",
     val day: String = "",
-    val date: String = "",
+    val date: String? = null,
     val yearValidateResult: DateValidateResult = DateValidateResult.Empty,
     val monthValidateResult: DateValidateResult = DateValidateResult.Empty,
     val dayValidateResult: DateValidateResult = DateValidateResult.Empty,
     val selectedGender: String? = null,
     val nicknameScreenResult: NicknameValidateResult = NicknameValidateResult.Empty,
     val genderScreenResult: Boolean = false,
-
-    )
+)
 
 sealed interface SignUpSideEffect {
     data object Empty : SignUpSideEffect

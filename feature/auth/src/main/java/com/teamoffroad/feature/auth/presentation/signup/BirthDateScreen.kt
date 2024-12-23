@@ -87,6 +87,7 @@ internal fun BirthDateScreen(
                         }
                     }
                 },
+                innerPadding = 32.dp,
                 maxLength = 4,
                 isError = uiState.yearValidateResult == DateValidateResult.Error,
                 keyboardOptions = KeyboardOptions.Default.copy(
@@ -96,7 +97,6 @@ internal fun BirthDateScreen(
                 keyboardActions = KeyboardActions(
                     onNext = { monthFocusRequester.requestFocus() }
                 ),
-                textAlign = Alignment.Center,
             )
             Text(
                 modifier = Modifier.padding(start = 6.dp, end = 8.dp),
@@ -123,6 +123,7 @@ internal fun BirthDateScreen(
                         }
                     }
                 },
+                innerPadding = 24.dp,
                 maxLength = 2,
                 isError = uiState.monthValidateResult == DateValidateResult.Error,
                 keyboardOptions = KeyboardOptions.Default.copy(
@@ -132,7 +133,6 @@ internal fun BirthDateScreen(
                 keyboardActions = KeyboardActions(
                     onNext = { dayFocusRequester.requestFocus() },
                 ),
-                textAlign = Alignment.Center,
             )
             Text(
                 modifier = Modifier.padding(start = 6.dp, end = 8.dp),
@@ -159,6 +159,7 @@ internal fun BirthDateScreen(
                         }
                     }
                 },
+                innerPadding = 24.dp,
                 maxLength = 2,
                 isError = uiState.dayValidateResult == DateValidateResult.Error,
                 keyboardOptions = KeyboardOptions.Default.copy(
@@ -168,7 +169,6 @@ internal fun BirthDateScreen(
                 keyboardActions = KeyboardActions(
                     onDone = { focusManager.clearFocus() }
                 ),
-                textAlign = Alignment.Center,
             )
             Text(
                 modifier = Modifier
