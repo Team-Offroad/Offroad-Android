@@ -44,7 +44,6 @@ import kotlinx.coroutines.launch
 
 @Composable
 internal fun SignUpScreen(
-    modifier: Modifier = Modifier,
     navigateToSetCharacter: (String, String?, String?) -> Unit,
     viewModel: SignUpViewModel = hiltViewModel(),
 ) {
