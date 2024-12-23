@@ -8,6 +8,7 @@ import com.teamoffroad.feature.auth.domain.usecase.DayValidateUseCase
 import com.teamoffroad.feature.auth.domain.usecase.GetNicknameValidateUseCase
 import com.teamoffroad.feature.auth.domain.usecase.MonthValidateUseCase
 import com.teamoffroad.feature.auth.domain.usecase.YearValidateUseCase
+import com.teamoffroad.feature.auth.presentation.model.BirthDateFocus
 import com.teamoffroad.feature.auth.presentation.model.DateValidateResult
 import com.teamoffroad.feature.auth.presentation.model.NicknameValidateResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,6 +16,8 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,8 +33,34 @@ class SignUpViewModel @Inject constructor(
     private val _signUpUiState: MutableStateFlow<SignUpState> = MutableStateFlow(SignUpState())
     val signUpUiState: StateFlow<SignUpState> = _signUpUiState.asStateFlow()
 
+    private val _birthDateTextFieldFocus: MutableStateFlow<BirthDateFocus> =
+        MutableStateFlow(BirthDateFocus.NONE)
+    private val birthDateTextFieldFocus: StateFlow<BirthDateFocus> =
+        _birthDateTextFieldFocus.asStateFlow()
+
     private val _signUpSideEffect: Channel<SignUpSideEffect> = Channel()
     val signUpSideEffect = _signUpSideEffect.receiveAsFlow()
+
+    init {
+        viewModelScope.launch {
+            signUpUiState.mapLatest {
+                _signUpUiState.emit(checkDateValidate())
+            }.collectLatest {
+                if (signUpUiState.value.year.length == 4 && signUpUiState.value.yearValidateResult == DateValidateResult.Success && birthDateTextFieldFocus.value == BirthDateFocus.YEAR) {
+                    _birthDateTextFieldFocus.emit(BirthDateFocus.MONTH)
+                    _signUpSideEffect.send(SignUpSideEffect.FocusNext)
+                }
+                if (signUpUiState.value.month.length == 2 && signUpUiState.value.monthValidateResult == DateValidateResult.Success && birthDateTextFieldFocus.value == BirthDateFocus.MONTH) {
+                    _birthDateTextFieldFocus.emit(BirthDateFocus.DAY)
+                    _signUpSideEffect.send(SignUpSideEffect.FocusNext)
+                }
+                if (signUpUiState.value.day.length == 2 && signUpUiState.value.dayValidateResult == DateValidateResult.Success && birthDateTextFieldFocus.value == BirthDateFocus.DAY) {
+                    _birthDateTextFieldFocus.emit(BirthDateFocus.NONE)
+                    _signUpSideEffect.send(SignUpSideEffect.FocusClear)
+                }
+            }
+        }
+    }
 
     fun updateNicknamesValid(nickname: String) {
         _signUpUiState.value = signUpUiState.value.copy(
@@ -98,80 +127,87 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    private fun checkDateValidate(date: String) {
+    fun updateBirthDateFocus(focus: BirthDateFocus) {
+        viewModelScope.launch {
+            _birthDateTextFieldFocus.emit(focus)
+        }
+    }
+
+    private fun checkDateValidate(date: String): SignUpState {
         val inputDate = date.split(",")
+        var newSignupState = _signUpUiState.value
         when (yearValidateUseCase(inputDate[0])) {
             ValidateResult.WRONGRANGE -> {
-                _signUpUiState.value = signUpUiState.value.copy(
+                newSignupState = newSignupState.copy(
                     yearValidateResult = DateValidateResult.Error
                 )
             }
 
             ValidateResult.EMPTY -> {
-                _signUpUiState.value = signUpUiState.value.copy(
+                newSignupState = newSignupState.copy(
                     yearValidateResult = DateValidateResult.Empty
                 )
             }
 
             ValidateResult.SUCCESS -> {
-                _signUpUiState.value = signUpUiState.value.copy(
+                newSignupState = newSignupState.copy(
                     yearValidateResult = DateValidateResult.Success
                 )
             }
         }
         when (monthValidateUseCase(inputDate[1])) {
             ValidateResult.WRONGRANGE -> {
-                _signUpUiState.value = signUpUiState.value.copy(
+                newSignupState = newSignupState.copy(
                     monthValidateResult = DateValidateResult.Error
                 )
             }
 
             ValidateResult.EMPTY -> {
-                _signUpUiState.value = signUpUiState.value.copy(
+                newSignupState = newSignupState.copy(
                     monthValidateResult = DateValidateResult.Empty
                 )
             }
 
             ValidateResult.SUCCESS -> {
-                _signUpUiState.value = signUpUiState.value.copy(
+                newSignupState = newSignupState.copy(
                     monthValidateResult = DateValidateResult.Success
                 )
             }
         }
         when (dayValidateUseCase(inputDate[0], inputDate[1], inputDate[2])) {
             ValidateResult.WRONGRANGE -> {
-                _signUpUiState.value = signUpUiState.value.copy(
+                newSignupState = newSignupState.copy(
                     dayValidateResult = DateValidateResult.Error
                 )
             }
 
             ValidateResult.EMPTY -> {
-                _signUpUiState.value = signUpUiState.value.copy(
+                newSignupState = newSignupState.copy(
                     dayValidateResult = DateValidateResult.Empty
                 )
             }
 
             ValidateResult.SUCCESS -> {
-                _signUpUiState.value = signUpUiState.value.copy(
+                newSignupState = newSignupState.copy(
                     dayValidateResult = DateValidateResult.Success
                 )
             }
         }
+        return newSignupState
     }
 
-    fun checkDateValidate() {
-        viewModelScope.launch {
-            if (signUpUiState.value.year.isBlank() && signUpUiState.value.month.isBlank() && signUpUiState.value.day.isBlank()) {
-                _signUpUiState.value = signUpUiState.value.copy(
-                    date = null
-                )
-            } else {
-                _signUpUiState.value = signUpUiState.value.copy(
-                    date = signUpUiState.value.year + "," + signUpUiState.value.month + "," + signUpUiState.value.day
-                )
-                signUpUiState.value.date?.let { checkDateValidate(it) }
+    private fun checkDateValidate(): SignUpState {
+        var newState = _signUpUiState.value
+        newState = when {
+            newState.year.isBlank() && newState.month.isBlank() && newState.day.isBlank() -> {
+                newState.copy(date = null)
+            }
+            else -> {
+                val formattedDate = "${newState.year},${newState.month},${newState.day}"
+                checkDateValidate(formattedDate)
             }
         }
+        return newState
     }
 
     fun updateCheckedGender(gender: String) {
@@ -209,7 +245,7 @@ class SignUpViewModel @Inject constructor(
 
     fun navigateSetCharacter() {
         viewModelScope.launch {
-            _signUpSideEffect.send(SignUpSideEffect.Success)
+            _signUpSideEffect.send(SignUpSideEffect.NavigateSetCharacter)
         }
     }
 }

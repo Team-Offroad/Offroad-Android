@@ -9,6 +9,7 @@ data class SignUpState(
     val month: String = "",
     val day: String = "",
     val date: String? = null,
+    val focus: String = "none",
     val yearValidateResult: DateValidateResult = DateValidateResult.Empty,
     val monthValidateResult: DateValidateResult = DateValidateResult.Empty,
     val dayValidateResult: DateValidateResult = DateValidateResult.Empty,
@@ -18,8 +19,7 @@ data class SignUpState(
 )
 
 sealed interface SignUpSideEffect {
-    data object Empty : SignUpSideEffect
-    data object Loading : SignUpSideEffect
-    data object Error : SignUpSideEffect
-    data object Success : SignUpSideEffect
+    data object NavigateSetCharacter : SignUpSideEffect
+    data object FocusNext : SignUpSideEffect
+    data object FocusClear : SignUpSideEffect
 }
