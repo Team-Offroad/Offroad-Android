@@ -198,17 +198,16 @@ class SignUpViewModel @Inject constructor(
 
     private fun checkDateValidate(): SignUpState {
         var newState = _signUpUiState.value
-        if (newState.year.isBlank() && newState.month.isBlank() && newState.day.isBlank()) {
-            newState = newState.copy(
-                date = null
-            )
-            return newState
-        } else {
-            newState = newState.copy(
-                date = newState.year + "," + newState.month + "," + newState.day
-            )
-            return checkDateValidate(newState.date ?: "")
+        newState = when {
+            newState.year.isBlank() && newState.month.isBlank() && newState.day.isBlank() -> {
+                newState.copy(date = null)
+            }
+            else -> {
+                val formattedDate = "${newState.year},${newState.month},${newState.day}"
+                checkDateValidate(formattedDate)
+            }
         }
+        return newState
     }
 
     fun updateCheckedGender(gender: String) {
