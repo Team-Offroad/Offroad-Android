@@ -7,10 +7,9 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
@@ -27,7 +26,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.ChangeBottomBarColor
+import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Main2
+import com.teamoffroad.offroad.feature.main.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -67,12 +68,13 @@ fun SplashScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Main2)
+            .navigationPadding()
             .graphicsLayer {
                 this.alpha = alpha.value
             },
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
     ) {
-        Spacer(modifier = Modifier.fillMaxHeight(0.45f))
         AnimatedVisibility(
             visible = backgroundVisibility,
             enter = EnterTransition.None,
@@ -83,7 +85,7 @@ fun SplashScreen(
                     .height(138.dp)
                     .scale(scale.value)
                     .graphicsLayer { this.alpha = alpha.value },
-                painter = painterResource(com.teamoffroad.offroad.feature.main.R.drawable.ic_splash_logo),
+                painter = painterResource(R.drawable.ic_splash_logo),
                 contentDescription = "splash",
                 contentScale = ContentScale.FillHeight,
             )
@@ -99,6 +101,5 @@ fun SplashScreen(
                     .background(Main2)
             )
         }
-        Spacer(modifier = Modifier.fillMaxHeight(0.55f))
     }
 }
