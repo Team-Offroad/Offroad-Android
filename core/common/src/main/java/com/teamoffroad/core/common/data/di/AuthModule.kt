@@ -6,7 +6,7 @@ import com.teamoffroad.core.common.data.local.AuthAuthenticator
 import com.teamoffroad.core.common.data.local.AuthInterceptor
 import com.teamoffroad.core.common.data.remote.service.TokenService
 import com.teamoffroad.core.common.domain.usecase.SetAutoSignInUseCase
-import com.teamoffroad.core.common.intentProvider.IntentProvider
+import com.teamoffroad.core.common.util.IntentProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
