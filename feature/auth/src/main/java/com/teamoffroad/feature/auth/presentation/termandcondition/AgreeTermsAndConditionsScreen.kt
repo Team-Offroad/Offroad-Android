@@ -203,10 +203,7 @@ internal fun AgreeTermsAndConditionsScreen(
                 content = stringResource(R.string.auth_agree_and_terms_conditions_dialog_marketing_content),
                 onAgreeClick = { viewModel.marketingDialogCheckedChangedListener(true) },
                 onDisAgreeClick = { viewModel.marketingDialogCheckedChangedListener(false) },
-                onClickCancel = {
-                    viewModel.changeDialogState(DialogState.EMPTY)
-                    isToastShown = true
-                })
+                onClickCancel = { viewModel.changeDialogState(DialogState.EMPTY) })
         }
     }
 }

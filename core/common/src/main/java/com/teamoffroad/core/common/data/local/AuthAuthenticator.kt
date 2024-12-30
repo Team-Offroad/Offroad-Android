@@ -5,7 +5,7 @@ import com.jakewharton.processphoenix.ProcessPhoenix
 import com.teamoffroad.core.common.data.datasource.TokenPreferencesDataSource
 import com.teamoffroad.core.common.data.remote.service.TokenService
 import com.teamoffroad.core.common.domain.usecase.SetAutoSignInUseCase
-import com.teamoffroad.core.common.intentProvider.IntentProvider
+import com.teamoffroad.core.common.util.IntentProvider
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -20,7 +20,7 @@ class AuthAuthenticator @Inject constructor(
     private val refreshTokenUseCase: TokenService,
     private val setAutoSignInUseCase: SetAutoSignInUseCase,
     @ApplicationContext private val context: Context,
-    private val intentProvider: IntentProvider
+    private val intentProvider: IntentProvider,
 ) : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {

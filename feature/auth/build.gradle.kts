@@ -22,8 +22,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:designsystem"))
-
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.constraintlayout.compose)

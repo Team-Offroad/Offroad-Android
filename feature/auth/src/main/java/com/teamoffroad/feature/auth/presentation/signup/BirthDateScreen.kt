@@ -59,7 +59,6 @@ internal fun BirthDateScreen(
         Text(
             text = stringResource(R.string.auth_set_birth_date_text_field_hint),
             color = Main2,
-            fontSize = with(LocalDensity.current) { 16.dp.toSp() },
             style = OffroadTheme.typography.subtitle2Bold,
             textAlign = TextAlign.Start,
             modifier = Modifier.align(Alignment.Start)

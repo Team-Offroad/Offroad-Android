@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.teamoffroad.core.common.intentProvider.IntentProvider
+import com.teamoffroad.core.common.util.IntentProvider
 import com.teamoffroad.feature.main.MainActivity
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject

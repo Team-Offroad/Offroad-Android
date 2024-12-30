@@ -425,6 +425,6 @@
     <string name="auth_selected_character_sub_title">지금 바로 모험을 떠나볼까요?</string>
     <string name="auth_selected_character_button">모험 시작하기</string>
     <string name="onboarding_agree_marketing_agree">%1$s부로 마케팅 정보 수신 동의 처리되었습니다.</string>
-    <string name="onboarding_agree_marketing_disagree">"%1$s부로 마케팅 정보 수신 비동의 처리되었습니다.                            "</string>
+    <string name="onboarding_agree_marketing_disagree">%1$s부로 마케팅 정보 수신 비동의 처리되었습니다.</string>
 
 </resources>
