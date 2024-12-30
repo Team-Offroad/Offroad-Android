@@ -28,7 +28,7 @@ androidGradlePlugin = "8.5.0"
 
 # App Versioning
 versionCode = "1"
-versionName = "1.0.0"
+versionName = "1.0.1"
 
 # Dependency Injection
 daggerHilt = "2.51.1"
