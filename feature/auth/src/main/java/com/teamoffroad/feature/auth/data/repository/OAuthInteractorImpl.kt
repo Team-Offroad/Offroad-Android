@@ -1,7 +1,6 @@
 package com.teamoffroad.feature.auth.data.repository
 
 import android.content.Context
-import android.util.Log
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
@@ -64,19 +63,9 @@ class OAuthInteractorImpl @Inject constructor(
     override suspend fun signInGoogle(): Result<String> =
         withContext(Dispatchers.IO) {
             try {
-                val bytes = UUID.randomUUID().toString().toByteArray()
-                val digest = MessageDigest.getInstance("SHA-256").digest(bytes)
-                val hashedNonce = digest.fold("") { str, it -> str + "%02x".format(it) }
-
-                val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
-                    .setServerClientId(BuildConfig.GOOGLE_CLIENT_ID)
-                    .setFilterByAuthorizedAccounts(true)
-                    .setNonce(hashedNonce)
-                    .build()
-
-                val request: GetCredentialRequest = GetCredentialRequest.Builder()
-                    .addCredentialOption(googleIdOption)
-                    .build()
+                val hashedNonce = getHashedNonce()
+                val googleIdOption = createGoogleIdOption(hashedNonce)
+                val request = createCredentialRequest(googleIdOption)
 
                 val result = credentialManager.getCredential(context = context, request = request)
                 val credential = result.credential
@@ -85,8 +74,27 @@ class OAuthInteractorImpl @Inject constructor(
                 val googleIdToken = googleIdTokenCredential.idToken
                 Result.success(googleIdToken)
             } catch (e: Exception) {
-                Log.e("GoogleSignIn", "Error Google SignIn", e)
                 Result.failure(e)
             }
         }
+
+    private fun getHashedNonce(): String {
+        val bytes = UUID.randomUUID().toString().toByteArray()
+        val digest = MessageDigest.getInstance("SHA-256").digest(bytes)
+        return digest.fold("") { str, it -> str + "%02x".format(it) }
+    }
+
+    private fun createGoogleIdOption(hashedNonce: String): GetGoogleIdOption {
+        return GetGoogleIdOption.Builder()
+            .setServerClientId(BuildConfig.GOOGLE_CLIENT_ID)
+            .setFilterByAuthorizedAccounts(false)
+            .setNonce(hashedNonce)
+            .build()
+    }
+
+    private fun createCredentialRequest(googleIdOption: GetGoogleIdOption): GetCredentialRequest {
+        return GetCredentialRequest.Builder()
+            .addCredentialOption(googleIdOption)
+            .build()
+    }
 }
