@@ -44,7 +44,7 @@ fun GenderHintButton(
                     color = borderLineColor,
                     shape = shape
                 )
-                .padding(vertical = 18.dp, horizontal = 142.dp),
+                .padding(vertical = 18.dp),
             text = value,
             color = contentColor,
             textAlign = TextAlign.Center,

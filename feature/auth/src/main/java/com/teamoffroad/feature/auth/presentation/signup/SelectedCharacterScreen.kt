@@ -76,7 +76,6 @@ internal fun SelectedCharacterScreen(
             modifier = Modifier
                 .padding(top = 70.dp, bottom = 5.dp),
             text = stringResource(R.string.auth_selected_character_title),
-            fontSize = with(LocalDensity.current) { 22.dp.toSp() },
             color = SelectedCharacterText,
             style = OffroadTheme.typography.title,
         )
@@ -84,7 +83,6 @@ internal fun SelectedCharacterScreen(
             modifier = Modifier
                 .padding(bottom = 100.dp),
             text = stringResource(R.string.auth_selected_character_sub_title),
-            fontSize = with(LocalDensity.current) { 22.dp.toSp() },
             color = SelectedCharacterText,
             style = OffroadTheme.typography.title
         )
