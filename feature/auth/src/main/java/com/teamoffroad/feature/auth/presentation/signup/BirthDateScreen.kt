@@ -84,7 +84,7 @@ internal fun BirthDateScreen(
                         updateYear(it)
                     }
                 },
-                innerPadding = 30.dp,
+                innerPadding = 0.3f,
                 maxLength = 4,
                 isError = uiState.yearValidateResult == DateValidateResult.Error,
                 keyboardOptions = KeyboardOptions.Default.copy(
@@ -117,7 +117,7 @@ internal fun BirthDateScreen(
                         updateMonth(it)
                     }
                 },
-                innerPadding = 23.dp,
+                innerPadding = 0.34f,
                 maxLength = 2,
                 isError = uiState.monthValidateResult == DateValidateResult.Error,
                 keyboardOptions = KeyboardOptions.Default.copy(
@@ -150,7 +150,7 @@ internal fun BirthDateScreen(
                         updateDate(it)
                     }
                 },
-                innerPadding = 23.dp,
+                innerPadding = 0.34f,
                 maxLength = 2,
                 isError = uiState.dayValidateResult == DateValidateResult.Error,
                 keyboardOptions = KeyboardOptions.Default.copy(
