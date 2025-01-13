@@ -115,6 +115,7 @@ internal fun SignInScreen(
             contentDescription = "auth_kakao",
             onClick = { viewModel.startKakaoSignIn() },
         )
+        // TODO: 구글 로그인 승인 이후 도입
         /*
         ClickableImage(
             modifier = Modifier
