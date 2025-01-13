@@ -103,10 +103,10 @@ fun BirthDateTextField(
                     ),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Spacer(modifier = Modifier.weight(innerPadding))
+                Spacer(modifier = Modifier.weight(innerPadding + 0.02f))
                 Box(
                     modifier = Modifier
-                        .weight(0.4f),
+                        .weight(1f - 2 * innerPadding + 0.04f),
                     contentAlignment = Alignment.CenterStart
                 ) {
                     if (value.isEmpty()) {
@@ -119,7 +119,7 @@ fun BirthDateTextField(
                     }
                     innerText()
                 }
-                Spacer(modifier = Modifier.weight(0.6f - innerPadding))
+                Spacer(modifier = Modifier.weight(innerPadding - 0.02f))
             }
         },
     )
