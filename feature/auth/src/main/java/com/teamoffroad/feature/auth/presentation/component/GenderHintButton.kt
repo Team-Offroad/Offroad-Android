@@ -18,6 +18,7 @@ import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.NametagInactive
+import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
 
 @Composable
@@ -47,6 +48,7 @@ fun GenderHintButton(
                 .padding(vertical = 18.dp),
             text = value,
             color = contentColor,
+            style = OffroadTheme.typography.textAuto,
             textAlign = TextAlign.Center,
         )
     }
