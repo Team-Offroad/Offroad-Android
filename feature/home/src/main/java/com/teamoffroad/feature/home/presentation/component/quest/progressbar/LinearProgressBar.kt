@@ -2,7 +2,6 @@ package com.teamoffroad.feature.home.presentation.component.quest.progressbar
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -34,7 +33,6 @@ fun LinearProgressBar(data: HomeProgressBarModel, viewModel: HomeViewModel) {
 
     Box(
         modifier = Modifier
-            .fillMaxSize()
             .padding(top = 30.dp),
     ) {
         Text(
@@ -67,7 +65,6 @@ fun LinearProgressBar(data: HomeProgressBarModel, viewModel: HomeViewModel) {
 
         ConstraintLayout(
             modifier = Modifier
-                .fillMaxSize()
                 .align(Alignment.TopEnd)
                 .padding(top = 62.dp)
         ) {

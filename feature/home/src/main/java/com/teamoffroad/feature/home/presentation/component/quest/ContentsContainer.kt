@@ -15,13 +15,14 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White25
 
 @Composable
-fun ContentsLocation(
+fun ContentsContainer(
+    modifier: Modifier = Modifier,
     location: String,
-    textColor: Color = Main1
+    textColor: Color = Main1,
 ) {
     Text(
         textAlign = TextAlign.Center,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp)
             .background(

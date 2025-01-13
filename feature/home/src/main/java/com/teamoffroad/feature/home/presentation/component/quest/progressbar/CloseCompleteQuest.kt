@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,11 +16,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImagePainter.State.Empty.painter
 import com.teamoffroad.core.designsystem.theme.Contents2
-import com.teamoffroad.core.designsystem.theme.Sub4
 import com.teamoffroad.feature.home.presentation.HomeViewModel
-import com.teamoffroad.feature.home.presentation.component.quest.ContentsLocation
+import com.teamoffroad.feature.home.presentation.component.quest.ContentsContainer
 import com.teamoffroad.feature.home.presentation.component.quest.ContentsTitle
 import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 import com.teamoffroad.offroad.feature.home.R
@@ -30,7 +27,7 @@ import com.teamoffroad.offroad.feature.home.R
 fun CloseCompleteRequest(
     modifier: Modifier = Modifier,
     data: HomeProgressBarModel,
-    viewModel: HomeViewModel
+    viewModel: HomeViewModel,
 ) {
     viewModel.updateLinearProgressBar(data.amount.toFloat(), data.total.toFloat())
 
@@ -38,10 +35,11 @@ fun CloseCompleteRequest(
         color = Contents2,
         modifier = modifier
             .clip(shape = RoundedCornerShape(10.dp))
-            .aspectRatio(150f / 176f)
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 12.dp)
         ) {
             Spacer(modifier = Modifier.padding(9.dp))
             Row {
@@ -52,11 +50,14 @@ fun CloseCompleteRequest(
                     contentDescription = "recent quest",
                 )
             }
-            Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
+            Box(contentAlignment = Alignment.Center) {
                 LinearProgressBar(data, viewModel)
             }
-            ContentsLocation(data.location)
-            Spacer(modifier = Modifier.padding(bottom = 12.dp))
+            ContentsContainer(
+                modifier = Modifier
+                    .padding(top = 18.dp),
+                location = data.location,
+            )
         }
     }
 }
