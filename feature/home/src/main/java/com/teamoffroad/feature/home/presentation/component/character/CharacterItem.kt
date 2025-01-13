@@ -32,7 +32,6 @@ import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieAnimatable
 import com.airbnb.lottie.compose.rememberLottieComposition
@@ -124,7 +123,7 @@ class CharacterItem {
     fun CharacterNameText(
         name: String,
         backgroundColor: Color = Sub55,
-        borderColor: Color = Sub
+        borderColor: Color = Sub,
     ) {
         Text(
             style = OffroadTheme.typography.subtitle2Semibold,
@@ -174,7 +173,6 @@ class CharacterItem {
         Box(
             modifier = modifier
                 .padding(horizontal = 24.dp)
-                .aspectRatio(312f / 38f)
                 .fillMaxWidth(),
             contentAlignment = Alignment.CenterEnd
         ) {

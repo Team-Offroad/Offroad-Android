@@ -4,7 +4,6 @@ import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -35,9 +34,7 @@ import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Kakao
 import com.teamoffroad.core.designsystem.theme.Main1
-import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
-import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.offroad.feature.auth.R
 import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.flow.collectLatest
@@ -96,17 +93,17 @@ internal fun SignInScreen(
             .fillMaxSize()
             .padding(horizontal = 40.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
     ) {
         OffroadActionBar()
         ChangeBottomBarColor(Main1)
+        Spacer(modifier = Modifier.weight(2.28f))
         Image(
             modifier = Modifier
-                .padding(top = 228.dp, bottom = 46.dp)
+                .padding(bottom = 46.dp)
                 .height(42.dp),
             painter = painterResource(id = R.drawable.ic_app_logo),
             contentScale = ContentScale.FillHeight,
-            contentDescription = "auth_logo",
+            contentDescription = null,
         )
         ClickableImage(
             modifier = Modifier
@@ -118,6 +115,8 @@ internal fun SignInScreen(
             contentDescription = "auth_kakao",
             onClick = { viewModel.startKakaoSignIn() },
         )
+        // TODO: 구글 로그인 승인 이후 도입
+        /*
         ClickableImage(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -128,7 +127,8 @@ internal fun SignInScreen(
             contentDescription = "auth_google",
             onClick = { viewModel.startGoogleSignIn() },
         )
-        Spacer(modifier = Modifier.weight(1f))
+        */
+        Spacer(modifier = Modifier.weight(3.32f))
     }
 }
 

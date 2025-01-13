@@ -3,7 +3,7 @@ package com.teamoffroad.feature.home.presentation.component.quest.progressbar
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -34,7 +34,6 @@ fun CircleProgressBar(data: HomeProgressBarModel, viewModel: HomeViewModel) {
 
     Box(
         modifier = Modifier
-            .fillMaxSize()
             .padding(vertical = 14.dp, horizontal = 34.dp),
     ) {
         CircularProgressIndicator(
@@ -45,7 +44,8 @@ fun CircleProgressBar(data: HomeProgressBarModel, viewModel: HomeViewModel) {
             strokeCap = StrokeCap.Round,
             modifier = Modifier
                 .align(Alignment.Center)
-                .aspectRatio(82f / 82f)
+                .heightIn(min = 82.dp)
+                .aspectRatio(1f)
         )
 
         Text(
