@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -150,6 +151,22 @@ fun HomeIcons(
                 contentDescription = "change",
                 modifier = Modifier.clickableWithoutRipple { navigateToGainedCharacter() }
             )
+
+            // 가장 최신일기 확인 여부 반환 api로 받아오기
+            val newDiary = false
+            if (newDiary) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_home_diary_new_complete),
+                    contentDescription = "new_diary",
+                    modifier = Modifier.clickableWithoutRipple { Log.d("asdasd", "new_diary") }
+                )
+            } else {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_home_diary_empty),
+                    contentDescription = "empty_diary",
+                    modifier = Modifier.clickableWithoutRipple { Log.d("asdasd", "empty_diary") }
+                )
+            }
         }
     }
 }
