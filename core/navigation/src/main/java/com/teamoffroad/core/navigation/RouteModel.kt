@@ -98,6 +98,9 @@ sealed interface MyPageRoute : Route {
 
     @Serializable
     data object Support : MyPageRoute
+
+    @Serializable
+    data object DiaryTime : MyPageRoute
 }
 
 sealed interface CharacterChatRoute : Route {

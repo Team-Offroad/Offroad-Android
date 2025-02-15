@@ -28,6 +28,7 @@ import com.teamoffroad.feature.mypage.navigation.navigateToAnnouncementDetail
 import com.teamoffroad.feature.mypage.navigation.navigateToAuth
 import com.teamoffroad.feature.mypage.navigation.navigateToAvailableCouponDetail
 import com.teamoffroad.feature.mypage.navigation.navigateToCharacterDetail
+import com.teamoffroad.feature.mypage.navigation.navigateToDiaryTime
 import com.teamoffroad.feature.mypage.navigation.navigateToGainedCharacter
 import com.teamoffroad.feature.mypage.navigation.navigateToGainedCoupon
 import com.teamoffroad.feature.mypage.navigation.navigateToGainedEmblems
@@ -186,6 +187,10 @@ internal class MainNavigator(
 
     fun navigateToDiary() {
         navController.navigateToDiary()
+    }
+
+    fun navigateToDiaryTime() {
+        navController.navigateToDiaryTime()
     }
 
     fun navigateToAnnouncementDetail(

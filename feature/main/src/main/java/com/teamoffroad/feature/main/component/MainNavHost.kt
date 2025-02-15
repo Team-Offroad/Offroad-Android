@@ -92,7 +92,8 @@ internal fun MainNavHost(
                 navigateToCharacterChat = navigator::navigateToCharacterChat,
                 navigateToAnnouncementDeleteStack = navigator::navigateToAnnouncementDeleteStack,
                 navigateToSupport = navigator::navigateToSupport,
-                navigateToDiary = navigator::navigateToDiary
+                navigateToDiary = navigator::navigateToDiary,
+                navigateToDiaryTime = navigator::navigateToDiaryTime,
             )
             authNavGraph(
                 navigateToHome = { navigator.navigateToHome() },

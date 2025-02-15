@@ -35,6 +35,7 @@
     <string name="my_page_gained_emblems_sub_title">퀘스트를 달성하고 보상으로 칭호를 얻어보아요!</string>
     <string name="my_page_setting_title">설정</string>
     <string name="my_page_setting_item_announcement">공지사항</string>
+    <string name="my_page_setting_item_diary_time">일기 시간</string>
     <string name="my_page_setting_item_play_guide">플레이 가이드</string>
     <string name="my_page_setting_item_service_term">서비스 이용약관</string>
     <string name="my_page_setting_item_personal_information">개인정보처리방침</string>

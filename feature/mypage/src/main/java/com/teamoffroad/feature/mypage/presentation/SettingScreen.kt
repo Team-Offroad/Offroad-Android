@@ -59,6 +59,7 @@ internal fun SettingScreen(
     navigateToSignIn: () -> Unit,
     navigateToSupport: () -> Unit,
     navigateToBack: () -> Unit,
+    navigateToDiaryTime: () -> Unit,
     viewModel: SettingViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
@@ -133,6 +134,11 @@ internal fun SettingScreen(
                         title = stringResource(R.string.my_page_setting_item_announcement),
                         isImportant = false,
                         onClick = navigateToAnnouncement
+                    ),
+                    SettingItem(
+                        title = stringResource(R.string.my_page_setting_item_diary_time),
+                        isImportant = false,
+                        onClick = navigateToDiaryTime
                     ),
                     SettingItem(
                         title = stringResource(R.string.my_page_setting_item_play_guide),
