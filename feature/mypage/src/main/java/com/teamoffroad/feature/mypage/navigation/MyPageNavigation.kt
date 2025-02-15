@@ -103,13 +103,15 @@ fun NavGraphBuilder.myPageNavGraph(
     navigateToCharacterChat: (Int, String) -> Unit,
     navigateToAnnouncementDeleteStack: () -> Unit,
     navigateToSupport: () -> Unit,
+    navigateToDiary: () -> Unit,
 ) {
     composable<MainTabRoute.MyPage> {
         MyPageScreen(
             navigateToGainedCharacter,
             navigateToGainedCoupon,
             navigateToGainedEmblems,
-            navigateToSetting
+            navigateToSetting,
+            navigateToDiary
         )
     }
 

@@ -38,6 +38,7 @@ internal fun MyPageScreen(
     navigateToGainedCoupon: () -> Unit,
     navigateToGainedEmblems: () -> Unit,
     navigateToSetting: () -> Unit,
+    navigateToDiary: () -> Unit,
     myPageViewModel: MyPageViewModel = hiltViewModel(),
 ) {
 
@@ -75,9 +76,7 @@ internal fun MyPageScreen(
             )
             UserDiary(
                 modifier = Modifier.padding(top = 8.dp),
-                navigateToUserDiary = {
-                    // 일기 페이지로 이동할 함수
-                }
+                navigateToUserDiary = { navigateToDiary() }
             )
             Row(
                 modifier = Modifier
@@ -137,6 +136,6 @@ internal fun MyPageScreen(
 @Composable
 fun MyPageScreenPreview() {
     OffroadTheme {
-        MyPageScreen({}, {}, {}, {})
+        MyPageScreen({}, {}, {}, {}, {})
     }
 }

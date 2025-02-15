@@ -18,6 +18,7 @@ import com.teamoffroad.feature.auth.navigation.navigateToAgreeTermsAndConditions
 import com.teamoffroad.feature.auth.navigation.navigateToSelectedCharacter
 import com.teamoffroad.feature.auth.navigation.navigateToSetCharacter
 import com.teamoffroad.feature.auth.navigation.navigateToSignUp
+import com.teamoffroad.feature.diary.navigation.navigateToDiary
 import com.teamoffroad.feature.explore.navigation.navigateToExplore
 import com.teamoffroad.feature.explore.navigation.navigateToPlace
 import com.teamoffroad.feature.explore.navigation.navigateToQuest
@@ -181,6 +182,10 @@ internal class MainNavigator(
                 launchSingleTop = true
             }
         )
+    }
+
+    fun navigateToDiary() {
+        navController.navigateToDiary()
     }
 
     fun navigateToAnnouncementDetail(

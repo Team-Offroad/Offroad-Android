@@ -107,3 +107,8 @@ sealed interface CharacterChatRoute : Route {
         val characterName: String,
     ) : CharacterChatRoute
 }
+
+sealed interface DiaryRoute : Route {
+    @Serializable
+    data object Diary : DiaryRoute
+}

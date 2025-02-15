@@ -12,6 +12,7 @@ android {
 dependencies {
     implementation(project(":feature:auth"))
     implementation(project(":feature:characterchat"))
+    implementation(project(":feature:diary"))
     implementation(libs.retrofit.kotlinx.serialization)
     implementation(libs.androidx.appcompat)
     implementation(libs.google.accompanist.permissions)

@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -50,6 +49,7 @@ fun HomeIcons(
     updateCharacterChatExist: (Boolean) -> Unit,
     updateCharacterName: (String) -> Unit,
     updateLastUnreadChatDosAllRead: (Boolean) -> Unit,
+    navigateToDiary: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
 
@@ -158,13 +158,13 @@ fun HomeIcons(
                 Image(
                     painter = painterResource(id = R.drawable.ic_home_diary_new_complete),
                     contentDescription = "new_diary",
-                    modifier = Modifier.clickableWithoutRipple { Log.d("asdasd", "new_diary") }
+                    modifier = Modifier.clickableWithoutRipple { navigateToDiary() }
                 )
             } else {
                 Image(
                     painter = painterResource(id = R.drawable.ic_home_diary_empty),
                     contentDescription = "empty_diary",
-                    modifier = Modifier.clickableWithoutRipple { Log.d("asdasd", "empty_diary") }
+                    modifier = Modifier.clickableWithoutRipple { navigateToDiary() }
                 )
             }
         }
