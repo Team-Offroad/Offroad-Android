@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.mypage.presentation.component
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -156,7 +154,8 @@ private fun Modifier.fadingEdge(brush: Brush) = this
 
 @Composable
 fun DiaryTimePicker(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    updateDiaryTime: (String) -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -176,6 +175,30 @@ fun DiaryTimePicker(
 
         val meridiemValue = remember { listOf("AM", "PM") }
         val meridiemValuePickerState = rememberPickerState()
+
+        LaunchedEffect(hoursValuesPickerState.selectedItem) {
+            updateDiaryTime(
+                hoursValuesPickerState.selectedItem +
+                        minutesValuePickerState.selectedItem +
+                        meridiemValuePickerState.selectedItem
+            )
+        }
+
+        LaunchedEffect(minutesValuePickerState.selectedItem) {
+            updateDiaryTime(
+                hoursValuesPickerState.selectedItem +
+                        minutesValuePickerState.selectedItem +
+                        meridiemValuePickerState.selectedItem
+            )
+        }
+
+        LaunchedEffect(meridiemValuePickerState.selectedItem) {
+            updateDiaryTime(
+                hoursValuesPickerState.selectedItem +
+                        minutesValuePickerState.selectedItem +
+                        meridiemValuePickerState.selectedItem
+            )
+        }
 
         Box {
             Box(
