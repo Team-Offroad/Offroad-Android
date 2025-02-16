@@ -201,6 +201,8 @@ fun NavGraphBuilder.myPageNavGraph(
     }
 
     composable<MyPageRoute.DiaryTime> {
-        DiaryTimeScreen()
+        DiaryTimeScreen(
+            navigateToBack
+        )
     }
 }
