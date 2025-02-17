@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun DiaryScreen(
     navigateToBack: () -> Unit,
+    navigateToCharacterChat: (String) -> Unit,
     viewModel: DiaryViewModel = hiltViewModel()
 ) {
     val isDiaryUiState by viewModel.diaryUiState.collectAsState()
@@ -86,7 +87,8 @@ fun DiaryScreen(
             ) {
                 if (isDiaryUiState.latestDiary.isEmpty())
                     OrbDiaryEmpty(
-                        modifier = Modifier.padding(top = 124.dp)
+                        modifier = Modifier.padding(top = 124.dp),
+                        navigateToCharacterChat = navigateToCharacterChat
                     )
                 else
                     OrbDiary(

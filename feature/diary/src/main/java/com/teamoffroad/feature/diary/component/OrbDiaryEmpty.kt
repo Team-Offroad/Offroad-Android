@@ -24,6 +24,7 @@ import com.teamoffroad.offroad.feature.diary.R
 @Composable
 fun OrbDiaryEmpty(
     modifier: Modifier = Modifier,
+    navigateToCharacterChat: (String) -> Unit,
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -48,7 +49,7 @@ fun OrbDiaryEmpty(
                     shape = RoundedCornerShape(46.dp)
                 )
                 .padding(horizontal = 68.dp, vertical = 14.dp)
-                .clickableWithoutRipple { },
+                .clickableWithoutRipple { navigateToCharacterChat("???") },
             contentAlignment = Alignment.Center
         ) {
             Text(
