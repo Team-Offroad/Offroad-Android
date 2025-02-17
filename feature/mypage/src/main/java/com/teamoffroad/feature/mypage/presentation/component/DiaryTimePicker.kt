@@ -169,7 +169,7 @@ private fun Modifier.fadingEdge(brush: Brush) = this
 @Composable
 fun DiaryTimePicker(
     modifier: Modifier = Modifier,
-    updateDiaryTime: (String) -> Unit,
+    updateDiaryTime: (Boolean, String) -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -188,15 +188,11 @@ fun DiaryTimePicker(
         val meridiemValuePickerState = rememberPickerState()
 
         LaunchedEffect(hoursValuesPickerState.selectedItem) {
-            updateDiaryTime(
-                hoursValuesPickerState.selectedItem + meridiemValuePickerState.selectedItem
-            )
+            updateDiaryTime(true, hoursValuesPickerState.selectedItem)
         }
 
         LaunchedEffect(meridiemValuePickerState.selectedItem) {
-            updateDiaryTime(
-                hoursValuesPickerState.selectedItem + meridiemValuePickerState.selectedItem
-            )
+            updateDiaryTime(false, meridiemValuePickerState.selectedItem)
         }
 
         Box {

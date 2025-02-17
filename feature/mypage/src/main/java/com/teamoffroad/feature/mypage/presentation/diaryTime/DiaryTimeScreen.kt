@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.mypage.presentation.diaryTime
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -37,6 +36,7 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.feature.mypage.presentation.component.DiaryTimeDialog
 import com.teamoffroad.feature.mypage.presentation.component.DiaryTimePicker
 import com.teamoffroad.feature.mypage.presentation.component.LogoutDialog
 import com.teamoffroad.feature.mypage.presentation.component.SettingHeader
@@ -147,30 +147,30 @@ fun DiaryTimeScreen(
             DiaryTimeDialogState.InVisible -> {}
 
             DiaryTimeDialogState.BackDialogVisible ->
-                LogoutDialog(
+                DiaryTimeDialog(
                     onClick = {
                         viewModel.navigateToSetting()
                     },
                     onClickCancel = { viewModel.backButtonClickListener(false) },
-                    title = "뒤로가기",
-                    content = "내용",
-                    cancelButtonText = "취소",
-                    nextButtonText = "확인"
+                    title = "일기 시간 설정을 저장하지 않고",
+                    content = "나가시겠어요?",
+                    cancelButtonText = "아니요",
+                    nextButtonText = "네",
+                    isNext = false,
                 )
 
             DiaryTimeDialogState.NextDialogVisible ->
-                LogoutDialog(
+                DiaryTimeDialog(
                     onClick = {
                         //Todo. 뒤로가기, 확인버튼 눌렀을때 다이얼로그 커스텀부터
                         //TODO. 시간설정 api쏘기
-                        Log.d("asdasdasd", "set Time api")
                         viewModel.navigateToSetting()
                     },
                     onClickCancel = { viewModel.backButtonClickListener(false) },
-                    title = "api ㄱㄱ",
-                    content = "내용",
-                    cancelButtonText = "취소",
-                    nextButtonText = "확인"
+                    title = "일기 완성!",
+                    content = "매일 이 시간에 일기를 받으시겠어요?",
+                    cancelButtonText = "아니요",
+                    nextButtonText = "네",
                 )
         }
     }

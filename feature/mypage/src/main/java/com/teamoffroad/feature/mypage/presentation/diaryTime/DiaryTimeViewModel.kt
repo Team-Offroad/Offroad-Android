@@ -37,11 +37,19 @@ class DiaryTimeViewModel @Inject constructor(
         }
     }
 
-    fun updateDiaryTime(time: String) {
-        viewModelScope.launch {
-            _diaryTimeUiState.value = diaryTimeUiState.value.copy(
-                diaryTime = time
-            )
+    fun updateDiaryTime(type: Boolean, time: String) {
+        if (type) {
+            viewModelScope.launch {
+                _diaryTimeUiState.value = diaryTimeUiState.value.copy(
+                    diaryTime = time
+                )
+            }
+        } else {
+            viewModelScope.launch {
+                _diaryTimeUiState.value = diaryTimeUiState.value.copy(
+                    meridiem = time
+                )
+            }
         }
     }
 
