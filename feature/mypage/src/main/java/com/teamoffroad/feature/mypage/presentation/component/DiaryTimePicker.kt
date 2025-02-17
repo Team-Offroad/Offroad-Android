@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main2
@@ -59,7 +60,9 @@ fun Picker(
     textModifier: Modifier = Modifier,
     textStyle: TextStyle = LocalTextStyle.current,
     selectedTextStyle: TextStyle = OffroadTheme.typography.title,
-    isInfinity: Boolean = true
+    isInfinity: Boolean = true,
+    timeDivider: Boolean = false,
+    width: Dp,
 ) {
     val adjustedItems = if (!isInfinity) {
         listOf(null) + items + listOf(null)
@@ -121,9 +124,9 @@ fun Picker(
             flingBehavior = flingBehavior,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .width(44.dp)
+                .width(width)
                 .height(itemHeight * visibleItemsCount)
-                .fadingEdge(fadingEdgeGradient)
+                .fadingEdge(fadingEdgeGradient),
         ) {
             items(listScrollCount) { index ->
                 val isSelected = selectedIndex == index
@@ -137,11 +140,22 @@ fun Picker(
                     overflow = TextOverflow.Ellipsis,
                     style = if (isSelected) selectedTextStyle else textStyle,
                     modifier = Modifier
+                        .align(Alignment.CenterEnd)
                         .height(itemHeight)
                         .then(textModifier)
                 )
             }
         }
+
+        if (timeDivider)
+            Text(
+                modifier = Modifier
+                    .padding(start = 54.dp)
+                    .padding(vertical = 40.dp),
+                text = ":",
+                color = Main2,
+                style = OffroadTheme.typography.title
+            )
     }
 }
 
@@ -162,41 +176,26 @@ fun DiaryTimePicker(
         verticalArrangement = Arrangement.Center,
         modifier = modifier.fillMaxWidth()
     ) {
-        val hoursValue = remember { (0..12).map { it.toString() } }
-        val hoursValuesPickerState = rememberPickerState()
-
-        val minutesValue = remember {
-            (0..59).map {
-                if (it < 10) "0$it"
-                else it.toString()
+        val hoursValue = remember {
+            (1..12).map {
+                if (it < 10) "  $it     00"
+                else "$it    00"
             }
         }
-        val minutesValuePickerState = rememberPickerState()
+        val hoursValuesPickerState = rememberPickerState()
 
         val meridiemValue = remember { listOf("AM", "PM") }
         val meridiemValuePickerState = rememberPickerState()
 
         LaunchedEffect(hoursValuesPickerState.selectedItem) {
             updateDiaryTime(
-                hoursValuesPickerState.selectedItem +
-                        minutesValuePickerState.selectedItem +
-                        meridiemValuePickerState.selectedItem
-            )
-        }
-
-        LaunchedEffect(minutesValuePickerState.selectedItem) {
-            updateDiaryTime(
-                hoursValuesPickerState.selectedItem +
-                        minutesValuePickerState.selectedItem +
-                        meridiemValuePickerState.selectedItem
+                hoursValuesPickerState.selectedItem + meridiemValuePickerState.selectedItem
             )
         }
 
         LaunchedEffect(meridiemValuePickerState.selectedItem) {
             updateDiaryTime(
-                hoursValuesPickerState.selectedItem +
-                        minutesValuePickerState.selectedItem +
-                        meridiemValuePickerState.selectedItem
+                hoursValuesPickerState.selectedItem + meridiemValuePickerState.selectedItem
             )
         }
 
@@ -221,19 +220,8 @@ fun DiaryTimePicker(
                     visibleItemsCount = 3,
                     textModifier = Modifier.padding(4.dp),
                     textStyle = OffroadTheme.typography.subtitleReg,
-                )
-                Text(
-                    modifier = Modifier.padding(vertical = 42.dp),
-                    text = ":",
-                    color = Main2,
-                    style = OffroadTheme.typography.title
-                )
-                Picker(
-                    state = minutesValuePickerState,
-                    items = minutesValue,
-                    visibleItemsCount = 3,
-                    textModifier = Modifier.padding(4.dp),
-                    textStyle = OffroadTheme.typography.subtitleReg,
+                    timeDivider = true,
+                    width = 120.dp,
                 )
                 Picker(
                     state = meridiemValuePickerState,
@@ -241,7 +229,8 @@ fun DiaryTimePicker(
                     visibleItemsCount = 3,
                     textModifier = Modifier.padding(4.dp),
                     textStyle = OffroadTheme.typography.subtitleReg,
-                    isInfinity = false
+                    isInfinity = false,
+                    width = 44.dp,
                 )
             }
         }
