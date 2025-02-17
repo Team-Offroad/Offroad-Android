@@ -162,7 +162,6 @@ fun DiaryTimeScreen(
             DiaryTimeDialogState.NextDialogVisible ->
                 DiaryTimeDialog(
                     onClick = {
-                        //Todo. 뒤로가기, 확인버튼 눌렀을때 다이얼로그 커스텀부터
                         //TODO. 시간설정 api쏘기
                         viewModel.navigateToSetting()
                     },
