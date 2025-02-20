@@ -48,6 +48,7 @@ fun DiaryScreen(
     LaunchedEffect(Unit) {
         viewModel.apply {
             getLatestDiary()
+            getDailyHexCode()
         }
     }
 
@@ -92,7 +93,8 @@ fun DiaryScreen(
                     )
                 else
                     OrbDiary(
-                        modifier = Modifier.padding(top = 20.dp)
+                        modifier = Modifier.padding(top = 20.dp),
+                        isDiaryUiState = isDiaryUiState
                     )
             }
         }

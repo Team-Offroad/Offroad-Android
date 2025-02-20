@@ -29,6 +29,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -41,6 +44,7 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Stroke
 import com.teamoffroad.core.designsystem.theme.TooltipTitle
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.feature.diary.presentation.DiaryUiState
 import com.teamoffroad.offroad.feature.diary.R
 import java.time.LocalDate
 import java.time.YearMonth
@@ -51,6 +55,7 @@ import java.util.Locale
 fun OrbDiary(
     modifier: Modifier = Modifier,
     currentDate: LocalDate = LocalDate.now(),
+    isDiaryUiState: DiaryUiState,
     yearRange: IntRange = IntRange(2025, 2100)
 ) {
     val initialPage = (currentDate.year - yearRange.first) * 12 + currentDate.monthValue - 1
@@ -92,6 +97,7 @@ fun OrbDiary(
                 OrbDiaryItems(
                     modifier = Modifier,
                     currentDate = date,
+                    dailyHexCodes = isDiaryUiState.dailyHexCodes,
                     onSelectedDate = {}
                 )
             }
@@ -145,7 +151,8 @@ fun OrbDiaryHeader(
 fun OrbDiaryItems(
     modifier: Modifier = Modifier,
     currentDate: LocalDate,
-    onSelectedDate: (LocalDate) -> Unit
+    dailyHexCodes: Map<Int, List<String>>,
+    onSelectedDate: () -> Unit
 ) {
     val lastDay by remember { mutableIntStateOf(currentDate.lengthOfMonth()) }
     val firstDay by remember {
@@ -188,6 +195,7 @@ fun OrbDiaryItems(
                     modifier = Modifier
                         .padding(top = 20.dp),
                     date = date,
+                    dailyHexCodes = dailyHexCodes,
                     dateButtonClick = onSelectedDate
                 )
             }
@@ -199,17 +207,30 @@ fun OrbDiaryItems(
 fun OrbDiaryCell(
     modifier: Modifier = Modifier,
     date: LocalDate,
-    dateButtonClick: (LocalDate) -> Unit
+    dailyHexCodes: Map<Int, List<String>>,
+    dateButtonClick: () -> Unit
 ) {
+    val backgroundColor = if (dailyHexCodes.containsKey(date.dayOfMonth)) {
+        Brush.linearGradient(
+            colors = dailyHexCodes[date.dayOfMonth]!!.mapIndexed { index, hex ->
+                Color(android.graphics.Color.parseColor(if (hex.startsWith("#")) hex else "#$hex"))
+                    .copy(alpha = if (index < 2) 0.7f else 1.0f)
+            }
+        )
+    } else {
+        SolidColor(BoxInfo)
+    }
+
+
     Box(
         modifier = modifier
-            .clickableWithoutRipple { dateButtonClick(date) },
+            .clickableWithoutRipple { dateButtonClick() },
         contentAlignment = Alignment.Center,
     ) {
         Box(
             modifier = Modifier
                 .clip(CircleShape)
-                .background(color = BoxInfo)
+                .background(backgroundColor)
                 .size(30.dp),
             contentAlignment = Alignment.Center,
         ) {
@@ -217,7 +238,7 @@ fun OrbDiaryCell(
                 modifier = Modifier,
                 textAlign = TextAlign.Center,
                 text = date.dayOfMonth.toString(),
-                color = Stroke,
+                color = if (dailyHexCodes.containsKey(date.dayOfMonth)) White else Stroke,
                 style = OffroadTheme.typography.subtitle2Semibold
             )
         }
