@@ -22,7 +22,6 @@ class DiaryViewModel @Inject constructor(
     val diarySideEffect = _diarySideEffect.receiveAsFlow()
 
     fun getLatestDiary() {
-        val testList = listOf("asd", "asd", "asd")
         val testEmptyList = emptyList<String>()
         //TODO. api/diary/latest 리스트가 비어있으면 달력 empty, 리스트가 있으면 달력 한번이라도 작성완료
         viewModelScope.launch {
