@@ -16,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -28,7 +27,7 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
 
 @Composable
-fun LogoutDialog(
+fun DiaryTimeDialog(
     title: String,
     content: String,
     cancelButtonText: String,
@@ -36,10 +35,11 @@ fun LogoutDialog(
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(14.dp),
     onClick: () -> Unit,
-    onClickCancel: () -> Unit,
+    onCancelClick: () -> Unit,
+    isNext: Boolean = true
 ) {
     Dialog(
-        onDismissRequest = { onClickCancel() },
+        onDismissRequest = { onCancelClick() },
         properties = DialogProperties(dismissOnClickOutside = false, dismissOnBackPress = true)
     ) {
         Box(
@@ -51,26 +51,50 @@ fun LogoutDialog(
                 modifier = modifier
                     .padding(vertical = 22.dp, horizontal = 40.dp)
             ) {
-                Text(
-                    text = title,
-                    color = Main2,
-                    style = OffroadTheme.typography.title,
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .padding(bottom = 20.dp)
-                )
-                Text(
-                    text = content,
-                    color = Main2,
-                    style = OffroadTheme.typography.textRegular.copy(fontWeight = FontWeight.Bold),
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .height(42.dp)
-                )
+                when (isNext) {
+                    true -> {
+                        Text(
+                            text = title,
+                            color = Main2,
+                            style = OffroadTheme.typography.title,
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .padding(bottom = 20.dp)
+                        )
+                        Text(
+                            text = content,
+                            color = Main2,
+                            style = OffroadTheme.typography.textRegular,
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .height(42.dp)
+                        )
+                    }
+
+                    false -> {
+                        Text(
+                            text = title,
+                            color = Main2,
+                            style = OffroadTheme.typography.textRegular,
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .padding(top = 10.dp, bottom = 6.dp)
+                        )
+                        Text(
+                            text = content,
+                            color = Main2,
+                            style = OffroadTheme.typography.textRegular,
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .height(42.dp)
+                                .padding(bottom = 10.dp)
+                        )
+                    }
+                }
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     LogoutButton(
                         modifier = Modifier
-                            .clickableWithoutRipple { onClickCancel() }
+                            .clickableWithoutRipple { onCancelClick() }
                             .weight(1f),
                         text = cancelButtonText,
                         textColor = Main2,
@@ -80,7 +104,7 @@ fun LogoutDialog(
                         modifier = Modifier
                             .clickableWithoutRipple {
                                 onClick()
-                                onClickCancel()
+                                onCancelClick()
                             }
                             .weight(1f),
                         text = nextButtonText,

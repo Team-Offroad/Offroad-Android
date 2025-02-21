@@ -227,6 +227,10 @@ internal fun SettingScreen(
             onClickCancel = {
                 viewModel.changeDialogState(SettingDialogState.InVisible)
             },
+            title = stringResource(R.string.my_page_setting_item_logout),
+            content = stringResource(R.string.my_page_setting_logout_dialog_sub_title),
+            cancelButtonText = stringResource(R.string.my_page_setting_logout_dialog_disagree),
+            nextButtonText = stringResource(R.string.my_page_setting_logout_dialog_agree)
         )
 
         SettingDialogState.WithDrawVisible -> WithDrawDialog(

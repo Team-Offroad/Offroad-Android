@@ -4,7 +4,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.teamoffroad.core.navigation.DiaryRoute
-import com.teamoffroad.core.navigation.Route
 import com.teamoffroad.feature.diary.presentation.DiaryScreen
 
 fun NavController.navigateToDiary() {
@@ -13,10 +12,12 @@ fun NavController.navigateToDiary() {
 
 fun NavGraphBuilder.diaryNavGraph(
     navigateToBack: () -> Unit,
+    navigateToCharacterChat: (String) -> Unit,
 ) {
     composable<DiaryRoute.Diary> {
         DiaryScreen(
             navigateToBack = navigateToBack,
+            navigateToCharacterChat = navigateToCharacterChat
         )
     }
 }
