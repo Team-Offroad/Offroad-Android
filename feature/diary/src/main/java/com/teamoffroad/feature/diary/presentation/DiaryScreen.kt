@@ -39,7 +39,6 @@ fun DiaryScreen(
         viewModel.diarySideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
                 DiarySideEffect.Empty -> {
-                    TODO()
                 }
 
                 DiarySideEffect.NavigateBack -> navigateToBack()

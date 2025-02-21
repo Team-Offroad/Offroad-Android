@@ -8,4 +8,5 @@ data class DiaryTimeUiState(
 
 sealed interface DiaryTimeSideEffect {
     data object NavigateSetting : DiaryTimeSideEffect
+    data object TimeSettingSuccess : DiaryTimeSideEffect
 }

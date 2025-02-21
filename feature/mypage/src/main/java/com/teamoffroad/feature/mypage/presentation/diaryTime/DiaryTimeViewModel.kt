@@ -21,7 +21,7 @@ class DiaryTimeViewModel @Inject constructor(
     private val _diaryTimeSideEffect: Channel<DiaryTimeSideEffect> = Channel()
     val diaryTimeSideEffect = _diaryTimeSideEffect.receiveAsFlow()
 
-    fun backButtonClickListener(state: Boolean) {
+    fun updateDialogVisibility(state: Boolean) {
         viewModelScope.launch {
             _diaryTimeUiState.value = diaryTimeUiState.value.copy(
                 dialogVisibility = if (state) DiaryTimeDialogState.BackDialogVisible else DiaryTimeDialogState.InVisible
