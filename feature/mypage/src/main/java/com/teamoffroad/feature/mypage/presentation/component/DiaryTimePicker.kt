@@ -118,7 +118,8 @@ fun Picker(
             .collect { item -> pickerState.selectedItem = item }
     }
 
-    Box(modifier = modifier) {
+    Box(modifier = modifier.padding(top = 1.dp)
+    ) {
         LazyColumn(
             state = listState,
             flingBehavior = flingBehavior,
@@ -142,7 +143,7 @@ fun Picker(
                     modifier = Modifier
                         .align(Alignment.CenterEnd)
                         .height(itemHeight)
-                        .then(textModifier)
+                        .then(textModifier),
                 )
             }
         }
@@ -151,7 +152,7 @@ fun Picker(
             Text(
                 modifier = Modifier
                     .padding(start = 54.dp)
-                    .padding(vertical = 40.dp),
+                    .padding(vertical = 41.dp),
                 text = ":",
                 color = Main2,
                 style = OffroadTheme.typography.title
