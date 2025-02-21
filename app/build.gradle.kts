@@ -55,6 +55,7 @@ dependencies {
     implementation(project(":feature:explore"))
     implementation(project(":feature:mypage"))
     implementation(project(":feature:characterchat"))
+    implementation(project(":feature:diary"))
     implementation(libs.kakao.user)
     implementation(libs.bundles.firebase)
     implementation(libs.bundles.coil)

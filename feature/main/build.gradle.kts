@@ -18,6 +18,7 @@ dependencies {
     implementation(project(":feature:explore"))
     implementation(project(":feature:mypage"))
     implementation(project(":feature:characterchat"))
+    implementation(project(":feature:diary"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

@@ -49,6 +49,7 @@ fun HomeIcons(
     updateCharacterChatExist: (Boolean) -> Unit,
     updateCharacterName: (String) -> Unit,
     updateLastUnreadChatDosAllRead: (Boolean) -> Unit,
+    navigateToDiary: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
 
@@ -150,6 +151,22 @@ fun HomeIcons(
                 contentDescription = "change",
                 modifier = Modifier.clickableWithoutRipple { navigateToGainedCharacter() }
             )
+
+            //TODO. 가장 최신일기 확인 여부 반환 api로 받아오기
+            val newDiary = false
+            if (newDiary) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_home_diary_new_complete),
+                    contentDescription = "new_diary",
+                    modifier = Modifier.clickableWithoutRipple { navigateToDiary() }
+                )
+            } else {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_home_diary_empty),
+                    contentDescription = "empty_diary",
+                    modifier = Modifier.clickableWithoutRipple { navigateToDiary() }
+                )
+            }
         }
     }
 }

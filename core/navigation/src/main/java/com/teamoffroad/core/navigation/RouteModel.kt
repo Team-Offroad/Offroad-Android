@@ -98,6 +98,9 @@ sealed interface MyPageRoute : Route {
 
     @Serializable
     data object Support : MyPageRoute
+
+    @Serializable
+    data object DiaryTime : MyPageRoute
 }
 
 sealed interface CharacterChatRoute : Route {
@@ -106,4 +109,9 @@ sealed interface CharacterChatRoute : Route {
         val characterId: Int,
         val characterName: String,
     ) : CharacterChatRoute
+}
+
+sealed interface DiaryRoute : Route {
+    @Serializable
+    data object Diary : DiaryRoute
 }

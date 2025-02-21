@@ -12,6 +12,7 @@ import com.teamoffroad.feature.mypage.presentation.AnnouncementDetailScreen
 import com.teamoffroad.feature.mypage.presentation.AnnouncementScreen
 import com.teamoffroad.feature.mypage.presentation.AvailableCouponDetailScreen
 import com.teamoffroad.feature.mypage.presentation.CharacterDetailScreen
+import com.teamoffroad.feature.mypage.presentation.diaryTime.DiaryTimeScreen
 import com.teamoffroad.feature.mypage.presentation.GainedCharacterScreen
 import com.teamoffroad.feature.mypage.presentation.GainedCouponScreen
 import com.teamoffroad.feature.mypage.presentation.GainedEmblemsScreen
@@ -89,6 +90,10 @@ fun NavController.navigateToSupport() {
     navigate(MyPageRoute.Support)
 }
 
+fun NavController.navigateToDiaryTime() {
+    navigate(MyPageRoute.DiaryTime)
+}
+
 fun NavGraphBuilder.myPageNavGraph(
     navigateToGainedCharacter: () -> Unit,
     navigateToGainedCoupon: () -> Unit,
@@ -103,13 +108,16 @@ fun NavGraphBuilder.myPageNavGraph(
     navigateToCharacterChat: (Int, String) -> Unit,
     navigateToAnnouncementDeleteStack: () -> Unit,
     navigateToSupport: () -> Unit,
+    navigateToDiary: () -> Unit,
+    navigateToDiaryTime: () -> Unit
 ) {
     composable<MainTabRoute.MyPage> {
         MyPageScreen(
             navigateToGainedCharacter,
             navigateToGainedCoupon,
             navigateToGainedEmblems,
-            navigateToSetting
+            navigateToSetting,
+            navigateToDiary,
         )
     }
 
@@ -140,7 +148,8 @@ fun NavGraphBuilder.myPageNavGraph(
             navigateToAnnouncement = { navigateToAnnouncement(null) },
             navigateToSignIn = navigateToSignIn,
             navigateToSupport = navigateToSupport,
-            navigateToBack = navigateToBack
+            navigateToBack = navigateToBack,
+            navigateToDiaryTime = navigateToDiaryTime,
         )
     }
 
@@ -183,6 +192,17 @@ fun NavGraphBuilder.myPageNavGraph(
         val characterId = backStackEntry.toRoute<MyPageRoute.CharacterDetail>().characterId
         val isRepresentative =
             backStackEntry.toRoute<MyPageRoute.CharacterDetail>().isRepresentative
-        CharacterDetailScreen(characterId, isRepresentative, navigateToBack, navigateToCharacterChat)
+        CharacterDetailScreen(
+            characterId,
+            isRepresentative,
+            navigateToBack,
+            navigateToCharacterChat
+        )
+    }
+
+    composable<MyPageRoute.DiaryTime> {
+        DiaryTimeScreen(
+            navigateToBack
+        )
     }
 }

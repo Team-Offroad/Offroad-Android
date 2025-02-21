@@ -88,6 +88,8 @@ processPhoenix = "3.0.0"
 
 # Event Bus
 eventbus = "3.2.0"
+composeMaterial3 = "1.0.0-alpha32"
+composeMaterial = "1.4.1"
 
 [libraries]
 # Core Libraries

@@ -6,9 +6,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,12 +23,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.theme.ListBg
-import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.mypage.presentation.component.AcquireCharacter
 import com.teamoffroad.feature.mypage.presentation.component.AcquireCoupon
 import com.teamoffroad.feature.mypage.presentation.component.AcquireEmblem
 import com.teamoffroad.feature.mypage.presentation.component.UserAdventureInfo
+import com.teamoffroad.feature.mypage.presentation.component.UserDiary
 import com.teamoffroad.feature.mypage.presentation.component.UserNickname
 import com.teamoffroad.feature.mypage.presentation.component.UserSettings
 
@@ -34,6 +38,7 @@ internal fun MyPageScreen(
     navigateToGainedCoupon: () -> Unit,
     navigateToGainedEmblems: () -> Unit,
     navigateToSetting: () -> Unit,
+    navigateToDiary: () -> Unit,
     myPageViewModel: MyPageViewModel = hiltViewModel(),
 ) {
 
@@ -43,6 +48,7 @@ internal fun MyPageScreen(
 
     val snackBarHostState = remember { SnackbarHostState() }
     val errorMessage = myPageViewModel.errorMessage.collectAsStateWithLifecycle().value
+    val scrollState = rememberScrollState()
     if (errorMessage.isNotBlank()) {
         LaunchedEffect(snackBarHostState) { snackBarHostState.showSnackbar(message = errorMessage) }
         myPageViewModel.updateErrorMessage("")
@@ -55,7 +61,11 @@ internal fun MyPageScreen(
             .padding(top = 90.dp)
             .navigationBarsPadding()
     ) {
-        Column {
+        Column(
+            modifier = Modifier
+                .verticalScroll(state = scrollState)
+                .fillMaxSize()
+        ) {
             UserNickname(
                 modifier = Modifier.padding(bottom = 13.dp),
                 nickname = myPageViewModel.myPageUser.collectAsStateWithLifecycle().value.nickname,
@@ -63,6 +73,10 @@ internal fun MyPageScreen(
             UserAdventureInfo(
                 modifier = Modifier.padding(vertical = 8.dp),
                 user = myPageViewModel.myPageUser.collectAsStateWithLifecycle().value,
+            )
+            UserDiary(
+                modifier = Modifier.padding(top = 8.dp),
+                navigateToUserDiary = { navigateToDiary() }
             )
             Row(
                 modifier = Modifier
@@ -113,6 +127,7 @@ internal fun MyPageScreen(
                     )
                 }
             }
+            Spacer(modifier = Modifier.height(106.dp))
         }
     }
 }
@@ -121,6 +136,6 @@ internal fun MyPageScreen(
 @Composable
 fun MyPageScreenPreview() {
     OffroadTheme {
-        MyPageScreen({}, {}, {}, {})
+        MyPageScreen({}, {}, {}, {}, {})
     }
 }

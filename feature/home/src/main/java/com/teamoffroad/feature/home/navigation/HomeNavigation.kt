@@ -23,6 +23,7 @@ fun NavGraphBuilder.homeNavGraph(
     navigateToBack: () -> Unit,
     navigateToGainedCharacter: () -> Unit,
     navigateToCharacterChatScreen: (String) -> Unit,
+    navigateToDiary: () -> Unit
 ) {
     composable<MainTabRoute.Home> { backStackEntry ->
         val category = backStackEntry.toRoute<MainTabRoute.Home>().category
@@ -31,7 +32,8 @@ fun NavGraphBuilder.homeNavGraph(
             category = category,
             completeQuests = completeQuests,
             navigateToGainedCharacter = navigateToGainedCharacter,
-            navigateToCharacterChatScreen = navigateToCharacterChatScreen
+            navigateToCharacterChatScreen = navigateToCharacterChatScreen,
+            navigateToDiary = navigateToDiary
         )
     }
 }

@@ -34,6 +34,7 @@ include(
 include(
     ":feature:home",
     ":feature:main",
+    ":feature:diary"
 )
 include(":feature:mypage")
 include(":feature:explore")

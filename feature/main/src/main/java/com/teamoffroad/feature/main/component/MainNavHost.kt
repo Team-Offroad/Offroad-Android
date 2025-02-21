@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import com.teamoffroad.characterchat.navigation.characterChatNavGraph
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.feature.auth.navigation.authNavGraph
+import com.teamoffroad.feature.diary.navigation.diaryNavGraph
 import com.teamoffroad.feature.explore.navigation.exploreNavGraph
 import com.teamoffroad.feature.home.navigation.homeNavGraph
 import com.teamoffroad.feature.main.MainNavigator
@@ -49,6 +50,7 @@ internal fun MainNavHost(
                         navigator.navigateToGainedCharacter()
                     }
                 },
+                navigateToDiary = navigator::navigateToDiary
             )
             exploreNavGraph(
                 navigateToHome = { category, completeQuests ->
@@ -90,6 +92,8 @@ internal fun MainNavHost(
                 navigateToCharacterChat = navigator::navigateToCharacterChat,
                 navigateToAnnouncementDeleteStack = navigator::navigateToAnnouncementDeleteStack,
                 navigateToSupport = navigator::navigateToSupport,
+                navigateToDiary = navigator::navigateToDiary,
+                navigateToDiaryTime = navigator::navigateToDiaryTime,
             )
             authNavGraph(
                 navigateToHome = { navigator.navigateToHome() },
@@ -105,6 +109,10 @@ internal fun MainNavHost(
             )
             characterChatNavGraph(
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
+            )
+            diaryNavGraph(
+                navigateToBack = navigator::popBackStackIfNotMainTabRoute,
+                navigateToCharacterChat = navigator::navigateToCharacterChat,
             )
         }
     }

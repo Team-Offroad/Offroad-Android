@@ -16,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -27,10 +26,13 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
-import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
 fun LogoutDialog(
+    title: String,
+    content: String,
+    cancelButtonText: String,
+    nextButtonText: String,
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(14.dp),
     onClick: () -> Unit,
@@ -50,7 +52,7 @@ fun LogoutDialog(
                     .padding(vertical = 22.dp, horizontal = 40.dp)
             ) {
                 Text(
-                    text = stringResource(R.string.my_page_setting_item_logout),
+                    text = title,
                     color = Main2,
                     style = OffroadTheme.typography.title,
                     modifier = Modifier
@@ -58,7 +60,7 @@ fun LogoutDialog(
                         .padding(bottom = 20.dp)
                 )
                 Text(
-                    text = stringResource(R.string.my_page_setting_logout_dialog_sub_title),
+                    text = content,
                     color = Main2,
                     style = OffroadTheme.typography.textRegular.copy(fontWeight = FontWeight.Bold),
                     modifier = Modifier
@@ -70,7 +72,7 @@ fun LogoutDialog(
                         modifier = Modifier
                             .clickableWithoutRipple { onClickCancel() }
                             .weight(1f),
-                        text = stringResource(R.string.my_page_setting_logout_dialog_disagree),
+                        text = cancelButtonText,
                         textColor = Main2,
                         backgroundColor = Main3,
                     )
@@ -81,7 +83,7 @@ fun LogoutDialog(
                                 onClickCancel()
                             }
                             .weight(1f),
-                        text = stringResource(R.string.my_page_setting_logout_dialog_agree),
+                        text = nextButtonText,
                         textColor = White,
                         backgroundColor = Main2,
                     )
