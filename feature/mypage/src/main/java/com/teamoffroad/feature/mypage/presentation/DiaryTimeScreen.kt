@@ -114,7 +114,6 @@ fun DiaryTimeScreen(
                 .padding(horizontal = 24.dp)
                 .fillMaxWidth()
                 .clickableWithoutRipple {
-                    Log.d("asdasd", "asdasd")
                 },
             text = stringResource(id = R.string.my_page_setting_diary_success),
             textColor = White,
