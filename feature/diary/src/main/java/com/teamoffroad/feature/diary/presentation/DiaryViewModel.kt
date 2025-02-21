@@ -22,11 +22,11 @@ class DiaryViewModel @Inject constructor(
     val diarySideEffect = _diarySideEffect.receiveAsFlow()
 
     fun getLatestDiary() {
-        val testEmptyList = emptyList<String>()
+        val dummyList = listOf("january", "february", "wednesday")
         //TODO. api/diary/latest 리스트가 비어있으면 달력 empty, 리스트가 있으면 달력 한번이라도 작성완료
         viewModelScope.launch {
             _diaryUiState.value = diaryUiState.value.copy(
-                latestDiary = testList
+                latestDiary = dummyList
             )
         }
     }
