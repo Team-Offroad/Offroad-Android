@@ -152,7 +152,7 @@ fun HomeIcons(
                 modifier = Modifier.clickableWithoutRipple { navigateToGainedCharacter() }
             )
 
-            // 가장 최신일기 확인 여부 반환 api로 받아오기
+            //TODO. 가장 최신일기 확인 여부 반환 api로 받아오기
             val newDiary = false
             if (newDiary) {
                 Image(
