@@ -13,6 +13,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
@@ -24,6 +25,7 @@ import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.diary.component.DiaryHeader
 import com.teamoffroad.feature.diary.component.OrbDiary
 import com.teamoffroad.feature.diary.component.OrbDiaryEmpty
+import com.teamoffroad.offroad.feature.diary.R
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -32,7 +34,7 @@ fun DiaryScreen(
     navigateToCharacterChat: (String) -> Unit,
     viewModel: DiaryViewModel = hiltViewModel()
 ) {
-    val isDiaryUiState by viewModel.diaryUiState.collectAsState()
+    val diaryUiState by viewModel.diaryUiState.collectAsState()
     LaunchedEffect(Unit) {
         viewModel.diarySideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
@@ -48,7 +50,7 @@ fun DiaryScreen(
     LaunchedEffect(Unit) {
         viewModel.apply {
             getLatestDiary()
-            getDailyHexCode()
+            getDummyHexCode()
         }
     }
 
@@ -65,13 +67,13 @@ fun DiaryScreen(
                 .actionBarPadding(),
         ) {
             NavigateBackAppBar(
-                text = "홈",
+                text = stringResource(id = R.string.diary_back_home),
                 modifier = Modifier.padding(top = 20.dp)
             ) {
                 viewModel.backButtonClickListener()
             }
             DiaryHeader(
-                text = "기억빛",
+                text = stringResource(id = R.string.diary_memory_ligth),
                 {}
                 //TODO.가이드버튼
             )
@@ -86,7 +88,7 @@ fun DiaryScreen(
                     .background(ListBg)
                     .fillMaxSize()
             ) {
-                if (isDiaryUiState.latestDiary.isEmpty())
+                if (diaryUiState.latestDiary.isEmpty())
                     OrbDiaryEmpty(
                         modifier = Modifier.padding(top = 124.dp),
                         navigateToCharacterChat = navigateToCharacterChat
@@ -94,7 +96,7 @@ fun DiaryScreen(
                 else
                     OrbDiary(
                         modifier = Modifier.padding(top = 20.dp),
-                        isDiaryUiState = isDiaryUiState
+                        diaryUiState = diaryUiState
                     )
             }
         }

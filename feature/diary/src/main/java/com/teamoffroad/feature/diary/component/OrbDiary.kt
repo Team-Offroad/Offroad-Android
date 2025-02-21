@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
@@ -46,6 +47,7 @@ import com.teamoffroad.core.designsystem.theme.TooltipTitle
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.diary.presentation.DiaryUiState
 import com.teamoffroad.offroad.feature.diary.R
+import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.TextStyle
@@ -55,11 +57,12 @@ import java.util.Locale
 fun OrbDiary(
     modifier: Modifier = Modifier,
     currentDate: LocalDate = LocalDate.now(),
-    isDiaryUiState: DiaryUiState,
-    yearRange: IntRange = IntRange(2025, 2100)
+    diaryUiState: DiaryUiState,
+    yearRange: IntRange = IntRange(2025, 2100),
+    maxMonth: Int = 12,
 ) {
-    val initialPage = (currentDate.year - yearRange.first) * 12 + currentDate.monthValue - 1
-    val pageCount = (yearRange.last - yearRange.first) * 12
+    val initialPage = (currentDate.year - yearRange.first) * maxMonth + currentDate.monthValue - 1
+    val pageCount = (yearRange.last - yearRange.first) * maxMonth
 
     var currentYearAndMonth by remember { mutableStateOf(YearMonth.now()) }
     var currentPage by remember { mutableIntStateOf(initialPage) }
@@ -89,15 +92,15 @@ fun OrbDiary(
             state = pagerState,
         ) { page ->
             val date = LocalDate.of(
-                yearRange.first + page / 12,
-                page % 12 + 1,
+                yearRange.first + page / maxMonth,
+                page % maxMonth + 1,
                 1
             )
             if (page in pagerState.currentPage - 1..pagerState.currentPage + 1) {
                 OrbDiaryItems(
                     modifier = Modifier,
                     currentDate = date,
-                    dailyHexCodes = isDiaryUiState.dailyHexCodes,
+                    dailyHexCodes = diaryUiState.dailyHexCodes,
                     onSelectedDate = {}
                 )
             }
@@ -128,7 +131,8 @@ fun OrbDiaryHeader(
         }
         Text(
             modifier = Modifier.padding(horizontal = 30.dp),
-            text = text.year.toString() + "년 " + text.monthValue + "월",
+            text = text.year.toString() + stringResource(R.string.diary_year) + " " +
+                    text.monthValue + stringResource(R.string.diary_month),
             color = TooltipTitle,
             style = OffroadTheme.typography.tooltipTitle
         )
@@ -155,13 +159,7 @@ fun OrbDiaryItems(
     onSelectedDate: () -> Unit
 ) {
     val lastDay by remember { mutableIntStateOf(currentDate.lengthOfMonth()) }
-    val firstDay by remember {
-        mutableIntStateOf(
-            if (currentDate.withDayOfMonth(1).dayOfWeek == java.time.DayOfWeek.SUNDAY) 1 else currentDate.withDayOfMonth(
-                1
-            ).dayOfWeek.value + 1
-        )
-    }
+    val firstDay by remember { mutableIntStateOf(currentDate.withDayOfMonth(1).dayOfWeek.value % 7 + 1) }
     val days by remember { mutableStateOf(IntRange(1, lastDay).toList()) }
     Column(
         modifier = modifier
@@ -249,18 +247,14 @@ fun OrbDiaryCell(
 fun WeekTitle(
     modifier: Modifier = Modifier
 ) {
-    val weekTitles = listOf(
-        java.time.DayOfWeek.SUNDAY, java.time.DayOfWeek.MONDAY, java.time.DayOfWeek.TUESDAY,
-        java.time.DayOfWeek.WEDNESDAY, java.time.DayOfWeek.THURSDAY, java.time.DayOfWeek.FRIDAY,
-        java.time.DayOfWeek.SATURDAY
-    )
+    val weekTitles = DayOfWeek.entries.sortedBy { it.value % 7 }
     Row(modifier) {
-        weekTitles.forEach { dayOfWeek ->
+        weekTitles.forEach { days ->
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
-                text = dayOfWeek.getDisplayName(TextStyle.NARROW, Locale.KOREAN),
+                text = days.getDisplayName(TextStyle.NARROW, Locale.KOREAN),
                 color = DiaryWeekItem,
                 style = OffroadTheme.typography.btnSmall,
                 textAlign = TextAlign.Center

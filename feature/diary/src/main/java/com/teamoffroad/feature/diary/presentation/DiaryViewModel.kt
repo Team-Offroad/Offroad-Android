@@ -32,14 +32,14 @@ class DiaryViewModel @Inject constructor(
         }
     }
 
-    fun getDailyHexCode() {
-        val dailyHexCodes: Map<Int, List<String>> = mapOf(
-            1 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
-            2 to listOf("#70DAFF", "#FFDC14", "#FFFFFF"),
-            3 to listOf("#FF69E1", "#FFB73B", "#FFFFFF"),
-            4 to listOf("#FF4124", "#FF6D94", "#FFFFFF"),
-            5 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
-            6 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
+    fun getDummyHexCode() {
+        val dummyHexCodes: Map<Int, List<String>> = mapOf(
+            1 to listOf("#5580FF", "#FF69E1"),
+            2 to listOf("#70DAFF", "#FFDC14"),
+            3 to listOf("#FF69E1", "#FFB73B"),
+            4 to listOf("#FF4124", "#FF6D94"),
+            5 to listOf("#5580FF", "#FF69E1"),
+            6 to listOf("#5580FF", "#FF69E1"),
             7 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
             9 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
             10 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
@@ -57,7 +57,7 @@ class DiaryViewModel @Inject constructor(
         val firstDiaryMonth = 5
         viewModelScope.launch {
             _diaryUiState.value = diaryUiState.value.copy(
-                dailyHexCodes = dailyHexCodes,
+                dailyHexCodes = dummyHexCodes,
                 firstDiaryMonth = firstDiaryMonth,
             )
         }
