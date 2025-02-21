@@ -38,7 +38,6 @@ import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.mypage.presentation.component.DiaryTimeDialog
 import com.teamoffroad.feature.mypage.presentation.component.DiaryTimePicker
-import com.teamoffroad.feature.mypage.presentation.component.LogoutDialog
 import com.teamoffroad.feature.mypage.presentation.component.SettingHeader
 import com.teamoffroad.offroad.feature.mypage.R
 import kotlinx.coroutines.flow.collectLatest
@@ -54,12 +53,16 @@ fun DiaryTimeScreen(
             when (sideEffect) {
                 DiaryTimeSideEffect.NavigateSetting ->
                     navigateToBack()
+
+                DiaryTimeSideEffect.TimeSettingSuccess -> {
+                    TODO("시간 설정 api통신이 성공한 경우")
+                }
             }
         }
     }
 
     BackHandler {
-        viewModel.backButtonClickListener(true)
+        viewModel.updateDialogVisibility(true)
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -74,7 +77,7 @@ fun DiaryTimeScreen(
                 text = stringResource(R.string.my_page_settings),
                 modifier = Modifier.padding(top = 20.dp)
             ) {
-                viewModel.backButtonClickListener(true)
+                viewModel.updateDialogVisibility(true)
             }
             SettingHeader(
                 text = stringResource(R.string.my_page_setting_item_diary_time),
@@ -151,25 +154,25 @@ fun DiaryTimeScreen(
                     onClick = {
                         viewModel.navigateToSetting()
                     },
-                    onClickCancel = { viewModel.backButtonClickListener(false) },
-                    title = "일기 시간 설정을 저장하지 않고",
-                    content = "나가시겠어요?",
-                    cancelButtonText = "아니요",
-                    nextButtonText = "네",
+                    onCancelClick = { viewModel.updateDialogVisibility(false) },
+                    title = stringResource(id = R.string.my_page_setting_diary_time_back_dialog_title),
+                    content = stringResource(id = R.string.my_page_setting_diary_time_back_dialog_subtitle),
+                    cancelButtonText = stringResource(id = R.string.my_page_setting_logout_dialog_disagree),
+                    nextButtonText = stringResource(id = R.string.my_page_setting_logout_dialog_agree),
                     isNext = false,
                 )
 
             DiaryTimeDialogState.NextDialogVisible ->
                 DiaryTimeDialog(
                     onClick = {
-                        //TODO. 시간설정 api쏘기
+                        TODO("시간설정 api쏘기")
                         viewModel.navigateToSetting()
                     },
-                    onClickCancel = { viewModel.backButtonClickListener(false) },
-                    title = "일기 완성!",
-                    content = "매일 이 시간에 일기를 받으시겠어요?",
-                    cancelButtonText = "아니요",
-                    nextButtonText = "네",
+                    onCancelClick = { viewModel.updateDialogVisibility(false) },
+                    title = stringResource(id = R.string.my_page_setting_diary_time_success_dialog_title),
+                    content = stringResource(id = R.string.my_page_setting_diary_time_success_dialog_subtitle),
+                    cancelButtonText = stringResource(id = R.string.my_page_setting_logout_dialog_disagree),
+                    nextButtonText = stringResource(id = R.string.my_page_setting_logout_dialog_agree),
                 )
         }
     }

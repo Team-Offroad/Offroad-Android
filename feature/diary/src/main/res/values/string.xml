@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="diary_empty_content">만들어진 일기가 없어요\n\n오브가 아직 어색한가 봐요\n조금 더 대화를 나눠보세요.</string>
+    <string name="diary_empty_go_chatting">채팅하러 가기</string>
+
+</resources>
