@@ -16,7 +16,7 @@ fun NavGraphBuilder.diaryNavGraph(
 ) {
     composable<DiaryRoute.Diary> {
         DiaryScreen(
-            navigateToBack = navigateToBack
+            navigateToBack = navigateToBack,
         )
     }
 }

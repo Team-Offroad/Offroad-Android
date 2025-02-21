@@ -80,14 +80,9 @@ fun DiaryTimeScreen(
             text = stringResource(id = R.string.my_page_setting_diary_time_when_receive),
             color = Main2,
         )
-
-
-        //여기
         DiaryTimePicker(
             modifier = Modifier.padding(horizontal = 12.dp)
         )
-
-
         Row(
             modifier = Modifier
                 .padding(top = 54.dp)

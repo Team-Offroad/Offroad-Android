@@ -202,8 +202,6 @@ process-phoenix = { group = "com.jakewharton", name = "process-phoenix", version
 
 # Event Bus
 eventbus = { group = "org.greenrobot", name = "eventbus", version.ref = "eventbus" }
-compose-material3 = { group = "androidx.wear.compose", name = "compose-material3", version.ref = "composeMaterial3" }
-androidx-compose-material = { group = "androidx.wear.compose", name = "compose-material", version.ref = "composeMaterial" }
 
 [plugins]
 # Android Application Plugin

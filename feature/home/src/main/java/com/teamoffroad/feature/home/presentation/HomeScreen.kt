@@ -208,7 +208,7 @@ private fun UsersAdventuresInformation(
                 updateCharacterChatExist = updateCharacterChatExist,
                 updateCharacterName = updateCharacterName,
                 updateLastUnreadChatDosAllRead = updateLastUnreadChatDosAllRead,
-                navigateToDiary = navigateToDiary
+                navigateToDiary = navigateToDiary,
             )
         }
 

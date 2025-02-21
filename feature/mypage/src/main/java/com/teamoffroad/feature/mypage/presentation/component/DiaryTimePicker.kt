@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.mypage.presentation.component
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -54,16 +52,16 @@ class PickerState {
 @Composable
 fun Picker(
     items: List<String>,
-    state: PickerState = rememberPickerState(),
+    pickerState: PickerState = rememberPickerState(),
     modifier: Modifier = Modifier,
     startIndex: Int = 0,
     visibleItemsCount: Int = 3,
     textModifier: Modifier = Modifier,
     textStyle: TextStyle = LocalTextStyle.current,
     selectedTextStyle: TextStyle = OffroadTheme.typography.title,
-    isInfinity: Boolean = true
+    isInfinitelyScroll: Boolean = true,
 ) {
-    val adjustedItems = if (!isInfinity) {
+    val adjustedItems = if (!isInfinitelyScroll) {
         listOf(null) + items + listOf(null)
     } else {
         items
@@ -71,14 +69,14 @@ fun Picker(
     val density = LocalDensity.current
     val visibleItemsMiddle = visibleItemsCount / 2
 
-    val listScrollCount = if (isInfinity) {
+    val listScrollCount = if (isInfinitelyScroll) {
         Int.MAX_VALUE
     } else {
         adjustedItems.size
     }
     val listScrollMiddle = listScrollCount / 2
     val listStartIndex = remember {
-        if (isInfinity) {
+        if (isInfinitelyScroll) {
             listScrollMiddle - listScrollMiddle % adjustedItems.size - visibleItemsMiddle + startIndex
         } else {
             startIndex + 1
@@ -114,7 +112,7 @@ fun Picker(
         snapshotFlow { listState.firstVisibleItemIndex }
             .mapNotNull { index -> getItem(index + visibleItemsMiddle) }
             .distinctUntilChanged()
-            .collect { item -> state.selectedItem = item }
+            .collect { item -> pickerState.selectedItem = item }
     }
 
     Box(modifier = modifier) {
@@ -193,7 +191,7 @@ fun DiaryTimePicker(
                 horizontalArrangement = Arrangement.Center
             ) {
                 Picker(
-                    state = hoursValuesPickerState,
+                    pickerState = hoursValuesPickerState,
                     items = hoursValue,
                     visibleItemsCount = 3,
                     textModifier = Modifier.padding(4.dp),
@@ -206,19 +204,19 @@ fun DiaryTimePicker(
                     style = OffroadTheme.typography.title
                 )
                 Picker(
-                    state = minutesValuePickerState,
+                    pickerState = minutesValuePickerState,
                     items = minutesValue,
                     visibleItemsCount = 3,
                     textModifier = Modifier.padding(4.dp),
                     textStyle = OffroadTheme.typography.subtitleReg,
                 )
                 Picker(
-                    state = meridiemValuePickerState,
+                    pickerState = meridiemValuePickerState,
                     items = meridiemValue,
                     visibleItemsCount = 3,
                     textModifier = Modifier.padding(4.dp),
                     textStyle = OffroadTheme.typography.subtitleReg,
-                    isInfinity = false
+                    isInfinitelyScroll = false
                 )
             }
         }
