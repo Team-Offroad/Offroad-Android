@@ -165,8 +165,8 @@ fun DiaryTimeScreen(
             DiaryTimeDialogState.NextDialogVisible ->
                 DiaryTimeDialog(
                     onClick = {
-                        TODO("시간설정 api쏘기")
                         viewModel.navigateToSetting()
+                        //TODO("시간설정 api쏘기")
                     },
                     onCancelClick = { viewModel.updateDialogVisibility(false) },
                     title = stringResource(id = R.string.my_page_setting_diary_time_success_dialog_title),

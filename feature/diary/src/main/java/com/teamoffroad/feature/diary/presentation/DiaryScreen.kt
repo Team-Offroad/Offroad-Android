@@ -34,7 +34,7 @@ fun DiaryScreen(
     navigateToCharacterChat: (String) -> Unit,
     viewModel: DiaryViewModel = hiltViewModel()
 ) {
-    val isDiaryUiState by viewModel.diaryUiState.collectAsState()
+    val diaryUiState by viewModel.diaryUiState.collectAsState()
     LaunchedEffect(Unit) {
         viewModel.diarySideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
@@ -49,6 +49,7 @@ fun DiaryScreen(
     LaunchedEffect(Unit) {
         viewModel.apply {
             getLatestDiary()
+            getDummyHexCode()
         }
     }
 
@@ -86,14 +87,15 @@ fun DiaryScreen(
                     .background(ListBg)
                     .fillMaxSize()
             ) {
-                if (isDiaryUiState.latestDiary.isEmpty())
+                if (diaryUiState.latestDiary.isEmpty())
                     OrbDiaryEmpty(
                         modifier = Modifier.padding(top = 124.dp),
                         navigateToCharacterChat = navigateToCharacterChat
                     )
                 else
                     OrbDiary(
-                        modifier = Modifier.padding(top = 20.dp)
+                        modifier = Modifier.padding(top = 20.dp),
+                        diaryUiState = diaryUiState
                     )
             }
         }
