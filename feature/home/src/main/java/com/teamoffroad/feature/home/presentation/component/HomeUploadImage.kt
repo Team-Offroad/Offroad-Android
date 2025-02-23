@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.home.presentation.component.upload
+package com.teamoffroad.feature.home.presentation.component
 
 import android.content.Context
 import android.content.Intent
@@ -82,7 +82,8 @@ suspend fun downloadAndConvertImage(context: Context, imageUrl: String): Uri? {
         }
     }
 }
-private suspend fun showToast(context: Context, message: String) {
+
+suspend fun showToast(context: Context, message: String) {
     withContext(Dispatchers.Main) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }

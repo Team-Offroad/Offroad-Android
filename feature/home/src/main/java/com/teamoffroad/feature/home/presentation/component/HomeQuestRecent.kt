@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.home.presentation.component.quest.progressbar
+package com.teamoffroad.feature.home.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -17,8 +17,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Contents1
 import com.teamoffroad.feature.home.presentation.HomeViewModel
-import com.teamoffroad.feature.home.presentation.component.quest.ContentsContainer
-import com.teamoffroad.feature.home.presentation.component.quest.ContentsTitle
 import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 import com.teamoffroad.offroad.feature.home.R
 

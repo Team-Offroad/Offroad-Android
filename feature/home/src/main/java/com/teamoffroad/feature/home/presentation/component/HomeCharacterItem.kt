@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.home.presentation.component.character
+package com.teamoffroad.feature.home.presentation.component
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -42,12 +42,10 @@ import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.Sub55
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.home.presentation.HomeViewModel
-import com.teamoffroad.feature.home.presentation.component.UiState
-import com.teamoffroad.feature.home.presentation.component.dialog.ChangeEmblemDialog
 import com.teamoffroad.feature.home.presentation.model.UserChangeEmblemDialogStateModel
 import com.teamoffroad.offroad.feature.home.R
 
-class CharacterItem {
+class HomeCharacterItem {
 
     @Composable
     fun CharacterImage(

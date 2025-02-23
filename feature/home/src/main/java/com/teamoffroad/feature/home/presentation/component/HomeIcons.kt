@@ -31,7 +31,6 @@ import androidx.core.content.ContextCompat
 import com.teamoffroad.characterchat.presentation.model.CharacterChatLastUnreadUiState
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.ErrorNew
-import com.teamoffroad.feature.home.presentation.component.upload.uploadImage
 import com.teamoffroad.offroad.feature.home.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -189,11 +188,5 @@ private fun showCharacterChatExist(
                 style = Fill
             )
         }
-    }
-}
-
-suspend fun showToast(context: Context, message: String) {
-    withContext(Dispatchers.Main) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 }
