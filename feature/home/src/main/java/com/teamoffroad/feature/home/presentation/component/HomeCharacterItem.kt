@@ -42,7 +42,7 @@ import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.Sub55
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.home.presentation.HomeViewModel
-import com.teamoffroad.feature.home.presentation.model.UserChangeEmblemDialogStateModel
+import com.teamoffroad.feature.home.presentation.model.HomeUserChangeEmblemDialogStateModel
 import com.teamoffroad.offroad.feature.home.R
 
 class HomeCharacterItem {
@@ -152,8 +152,8 @@ class HomeCharacterItem {
         val viewModel: HomeViewModel = hiltViewModel()
         val emblemState = viewModel.patchEmblemState.collectAsState(initial = UiState.Loading).value
         val userEmblem = viewModel.selectedEmblem.collectAsState().value
-        val userChangeEmblemDialogStateModel =
-            remember { mutableStateOf<UserChangeEmblemDialogStateModel?>(null) }
+        val homeUserChangeEmblemDialogStateModel =
+            remember { mutableStateOf<HomeUserChangeEmblemDialogStateModel?>(null) }
         val interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 
         val isChangeEmblemDialogShown = remember { mutableStateOf(false) }
@@ -190,11 +190,11 @@ class HomeCharacterItem {
             if (isChangeEmblemDialogShown.value) {
                 ChangeEmblemDialog(
                     showDialog = isChangeEmblemDialogShown,
-                    userChangeEmblemDialogStateModel = userChangeEmblemDialogStateModel,
+                    homeUserChangeEmblemDialogStateModel = homeUserChangeEmblemDialogStateModel,
                     originEmblem = userEmblem,
                     onClickCancel = {
                         isChangeEmblemDialogShown.value = false
-                        userChangeEmblemDialogStateModel.value?.onClickCancel
+                        homeUserChangeEmblemDialogStateModel.value?.onClickCancel
                     },
                     onCharacterChange = { emblem ->
                         if (emblem != null) {
