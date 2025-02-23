@@ -47,12 +47,12 @@ import com.teamoffroad.offroad.feature.characterchat.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatTextField(
-    modifier: Modifier = Modifier,
     text: String = "",
     isChatting: Boolean = false,
     onValueChange: (String) -> Unit = {},
     onFocusChange: (Boolean) -> Unit = {},
     onSendClick: () -> Unit = {},
+    modifier: Modifier = Modifier,
 ) {
     val scrollState = rememberScrollState()
     val focusRequester = remember { FocusRequester() }

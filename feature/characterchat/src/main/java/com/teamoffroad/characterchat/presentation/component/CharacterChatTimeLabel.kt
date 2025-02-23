@@ -12,8 +12,8 @@ import java.util.Locale
 
 @Composable
 fun TimeLabel(
-    modifier: Modifier = Modifier,
     time: Triple<TimeType, Int, Int>,
+    modifier: Modifier = Modifier,
 ) {
     Text(
         text = "${time.first.krName} ${time.second}:${String.format(Locale.getDefault(), "%02d", time.third)}",

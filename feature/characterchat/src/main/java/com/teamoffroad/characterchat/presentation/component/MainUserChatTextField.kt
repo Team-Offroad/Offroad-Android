@@ -59,7 +59,6 @@ import com.teamoffroad.offroad.feature.characterchat.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainUserChatTextField(
-    modifier: Modifier = Modifier,
     text: String = "",
     userChatUiState: State<UserChattingUiState>,
     characterChatUiState: State<CharacterChattingUiState>,
@@ -67,12 +66,11 @@ fun MainUserChatTextField(
     keyboard: Boolean,
     onValueChange: (String) -> Unit = {},
     onSendClick: () -> Unit = {},
+    modifier: Modifier = Modifier,
 ) {
     val scrollState = rememberScrollState()
     val focusRequester = remember { FocusRequester() }
-    val focusManager = LocalFocusManager.current
     val contextView = LocalView.current
-    var showLottieLoading by remember { mutableStateOf(false) }
 
     var keyboardVisible by remember { mutableStateOf(keyboard) }
 
@@ -104,7 +102,7 @@ fun MainUserChatTextField(
         visible = userChatUiState.value.showUserChatTextField,
     ) {
         Box(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .background(
