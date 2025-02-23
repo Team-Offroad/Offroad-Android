@@ -23,15 +23,15 @@ import com.teamoffroad.offroad.feature.home.R
 
 @Composable
 fun CloseCompleteRequest(
-    modifier: Modifier = Modifier,
     data: HomeProgressBarModel,
     viewModel: HomeViewModel,
+    modifier: Modifier = Modifier,
 ) {
     viewModel.updateLinearProgressBar(data.amount.toFloat(), data.total.toFloat())
 
     Surface(
         color = Contents2,
-        modifier = modifier
+        modifier = Modifier
             .clip(shape = RoundedCornerShape(10.dp))
     ) {
         Column(

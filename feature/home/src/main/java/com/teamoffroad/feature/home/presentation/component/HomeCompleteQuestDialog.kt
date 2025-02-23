@@ -30,23 +30,23 @@ fun CompleteQuestDialog(
     isCompleteQuestDialogShown: MutableState<Boolean>,
     completeQuests: List<String> = emptyList(),
     onClickCancel: () -> Unit,
-    modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(14.dp),
     backgroundColor: Color = Main3,
-    textColor: Color = Main2
+    textColor: Color = Main2,
+    modifier: Modifier = Modifier,
 ) {
     Dialog(
         onDismissRequest = { onClickCancel() },
         properties = DialogProperties(dismissOnClickOutside = false, dismissOnBackPress = true)
     ) {
         Card(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .height(218.dp),
             shape = shape
         ) {
             Column(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxSize()
                     .background(backgroundColor)
                     .padding(vertical = 24.dp, horizontal = 40.dp)
@@ -55,12 +55,12 @@ fun CompleteQuestDialog(
                     text = stringResource(id = R.string.home_complete_quest),
                     color = textColor,
                     style = OffroadTheme.typography.title,
-                    modifier = modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center
                 )
 
                 Text(
-                    modifier = modifier
+                    modifier = Modifier
                         .weight(1f)
                         .fillMaxWidth()
                         .padding(top = 14.dp),
