@@ -62,9 +62,18 @@ class DiaryViewModel @Inject constructor(
         }
     }
 
-    fun backButtonClickListener() {
+    fun updateNavigationBackState() {
         viewModelScope.launch {
             _diarySideEffect.send(DiarySideEffect.NavigateBack)
         }
+    }
+
+    fun updateHintDialogState(state: Boolean) {
+        viewModelScope.launch {
+            _diaryUiState.value = diaryUiState.value.copy(
+                dialogVisibility = if(state) DiaryHintDialogState.HintDialogVisible else DiaryHintDialogState.HintDialogInVisible
+            )
+        }
+
     }
 }

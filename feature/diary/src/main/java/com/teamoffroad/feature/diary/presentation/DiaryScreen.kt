@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.diary.presentation
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -23,6 +24,7 @@ import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.diary.component.DiaryHeader
+import com.teamoffroad.feature.diary.component.DiaryHintDialog
 import com.teamoffroad.feature.diary.component.OrbDiary
 import com.teamoffroad.feature.diary.component.OrbDiaryEmpty
 import com.teamoffroad.offroad.feature.diary.R
@@ -54,28 +56,27 @@ fun DiaryScreen(
     }
 
     BackHandler {
-        viewModel.backButtonClickListener()
+        viewModel.updateNavigationBackState()
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.navigationPadding().fillMaxSize()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Main1)
-                .navigationPadding()
                 .actionBarPadding(),
         ) {
             NavigateBackAppBar(
                 text = stringResource(id = R.string.diary_back_home),
                 modifier = Modifier.padding(top = 20.dp)
             ) {
-                viewModel.backButtonClickListener()
+                viewModel.updateNavigationBackState()
             }
             DiaryHeader(
-                text = stringResource(id = R.string.diary_memory_ligth),
-                {}
-                //TODO.가이드버튼
-            )
+                text = stringResource(id = R.string.diary_memory_ligth)
+            ) {
+                viewModel.updateHintDialogState(true)
+            }
             HorizontalDivider(
                 color = Gray100,
                 thickness = 1.dp,
@@ -97,6 +98,16 @@ fun DiaryScreen(
                         modifier = Modifier.padding(top = 20.dp),
                         diaryUiState = diaryUiState
                     )
+            }
+        }
+        when(diaryUiState.dialogVisibility) {
+            DiaryHintDialogState.HintDialogVisible -> {
+                DiaryHintDialog() {
+
+                }
+            }
+            DiaryHintDialogState.HintDialogInVisible -> {
+                Log.d("asdasdasd", "no showHint")
             }
         }
     }
