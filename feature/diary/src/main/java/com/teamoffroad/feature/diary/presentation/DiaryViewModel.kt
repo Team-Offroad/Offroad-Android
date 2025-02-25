@@ -74,6 +74,5 @@ class DiaryViewModel @Inject constructor(
                 dialogVisibility = if(state) DiaryHintDialogState.HintDialogVisible else DiaryHintDialogState.HintDialogInVisible
             )
         }
-
     }
 }

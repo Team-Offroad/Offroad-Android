@@ -106,9 +106,6 @@ fun DiaryScreen(
                     onCancelClick = viewModel::updateHintDialogState
                 )
             }
-            DiaryHintDialogState.HintDialogInVisible -> {
-                Log.d("asdasdasd", "no showHint")
-            }
         }
     }
 }

@@ -33,12 +33,14 @@ import kotlinx.coroutines.launch
 @Composable
 fun DiaryHintDialog(
     modifier: Modifier = Modifier,
+    firstPage: Int = 0,
+    secondPage: Int = 1,
     onCancelClick: (Boolean) -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val pagerState = rememberPagerState(initialPage = 0, pageCount = { 2 })
+    val pagerState = rememberPagerState(initialPage = firstPage, pageCount = { secondPage + 1 })
 
-    BackHandler(enabled = pagerState.currentPage == 0 || pagerState.currentPage == 1) {
+    BackHandler(enabled = pagerState.currentPage == firstPage || pagerState.currentPage == secondPage) {
         coroutineScope.launch {
             when (pagerState.currentPage) {
                 0 -> onCancelClick(false)
@@ -111,7 +113,6 @@ fun DiaryHintDialog(
                 color = White,
                 style = OffroadTheme.typography.textRegular,
             )
-
         }
     }
 }
