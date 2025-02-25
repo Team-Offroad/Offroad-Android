@@ -1,15 +1,14 @@
 package com.teamoffroad.feature.diary.component
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
@@ -17,24 +16,38 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Black
-import com.teamoffroad.core.designsystem.theme.DiaryProgressBar
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.offroad.feature.diary.R
+import kotlinx.coroutines.launch
 
 @Composable
 fun DiaryHintDialog(
     modifier: Modifier = Modifier,
-    onCancelClick: () -> Unit,
+    onCancelClick: (Boolean) -> Unit,
 ) {
+    val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(initialPage = 0, pageCount = { 2 })
+
+    BackHandler(enabled = pagerState.currentPage == 0 || pagerState.currentPage == 1) {
+        coroutineScope.launch {
+            when (pagerState.currentPage) {
+                0 -> onCancelClick(false)
+                1 -> pagerState.animateScrollToPage(
+                    pagerState.currentPage - 1,
+                )
+            }
+        }
+    }
 
     Column(
         modifier = modifier
@@ -44,21 +57,21 @@ fun DiaryHintDialog(
         Image(
             modifier = Modifier
                 .padding(top = 65.dp, bottom = 40.dp)
-                .padding(end = 32.dp)
-                .align(Alignment.End),
+                .padding(end = 20.dp)
+                .align(Alignment.End)
+                .clickableWithoutRipple { onCancelClick(false) },
             painter = painterResource(id = R.drawable.ic_diary_dialog_close),
             contentDescription = "close"
         )
         HorizontalPager(
             modifier = Modifier.weight(1f),
+            verticalAlignment = Alignment.Top,
             state = pagerState,
             userScrollEnabled = false,
         ) { page ->
             when (page) {
-                0 -> {
-                    Image(painter = painterResource(id = R.drawable.img_diary_empty), contentDescription = "dummy")
-                }
-                1 -> {}
+                0 -> DiaryHintFirstScreen()
+                1 -> DiaryHintSecondScreen()
             }
         }
         Row(
@@ -67,26 +80,29 @@ fun DiaryHintDialog(
                 .padding(top = 52.dp, bottom = 77.dp),
             horizontalArrangement = Arrangement.Center,
         ) {
-            Box(
-                modifier = Modifier
-                    .background(color = DiaryProgressBar, shape = RoundedCornerShape(14.dp))
-                    .width(17.dp)
-                    .height(4.dp)
-            )
+            DiaryHintProgressIndicator(animateActive = pagerState.currentPage >= 0)
             Spacer(modifier = Modifier.width(7.dp))
-            Box(
-                modifier = Modifier
-                    .background(color = DiaryProgressBar, shape = RoundedCornerShape(14.dp))
-                    .width(17.dp)
-                    .height(4.dp)
-            )
+            DiaryHintProgressIndicator(animateActive = pagerState.currentPage >= 1)
+
         }
         Column(
             modifier = Modifier
                 .padding(horizontal = 24.dp)
                 .padding(bottom = 25.dp)
                 .background(color = Sub, shape = RoundedCornerShape(5.dp))
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .clickableWithoutRipple {
+                    when (pagerState.currentPage) {
+                        0 -> coroutineScope.launch {
+                            pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                        }
+
+                        1 -> {
+                            onCancelClick(false)
+                            //TODO. 튜토리얼완료 api 쏘기
+                        }
+                    }
+                },
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
@@ -97,7 +113,5 @@ fun DiaryHintDialog(
             )
 
         }
-
-
     }
 }

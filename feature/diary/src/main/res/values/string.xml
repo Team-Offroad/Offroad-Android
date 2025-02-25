@@ -7,4 +7,9 @@
     <string name="diary_year">년</string>
     <string name="diary_month">월</string>
     <string name="diary_dialog_next">다음</string>
+    <string name="diary_dialog_hint_first_title">오브와 대화를 나누거나\n함께 탐험을 떠나면,\n매일 기록을 모아 오브가 일기를 써요.</string>
+    <string name="diary_dialog_hint_first_content">일기를 받기 위해선\n오브와 충분한 시간을 보내야해요.</string>
+    <string name="diary_dialog_hint_second_title">이건 기억빛이에요.</string>
+    <string name="diary_dialog_hint_second_content">그 날의 기억에 따라\n다른 색으로 칠해져요.\n오늘은 어떤 색의 하루였나요?</string>
+
 </resources>
