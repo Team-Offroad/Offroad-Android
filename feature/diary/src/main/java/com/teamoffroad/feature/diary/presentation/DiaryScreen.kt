@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.diary.presentation
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -27,6 +26,7 @@ import com.teamoffroad.feature.diary.component.DiaryHeader
 import com.teamoffroad.feature.diary.component.DiaryHintDialog
 import com.teamoffroad.feature.diary.component.OrbDiary
 import com.teamoffroad.feature.diary.component.OrbDiaryEmpty
+import com.teamoffroad.feature.diary.component.TimeSettingDialog
 import com.teamoffroad.offroad.feature.diary.R
 import kotlinx.coroutines.flow.collectLatest
 
@@ -34,6 +34,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun DiaryScreen(
     navigateToBack: () -> Unit,
     navigateToCharacterChat: (String) -> Unit,
+    navigateToDiaryTime: () -> Unit,
     viewModel: DiaryViewModel = hiltViewModel()
 ) {
     val diaryUiState by viewModel.diaryUiState.collectAsState()
@@ -44,6 +45,7 @@ fun DiaryScreen(
                 }
 
                 DiarySideEffect.NavigateBack -> navigateToBack()
+                DiarySideEffect.NavigateDiaryTime -> navigateToDiaryTime()
             }
         }
     }
@@ -59,7 +61,11 @@ fun DiaryScreen(
         viewModel.updateNavigationBackState()
     }
 
-    Box(modifier = Modifier.navigationPadding().fillMaxSize()) {
+    Box(
+        modifier = Modifier
+            .navigationPadding()
+            .fillMaxSize()
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -100,12 +106,22 @@ fun DiaryScreen(
                     )
             }
         }
-        when(diaryUiState.dialogVisibility) {
+        when (diaryUiState.dialogVisibility) {
             DiaryHintDialogState.HintDialogVisible -> {
                 DiaryHintDialog(
-                    onCancelClick = viewModel::updateHintDialogState
+                    onCancelClick = viewModel::updateHintDialogState,
+                    updateTimeSettingDialogState = viewModel::updateTimeSettingDialogState
                 )
             }
+        }
+        when (diaryUiState.timeSettingDialogVisibility) {
+            true -> TimeSettingDialog(
+                onClick = {},
+                onSettingClick = viewModel::updateTimeSettingDialogState,
+                navigateDiaryTime = viewModel::updateNavigationDiaryTime
+            )
+
+            false -> {}
         }
     }
 }

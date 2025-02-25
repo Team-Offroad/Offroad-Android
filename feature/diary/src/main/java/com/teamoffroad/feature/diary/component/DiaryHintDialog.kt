@@ -36,6 +36,7 @@ fun DiaryHintDialog(
     firstPage: Int = 0,
     secondPage: Int = 1,
     onCancelClick: (Boolean) -> Unit,
+    updateTimeSettingDialogState: (Boolean) -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(initialPage = firstPage, pageCount = { secondPage + 1 })
@@ -100,6 +101,7 @@ fun DiaryHintDialog(
                         }
 
                         1 -> {
+                            updateTimeSettingDialogState(true)
                             onCancelClick(false)
                             //TODO. 튜토리얼완료 api 쏘기
                         }

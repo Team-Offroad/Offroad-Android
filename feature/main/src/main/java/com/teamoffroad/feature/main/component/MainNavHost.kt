@@ -113,6 +113,7 @@ internal fun MainNavHost(
             diaryNavGraph(
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
                 navigateToCharacterChat = navigator::navigateToCharacterChat,
+                navigateToDiaryTime = navigator::navigateToDiaryTime
             )
         }
     }

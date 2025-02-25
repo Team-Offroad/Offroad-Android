@@ -68,10 +68,24 @@ class DiaryViewModel @Inject constructor(
         }
     }
 
+    fun updateNavigationDiaryTime() {
+        viewModelScope.launch {
+            _diarySideEffect.send(DiarySideEffect.NavigateDiaryTime)
+        }
+    }
+
     fun updateHintDialogState(state: Boolean) {
         viewModelScope.launch {
             _diaryUiState.value = diaryUiState.value.copy(
-                dialogVisibility = if(state) DiaryHintDialogState.HintDialogVisible else DiaryHintDialogState.HintDialogInVisible
+                dialogVisibility = if (state) DiaryHintDialogState.HintDialogVisible else DiaryHintDialogState.HintDialogInVisible
+            )
+        }
+    }
+
+    fun updateTimeSettingDialogState(state: Boolean) {
+        viewModelScope.launch {
+            _diaryUiState.value = diaryUiState.value.copy(
+                timeSettingDialogVisibility = state
             )
         }
     }
