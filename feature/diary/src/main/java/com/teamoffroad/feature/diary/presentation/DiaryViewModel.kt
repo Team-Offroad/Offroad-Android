@@ -1,7 +1,11 @@
 package com.teamoffroad.feature.diary.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.teamoffroad.feature.diary.presentation.model.DiaryHintDialogState
+import com.teamoffroad.feature.diary.presentation.model.DiarySideEffect
+import com.teamoffroad.feature.diary.presentation.model.DiaryUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -88,5 +92,14 @@ class DiaryViewModel @Inject constructor(
                 timeSettingDialogVisibility = state
             )
         }
+    }
+
+    fun updateMemoryLightState(date: String?) {
+        viewModelScope.launch {
+            _diaryUiState.value = diaryUiState.value.copy(
+                memoryLigthVisibility = date
+            )
+        }
+        Log.d("asdasd", diaryUiState.value.memoryLigthVisibility.toString())
     }
 }

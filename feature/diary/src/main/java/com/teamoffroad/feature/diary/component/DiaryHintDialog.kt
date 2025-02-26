@@ -1,8 +1,10 @@
 package com.teamoffroad.feature.diary.component
 
+import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,6 +32,7 @@ import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.offroad.feature.diary.R
 import kotlinx.coroutines.launch
 
+@SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
 fun DiaryHintDialog(
     modifier: Modifier = Modifier,
@@ -54,6 +57,9 @@ fun DiaryHintDialog(
 
     Column(
         modifier = modifier
+            .clickableWithoutRipple(
+                interactionSource = MutableInteractionSource()
+            ) {}
             .fillMaxSize()
             .background(Black.copy(alpha = 0.8f))
     ) {

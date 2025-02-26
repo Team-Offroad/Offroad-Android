@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.diary.presentation
+package com.teamoffroad.feature.diary.presentation.model
 
 interface DiaryHintDialogState {
     data object HintDialogInVisible : DiaryHintDialogState

@@ -24,9 +24,12 @@ import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.diary.component.DiaryHeader
 import com.teamoffroad.feature.diary.component.DiaryHintDialog
+import com.teamoffroad.feature.diary.component.MemoryLightScreen
 import com.teamoffroad.feature.diary.component.OrbDiary
 import com.teamoffroad.feature.diary.component.OrbDiaryEmpty
 import com.teamoffroad.feature.diary.component.TimeSettingDialog
+import com.teamoffroad.feature.diary.presentation.model.DiaryHintDialogState
+import com.teamoffroad.feature.diary.presentation.model.DiarySideEffect
 import com.teamoffroad.offroad.feature.diary.R
 import kotlinx.coroutines.flow.collectLatest
 
@@ -102,7 +105,8 @@ fun DiaryScreen(
                 else
                     OrbDiary(
                         modifier = Modifier.padding(top = 20.dp),
-                        diaryUiState = diaryUiState
+                        diaryUiState = diaryUiState,
+                        dateButtonClick = viewModel::updateMemoryLightState
                     )
             }
         }
@@ -122,6 +126,14 @@ fun DiaryScreen(
             )
 
             false -> {}
+        }
+
+        diaryUiState.memoryLigthVisibility?.let {
+            MemoryLightScreen(
+                modifier = Modifier.fillMaxSize(),
+                memoryLightList = diaryUiState.memoryLightList,
+                onCancelClick = viewModel::updateMemoryLightState,
+            )
         }
     }
 }

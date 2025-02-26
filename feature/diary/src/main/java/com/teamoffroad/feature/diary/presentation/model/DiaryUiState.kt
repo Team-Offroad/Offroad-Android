@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.diary.presentation
+package com.teamoffroad.feature.diary.presentation.model
 
 data class DiaryUiState(
     val latestDiary: List<String> = emptyList(),
@@ -6,7 +6,9 @@ data class DiaryUiState(
     val firstDiaryMonth: Int = 0,
     val dialogVisibility: DiaryHintDialogState = DiaryHintDialogState.HintDialogInVisible,
     val timeSettingDialogVisibility: Boolean = false,
-    )
+    val memoryLigthVisibility: String? = null,
+    val memoryLightList: List<MemoryLight> = emptyList()
+)
 
 sealed interface DiarySideEffect {
     data object Empty : DiarySideEffect

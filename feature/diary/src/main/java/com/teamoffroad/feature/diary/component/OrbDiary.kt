@@ -45,7 +45,7 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Stroke
 import com.teamoffroad.core.designsystem.theme.TooltipTitle
 import com.teamoffroad.core.designsystem.theme.White
-import com.teamoffroad.feature.diary.presentation.DiaryUiState
+import com.teamoffroad.feature.diary.presentation.model.DiaryUiState
 import com.teamoffroad.offroad.feature.diary.R
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -60,6 +60,7 @@ fun OrbDiary(
     diaryUiState: DiaryUiState,
     yearRange: IntRange = IntRange(2025, 2100),
     maxMonth: Int = 12,
+    dateButtonClick: (String) -> Unit,
 ) {
     val initialPage = (currentDate.year - yearRange.first) * maxMonth + currentDate.monthValue - 1
     val pageCount = (yearRange.last - yearRange.first) * maxMonth
@@ -101,7 +102,7 @@ fun OrbDiary(
                     modifier = Modifier,
                     currentDate = date,
                     dailyHexCodes = diaryUiState.dailyHexCodes,
-                    onSelectedDate = {}
+                    dateButtonClick = dateButtonClick
                 )
             }
         }
@@ -156,7 +157,7 @@ fun OrbDiaryItems(
     modifier: Modifier = Modifier,
     currentDate: LocalDate,
     dailyHexCodes: Map<Int, List<String>>,
-    onSelectedDate: () -> Unit
+    dateButtonClick: (String) -> Unit
 ) {
     val lastDay by remember { mutableIntStateOf(currentDate.lengthOfMonth()) }
     val firstDay by remember { mutableIntStateOf(currentDate.withDayOfMonth(1).dayOfWeek.value % 7 + 1) }
@@ -194,7 +195,7 @@ fun OrbDiaryItems(
                         .padding(top = 20.dp),
                     date = date,
                     dailyHexCodes = dailyHexCodes,
-                    dateButtonClick = onSelectedDate
+                    dateButtonClick = dateButtonClick
                 )
             }
         }
@@ -206,7 +207,7 @@ fun OrbDiaryCell(
     modifier: Modifier = Modifier,
     date: LocalDate,
     dailyHexCodes: Map<Int, List<String>>,
-    dateButtonClick: () -> Unit
+    dateButtonClick: (String) -> Unit
 ) {
     val backgroundColor = if (dailyHexCodes.containsKey(date.dayOfMonth)) {
         Brush.linearGradient(
@@ -219,10 +220,13 @@ fun OrbDiaryCell(
         SolidColor(BoxInfo)
     }
 
-
     Box(
         modifier = modifier
-            .clickableWithoutRipple { dateButtonClick() },
+            .clickableWithoutRipple {
+                if (backgroundColor != SolidColor(BoxInfo)) dateButtonClick(
+                    date.toString()
+                )
+            },
         contentAlignment = Alignment.Center,
     ) {
         Box(
