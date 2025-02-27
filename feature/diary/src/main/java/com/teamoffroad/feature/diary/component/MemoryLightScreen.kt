@@ -6,6 +6,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -22,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlurEffect
 import androidx.compose.ui.graphics.Brush
@@ -30,6 +32,7 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
@@ -50,6 +53,7 @@ fun MemoryLightScreen(
     onCancelClick: (String?) -> Unit,
 ) {
     val pagerState = rememberPagerState(initialPage = 0, pageCount = { 2 })
+
     BackHandler {
         onCancelClick(null)
     }
@@ -58,19 +62,20 @@ fun MemoryLightScreen(
             .clickableWithoutRipple(
                 interactionSource = MutableInteractionSource()
             ) {}
-            //TODO. 배경그라디언트 적용하기
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFF70DAFF),
-                        Color(0xFF5580FF)
-                    )
+            .drawBehind {
+                drawRect(
+                    brush = Brush.radialGradient(
+                        colors = listOf(Color(0xFF70DAFF), Color(0xFF5580FF)),
+                        center = Offset(0f, 0f),
+                        radius = size.minDimension
+                    ),
+                    size = size
                 )
-            )
+            }
     ) {
         Image(
             modifier = Modifier
-                .padding(top = 65.dp, bottom = 48.dp)
+                .padding(top = 65.dp, bottom = 30.dp)
                 .padding(end = 20.dp)
                 .align(Alignment.End)
                 .clickableWithoutRipple { onCancelClick(null) },
@@ -78,15 +83,29 @@ fun MemoryLightScreen(
             contentDescription = "close"
         )
         HorizontalPager(
-            modifier = Modifier.padding(bottom = 32.dp),
+            modifier = Modifier.padding(bottom = 28.dp),
             state = pagerState
-        ) { page ->
+        ) {
             MemoryLightItems()
         }
         Row(
-            modifier = Modifier.padding(bottom = 64.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickableWithoutRipple {
+                },
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
         ) {
-
+            Image(
+                modifier = Modifier.padding(end = 10.dp),
+                painter = painterResource(id = R.drawable.ic_diary_memory_light_share),
+                contentDescription = "share"
+            )
+            Text(
+                text = stringResource(id = R.string.diary_memory_light_share),
+                color = White,
+                style = OffroadTheme.typography.textRegular,
+            )
         }
     }
 }
@@ -97,6 +116,7 @@ private fun MemoryLightItems(
 ) {
     Box(
         modifier = modifier
+            .padding(horizontal = 24.dp)
             .background(color = White, shape = RoundedCornerShape(20.dp))
             .fillMaxWidth()
     ) {
@@ -135,7 +155,7 @@ private fun MemoryLightItems(
             DottedHorizontalDivider()
             Text(
                 modifier = Modifier.padding(bottom = 12.dp),
-                text = "오늘의 추천",
+                text = stringResource(id = R.string.diary_memory_light_today_recommend),
                 color = Sub,
                 style = OffroadTheme.typography.textContents
             )

@@ -100,6 +100,5 @@ class DiaryViewModel @Inject constructor(
                 memoryLigthVisibility = date
             )
         }
-        Log.d("asdasd", diaryUiState.value.memoryLigthVisibility.toString())
     }
 }

@@ -82,7 +82,7 @@ fun DiaryScreen(
                 viewModel.updateNavigationBackState()
             }
             DiaryHeader(
-                text = stringResource(id = R.string.diary_memory_ligth)
+                text = stringResource(id = R.string.diary_memory_light)
             ) {
                 viewModel.updateHintDialogState(true)
             }
