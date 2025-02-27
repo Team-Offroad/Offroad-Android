@@ -24,6 +24,7 @@ import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.diary.component.DiaryHeader
 import com.teamoffroad.feature.diary.component.DiaryHintDialog
+import com.teamoffroad.feature.diary.component.DiaryTimeBottomSheet
 import com.teamoffroad.feature.diary.component.MemoryLightScreen
 import com.teamoffroad.feature.diary.component.OrbDiary
 import com.teamoffroad.feature.diary.component.OrbDiaryEmpty
@@ -106,7 +107,8 @@ fun DiaryScreen(
                     OrbDiary(
                         modifier = Modifier.padding(top = 20.dp),
                         diaryUiState = diaryUiState,
-                        dateButtonClick = viewModel::updateMemoryLightState
+                        dateButtonClick = viewModel::updateMemoryLightState,
+                        diaryTitleClick = viewModel::updateBottomSheetState,
                     )
             }
         }
@@ -134,6 +136,14 @@ fun DiaryScreen(
                 memoryLightList = diaryUiState.memoryLightList,
                 onCancelClick = viewModel::updateMemoryLightState,
             )
+        }
+
+        when (diaryUiState.bottomSheetVisibility) {
+            true -> DiaryTimeBottomSheet(
+                diaryTitleClick = viewModel::updateBottomSheetState
+            )
+
+            false -> {}
         }
     }
 }

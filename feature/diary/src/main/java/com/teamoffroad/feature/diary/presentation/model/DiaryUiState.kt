@@ -7,7 +7,8 @@ data class DiaryUiState(
     val dialogVisibility: DiaryHintDialogState = DiaryHintDialogState.HintDialogInVisible,
     val timeSettingDialogVisibility: Boolean = false,
     val memoryLigthVisibility: String? = null,
-    val memoryLightList: List<MemoryLight> = emptyList()
+    val memoryLightList: List<MemoryLight> = emptyList(),
+    val bottomSheetVisibility: Boolean = false,
 )
 
 sealed interface DiarySideEffect {

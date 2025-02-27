@@ -61,6 +61,7 @@ fun OrbDiary(
     yearRange: IntRange = IntRange(2025, 2100),
     maxMonth: Int = 12,
     dateButtonClick: (String) -> Unit,
+    diaryTitleClick: (Boolean) -> Unit,
 ) {
     val initialPage = (currentDate.year - yearRange.first) * maxMonth + currentDate.monthValue - 1
     val pageCount = (yearRange.last - yearRange.first) * maxMonth
@@ -86,7 +87,8 @@ fun OrbDiary(
                 .padding(top = 42.dp, bottom = 26.dp)
                 .fillMaxWidth()
                 .align(Alignment.CenterHorizontally),
-            text = currentYearAndMonth
+            text = currentYearAndMonth,
+            diaryTitleClick = diaryTitleClick,
         )
         HorizontalPager(
             modifier = Modifier,
@@ -113,6 +115,7 @@ fun OrbDiary(
 fun OrbDiaryHeader(
     modifier: Modifier = Modifier,
     text: YearMonth,
+    diaryTitleClick: (Boolean) -> Unit,
 ) {
     Row(
         modifier = modifier,
@@ -131,7 +134,9 @@ fun OrbDiaryHeader(
             )
         }
         Text(
-            modifier = Modifier.padding(horizontal = 30.dp),
+            modifier = Modifier
+                .padding(horizontal = 30.dp)
+                .clickableWithoutRipple { diaryTitleClick(true) },
             text = text.year.toString() + stringResource(R.string.diary_year) + " " +
                     text.monthValue + stringResource(R.string.diary_month),
             color = TooltipTitle,

@@ -137,4 +137,12 @@ class DiaryViewModel @Inject constructor(
             )
         }
     }
+
+    fun updateBottomSheetState(state: Boolean) {
+        viewModelScope.launch {
+            _diaryUiState.value = diaryUiState.value.copy(
+                bottomSheetVisibility = state
+            )
+        }
+    }
 }
