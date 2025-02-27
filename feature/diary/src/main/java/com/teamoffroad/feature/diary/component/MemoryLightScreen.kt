@@ -85,8 +85,10 @@ fun MemoryLightScreen(
         HorizontalPager(
             modifier = Modifier.padding(bottom = 28.dp),
             state = pagerState
-        ) {
-            MemoryLightItems()
+        ) { page ->
+            MemoryLightItems(
+                memoryLight = memoryLightList[page]
+            )
         }
         Row(
             modifier = Modifier
@@ -112,10 +114,12 @@ fun MemoryLightScreen(
 
 @Composable
 private fun MemoryLightItems(
+    memoryLight: MemoryLight,
     modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier
+            .height(515.dp)
             .padding(horizontal = 24.dp)
             .background(color = White, shape = RoundedCornerShape(20.dp))
             .fillMaxWidth()
@@ -129,24 +133,26 @@ private fun MemoryLightItems(
             Text(
                 modifier = Modifier
                     .padding(bottom = 28.dp),
-                text = "2025년 2월 11일\n오늘의 기억빛",
+                text = stringResource(
+                    id = R.string.diary_memory_light_title,
+                    memoryLight.year,
+                    memoryLight.month,
+                    memoryLight.day,
+                ),
                 color = White,
                 style = OffroadTheme.typography.subtitle2Semibold
             )
             Text(
                 modifier = Modifier.padding(bottom = 16.dp),
-                text = "오늘의 기억을 AI가 한 줄로 요약합니다.",
+                text = memoryLight.summation,
                 color = Main2,
                 style = OffroadTheme.typography.textBold
             )
             Text(
-                modifier = Modifier.padding(bottom = 32.dp),
-                text = "그리고 오늘의 기억을 오늘 하루동안 나눈 대화, 방문한 장소, " +
-                        "시간 데이터를 바탕으로 요약합니다. 이때 단순 요약이 아니라 AI가 남기는" +
-                        " 일종의 메시지 형태라고 보시면 될 것 같고 앞으로에 대한 기대, 응원," +
-                        " 위로 등의 내용이 담겨 있습니다. 앞으로에 대한 기대, 응원, 위로 등의" +
-                        " 내용이 담겨 있습니다. 내용이 담겨 있습니다. 앞으로에 대한 기대, 응원," +
-                        " 위로 등의 내용이 담겨 있습니다.",
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(bottom = 32.dp),
+                text = memoryLight.content,
                 color = Main2,
                 style = OffroadTheme.typography.boxMedi.copy(
                     lineHeight = 20.sp
@@ -179,7 +185,7 @@ private fun MemoryLightItems(
                     )
                     Text(
                         modifier = Modifier.padding(PaddingValues(vertical = 15.dp)),
-                        text = "내일 묵은지 돼지갈비 왕목살 세트 어때요?",
+                        text = memoryLight.dailyRecommend,
                         color = Main2,
                         style = OffroadTheme.typography.marketing,
                     )
