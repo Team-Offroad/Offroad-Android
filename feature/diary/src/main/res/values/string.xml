@@ -20,4 +20,5 @@
     <string name="diary_memory_light_share">공유하기</string>
     <string name="diary_memory_light_today_recommend">오늘의 추천</string>
     <string name="diary_memory_light_title">%d년 %d월 %d일\n오늘의 기억빛</string>
+    <string name="diary_time_picker_success">완료</string>
 </resources>

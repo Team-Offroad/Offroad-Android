@@ -10,6 +10,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":feature:mypage"))
     implementation(libs.androidx.appcompat)
     implementation(libs.kotlinx.immutable)
 }

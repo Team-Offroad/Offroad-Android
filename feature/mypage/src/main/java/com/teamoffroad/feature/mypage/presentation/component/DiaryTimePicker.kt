@@ -63,9 +63,13 @@ fun Picker(
     timeDivider: Boolean = false,
     width: Dp,
     isInfinitelyScroll: Boolean = true,
+    isCalendar: Boolean = false,
 ) {
     val adjustedItems = if (!isInfinitelyScroll) {
-        listOf(null) + items + listOf(null)
+        when (isCalendar) {
+            true -> List(3) { null } + items + List(3) { null }
+            false -> listOf(null) + items + listOf(null)
+        }
     } else {
         items
     }
@@ -79,10 +83,13 @@ fun Picker(
     }
     val listScrollMiddle = listScrollCount / 2
     val listStartIndex = remember {
-        if (isInfinitelyScroll) {
-            listScrollMiddle - listScrollMiddle % adjustedItems.size - visibleItemsMiddle + startIndex
-        } else {
-            startIndex + 1
+        when (isCalendar) {
+            true -> listScrollCount
+            false -> if (isInfinitelyScroll) {
+                listScrollMiddle - listScrollMiddle % adjustedItems.size - visibleItemsMiddle + startIndex
+            } else {
+                startIndex + 1
+            }
         }
     }
 
@@ -92,9 +99,8 @@ fun Picker(
     val flingBehavior = rememberSnapFlingBehavior(lazyListState = listState)
 
     val itemHeight = with(density) {
-        selectedTextStyle.fontSize.toDp() + PaddingValues(8.dp).calculateTopPadding() + PaddingValues(
-            8.dp
-        ).calculateBottomPadding()
+        selectedTextStyle.fontSize.toDp() + PaddingValues(if (isCalendar) 4.dp else 8.dp).calculateTopPadding() +
+                PaddingValues(if (isCalendar) 4.dp else 8.dp).calculateBottomPadding()
     }
 
     val fadingEdgeGradient = remember {
@@ -118,7 +124,8 @@ fun Picker(
             .collect { item -> pickerState.selectedItem = item }
     }
 
-    Box(modifier = modifier.padding(top = 1.dp)
+    Box(
+        modifier = modifier.padding(top = 1.dp)
     ) {
         LazyColumn(
             state = listState,
