@@ -145,4 +145,12 @@ class DiaryViewModel @Inject constructor(
             )
         }
     }
+
+    fun updateDiaryCalendarMove(date: String?) {
+        viewModelScope.launch {
+            _diaryUiState.value = diaryUiState.value.copy(
+                currentDiaryCalendarPage = date
+            )
+        }
+    }
 }

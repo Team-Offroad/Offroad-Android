@@ -140,7 +140,8 @@ fun DiaryScreen(
 
         when (diaryUiState.bottomSheetVisibility) {
             true -> DiaryTimeBottomSheet(
-                diaryTitleClick = viewModel::updateBottomSheetState
+                diaryTitleClick = viewModel::updateBottomSheetState,
+                diaryMoveClick = viewModel::updateDiaryCalendarMove,
             )
 
             false -> {}

@@ -9,6 +9,8 @@ data class DiaryUiState(
     val memoryLigthVisibility: String? = null,
     val memoryLightList: List<MemoryLight> = emptyList(),
     val bottomSheetVisibility: Boolean = false,
+    val currentDiaryCalendarPage: String? = null
+    //Todo. 현재 캘린더 페이지 통합관리
 )
 
 sealed interface DiarySideEffect {

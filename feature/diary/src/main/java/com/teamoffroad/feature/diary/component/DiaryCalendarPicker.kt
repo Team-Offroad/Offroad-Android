@@ -13,21 +13,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.feature.mypage.presentation.component.Picker
-import com.teamoffroad.feature.mypage.presentation.component.rememberPickerState
+import com.teamoffroad.feature.mypage.presentation.component.PickerState
 import java.time.YearMonth
 
 @Composable
 fun DiaryCalendarPicker(
     modifier: Modifier = Modifier,
+    diaryCalendarPickerState: PickerState,
 ) {
-    val startDate = YearMonth.of(2024, 1)
-    val endDate = YearMonth.now()
+    val startDate = YearMonth.now()
+    val endDate = YearMonth.of(2100, 12)
     val diaryCalendarList = remember {
         generateYearMonthList(startDate, endDate)
     }
-    val diaryCalendarPickerState = rememberPickerState()
 
-    Box(modifier = Modifier.padding(bottom = 50.dp)) {
+    Box(modifier = modifier.padding(bottom = 50.dp)) {
         Box(
             modifier = Modifier
                 .padding(horizontal = 10.dp)

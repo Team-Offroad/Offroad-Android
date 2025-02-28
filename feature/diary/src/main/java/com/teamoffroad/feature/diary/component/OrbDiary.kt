@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,6 +49,8 @@ import com.teamoffroad.core.designsystem.theme.TooltipTitle
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.diary.presentation.model.DiaryUiState
 import com.teamoffroad.offroad.feature.diary.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
@@ -63,6 +67,7 @@ fun OrbDiary(
     dateButtonClick: (String) -> Unit,
     diaryTitleClick: (Boolean) -> Unit,
 ) {
+    val coroutineScope = rememberCoroutineScope()
     val initialPage = (currentDate.year - yearRange.first) * maxMonth + currentDate.monthValue - 1
     val pageCount = (yearRange.last - yearRange.first) * maxMonth
 
@@ -74,6 +79,17 @@ fun OrbDiary(
         val monthCalculate = (pagerState.currentPage - currentPage).toLong()
         currentYearAndMonth = currentYearAndMonth.plusMonths(monthCalculate)
         currentPage = pagerState.currentPage
+    }
+
+    LaunchedEffect(diaryUiState.currentDiaryCalendarPage) {
+        val moveDiaryCalendar = diaryUiState.currentDiaryCalendarPage
+        if (moveDiaryCalendar?.isNotEmpty() == true) {
+            val (year, month) = extractYearAndMonth(moveDiaryCalendar)
+            coroutineScope.launch {
+                val targetPage = (year - yearRange.first) * maxMonth + (month - 1)
+                pagerState.animateScrollToPage(targetPage)
+            }
+        }
     }
 
     Column(
@@ -88,7 +104,9 @@ fun OrbDiary(
                 .fillMaxWidth()
                 .align(Alignment.CenterHorizontally),
             text = currentYearAndMonth,
+            pagerState = pagerState,
             diaryTitleClick = diaryTitleClick,
+            coroutineScope = coroutineScope,
         )
         HorizontalPager(
             modifier = Modifier,
@@ -115,8 +133,11 @@ fun OrbDiary(
 fun OrbDiaryHeader(
     modifier: Modifier = Modifier,
     text: YearMonth,
+    pagerState: PagerState,
     diaryTitleClick: (Boolean) -> Unit,
+    coroutineScope: CoroutineScope,
 ) {
+
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.Center,
@@ -129,6 +150,12 @@ fun OrbDiaryHeader(
             contentAlignment = Alignment.Center
         ) {
             Image(
+                modifier = Modifier.clickableWithoutRipple {
+                    coroutineScope.launch {
+                        val previousPage = (pagerState.currentPage - 1).coerceAtLeast(0)
+                        pagerState.animateScrollToPage(previousPage)
+                    }
+                },
                 painter = painterResource(id = R.drawable.ic_diary_previous),
                 contentDescription = "previous"
             )
@@ -150,6 +177,13 @@ fun OrbDiaryHeader(
             contentAlignment = Alignment.Center
         ) {
             Image(
+                modifier = Modifier.clickableWithoutRipple {
+                    coroutineScope.launch {
+                        val nextPage =
+                            (pagerState.currentPage + 1).coerceAtMost(pagerState.pageCount - 1)
+                        pagerState.animateScrollToPage(nextPage)
+                    }
+                },
                 painter = painterResource(id = R.drawable.ic_diary_next),
                 contentDescription = "previous"
             )
@@ -270,4 +304,13 @@ fun WeekTitle(
             )
         }
     }
+}
+
+fun extractYearAndMonth(moveDiaryCalendar: String): Pair<Int, Int> {
+    val regex = Regex("(\\d+)년 (\\d+)월")
+    val matchResult = regex.find(moveDiaryCalendar)
+
+    return matchResult?.destructured?.let {
+        it.component1().toInt() to it.component2().toInt()
+    } ?: throw IllegalArgumentException()
 }
