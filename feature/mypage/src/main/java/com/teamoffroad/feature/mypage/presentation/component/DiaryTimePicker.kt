@@ -84,7 +84,8 @@ fun Picker(
     val listScrollMiddle = listScrollCount / 2
     val listStartIndex = remember {
         when (isCalendar) {
-            true -> listScrollCount
+            true -> startIndex
+            //TODO. uiState의 현재날짜로
             false -> if (isInfinitelyScroll) {
                 listScrollMiddle - listScrollMiddle % adjustedItems.size - visibleItemsMiddle + startIndex
             } else {
