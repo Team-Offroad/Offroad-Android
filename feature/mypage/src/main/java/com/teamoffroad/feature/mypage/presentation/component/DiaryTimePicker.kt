@@ -64,6 +64,7 @@ fun Picker(
     width: Dp,
     isInfinitelyScroll: Boolean = true,
     isCalendar: Boolean = false,
+    currentDiaryCalendarPage: Int = 0,
 ) {
     val adjustedItems = if (!isInfinitelyScroll) {
         when (isCalendar) {
@@ -84,8 +85,7 @@ fun Picker(
     val listScrollMiddle = listScrollCount / 2
     val listStartIndex = remember {
         when (isCalendar) {
-            true -> startIndex
-            //TODO. uiState의 현재날짜로
+            true -> currentDiaryCalendarPage
             false -> if (isInfinitelyScroll) {
                 listScrollMiddle - listScrollMiddle % adjustedItems.size - visibleItemsMiddle + startIndex
             } else {

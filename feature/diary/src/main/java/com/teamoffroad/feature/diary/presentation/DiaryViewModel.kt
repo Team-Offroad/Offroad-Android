@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.diary.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.diary.presentation.model.DiaryHintDialogState
@@ -146,7 +147,7 @@ class DiaryViewModel @Inject constructor(
         }
     }
 
-    fun updateDiaryCalendarMove(date: String?) {
+    fun updateCurrentDiaryPage(date: String) {
         viewModelScope.launch {
             _diaryUiState.value = diaryUiState.value.copy(
                 currentDiaryCalendarPage = date

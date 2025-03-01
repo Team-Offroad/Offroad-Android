@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
+import com.teamoffroad.feature.diary.presentation.util.getDiaryCalendarIndex
 import com.teamoffroad.feature.mypage.presentation.component.rememberPickerState
 import com.teamoffroad.offroad.feature.diary.R
 
@@ -21,8 +22,9 @@ import com.teamoffroad.offroad.feature.diary.R
 @Composable
 fun DiaryTimeBottomSheet(
     modifier: Modifier = Modifier,
+    currentDiaryCalendarPage: String,
     diaryTitleClick: (Boolean) -> Unit,
-    diaryMoveClick: (String?) -> Unit,
+    diaryMoveClick: (String) -> Unit,
 ) {
     val diaryCalendarPickerState = rememberPickerState()
 
@@ -45,6 +47,7 @@ fun DiaryTimeBottomSheet(
                 style = OffroadTheme.typography.tooltipTitle,
             )
             DiaryCalendarPicker(
+                currentDiaryCalendarPage = getDiaryCalendarIndex(2025, currentDiaryCalendarPage),
                 diaryCalendarPickerState = diaryCalendarPickerState
             )
         }

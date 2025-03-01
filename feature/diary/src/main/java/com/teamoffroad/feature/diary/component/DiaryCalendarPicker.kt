@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.ListBg
+import com.teamoffroad.feature.diary.presentation.util.getYearMonthList
 import com.teamoffroad.feature.mypage.presentation.component.Picker
 import com.teamoffroad.feature.mypage.presentation.component.PickerState
 import java.time.YearMonth
@@ -19,12 +20,13 @@ import java.time.YearMonth
 @Composable
 fun DiaryCalendarPicker(
     modifier: Modifier = Modifier,
+    currentDiaryCalendarPage: Int,
     diaryCalendarPickerState: PickerState,
 ) {
-    val startDate = YearMonth.now()
+    val startDate = YearMonth.of(2025, 1)
     val endDate = YearMonth.of(2100, 12)
     val diaryCalendarList = remember {
-        generateYearMonthList(startDate, endDate)
+        getYearMonthList(startDate, endDate)
     }
 
     Box(modifier = modifier.padding(bottom = 50.dp)) {
@@ -47,13 +49,7 @@ fun DiaryCalendarPicker(
             width = 130.dp,
             isInfinitelyScroll = false,
             isCalendar = true,
+            currentDiaryCalendarPage = currentDiaryCalendarPage,
         )
     }
-}
-
-fun generateYearMonthList(start: YearMonth, end: YearMonth): List<String> {
-    return generateSequence(start) { current ->
-        if (current < end) current.plusMonths(1) else null
-    }.map { "${it.year}년 ${it.monthValue}월" }
-        .toList()
 }

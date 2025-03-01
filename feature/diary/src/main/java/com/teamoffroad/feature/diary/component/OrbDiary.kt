@@ -48,6 +48,8 @@ import com.teamoffroad.core.designsystem.theme.Stroke
 import com.teamoffroad.core.designsystem.theme.TooltipTitle
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.diary.presentation.model.DiaryUiState
+import com.teamoffroad.feature.diary.presentation.util.convertDateToRegex
+import com.teamoffroad.feature.diary.presentation.util.convertRegexToDate
 import com.teamoffroad.offroad.feature.diary.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -62,14 +64,17 @@ fun OrbDiary(
     modifier: Modifier = Modifier,
     currentDate: LocalDate = LocalDate.now(),
     diaryUiState: DiaryUiState,
-    yearRange: IntRange = IntRange(2025, 2100),
+    diaryCalendarInitPage: Int,
+    diaryCalendarLastPage: Int,
     maxMonth: Int = 12,
     dateButtonClick: (String) -> Unit,
     diaryTitleClick: (Boolean) -> Unit,
+    diaryMoveClick: (String) -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val initialPage = (currentDate.year - yearRange.first) * maxMonth + currentDate.monthValue - 1
-    val pageCount = (yearRange.last - yearRange.first) * maxMonth
+    val initialPage =
+        (currentDate.year - diaryCalendarInitPage) * maxMonth + currentDate.monthValue - 1
+    val pageCount = (diaryCalendarLastPage - diaryCalendarInitPage) * maxMonth
 
     var currentYearAndMonth by remember { mutableStateOf(YearMonth.now()) }
     var currentPage by remember { mutableIntStateOf(initialPage) }
@@ -83,10 +88,10 @@ fun OrbDiary(
 
     LaunchedEffect(diaryUiState.currentDiaryCalendarPage) {
         val moveDiaryCalendar = diaryUiState.currentDiaryCalendarPage
-        if (moveDiaryCalendar?.isNotEmpty() == true) {
-            val (year, month) = extractYearAndMonth(moveDiaryCalendar)
+        if (moveDiaryCalendar.isNotBlank()) {
+            val (year, month) = convertRegexToDate(moveDiaryCalendar)
             coroutineScope.launch {
-                val targetPage = (year - yearRange.first) * maxMonth + (month - 1)
+                val targetPage = (year - diaryCalendarInitPage) * maxMonth + (month - 1)
                 pagerState.animateScrollToPage(targetPage)
             }
         }
@@ -105,7 +110,9 @@ fun OrbDiary(
                 .align(Alignment.CenterHorizontally),
             text = currentYearAndMonth,
             pagerState = pagerState,
+            diaryCalendarInitPage = diaryCalendarInitPage,
             diaryTitleClick = diaryTitleClick,
+            diaryMoveClick = diaryMoveClick,
             coroutineScope = coroutineScope,
         )
         HorizontalPager(
@@ -113,7 +120,7 @@ fun OrbDiary(
             state = pagerState,
         ) { page ->
             val date = LocalDate.of(
-                yearRange.first + page / maxMonth,
+                diaryCalendarInitPage + page / maxMonth,
                 page % maxMonth + 1,
                 1
             )
@@ -134,7 +141,9 @@ fun OrbDiaryHeader(
     modifier: Modifier = Modifier,
     text: YearMonth,
     pagerState: PagerState,
+    diaryCalendarInitPage: Int,
     diaryTitleClick: (Boolean) -> Unit,
+    diaryMoveClick: (String) -> Unit,
     coroutineScope: CoroutineScope,
 ) {
 
@@ -154,6 +163,7 @@ fun OrbDiaryHeader(
                     coroutineScope.launch {
                         val previousPage = (pagerState.currentPage - 1).coerceAtLeast(0)
                         pagerState.animateScrollToPage(previousPage)
+                        diaryMoveClick(convertDateToRegex(previousPage, diaryCalendarInitPage))
                     }
                 },
                 painter = painterResource(id = R.drawable.ic_diary_previous),
@@ -182,10 +192,11 @@ fun OrbDiaryHeader(
                         val nextPage =
                             (pagerState.currentPage + 1).coerceAtMost(pagerState.pageCount - 1)
                         pagerState.animateScrollToPage(nextPage)
+                        diaryMoveClick(convertDateToRegex(nextPage, diaryCalendarInitPage))
                     }
                 },
                 painter = painterResource(id = R.drawable.ic_diary_next),
-                contentDescription = "previous"
+                contentDescription = "next"
             )
         }
     }
@@ -304,13 +315,4 @@ fun WeekTitle(
             )
         }
     }
-}
-
-fun extractYearAndMonth(moveDiaryCalendar: String): Pair<Int, Int> {
-    val regex = Regex("(\\d+)년 (\\d+)월")
-    val matchResult = regex.find(moveDiaryCalendar)
-
-    return matchResult?.destructured?.let {
-        it.component1().toInt() to it.component2().toInt()
-    } ?: throw IllegalArgumentException()
 }
