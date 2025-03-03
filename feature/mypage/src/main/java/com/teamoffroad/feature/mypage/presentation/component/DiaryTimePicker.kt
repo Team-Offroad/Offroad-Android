@@ -54,18 +54,23 @@ class PickerState {
 fun Picker(
     items: List<String>,
     pickerState: PickerState = rememberPickerState(),
-    modifier: Modifier = Modifier,
     startIndex: Int = 0,
     visibleItemsCount: Int = 3,
-    textModifier: Modifier = Modifier,
     textStyle: TextStyle = LocalTextStyle.current,
     selectedTextStyle: TextStyle = OffroadTheme.typography.title,
     timeDivider: Boolean = false,
     width: Dp,
     isInfinitelyScroll: Boolean = true,
+    isCalendar: Boolean = false,
+    currentDiaryCalendarPage: Int = 0,
+    textModifier: Modifier = Modifier,
+    modifier: Modifier = Modifier,
 ) {
     val adjustedItems = if (!isInfinitelyScroll) {
-        listOf(null) + items + listOf(null)
+        when (isCalendar) {
+            true -> List(3) { null } + items + List(3) { null }
+            false -> listOf(null) + items + listOf(null)
+        }
     } else {
         items
     }
@@ -78,13 +83,18 @@ fun Picker(
         adjustedItems.size
     }
     val listScrollMiddle = listScrollCount / 2
-    val listStartIndex = remember {
-        if (isInfinitelyScroll) {
-            listScrollMiddle - listScrollMiddle % adjustedItems.size - visibleItemsMiddle + startIndex
+    val baseIndex = remember {
+        if (isCalendar) currentDiaryCalendarPage
+        else if (isInfinitelyScroll) {
+            val offset = listScrollMiddle % adjustedItems.size
+            listScrollMiddle - offset - visibleItemsMiddle
         } else {
-            startIndex + 1
+            0
         }
     }
+    val listStartIndex =
+        remember { baseIndex + startIndex + if (!isCalendar && !isInfinitelyScroll) 1 else 0 }
+
 
     fun getItem(index: Int) = adjustedItems[index % adjustedItems.size]
 
@@ -92,9 +102,8 @@ fun Picker(
     val flingBehavior = rememberSnapFlingBehavior(lazyListState = listState)
 
     val itemHeight = with(density) {
-        selectedTextStyle.fontSize.toDp() + PaddingValues(8.dp).calculateTopPadding() + PaddingValues(
-            8.dp
-        ).calculateBottomPadding()
+        selectedTextStyle.fontSize.toDp() + PaddingValues(if (isCalendar) 4.dp else 8.dp).calculateTopPadding() +
+                PaddingValues(if (isCalendar) 4.dp else 8.dp).calculateBottomPadding()
     }
 
     val fadingEdgeGradient = remember {
@@ -118,7 +127,8 @@ fun Picker(
             .collect { item -> pickerState.selectedItem = item }
     }
 
-    Box(modifier = modifier.padding(top = 1.dp)
+    Box(
+        modifier = modifier.padding(top = 1.dp)
     ) {
         LazyColumn(
             state = listState,
@@ -150,12 +160,12 @@ fun Picker(
 
         if (timeDivider)
             Text(
+                text = ":",
+                color = Main2,
+                style = OffroadTheme.typography.title,
                 modifier = Modifier
                     .padding(start = 54.dp)
                     .padding(vertical = 41.dp),
-                text = ":",
-                color = Main2,
-                style = OffroadTheme.typography.title
             )
     }
 }
@@ -169,8 +179,8 @@ private fun Modifier.fadingEdge(brush: Brush) = this
 
 @Composable
 fun DiaryTimePicker(
-    modifier: Modifier = Modifier,
     updateDiaryTime: (Boolean, String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -208,26 +218,26 @@ fun DiaryTimePicker(
                     .fillMaxWidth()
             )
             Row(
+                horizontalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
             ) {
                 Picker(
                     pickerState = hoursValuesPickerState,
                     items = hoursValue,
                     visibleItemsCount = 3,
-                    textModifier = Modifier.padding(4.dp),
                     textStyle = OffroadTheme.typography.subtitleReg,
                     timeDivider = true,
                     width = 120.dp,
+                    textModifier = Modifier.padding(4.dp),
                 )
                 Picker(
                     pickerState = meridiemValuePickerState,
                     items = meridiemValue,
                     visibleItemsCount = 3,
-                    textModifier = Modifier.padding(4.dp),
                     textStyle = OffroadTheme.typography.subtitleReg,
                     isInfinitelyScroll = false,
                     width = 44.dp,
+                    textModifier = Modifier.padding(4.dp),
                 )
             }
         }

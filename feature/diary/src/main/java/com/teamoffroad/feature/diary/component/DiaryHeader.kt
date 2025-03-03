@@ -32,17 +32,17 @@ fun DiaryHeader(
                 color = Main2,
             )
             Image(
-                modifier = Modifier
-                    .padding(start = 8.dp),
                 painter = painterResource(id = R.drawable.ic_diary_header),
                 contentDescription = null,
+                modifier = Modifier
+                    .padding(start = 8.dp),
             )
             Image(
+                painter = painterResource(id = R.drawable.ic_diary_guide),
+                contentDescription = null,
                 modifier = Modifier
                     .padding(start = 4.dp)
                     .clickableWithoutRipple { guideButtonClick() },
-                painter = painterResource(id = R.drawable.ic_diary_guide),
-                contentDescription = null,
             )
         }
     }
