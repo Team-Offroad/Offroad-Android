@@ -53,7 +53,7 @@ internal fun ExploreScreen(
     )
 
     uiState.isLocationPermissionGranted.let { isLocationPermissionGranted ->
-        when (isLocationPermissionGranted) {
+        when (isLocationPermissionGranted == true) {
             true -> StaticAnimationWrapper {
                 ExploreOffroadMap(
                     locationState = uiState.locationModel,
@@ -74,8 +74,6 @@ internal fun ExploreScreen(
                 navigateToHome = { navigateToHome(PlaceCategory.NONE.name, emptyList()) },
                 updatePermission = exploreViewModel::updatePermission,
             )
-
-            else -> Unit
         }
     }
 
