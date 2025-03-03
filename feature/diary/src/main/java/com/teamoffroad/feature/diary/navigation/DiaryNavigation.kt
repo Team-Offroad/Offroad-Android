@@ -13,11 +13,13 @@ fun NavController.navigateToDiary() {
 fun NavGraphBuilder.diaryNavGraph(
     navigateToBack: () -> Unit,
     navigateToCharacterChat: (String) -> Unit,
+    navigateToDiaryTime: () -> Unit,
 ) {
     composable<DiaryRoute.Diary> {
         DiaryScreen(
             navigateToBack = navigateToBack,
-            navigateToCharacterChat = navigateToCharacterChat
+            navigateToCharacterChat = navigateToCharacterChat,
+            navigateToDiaryTime = navigateToDiaryTime,
         )
     }
 }

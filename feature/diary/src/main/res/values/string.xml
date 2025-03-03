@@ -3,7 +3,7 @@
     <string name="diary_empty_content">만들어진 일기가 없어요\n\n오브가 아직 어색한가 봐요\n조금 더 대화를 나눠보세요.</string>
     <string name="diary_empty_go_chatting">채팅하러 가기</string>
     <string name="diary_back_home">홈</string>
-    <string name="diary_memory_ligth">기억빛</string>
+    <string name="diary_memory_light">기억빛</string>
     <string name="diary_year">년</string>
     <string name="diary_month">월</string>
     <string name="diary_dialog_next">다음</string>
@@ -11,5 +11,14 @@
     <string name="diary_dialog_hint_first_content">일기를 받기 위해선\n오브와 충분한 시간을 보내야해요.</string>
     <string name="diary_dialog_hint_second_title">이건 기억빛이에요.</string>
     <string name="diary_dialog_hint_second_content">그 날의 기억에 따라\n다른 색으로 칠해져요.\n오늘은 어떤 색의 하루였나요?</string>
+    <string name="diary_time_setting_title">오후 10시</string>
+    <string name="diary_time_setting_content">오브와 충분한 시간을 함께하면\n매일 오후 10시에 일기를 받아요.</string>
+    <string name="diary_time_setting">설정</string>
+    <string name="diary_time_setting_description">에서 일기 받을 시간을 바꿀 수 있어요.</string>
+    <string name="diary_time_success">확인</string>
 
+    <string name="diary_memory_light_share">공유하기</string>
+    <string name="diary_memory_light_today_recommend">오늘의 추천</string>
+    <string name="diary_memory_light_title">%d년 %d월 %d일\n오늘의 기억빛</string>
+    <string name="diary_time_picker_success">완료</string>
 </resources>
