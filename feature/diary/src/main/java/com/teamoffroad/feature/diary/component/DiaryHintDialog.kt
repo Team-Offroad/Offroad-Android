@@ -35,11 +35,11 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
 fun DiaryHintDialog(
-    modifier: Modifier = Modifier,
     firstPage: Int = 0,
     secondPage: Int = 1,
     onCancelClick: (Boolean) -> Unit,
     updateTimeSettingDialogState: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(initialPage = firstPage, pageCount = { secondPage + 1 })
@@ -47,9 +47,9 @@ fun DiaryHintDialog(
     BackHandler(enabled = pagerState.currentPage == firstPage || pagerState.currentPage == secondPage) {
         coroutineScope.launch {
             when (pagerState.currentPage) {
-                0 -> onCancelClick(false)
-                1 -> pagerState.animateScrollToPage(
-                    pagerState.currentPage - 1,
+                firstPage -> onCancelClick(false)
+                secondPage -> pagerState.animateScrollToPage(
+                    pagerState.currentPage - secondPage,
                 )
             }
         }
@@ -64,34 +64,34 @@ fun DiaryHintDialog(
             .background(Black.copy(alpha = 0.8f))
     ) {
         Image(
+            painter = painterResource(id = R.drawable.ic_diary_dialog_close),
+            contentDescription = "close",
             modifier = Modifier
                 .padding(top = 65.dp, bottom = 40.dp)
                 .padding(end = 20.dp)
                 .align(Alignment.End)
                 .clickableWithoutRipple { onCancelClick(false) },
-            painter = painterResource(id = R.drawable.ic_diary_dialog_close),
-            contentDescription = "close"
         )
         HorizontalPager(
-            modifier = Modifier.weight(1f),
             verticalAlignment = Alignment.Top,
             state = pagerState,
             userScrollEnabled = false,
+            modifier = Modifier.weight(1f),
         ) { page ->
             when (page) {
-                0 -> DiaryHintFirstScreen()
-                1 -> DiaryHintSecondScreen()
+                firstPage -> DiaryHintFirstScreen()
+                secondPage -> DiaryHintSecondScreen()
             }
         }
         Row(
+            horizontalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 52.dp, bottom = 77.dp),
-            horizontalArrangement = Arrangement.Center,
         ) {
-            DiaryHintProgressIndicator(animateActive = pagerState.currentPage >= 0)
+            DiaryHintProgressIndicator(animateActive = pagerState.currentPage >= firstPage)
             Spacer(modifier = Modifier.width(7.dp))
-            DiaryHintProgressIndicator(animateActive = pagerState.currentPage >= 1)
+            DiaryHintProgressIndicator(animateActive = pagerState.currentPage >= secondPage)
 
         }
         Column(
@@ -103,7 +103,7 @@ fun DiaryHintDialog(
                 .clickableWithoutRipple {
                     when (pagerState.currentPage) {
                         0 -> coroutineScope.launch {
-                            pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                            pagerState.animateScrollToPage(pagerState.currentPage + secondPage)
                         }
 
                         1 -> {
@@ -116,10 +116,10 @@ fun DiaryHintDialog(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                modifier = Modifier.padding(vertical = 14.dp),
                 text = stringResource(id = R.string.diary_dialog_next),
                 color = White,
                 style = OffroadTheme.typography.textRegular,
+                modifier = Modifier.padding(vertical = 14.dp),
             )
         }
     }

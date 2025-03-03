@@ -48,9 +48,9 @@ import com.teamoffroad.offroad.feature.diary.R
 @SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
 fun MemoryLightScreen(
-    modifier: Modifier = Modifier,
     memoryLightList: List<MemoryLight>,
     onCancelClick: (String?) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val pagerState = rememberPagerState(initialPage = 0, pageCount = { 2 })
 
@@ -74,34 +74,34 @@ fun MemoryLightScreen(
             }
     ) {
         Image(
+            painter = painterResource(id = R.drawable.ic_diary_dialog_close),
+            contentDescription = "close",
             modifier = Modifier
                 .padding(top = 65.dp, bottom = 30.dp)
                 .padding(end = 20.dp)
                 .align(Alignment.End)
                 .clickableWithoutRipple { onCancelClick(null) },
-            painter = painterResource(id = R.drawable.ic_diary_dialog_close),
-            contentDescription = "close"
         )
         HorizontalPager(
+            state = pagerState,
             modifier = Modifier.padding(bottom = 28.dp),
-            state = pagerState
         ) { page ->
             MemoryLightItems(
                 memoryLight = memoryLightList[page]
             )
         }
         Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxWidth()
                 .clickableWithoutRipple {
                 },
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
         ) {
             Image(
-                modifier = Modifier.padding(end = 10.dp),
                 painter = painterResource(id = R.drawable.ic_diary_memory_light_share),
-                contentDescription = "share"
+                contentDescription = "share",
+                modifier = Modifier.padding(end = 10.dp),
             )
             Text(
                 text = stringResource(id = R.string.diary_memory_light_share),
@@ -131,8 +131,6 @@ private fun MemoryLightItems(
                 .padding(top = 102.dp)
         ) {
             Text(
-                modifier = Modifier
-                    .padding(bottom = 28.dp),
                 text = stringResource(
                     id = R.string.diary_memory_light_title,
                     memoryLight.year,
@@ -140,32 +138,35 @@ private fun MemoryLightItems(
                     memoryLight.day,
                 ),
                 color = White,
-                style = OffroadTheme.typography.subtitle2Semibold
+                style = OffroadTheme.typography.subtitle2Semibold,
+                modifier = Modifier
+                    .padding(bottom = 28.dp),
             )
             Text(
-                modifier = Modifier.padding(bottom = 16.dp),
                 text = memoryLight.summation,
                 color = Main2,
-                style = OffroadTheme.typography.textBold
+                style = OffroadTheme.typography.textBold,
+                modifier = Modifier.padding(bottom = 16.dp),
             )
             Text(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(bottom = 32.dp),
                 text = memoryLight.content,
                 color = Main2,
                 style = OffroadTheme.typography.boxMedi.copy(
                     lineHeight = 20.sp
-                )
+                ),
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(bottom = 32.dp),
             )
             DottedHorizontalDivider()
             Text(
-                modifier = Modifier.padding(bottom = 12.dp),
                 text = stringResource(id = R.string.diary_memory_light_today_recommend),
                 color = Sub,
-                style = OffroadTheme.typography.textContents
+                style = OffroadTheme.typography.textContents,
+                modifier = Modifier.padding(bottom = 12.dp),
             )
             Box(
+                contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .padding(bottom = 34.dp)
                     .background(
@@ -173,21 +174,20 @@ private fun MemoryLightItems(
                         shape = RoundedCornerShape(9.dp)
                     )
                     .fillMaxWidth(),
-                contentAlignment = Alignment.Center
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        modifier = Modifier.padding(end = 2.dp),
                         painter = painterResource(id = R.drawable.ic_diary_memory_light_today_recommend),
-                        contentDescription = "today_recommend"
+                        contentDescription = "today_recommend",
+                        modifier = Modifier.padding(end = 2.dp),
                     )
                     Text(
-                        modifier = Modifier.padding(PaddingValues(vertical = 15.dp)),
                         text = memoryLight.dailyRecommend,
                         color = Main2,
                         style = OffroadTheme.typography.marketing,
+                        modifier = Modifier.padding(PaddingValues(vertical = 15.dp)),
                     )
                 }
             }

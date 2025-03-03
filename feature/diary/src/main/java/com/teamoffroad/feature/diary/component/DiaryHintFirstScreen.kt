@@ -22,22 +22,22 @@ fun DiaryHintFirstScreen(
     modifier: Modifier = Modifier,
 ) {
     Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
+            painter = painterResource(id = R.drawable.img_diary_dialog_dummy),
+            contentDescription = "dummy",
             modifier = Modifier
                 .height(220.dp)
                 .padding(bottom = 40.dp),
-            painter = painterResource(id = R.drawable.img_diary_dialog_dummy),
-            contentDescription = "dummy"
         )
         Text(
-            modifier = Modifier.padding(bottom = 24.dp),
             textAlign = TextAlign.Center,
             text = stringResource(id = R.string.diary_dialog_hint_first_title),
             color = White,
             style = OffroadTheme.typography.textRegular,
+            modifier = Modifier.padding(bottom = 24.dp),
         )
         Text(
             textAlign = TextAlign.Center,

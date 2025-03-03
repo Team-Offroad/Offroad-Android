@@ -32,11 +32,11 @@ fun DiaryTimeDialog(
     content: String,
     cancelButtonText: String,
     nextButtonText: String,
-    modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(14.dp),
     onClick: () -> Unit,
     onCancelClick: () -> Unit,
-    isNext: Boolean = true
+    isNext: Boolean = true,
+    modifier: Modifier = Modifier,
 ) {
     Dialog(
         onDismissRequest = { onCancelClick() },
@@ -93,23 +93,23 @@ fun DiaryTimeDialog(
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     LogoutButton(
-                        modifier = Modifier
-                            .clickableWithoutRipple { onCancelClick() }
-                            .weight(1f),
                         text = cancelButtonText,
                         textColor = Main2,
                         backgroundColor = Main3,
+                        modifier = Modifier
+                            .clickableWithoutRipple { onCancelClick() }
+                            .weight(1f),
                     )
                     LogoutButton(
+                        text = nextButtonText,
+                        textColor = White,
+                        backgroundColor = Main2,
                         modifier = Modifier
                             .clickableWithoutRipple {
                                 onClick()
                                 onCancelClick()
                             }
                             .weight(1f),
-                        text = nextButtonText,
-                        textColor = White,
-                        backgroundColor = Main2,
                     )
                 }
             }
@@ -119,10 +119,10 @@ fun DiaryTimeDialog(
 
 @Composable
 private fun LogoutButton(
-    modifier: Modifier = Modifier,
     text: String,
     textColor: Color,
     backgroundColor: Color,
+    modifier: Modifier = Modifier,
 ) {
     Text(
         text = text,
