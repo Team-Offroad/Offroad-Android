@@ -19,9 +19,9 @@ import java.time.YearMonth
 
 @Composable
 fun DiaryCalendarPicker(
-    modifier: Modifier = Modifier,
     currentDiaryCalendarPage: Int,
     diaryCalendarPickerState: PickerState,
+    modifier: Modifier = Modifier,
 ) {
     val startDate = YearMonth.of(2025, 1)
     val endDate = YearMonth.of(2100, 12)
@@ -42,7 +42,6 @@ fun DiaryCalendarPicker(
                 .fillMaxWidth(),
         )
         Picker(
-            modifier = Modifier.align(Alignment.Center),
             pickerState = diaryCalendarPickerState,
             items = diaryCalendarList,
             visibleItemsCount = 7,
@@ -50,6 +49,7 @@ fun DiaryCalendarPicker(
             isInfinitelyScroll = false,
             isCalendar = true,
             currentDiaryCalendarPage = currentDiaryCalendarPage,
+            modifier = Modifier.align(Alignment.Center),
         )
     }
 }

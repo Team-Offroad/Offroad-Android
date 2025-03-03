@@ -35,11 +35,11 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
 fun DiaryHintDialog(
-    modifier: Modifier = Modifier,
     firstPage: Int = 0,
     secondPage: Int = 1,
     onCancelClick: (Boolean) -> Unit,
     updateTimeSettingDialogState: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(initialPage = firstPage, pageCount = { secondPage + 1 })
@@ -64,19 +64,19 @@ fun DiaryHintDialog(
             .background(Black.copy(alpha = 0.8f))
     ) {
         Image(
+            painter = painterResource(id = R.drawable.ic_diary_dialog_close),
+            contentDescription = "close",
             modifier = Modifier
                 .padding(top = 65.dp, bottom = 40.dp)
                 .padding(end = 20.dp)
                 .align(Alignment.End)
                 .clickableWithoutRipple { onCancelClick(false) },
-            painter = painterResource(id = R.drawable.ic_diary_dialog_close),
-            contentDescription = "close"
         )
         HorizontalPager(
-            modifier = Modifier.weight(1f),
             verticalAlignment = Alignment.Top,
             state = pagerState,
             userScrollEnabled = false,
+            modifier = Modifier.weight(1f),
         ) { page ->
             when (page) {
                 0 -> DiaryHintFirstScreen()
@@ -84,10 +84,10 @@ fun DiaryHintDialog(
             }
         }
         Row(
+            horizontalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 52.dp, bottom = 77.dp),
-            horizontalArrangement = Arrangement.Center,
         ) {
             DiaryHintProgressIndicator(animateActive = pagerState.currentPage >= 0)
             Spacer(modifier = Modifier.width(7.dp))
@@ -116,10 +116,10 @@ fun DiaryHintDialog(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                modifier = Modifier.padding(vertical = 14.dp),
                 text = stringResource(id = R.string.diary_dialog_next),
                 color = White,
                 style = OffroadTheme.typography.textRegular,
+                modifier = Modifier.padding(vertical = 14.dp),
             )
         }
     }

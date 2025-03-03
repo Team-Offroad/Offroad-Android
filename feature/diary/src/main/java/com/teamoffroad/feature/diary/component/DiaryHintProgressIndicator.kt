@@ -18,8 +18,8 @@ import com.teamoffroad.core.designsystem.theme.White
 
 @Composable
 fun DiaryHintProgressIndicator(
-    modifier: Modifier = Modifier,
     animateActive: Boolean,
+    modifier: Modifier = Modifier,
 ) {
     val animatedColor by animateColorAsState(
         targetValue = if (animateActive) White else DiaryProgressBar,

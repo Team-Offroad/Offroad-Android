@@ -21,10 +21,10 @@ import com.teamoffroad.offroad.feature.diary.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DiaryTimeBottomSheet(
-    modifier: Modifier = Modifier,
     currentDiaryCalendarPage: String,
     diaryTitleClick: (Boolean) -> Unit,
     diaryMoveClick: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val diaryCalendarPickerState = rememberPickerState()
 
@@ -35,6 +35,9 @@ fun DiaryTimeBottomSheet(
             modifier = modifier.fillMaxWidth()
         ) {
             Text(
+                text = stringResource(id = R.string.diary_time_picker_success),
+                color = Sub,
+                style = OffroadTheme.typography.tooltipTitle,
                 modifier = Modifier
                     .align(Alignment.End)
                     .padding(end = 30.dp, bottom = 12.dp)
@@ -42,9 +45,6 @@ fun DiaryTimeBottomSheet(
                         diaryMoveClick(diaryCalendarPickerState.selectedItem)
                         diaryTitleClick(false)
                     },
-                text = stringResource(id = R.string.diary_time_picker_success),
-                color = Sub,
-                style = OffroadTheme.typography.tooltipTitle,
             )
             DiaryCalendarPicker(
                 currentDiaryCalendarPage = getDiaryCalendarIndex(2025, currentDiaryCalendarPage),

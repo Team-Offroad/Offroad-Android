@@ -61,7 +61,6 @@ import java.util.Locale
 
 @Composable
 fun OrbDiary(
-    modifier: Modifier = Modifier,
     currentDate: LocalDate = LocalDate.now(),
     diaryUiState: DiaryUiState,
     diaryCalendarInitPage: Int,
@@ -70,7 +69,8 @@ fun OrbDiary(
     dateButtonClick: (String) -> Unit,
     diaryTitleClick: (Boolean) -> Unit,
     diaryMoveClick: (String) -> Unit,
-) {
+    modifier: Modifier = Modifier,
+    ) {
     val coroutineScope = rememberCoroutineScope()
     val initialPage =
         (currentDate.year - diaryCalendarInitPage) * maxMonth + currentDate.monthValue - 1

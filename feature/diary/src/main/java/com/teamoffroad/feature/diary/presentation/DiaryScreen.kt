@@ -100,19 +100,19 @@ fun DiaryScreen(
             ) {
                 if (diaryUiState.latestDiary.isEmpty())
                     OrbDiaryEmpty(
+                        navigateToCharacterChat = navigateToCharacterChat,
                         modifier = Modifier.padding(top = 124.dp),
-                        navigateToCharacterChat = navigateToCharacterChat
                     )
                 else
                     OrbDiary(
-                        modifier = Modifier.padding(top = 20.dp),
                         diaryUiState = diaryUiState,
                         diaryCalendarInitPage = diaryUiState.diaryCalendarInitPage,
                         diaryCalendarLastPage = diaryUiState.diaryCalendarLastPage,
                         dateButtonClick = viewModel::updateMemoryLightState,
                         diaryTitleClick = viewModel::updateBottomSheetState,
                         diaryMoveClick = viewModel::updateCurrentDiaryPage,
-                        )
+                        modifier = Modifier.padding(top = 20.dp),
+                    )
             }
         }
         when (diaryUiState.dialogVisibility) {
@@ -135,9 +135,9 @@ fun DiaryScreen(
 
         diaryUiState.memoryLigthVisibility?.let {
             MemoryLightScreen(
-                modifier = Modifier.fillMaxSize(),
                 memoryLightList = diaryUiState.memoryLightList,
                 onCancelClick = viewModel::updateMemoryLightState,
+                modifier = Modifier.fillMaxSize(),
             )
         }
 

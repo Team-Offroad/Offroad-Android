@@ -54,10 +54,8 @@ class PickerState {
 fun Picker(
     items: List<String>,
     pickerState: PickerState = rememberPickerState(),
-    modifier: Modifier = Modifier,
     startIndex: Int = 0,
     visibleItemsCount: Int = 3,
-    textModifier: Modifier = Modifier,
     textStyle: TextStyle = LocalTextStyle.current,
     selectedTextStyle: TextStyle = OffroadTheme.typography.title,
     timeDivider: Boolean = false,
@@ -65,6 +63,8 @@ fun Picker(
     isInfinitelyScroll: Boolean = true,
     isCalendar: Boolean = false,
     currentDiaryCalendarPage: Int = 0,
+    textModifier: Modifier = Modifier,
+    modifier: Modifier = Modifier,
 ) {
     val adjustedItems = if (!isInfinitelyScroll) {
         when (isCalendar) {
@@ -158,12 +158,12 @@ fun Picker(
 
         if (timeDivider)
             Text(
+                text = ":",
+                color = Main2,
+                style = OffroadTheme.typography.title,
                 modifier = Modifier
                     .padding(start = 54.dp)
                     .padding(vertical = 41.dp),
-                text = ":",
-                color = Main2,
-                style = OffroadTheme.typography.title
             )
     }
 }
@@ -177,8 +177,8 @@ private fun Modifier.fadingEdge(brush: Brush) = this
 
 @Composable
 fun DiaryTimePicker(
-    modifier: Modifier = Modifier,
     updateDiaryTime: (Boolean, String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -216,26 +216,26 @@ fun DiaryTimePicker(
                     .fillMaxWidth()
             )
             Row(
+                horizontalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
             ) {
                 Picker(
                     pickerState = hoursValuesPickerState,
                     items = hoursValue,
                     visibleItemsCount = 3,
-                    textModifier = Modifier.padding(4.dp),
                     textStyle = OffroadTheme.typography.subtitleReg,
                     timeDivider = true,
                     width = 120.dp,
+                    textModifier = Modifier.padding(4.dp),
                 )
                 Picker(
                     pickerState = meridiemValuePickerState,
                     items = meridiemValue,
                     visibleItemsCount = 3,
-                    textModifier = Modifier.padding(4.dp),
                     textStyle = OffroadTheme.typography.subtitleReg,
                     isInfinitelyScroll = false,
                     width = 44.dp,
+                    textModifier = Modifier.padding(4.dp),
                 )
             }
         }
