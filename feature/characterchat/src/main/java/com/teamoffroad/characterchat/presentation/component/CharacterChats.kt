@@ -76,7 +76,7 @@ fun CharacterChats(
         }
     }
 
-    LaunchedEffect(arrangedChats.values.lastOrNull()?.last()?.id ?: 0, isInitialComposition) {
+    LaunchedEffect(arrangedChats.values.lastOrNull()?.lastOrNull()?.id ?: 0, isInitialComposition) {
         if (arrangedChats.values.flatten().isNotEmpty() && isInitialComposition) {
             coroutineScope.launch {
                 listState.animateScrollToItem(listState.layoutInfo.totalItemsCount - 1)
