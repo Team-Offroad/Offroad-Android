@@ -90,30 +90,30 @@ fun DiaryTimeScreen(
                     .fillMaxWidth()
             )
             Image(
+                painter = painterResource(id = R.drawable.img_date_time_dummy),
+                contentDescription = "diary_time",
                 modifier = Modifier
                     .weight(2f)
                     .fillMaxWidth()
                     .padding(vertical = 24.dp),
-                painter = painterResource(id = R.drawable.img_date_time_dummy),
-                contentDescription = "diary_time"
             )
             Text(
+                text = stringResource(id = R.string.my_page_setting_diary_time_when_receive),
+                color = Main2,
                 modifier = Modifier
                     .padding(bottom = 28.dp)
                     .align(Alignment.CenterHorizontally),
-                text = stringResource(id = R.string.my_page_setting_diary_time_when_receive),
-                color = Main2,
             )
             DiaryTimePicker(
+                updateDiaryTime = viewModel::updateDiaryTime,
                 modifier = Modifier.padding(horizontal = 12.dp),
-                updateDiaryTime = viewModel::updateDiaryTime
             )
             Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .padding(top = 54.dp)
                     .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_my_page_check_circle),
@@ -126,14 +126,17 @@ fun DiaryTimeScreen(
                 )
             }
             Text(
-                modifier = Modifier
-                    .padding(bottom = 34.dp)
-                    .align(Alignment.CenterHorizontally),
                 text = stringResource(id = R.string.my_page_setting_diary_time_notice_second),
                 style = OffroadTheme.typography.boxMedi,
                 color = Sub2,
+                modifier = Modifier
+                    .padding(bottom = 34.dp)
+                    .align(Alignment.CenterHorizontally),
             )
             DiaryTimeButton(
+                text = stringResource(id = R.string.my_page_setting_diary_success),
+                textColor = White,
+                backgroundColor = Main2,
                 modifier = Modifier
                     .padding(bottom = 24.dp)
                     .padding(horizontal = 24.dp)
@@ -141,9 +144,6 @@ fun DiaryTimeScreen(
                     .clickableWithoutRipple {
                         viewModel.nextButtonClickListener(true)
                     },
-                text = stringResource(id = R.string.my_page_setting_diary_success),
-                textColor = White,
-                backgroundColor = Main2,
             )
         }
         when (isDiaryTimeUiState.dialogVisibility) {
@@ -180,10 +180,10 @@ fun DiaryTimeScreen(
 
 @Composable
 private fun DiaryTimeButton(
-    modifier: Modifier = Modifier,
     text: String,
     textColor: Color,
     backgroundColor: Color,
+    modifier: Modifier = Modifier,
 ) {
     Text(
         text = text,

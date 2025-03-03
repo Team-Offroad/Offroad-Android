@@ -31,11 +31,11 @@ import com.teamoffroad.offroad.feature.diary.R
 
 @Composable
 fun TimeSettingDialog(
-    modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(14.dp),
-    onClick: () -> Unit,
+    onDefaultTimeSettingClick: () -> Unit,
     onSettingClick: (Boolean) -> Unit,
     navigateDiaryTime: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Dialog(
         onDismissRequest = { onSettingClick(false) },
@@ -59,12 +59,12 @@ fun TimeSettingDialog(
                         .padding(bottom = 10.dp)
                 )
                 Text(
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .padding(bottom = 22.dp),
                     text = stringResource(id = R.string.diary_time_setting_content),
                     color = Main2,
                     style = OffroadTheme.typography.textRegular,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(bottom = 22.dp),
                 )
                 Row(
                     modifier = Modifier
@@ -72,10 +72,10 @@ fun TimeSettingDialog(
                         .padding(bottom = 22.dp),
                 ) {
                     Text(
-                        modifier = Modifier.padding(end = 2.dp),
                         text = stringResource(id = R.string.diary_time_setting),
                         color = Gray400,
                         style = OffroadTheme.typography.textRegular.copy(fontWeight = FontWeight.Bold),
+                        modifier = Modifier.padding(end = 2.dp),
                     )
                     Text(
                         text = stringResource(id = R.string.diary_time_setting_description),
@@ -85,26 +85,26 @@ fun TimeSettingDialog(
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     LogoutButton(
+                        text = stringResource(id = R.string.diary_time_setting),
+                        textColor = Main2,
+                        backgroundColor = Main3,
                         modifier = Modifier
                             .clickableWithoutRipple {
                                 onSettingClick(false)
                                 navigateDiaryTime()
                             }
                             .weight(1f),
-                        text = stringResource(id = R.string.diary_time_setting),
-                        textColor = Main2,
-                        backgroundColor = Main3,
                     )
                     LogoutButton(
-                        modifier = Modifier
-                            .clickableWithoutRipple {
-                                onClick()
-                                onSettingClick(false)
-                            }
-                            .weight(1f),
                         text = stringResource(id = R.string.diary_time_success),
                         textColor = White,
                         backgroundColor = Main2,
+                        modifier = Modifier
+                            .clickableWithoutRipple {
+                                onDefaultTimeSettingClick()
+                                onSettingClick(false)
+                            }
+                            .weight(1f),
                     )
                 }
             }
@@ -114,10 +114,10 @@ fun TimeSettingDialog(
 
 @Composable
 private fun LogoutButton(
-    modifier: Modifier = Modifier,
     text: String,
     textColor: Color,
     backgroundColor: Color,
+    modifier: Modifier = Modifier,
 ) {
     Text(
         text = text,

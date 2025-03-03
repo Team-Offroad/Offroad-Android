@@ -24,9 +24,13 @@ import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.diary.component.DiaryHeader
 import com.teamoffroad.feature.diary.component.DiaryHintDialog
+import com.teamoffroad.feature.diary.component.DiaryTimeBottomSheet
+import com.teamoffroad.feature.diary.component.MemoryLightScreen
 import com.teamoffroad.feature.diary.component.OrbDiary
 import com.teamoffroad.feature.diary.component.OrbDiaryEmpty
 import com.teamoffroad.feature.diary.component.TimeSettingDialog
+import com.teamoffroad.feature.diary.presentation.model.DiaryHintDialogState
+import com.teamoffroad.feature.diary.presentation.model.DiarySideEffect
 import com.teamoffroad.offroad.feature.diary.R
 import kotlinx.coroutines.flow.collectLatest
 
@@ -79,7 +83,7 @@ fun DiaryScreen(
                 viewModel.updateNavigationBackState()
             }
             DiaryHeader(
-                text = stringResource(id = R.string.diary_memory_ligth)
+                text = stringResource(id = R.string.diary_memory_light)
             ) {
                 viewModel.updateHintDialogState(true)
             }
@@ -96,32 +100,50 @@ fun DiaryScreen(
             ) {
                 if (diaryUiState.latestDiary.isEmpty())
                     OrbDiaryEmpty(
+                        navigateToCharacterChat = navigateToCharacterChat,
                         modifier = Modifier.padding(top = 124.dp),
-                        navigateToCharacterChat = navigateToCharacterChat
                     )
                 else
                     OrbDiary(
+                        diaryUiState = diaryUiState,
+                        diaryCalendarInitPage = diaryUiState.diaryCalendarInitPage,
+                        diaryCalendarLastPage = diaryUiState.diaryCalendarLastPage,
+                        dateButtonClick = viewModel::updateMemoryLightState,
+                        diaryTitleClick = viewModel::updateBottomSheetState,
+                        diaryMoveClick = viewModel::updateCurrentDiaryPage,
                         modifier = Modifier.padding(top = 20.dp),
-                        diaryUiState = diaryUiState
                     )
             }
         }
-        when (diaryUiState.dialogVisibility) {
-            DiaryHintDialogState.HintDialogVisible -> {
-                DiaryHintDialog(
-                    onCancelClick = viewModel::updateHintDialogState,
-                    updateTimeSettingDialogState = viewModel::updateTimeSettingDialogState
-                )
-            }
+        if (diaryUiState.dialogVisibility == DiaryHintDialogState.HintDialogVisible) {
+            DiaryHintDialog(
+                onCancelClick = viewModel::updateHintDialogState,
+                updateTimeSettingDialogState = viewModel::updateTimeSettingDialogState
+            )
         }
-        when (diaryUiState.timeSettingDialogVisibility) {
-            true -> TimeSettingDialog(
-                onClick = {},
+
+        if (diaryUiState.timeSettingDialogVisibility) {
+            TimeSettingDialog(
+                onDefaultTimeSettingClick = {},
                 onSettingClick = viewModel::updateTimeSettingDialogState,
                 navigateDiaryTime = viewModel::updateNavigationDiaryTime
             )
+        }
 
-            false -> {}
+        diaryUiState.memoryLigthVisibility?.let {
+            MemoryLightScreen(
+                memoryLightList = diaryUiState.memoryLightList,
+                onCancelClick = viewModel::updateMemoryLightState,
+                modifier = Modifier.fillMaxSize(),
+            )
+        }
+
+        if (diaryUiState.bottomSheetVisibility) {
+            DiaryTimeBottomSheet(
+                currentDiaryCalendarPage = diaryUiState.currentDiaryCalendarPage,
+                diaryTitleClick = viewModel::updateBottomSheetState,
+                diaryMoveClick = viewModel::updateCurrentDiaryPage,
+            )
         }
     }
 }

@@ -3,7 +3,7 @@
     <string name="diary_empty_content">만들어진 일기가 없어요\n\n오브가 아직 어색한가 봐요\n조금 더 대화를 나눠보세요.</string>
     <string name="diary_empty_go_chatting">채팅하러 가기</string>
     <string name="diary_back_home">홈</string>
-    <string name="diary_memory_ligth">기억빛</string>
+    <string name="diary_memory_light">기억빛</string>
     <string name="diary_year">년</string>
     <string name="diary_month">월</string>
     <string name="diary_dialog_next">다음</string>
@@ -17,7 +17,8 @@
     <string name="diary_time_setting_description">에서 일기 받을 시간을 바꿀 수 있어요.</string>
     <string name="diary_time_success">확인</string>
 
-
-
-
+    <string name="diary_memory_light_share">공유하기</string>
+    <string name="diary_memory_light_today_recommend">오늘의 추천</string>
+    <string name="diary_memory_light_title">%d년 %d월 %d일\n오늘의 기억빛</string>
+    <string name="diary_time_picker_success">완료</string>
 </resources>

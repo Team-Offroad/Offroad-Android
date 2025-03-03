@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,8 +47,12 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Stroke
 import com.teamoffroad.core.designsystem.theme.TooltipTitle
 import com.teamoffroad.core.designsystem.theme.White
-import com.teamoffroad.feature.diary.presentation.DiaryUiState
+import com.teamoffroad.feature.diary.presentation.model.DiaryUiState
+import com.teamoffroad.feature.diary.presentation.util.convertDateToRegex
+import com.teamoffroad.feature.diary.presentation.util.convertRegexToDate
 import com.teamoffroad.offroad.feature.diary.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
@@ -55,14 +61,20 @@ import java.util.Locale
 
 @Composable
 fun OrbDiary(
-    modifier: Modifier = Modifier,
     currentDate: LocalDate = LocalDate.now(),
     diaryUiState: DiaryUiState,
-    yearRange: IntRange = IntRange(2025, 2100),
+    diaryCalendarInitPage: Int,
+    diaryCalendarLastPage: Int,
     maxMonth: Int = 12,
-) {
-    val initialPage = (currentDate.year - yearRange.first) * maxMonth + currentDate.monthValue - 1
-    val pageCount = (yearRange.last - yearRange.first) * maxMonth
+    dateButtonClick: (String) -> Unit,
+    diaryTitleClick: (Boolean) -> Unit,
+    diaryMoveClick: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    ) {
+    val coroutineScope = rememberCoroutineScope()
+    val initialPage =
+        (currentDate.year - diaryCalendarInitPage) * maxMonth + currentDate.monthValue - 1
+    val pageCount = (diaryCalendarLastPage - diaryCalendarInitPage) * maxMonth
 
     var currentYearAndMonth by remember { mutableStateOf(YearMonth.now()) }
     var currentPage by remember { mutableIntStateOf(initialPage) }
@@ -72,6 +84,17 @@ fun OrbDiary(
         val monthCalculate = (pagerState.currentPage - currentPage).toLong()
         currentYearAndMonth = currentYearAndMonth.plusMonths(monthCalculate)
         currentPage = pagerState.currentPage
+    }
+
+    LaunchedEffect(diaryUiState.currentDiaryCalendarPage) {
+        val moveDiaryCalendar = diaryUiState.currentDiaryCalendarPage
+        if (moveDiaryCalendar.isNotBlank()) {
+            val (year, month) = convertRegexToDate(moveDiaryCalendar)
+            coroutineScope.launch {
+                val targetPage = (year - diaryCalendarInitPage) * maxMonth + (month - 1)
+                pagerState.animateScrollToPage(targetPage)
+            }
+        }
     }
 
     Column(
@@ -85,14 +108,19 @@ fun OrbDiary(
                 .padding(top = 42.dp, bottom = 26.dp)
                 .fillMaxWidth()
                 .align(Alignment.CenterHorizontally),
-            text = currentYearAndMonth
+            text = currentYearAndMonth,
+            pagerState = pagerState,
+            diaryCalendarInitPage = diaryCalendarInitPage,
+            diaryTitleClick = diaryTitleClick,
+            diaryMoveClick = diaryMoveClick,
+            coroutineScope = coroutineScope,
         )
         HorizontalPager(
             modifier = Modifier,
             state = pagerState,
         ) { page ->
             val date = LocalDate.of(
-                yearRange.first + page / maxMonth,
+                diaryCalendarInitPage + page / maxMonth,
                 page % maxMonth + 1,
                 1
             )
@@ -101,7 +129,7 @@ fun OrbDiary(
                     modifier = Modifier,
                     currentDate = date,
                     dailyHexCodes = diaryUiState.dailyHexCodes,
-                    onSelectedDate = {}
+                    dateButtonClick = dateButtonClick
                 )
             }
         }
@@ -112,7 +140,13 @@ fun OrbDiary(
 fun OrbDiaryHeader(
     modifier: Modifier = Modifier,
     text: YearMonth,
+    pagerState: PagerState,
+    diaryCalendarInitPage: Int,
+    diaryTitleClick: (Boolean) -> Unit,
+    diaryMoveClick: (String) -> Unit,
+    coroutineScope: CoroutineScope,
 ) {
+
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.Center,
@@ -125,12 +159,21 @@ fun OrbDiaryHeader(
             contentAlignment = Alignment.Center
         ) {
             Image(
+                modifier = Modifier.clickableWithoutRipple {
+                    coroutineScope.launch {
+                        val previousPage = (pagerState.currentPage - 1).coerceAtLeast(0)
+                        pagerState.animateScrollToPage(previousPage)
+                        diaryMoveClick(convertDateToRegex(previousPage, diaryCalendarInitPage))
+                    }
+                },
                 painter = painterResource(id = R.drawable.ic_diary_previous),
                 contentDescription = "previous"
             )
         }
         Text(
-            modifier = Modifier.padding(horizontal = 30.dp),
+            modifier = Modifier
+                .padding(horizontal = 30.dp)
+                .clickableWithoutRipple { diaryTitleClick(true) },
             text = text.year.toString() + stringResource(R.string.diary_year) + " " +
                     text.monthValue + stringResource(R.string.diary_month),
             color = TooltipTitle,
@@ -144,8 +187,16 @@ fun OrbDiaryHeader(
             contentAlignment = Alignment.Center
         ) {
             Image(
+                modifier = Modifier.clickableWithoutRipple {
+                    coroutineScope.launch {
+                        val nextPage =
+                            (pagerState.currentPage + 1).coerceAtMost(pagerState.pageCount - 1)
+                        pagerState.animateScrollToPage(nextPage)
+                        diaryMoveClick(convertDateToRegex(nextPage, diaryCalendarInitPage))
+                    }
+                },
                 painter = painterResource(id = R.drawable.ic_diary_next),
-                contentDescription = "previous"
+                contentDescription = "next"
             )
         }
     }
@@ -156,7 +207,7 @@ fun OrbDiaryItems(
     modifier: Modifier = Modifier,
     currentDate: LocalDate,
     dailyHexCodes: Map<Int, List<String>>,
-    onSelectedDate: () -> Unit
+    dateButtonClick: (String) -> Unit
 ) {
     val lastDay by remember { mutableIntStateOf(currentDate.lengthOfMonth()) }
     val firstDay by remember { mutableIntStateOf(currentDate.withDayOfMonth(1).dayOfWeek.value % 7 + 1) }
@@ -194,7 +245,7 @@ fun OrbDiaryItems(
                         .padding(top = 20.dp),
                     date = date,
                     dailyHexCodes = dailyHexCodes,
-                    dateButtonClick = onSelectedDate
+                    dateButtonClick = dateButtonClick
                 )
             }
         }
@@ -206,7 +257,7 @@ fun OrbDiaryCell(
     modifier: Modifier = Modifier,
     date: LocalDate,
     dailyHexCodes: Map<Int, List<String>>,
-    dateButtonClick: () -> Unit
+    dateButtonClick: (String) -> Unit
 ) {
     val backgroundColor = if (dailyHexCodes.containsKey(date.dayOfMonth)) {
         Brush.linearGradient(
@@ -219,10 +270,13 @@ fun OrbDiaryCell(
         SolidColor(BoxInfo)
     }
 
-
     Box(
         modifier = modifier
-            .clickableWithoutRipple { dateButtonClick() },
+            .clickableWithoutRipple {
+                if (backgroundColor != SolidColor(BoxInfo)) dateButtonClick(
+                    date.toString()
+                )
+            },
         contentAlignment = Alignment.Center,
     ) {
         Box(
