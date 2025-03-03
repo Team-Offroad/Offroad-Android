@@ -47,9 +47,9 @@ fun DiaryHintDialog(
     BackHandler(enabled = pagerState.currentPage == firstPage || pagerState.currentPage == secondPage) {
         coroutineScope.launch {
             when (pagerState.currentPage) {
-                0 -> onCancelClick(false)
-                1 -> pagerState.animateScrollToPage(
-                    pagerState.currentPage - 1,
+                firstPage -> onCancelClick(false)
+                secondPage -> pagerState.animateScrollToPage(
+                    pagerState.currentPage - secondPage,
                 )
             }
         }
@@ -79,8 +79,8 @@ fun DiaryHintDialog(
             modifier = Modifier.weight(1f),
         ) { page ->
             when (page) {
-                0 -> DiaryHintFirstScreen()
-                1 -> DiaryHintSecondScreen()
+                firstPage -> DiaryHintFirstScreen()
+                secondPage -> DiaryHintSecondScreen()
             }
         }
         Row(
@@ -89,9 +89,9 @@ fun DiaryHintDialog(
                 .fillMaxWidth()
                 .padding(top = 52.dp, bottom = 77.dp),
         ) {
-            DiaryHintProgressIndicator(animateActive = pagerState.currentPage >= 0)
+            DiaryHintProgressIndicator(animateActive = pagerState.currentPage >= firstPage)
             Spacer(modifier = Modifier.width(7.dp))
-            DiaryHintProgressIndicator(animateActive = pagerState.currentPage >= 1)
+            DiaryHintProgressIndicator(animateActive = pagerState.currentPage >= secondPage)
 
         }
         Column(
@@ -103,7 +103,7 @@ fun DiaryHintDialog(
                 .clickableWithoutRipple {
                     when (pagerState.currentPage) {
                         0 -> coroutineScope.launch {
-                            pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                            pagerState.animateScrollToPage(pagerState.currentPage + secondPage)
                         }
 
                         1 -> {

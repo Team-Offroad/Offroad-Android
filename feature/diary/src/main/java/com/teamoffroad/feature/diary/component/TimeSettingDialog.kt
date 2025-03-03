@@ -32,7 +32,7 @@ import com.teamoffroad.offroad.feature.diary.R
 @Composable
 fun TimeSettingDialog(
     shape: Shape = RoundedCornerShape(14.dp),
-    onClick: () -> Unit,
+    onDefaultTimeSettingClick: () -> Unit,
     onSettingClick: (Boolean) -> Unit,
     navigateDiaryTime: () -> Unit,
     modifier: Modifier = Modifier,
@@ -101,7 +101,7 @@ fun TimeSettingDialog(
                         backgroundColor = Main2,
                         modifier = Modifier
                             .clickableWithoutRipple {
-                                onClick()
+                                onDefaultTimeSettingClick()
                                 onSettingClick(false)
                             }
                             .weight(1f),

@@ -115,22 +115,19 @@ fun DiaryScreen(
                     )
             }
         }
-        when (diaryUiState.dialogVisibility) {
-            DiaryHintDialogState.HintDialogVisible -> {
-                DiaryHintDialog(
-                    onCancelClick = viewModel::updateHintDialogState,
-                    updateTimeSettingDialogState = viewModel::updateTimeSettingDialogState
-                )
-            }
+        if (diaryUiState.dialogVisibility == DiaryHintDialogState.HintDialogVisible) {
+            DiaryHintDialog(
+                onCancelClick = viewModel::updateHintDialogState,
+                updateTimeSettingDialogState = viewModel::updateTimeSettingDialogState
+            )
         }
-        when (diaryUiState.timeSettingDialogVisibility) {
-            true -> TimeSettingDialog(
-                onClick = {},
+
+        if (diaryUiState.timeSettingDialogVisibility) {
+            TimeSettingDialog(
+                onDefaultTimeSettingClick = {},
                 onSettingClick = viewModel::updateTimeSettingDialogState,
                 navigateDiaryTime = viewModel::updateNavigationDiaryTime
             )
-
-            false -> {}
         }
 
         diaryUiState.memoryLigthVisibility?.let {
@@ -141,14 +138,12 @@ fun DiaryScreen(
             )
         }
 
-        when (diaryUiState.bottomSheetVisibility) {
-            true -> DiaryTimeBottomSheet(
+        if (diaryUiState.bottomSheetVisibility) {
+            DiaryTimeBottomSheet(
                 currentDiaryCalendarPage = diaryUiState.currentDiaryCalendarPage,
                 diaryTitleClick = viewModel::updateBottomSheetState,
                 diaryMoveClick = viewModel::updateCurrentDiaryPage,
             )
-
-            false -> {}
         }
     }
 }
