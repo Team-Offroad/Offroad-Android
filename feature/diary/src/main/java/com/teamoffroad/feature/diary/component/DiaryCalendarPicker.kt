@@ -23,10 +23,10 @@ fun DiaryCalendarPicker(
     diaryCalendarPickerState: PickerState,
     modifier: Modifier = Modifier,
 ) {
-    val startDate = YearMonth.of(2025, 1)
-    val endDate = YearMonth.of(2100, 12)
-    val diaryCalendarList = remember {
-        getYearMonthList(startDate, endDate)
+    val dummyStartDate = YearMonth.of(2025, 1)
+    val dummyEndDate = YearMonth.of(2100, 12)
+    val diaryCalendar = remember {
+        getYearMonthList(dummyStartDate, dummyEndDate)
     }
 
     Box(modifier = modifier.padding(bottom = 50.dp)) {
@@ -43,7 +43,7 @@ fun DiaryCalendarPicker(
         )
         Picker(
             pickerState = diaryCalendarPickerState,
-            items = diaryCalendarList,
+            items = diaryCalendar,
             visibleItemsCount = 7,
             width = 130.dp,
             isInfinitelyScroll = false,

@@ -83,16 +83,18 @@ fun Picker(
         adjustedItems.size
     }
     val listScrollMiddle = listScrollCount / 2
-    val listStartIndex = remember {
-        when (isCalendar) {
-            true -> currentDiaryCalendarPage
-            false -> if (isInfinitelyScroll) {
-                listScrollMiddle - listScrollMiddle % adjustedItems.size - visibleItemsMiddle + startIndex
-            } else {
-                startIndex + 1
-            }
+    val baseIndex = remember {
+        if (isCalendar) currentDiaryCalendarPage
+        else if (isInfinitelyScroll) {
+            val offset = listScrollMiddle % adjustedItems.size
+            listScrollMiddle - offset - visibleItemsMiddle
+        } else {
+            0
         }
     }
+    val listStartIndex =
+        remember { baseIndex + startIndex + if (!isCalendar && !isInfinitelyScroll) 1 else 0 }
+
 
     fun getItem(index: Int) = adjustedItems[index % adjustedItems.size]
 
