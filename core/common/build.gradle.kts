@@ -13,6 +13,7 @@ android {
 
     defaultConfig {
         buildConfigField("String", "BASE_URL", gradleLocalProperties(rootDir, providers).getProperty("base.url"))
+        buildConfigField("String", "AMPLITUDE_KEY", gradleLocalProperties(rootDir, providers).getProperty("amplitude.key"))
     }
 
     buildFeatures {
@@ -28,4 +29,5 @@ dependencies {
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.amplitude)
 }
