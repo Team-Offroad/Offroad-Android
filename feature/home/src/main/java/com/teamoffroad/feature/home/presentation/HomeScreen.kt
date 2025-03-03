@@ -135,7 +135,10 @@ fun HomeScreen(
         CompleteQuestDialog(
             isCompleteQuestDialogShown = isCompleteQuestDialogShown,
             completeQuests = completeQuests,
-            onClickCancel = { isCompleteQuestDialogShown.value = false },
+            onClickCancel = {
+                homeViewModel.runQuestTracker(completeQuests)
+                isCompleteQuestDialogShown.value = false
+            },
         )
     }
 

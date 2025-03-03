@@ -1,11 +1,9 @@
 package com.teamoffroad.feature.home.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.teamoffroad.characterchat.domain.repository.CharacterChatRepository
-import com.teamoffroad.characterchat.presentation.model.CharacterChatLastUnreadUiState
 import com.teamoffroad.core.common.domain.repository.TokenRepository
+import com.teamoffroad.core.common.domain.tracker.Tracker
 import com.teamoffroad.core.common.domain.usecase.SetAutoSignInUseCase
 import com.teamoffroad.feature.home.domain.model.Emblem
 import com.teamoffroad.feature.home.domain.model.UserQuests
@@ -27,7 +25,7 @@ class HomeViewModel @Inject constructor(
     private val setAutoSignInUseCase: SetAutoSignInUseCase,
     private val deviceTokenRepository: TokenRepository,
     private val fcmTokenUseCase: PostFcmTokenUseCase,
-    private val characterChatRepository: CharacterChatRepository
+    private val tracker: Tracker,
 ) : ViewModel() {
     private val _getUsersAdventuresInformationState =
         MutableStateFlow<UiState<UsersAdventuresInformation>>(
@@ -161,6 +159,10 @@ class HomeViewModel @Inject constructor(
             }.onSuccess { }
                 .onFailure {}
         }
+    }
+
+    fun runQuestTracker(quests: List<String>) {
+        tracker.trackEvent("quest_success", mapOf("quests" to quests))
     }
 
     companion object {
