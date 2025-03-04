@@ -19,9 +19,9 @@ import com.teamoffroad.offroad.feature.characterchat.R
 
 @Composable
 fun ChatButton(
-    modifier: Modifier = Modifier,
     isVisible: Boolean = false,
     onClick: () -> Unit = {},
+    modifier: Modifier = Modifier,
 ) {
     StaticAnimationWrapper(visible = isVisible) {
         Text(
