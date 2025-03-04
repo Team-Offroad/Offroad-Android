@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.home.presentation.component.dialog
+package com.teamoffroad.feature.home.presentation.component
 
 import android.annotation.SuppressLint
 import android.widget.Toast
@@ -39,14 +39,13 @@ import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.home.domain.model.Emblem
 import com.teamoffroad.feature.home.presentation.HomeViewModel
-import com.teamoffroad.feature.home.presentation.component.UiState
-import com.teamoffroad.feature.home.presentation.model.UserChangeEmblemDialogStateModel
+import com.teamoffroad.feature.home.presentation.model.HomeUserChangeEmblemDialogStateModel
 import com.teamoffroad.offroad.feature.home.R
 
 @Composable
 fun ChangeEmblemDialog(
     showDialog: MutableState<Boolean>,
-    userChangeEmblemDialogStateModel: MutableState<UserChangeEmblemDialogStateModel?>,
+    homeUserChangeEmblemDialogStateModel: MutableState<HomeUserChangeEmblemDialogStateModel?>,
     originEmblem: String,
     onClickCancel: () -> Unit,
     onCharacterChange: (Emblem?) -> Unit,
@@ -95,7 +94,7 @@ fun ChangeEmblemDialog(
                 CloseDialog(
                     onClickCancel = {
                         showDialog.value = false
-                        userChangeEmblemDialogStateModel.value?.onClickCancel
+                        homeUserChangeEmblemDialogStateModel.value?.onClickCancel
                     }
                 )
 
@@ -123,7 +122,7 @@ fun ChangeEmblemDialog(
                         onClickChange = {
                             onCharacterChange(selectedItem.value)
                             showDialog.value = false
-                            userChangeEmblemDialogStateModel.value?.onClickCancel
+                            homeUserChangeEmblemDialogStateModel.value?.onClickCancel
                         }
                     )
                 }
@@ -164,46 +163,46 @@ private fun CharacterTitle(
         ) {
             items(emblems, key = { it.emblemName }) { emblem ->
                 val selectedChangeEmblemState = when (emblem.emblemName) {
-                    originEmblem -> SelectedEmblemState.SAME_WITH_ORIGIN_EMBLEM
-                    selectedEmblemData.value?.emblemName -> SelectedEmblemState.SAME_WITH_SELECTED_CHANGE_EMBLEM
-                    else -> SelectedEmblemState.SELECTED_CHANGE_EMBLEM
+                    originEmblem -> HomeSelectedEmblemState.SAME_WITH_ORIGIN_EMBLEM
+                    selectedEmblemData.value?.emblemName -> HomeSelectedEmblemState.SAME_WITH_SELECTED_CHANGE_EMBLEM
+                    else -> HomeSelectedEmblemState.SELECTED_CHANGE_EMBLEM
                 }
 
                 DialogTagItem(
                     text = emblem.emblemName,
                     textColor =
                     when (selectedChangeEmblemState) {
-                        SelectedEmblemState.SAME_WITH_ORIGIN_EMBLEM -> if (clickedOriginEmblem.value) Main2 else White
-                        SelectedEmblemState.SAME_WITH_SELECTED_CHANGE_EMBLEM -> White
-                        SelectedEmblemState.SELECTED_CHANGE_EMBLEM -> Main2
+                        HomeSelectedEmblemState.SAME_WITH_ORIGIN_EMBLEM -> if (clickedOriginEmblem.value) Main2 else White
+                        HomeSelectedEmblemState.SAME_WITH_SELECTED_CHANGE_EMBLEM -> White
+                        HomeSelectedEmblemState.SELECTED_CHANGE_EMBLEM -> Main2
                     },
                     style = OffroadTheme.typography.subtitle2Semibold,
                     backgroundColor =
                     when (selectedChangeEmblemState) {
-                        SelectedEmblemState.SAME_WITH_ORIGIN_EMBLEM -> if (clickedOriginEmblem.value) NametagInactive else Sub
-                        SelectedEmblemState.SAME_WITH_SELECTED_CHANGE_EMBLEM -> Sub
-                        SelectedEmblemState.SELECTED_CHANGE_EMBLEM -> NametagInactive
+                        HomeSelectedEmblemState.SAME_WITH_ORIGIN_EMBLEM -> if (clickedOriginEmblem.value) NametagInactive else Sub
+                        HomeSelectedEmblemState.SAME_WITH_SELECTED_CHANGE_EMBLEM -> Sub
+                        HomeSelectedEmblemState.SELECTED_CHANGE_EMBLEM -> NametagInactive
                     },
                     borderColor =
                     when (selectedChangeEmblemState) {
-                        SelectedEmblemState.SAME_WITH_ORIGIN_EMBLEM -> if (clickedOriginEmblem.value) Stroke else Sub
-                        SelectedEmblemState.SAME_WITH_SELECTED_CHANGE_EMBLEM -> Sub
-                        SelectedEmblemState.SELECTED_CHANGE_EMBLEM -> Stroke
+                        HomeSelectedEmblemState.SAME_WITH_ORIGIN_EMBLEM -> if (clickedOriginEmblem.value) Stroke else Sub
+                        HomeSelectedEmblemState.SAME_WITH_SELECTED_CHANGE_EMBLEM -> Sub
+                        HomeSelectedEmblemState.SELECTED_CHANGE_EMBLEM -> Stroke
                     },
                     emblem = emblem,
                     onItemClick = { clickedData: Emblem ->
                         when (selectedChangeEmblemState) {
-                            SelectedEmblemState.SAME_WITH_ORIGIN_EMBLEM -> {
+                            HomeSelectedEmblemState.SAME_WITH_ORIGIN_EMBLEM -> {
                                 selectedEmblemData.value = null
                                 clickedOriginEmblem.value = clickedOriginEmblem.value.not()
                             }
 
-                            SelectedEmblemState.SAME_WITH_SELECTED_CHANGE_EMBLEM -> {
+                            HomeSelectedEmblemState.SAME_WITH_SELECTED_CHANGE_EMBLEM -> {
                                 selectedEmblemData.value = null
                                 clickedOriginEmblem.value = true
                             }
 
-                            SelectedEmblemState.SELECTED_CHANGE_EMBLEM -> {
+                            HomeSelectedEmblemState.SELECTED_CHANGE_EMBLEM -> {
                                 selectedEmblemData.value = clickedData
                                 clickedOriginEmblem.value = true
                             }

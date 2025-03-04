@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.home.presentation.component.user
+package com.teamoffroad.feature.home.presentation.component
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text

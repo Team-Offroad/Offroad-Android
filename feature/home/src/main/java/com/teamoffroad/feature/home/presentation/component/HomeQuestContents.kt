@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.home.presentation.component.quest
+package com.teamoffroad.feature.home.presentation.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,13 +16,13 @@ import com.teamoffroad.core.designsystem.theme.White25
 
 @Composable
 fun ContentsContainer(
-    modifier: Modifier = Modifier,
     location: String,
     textColor: Color = Main1,
+    modifier: Modifier = Modifier,
 ) {
     Text(
         textAlign = TextAlign.Center,
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp)
             .background(

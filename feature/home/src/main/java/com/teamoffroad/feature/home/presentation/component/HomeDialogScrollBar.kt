@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.home.presentation.component.dialog
+package com.teamoffroad.feature.home.presentation.component
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.SpringSpec

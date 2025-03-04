@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.home.presentation.component.dialog
+package com.teamoffroad.feature.home.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box

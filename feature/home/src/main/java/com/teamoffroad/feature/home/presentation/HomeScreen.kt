@@ -47,10 +47,10 @@ import com.teamoffroad.feature.home.domain.model.UserQuests
 import com.teamoffroad.feature.home.presentation.component.CompleteQuestDialog
 import com.teamoffroad.feature.home.presentation.component.HomeIcons
 import com.teamoffroad.feature.home.presentation.component.UiState
-import com.teamoffroad.feature.home.presentation.component.character.CharacterItem
-import com.teamoffroad.feature.home.presentation.component.quest.progressbar.CloseCompleteRequest
-import com.teamoffroad.feature.home.presentation.component.quest.progressbar.RecentQuest
-import com.teamoffroad.feature.home.presentation.component.user.NicknameText
+import com.teamoffroad.feature.home.presentation.component.HomeCharacterItem
+import com.teamoffroad.feature.home.presentation.component.CloseCompleteRequest
+import com.teamoffroad.feature.home.presentation.component.NicknameText
+import com.teamoffroad.feature.home.presentation.component.RecentQuest
 import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 import com.teamoffroad.offroad.feature.home.R
 
@@ -214,7 +214,7 @@ private fun UsersAdventuresInformation(
 
         Column {
             NicknameText(adventuresInformationData?.nickname ?: "")
-            CharacterItem().CharacterNameText(adventuresInformationData?.characterName ?: "")
+            HomeCharacterItem().CharacterNameText(adventuresInformationData?.characterName ?: "")
         }
 
         Box(
@@ -222,11 +222,11 @@ private fun UsersAdventuresInformation(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
         ) {
-            CharacterItem().CharacterImage(homeViewModel, context)
+            HomeCharacterItem().CharacterImage(homeViewModel, context)
         }
     }
     Spacer(modifier = Modifier.padding(10.dp))
-    CharacterItem().EmblemNameText(context, Modifier)
+    HomeCharacterItem().EmblemNameText(context, Modifier)
 }
 
 @Composable

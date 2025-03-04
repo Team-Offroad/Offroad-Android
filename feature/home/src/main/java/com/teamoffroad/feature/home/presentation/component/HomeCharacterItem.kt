@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.home.presentation.component.character
+package com.teamoffroad.feature.home.presentation.component
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -42,12 +42,10 @@ import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.Sub55
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.home.presentation.HomeViewModel
-import com.teamoffroad.feature.home.presentation.component.UiState
-import com.teamoffroad.feature.home.presentation.component.dialog.ChangeEmblemDialog
-import com.teamoffroad.feature.home.presentation.model.UserChangeEmblemDialogStateModel
+import com.teamoffroad.feature.home.presentation.model.HomeUserChangeEmblemDialogStateModel
 import com.teamoffroad.offroad.feature.home.R
 
-class CharacterItem {
+class HomeCharacterItem {
 
     @Composable
     fun CharacterImage(
@@ -154,8 +152,8 @@ class CharacterItem {
         val viewModel: HomeViewModel = hiltViewModel()
         val emblemState = viewModel.patchEmblemState.collectAsState(initial = UiState.Loading).value
         val userEmblem = viewModel.selectedEmblem.collectAsState().value
-        val userChangeEmblemDialogStateModel =
-            remember { mutableStateOf<UserChangeEmblemDialogStateModel?>(null) }
+        val homeUserChangeEmblemDialogStateModel =
+            remember { mutableStateOf<HomeUserChangeEmblemDialogStateModel?>(null) }
         val interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 
         val isChangeEmblemDialogShown = remember { mutableStateOf(false) }
@@ -192,11 +190,11 @@ class CharacterItem {
             if (isChangeEmblemDialogShown.value) {
                 ChangeEmblemDialog(
                     showDialog = isChangeEmblemDialogShown,
-                    userChangeEmblemDialogStateModel = userChangeEmblemDialogStateModel,
+                    homeUserChangeEmblemDialogStateModel = homeUserChangeEmblemDialogStateModel,
                     originEmblem = userEmblem,
                     onClickCancel = {
                         isChangeEmblemDialogShown.value = false
-                        userChangeEmblemDialogStateModel.value?.onClickCancel
+                        homeUserChangeEmblemDialogStateModel.value?.onClickCancel
                     },
                     onCharacterChange = { emblem ->
                         if (emblem != null) {

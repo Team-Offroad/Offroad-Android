@@ -1,11 +1,11 @@
-package com.teamoffroad.feature.home.presentation.component.quest.progressbar
+package com.teamoffroad.feature.home.presentation.component
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,7 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
+import com.teamoffroad.core.designsystem.theme.Contents1GraphMain
+import com.teamoffroad.core.designsystem.theme.Contents1GraphSub
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.PretendardBold
@@ -28,13 +29,25 @@ import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun LinearProgressBar(data: HomeProgressBarModel, viewModel: HomeViewModel) {
-    val closeCompleteQuestProgress = viewModel.linearProgressBar.value
+fun CircleProgressBar(data: HomeProgressBarModel, viewModel: HomeViewModel) {
+    val recentQuestProgress = viewModel.circleProgressBar.value
 
     Box(
         modifier = Modifier
-            .padding(top = 30.dp),
+            .padding(vertical = 14.dp, horizontal = 34.dp),
     ) {
+        CircularProgressIndicator(
+            progress = recentQuestProgress,
+            color = Contents1GraphMain,
+            trackColor = Contents1GraphSub,
+            strokeWidth = 9.dp,
+            strokeCap = StrokeCap.Round,
+            modifier = Modifier
+                .align(Alignment.Center)
+                .heightIn(min = 82.dp)
+                .aspectRatio(1f)
+        )
+
         Text(
             textAlign = TextAlign.Center,
             text = buildAnnotatedString {
@@ -51,36 +64,15 @@ fun LinearProgressBar(data: HomeProgressBarModel, viewModel: HomeViewModel) {
                     SpanStyle(
                         fontFamily = PretendardRegular,
                         fontWeight = FontWeight.Normal,
-                        color = White25
+                        color = White25,
                     )
                 ) {
                     append(" / ")
                     append(data.total.toString())
                 }
             },
-            modifier = Modifier
-                .fillMaxWidth(),
-            style = OffroadTheme.typography.bothUpcomingNumRegular,
+            style = OffroadTheme.typography.bothRecentNumRegular,
+            modifier = Modifier.align(Alignment.Center)
         )
-
-        ConstraintLayout(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(top = 62.dp)
-        ) {
-            val progress = createRef()
-            LinearProgressIndicator(
-                progress = closeCompleteQuestProgress,
-                trackColor = White25,
-                color = Main1,
-                strokeCap = StrokeCap.Round,
-                modifier = Modifier
-                    .height(8.dp)
-                    .padding(end = 10.dp)
-                    .constrainAs(progress) {
-                        start.linkTo(parent.start, margin = (-6).dp)
-                    }
-            )
-        }
     }
 }

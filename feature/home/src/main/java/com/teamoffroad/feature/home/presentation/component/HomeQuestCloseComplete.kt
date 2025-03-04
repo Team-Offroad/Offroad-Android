@@ -1,10 +1,11 @@
-package com.teamoffroad.feature.home.presentation.component.quest.progressbar
+package com.teamoffroad.feature.home.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
@@ -15,47 +16,46 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.teamoffroad.core.designsystem.theme.Contents1
+import com.teamoffroad.core.designsystem.theme.Contents2
 import com.teamoffroad.feature.home.presentation.HomeViewModel
-import com.teamoffroad.feature.home.presentation.component.quest.ContentsContainer
-import com.teamoffroad.feature.home.presentation.component.quest.ContentsTitle
 import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 import com.teamoffroad.offroad.feature.home.R
 
 @Composable
-fun RecentQuest(
-    modifier: Modifier = Modifier,
+fun CloseCompleteRequest(
     data: HomeProgressBarModel,
     viewModel: HomeViewModel,
+    modifier: Modifier = Modifier,
 ) {
-    viewModel.updateCircleProgressBar(data.amount.toFloat(), data.total.toFloat())
+    viewModel.updateLinearProgressBar(data.amount.toFloat(), data.total.toFloat())
 
     Surface(
-        color = Contents1,
-        modifier = modifier
+        color = Contents2,
+        modifier = Modifier
             .clip(shape = RoundedCornerShape(10.dp))
     ) {
-        Column {
-            Row(
-                modifier = Modifier.padding(top = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 12.dp)
+        ) {
+            Spacer(modifier = Modifier.padding(9.dp))
+            Row {
                 ContentsTitle(data.title.ifEmpty { stringResource(id = R.string.home_quest_default_name) })
                 Spacer(modifier = Modifier.padding(start = 4.dp))
                 Image(
-                    painter = painterResource(id = R.drawable.img_home_recent_quest),
+                    painter = painterResource(id = R.drawable.img_home_close_complete),
                     contentDescription = "recent quest",
                 )
             }
             Box(contentAlignment = Alignment.Center) {
-                CircleProgressBar(data, viewModel)
+                LinearProgressBar(data, viewModel)
             }
-            Spacer(modifier = Modifier.weight(1f))
             ContentsContainer(
-                modifier = Modifier.padding(bottom = 12.dp),
+                modifier = Modifier
+                    .padding(top = 18.dp),
                 location = data.location,
             )
         }
     }
 }
-
