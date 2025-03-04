@@ -29,7 +29,6 @@ import java.time.LocalDate
 
 @Composable
 fun CharacterChats(
-    modifier: Modifier = Modifier,
     characterName: String,
     arrangedChats: Map<LocalDate, List<ChatModel>>,
     bottomPadding: Int = 0,
@@ -38,6 +37,7 @@ fun CharacterChats(
     isLoadable: Boolean = true,
     updateChats: () -> Unit,
     updateIsChatting: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val animatedHeight = animateDpAsState(targetValue = (bottomPadding.dp - 748.dp).coerceAtLeast(0.dp), label = "")
     val coroutineScope = rememberCoroutineScope()

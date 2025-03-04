@@ -1,0 +1,92 @@
+package com.teamoffroad.feature.home.presentation.component
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import com.teamoffroad.core.designsystem.theme.Main2
+import com.teamoffroad.core.designsystem.theme.Main3
+import com.teamoffroad.core.designsystem.theme.OffroadTheme
+import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.offroad.feature.home.R
+
+@Composable
+fun CompleteQuestDialog(
+    isCompleteQuestDialogShown: MutableState<Boolean>,
+    completeQuests: List<String> = emptyList(),
+    onClickCancel: () -> Unit,
+    shape: Shape = RoundedCornerShape(14.dp),
+    backgroundColor: Color = Main3,
+    textColor: Color = Main2,
+    modifier: Modifier = Modifier,
+) {
+    Dialog(
+        onDismissRequest = { onClickCancel() },
+        properties = DialogProperties(dismissOnClickOutside = false, dismissOnBackPress = true)
+    ) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(218.dp),
+            shape = shape
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(backgroundColor)
+                    .padding(vertical = 24.dp, horizontal = 40.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.home_complete_quest),
+                    color = textColor,
+                    style = OffroadTheme.typography.title,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
+
+                Text(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                        .padding(top = 14.dp),
+                    color = textColor,
+                    style = OffroadTheme.typography.textRegular,
+                    text = if (completeQuests.size == 1) stringResource(
+                        id = R.string.home_complete_quest_one_description,
+                        completeQuests[0]
+                    ) else stringResource(
+                        id = R.string.home_complete_quest_description,
+                        completeQuests[0],
+                        completeQuests.size - 1
+                    ),
+                    textAlign = TextAlign.Center
+                )
+
+                DialogChangeButton(
+                    text = stringResource(id = R.string.home_confirm),
+                    textColor = White,
+                    style = OffroadTheme.typography.hint,
+                    backgroundColor = Main2,
+                    onItemClick = {
+                        isCompleteQuestDialogShown.value = false
+                    }
+                )
+            }
+        }
+    }
+}
