@@ -147,6 +147,10 @@ class ExploreViewModel @Inject constructor(
                             )
                         )
                         tracker.trackEvent("explore_success", mapOf("place_id" to placeId))
+                        if (exploreResult.completeQuests.isNotEmpty()) tracker.trackEvent(
+                            "quest_success",
+                            mapOf("quests" to exploreResult.completeQuests),
+                        )
                     }
                 }
             }.onFailure {
