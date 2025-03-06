@@ -2,8 +2,10 @@ package com.teamoffroad.feature.main
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -28,6 +30,10 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val currentVersionInfo = getAppVersion() // 현재 앱 정보
+        Log.d("orb currentVersionInfo", currentVersionInfo)
+
         notificationTypeState.value = intent.getStringExtra(KEY_TYPE)
         notificationIdState.value = intent.getStringExtra(KEY_ID)
         characterBroadcastReceiver = CharacterChatBroadcastReceiver(
@@ -61,6 +67,15 @@ class MainActivity : ComponentActivity() {
         @JvmStatic
         fun newInstance(context: Context) = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+    }
+
+    private fun getAppVersion(): String {
+        return try {
+            val packageInfo = packageManager.getPackageInfo(packageName, 0)
+            packageInfo.versionName
+        } catch (e: PackageManager.NameNotFoundException) {
+            "Unknown"
         }
     }
 }
