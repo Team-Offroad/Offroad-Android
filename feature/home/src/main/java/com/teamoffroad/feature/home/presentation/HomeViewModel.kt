@@ -4,13 +4,13 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.characterchat.domain.repository.CharacterChatRepository
-import com.teamoffroad.characterchat.presentation.model.CharacterChatLastUnreadUiState
 import com.teamoffroad.core.common.domain.repository.TokenRepository
 import com.teamoffroad.core.common.domain.usecase.SetAutoSignInUseCase
 import com.teamoffroad.feature.home.domain.model.Emblem
 import com.teamoffroad.feature.home.domain.model.UserQuests
 import com.teamoffroad.feature.home.domain.model.UsersAdventuresInformation
 import com.teamoffroad.feature.home.domain.repository.UserRepository
+import com.teamoffroad.feature.home.domain.usecase.PostDiarySettingUseCase
 import com.teamoffroad.feature.home.domain.usecase.PostFcmTokenUseCase
 import com.teamoffroad.feature.home.presentation.component.UiState
 import com.teamoffroad.feature.home.presentation.component.getErrorMessage
@@ -27,7 +27,8 @@ class HomeViewModel @Inject constructor(
     private val setAutoSignInUseCase: SetAutoSignInUseCase,
     private val deviceTokenRepository: TokenRepository,
     private val fcmTokenUseCase: PostFcmTokenUseCase,
-    private val characterChatRepository: CharacterChatRepository
+    private val characterChatRepository: CharacterChatRepository,
+    private val diarySettingUseCase: PostDiarySettingUseCase,
 ) : ViewModel() {
     private val _getUsersAdventuresInformationState =
         MutableStateFlow<UiState<UsersAdventuresInformation>>(
@@ -161,6 +162,10 @@ class HomeViewModel @Inject constructor(
             }.onSuccess { }
                 .onFailure {}
         }
+    }
+
+    fun initUserDiarySetting() {
+        viewModelScope.launch { runCatching { diarySettingUseCase.invoke() } }
     }
 
     companion object {

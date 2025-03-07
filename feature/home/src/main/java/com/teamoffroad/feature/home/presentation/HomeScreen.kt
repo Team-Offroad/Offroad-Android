@@ -44,13 +44,13 @@ import com.teamoffroad.characterchat.presentation.component.ShowUserChat
 import com.teamoffroad.characterchat.presentation.model.CharacterChatLastUnreadUiState
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.feature.home.domain.model.UserQuests
-import com.teamoffroad.feature.home.presentation.component.CompleteQuestDialog
-import com.teamoffroad.feature.home.presentation.component.HomeIcons
-import com.teamoffroad.feature.home.presentation.component.UiState
-import com.teamoffroad.feature.home.presentation.component.HomeCharacterItem
 import com.teamoffroad.feature.home.presentation.component.CloseCompleteRequest
+import com.teamoffroad.feature.home.presentation.component.CompleteQuestDialog
+import com.teamoffroad.feature.home.presentation.component.HomeCharacterItem
+import com.teamoffroad.feature.home.presentation.component.HomeIcons
 import com.teamoffroad.feature.home.presentation.component.NicknameText
 import com.teamoffroad.feature.home.presentation.component.RecentQuest
+import com.teamoffroad.feature.home.presentation.component.UiState
 import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 import com.teamoffroad.offroad.feature.home.R
 
@@ -68,7 +68,8 @@ fun HomeScreen(
     val mainViewModel: MainCharacterChatViewModel = hiltViewModel()
     val characterChatUiState = mainViewModel.characterChatUiState.collectAsStateWithLifecycle()
     val userChatUiState = mainViewModel.userChatUiState.collectAsStateWithLifecycle()
-    val characterChatLastUnreadUiState = mainViewModel.characterChatLastUnreadUiState.collectAsStateWithLifecycle()
+    val characterChatLastUnreadUiState =
+        mainViewModel.characterChatLastUnreadUiState.collectAsStateWithLifecycle()
     val isCompleteQuestDialogShown = remember { mutableStateOf(false) }
     val characterName = homeViewModel.characterName.collectAsStateWithLifecycle()
     val launcher =
@@ -91,6 +92,7 @@ fun HomeScreen(
         homeViewModel.getUserQuests()
         if (completeQuests.isNotEmpty()) isCompleteQuestDialogShown.value = true
         mainViewModel.getCharacterChatLastUnread()
+        homeViewModel.initUserDiarySetting()
     }
 
     Box(

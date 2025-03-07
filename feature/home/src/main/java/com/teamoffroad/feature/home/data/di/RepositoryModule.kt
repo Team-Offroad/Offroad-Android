@@ -1,8 +1,10 @@
 package com.teamoffroad.feature.home.data.di
 
+import com.teamoffroad.feature.home.data.repository.DiarySettingRepositoryImpl
 import com.teamoffroad.feature.home.data.repository.DummyDummyUserRepositoryImpl
 import com.teamoffroad.feature.home.data.repository.FcmTokenRepositoryImpl
 import com.teamoffroad.feature.home.data.repository.UserRepositoryImpl
+import com.teamoffroad.feature.home.domain.repository.DiarySettingRepository
 import com.teamoffroad.feature.home.domain.repository.DummyUserRepository
 import com.teamoffroad.feature.home.domain.repository.FcmTokenRepository
 import com.teamoffroad.feature.home.domain.repository.UserRepository
@@ -33,4 +35,10 @@ abstract class RepositoryModule {
     abstract fun bindFcmRepository(
         fcmTokenRepositoryImpl: FcmTokenRepositoryImpl
     ): FcmTokenRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindDiarySettingRepository(
+        diarySettingRepositoryImpl: DiarySettingRepositoryImpl,
+    ): DiarySettingRepository
 }
