@@ -22,7 +22,7 @@ fun ContentsContainer(
 ) {
     Text(
         textAlign = TextAlign.Center,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp)
             .background(

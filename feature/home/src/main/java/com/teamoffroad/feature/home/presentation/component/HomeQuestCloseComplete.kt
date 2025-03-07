@@ -31,7 +31,7 @@ fun CloseCompleteRequest(
 
     Surface(
         color = Contents2,
-        modifier = Modifier
+        modifier = modifier
             .clip(shape = RoundedCornerShape(10.dp))
     ) {
         Column(

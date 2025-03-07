@@ -271,7 +271,7 @@ private fun UsersQuestInformation(
                 recentQuest.completeCondition,
                 recentQuest.questName
             ),
-            viewModel
+            viewModel = viewModel
         )
         Spacer(modifier = Modifier.padding(horizontal = 6.dp))
         CloseCompleteRequest(
