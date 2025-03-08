@@ -40,6 +40,7 @@ class MainActivity : ComponentActivity() {
 
         val currentVersionInfo = getAppVersion() // 현재 앱 정보
         viewModel.getMinSupportedVersion()
+        Log.d("orb ttt current", currentVersionInfo)
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

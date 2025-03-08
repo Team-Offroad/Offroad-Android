@@ -1,6 +1,6 @@
-package com.teamoffroad.feature.main.data.remote.service
+package com.teamoffroad.core.common.data.remote.service
 
-import com.teamoffroad.feature.main.data.remote.response.MinSupportedVersionResponseDto
+import com.teamoffroad.core.common.data.remote.response.MinSupportedVersionResponseDto
 import retrofit2.http.GET
 
 interface MinSupportedVersionService {

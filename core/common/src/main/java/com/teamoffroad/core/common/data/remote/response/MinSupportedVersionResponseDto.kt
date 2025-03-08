@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.main.data.remote.response
+package com.teamoffroad.core.common.data.remote.response
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

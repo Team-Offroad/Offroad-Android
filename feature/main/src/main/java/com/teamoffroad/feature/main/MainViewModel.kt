@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
+import com.teamoffroad.core.common.domain.repository.MinSupportedVersionRepository
 import com.teamoffroad.feature.home.presentation.model.HomeErrorMessageModel
-import com.teamoffroad.feature.main.domain.repository.MinSupportedVersionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

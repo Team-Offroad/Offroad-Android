@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.main.data.model
+package com.teamoffroad.core.common.data.model
 
 data class MinSupportedVersionEntity(
     val ios: String,
