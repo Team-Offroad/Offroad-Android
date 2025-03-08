@@ -7,6 +7,7 @@ data class DiaryUiState(
     val latestDiary: List<String> = emptyList(),
     val dailyHexCodes: Map<Int, List<String>> = mapOf(0 to emptyList()),
     val firstDiaryMonth: Int = 0,
+    val tutorialChecked: Boolean? = null,
     val dialogVisibility: DiaryHintDialogState = DiaryHintDialogState.HintDialogInVisible,
     val timeSettingDialogVisibility: Boolean = false,
     val memoryLigthVisibility: String? = null,

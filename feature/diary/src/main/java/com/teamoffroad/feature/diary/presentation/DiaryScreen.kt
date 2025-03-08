@@ -56,6 +56,7 @@ fun DiaryScreen(
 
     LaunchedEffect(Unit) {
         viewModel.apply {
+            getDiaryTutorialChecked()
             getLatestDiary()
             getDummyHexCode()
         }
@@ -118,7 +119,8 @@ fun DiaryScreen(
         if (diaryUiState.dialogVisibility == DiaryHintDialogState.HintDialogVisible) {
             DiaryHintDialog(
                 onCancelClick = viewModel::updateHintDialogState,
-                updateTimeSettingDialogState = viewModel::updateTimeSettingDialogState
+                updateTimeSettingDialogState = viewModel::updateTimeSettingDialogState,
+                patchDiaryTutorialChecked = viewModel::patchDiaryTutorialChecked
             )
         }
 

@@ -2,6 +2,8 @@ package com.teamoffroad.feature.diary.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.teamoffroad.feature.diary.domain.usecase.GetDiaryTutorialCheckedUseCase
+import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryTutorialCheckedUseCase
 import com.teamoffroad.feature.diary.presentation.model.DiaryHintDialogState
 import com.teamoffroad.feature.diary.presentation.model.DiarySideEffect
 import com.teamoffroad.feature.diary.presentation.model.DiaryUiState
@@ -17,6 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DiaryViewModel @Inject constructor(
+    private val getDiaryTutorialCheckedUseCase: GetDiaryTutorialCheckedUseCase,
+    private val patchDiaryTutorialCheckedUseCase: PatchDiaryTutorialCheckedUseCase,
 ) : ViewModel() {
     private val _diaryUiState: MutableStateFlow<DiaryUiState> =
         MutableStateFlow(DiaryUiState())
@@ -75,6 +79,23 @@ class DiaryViewModel @Inject constructor(
     fun updateNavigationDiaryTime() {
         viewModelScope.launch {
             _diarySideEffect.send(DiarySideEffect.NavigateDiaryTime)
+        }
+    }
+
+    fun getDiaryTutorialChecked() {
+        viewModelScope.launch {
+            getDiaryTutorialCheckedUseCase.invoke().onSuccess {
+                _diaryUiState.value = diaryUiState.value.copy(
+                    tutorialChecked = it
+                )
+            }
+            if (diaryUiState.value.tutorialChecked == false) updateHintDialogState(true)
+        }
+    }
+
+    fun patchDiaryTutorialChecked() {
+        viewModelScope.launch {
+            patchDiaryTutorialCheckedUseCase.invoke()
         }
     }
 
