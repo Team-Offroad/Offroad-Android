@@ -9,6 +9,7 @@ data class DiaryUiState(
     val firstDiaryMonth: Int = 0,
     val tutorialChecked: Boolean? = null,
     val dialogVisibility: DiaryHintDialogState = DiaryHintDialogState.HintDialogInVisible,
+    val diaryCreateTimeChecked: Boolean? = null,
     val timeSettingDialogVisibility: Boolean = false,
     val memoryLigthVisibility: String? = null,
     val memoryLightList: List<MemoryLight> = emptyList(),

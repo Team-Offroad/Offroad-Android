@@ -2,7 +2,9 @@ package com.teamoffroad.feature.diary.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.teamoffroad.feature.diary.domain.usecase.GetDiaryCreateTimeCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryTutorialCheckedUseCase
+import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryCreateTimeCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryTutorialCheckedUseCase
 import com.teamoffroad.feature.diary.presentation.model.DiaryHintDialogState
 import com.teamoffroad.feature.diary.presentation.model.DiarySideEffect
@@ -21,6 +23,8 @@ import javax.inject.Inject
 class DiaryViewModel @Inject constructor(
     private val getDiaryTutorialCheckedUseCase: GetDiaryTutorialCheckedUseCase,
     private val patchDiaryTutorialCheckedUseCase: PatchDiaryTutorialCheckedUseCase,
+    private val getDiaryCreateTimeCheckedUseCase: GetDiaryCreateTimeCheckedUseCase,
+    private val patchDiaryCreateTimeCheckedUseCase: PatchDiaryCreateTimeCheckedUseCase,
 ) : ViewModel() {
     private val _diaryUiState: MutableStateFlow<DiaryUiState> =
         MutableStateFlow(DiaryUiState())
@@ -107,10 +111,33 @@ class DiaryViewModel @Inject constructor(
         }
     }
 
+    fun getDiaryCreateTimeChecked() {
+        viewModelScope.launch {
+            getDiaryCreateTimeCheckedUseCase.invoke().onSuccess {
+                _diaryUiState.value = diaryUiState.value.copy(
+                    diaryCreateTimeChecked = it
+                )
+                updateTimeSettingDialogWithoutTutorial()
+            }
+        }
+    }
+
+    fun patchDiaryCreateTimeChecked() {
+        viewModelScope.launch {
+            patchDiaryCreateTimeCheckedUseCase.invoke()
+        }
+    }
+
+    private fun updateTimeSettingDialogWithoutTutorial() {
+        if (diaryUiState.value.tutorialChecked == true and (diaryUiState.value.diaryCreateTimeChecked == false)) {
+            updateTimeSettingDialogState(true)
+        }
+    }
+
     fun updateTimeSettingDialogState(state: Boolean) {
         viewModelScope.launch {
             _diaryUiState.value = diaryUiState.value.copy(
-                timeSettingDialogVisibility = state
+                timeSettingDialogVisibility = if (diaryUiState.value.diaryCreateTimeChecked == true) false else state
             )
         }
     }

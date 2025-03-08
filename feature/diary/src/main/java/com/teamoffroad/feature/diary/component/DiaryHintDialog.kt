@@ -53,7 +53,11 @@ fun DiaryHintDialog(
     BackHandler(enabled = pagerState.currentPage == firstPage || pagerState.currentPage == secondPage) {
         coroutineScope.launch {
             when (pagerState.currentPage) {
-                firstPage -> onCancelClick(false)
+                firstPage -> {
+                    onCancelClick(false)
+                    updateTimeSettingDialogState(true)
+                }
+
                 secondPage -> pagerState.animateScrollToPage(
                     pagerState.currentPage - secondPage,
                 )
@@ -115,7 +119,6 @@ fun DiaryHintDialog(
                         1 -> {
                             updateTimeSettingDialogState(true)
                             onCancelClick(false)
-                            //TODO. 튜토리얼완료 api 쏘기
                         }
                     }
                 },

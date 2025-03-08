@@ -13,4 +13,10 @@ class DiarySettingRepositoryImpl @Inject constructor(
 
     override suspend fun patchDiaryTutorialChecked(): Result<Unit> =
         runCatching { diarySettingService.patchDiaryTutorialChecked() }
+
+    override suspend fun getDiaryCreateTimeChecked(): Result<Boolean?> =
+        runCatching { diarySettingService.getDiaryCreateTimeChecked().data?.value }
+
+    override suspend fun patchDiaryCreateTimeChecked(): Result<Unit> =
+        runCatching { diarySettingService.patchDiaryCreateTimeChecked() }
 }

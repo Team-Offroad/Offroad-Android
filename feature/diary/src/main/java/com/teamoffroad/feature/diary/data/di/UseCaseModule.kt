@@ -1,7 +1,9 @@
 package com.teamoffroad.feature.diary.data.di
 
 import com.teamoffroad.feature.diary.domain.repository.DiarySettingRepository
+import com.teamoffroad.feature.diary.domain.usecase.GetDiaryCreateTimeCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryTutorialCheckedUseCase
+import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryCreateTimeCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryTutorialCheckedUseCase
 import dagger.Module
 import dagger.Provides
@@ -27,5 +29,21 @@ object UseCaseModule {
         diarySettingRepository: DiarySettingRepository,
     ): PatchDiaryTutorialCheckedUseCase {
         return PatchDiaryTutorialCheckedUseCase(diarySettingRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetDiaryCreateTimeCheckedUseCase(
+        diarySettingRepository: DiarySettingRepository,
+    ): GetDiaryCreateTimeCheckedUseCase {
+        return GetDiaryCreateTimeCheckedUseCase(diarySettingRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun providePatchDiaryCreateTimeCheckedUseCase(
+        diarySettingRepository: DiarySettingRepository,
+    ): PatchDiaryCreateTimeCheckedUseCase {
+        return PatchDiaryCreateTimeCheckedUseCase(diarySettingRepository)
     }
 }

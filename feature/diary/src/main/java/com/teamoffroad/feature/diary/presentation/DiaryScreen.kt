@@ -57,6 +57,7 @@ fun DiaryScreen(
     LaunchedEffect(Unit) {
         viewModel.apply {
             getDiaryTutorialChecked()
+            getDiaryCreateTimeChecked()
             getLatestDiary()
             getDummyHexCode()
         }
@@ -120,7 +121,7 @@ fun DiaryScreen(
             DiaryHintDialog(
                 onCancelClick = viewModel::updateHintDialogState,
                 updateTimeSettingDialogState = viewModel::updateTimeSettingDialogState,
-                patchDiaryTutorialChecked = viewModel::patchDiaryTutorialChecked
+                patchDiaryTutorialChecked = viewModel::patchDiaryTutorialChecked,
             )
         }
 
@@ -128,7 +129,8 @@ fun DiaryScreen(
             TimeSettingDialog(
                 onDefaultTimeSettingClick = {},
                 onSettingClick = viewModel::updateTimeSettingDialogState,
-                navigateDiaryTime = viewModel::updateNavigationDiaryTime
+                navigateDiaryTime = viewModel::updateNavigationDiaryTime,
+                patchDiaryCreateTimeChecked = viewModel::patchDiaryCreateTimeChecked,
             )
         }
 
