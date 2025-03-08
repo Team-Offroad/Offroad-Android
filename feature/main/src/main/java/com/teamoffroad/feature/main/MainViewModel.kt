@@ -17,23 +17,32 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val minSupportedVersionRepository: MinSupportedVersionRepository
 ) : ViewModel() {
-    private val _minSupportedVersion = MutableStateFlow("")
-    val minSupportedVersion = _minSupportedVersion.asStateFlow()
+    private val _appVersionState = MutableStateFlow(true)
+    val appVersionState = _appVersionState.asStateFlow()
 
     private val _mainUiState = MutableStateFlow(MainUiState())
     val mainUiState = _mainUiState.asStateFlow()
 
-    fun getMinSupportedVersion() {
+    fun getMinSupportedVersion(currentVersion: String) {
         viewModelScope.launch {
             runCatching {
                 minSupportedVersionRepository.fetchMinSupportedVersion()
             }.onSuccess { state ->
-                Log.d("orb ttt", state.android)
+                _appVersionState.value = compareVersions(currentVersion, state.android)
             }.onFailure { t ->
                 val errorMessage = getErrorMessage(t)
-                Log.d("orb ttt", "fail $t $errorMessage")
             }
         }
+    }
+
+    private fun compareVersions(currentVersion: String, minAppVersion: String): Boolean {
+        val currentVersionParts = currentVersion.split(".").map { it.toInt() }
+        val minAppVersionParts = minAppVersion.split(".").map { it.toInt() }
+
+        for (i in 0 until maxOf(currentVersionParts.size, minAppVersionParts.size)) {
+            if (currentVersionParts.getOrElse(i) { 0 } < minAppVersionParts.getOrElse(i) { 0 }) return false
+        }
+        return true
     }
 
     fun navigateToAnnouncement(announcementId: String) {
