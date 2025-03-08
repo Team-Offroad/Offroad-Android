@@ -199,7 +199,7 @@ fun DiaryTimePicker(
         val meridiemValuePickerState = rememberPickerState()
 
         LaunchedEffect(hoursValuesPickerState.selectedItem) {
-            updateDiaryTime(true, hoursValuesPickerState.selectedItem)
+            updateDiaryTime(true, hoursValuesPickerState.selectedItem.take(3))
         }
 
         LaunchedEffect(meridiemValuePickerState.selectedItem) {

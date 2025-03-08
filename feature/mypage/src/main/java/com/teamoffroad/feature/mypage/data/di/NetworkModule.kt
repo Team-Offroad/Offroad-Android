@@ -3,6 +3,7 @@ package com.teamoffroad.feature.mypage.data.di
 import com.teamoffroad.core.common.data.di.qualifier.Auth
 import com.teamoffroad.feature.mypage.data.remote.service.AnnouncementService
 import com.teamoffroad.feature.mypage.data.remote.service.CharacterService
+import com.teamoffroad.feature.mypage.data.remote.service.DiarySettingService
 import com.teamoffroad.feature.mypage.data.remote.service.EmblemService
 import com.teamoffroad.feature.mypage.data.remote.service.MotionService
 import com.teamoffroad.feature.mypage.data.remote.service.UserCouponService
@@ -52,5 +53,11 @@ object NetworkModule {
     @Singleton
     fun provideAnnouncementService(@Auth retrofit: Retrofit): AnnouncementService {
         return retrofit.create(AnnouncementService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDiarySettingService(@Auth retrofit: Retrofit): DiarySettingService {
+        return retrofit.create(DiarySettingService::class.java)
     }
 }
