@@ -10,14 +10,21 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.teamoffroad.characterchat.presentation.MainCharacterChatViewModel
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_ID
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_TYPE
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.main.component.MainTransparentActionBar
+import com.teamoffroad.offroad.core.common.BuildConfig
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -32,7 +39,15 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val currentVersionInfo = getAppVersion() // 현재 앱 정보
-        Log.d("orb currentVersionInfo", currentVersionInfo)
+        viewModel.getMinSupportedVersion()
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.minSupportedVersion.collect { minVersion ->
+                    Log.d("MainActivity", "최소 지원 버전: $minVersion")
+                }
+            }
+        }
 
         notificationTypeState.value = intent.getStringExtra(KEY_TYPE)
         notificationIdState.value = intent.getStringExtra(KEY_ID)

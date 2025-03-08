@@ -2,6 +2,7 @@ import com.teamoffroad.app.setNamespace
 
 plugins {
     id("offroad.android.feature")
+    alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
 android {
@@ -30,4 +31,6 @@ dependencies {
     implementation(libs.accompanist.insets)
     implementation(libs.eventbus)
     implementation(libs.lottie.compose)
+    implementation(libs.retrofit.kotlinx.serialization)
+    implementation(libs.gson)
 }
