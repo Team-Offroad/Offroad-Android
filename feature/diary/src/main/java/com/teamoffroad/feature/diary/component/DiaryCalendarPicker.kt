@@ -15,16 +15,18 @@ import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.feature.diary.presentation.util.getYearMonthList
 import com.teamoffroad.feature.mypage.presentation.component.Picker
 import com.teamoffroad.feature.mypage.presentation.component.PickerState
+import java.time.LocalDate
 import java.time.YearMonth
 
 @Composable
 fun DiaryCalendarPicker(
     currentDiaryCalendarPage: Int,
     diaryCalendarPickerState: PickerState,
+    diaryFirstCreatedDate: Pair<Int, Int>,
     modifier: Modifier = Modifier,
 ) {
-    val dummyStartDate = YearMonth.of(2025, 1)
-    val dummyEndDate = YearMonth.of(2100, 12)
+    val dummyStartDate = YearMonth.of(diaryFirstCreatedDate.first, diaryFirstCreatedDate.second)
+    val dummyEndDate = YearMonth.of(LocalDate.now().year, LocalDate.now().month)
     val diaryCalendar = remember {
         getYearMonthList(dummyStartDate, dummyEndDate)
     }

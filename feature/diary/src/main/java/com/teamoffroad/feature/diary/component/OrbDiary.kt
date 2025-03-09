@@ -64,7 +64,6 @@ import java.util.Locale
 fun OrbDiary(
     currentDate: LocalDate = LocalDate.now(),
     diaryUiState: DiaryUiState,
-    diaryCalendarLastPage: Int,
     diaryFirstCreatedDate: Pair<Int, Int>,
     maxMonth: Int = 12,
     dateButtonClick: (String) -> Unit,
@@ -77,8 +76,6 @@ fun OrbDiary(
         (currentDate.year - diaryFirstCreatedDate.first) * maxMonth + currentDate.monthValue - diaryFirstCreatedDate.second
     val pageCount =
         (currentDate.year - diaryFirstCreatedDate.first) * 12 + currentDate.monthValue - 1
-
-    //val pageCount = (diaryCalendarLastPage - diaryFirstCreatedDate.first) * maxMonth
 
     var currentYearAndMonth by remember { mutableStateOf(YearMonth.now()) }
     var currentPage by remember { mutableIntStateOf(initialPage) }
@@ -95,7 +92,8 @@ fun OrbDiary(
         if (moveDiaryCalendar.isNotBlank()) {
             val (year, month) = convertRegexToDate(moveDiaryCalendar)
             coroutineScope.launch {
-                val targetPage = (year - diaryFirstCreatedDate.first) * maxMonth + (month - 1)
+                val targetPage =
+                    (year - diaryFirstCreatedDate.first) * maxMonth + (month - diaryFirstCreatedDate.second)
                 pagerState.animateScrollToPage(targetPage)
             }
         }
@@ -114,7 +112,7 @@ fun OrbDiary(
                 .align(Alignment.CenterHorizontally),
             text = currentYearAndMonth,
             pagerState = pagerState,
-            diaryCalendarInitPage = diaryFirstCreatedDate.first,
+            diaryCalendarInitPage = diaryFirstCreatedDate,
             firstDate = initialPage,
             lastDate = pageCount,
             diaryTitleClick = diaryTitleClick,
@@ -147,7 +145,7 @@ fun OrbDiaryHeader(
     modifier: Modifier = Modifier,
     text: YearMonth,
     pagerState: PagerState,
-    diaryCalendarInitPage: Int,
+    diaryCalendarInitPage: Pair<Int, Int>,
     firstDate: Int,
     lastDate: Int,
     diaryTitleClick: (Boolean) -> Unit,
@@ -171,7 +169,6 @@ fun OrbDiaryHeader(
                         coroutineScope.launch {
                             val previousPage = (pagerState.currentPage - 1).coerceAtLeast(0)
                             pagerState.animateScrollToPage(previousPage)
-                            diaryMoveClick(convertDateToRegex(previousPage, diaryCalendarInitPage))
                         }
                     },
                     painter = painterResource(id = R.drawable.ic_diary_previous),
@@ -204,7 +201,12 @@ fun OrbDiaryHeader(
                             val nextPage =
                                 (pagerState.currentPage + 1).coerceAtMost(pagerState.pageCount - 1)
                             pagerState.animateScrollToPage(nextPage)
-                            diaryMoveClick(convertDateToRegex(nextPage, diaryCalendarInitPage))
+                            diaryMoveClick(
+                                convertDateToRegex(
+                                    page = nextPage,
+                                    startDate = diaryCalendarInitPage
+                                )
+                            )
                         }
                     },
                     painter = painterResource(id = R.drawable.ic_diary_next),

@@ -22,6 +22,7 @@ import com.teamoffroad.offroad.feature.diary.R
 @Composable
 fun DiaryTimeBottomSheet(
     currentDiaryCalendarPage: String,
+    diaryFirstCreatedDate: Pair<Int, Int>,
     diaryTitleClick: (Boolean) -> Unit,
     diaryMoveClick: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -47,8 +48,12 @@ fun DiaryTimeBottomSheet(
                     },
             )
             DiaryCalendarPicker(
-                currentDiaryCalendarPage = getDiaryCalendarIndex(2025, currentDiaryCalendarPage),
-                diaryCalendarPickerState = diaryCalendarPickerState
+                currentDiaryCalendarPage = getDiaryCalendarIndex(
+                    diaryFirstCreatedDate,
+                    currentDiaryCalendarPage
+                ),
+                diaryFirstCreatedDate = diaryFirstCreatedDate,
+                diaryCalendarPickerState = diaryCalendarPickerState,
             )
         }
     }

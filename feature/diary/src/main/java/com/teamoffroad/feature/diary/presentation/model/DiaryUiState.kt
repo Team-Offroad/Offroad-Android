@@ -13,7 +13,6 @@ data class DiaryUiState(
     val memoryLigthVisibility: String? = null,
     val memoryLightList: List<MemoryLight> = emptyList(),
     val bottomSheetVisibility: Boolean = false,
-    val diaryCalendarLastPage: Int = 2100,
     val diaryFirstCreatedDate: Pair<Int, Int> = Pair(0, 0),
     val currentDiaryCalendarPage: String = LocalDate.now()
         .format(DateTimeFormatter.ofPattern("yyyy년 MM월"))

@@ -107,7 +107,6 @@ fun DiaryScreen(
                 )
                     OrbDiary(
                         diaryUiState = diaryUiState,
-                        diaryCalendarLastPage = diaryUiState.diaryCalendarLastPage,
                         diaryFirstCreatedDate = diaryUiState.diaryFirstCreatedDate,
                         dateButtonClick = viewModel::updateMemoryLightState,
                         diaryTitleClick = viewModel::updateBottomSheetState,
@@ -149,6 +148,7 @@ fun DiaryScreen(
         if (diaryUiState.bottomSheetVisibility) {
             DiaryTimeBottomSheet(
                 currentDiaryCalendarPage = diaryUiState.currentDiaryCalendarPage,
+                diaryFirstCreatedDate = diaryUiState.diaryFirstCreatedDate,
                 diaryTitleClick = viewModel::updateBottomSheetState,
                 diaryMoveClick = viewModel::updateCurrentDiaryPage,
             )
