@@ -1,7 +1,7 @@
 package com.teamoffroad.feature.diary.data.di
 
 import com.teamoffroad.core.common.data.di.qualifier.Auth
-import com.teamoffroad.feature.diary.data.remote.service.DiarySettingService
+import com.teamoffroad.feature.diary.data.remote.service.DiaryService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 object NetworkModule {
     @Provides
     @Singleton
-    fun provideDiarySettingService(@Auth retrofit: Retrofit): DiarySettingService {
-        return retrofit.create(DiarySettingService::class.java)
+    fun provideDiaryService(@Auth retrofit: Retrofit): DiaryService {
+        return retrofit.create(DiaryService::class.java)
     }
 }
