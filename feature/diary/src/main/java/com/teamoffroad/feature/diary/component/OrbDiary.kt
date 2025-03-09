@@ -75,7 +75,7 @@ fun OrbDiary(
     val initialPage =
         (currentDate.year - diaryFirstCreatedDate.first) * maxMonth + currentDate.monthValue - diaryFirstCreatedDate.second
     val pageCount =
-        (currentDate.year - diaryFirstCreatedDate.first) * 12 + currentDate.monthValue - 1
+        (currentDate.year - diaryFirstCreatedDate.first) * 12 + currentDate.monthValue - diaryFirstCreatedDate.second + 1
 
     var currentYearAndMonth by remember { mutableStateOf(YearMonth.now()) }
     var currentPage by remember { mutableIntStateOf(initialPage) }
@@ -113,7 +113,6 @@ fun OrbDiary(
             text = currentYearAndMonth,
             pagerState = pagerState,
             diaryCalendarInitPage = diaryFirstCreatedDate,
-            firstDate = initialPage,
             lastDate = pageCount,
             diaryTitleClick = diaryTitleClick,
             diaryMoveClick = diaryMoveClick,
@@ -146,7 +145,6 @@ fun OrbDiaryHeader(
     text: YearMonth,
     pagerState: PagerState,
     diaryCalendarInitPage: Pair<Int, Int>,
-    firstDate: Int,
     lastDate: Int,
     diaryTitleClick: (Boolean) -> Unit,
     diaryMoveClick: (String) -> Unit,
@@ -156,7 +154,7 @@ fun OrbDiaryHeader(
         modifier = modifier,
         horizontalArrangement = Arrangement.Center,
     ) {
-        if (pagerState.currentPage != firstDate - 1) {
+        if (pagerState.currentPage != 0) {
             Box(
                 modifier = Modifier
                     .clip(CircleShape)

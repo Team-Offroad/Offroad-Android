@@ -40,7 +40,7 @@ class DiaryViewModel @Inject constructor(
             getDiaryFirstDateUseCase.invoke().onSuccess { diaryFirstDate ->
                 if (diaryFirstDate != null) {
                     _diaryUiState.value = diaryUiState.value.copy(
-                        diaryFirstCreatedDate = Pair(2025, 2)
+                        diaryFirstCreatedDate = Pair(diaryFirstDate.year, diaryFirstDate.month)
                     )
                 }
             }
