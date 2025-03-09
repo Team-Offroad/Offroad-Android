@@ -1,7 +1,8 @@
 package com.teamoffroad.feature.diary.data.di
 
-import com.teamoffroad.feature.diary.domain.repository.DiarySettingRepository
+import com.teamoffroad.feature.diary.domain.repository.DiaryRepository
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryCreateTimeCheckedUseCase
+import com.teamoffroad.feature.diary.domain.usecase.GetDiaryFirstDateUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryTutorialCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryCreateTimeCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryTutorialCheckedUseCase
@@ -18,32 +19,40 @@ object UseCaseModule {
     @Provides
     @Singleton
     fun provideGetDiaryTutorialCheckedUseCase(
-        diarySettingRepository: DiarySettingRepository,
+        diaryRepository: DiaryRepository,
     ): GetDiaryTutorialCheckedUseCase {
-        return GetDiaryTutorialCheckedUseCase(diarySettingRepository)
+        return GetDiaryTutorialCheckedUseCase(diaryRepository)
     }
 
     @Provides
     @Singleton
     fun providePatchDiaryTutorialCheckedUseCase(
-        diarySettingRepository: DiarySettingRepository,
+        diaryRepository: DiaryRepository,
     ): PatchDiaryTutorialCheckedUseCase {
-        return PatchDiaryTutorialCheckedUseCase(diarySettingRepository)
+        return PatchDiaryTutorialCheckedUseCase(diaryRepository)
     }
 
     @Provides
     @Singleton
     fun provideGetDiaryCreateTimeCheckedUseCase(
-        diarySettingRepository: DiarySettingRepository,
+        diaryRepository: DiaryRepository,
     ): GetDiaryCreateTimeCheckedUseCase {
-        return GetDiaryCreateTimeCheckedUseCase(diarySettingRepository)
+        return GetDiaryCreateTimeCheckedUseCase(diaryRepository)
     }
 
     @Provides
     @Singleton
     fun providePatchDiaryCreateTimeCheckedUseCase(
-        diarySettingRepository: DiarySettingRepository,
+        diaryRepository: DiaryRepository,
     ): PatchDiaryCreateTimeCheckedUseCase {
-        return PatchDiaryCreateTimeCheckedUseCase(diarySettingRepository)
+        return PatchDiaryCreateTimeCheckedUseCase(diaryRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetDiaryFirstDateUseCaseUseCase(
+        diaryRepository: DiaryRepository,
+    ): GetDiaryFirstDateUseCase {
+        return GetDiaryFirstDateUseCase(diaryRepository)
     }
 }

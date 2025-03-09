@@ -56,6 +56,7 @@ fun DiaryScreen(
 
     LaunchedEffect(Unit) {
         viewModel.apply {
+            getDiaryFirstDate()
             getDiaryTutorialChecked()
             getDiaryCreateTimeChecked()
             getLatestDiary()

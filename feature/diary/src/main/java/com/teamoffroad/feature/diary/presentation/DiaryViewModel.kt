@@ -3,6 +3,7 @@ package com.teamoffroad.feature.diary.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryCreateTimeCheckedUseCase
+import com.teamoffroad.feature.diary.domain.usecase.GetDiaryFirstDateUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryTutorialCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryCreateTimeCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryTutorialCheckedUseCase
@@ -25,6 +26,7 @@ class DiaryViewModel @Inject constructor(
     private val patchDiaryTutorialCheckedUseCase: PatchDiaryTutorialCheckedUseCase,
     private val getDiaryCreateTimeCheckedUseCase: GetDiaryCreateTimeCheckedUseCase,
     private val patchDiaryCreateTimeCheckedUseCase: PatchDiaryCreateTimeCheckedUseCase,
+    private val getDiaryFirstDateUseCase: GetDiaryFirstDateUseCase,
 ) : ViewModel() {
     private val _diaryUiState: MutableStateFlow<DiaryUiState> =
         MutableStateFlow(DiaryUiState())
@@ -32,6 +34,16 @@ class DiaryViewModel @Inject constructor(
 
     private val _diarySideEffect: Channel<DiarySideEffect> = Channel()
     val diarySideEffect = _diarySideEffect.receiveAsFlow()
+
+    fun getDiaryFirstDate() {
+        viewModelScope.launch {
+            getDiaryFirstDateUseCase.invoke().onSuccess { diaryFirstDate ->
+                _diaryUiState.value = diaryUiState.value.copy(
+                    diaryFirstCreatedDate = Pair(diaryFirstDate?.year, diaryFirstDate?.month)
+                )
+            }
+        }
+    }
 
     fun getLatestDiary() {
         val dummyList = listOf("january", "february", "wednesday")

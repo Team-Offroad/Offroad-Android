@@ -16,6 +16,7 @@ data class DiaryUiState(
     val bottomSheetVisibility: Boolean = false,
     val diaryCalendarInitPage: Int = 2025,
     val diaryCalendarLastPage: Int = 2100,
+    val diaryFirstCreatedDate: Pair<Int?, Int?> = Pair(null, null),
     val currentDiaryCalendarPage: String = LocalDate.now()
         .format(DateTimeFormatter.ofPattern("yyyy년 MM월"))
 )

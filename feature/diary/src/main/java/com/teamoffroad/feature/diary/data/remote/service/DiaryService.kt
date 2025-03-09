@@ -2,11 +2,12 @@ package com.teamoffroad.feature.diary.data.remote.service
 
 import com.teamoffroad.core.common.data.remote.response.BaseResponse
 import com.teamoffroad.feature.diary.data.remote.response.DiaryCreateTimeCheckedResponseDto
+import com.teamoffroad.feature.diary.data.remote.response.DiaryFirstDateResponseDto
 import com.teamoffroad.feature.diary.data.remote.response.DiaryTutorialCheckedResponseDto
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 
-interface DiarySettingService {
+interface DiaryService {
 
     @GET("diary/setting/tutorial-checked")
     suspend fun getDiaryTutorialChecked(): BaseResponse<DiaryTutorialCheckedResponseDto>
@@ -19,4 +20,7 @@ interface DiarySettingService {
 
     @PATCH("diary/setting/create-time-checked")
     suspend fun patchDiaryCreateTimeChecked(): BaseResponse<Unit?>
+
+    @GET("diary/first-date")
+    suspend fun getDiaryFirstDate(): BaseResponse<DiaryFirstDateResponseDto>
 }
