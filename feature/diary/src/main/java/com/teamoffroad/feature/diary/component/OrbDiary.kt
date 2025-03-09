@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -63,18 +64,21 @@ import java.util.Locale
 fun OrbDiary(
     currentDate: LocalDate = LocalDate.now(),
     diaryUiState: DiaryUiState,
-    diaryCalendarInitPage: Int,
     diaryCalendarLastPage: Int,
+    diaryFirstCreatedDate: Pair<Int, Int>,
     maxMonth: Int = 12,
     dateButtonClick: (String) -> Unit,
     diaryTitleClick: (Boolean) -> Unit,
     diaryMoveClick: (String) -> Unit,
     modifier: Modifier = Modifier,
-    ) {
+) {
     val coroutineScope = rememberCoroutineScope()
     val initialPage =
-        (currentDate.year - diaryCalendarInitPage) * maxMonth + currentDate.monthValue - 1
-    val pageCount = (diaryCalendarLastPage - diaryCalendarInitPage) * maxMonth
+        (currentDate.year - diaryFirstCreatedDate.first) * maxMonth + currentDate.monthValue - diaryFirstCreatedDate.second
+    val pageCount =
+        (currentDate.year - diaryFirstCreatedDate.first) * 12 + currentDate.monthValue - 1
+
+    //val pageCount = (diaryCalendarLastPage - diaryFirstCreatedDate.first) * maxMonth
 
     var currentYearAndMonth by remember { mutableStateOf(YearMonth.now()) }
     var currentPage by remember { mutableIntStateOf(initialPage) }
@@ -91,7 +95,7 @@ fun OrbDiary(
         if (moveDiaryCalendar.isNotBlank()) {
             val (year, month) = convertRegexToDate(moveDiaryCalendar)
             coroutineScope.launch {
-                val targetPage = (year - diaryCalendarInitPage) * maxMonth + (month - 1)
+                val targetPage = (year - diaryFirstCreatedDate.first) * maxMonth + (month - 1)
                 pagerState.animateScrollToPage(targetPage)
             }
         }
@@ -110,7 +114,9 @@ fun OrbDiary(
                 .align(Alignment.CenterHorizontally),
             text = currentYearAndMonth,
             pagerState = pagerState,
-            diaryCalendarInitPage = diaryCalendarInitPage,
+            diaryCalendarInitPage = diaryFirstCreatedDate.first,
+            firstDate = initialPage,
+            lastDate = pageCount,
             diaryTitleClick = diaryTitleClick,
             diaryMoveClick = diaryMoveClick,
             coroutineScope = coroutineScope,
@@ -120,7 +126,7 @@ fun OrbDiary(
             state = pagerState,
         ) { page ->
             val date = LocalDate.of(
-                diaryCalendarInitPage + page / maxMonth,
+                diaryFirstCreatedDate.first + page / maxMonth,
                 page % maxMonth + 1,
                 1
             )
@@ -142,33 +148,38 @@ fun OrbDiaryHeader(
     text: YearMonth,
     pagerState: PagerState,
     diaryCalendarInitPage: Int,
+    firstDate: Int,
+    lastDate: Int,
     diaryTitleClick: (Boolean) -> Unit,
     diaryMoveClick: (String) -> Unit,
     coroutineScope: CoroutineScope,
 ) {
-
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.Center,
     ) {
-        Box(
-            modifier = Modifier
-                .clip(CircleShape)
-                .background(color = DiaryButton)
-                .size(22.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                modifier = Modifier.clickableWithoutRipple {
-                    coroutineScope.launch {
-                        val previousPage = (pagerState.currentPage - 1).coerceAtLeast(0)
-                        pagerState.animateScrollToPage(previousPage)
-                        diaryMoveClick(convertDateToRegex(previousPage, diaryCalendarInitPage))
-                    }
-                },
-                painter = painterResource(id = R.drawable.ic_diary_previous),
-                contentDescription = "previous"
-            )
+        if (pagerState.currentPage != firstDate - 1) {
+            Box(
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .background(color = DiaryButton)
+                    .size(22.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    modifier = Modifier.clickableWithoutRipple {
+                        coroutineScope.launch {
+                            val previousPage = (pagerState.currentPage - 1).coerceAtLeast(0)
+                            pagerState.animateScrollToPage(previousPage)
+                            diaryMoveClick(convertDateToRegex(previousPage, diaryCalendarInitPage))
+                        }
+                    },
+                    painter = painterResource(id = R.drawable.ic_diary_previous),
+                    contentDescription = "previous"
+                )
+            }
+        } else {
+            Spacer(modifier = Modifier.size(22.dp))
         }
         Text(
             modifier = Modifier
@@ -179,25 +190,29 @@ fun OrbDiaryHeader(
             color = TooltipTitle,
             style = OffroadTheme.typography.tooltipTitle
         )
-        Box(
-            modifier = Modifier
-                .clip(CircleShape)
-                .background(color = DiaryButton)
-                .size(22.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                modifier = Modifier.clickableWithoutRipple {
-                    coroutineScope.launch {
-                        val nextPage =
-                            (pagerState.currentPage + 1).coerceAtMost(pagerState.pageCount - 1)
-                        pagerState.animateScrollToPage(nextPage)
-                        diaryMoveClick(convertDateToRegex(nextPage, diaryCalendarInitPage))
-                    }
-                },
-                painter = painterResource(id = R.drawable.ic_diary_next),
-                contentDescription = "next"
-            )
+        if (pagerState.currentPage != lastDate - 1) {
+            Box(
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .background(color = DiaryButton)
+                    .size(22.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    modifier = Modifier.clickableWithoutRipple {
+                        coroutineScope.launch {
+                            val nextPage =
+                                (pagerState.currentPage + 1).coerceAtMost(pagerState.pageCount - 1)
+                            pagerState.animateScrollToPage(nextPage)
+                            diaryMoveClick(convertDateToRegex(nextPage, diaryCalendarInitPage))
+                        }
+                    },
+                    painter = painterResource(id = R.drawable.ic_diary_next),
+                    contentDescription = "next"
+                )
+            }
+        } else {
+            Spacer(modifier = Modifier.size(22.dp))
         }
     }
 }

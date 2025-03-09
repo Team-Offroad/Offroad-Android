@@ -38,9 +38,11 @@ class DiaryViewModel @Inject constructor(
     fun getDiaryFirstDate() {
         viewModelScope.launch {
             getDiaryFirstDateUseCase.invoke().onSuccess { diaryFirstDate ->
-                _diaryUiState.value = diaryUiState.value.copy(
-                    diaryFirstCreatedDate = Pair(diaryFirstDate?.year, diaryFirstDate?.month)
-                )
+                if (diaryFirstDate != null) {
+                    _diaryUiState.value = diaryUiState.value.copy(
+                        diaryFirstCreatedDate = Pair(2025, 2)
+                    )
+                }
             }
         }
     }
@@ -81,7 +83,6 @@ class DiaryViewModel @Inject constructor(
         viewModelScope.launch {
             _diaryUiState.value = diaryUiState.value.copy(
                 dailyHexCodes = dummyHexCodes,
-                firstDiaryMonth = firstDiaryMonth,
             )
         }
     }

@@ -101,20 +101,23 @@ fun DiaryScreen(
                     .background(ListBg)
                     .fillMaxSize()
             ) {
-                if (diaryUiState.latestDiary.isEmpty())
-                    OrbDiaryEmpty(
-                        navigateToCharacterChat = navigateToCharacterChat,
-                        modifier = Modifier.padding(top = 124.dp),
-                    )
-                else
+                if (diaryUiState.latestDiary.isNotEmpty() &&
+                    diaryUiState.diaryFirstCreatedDate.first != 0 &&
+                    diaryUiState.diaryFirstCreatedDate.second != 0
+                )
                     OrbDiary(
                         diaryUiState = diaryUiState,
-                        diaryCalendarInitPage = diaryUiState.diaryCalendarInitPage,
                         diaryCalendarLastPage = diaryUiState.diaryCalendarLastPage,
+                        diaryFirstCreatedDate = diaryUiState.diaryFirstCreatedDate,
                         dateButtonClick = viewModel::updateMemoryLightState,
                         diaryTitleClick = viewModel::updateBottomSheetState,
                         diaryMoveClick = viewModel::updateCurrentDiaryPage,
                         modifier = Modifier.padding(top = 20.dp),
+                    )
+                else
+                    OrbDiaryEmpty(
+                        navigateToCharacterChat = navigateToCharacterChat,
+                        modifier = Modifier.padding(top = 124.dp),
                     )
             }
         }
