@@ -1,9 +1,11 @@
 package com.teamoffroad.feature.diary.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryCreateTimeCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryFirstDateUseCase
+import com.teamoffroad.feature.diary.domain.usecase.GetDiaryMonthlyHexUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryTutorialCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryCreateTimeCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryTutorialCheckedUseCase
@@ -27,6 +29,7 @@ class DiaryViewModel @Inject constructor(
     private val getDiaryCreateTimeCheckedUseCase: GetDiaryCreateTimeCheckedUseCase,
     private val patchDiaryCreateTimeCheckedUseCase: PatchDiaryCreateTimeCheckedUseCase,
     private val getDiaryFirstDateUseCase: GetDiaryFirstDateUseCase,
+    private val getDiaryMonthlyHexUseCase: GetDiaryMonthlyHexUseCase,
 ) : ViewModel() {
     private val _diaryUiState: MutableStateFlow<DiaryUiState> =
         MutableStateFlow(DiaryUiState())
@@ -40,7 +43,8 @@ class DiaryViewModel @Inject constructor(
             getDiaryFirstDateUseCase.invoke().onSuccess { diaryFirstDate ->
                 if (diaryFirstDate != null) {
                     _diaryUiState.value = diaryUiState.value.copy(
-                        diaryFirstCreatedDate = Pair(diaryFirstDate.year, diaryFirstDate.month)
+//                        diaryFirstCreatedDate = Pair(diaryFirstDate.year, diaryFirstDate.month)
+                        diaryFirstCreatedDate = Pair(2024, 8)
                     )
                 }
             }
@@ -81,6 +85,9 @@ class DiaryViewModel @Inject constructor(
         )
         val firstDiaryMonth = 5
         viewModelScope.launch {
+            getDiaryMonthlyHexUseCase.invoke(2024, 1).onSuccess {
+                //TODO.uistate에 넣기
+            }
             _diaryUiState.value = diaryUiState.value.copy(
                 dailyHexCodes = dummyHexCodes,
             )

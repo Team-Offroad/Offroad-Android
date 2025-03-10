@@ -3,9 +3,11 @@ package com.teamoffroad.feature.diary.data.remote.service
 import com.teamoffroad.core.common.data.remote.response.BaseResponse
 import com.teamoffroad.feature.diary.data.remote.response.DiaryCreateTimeCheckedResponseDto
 import com.teamoffroad.feature.diary.data.remote.response.DiaryFirstDateResponseDto
+import com.teamoffroad.feature.diary.data.remote.response.DiaryMonthlyHexResponseDto
 import com.teamoffroad.feature.diary.data.remote.response.DiaryTutorialCheckedResponseDto
 import retrofit2.http.GET
 import retrofit2.http.PATCH
+import retrofit2.http.Query
 
 interface DiaryService {
 
@@ -23,4 +25,12 @@ interface DiaryService {
 
     @GET("diary/first-date")
     suspend fun getDiaryFirstDate(): BaseResponse<DiaryFirstDateResponseDto>
+
+    @GET("diary/monthly-hex")
+    suspend fun getDiaryMonthlyHex(
+        @Query("year")
+        year: Int,
+        @Query("month")
+        month: Int,
+    ): BaseResponse<DiaryMonthlyHexResponseDto>
 }

@@ -3,6 +3,7 @@ package com.teamoffroad.feature.diary.data.di
 import com.teamoffroad.feature.diary.domain.repository.DiaryRepository
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryCreateTimeCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryFirstDateUseCase
+import com.teamoffroad.feature.diary.domain.usecase.GetDiaryMonthlyHexUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryTutorialCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryCreateTimeCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryTutorialCheckedUseCase
@@ -54,5 +55,13 @@ object UseCaseModule {
         diaryRepository: DiaryRepository,
     ): GetDiaryFirstDateUseCase {
         return GetDiaryFirstDateUseCase(diaryRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetDiaryMonthlyHexUseCase(
+        diaryRepository: DiaryRepository,
+    ): GetDiaryMonthlyHexUseCase {
+        return GetDiaryMonthlyHexUseCase(diaryRepository)
     }
 }
