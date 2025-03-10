@@ -48,6 +48,7 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Stroke
 import com.teamoffroad.core.designsystem.theme.TooltipTitle
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.feature.diary.domain.model.HexCode
 import com.teamoffroad.feature.diary.presentation.model.DiaryUiState
 import com.teamoffroad.feature.diary.presentation.util.convertDateToRegex
 import com.teamoffroad.feature.diary.presentation.util.convertRegexToDate
@@ -167,6 +168,12 @@ fun OrbDiaryHeader(
                         coroutineScope.launch {
                             val previousPage = (pagerState.currentPage - 1).coerceAtLeast(0)
                             pagerState.animateScrollToPage(previousPage)
+                            diaryMoveClick(
+                                convertDateToRegex(
+                                    page = previousPage,
+                                    startDate = diaryCalendarInitPage
+                                )
+                            )
                         }
                     },
                     painter = painterResource(id = R.drawable.ic_diary_previous),
@@ -221,7 +228,7 @@ fun OrbDiaryHeader(
 fun OrbDiaryItems(
     modifier: Modifier = Modifier,
     currentDate: LocalDate,
-    dailyHexCodes: Map<Int, List<String>>,
+    dailyHexCodes: Map<String, List<HexCode>>?,
     dateButtonClick: (String) -> Unit
 ) {
     val lastDay by remember { mutableIntStateOf(currentDate.lengthOfMonth()) }
@@ -255,11 +262,13 @@ fun OrbDiaryItems(
             }
             items(days) { day ->
                 val date = currentDate.withDayOfMonth(day)
+                val currentDay = date.dayOfMonth.toString()
+                val hexCode = dailyHexCodes?.get(currentDay)
                 OrbDiaryCell(
                     modifier = Modifier
                         .padding(top = 20.dp),
                     date = date,
-                    dailyHexCodes = dailyHexCodes,
+                    hexCode = hexCode,
                     dateButtonClick = dateButtonClick
                 )
             }
@@ -271,15 +280,16 @@ fun OrbDiaryItems(
 fun OrbDiaryCell(
     modifier: Modifier = Modifier,
     date: LocalDate,
-    dailyHexCodes: Map<Int, List<String>>,
+    hexCode: List<HexCode>?,
     dateButtonClick: (String) -> Unit
 ) {
-    val backgroundColor = if (dailyHexCodes.containsKey(date.dayOfMonth)) {
+
+    val backgroundColor = if (!hexCode.isNullOrEmpty()) {
         Brush.linearGradient(
-            colors = dailyHexCodes[date.dayOfMonth]!!.mapIndexed { index, hex ->
-                Color(android.graphics.Color.parseColor(if (hex.startsWith("#")) hex else "#$hex"))
-                    .copy(alpha = if (index < 2) 0.7f else 1.0f)
-            }
+            colors = listOf(
+                Color(android.graphics.Color.parseColor(hexCode[0].small)),
+                Color(android.graphics.Color.parseColor(hexCode[0].large)),
+            )
         )
     } else {
         SolidColor(BoxInfo)
@@ -305,7 +315,7 @@ fun OrbDiaryCell(
                 modifier = Modifier,
                 textAlign = TextAlign.Center,
                 text = date.dayOfMonth.toString(),
-                color = if (dailyHexCodes.containsKey(date.dayOfMonth)) White else Stroke,
+                color = if (!hexCode.isNullOrEmpty()) White else Stroke,
                 style = OffroadTheme.typography.subtitle2Semibold
             )
         }

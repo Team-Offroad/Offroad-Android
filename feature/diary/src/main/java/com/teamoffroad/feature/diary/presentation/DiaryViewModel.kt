@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.diary.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryCreateTimeCheckedUseCase
@@ -43,8 +42,7 @@ class DiaryViewModel @Inject constructor(
             getDiaryFirstDateUseCase.invoke().onSuccess { diaryFirstDate ->
                 if (diaryFirstDate != null) {
                     _diaryUiState.value = diaryUiState.value.copy(
-//                        diaryFirstCreatedDate = Pair(diaryFirstDate.year, diaryFirstDate.month)
-                        diaryFirstCreatedDate = Pair(2024, 8)
+                        diaryFirstCreatedDate = Pair(diaryFirstDate.year, diaryFirstDate.month)
                     )
                 }
             }
@@ -61,36 +59,13 @@ class DiaryViewModel @Inject constructor(
         }
     }
 
-    fun getDummyHexCode() {
-        val dummyHexCodes: Map<Int, List<String>> = mapOf(
-            1 to listOf("#5580FF", "#FF69E1"),
-            2 to listOf("#70DAFF", "#FFDC14"),
-            3 to listOf("#FF69E1", "#FFB73B"),
-            4 to listOf("#FF4124", "#FF6D94"),
-            5 to listOf("#5580FF", "#FF69E1"),
-            6 to listOf("#5580FF", "#FF69E1"),
-            7 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
-            9 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
-            10 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
-            11 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
-            12 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
-            13 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
-            14 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
-            15 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
-            16 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
-            17 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
-            18 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
-            26 to listOf("#FF69E1", "#FFB73B", "#FFFFFF"),
-            27 to listOf("#FF69E1", "#FFB73B", "#FFFFFF"),
-        )
-        val firstDiaryMonth = 5
+    fun getDummyHexCode(year: Int, month: Int) {
         viewModelScope.launch {
-            getDiaryMonthlyHexUseCase.invoke(2024, 1).onSuccess {
-                //TODO.uistate에 넣기
+            getDiaryMonthlyHexUseCase.invoke(year, month).onSuccess {
+                _diaryUiState.value = diaryUiState.value.copy(
+                    dailyHexCodes = it,
+                )
             }
-            _diaryUiState.value = diaryUiState.value.copy(
-                dailyHexCodes = dummyHexCodes,
-            )
         }
     }
 

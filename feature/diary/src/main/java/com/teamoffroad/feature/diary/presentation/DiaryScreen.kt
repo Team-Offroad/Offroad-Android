@@ -31,6 +31,7 @@ import com.teamoffroad.feature.diary.component.OrbDiaryEmpty
 import com.teamoffroad.feature.diary.component.TimeSettingDialog
 import com.teamoffroad.feature.diary.presentation.model.DiaryHintDialogState
 import com.teamoffroad.feature.diary.presentation.model.DiarySideEffect
+import com.teamoffroad.feature.diary.presentation.util.convertRegexToDate
 import com.teamoffroad.offroad.feature.diary.R
 import kotlinx.coroutines.flow.collectLatest
 
@@ -55,13 +56,19 @@ fun DiaryScreen(
     }
 
     LaunchedEffect(Unit) {
+        val (initYear, initMonth) = convertRegexToDate(diaryUiState.currentDiaryCalendarPage)
         viewModel.apply {
             getDiaryFirstDate()
             getDiaryTutorialChecked()
             getDiaryCreateTimeChecked()
             getLatestDiary()
-            getDummyHexCode()
+            getDummyHexCode(year = initYear, month = initMonth)
         }
+    }
+
+    LaunchedEffect(diaryUiState.currentDiaryCalendarPage) {
+        val (year, month) = convertRegexToDate(diaryUiState.currentDiaryCalendarPage)
+        viewModel.getDummyHexCode(year = year, month = month)
     }
 
     BackHandler {

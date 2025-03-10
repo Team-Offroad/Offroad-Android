@@ -1,11 +1,12 @@
 package com.teamoffroad.feature.diary.presentation.model
 
+import com.teamoffroad.feature.diary.domain.model.HexCode
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 data class DiaryUiState(
     val latestDiary: List<String> = emptyList(),
-    val dailyHexCodes: Map<Int, List<String>> = mapOf(0 to emptyList()),
+    val dailyHexCodes: Map<String, List<HexCode>>? = mapOf("" to emptyList()),
     val tutorialChecked: Boolean? = null,
     val dialogVisibility: DiaryHintDialogState = DiaryHintDialogState.HintDialogInVisible,
     val diaryCreateTimeChecked: Boolean? = null,
@@ -15,7 +16,7 @@ data class DiaryUiState(
     val bottomSheetVisibility: Boolean = false,
     val diaryFirstCreatedDate: Pair<Int, Int> = Pair(0, 0),
     val currentDiaryCalendarPage: String = LocalDate.now()
-        .format(DateTimeFormatter.ofPattern("yyyy년 MM월"))
+        .format(DateTimeFormatter.ofPattern("yyyy년 M월"))
 )
 
 sealed interface DiarySideEffect {
