@@ -56,13 +56,11 @@ fun DiaryScreen(
     }
 
     LaunchedEffect(Unit) {
-        val (initYear, initMonth) = convertRegexToDate(diaryUiState.currentDiaryCalendarPage)
         viewModel.apply {
             getDiaryFirstDate()
             getDiaryTutorialChecked()
             getDiaryCreateTimeChecked()
             getLatestDiary()
-            getDummyHexCode(year = initYear, month = initMonth)
         }
     }
 

@@ -124,8 +124,8 @@ fun OrbDiary(
             state = pagerState,
         ) { page ->
             val date = LocalDate.of(
-                diaryFirstCreatedDate.first + page / maxMonth,
-                page % maxMonth + 1,
+                diaryFirstCreatedDate.first + (diaryFirstCreatedDate.second - 1 + page) / maxMonth,
+                (diaryFirstCreatedDate.second - 1 + page) % maxMonth + 1,
                 1
             )
             if (page in pagerState.currentPage - 1..pagerState.currentPage + 1) {
