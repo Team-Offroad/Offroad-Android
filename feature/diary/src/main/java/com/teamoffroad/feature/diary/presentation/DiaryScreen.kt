@@ -69,6 +69,12 @@ fun DiaryScreen(
         viewModel.getDummyHexCode(year = year, month = month)
     }
 
+    LaunchedEffect(diaryUiState.memoryLightList) {
+        if (diaryUiState.memoryLightList.isNotEmpty()) {
+            viewModel.updateMemoryLightState(true)
+        }
+    }
+
     BackHandler {
         viewModel.updateNavigationBackState()
     }
@@ -113,7 +119,7 @@ fun DiaryScreen(
                     OrbDiary(
                         diaryUiState = diaryUiState,
                         diaryFirstCreatedDate = diaryUiState.diaryFirstCreatedDate,
-                        dateButtonClick = viewModel::updateMemoryLightState,
+                        dateButtonClick = viewModel::updateMemoryLightInfo,
                         diaryTitleClick = viewModel::updateBottomSheetState,
                         diaryMoveClick = viewModel::updateCurrentDiaryPage,
                         modifier = Modifier.padding(top = 20.dp),
@@ -142,7 +148,7 @@ fun DiaryScreen(
             )
         }
 
-        diaryUiState.memoryLigthVisibility?.let {
+        if (diaryUiState.memoryLigthVisibility) {
             MemoryLightScreen(
                 memoryLightList = diaryUiState.memoryLightList,
                 onCancelClick = viewModel::updateMemoryLightState,

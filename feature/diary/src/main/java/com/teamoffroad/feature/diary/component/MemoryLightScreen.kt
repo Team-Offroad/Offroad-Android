@@ -42,20 +42,20 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Stroke
 import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.White
-import com.teamoffroad.feature.diary.presentation.model.MemoryLight
+import com.teamoffroad.feature.diary.domain.model.MemoryLight
 import com.teamoffroad.offroad.feature.diary.R
 
 @SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
 fun MemoryLightScreen(
     memoryLightList: List<MemoryLight>,
-    onCancelClick: (String?) -> Unit,
+    onCancelClick: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val pagerState = rememberPagerState(initialPage = 0, pageCount = { 2 })
 
     BackHandler {
-        onCancelClick(null)
+        onCancelClick(false)
     }
     Column(
         modifier = modifier
@@ -80,7 +80,7 @@ fun MemoryLightScreen(
                 .padding(top = 65.dp, bottom = 30.dp)
                 .padding(end = 20.dp)
                 .align(Alignment.End)
-                .clickableWithoutRipple { onCancelClick(null) },
+                .clickableWithoutRipple { onCancelClick(false) },
         )
         HorizontalPager(
             state = pagerState,

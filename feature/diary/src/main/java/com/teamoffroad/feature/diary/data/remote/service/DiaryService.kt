@@ -1,6 +1,7 @@
 package com.teamoffroad.feature.diary.data.remote.service
 
 import com.teamoffroad.core.common.data.remote.response.BaseResponse
+import com.teamoffroad.feature.diary.data.remote.response.DiaryByDateResponseDto
 import com.teamoffroad.feature.diary.data.remote.response.DiaryCreateTimeCheckedResponseDto
 import com.teamoffroad.feature.diary.data.remote.response.DiaryFirstDateResponseDto
 import com.teamoffroad.feature.diary.data.remote.response.DiaryMonthlyHexResponseDto
@@ -33,4 +34,14 @@ interface DiaryService {
         @Query("month")
         month: Int,
     ): BaseResponse<DiaryMonthlyHexResponseDto>
+
+    @GET("diary/by-date")
+    suspend fun getDiaryByDate(
+        @Query("date")
+        date: String,
+        @Query("previousCount")
+        previousCount: Int,
+        @Query("nextCount")
+        nextCount: Int,
+    ): BaseResponse<DiaryByDateResponseDto>
 }

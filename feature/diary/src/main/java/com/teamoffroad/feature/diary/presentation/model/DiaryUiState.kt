@@ -1,6 +1,7 @@
 package com.teamoffroad.feature.diary.presentation.model
 
 import com.teamoffroad.feature.diary.domain.model.HexCode
+import com.teamoffroad.feature.diary.domain.model.MemoryLight
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -11,7 +12,7 @@ data class DiaryUiState(
     val dialogVisibility: DiaryHintDialogState = DiaryHintDialogState.HintDialogInVisible,
     val diaryCreateTimeChecked: Boolean? = null,
     val timeSettingDialogVisibility: Boolean = false,
-    val memoryLigthVisibility: String? = null,
+    val memoryLigthVisibility: Boolean = false,
     val memoryLightList: List<MemoryLight> = emptyList(),
     val bottomSheetVisibility: Boolean = false,
     val diaryFirstCreatedDate: Pair<Int, Int> = Pair(0, 0),

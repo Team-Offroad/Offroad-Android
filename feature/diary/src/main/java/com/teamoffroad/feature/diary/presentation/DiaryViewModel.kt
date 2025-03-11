@@ -2,6 +2,7 @@ package com.teamoffroad.feature.diary.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.teamoffroad.feature.diary.domain.usecase.GetDiaryByDateUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryCreateTimeCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryFirstDateUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryMonthlyHexUseCase
@@ -11,7 +12,6 @@ import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryTutorialCheckedUse
 import com.teamoffroad.feature.diary.presentation.model.DiaryHintDialogState
 import com.teamoffroad.feature.diary.presentation.model.DiarySideEffect
 import com.teamoffroad.feature.diary.presentation.model.DiaryUiState
-import com.teamoffroad.feature.diary.presentation.model.MemoryLight
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,6 +29,7 @@ class DiaryViewModel @Inject constructor(
     private val patchDiaryCreateTimeCheckedUseCase: PatchDiaryCreateTimeCheckedUseCase,
     private val getDiaryFirstDateUseCase: GetDiaryFirstDateUseCase,
     private val getDiaryMonthlyHexUseCase: GetDiaryMonthlyHexUseCase,
+    private val getDiaryByDateUseCase: GetDiaryByDateUseCase
 ) : ViewModel() {
     private val _diaryUiState: MutableStateFlow<DiaryUiState> =
         MutableStateFlow(DiaryUiState())
@@ -137,46 +138,27 @@ class DiaryViewModel @Inject constructor(
         }
     }
 
-    private fun updateMemoryLightInfo() {
-        val dummyMemoryList = listOf(
-            MemoryLight(
-                id = 1,
-                dailyRecommend = "내일 묵은지 돼지갈비 왕목살 세트 어때요?",
-                content = "그리고 오늘의 기억을 오늘 하루동안 나눈 대화, 방문한 장소, " +
-                        "시간 데이터를 바탕으로 요약합니다. 이때 단순 요약이 아니라 AI가 남기는" +
-                        " 일종의 메시지 형태라고 보시면 될 것 같고 앞으로에 대한 기대, 응원," +
-                        " 위로 등의 내용이 담겨 있습니다. 앞으로에 대한 기대, 응원, 위로 등의" +
-                        " 내용이 담겨 있습니다. 내용이 담겨 있습니다. 앞으로에 대한 기대, 응원," +
-                        " 위로 등의 내용이 담겨 있습니다.",
-                summation = "오늘의 기억을 AI가 한 줄로 요약합니다.",
-                year = 2020,
-                month = 11,
-                day = 12,
-                hexCode = "asd"
-            ),
-            MemoryLight(
-                id = 2,
-                dailyRecommend = "내일 돈까스 어때요?",
-                content = "안녕하세요",
-                summation = "오늘의 기억을 AI가 한 줄로 요약합니다.",
-                year = 2024,
-                month = 9,
-                day = 22,
-                hexCode = "asd"
-            )
-        )
+    fun updateMemoryLightInfo(date: String?) {
         viewModelScope.launch {
-            _diaryUiState.value = diaryUiState.value.copy(
-                memoryLightList = dummyMemoryList
-            )
+            if (date != null) {
+                getDiaryByDateUseCase.invoke(date, 1, 1).onSuccess {
+                    _diaryUiState.value = diaryUiState.value.copy(
+                        memoryLightList = it
+                    )
+                }
+            }
         }
     }
 
-    fun updateMemoryLightState(date: String?) {
-        updateMemoryLightInfo()
+    fun updateMemoryLightState(state: Boolean) {
         viewModelScope.launch {
+            if (!state) {
+                _diaryUiState.value = diaryUiState.value.copy(
+                    memoryLightList = emptyList(),
+                )
+            }
             _diaryUiState.value = diaryUiState.value.copy(
-                memoryLigthVisibility = date
+                memoryLigthVisibility = state,
             )
         }
     }

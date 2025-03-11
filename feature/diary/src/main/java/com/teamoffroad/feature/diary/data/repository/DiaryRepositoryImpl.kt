@@ -1,8 +1,10 @@
 package com.teamoffroad.feature.diary.data.repository
 
+import com.teamoffroad.feature.diary.data.mapper.toDiaryByDate
 import com.teamoffroad.feature.diary.data.mapper.toDiaryFirstDate
 import com.teamoffroad.feature.diary.data.mapper.toHexCodeMap
 import com.teamoffroad.feature.diary.data.remote.service.DiaryService
+import com.teamoffroad.feature.diary.domain.model.DiaryByDate
 import com.teamoffroad.feature.diary.domain.model.DiaryFirstDate
 import com.teamoffroad.feature.diary.domain.model.HexCode
 import com.teamoffroad.feature.diary.domain.repository.DiaryRepository
@@ -37,4 +39,16 @@ class DiaryRepositoryImpl @Inject constructor(
                 month = month
             ).data?.dailyHexCodes?.toHexCodeMap()
         }
+
+    override suspend fun getDiaryByDate(
+        date: String,
+        previousCount: Int,
+        nextCount: Int
+    ): Result<DiaryByDate?> = runCatching {
+        diaryService.getDiaryByDate(
+            date = date,
+            previousCount = previousCount,
+            nextCount = nextCount
+        ).data?.toDiaryByDate()
+    }
 }
