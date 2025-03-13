@@ -1,8 +1,10 @@
 package com.teamoffroad.feature.diary.data.mapper
 
 import com.teamoffroad.feature.diary.data.remote.response.DiaryByDateResponseDto
+import com.teamoffroad.feature.diary.data.remote.response.DiaryLatestResponseDto
 import com.teamoffroad.feature.diary.data.remote.response.MemoryLightDto
 import com.teamoffroad.feature.diary.domain.model.DiaryByDate
+import com.teamoffroad.feature.diary.domain.model.DiaryLatest
 import com.teamoffroad.feature.diary.domain.model.MemoryLight
 
 fun DiaryByDateResponseDto.toDiaryByDate() =
@@ -12,6 +14,14 @@ fun DiaryByDateResponseDto.toDiaryByDate() =
             memoryLightDto.toMemoryLight()
         },
         nextDiaries = nextDiaries.map { memoryLightDto ->
+            memoryLightDto.toMemoryLight()
+        }
+    )
+
+fun DiaryLatestResponseDto.toDiaryLatest() =
+    DiaryLatest(
+        targetDiary = targetDiary.toMemoryLight(),
+        previousDiaries = previousDiaries.map { memoryLightDto ->
             memoryLightDto.toMemoryLight()
         }
     )

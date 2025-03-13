@@ -1,10 +1,12 @@
 package com.teamoffroad.feature.diary.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryByDateUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryCreateTimeCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryFirstDateUseCase
+import com.teamoffroad.feature.diary.domain.usecase.GetDiaryLatestUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryMonthlyHexUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryTutorialCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryCreateTimeCheckedUseCase
@@ -29,7 +31,8 @@ class DiaryViewModel @Inject constructor(
     private val patchDiaryCreateTimeCheckedUseCase: PatchDiaryCreateTimeCheckedUseCase,
     private val getDiaryFirstDateUseCase: GetDiaryFirstDateUseCase,
     private val getDiaryMonthlyHexUseCase: GetDiaryMonthlyHexUseCase,
-    private val getDiaryByDateUseCase: GetDiaryByDateUseCase
+    private val getDiaryByDateUseCase: GetDiaryByDateUseCase,
+    private val getDiaryLatestUseCase: GetDiaryLatestUseCase,
 ) : ViewModel() {
     private val _diaryUiState: MutableStateFlow<DiaryUiState> =
         MutableStateFlow(DiaryUiState())
@@ -37,6 +40,10 @@ class DiaryViewModel @Inject constructor(
 
     private val _diarySideEffect: Channel<DiarySideEffect> = Channel()
     val diarySideEffect = _diarySideEffect.receiveAsFlow()
+
+    init {
+        updateLatestMemoryLight()
+    }
 
     fun getDiaryFirstDate() {
         viewModelScope.launch {
@@ -135,6 +142,17 @@ class DiaryViewModel @Inject constructor(
             _diaryUiState.value = diaryUiState.value.copy(
                 timeSettingDialogVisibility = if (diaryUiState.value.diaryCreateTimeChecked == true) false else state
             )
+        }
+    }
+
+    fun updateLatestMemoryLight() {
+        //TODO. 가장 최신일기 확인여부 받아오기
+        viewModelScope.launch {
+            getDiaryLatestUseCase.invoke(1).onSuccess {
+                Log.d("asdasdasd", it.toString())
+            }.onFailure {
+                Log.d("asdasdasd", it.message.toString())
+            }
         }
     }
 
