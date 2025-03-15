@@ -120,8 +120,9 @@ fun OrbDiary(
             coroutineScope = coroutineScope,
         )
         HorizontalPager(
-            modifier = Modifier,
             state = pagerState,
+            userScrollEnabled = false,
+            modifier = Modifier,
         ) { page ->
             val date = LocalDate.of(
                 diaryFirstCreatedDate.first + (diaryFirstCreatedDate.second - 1 + page) / maxMonth,

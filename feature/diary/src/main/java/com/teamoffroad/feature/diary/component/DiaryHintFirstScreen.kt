@@ -26,8 +26,8 @@ fun DiaryHintFirstScreen(
         modifier = modifier.fillMaxSize(),
     ) {
         Image(
-            painter = painterResource(id = R.drawable.img_diary_dialog_dummy),
-            contentDescription = "dummy",
+            painter = painterResource(id = R.drawable.img_diary_hint_character),
+            contentDescription = "character",
             modifier = Modifier
                 .height(220.dp)
                 .padding(bottom = 40.dp),
