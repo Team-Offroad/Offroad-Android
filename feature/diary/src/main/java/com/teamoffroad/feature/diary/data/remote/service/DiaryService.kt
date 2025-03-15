@@ -2,6 +2,7 @@ package com.teamoffroad.feature.diary.data.remote.service
 
 import com.teamoffroad.core.common.data.remote.response.BaseResponse
 import com.teamoffroad.feature.diary.data.remote.response.DiaryByDateResponseDto
+import com.teamoffroad.feature.diary.data.remote.response.DiaryCheckLatestResponseDto
 import com.teamoffroad.feature.diary.data.remote.response.DiaryCreateTimeCheckedResponseDto
 import com.teamoffroad.feature.diary.data.remote.response.DiaryFirstDateResponseDto
 import com.teamoffroad.feature.diary.data.remote.response.DiaryLatestResponseDto
@@ -18,6 +19,12 @@ interface DiaryService {
 
     @PATCH("diary/setting/tutorial-checked")
     suspend fun patchDiaryTutorialChecked(): BaseResponse<Unit?>
+
+    @PATCH("diary/setting/create-time")
+    suspend fun patchDiaryCreateTime(
+        @Query("hour")
+        diaryTime: Int
+    )
 
     @GET("diary/setting/create-time-checked")
     suspend fun getDiaryCreateTimeChecked(): BaseResponse<DiaryCreateTimeCheckedResponseDto>
@@ -41,6 +48,9 @@ interface DiaryService {
         @Query("previousCount")
         previousCount: Int,
     ): BaseResponse<DiaryLatestResponseDto>
+
+    @GET("diary/check-latest")
+    suspend fun getDiaryCheckLatest(): BaseResponse<DiaryCheckLatestResponseDto>
 
     @GET("diary/by-date")
     suspend fun getDiaryByDate(

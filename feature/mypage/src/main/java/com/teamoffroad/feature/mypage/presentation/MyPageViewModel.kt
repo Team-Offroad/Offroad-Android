@@ -3,9 +3,9 @@ package com.teamoffroad.feature.mypage.presentation
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.teamoffroad.feature.diary.domain.usecase.GetDiaryCheckLatestUseCase
 import com.teamoffroad.feature.mypage.domain.model.MyPageUser
 import com.teamoffroad.feature.mypage.domain.repository.UserRepository
-import com.teamoffroad.feature.mypage.domain.usecase.GetDiaryCheckLatestUseCase
 import com.teamoffroad.feature.mypage.presentation.component.getErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

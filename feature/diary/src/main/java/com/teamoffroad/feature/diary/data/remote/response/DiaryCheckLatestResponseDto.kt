@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.mypage.data.remote.response
+package com.teamoffroad.feature.diary.data.remote.response
 
 import kotlinx.serialization.Serializable
 

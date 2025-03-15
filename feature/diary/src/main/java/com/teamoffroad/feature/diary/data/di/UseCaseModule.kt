@@ -2,12 +2,14 @@ package com.teamoffroad.feature.diary.data.di
 
 import com.teamoffroad.feature.diary.domain.repository.DiaryRepository
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryByDateUseCase
+import com.teamoffroad.feature.diary.domain.usecase.GetDiaryCheckLatestUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryCreateTimeCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryFirstDateUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryLatestUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryMonthlyHexUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryTutorialCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryCreateTimeCheckedUseCase
+import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryCreateTimeUseCase
 import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryTutorialCheckedUseCase
 import dagger.Module
 import dagger.Provides
@@ -81,5 +83,21 @@ object UseCaseModule {
         diaryRepository: DiaryRepository,
     ): GetDiaryLatestUseCase {
         return GetDiaryLatestUseCase(diaryRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun providePatchDiaryCreateTimeUseCase(
+        diaryRepository: DiaryRepository,
+    ): PatchDiaryCreateTimeUseCase {
+        return PatchDiaryCreateTimeUseCase(diaryRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetDiaryCheckLatestUseCase(
+        diaryRepository: DiaryRepository,
+    ): GetDiaryCheckLatestUseCase {
+        return GetDiaryCheckLatestUseCase(diaryRepository)
     }
 }

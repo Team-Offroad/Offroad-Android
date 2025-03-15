@@ -22,6 +22,10 @@ class DiaryRepositoryImpl @Inject constructor(
     override suspend fun patchDiaryTutorialChecked(): Result<Unit> =
         runCatching { diaryService.patchDiaryTutorialChecked() }
 
+    override suspend fun patchDiaryCreateTime(diaryTime: Int) {
+        runCatching { diaryService.patchDiaryCreateTime(diaryTime = diaryTime) }
+    }
+
     override suspend fun getDiaryCreateTimeChecked(): Result<Boolean?> =
         runCatching { diaryService.getDiaryCreateTimeChecked().data?.value }
 
@@ -50,6 +54,9 @@ class DiaryRepositoryImpl @Inject constructor(
                 previousCount = previousCount,
             ).data?.toDiaryLatest()
         }
+
+    override suspend fun getDiaryCheckLatest(): Result<Boolean?> =
+        runCatching { diaryService.getDiaryCheckLatest().data?.doesNotExistOrChecked }
 
     override suspend fun getDiaryByDate(
         date: String,
