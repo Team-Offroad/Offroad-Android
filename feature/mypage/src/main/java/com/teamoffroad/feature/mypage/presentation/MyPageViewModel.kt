@@ -1,9 +1,11 @@
 package com.teamoffroad.feature.mypage.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.mypage.domain.model.MyPageUser
 import com.teamoffroad.feature.mypage.domain.repository.UserRepository
+import com.teamoffroad.feature.mypage.domain.usecase.GetDiaryCheckLatestUseCase
 import com.teamoffroad.feature.mypage.presentation.component.getErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,12 +16,24 @@ import javax.inject.Inject
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
     private val userRepository: UserRepository,
+    private val getDiaryCheckLatestUseCase: GetDiaryCheckLatestUseCase,
 ) : ViewModel() {
     private val _myPageUser = MutableStateFlow<MyPageUser>(MyPageUser("", "", 0, 0, 0, ""))
     val myPageUser = _myPageUser.asStateFlow()
 
     private val _errorMessage = MutableStateFlow<String>("")
     val errorMessage = _errorMessage.asStateFlow()
+
+    fun getDiaryCheckLatest() {
+        //TODO. 최신일기 확인여부반환
+        viewModelScope.launch {
+            getDiaryCheckLatestUseCase.invoke().onSuccess {
+                Log.d("asdasdasd", it.toString())
+            }.onFailure {
+                Log.d("asdasdasd", it.message.toString())
+            }
+        }
+    }
 
     fun getMyPageUser() {
         viewModelScope.launch {

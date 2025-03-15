@@ -10,4 +10,7 @@ class DiarySettingRepositoryImpl @Inject constructor(
     override suspend fun patchDiaryCreateTime(diaryTime: Int) {
         diarySettingService.patchDiaryCreateTime(diaryTime)
     }
+
+    override suspend fun getDiaryCheckLatest(): Result<Boolean?> =
+        runCatching { diarySettingService.getDiaryCheckLatest().data?.doesNotExistOrChecked }
 }

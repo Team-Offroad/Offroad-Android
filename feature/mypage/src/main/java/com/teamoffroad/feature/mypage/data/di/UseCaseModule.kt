@@ -12,6 +12,7 @@ import com.teamoffroad.feature.mypage.domain.usecase.GetAnnouncementUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.GetCharacterDetailUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.GetCharacterListUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.GetCharacterMotionListUseCase
+import com.teamoffroad.feature.mypage.domain.usecase.GetDiaryCheckLatestUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.GetMyPageUserUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.GetUserEmblemListUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.PatchDiaryCreateTimeUseCase
@@ -96,5 +97,13 @@ object UseCaseModule {
         diarySettingRepository: DiarySettingRepository,
     ): PatchDiaryCreateTimeUseCase {
         return PatchDiaryCreateTimeUseCase(diarySettingRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetDiaryCheckLatestUseCase(
+        diarySettingRepository: DiarySettingRepository,
+    ): GetDiaryCheckLatestUseCase {
+        return GetDiaryCheckLatestUseCase(diarySettingRepository)
     }
 }

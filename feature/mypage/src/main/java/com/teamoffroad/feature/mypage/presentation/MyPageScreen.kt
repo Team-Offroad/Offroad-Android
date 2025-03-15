@@ -44,6 +44,7 @@ internal fun MyPageScreen(
 
     LaunchedEffect(Unit) {
         myPageViewModel.getMyPageUser()
+        myPageViewModel.getDiaryCheckLatest()
     }
 
     val snackBarHostState = remember { SnackbarHostState() }
