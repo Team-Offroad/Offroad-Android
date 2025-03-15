@@ -15,7 +15,6 @@ import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.feature.diary.presentation.util.getDiaryCalendarIndex
-import com.teamoffroad.feature.mypage.presentation.component.rememberPickerState
 import com.teamoffroad.offroad.feature.diary.R
 
 @OptIn(ExperimentalMaterial3Api::class)

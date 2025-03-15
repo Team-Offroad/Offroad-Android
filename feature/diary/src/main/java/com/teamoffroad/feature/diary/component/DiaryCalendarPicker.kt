@@ -13,8 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.feature.diary.presentation.util.getYearMonthList
-import com.teamoffroad.feature.mypage.presentation.component.Picker
-import com.teamoffroad.feature.mypage.presentation.component.PickerState
 import java.time.LocalDate
 import java.time.YearMonth
 
@@ -43,7 +41,7 @@ fun DiaryCalendarPicker(
                 .align(Alignment.Center)
                 .fillMaxWidth(),
         )
-        Picker(
+        NumberPicker(
             pickerState = diaryCalendarPickerState,
             items = diaryCalendar,
             visibleItemsCount = 7,
