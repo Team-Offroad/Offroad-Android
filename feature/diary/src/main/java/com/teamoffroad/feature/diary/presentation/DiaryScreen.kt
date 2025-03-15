@@ -30,6 +30,7 @@ import com.teamoffroad.feature.diary.component.OrbDiary
 import com.teamoffroad.feature.diary.component.OrbDiaryEmpty
 import com.teamoffroad.feature.diary.component.TimeSettingDialog
 import com.teamoffroad.feature.diary.presentation.model.DiaryHintDialogState
+import com.teamoffroad.feature.diary.presentation.model.DiaryShownState
 import com.teamoffroad.feature.diary.presentation.model.DiarySideEffect
 import com.teamoffroad.feature.diary.presentation.util.convertRegexToDate
 import com.teamoffroad.offroad.feature.diary.R
@@ -60,7 +61,6 @@ fun DiaryScreen(
             getDiaryFirstDate()
             getDiaryTutorialChecked()
             getDiaryCreateTimeChecked()
-            getLatestDiary()
         }
     }
 
@@ -112,23 +112,25 @@ fun DiaryScreen(
                     .background(ListBg)
                     .fillMaxSize()
             ) {
-                if (diaryUiState.latestDiary.isNotEmpty() &&
-                    diaryUiState.diaryFirstCreatedDate.first != 0 &&
-                    diaryUiState.diaryFirstCreatedDate.second != 0
-                )
-                    OrbDiary(
-                        diaryUiState = diaryUiState,
-                        diaryFirstCreatedDate = diaryUiState.diaryFirstCreatedDate,
-                        dateButtonClick = viewModel::updateMemoryLightInfo,
-                        diaryTitleClick = viewModel::updateBottomSheetState,
-                        diaryMoveClick = viewModel::updateCurrentDiaryPage,
-                        modifier = Modifier.padding(top = 20.dp),
-                    )
-                else
-                    OrbDiaryEmpty(
-                        navigateToCharacterChat = navigateToCharacterChat,
-                        modifier = Modifier.padding(top = 124.dp),
-                    )
+                when (diaryUiState.diaryShown) {
+                    DiaryShownState.DiaryShown -> {
+                        OrbDiary(
+                            diaryUiState = diaryUiState,
+                            diaryFirstCreatedDate = diaryUiState.diaryFirstCreatedDate,
+                            dateButtonClick = viewModel::updateMemoryLightInfo,
+                            diaryTitleClick = viewModel::updateBottomSheetState,
+                            diaryMoveClick = viewModel::updateCurrentDiaryPage,
+                            modifier = Modifier.padding(top = 20.dp),
+                        )
+                    }
+
+                    DiaryShownState.DiaryEmpty -> {
+                        OrbDiaryEmpty(
+                            navigateToCharacterChat = navigateToCharacterChat,
+                            modifier = Modifier.padding(top = 124.dp),
+                        )
+                    }
+                }
             }
         }
         if (diaryUiState.dialogVisibility == DiaryHintDialogState.HintDialogVisible) {

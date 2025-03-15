@@ -6,7 +6,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 data class DiaryUiState(
-    val latestDiary: List<String> = emptyList(),
+    val diaryShown: DiaryShownState = DiaryShownState.DiaryUnShown,
     val dailyHexCodes: Map<String, List<HexCode>>? = mapOf("" to emptyList()),
     val tutorialChecked: Boolean? = null,
     val dialogVisibility: DiaryHintDialogState = DiaryHintDialogState.HintDialogInVisible,
@@ -15,7 +15,7 @@ data class DiaryUiState(
     val memoryLigthVisibility: Boolean = false,
     val memoryLightList: List<MemoryLight> = emptyList(),
     val bottomSheetVisibility: Boolean = false,
-    val diaryFirstCreatedDate: Pair<Int, Int> = Pair(0, 0),
+    val diaryFirstCreatedDate: Pair<Int, Int> = Pair(-1, -1),
     val currentDiaryCalendarPage: String = LocalDate.now()
         .format(DateTimeFormatter.ofPattern("yyyy년 M월"))
 )

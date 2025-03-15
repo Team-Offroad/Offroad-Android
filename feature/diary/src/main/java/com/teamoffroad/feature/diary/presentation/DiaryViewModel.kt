@@ -3,6 +3,7 @@ package com.teamoffroad.feature.diary.presentation
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.teamoffroad.feature.diary.domain.model.DiaryFirstDate
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryByDateUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryCreateTimeCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryFirstDateUseCase
@@ -12,6 +13,7 @@ import com.teamoffroad.feature.diary.domain.usecase.GetDiaryTutorialCheckedUseCa
 import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryCreateTimeCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryTutorialCheckedUseCase
 import com.teamoffroad.feature.diary.presentation.model.DiaryHintDialogState
+import com.teamoffroad.feature.diary.presentation.model.DiaryShownState
 import com.teamoffroad.feature.diary.presentation.model.DiarySideEffect
 import com.teamoffroad.feature.diary.presentation.model.DiaryUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -52,17 +54,19 @@ class DiaryViewModel @Inject constructor(
                     _diaryUiState.value = diaryUiState.value.copy(
                         diaryFirstCreatedDate = Pair(diaryFirstDate.year, diaryFirstDate.month)
                     )
+                    changeDiaryShownState(diaryFirstDate)
                 }
             }
         }
     }
 
-    fun getLatestDiary() {
-        val dummyList = listOf("january", "february", "wednesday")
-        //TODO. api/diary/latest 리스트가 비어있으면 달력 empty, 리스트가 있으면 달력 한번이라도 작성완료
+    private fun changeDiaryShownState(state: DiaryFirstDate) {
         viewModelScope.launch {
             _diaryUiState.value = diaryUiState.value.copy(
-                latestDiary = dummyList
+                diaryShown = if (state.year == 0)
+                    DiaryShownState.DiaryEmpty
+                else
+                    DiaryShownState.DiaryShown
             )
         }
     }
@@ -146,12 +150,12 @@ class DiaryViewModel @Inject constructor(
     }
 
     fun updateLatestMemoryLight() {
-        //TODO. 가장 최신일기 확인여부 받아오기
+        //TODO. home, mypage에서 getDiaryCheckLatest값이 true라면 가장 최신일기 확인여부 받아오기
         viewModelScope.launch {
             getDiaryLatestUseCase.invoke(1).onSuccess {
                 Log.d("asdasdasd", it.toString())
             }.onFailure {
-                Log.d("asdasdasd", it.message.toString())
+                Log.d("asdasdasdfail", it.message.toString())
             }
         }
     }
