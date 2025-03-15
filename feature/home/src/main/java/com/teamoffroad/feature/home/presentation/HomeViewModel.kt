@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.teamoffroad.characterchat.domain.repository.CharacterChatRepository
 import com.teamoffroad.core.common.domain.repository.TokenRepository
 import com.teamoffroad.core.common.domain.usecase.SetAutoSignInUseCase
+import com.teamoffroad.feature.diary.domain.usecase.GetDiaryCheckLatestUseCase
 import com.teamoffroad.feature.home.domain.model.Emblem
 import com.teamoffroad.feature.home.domain.model.UserQuests
 import com.teamoffroad.feature.home.domain.model.UsersAdventuresInformation
@@ -29,6 +30,7 @@ class HomeViewModel @Inject constructor(
     private val fcmTokenUseCase: PostFcmTokenUseCase,
     private val characterChatRepository: CharacterChatRepository,
     private val diarySettingUseCase: PostDiarySettingUseCase,
+    private val getDiaryCheckLatestUseCase: GetDiaryCheckLatestUseCase,
 ) : ViewModel() {
     private val _getUsersAdventuresInformationState =
         MutableStateFlow<UiState<UsersAdventuresInformation>>(
@@ -161,6 +163,17 @@ class HomeViewModel @Inject constructor(
                 fcmTokenUseCase.invoke(deviceToken)
             }.onSuccess { }
                 .onFailure {}
+        }
+    }
+
+    fun getDiaryCheckLatest() {
+        //TODO. 최신일기 확인여부반환
+        viewModelScope.launch {
+            getDiaryCheckLatestUseCase.invoke().onSuccess {
+                Log.d("asdasdasd", it.toString())
+            }.onFailure {
+                Log.d("asdasdasd", it.message.toString())
+            }
         }
     }
 

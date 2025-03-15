@@ -93,6 +93,7 @@ fun HomeScreen(
         if (completeQuests.isNotEmpty()) isCompleteQuestDialogShown.value = true
         mainViewModel.getCharacterChatLastUnread()
         homeViewModel.initUserDiarySetting()
+        homeViewModel.getDiaryCheckLatest()
     }
 
     Box(
