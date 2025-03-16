@@ -72,7 +72,7 @@ fun DiaryScreen(
     }
 
     LaunchedEffect(diaryUiState.memoryLightList) {
-        if (diaryUiState.memoryLightList.isNotEmpty()) {
+        if (diaryUiState.memoryLightList.memoryLight.isNotEmpty()) {
             viewModel.updateMemoryLightState(true)
         }
     }
@@ -154,7 +154,7 @@ fun DiaryScreen(
 
         if (diaryUiState.memoryLigthVisibility) {
             MemoryLightScreen(
-                memoryLightList = diaryUiState.memoryLightList,
+                memoryLight = diaryUiState.memoryLightList,
                 onCancelClick = viewModel::updateMemoryLightState,
                 modifier = Modifier.fillMaxSize(),
             )

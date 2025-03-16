@@ -1,8 +1,10 @@
 package com.teamoffroad.feature.diary.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.diary.domain.model.DiaryFirstDate
+import com.teamoffroad.feature.diary.domain.model.MemoryLightSetting
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryByDateUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryCreateTimeCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryFirstDateUseCase
@@ -159,7 +161,7 @@ class DiaryViewModel @Inject constructor(
             if (date != null) {
                 getDiaryByDateUseCase.invoke(date, 1, 1).onSuccess {
                     _diaryUiState.value = diaryUiState.value.copy(
-                        memoryLightList = it
+                        memoryLightList = it,
                     )
                 }
             }
@@ -170,7 +172,7 @@ class DiaryViewModel @Inject constructor(
         viewModelScope.launch {
             if (!state) {
                 _diaryUiState.value = diaryUiState.value.copy(
-                    memoryLightList = emptyList(),
+                    memoryLightList = MemoryLightSetting(0, 0, emptyList()),
                 )
             }
             _diaryUiState.value = diaryUiState.value.copy(
