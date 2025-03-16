@@ -30,7 +30,7 @@ fun RecentQuest(
 
     Surface(
         color = Contents1,
-        modifier = Modifier
+        modifier = modifier
             .clip(shape = RoundedCornerShape(10.dp))
     ) {
         Column {

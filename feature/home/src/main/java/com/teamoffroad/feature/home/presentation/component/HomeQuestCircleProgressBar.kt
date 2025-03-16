@@ -34,7 +34,7 @@ fun CircleProgressBar(data: HomeProgressBarModel, viewModel: HomeViewModel) {
 
     Box(
         modifier = Modifier
-            .padding(vertical = 14.dp, horizontal = 34.dp),
+            .padding(vertical = 10.dp, horizontal = 38.dp),
     ) {
         CircularProgressIndicator(
             progress = recentQuestProgress,
