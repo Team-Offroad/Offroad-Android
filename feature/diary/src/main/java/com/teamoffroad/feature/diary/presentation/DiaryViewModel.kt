@@ -10,9 +10,9 @@ import com.teamoffroad.feature.diary.domain.usecase.GetDiaryFirstDateUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryLatestUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryMonthlyHexUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryTutorialCheckedUseCase
+import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryCheckUseCase
 import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryCreateTimeCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryTutorialCheckedUseCase
-import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryCheckUseCase
 import com.teamoffroad.feature.diary.presentation.model.DiaryHintDialogState
 import com.teamoffroad.feature.diary.presentation.model.DiaryShownState
 import com.teamoffroad.feature.diary.presentation.model.DiarySideEffect
@@ -134,7 +134,9 @@ class DiaryViewModel @Inject constructor(
     }
 
     private fun updateTimeSettingDialogWithoutTutorial() {
-        if (diaryUiState.value.tutorialChecked == true and (diaryUiState.value.diaryCreateTimeChecked == false)) {
+        if (diaryUiState.value.tutorialChecked == true and
+            (diaryUiState.value.diaryCreateTimeChecked == false)
+        ) {
             updateTimeSettingDialogState(true)
         }
     }
