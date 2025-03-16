@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.home.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.characterchat.domain.repository.CharacterChatRepository
@@ -67,6 +66,9 @@ class HomeViewModel @Inject constructor(
 
     private val _characterName = MutableStateFlow("")
     val characterName = _characterName.asStateFlow()
+
+    private val _newDiaryExist = MutableStateFlow(false)
+    val newDiaryExist = _newDiaryExist.asStateFlow()
 
     fun getUsersAdventuresInformation(category: String) {
         viewModelScope.launch {
@@ -170,9 +172,9 @@ class HomeViewModel @Inject constructor(
         //TODO. 최신일기 확인여부반환
         viewModelScope.launch {
             getDiaryCheckLatestUseCase.invoke().onSuccess {
-                Log.d("asdasdasd", it.toString())
-            }.onFailure {
-                Log.d("asdasdasd", it.message.toString())
+                if (it != null) {
+                    _newDiaryExist.emit(it)
+                }
             }
         }
     }

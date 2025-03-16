@@ -38,7 +38,7 @@ internal fun MyPageScreen(
     navigateToGainedCoupon: () -> Unit,
     navigateToGainedEmblems: () -> Unit,
     navigateToSetting: () -> Unit,
-    navigateToDiary: () -> Unit,
+    navigateToDiary: (Boolean) -> Unit,
     myPageViewModel: MyPageViewModel = hiltViewModel(),
 ) {
 
@@ -49,6 +49,7 @@ internal fun MyPageScreen(
 
     val snackBarHostState = remember { SnackbarHostState() }
     val errorMessage = myPageViewModel.errorMessage.collectAsStateWithLifecycle().value
+    val newDiaryExist = myPageViewModel.newDiaryExist.collectAsStateWithLifecycle().value
     val scrollState = rememberScrollState()
     if (errorMessage.isNotBlank()) {
         LaunchedEffect(snackBarHostState) { snackBarHostState.showSnackbar(message = errorMessage) }
@@ -77,7 +78,7 @@ internal fun MyPageScreen(
             )
             UserDiary(
                 modifier = Modifier.padding(top = 8.dp),
-                navigateToUserDiary = { navigateToDiary() }
+                navigateToUserDiary = { navigateToDiary(!newDiaryExist) }
             )
             Row(
                 modifier = Modifier

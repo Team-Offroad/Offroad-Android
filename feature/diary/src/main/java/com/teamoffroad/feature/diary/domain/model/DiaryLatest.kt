@@ -1,6 +1,6 @@
 package com.teamoffroad.feature.diary.domain.model
 
 data class DiaryLatest(
-    val targetDiary: MemoryLight,
+    val latestDiary: MemoryLight,
     val previousDiaries: List<MemoryLight>,
 )

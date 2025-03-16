@@ -38,6 +38,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun DiaryScreen(
+    newDiaryExist: Boolean,
     navigateToBack: () -> Unit,
     navigateToCharacterChat: (String) -> Unit,
     navigateToDiaryTime: () -> Unit,
@@ -61,6 +62,7 @@ fun DiaryScreen(
             getDiaryFirstDate()
             getDiaryTutorialChecked()
             getDiaryCreateTimeChecked()
+            if (newDiaryExist) updateLatestMemoryLight()
         }
     }
 

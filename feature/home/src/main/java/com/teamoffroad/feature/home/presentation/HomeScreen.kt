@@ -61,7 +61,7 @@ fun HomeScreen(
     completeQuests: List<String> = emptyList(),
     navigateToGainedCharacter: () -> Unit = {},
     navigateToCharacterChatScreen: (String) -> Unit,
-    navigateToDiary: () -> Unit,
+    navigateToDiary: (Boolean) -> Unit,
 ) {
     val context = LocalContext.current
     val homeViewModel: HomeViewModel = hiltViewModel()
@@ -72,6 +72,7 @@ fun HomeScreen(
         mainViewModel.characterChatLastUnreadUiState.collectAsStateWithLifecycle()
     val isCompleteQuestDialogShown = remember { mutableStateOf(false) }
     val characterName = homeViewModel.characterName.collectAsStateWithLifecycle()
+    val newDiaryExist = homeViewModel.newDiaryExist.collectAsStateWithLifecycle()
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) {}
 
@@ -117,6 +118,7 @@ fun HomeScreen(
             UsersAdventuresInformation(
                 context = context,
                 characterName = characterName.value,
+                newDiaryExist = newDiaryExist.value,
                 modifier = Modifier
                     .weight(1f)
                     .actionBarPadding(),
@@ -169,6 +171,7 @@ fun HomeScreen(
 private fun UsersAdventuresInformation(
     context: Context,
     characterName: String,
+    newDiaryExist: Boolean,
     modifier: Modifier = Modifier,
     homeViewModel: HomeViewModel,
     characterChatLastUnreadUiState: State<CharacterChatLastUnreadUiState>,
@@ -177,7 +180,7 @@ private fun UsersAdventuresInformation(
     updateCharacterChatExist: (Boolean) -> Unit,
     updateCharacterName: (String) -> Unit,
     updateLastUnreadChatDosAllRead: (Boolean) -> Unit,
-    navigateToDiary: () -> Unit,
+    navigateToDiary: (Boolean) -> Unit,
 ) {
     val adventuresInformationState =
         homeViewModel.getUsersAdventuresInformationState.collectAsState(initial = UiState.Loading).value
@@ -205,6 +208,7 @@ private fun UsersAdventuresInformation(
                 context = context,
                 imageUrl = adventuresInformationData?.baseImageUrl ?: "",
                 characterName = characterName,
+                newDiaryExist = newDiaryExist,
                 characterChatLastUnreadUiState = characterChatLastUnreadUiState,
                 navigateToGainedCharacter = navigateToGainedCharacter,
                 updateShowUserChatTextField = updateShowUserChatTextField,

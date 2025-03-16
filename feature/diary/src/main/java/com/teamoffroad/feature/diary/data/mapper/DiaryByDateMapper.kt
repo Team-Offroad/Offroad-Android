@@ -20,7 +20,7 @@ fun DiaryByDateResponseDto.toDiaryByDate() =
 
 fun DiaryLatestResponseDto.toDiaryLatest() =
     DiaryLatest(
-        targetDiary = targetDiary.toMemoryLight(),
+        latestDiary = latestDiary.toMemoryLight(),
         previousDiaries = previousDiaries.map { memoryLightDto ->
             memoryLightDto.toMemoryLight()
         }

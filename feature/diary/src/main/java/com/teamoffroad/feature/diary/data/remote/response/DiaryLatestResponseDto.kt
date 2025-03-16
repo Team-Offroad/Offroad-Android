@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class DiaryLatestResponseDto(
-    @SerialName("targetDiary")
-    val targetDiary: MemoryLightDto,
+    @SerialName("latestDiary")
+    val latestDiary: MemoryLightDto,
     @SerialName("previousDiaries")
     val previousDiaries: List<MemoryLightDto>,
 )

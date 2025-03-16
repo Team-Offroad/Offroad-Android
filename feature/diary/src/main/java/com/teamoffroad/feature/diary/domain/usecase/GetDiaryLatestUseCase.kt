@@ -5,5 +5,8 @@ import com.teamoffroad.feature.diary.domain.repository.DiaryRepository
 class GetDiaryLatestUseCase(
     private val diaryRepository: DiaryRepository,
 ) {
-    suspend operator fun invoke(previousCount: Int) = diaryRepository.getDiaryLatest(previousCount)
+    suspend operator fun invoke(previousCount: Int) =
+        diaryRepository.getDiaryLatest(previousCount).map {
+            it?.previousDiaries.orEmpty() + listOfNotNull(it?.latestDiary)
+        }
 }

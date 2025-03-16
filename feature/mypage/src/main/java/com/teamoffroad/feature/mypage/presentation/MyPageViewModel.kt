@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.mypage.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryCheckLatestUseCase
@@ -24,13 +23,15 @@ class MyPageViewModel @Inject constructor(
     private val _errorMessage = MutableStateFlow<String>("")
     val errorMessage = _errorMessage.asStateFlow()
 
+    private val _newDiaryExist = MutableStateFlow(false)
+    val newDiaryExist = _newDiaryExist.asStateFlow()
+
     fun getDiaryCheckLatest() {
-        //TODO. 최신일기 확인여부반환
         viewModelScope.launch {
             getDiaryCheckLatestUseCase.invoke().onSuccess {
-                Log.d("asdasdasd", it.toString())
-            }.onFailure {
-                Log.d("asdasdasd", it.message.toString())
+                if (it != null) {
+                    _newDiaryExist.emit(it)
+                }
             }
         }
     }

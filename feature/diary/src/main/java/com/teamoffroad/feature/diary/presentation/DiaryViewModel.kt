@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.diary.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.diary.domain.model.DiaryFirstDate
@@ -42,10 +41,6 @@ class DiaryViewModel @Inject constructor(
 
     private val _diarySideEffect: Channel<DiarySideEffect> = Channel()
     val diarySideEffect = _diarySideEffect.receiveAsFlow()
-
-    init {
-        updateLatestMemoryLight()
-    }
 
     fun getDiaryFirstDate() {
         viewModelScope.launch {
@@ -150,12 +145,11 @@ class DiaryViewModel @Inject constructor(
     }
 
     fun updateLatestMemoryLight() {
-        //TODO. home, mypage에서 getDiaryCheckLatest값이 true라면 가장 최신일기 확인여부 받아오기
         viewModelScope.launch {
             getDiaryLatestUseCase.invoke(1).onSuccess {
-                Log.d("asdasdasd", it.toString())
-            }.onFailure {
-                Log.d("asdasdasdfail", it.message.toString())
+                _diaryUiState.value = diaryUiState.value.copy(
+                    memoryLightList = it
+                )
             }
         }
     }
