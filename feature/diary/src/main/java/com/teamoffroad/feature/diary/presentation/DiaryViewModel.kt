@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.diary.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.diary.domain.model.DiaryFirstDate
@@ -13,6 +12,7 @@ import com.teamoffroad.feature.diary.domain.usecase.GetDiaryMonthlyHexUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryTutorialCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryCreateTimeCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryTutorialCheckedUseCase
+import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryCheckUseCase
 import com.teamoffroad.feature.diary.presentation.model.DiaryHintDialogState
 import com.teamoffroad.feature.diary.presentation.model.DiaryShownState
 import com.teamoffroad.feature.diary.presentation.model.DiarySideEffect
@@ -33,6 +33,7 @@ class DiaryViewModel @Inject constructor(
     private val getDiaryCreateTimeCheckedUseCase: GetDiaryCreateTimeCheckedUseCase,
     private val patchDiaryCreateTimeCheckedUseCase: PatchDiaryCreateTimeCheckedUseCase,
     private val getDiaryFirstDateUseCase: GetDiaryFirstDateUseCase,
+    private val patchDiaryCheckUseCase: PatchDiaryCheckUseCase,
     private val getDiaryMonthlyHexUseCase: GetDiaryMonthlyHexUseCase,
     private val getDiaryByDateUseCase: GetDiaryByDateUseCase,
     private val getDiaryLatestUseCase: GetDiaryLatestUseCase,
@@ -68,7 +69,7 @@ class DiaryViewModel @Inject constructor(
         }
     }
 
-    fun getDummyHexCode(year: Int, month: Int) {
+    fun getDiaryHexCode(year: Int, month: Int) {
         viewModelScope.launch {
             getDiaryMonthlyHexUseCase.invoke(year, month).onSuccess {
                 _diaryUiState.value = diaryUiState.value.copy(
@@ -165,6 +166,12 @@ class DiaryViewModel @Inject constructor(
                     )
                 }
             }
+        }
+    }
+
+    fun updateDiaryCheck(date: String) {
+        viewModelScope.launch {
+            patchDiaryCheckUseCase.invoke(date)
         }
     }
 

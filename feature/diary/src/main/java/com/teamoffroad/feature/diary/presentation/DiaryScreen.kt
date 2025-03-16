@@ -68,7 +68,7 @@ fun DiaryScreen(
 
     LaunchedEffect(diaryUiState.currentDiaryCalendarPage) {
         val (year, month) = convertRegexToDate(diaryUiState.currentDiaryCalendarPage)
-        viewModel.getDummyHexCode(year = year, month = month)
+        viewModel.getDiaryHexCode(year = year, month = month)
     }
 
     LaunchedEffect(diaryUiState.memoryLightList) {
@@ -155,6 +155,7 @@ fun DiaryScreen(
         if (diaryUiState.memoryLigthVisibility) {
             MemoryLightScreen(
                 memoryLight = diaryUiState.memoryLightList,
+                updateDiaryCheck = viewModel::updateDiaryCheck,
                 onCancelClick = viewModel::updateMemoryLightState,
                 modifier = Modifier.fillMaxSize(),
             )

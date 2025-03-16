@@ -12,6 +12,7 @@ interface DiaryRepository {
     suspend fun getDiaryCreateTimeChecked(): Result<Boolean?>
     suspend fun patchDiaryCreateTimeChecked(): Result<Unit>
     suspend fun getDiaryFirstDate(): Result<DiaryFirstDate?>
+    suspend fun patchDiaryCheck(date: String): Result<Unit>
     suspend fun getDiaryMonthlyHex(year: Int, month: Int): Result<Map<String, List<HexCode>>?>
     suspend fun getDiaryLatest(previousCount: Int): Result<DiaryLatest?>
     suspend fun getDiaryCheckLatest(): Result<Boolean?>

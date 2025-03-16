@@ -35,6 +35,12 @@ interface DiaryService {
     @GET("diary/first-date")
     suspend fun getDiaryFirstDate(): BaseResponse<DiaryFirstDateResponseDto>
 
+    @PATCH("diary/check")
+    suspend fun patchDiaryCheck(
+        @Query("date")
+        date: String,
+    ): BaseResponse<Unit>
+
     @GET("diary/monthly-hex")
     suspend fun getDiaryMonthlyHex(
         @Query("year")

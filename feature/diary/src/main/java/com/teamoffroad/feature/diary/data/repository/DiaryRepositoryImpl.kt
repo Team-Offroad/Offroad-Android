@@ -35,6 +35,9 @@ class DiaryRepositoryImpl @Inject constructor(
     override suspend fun getDiaryFirstDate(): Result<DiaryFirstDate?> =
         runCatching { diaryService.getDiaryFirstDate().data?.toDiaryFirstDate() }
 
+    override suspend fun patchDiaryCheck(date: String): Result<Unit> =
+        runCatching { diaryService.patchDiaryCheck(date) }
+
     override suspend fun getDiaryMonthlyHex(
         year: Int,
         month: Int

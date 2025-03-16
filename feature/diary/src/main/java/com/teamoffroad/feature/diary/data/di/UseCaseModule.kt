@@ -11,6 +11,7 @@ import com.teamoffroad.feature.diary.domain.usecase.GetDiaryTutorialCheckedUseCa
 import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryCreateTimeCheckedUseCase
 import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryCreateTimeUseCase
 import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryTutorialCheckedUseCase
+import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryCheckUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -99,5 +100,13 @@ object UseCaseModule {
         diaryRepository: DiaryRepository,
     ): GetDiaryCheckLatestUseCase {
         return GetDiaryCheckLatestUseCase(diaryRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun providePatchDiaryCheckUseCase(
+        diaryRepository: DiaryRepository,
+    ): PatchDiaryCheckUseCase {
+        return PatchDiaryCheckUseCase(diaryRepository)
     }
 }

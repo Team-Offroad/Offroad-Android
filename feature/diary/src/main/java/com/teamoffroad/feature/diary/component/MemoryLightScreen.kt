@@ -50,6 +50,7 @@ import com.teamoffroad.offroad.feature.diary.R
 @Composable
 fun MemoryLightScreen(
     memoryLight: MemoryLightSetting,
+    updateDiaryCheck: (String) -> Unit,
     onCancelClick: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -90,7 +91,8 @@ fun MemoryLightScreen(
             modifier = Modifier.padding(bottom = 28.dp),
         ) { page ->
             MemoryLightItems(
-                memoryLight = memoryLight.memoryLight[page]
+                memoryLight = memoryLight.memoryLight[page],
+                updateDiaryCheck = updateDiaryCheck,
             )
         }
         Row(
@@ -118,8 +120,14 @@ fun MemoryLightScreen(
 @Composable
 private fun MemoryLightItems(
     memoryLight: MemoryLight,
+    updateDiaryCheck: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    memoryLight.apply {
+        val formattedDate = "%04d-%02d-%02d".format(year, month, day)
+        updateDiaryCheck(formattedDate)
+    }
+
     Box(
         modifier = modifier
             .height(515.dp)
