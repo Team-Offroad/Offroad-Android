@@ -67,7 +67,7 @@ class HomeViewModel @Inject constructor(
     private val _characterName = MutableStateFlow("")
     val characterName = _characterName.asStateFlow()
 
-    private val _newDiaryExist = MutableStateFlow(false)
+    private val _newDiaryExist = MutableStateFlow(true)
     val newDiaryExist = _newDiaryExist.asStateFlow()
 
     fun getUsersAdventuresInformation(category: String) {
@@ -169,7 +169,6 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getDiaryCheckLatest() {
-        //TODO. 최신일기 확인여부반환
         viewModelScope.launch {
             getDiaryCheckLatestUseCase.invoke().onSuccess {
                 if (it != null) {
