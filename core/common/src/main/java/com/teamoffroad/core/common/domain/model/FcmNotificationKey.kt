@@ -10,7 +10,9 @@ object FcmNotificationKey {
     const val KEY_ID = "announcementId"
     const val TYPE_CHARACTER_CHAT = "CHARACTER_CHAT"
     const val TYPE_ANNOUNCEMENT = "ANNOUNCEMENT_REDIRECT"
+    const val TYPE_DIARY_CREATE = "MEMBER_DIARY_CREATE"
     const val ACTION_ANNOUNCEMENT_FOREGROUND = "com.teamoffroad.offroad.app.ANNOUNCEMENT_FOREGROUND"
     const val ACTION_CHARACTER_CHAT_FOREGROUND =
         "com.teamoffroad.offroad.app.CHARACTER_CHAT_FOREGROUND"
+    const val ACTION_DIARY_CREATE_FOREGROUND = "com.teamoffroad.offroad.app.DIARY_CREATE_FOREGROUND"
 }

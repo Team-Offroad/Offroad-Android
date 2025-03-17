@@ -6,8 +6,10 @@ import android.content.Context.RECEIVER_EXPORTED
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
+import com.teamoffroad.core.common.domain.model.DiaryCreateNotificationEvent
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.ACTION_ANNOUNCEMENT_FOREGROUND
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.ACTION_CHARACTER_CHAT_FOREGROUND
+import com.teamoffroad.core.common.domain.model.FcmNotificationKey.ACTION_DIARY_CREATE_FOREGROUND
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_BODY
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_ID
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_TITLE
@@ -19,7 +21,6 @@ class CharacterChatBroadcastReceiver(
     private val navigateToAnnouncement: (id: String) -> Unit,
 ) : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-
         when (intent.action) {
             ACTION_ANNOUNCEMENT_FOREGROUND -> {
                 val announcementID = intent.getStringExtra(KEY_ID)
@@ -30,6 +31,10 @@ class CharacterChatBroadcastReceiver(
 
             ACTION_CHARACTER_CHAT_FOREGROUND -> {
                 updateCharacterChatReceived(intent)
+            }
+
+            ACTION_DIARY_CREATE_FOREGROUND -> {
+                updateDiaryCreateReceived()
             }
         }
     }
@@ -43,11 +48,16 @@ class CharacterChatBroadcastReceiver(
             .post(NotificationEvent(notificationTitle, notificationBody, notificationType))
     }
 
+    private fun updateDiaryCreateReceived() {
+        EventBus.getDefault().post(DiaryCreateNotificationEvent(true))
+    }
+
     companion object {
         fun register(context: Context, receiver: CharacterChatBroadcastReceiver) {
             val intentFilter = IntentFilter().apply {
                 addAction(ACTION_ANNOUNCEMENT_FOREGROUND)
                 addAction(ACTION_CHARACTER_CHAT_FOREGROUND)
+                addAction(ACTION_DIARY_CREATE_FOREGROUND)
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 context.registerReceiver(receiver, intentFilter, RECEIVER_EXPORTED)
