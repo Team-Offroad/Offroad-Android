@@ -89,7 +89,10 @@ class HomeViewModel @Inject constructor(
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onNotificationEvent(event: DiaryCreateNotificationEvent) {
-        viewModelScope.launch { _diaryCreateState.emit(event.state) }
+        viewModelScope.launch {
+            getDiaryCheckLatest()
+            _diaryCreateState.emit(event.state)
+        }
     }
 
     fun getUsersAdventuresInformation(category: String) {
