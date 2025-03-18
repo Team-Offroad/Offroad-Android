@@ -48,11 +48,13 @@ class DiaryViewModel @Inject constructor(
     fun getDiaryFirstDate() {
         viewModelScope.launch {
             getDiaryFirstDateUseCase.invoke().onSuccess { diaryFirstDate ->
-                if (diaryFirstDate != null) {
+                if (diaryFirstDate != null && diaryFirstDate.year != 0 && diaryFirstDate.month != 0) {
                     _diaryUiState.value = diaryUiState.value.copy(
                         diaryFirstCreatedDate = Pair(diaryFirstDate.year, diaryFirstDate.month)
                     )
                     changeDiaryShownState(diaryFirstDate)
+                } else {
+                    changeDiaryShownState(null)
                 }
             }.onFailure {
                 changeDiaryShownState(null)
