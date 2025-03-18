@@ -75,6 +75,9 @@ class HomeViewModel @Inject constructor(
     private val _newDiaryExist = MutableStateFlow(true)
     val newDiaryExist = _newDiaryExist.asStateFlow()
 
+    private val _diaryCreateState = MutableStateFlow(false)
+    val diaryCreateState = _diaryCreateState.asStateFlow()
+
     init {
         EventBus.getDefault().register(this)
     }
@@ -86,7 +89,7 @@ class HomeViewModel @Inject constructor(
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onNotificationEvent(event: DiaryCreateNotificationEvent) {
-        Log.d("characterChat data diary create ", "asdas")
+        viewModelScope.launch { _diaryCreateState.emit(event.state) }
     }
 
     fun getUsersAdventuresInformation(category: String) {
@@ -199,6 +202,12 @@ class HomeViewModel @Inject constructor(
 
     fun initUserDiarySetting() {
         viewModelScope.launch { runCatching { diarySettingUseCase.invoke() } }
+    }
+
+    fun updateDiaryCreateDialogUnShown() {
+        viewModelScope.launch {
+            _diaryCreateState.emit(false)
+        }
     }
 
     companion object {

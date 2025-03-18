@@ -17,7 +17,7 @@ import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_TYPE
 import com.teamoffroad.core.common.domain.model.NotificationEvent
 import org.greenrobot.eventbus.EventBus
 
-class CharacterChatBroadcastReceiver(
+class FcmBroadcastReceiver(
     private val navigateToAnnouncement: (id: String) -> Unit,
 ) : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -53,7 +53,7 @@ class CharacterChatBroadcastReceiver(
     }
 
     companion object {
-        fun register(context: Context, receiver: CharacterChatBroadcastReceiver) {
+        fun register(context: Context, receiver: FcmBroadcastReceiver) {
             val intentFilter = IntentFilter().apply {
                 addAction(ACTION_ANNOUNCEMENT_FOREGROUND)
                 addAction(ACTION_CHARACTER_CHAT_FOREGROUND)
@@ -66,7 +66,7 @@ class CharacterChatBroadcastReceiver(
             }
         }
 
-        fun unregister(context: Context, receiver: CharacterChatBroadcastReceiver) {
+        fun unregister(context: Context, receiver: FcmBroadcastReceiver) {
             context.unregisterReceiver(receiver)
         }
     }
