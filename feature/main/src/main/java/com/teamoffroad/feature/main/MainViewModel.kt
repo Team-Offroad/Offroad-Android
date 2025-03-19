@@ -28,7 +28,7 @@ class MainViewModel @Inject constructor(
             runCatching {
                 minSupportedVersionRepository.fetchMinSupportedVersion()
             }.onSuccess { state ->
-                _appVersionState.value = compareVersions(currentVersion, state.android)
+                _appVersionState.value = compareVersions("1.0.0", state.android)
             }.onFailure { t ->
                 val errorMessage = getErrorMessage(t)
             }

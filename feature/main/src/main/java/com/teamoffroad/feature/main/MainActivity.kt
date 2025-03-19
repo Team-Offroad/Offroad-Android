@@ -11,7 +11,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -36,19 +40,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val currentVersionInfo = getAppVersion() // 현재 앱 정보
+        val currentVersionInfo = getAppVersion()
         viewModel.getMinSupportedVersion(currentVersionInfo)
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.appVersionState.collect { state ->
-                    if(!state) {
-                        Log.d("orb app version", "update 필요")
-//                        navigateToPlayStore()
-                    }
-                }
-            }
-        }
 
         notificationTypeState.value = intent.getStringExtra(KEY_TYPE)
         notificationIdState.value = intent.getStringExtra(KEY_ID)
@@ -59,6 +52,15 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navigator: MainNavigator = rememberMainNavigator()
+            val appUpdateDialogShown = remember { mutableStateOf(false) }
+            val appVersionState by viewModel.appVersionState.collectAsState(initial = true)
+
+            LaunchedEffect(appVersionState) {
+                if (!appVersionState) {
+                    Log.d("orb app version", "update 필요")
+                    appUpdateDialogShown.value = true
+                }
+            }
 
             MainTransparentActionBar(window)
             OffroadTheme {
@@ -70,6 +72,13 @@ class MainActivity : ComponentActivity() {
                     mainViewModel = viewModel,
                     mainCharacterViewModel = mainCharacterViewModel,
                 )
+
+                if (appUpdateDialogShown.value) {
+                    AppUpdateDialog(
+                        onDismissRequest = { appUpdateDialogShown.value = false },
+                        onConfirm = { navigateToPlayStore() }
+                    )
+                }
             }
         }
     }
