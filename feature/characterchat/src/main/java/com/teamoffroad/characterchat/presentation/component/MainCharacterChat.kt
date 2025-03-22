@@ -153,11 +153,9 @@ fun CharacterChat(
 
             if (!characterChatUiState.value.isAnswerButtonClicked && !userChatUiState.value.showUserChatTextField) {
                 AnswerCharacterChat(
-                    characterChatUiState = characterChatUiState,
                     updateAnswerCharacterChatButtonState = updateAnswerCharacterChatButtonState,
                     updateUserWatchingCharacterChat = updateUserWatchingCharacterChat,
                     updateShowUserChatTextField = updateShowUserChatTextField,
-                    userChatUiState = userChatUiState
                 )
             }
         }
@@ -167,8 +165,6 @@ fun CharacterChat(
 
 @Composable
 fun AnswerCharacterChat(
-    characterChatUiState: State<CharacterChattingUiState>,
-    userChatUiState: State<UserChattingUiState>,
     backgroundColor: Color = Main2,
     textColor: Color = Main3,
     textStyle: TextStyle = OffroadTheme.typography.textContents,

@@ -91,7 +91,7 @@ class CharacterChatViewModel @Inject constructor(
                     text = chattingText,
                     date = now.toLocalDate(),
                     time = Triple(TimeType.toTimeType(now.hour), now.hour.toTwelveHour(), now.minute),
-                    id = uiState.value.chats.values.flatten().maxOf { it.id } + 1
+                    id = (uiState.value.chats.values.flatten().maxOfOrNull { it.id } ?: 0L) + 1L,
                 )
                 extendChat(userChat)
                 _uiState.value = uiState.value.copy(isSending = true)
@@ -117,7 +117,7 @@ class CharacterChatViewModel @Inject constructor(
     private fun removeLastChat() {
         _uiState.value = uiState.value.copy(
             chats = uiState.value.chats.toMutableMap().apply {
-                val lastChatDate = keys.last()
+                val lastChatDate = keys.lastOrNull() ?: return@apply
                 val lastChatList = get(lastChatDate)?.toMutableList() ?: mutableListOf()
                 lastChatList.removeLast()
                 put(lastChatDate, lastChatList)

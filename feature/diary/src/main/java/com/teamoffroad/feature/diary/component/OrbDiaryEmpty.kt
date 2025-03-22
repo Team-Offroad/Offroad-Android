@@ -24,26 +24,27 @@ import com.teamoffroad.offroad.feature.diary.R
 
 @Composable
 fun OrbDiaryEmpty(
-    modifier: Modifier = Modifier,
     navigateToCharacterChat: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier.fillMaxWidth(),
     ) {
         Image(
-            modifier = Modifier.padding(bottom = 25.dp),
             painter = painterResource(id = R.drawable.img_diary_empty),
-            contentDescription = "empty"
+            contentDescription = "empty",
+            modifier = Modifier.padding(bottom = 25.dp),
         )
         Text(
-            modifier = Modifier.padding(bottom = 24.dp),
             text = stringResource(id = R.string.diary_empty_content),
             textAlign = TextAlign.Center,
             color = Black55.copy(alpha = 0.55f),
-            style = OffroadTheme.typography.boxMedi
+            style = OffroadTheme.typography.boxMedi,
+            modifier = Modifier.padding(bottom = 24.dp),
         )
         Box(
+            contentAlignment = Alignment.Center,
             modifier = Modifier
                 .background(
                     color = Main2,
@@ -51,7 +52,6 @@ fun OrbDiaryEmpty(
                 )
                 .padding(horizontal = 68.dp, vertical = 14.dp)
                 .clickableWithoutRipple { navigateToCharacterChat("???") },
-            contentAlignment = Alignment.Center
         ) {
             Text(
                 text = stringResource(id = R.string.diary_empty_go_chatting),
