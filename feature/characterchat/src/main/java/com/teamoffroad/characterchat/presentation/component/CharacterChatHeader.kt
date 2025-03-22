@@ -17,12 +17,12 @@ import com.teamoffroad.core.designsystem.theme.Transparent
 
 @Composable
 fun CharacterChatHeader(
-    modifier: Modifier = Modifier,
     characterName: String,
     navigateToBack: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier
+        modifier = Modifier
             .wrapContentSize()
             .padding(top = 12.dp),
         contentAlignment = Alignment.Center,
