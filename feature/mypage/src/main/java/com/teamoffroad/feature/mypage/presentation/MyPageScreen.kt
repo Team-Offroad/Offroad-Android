@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.mypage.presentation.component.AcquireCharacter
@@ -58,13 +59,14 @@ internal fun MyPageScreen(
         modifier = Modifier
             .background(ListBg)
             .padding(horizontal = 24.dp)
-            .padding(top = 90.dp)
             .navigationBarsPadding()
     ) {
         Column(
             modifier = Modifier
+                .actionBarPadding()
                 .verticalScroll(state = scrollState)
                 .fillMaxSize()
+                .padding(top = 42.dp)
         ) {
             UserNickname(
                 modifier = Modifier.padding(bottom = 13.dp),
