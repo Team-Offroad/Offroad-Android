@@ -2,7 +2,7 @@
 
 <img src="https://github.com/user-attachments/assets/132b190d-04b8-4719-ab2f-ec9f8ddd9854" width="300">
 
-> 오브, 일상을 모험하는 온오프라인 연계형 어드벤처 게임
+> 일상에 설렘을 더하다, 오브
 </br>
 
 ## 💻 IDE
