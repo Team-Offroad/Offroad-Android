@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -75,8 +76,9 @@ class MainActivity : ComponentActivity() {
 
                 if (appUpdateDialogShown.value) {
                     AppUpdateDialog(
+                        appUpdateDialogShown = appUpdateDialogShown,
                         onDismissRequest = { appUpdateDialogShown.value = false },
-                        onConfirm = { navigateToPlayStore() }
+                        context = LocalContext.current
                     )
                 }
             }
@@ -113,4 +115,5 @@ class MainActivity : ComponentActivity() {
             Log.e("orb app update", "error opening Play Store: ${e.message}")
         }
     }
+
 }
