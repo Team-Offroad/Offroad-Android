@@ -58,7 +58,6 @@ class MainActivity : ComponentActivity() {
 
             LaunchedEffect(appVersionState) {
                 if (!appVersionState) {
-                    Log.d("orb app version", "update 필요")
                     appUpdateDialogShown.value = true
                 }
             }

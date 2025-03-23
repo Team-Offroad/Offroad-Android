@@ -92,7 +92,6 @@ fun AppUpdateDialog(
                         .clickableWithoutRipple(
                             interactionSource = interactionSource,
                             onClick = {
-                                appUpdateDialogShown.value = false
                                 navigateToPlayStore(context = context)
                             }
                         )
