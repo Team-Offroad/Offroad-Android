@@ -90,12 +90,12 @@ fun DiaryTimeScreen(
                     .fillMaxWidth()
             )
             Image(
-                painter = painterResource(id = R.drawable.img_date_time_dummy),
+                painter = painterResource(id = R.drawable.img_diary_time),
                 contentDescription = "diary_time",
                 modifier = Modifier
                     .weight(2f)
                     .fillMaxWidth()
-                    .padding(vertical = 24.dp),
+                    .padding(top = 34.dp, bottom = 8.dp),
             )
             Text(
                 text = stringResource(id = R.string.my_page_setting_diary_time_when_receive),
