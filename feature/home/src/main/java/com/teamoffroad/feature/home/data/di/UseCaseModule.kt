@@ -1,9 +1,11 @@
 package com.teamoffroad.feature.home.data.di
 
+import com.teamoffroad.feature.home.domain.repository.DiarySettingRepository
 import com.teamoffroad.feature.home.domain.repository.DummyUserRepository
 import com.teamoffroad.feature.home.domain.repository.FcmTokenRepository
 import com.teamoffroad.feature.home.domain.repository.UserRepository
 import com.teamoffroad.feature.home.domain.usecase.GetDummyUserListUseCase
+import com.teamoffroad.feature.home.domain.usecase.PostDiarySettingUseCase
 import com.teamoffroad.feature.home.domain.usecase.PostFcmTokenUseCase
 import com.teamoffroad.feature.home.domain.usecase.UserUseCase
 import dagger.Module
@@ -38,5 +40,13 @@ class UseCaseModule {
         fcmTokenRepository: FcmTokenRepository,
     ): PostFcmTokenUseCase {
         return PostFcmTokenUseCase(fcmTokenRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDiarySettingUseCase(
+        diarySettingRepository: DiarySettingRepository,
+    ): PostDiarySettingUseCase {
+        return PostDiarySettingUseCase(diarySettingRepository)
     }
 }

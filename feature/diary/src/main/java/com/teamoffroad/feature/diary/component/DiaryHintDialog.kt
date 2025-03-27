@@ -18,6 +18,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,15 +40,24 @@ fun DiaryHintDialog(
     secondPage: Int = 1,
     onCancelClick: (Boolean) -> Unit,
     updateTimeSettingDialogState: (Boolean) -> Unit,
+    patchDiaryTutorialChecked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(initialPage = firstPage, pageCount = { secondPage + 1 })
 
+    LaunchedEffect(Unit) {
+        patchDiaryTutorialChecked()
+    }
+
     BackHandler(enabled = pagerState.currentPage == firstPage || pagerState.currentPage == secondPage) {
         coroutineScope.launch {
             when (pagerState.currentPage) {
-                firstPage -> onCancelClick(false)
+                firstPage -> {
+                    onCancelClick(false)
+                    updateTimeSettingDialogState(true)
+                }
+
                 secondPage -> pagerState.animateScrollToPage(
                     pagerState.currentPage - secondPage,
                 )
@@ -109,7 +119,6 @@ fun DiaryHintDialog(
                         1 -> {
                             updateTimeSettingDialogState(true)
                             onCancelClick(false)
-                            //TODO. 튜토리얼완료 api 쏘기
                         }
                     }
                 },

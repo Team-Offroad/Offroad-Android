@@ -35,11 +35,12 @@ fun TimeSettingDialog(
     onDefaultTimeSettingClick: () -> Unit,
     onSettingClick: (Boolean) -> Unit,
     navigateDiaryTime: () -> Unit,
+    patchDiaryCreateTimeChecked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Dialog(
         onDismissRequest = { onSettingClick(false) },
-        properties = DialogProperties(dismissOnClickOutside = false, dismissOnBackPress = true)
+        properties = DialogProperties(dismissOnClickOutside = false, dismissOnBackPress = false)
     ) {
         Box(
             modifier = modifier
@@ -90,6 +91,7 @@ fun TimeSettingDialog(
                         backgroundColor = Main3,
                         modifier = Modifier
                             .clickableWithoutRipple {
+                                patchDiaryCreateTimeChecked()
                                 onSettingClick(false)
                                 navigateDiaryTime()
                             }
@@ -101,6 +103,7 @@ fun TimeSettingDialog(
                         backgroundColor = Main2,
                         modifier = Modifier
                             .clickableWithoutRipple {
+                                patchDiaryCreateTimeChecked()
                                 onDefaultTimeSettingClick()
                                 onSettingClick(false)
                             }
