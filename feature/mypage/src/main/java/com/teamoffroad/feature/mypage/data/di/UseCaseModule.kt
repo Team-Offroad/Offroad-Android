@@ -2,7 +2,6 @@ package com.teamoffroad.feature.mypage.data.di
 
 import com.teamoffroad.feature.mypage.domain.repository.AnnouncementRepository
 import com.teamoffroad.feature.mypage.domain.repository.CharacterRepository
-import com.teamoffroad.feature.mypage.domain.repository.DiarySettingRepository
 import com.teamoffroad.feature.mypage.domain.repository.EmblemRepository
 import com.teamoffroad.feature.mypage.domain.repository.MotionRepository
 import com.teamoffroad.feature.mypage.domain.repository.UserCouponRepository
@@ -14,7 +13,6 @@ import com.teamoffroad.feature.mypage.domain.usecase.GetCharacterListUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.GetCharacterMotionListUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.GetMyPageUserUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.GetUserEmblemListUseCase
-import com.teamoffroad.feature.mypage.domain.usecase.PatchDiaryCreateTimeUseCase
 import com.teamoffroad.feature.mypage.domain.usecase.UserCouponListUseCase
 import dagger.Module
 import dagger.Provides
@@ -88,13 +86,5 @@ object UseCaseModule {
         announcementRepository: AnnouncementRepository,
     ): GetAnnouncementUseCase {
         return GetAnnouncementUseCase(announcementRepository)
-    }
-
-    @Provides
-    @Singleton
-    fun providePatchDiaryCreateTimeUseCase(
-        diarySettingRepository: DiarySettingRepository,
-    ): PatchDiaryCreateTimeUseCase {
-        return PatchDiaryCreateTimeUseCase(diarySettingRepository)
     }
 }

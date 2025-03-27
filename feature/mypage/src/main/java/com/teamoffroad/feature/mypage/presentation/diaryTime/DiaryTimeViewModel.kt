@@ -1,9 +1,8 @@
 package com.teamoffroad.feature.mypage.presentation.diaryTime
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.teamoffroad.feature.mypage.domain.usecase.PatchDiaryCreateTimeUseCase
+import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryCreateTimeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

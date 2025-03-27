@@ -2,14 +2,12 @@ package com.teamoffroad.feature.mypage.data.di
 
 import com.teamoffroad.feature.mypage.data.repository.AnnouncementRepositoryImpl
 import com.teamoffroad.feature.mypage.data.repository.CharacterRepositoryImpl
-import com.teamoffroad.feature.mypage.data.repository.DiarySettingRepositoryImpl
 import com.teamoffroad.feature.mypage.data.repository.EmblemRepositoryImpl
 import com.teamoffroad.feature.mypage.data.repository.MotionRepositoryImpl
 import com.teamoffroad.feature.mypage.data.repository.UserCouponRepositoryImpl
 import com.teamoffroad.feature.mypage.data.repository.UserRepositoryImpl
 import com.teamoffroad.feature.mypage.domain.repository.AnnouncementRepository
 import com.teamoffroad.feature.mypage.domain.repository.CharacterRepository
-import com.teamoffroad.feature.mypage.domain.repository.DiarySettingRepository
 import com.teamoffroad.feature.mypage.domain.repository.EmblemRepository
 import com.teamoffroad.feature.mypage.domain.repository.MotionRepository
 import com.teamoffroad.feature.mypage.domain.repository.UserCouponRepository
@@ -56,9 +54,4 @@ abstract class RepositoryModule {
     abstract fun bindAnnouncementRepository(
         announcementRepositoryImpl: AnnouncementRepositoryImpl,
     ): AnnouncementRepository
-
-    @Binds
-    abstract fun bindDiarySettingRepository(
-        diarySettingRepositoryImpl: DiarySettingRepositoryImpl,
-    ): DiarySettingRepository
 }

@@ -22,7 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val notificationTypeState = mutableStateOf<String?>(null)
     private val notificationIdState = mutableStateOf<String?>(null)
-    private lateinit var characterBroadcastReceiver: CharacterChatBroadcastReceiver
+    private lateinit var characterBroadcastReceiver: FcmBroadcastReceiver
     private val viewModel by viewModels<MainViewModel>()
     private val mainCharacterViewModel by viewModels<MainCharacterChatViewModel>()
 
@@ -30,10 +30,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         notificationTypeState.value = intent.getStringExtra(KEY_TYPE)
         notificationIdState.value = intent.getStringExtra(KEY_ID)
-        characterBroadcastReceiver = CharacterChatBroadcastReceiver(
+        characterBroadcastReceiver = FcmBroadcastReceiver(
             navigateToAnnouncement = viewModel::navigateToAnnouncement,
         )
-        CharacterChatBroadcastReceiver.register(this, characterBroadcastReceiver)
+        FcmBroadcastReceiver.register(this, characterBroadcastReceiver)
 
         setContent {
             val navigator: MainNavigator = rememberMainNavigator()
@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        CharacterChatBroadcastReceiver.unregister(this, characterBroadcastReceiver)
+        FcmBroadcastReceiver.unregister(this, characterBroadcastReceiver)
     }
 
     companion object {

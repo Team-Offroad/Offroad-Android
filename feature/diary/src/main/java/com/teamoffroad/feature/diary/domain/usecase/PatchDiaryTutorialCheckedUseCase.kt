@@ -1,11 +1,11 @@
 package com.teamoffroad.feature.diary.domain.usecase
 
-import com.teamoffroad.feature.diary.domain.repository.DiarySettingRepository
+import com.teamoffroad.feature.diary.domain.repository.DiaryRepository
 
 class PatchDiaryTutorialCheckedUseCase(
-    private val diarySettingRepository: DiarySettingRepository,
+    private val diaryRepository: DiaryRepository,
 ) {
     suspend operator fun invoke() {
-        diarySettingRepository.patchDiaryTutorialChecked()
+        diaryRepository.patchDiaryTutorialChecked()
     }
 }

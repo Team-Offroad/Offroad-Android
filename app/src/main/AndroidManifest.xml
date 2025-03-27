@@ -65,7 +65,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
         <receiver
-            android:name="com.teamoffroad.feature.main.CharacterChatBroadcastReceiver"
+            android:name="com.teamoffroad.feature.main.FcmBroadcastReceiver"
             android:exported="false"
             tools:ignore="Instantiatable">
             <intent-filter>

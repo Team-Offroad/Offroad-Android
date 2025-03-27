@@ -185,8 +185,12 @@ internal class MainNavigator(
         )
     }
 
-    fun navigateToDiary() {
-        navController.navigateToDiary()
+    fun navigateToDiary(
+        newDiaryExist: Boolean,
+    ) {
+        navController.navigateToDiary(
+            newDiaryExist = newDiaryExist,
+        )
     }
 
     fun navigateToDiaryTime() {

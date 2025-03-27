@@ -1,9 +1,9 @@
-package com.teamoffroad.feature.mypage.domain.usecase
+package com.teamoffroad.feature.diary.domain.usecase
 
-import com.teamoffroad.feature.mypage.domain.repository.DiarySettingRepository
+import com.teamoffroad.feature.diary.domain.repository.DiaryRepository
 
 class PatchDiaryCreateTimeUseCase(
-    private val diarySettingRepository: DiarySettingRepository,
+    private val diaryRepository: DiaryRepository,
 ) {
     suspend operator fun invoke(diaryTime: Int, meridiem: String) {
         val calculatedDiaryTime = when {
@@ -13,7 +13,7 @@ class PatchDiaryCreateTimeUseCase(
             meridiem == "PM" -> diaryTime + MAX_TIME
             else -> throw IllegalArgumentException(meridiem)
         }
-        diarySettingRepository.patchDiaryCreateTime(calculatedDiaryTime)
+        diaryRepository.patchDiaryCreateTime(calculatedDiaryTime)
     }
 
     companion object {

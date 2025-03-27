@@ -1,7 +1,7 @@
 package com.teamoffroad.feature.diary.data.di
 
-import com.teamoffroad.feature.diary.data.repository.DiarySettingRepositoryImpl
-import com.teamoffroad.feature.diary.domain.repository.DiarySettingRepository
+import com.teamoffroad.feature.diary.data.repository.DiaryRepositoryImpl
+import com.teamoffroad.feature.diary.domain.repository.DiaryRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,7 +14,7 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindDiarySettingRepository(
-        diarySettingRepositoryImpl: DiarySettingRepositoryImpl,
-    ): DiarySettingRepository
+    abstract fun bindDiaryRepository(
+        diaryRepositoryImpl: DiaryRepositoryImpl,
+    ): DiaryRepository
 }
