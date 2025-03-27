@@ -10,11 +10,11 @@ fun getYearMonthList(start: YearMonth, end: YearMonth): List<String> {
 }
 
 fun getDiaryCalendarIndex(
-    startYear: Int,
+    startDate: Pair<Int, Int>,
     currentDiaryCalendarPage: String,
 ): Int {
     val (year, month) = convertRegexToDate(currentDiaryCalendarPage)
-    return (year - startYear) * 12 + (month - 1)
+    return (year - startDate.first) * 12 + (month - startDate.second)
 }
 
 fun convertRegexToDate(moveDiaryCalendar: String): Pair<Int, Int> {
@@ -28,9 +28,9 @@ fun convertRegexToDate(moveDiaryCalendar: String): Pair<Int, Int> {
 
 fun convertDateToRegex(
     page: Int,
-    startYear: Int,
+    startDate: Pair<Int, Int>,
 ): String {
-    val year = startYear + (page / 12)
-    val month = (page % 12) + 1
+    val year = startDate.first + (page + startDate.second - 1) / 12
+    val month = (page + startDate.second - 1) % 12 + 1
     return "${year}년 ${month}월"
 }

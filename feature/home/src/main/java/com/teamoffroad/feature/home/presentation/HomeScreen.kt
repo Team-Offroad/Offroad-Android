@@ -42,15 +42,16 @@ import com.teamoffroad.characterchat.presentation.MainCharacterChatViewModel
 import com.teamoffroad.characterchat.presentation.component.ShowCharacterChat
 import com.teamoffroad.characterchat.presentation.component.ShowUserChat
 import com.teamoffroad.characterchat.presentation.model.CharacterChatLastUnreadUiState
+import com.teamoffroad.core.designsystem.component.OrbDialog
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.feature.home.domain.model.UserQuests
-import com.teamoffroad.feature.home.presentation.component.CompleteQuestDialog
-import com.teamoffroad.feature.home.presentation.component.HomeIcons
-import com.teamoffroad.feature.home.presentation.component.UiState
-import com.teamoffroad.feature.home.presentation.component.HomeCharacterItem
 import com.teamoffroad.feature.home.presentation.component.CloseCompleteRequest
+import com.teamoffroad.feature.home.presentation.component.CompleteQuestDialog
+import com.teamoffroad.feature.home.presentation.component.HomeCharacterItem
+import com.teamoffroad.feature.home.presentation.component.HomeIcons
 import com.teamoffroad.feature.home.presentation.component.NicknameText
 import com.teamoffroad.feature.home.presentation.component.RecentQuest
+import com.teamoffroad.feature.home.presentation.component.UiState
 import com.teamoffroad.feature.home.presentation.model.HomeProgressBarModel
 import com.teamoffroad.offroad.feature.home.R
 
@@ -61,16 +62,19 @@ fun HomeScreen(
     completeQuests: List<String> = emptyList(),
     navigateToGainedCharacter: () -> Unit = {},
     navigateToCharacterChatScreen: (String) -> Unit,
-    navigateToDiary: () -> Unit,
+    navigateToDiary: (Boolean) -> Unit,
 ) {
     val context = LocalContext.current
     val homeViewModel: HomeViewModel = hiltViewModel()
     val mainViewModel: MainCharacterChatViewModel = hiltViewModel()
     val characterChatUiState = mainViewModel.characterChatUiState.collectAsStateWithLifecycle()
     val userChatUiState = mainViewModel.userChatUiState.collectAsStateWithLifecycle()
-    val characterChatLastUnreadUiState = mainViewModel.characterChatLastUnreadUiState.collectAsStateWithLifecycle()
+    val characterChatLastUnreadUiState =
+        mainViewModel.characterChatLastUnreadUiState.collectAsStateWithLifecycle()
     val isCompleteQuestDialogShown = remember { mutableStateOf(false) }
     val characterName = homeViewModel.characterName.collectAsStateWithLifecycle()
+    val newDiaryExist = homeViewModel.newDiaryExist.collectAsStateWithLifecycle()
+    val diaryCreate = homeViewModel.diaryCreateState.collectAsStateWithLifecycle()
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) {}
 
@@ -91,6 +95,8 @@ fun HomeScreen(
         homeViewModel.getUserQuests()
         if (completeQuests.isNotEmpty()) isCompleteQuestDialogShown.value = true
         mainViewModel.getCharacterChatLastUnread()
+        homeViewModel.initUserDiarySetting()
+        homeViewModel.getDiaryCheckLatest()
     }
 
     Box(
@@ -114,6 +120,7 @@ fun HomeScreen(
             UsersAdventuresInformation(
                 context = context,
                 characterName = characterName.value,
+                newDiaryExist = newDiaryExist.value,
                 modifier = Modifier
                     .weight(1f)
                     .actionBarPadding(),
@@ -136,6 +143,22 @@ fun HomeScreen(
             isCompleteQuestDialogShown = isCompleteQuestDialogShown,
             completeQuests = completeQuests,
             onClickCancel = { isCompleteQuestDialogShown.value = false },
+        )
+    }
+
+    if (diaryCreate.value) {
+        OrbDialog(
+            title = stringResource(id = R.string.home_diary_create_title),
+            content = stringResource(id = R.string.home_diary_create_content),
+            cancelButtonText = stringResource(id = R.string.home_diary_create_cancel),
+            nextButtonText = stringResource(id = R.string.home_confirm),
+            onClick = {
+                if (!newDiaryExist.value) navigateToDiary(true)
+                homeViewModel.updateDiaryCreateDialogUnShown()
+            },
+            onCancelClick = {
+                homeViewModel.updateDiaryCreateDialogUnShown()
+            }
         )
     }
 
@@ -166,6 +189,7 @@ fun HomeScreen(
 private fun UsersAdventuresInformation(
     context: Context,
     characterName: String,
+    newDiaryExist: Boolean,
     modifier: Modifier = Modifier,
     homeViewModel: HomeViewModel,
     characterChatLastUnreadUiState: State<CharacterChatLastUnreadUiState>,
@@ -174,7 +198,7 @@ private fun UsersAdventuresInformation(
     updateCharacterChatExist: (Boolean) -> Unit,
     updateCharacterName: (String) -> Unit,
     updateLastUnreadChatDosAllRead: (Boolean) -> Unit,
-    navigateToDiary: () -> Unit,
+    navigateToDiary: (Boolean) -> Unit,
 ) {
     val adventuresInformationState =
         homeViewModel.getUsersAdventuresInformationState.collectAsState(initial = UiState.Loading).value
@@ -202,6 +226,7 @@ private fun UsersAdventuresInformation(
                 context = context,
                 imageUrl = adventuresInformationData?.baseImageUrl ?: "",
                 characterName = characterName,
+                newDiaryExist = newDiaryExist,
                 characterChatLastUnreadUiState = characterChatLastUnreadUiState,
                 navigateToGainedCharacter = navigateToGainedCharacter,
                 updateShowUserChatTextField = updateShowUserChatTextField,

@@ -57,7 +57,7 @@
             android:value="${NAVER_CLIENT_ID}" />
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.teamoffroad.offroad.app.fileprovider"
+            android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -65,7 +65,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
         <receiver
-            android:name="com.teamoffroad.feature.main.CharacterChatBroadcastReceiver"
+            android:name="com.teamoffroad.feature.main.FcmBroadcastReceiver"
             android:exported="false"
             tools:ignore="Instantiatable">
             <intent-filter>

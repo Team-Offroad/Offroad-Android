@@ -11,8 +11,22 @@ plugins {
 android {
     setNamespace("core.common")
 
-    defaultConfig {
-        buildConfigField("String", "BASE_URL", gradleLocalProperties(rootDir, providers).getProperty("base.url"))
+    buildTypes {
+        release {
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                gradleLocalProperties(rootDir, providers).getProperty("release.base.url")
+            )
+        }
+
+        debug {
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                gradleLocalProperties(rootDir, providers).getProperty("debug.base.url")
+            )
+        }
     }
 
     buildFeatures {

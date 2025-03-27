@@ -42,20 +42,24 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Stroke
 import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.White
-import com.teamoffroad.feature.diary.presentation.model.MemoryLight
+import com.teamoffroad.feature.diary.domain.model.MemoryLight
+import com.teamoffroad.feature.diary.domain.model.MemoryLightSetting
 import com.teamoffroad.offroad.feature.diary.R
 
 @SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
 fun MemoryLightScreen(
-    memoryLightList: List<MemoryLight>,
-    onCancelClick: (String?) -> Unit,
+    memoryLight: MemoryLightSetting,
+    updateDiaryCheck: (String) -> Unit,
+    onCancelClick: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val pagerState = rememberPagerState(initialPage = 0, pageCount = { 2 })
+    val pagerState = rememberPagerState(
+        initialPage = memoryLight.initialPage,
+        pageCount = { memoryLight.pageCount })
 
     BackHandler {
-        onCancelClick(null)
+        onCancelClick(false)
     }
     Column(
         modifier = modifier
@@ -80,14 +84,15 @@ fun MemoryLightScreen(
                 .padding(top = 65.dp, bottom = 30.dp)
                 .padding(end = 20.dp)
                 .align(Alignment.End)
-                .clickableWithoutRipple { onCancelClick(null) },
+                .clickableWithoutRipple { onCancelClick(false) },
         )
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.padding(bottom = 28.dp),
         ) { page ->
             MemoryLightItems(
-                memoryLight = memoryLightList[page]
+                memoryLight = memoryLight.memoryLight[page],
+                updateDiaryCheck = updateDiaryCheck,
             )
         }
         Row(
@@ -115,8 +120,14 @@ fun MemoryLightScreen(
 @Composable
 private fun MemoryLightItems(
     memoryLight: MemoryLight,
+    updateDiaryCheck: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    memoryLight.apply {
+        val formattedDate = "%04d-%02d-%02d".format(year, month, day)
+        updateDiaryCheck(formattedDate)
+    }
+
     Box(
         modifier = modifier
             .height(515.dp)
