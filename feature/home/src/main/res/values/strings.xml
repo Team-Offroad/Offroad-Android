@@ -24,4 +24,8 @@
     <string name="fail_create_uri">URI 생성 실패</string>
     <string name="success_upload_image">이미지 업로드에 성공했습니다.</string>
     <string name="fail_upload_image">이미지 업로드에 실패했습니다.</string>
+
+    <string name="home_diary_create_title">일기 완성!</string>
+    <string name="home_diary_create_content">오늘의 일기가 완되었어요.\n기억빛과 함께 하루를 돌아보세요.</string>
+    <string name="home_diary_create_cancel">나중에</string>
 </resources>

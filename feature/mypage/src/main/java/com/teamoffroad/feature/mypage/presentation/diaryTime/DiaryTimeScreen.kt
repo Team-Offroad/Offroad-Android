@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
+import com.teamoffroad.core.designsystem.component.OrbDialog
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.component.navigationPadding
@@ -36,7 +37,6 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.core.designsystem.theme.White
-import com.teamoffroad.feature.mypage.presentation.component.DiaryTimeDialog
 import com.teamoffroad.feature.mypage.presentation.component.DiaryTimePicker
 import com.teamoffroad.feature.mypage.presentation.component.SettingHeader
 import com.teamoffroad.offroad.feature.mypage.R
@@ -150,7 +150,7 @@ fun DiaryTimeScreen(
             DiaryTimeDialogState.InVisible -> {}
 
             DiaryTimeDialogState.BackDialogVisible ->
-                DiaryTimeDialog(
+                OrbDialog(
                     onClick = {
                         viewModel.navigateToSetting()
                     },
@@ -163,7 +163,7 @@ fun DiaryTimeScreen(
                 )
 
             DiaryTimeDialogState.NextDialogVisible ->
-                DiaryTimeDialog(
+                OrbDialog(
                     onClick = {
                         viewModel.patchDiaryCreateTime()
                         viewModel.navigateToSetting()

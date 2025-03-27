@@ -48,23 +48,27 @@ class DiaryViewModel @Inject constructor(
     fun getDiaryFirstDate() {
         viewModelScope.launch {
             getDiaryFirstDateUseCase.invoke().onSuccess { diaryFirstDate ->
-                if (diaryFirstDate != null) {
+                if (diaryFirstDate != null && diaryFirstDate.year != 0 && diaryFirstDate.month != 0) {
                     _diaryUiState.value = diaryUiState.value.copy(
                         diaryFirstCreatedDate = Pair(diaryFirstDate.year, diaryFirstDate.month)
                     )
                     changeDiaryShownState(diaryFirstDate)
+                } else {
+                    changeDiaryShownState(null)
                 }
+            }.onFailure {
+                changeDiaryShownState(null)
             }
         }
     }
 
-    private fun changeDiaryShownState(state: DiaryFirstDate) {
+    private fun changeDiaryShownState(state: DiaryFirstDate?) {
         viewModelScope.launch {
             _diaryUiState.value = diaryUiState.value.copy(
-                diaryShown = if (state.year == 0)
-                    DiaryShownState.DiaryEmpty
-                else
+                diaryShown = if (state != null)
                     DiaryShownState.DiaryShown
+                else
+                    DiaryShownState.DiaryEmpty
             )
         }
     }

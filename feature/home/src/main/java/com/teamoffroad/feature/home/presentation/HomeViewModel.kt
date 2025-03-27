@@ -1,8 +1,10 @@
 package com.teamoffroad.feature.home.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.characterchat.domain.repository.CharacterChatRepository
+import com.teamoffroad.core.common.domain.model.DiaryCreateNotificationEvent
 import com.teamoffroad.core.common.domain.repository.TokenRepository
 import com.teamoffroad.core.common.domain.usecase.SetAutoSignInUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryCheckLatestUseCase
@@ -19,6 +21,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
 
 @HiltViewModel
@@ -67,8 +72,28 @@ class HomeViewModel @Inject constructor(
     private val _characterName = MutableStateFlow("")
     val characterName = _characterName.asStateFlow()
 
-    private val _newDiaryExist = MutableStateFlow(false)
+    private val _newDiaryExist = MutableStateFlow(true)
     val newDiaryExist = _newDiaryExist.asStateFlow()
+
+    private val _diaryCreateState = MutableStateFlow(false)
+    val diaryCreateState = _diaryCreateState.asStateFlow()
+
+    init {
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onNotificationEvent(event: DiaryCreateNotificationEvent) {
+        viewModelScope.launch {
+            getDiaryCheckLatest()
+            _diaryCreateState.emit(event.state)
+        }
+    }
 
     fun getUsersAdventuresInformation(category: String) {
         viewModelScope.launch {
@@ -169,7 +194,6 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getDiaryCheckLatest() {
-        //TODO. 최신일기 확인여부반환
         viewModelScope.launch {
             getDiaryCheckLatestUseCase.invoke().onSuccess {
                 if (it != null) {
@@ -181,6 +205,12 @@ class HomeViewModel @Inject constructor(
 
     fun initUserDiarySetting() {
         viewModelScope.launch { runCatching { diarySettingUseCase.invoke() } }
+    }
+
+    fun updateDiaryCreateDialogUnShown() {
+        viewModelScope.launch {
+            _diaryCreateState.emit(false)
+        }
     }
 
     companion object {

@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.mypage.presentation.component
+package com.teamoffroad.core.designsystem.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -20,14 +19,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
 
 @Composable
-fun DiaryTimeDialog(
+fun OrbDialog(
     title: String,
     content: String,
     cancelButtonText: String,
@@ -52,45 +50,33 @@ fun DiaryTimeDialog(
                     .padding(vertical = 22.dp, horizontal = 40.dp)
             ) {
                 when (isNext) {
-                    true -> {
-                        Text(
-                            text = title,
-                            color = Main2,
-                            style = OffroadTheme.typography.title,
-                            modifier = Modifier
-                                .align(Alignment.CenterHorizontally)
-                                .padding(bottom = 20.dp)
-                        )
-                        Text(
-                            text = content,
-                            color = Main2,
-                            style = OffroadTheme.typography.textRegular,
-                            modifier = Modifier
-                                .align(Alignment.CenterHorizontally)
-                                .height(42.dp)
-                        )
-                    }
+                    true -> Text(
+                        text = title,
+                        color = Main2,
+                        style = OffroadTheme.typography.title,
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .padding(bottom = 20.dp)
+                    )
 
-                    false -> {
-                        Text(
-                            text = title,
-                            color = Main2,
-                            style = OffroadTheme.typography.textRegular,
-                            modifier = Modifier
-                                .align(Alignment.CenterHorizontally)
-                                .padding(top = 10.dp, bottom = 6.dp)
-                        )
-                        Text(
-                            text = content,
-                            color = Main2,
-                            style = OffroadTheme.typography.textRegular,
-                            modifier = Modifier
-                                .align(Alignment.CenterHorizontally)
-                                .height(42.dp)
-                                .padding(bottom = 10.dp)
-                        )
-                    }
+                    false -> Text(
+                        text = title,
+                        color = Main2,
+                        style = OffroadTheme.typography.textRegular,
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .padding(top = 10.dp, bottom = 6.dp)
+                    )
                 }
+                Text(
+                    text = content,
+                    color = Main2,
+                    style = OffroadTheme.typography.textRegular,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(bottom = 22.dp),
+                    textAlign = TextAlign.Center,
+                )
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     LogoutButton(
                         text = cancelButtonText,

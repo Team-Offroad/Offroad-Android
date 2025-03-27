@@ -42,6 +42,7 @@ import com.teamoffroad.characterchat.presentation.MainCharacterChatViewModel
 import com.teamoffroad.characterchat.presentation.component.ShowCharacterChat
 import com.teamoffroad.characterchat.presentation.component.ShowUserChat
 import com.teamoffroad.characterchat.presentation.model.CharacterChatLastUnreadUiState
+import com.teamoffroad.core.designsystem.component.OrbDialog
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.feature.home.domain.model.UserQuests
 import com.teamoffroad.feature.home.presentation.component.CloseCompleteRequest
@@ -73,6 +74,7 @@ fun HomeScreen(
     val isCompleteQuestDialogShown = remember { mutableStateOf(false) }
     val characterName = homeViewModel.characterName.collectAsStateWithLifecycle()
     val newDiaryExist = homeViewModel.newDiaryExist.collectAsStateWithLifecycle()
+    val diaryCreate = homeViewModel.diaryCreateState.collectAsStateWithLifecycle()
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) {}
 
@@ -141,6 +143,22 @@ fun HomeScreen(
             isCompleteQuestDialogShown = isCompleteQuestDialogShown,
             completeQuests = completeQuests,
             onClickCancel = { isCompleteQuestDialogShown.value = false },
+        )
+    }
+
+    if (diaryCreate.value) {
+        OrbDialog(
+            title = stringResource(id = R.string.home_diary_create_title),
+            content = stringResource(id = R.string.home_diary_create_content),
+            cancelButtonText = stringResource(id = R.string.home_diary_create_cancel),
+            nextButtonText = stringResource(id = R.string.home_confirm),
+            onClick = {
+                if (!newDiaryExist.value) navigateToDiary(true)
+                homeViewModel.updateDiaryCreateDialogUnShown()
+            },
+            onCancelClick = {
+                homeViewModel.updateDiaryCreateDialogUnShown()
+            }
         )
     }
 
