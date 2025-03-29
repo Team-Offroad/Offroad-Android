@@ -142,7 +142,9 @@ fun HomeScreen(
         CompleteQuestDialog(
             isCompleteQuestDialogShown = isCompleteQuestDialogShown,
             completeQuests = completeQuests,
-            onClickCancel = { isCompleteQuestDialogShown.value = false },
+            onClickCancel = {
+                isCompleteQuestDialogShown.value = false
+            },
         )
     }
 

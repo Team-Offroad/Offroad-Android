@@ -18,6 +18,11 @@ android {
                 "BASE_URL",
                 gradleLocalProperties(rootDir, providers).getProperty("release.base.url")
             )
+            buildConfigField(
+                "String",
+                "AMPLITUDE_KEY",
+                gradleLocalProperties(rootDir, providers).getProperty("amplitude.key")
+            )
         }
 
         debug {
@@ -42,4 +47,5 @@ dependencies {
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.amplitude)
 }

@@ -3,6 +3,7 @@ package com.teamoffroad.feature.explore.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.naver.maps.geometry.LatLng
+import com.teamoffroad.core.common.domain.tracker.Tracker
 import com.teamoffroad.feature.explore.domain.usecase.GetMapPlaceListUseCase
 import com.teamoffroad.feature.explore.domain.usecase.GetPreviousLocationUseCase
 import com.teamoffroad.feature.explore.domain.usecase.PostExploreLocationAuthUseCase
@@ -26,6 +27,7 @@ class ExploreViewModel @Inject constructor(
     private val postExploreLocationAuthUseCase: PostExploreLocationAuthUseCase,
     private val getPreviousLocationUseCase: GetPreviousLocationUseCase,
     private val savePreviousLocationUseCase: SavePreviousLocationUseCase,
+    private val tracker: Tracker,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<ExploreUiState> = MutableStateFlow(ExploreUiState())
@@ -143,6 +145,11 @@ class ExploreViewModel @Inject constructor(
                                 exploreResult.successCharacterImageUrl,
                                 exploreResult.completeQuests,
                             )
+                        )
+                        tracker.trackEvent("explore_success", mapOf("place_id" to placeId))
+                        if (exploreResult.completeQuests.isNotEmpty()) tracker.trackEvent(
+                            "quest_success",
+                            mapOf("quests" to exploreResult.completeQuests),
                         )
                     }
                 }
