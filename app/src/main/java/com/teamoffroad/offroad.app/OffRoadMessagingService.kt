@@ -15,6 +15,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.ACTION_ANNOUNCEMENT_FOREGROUND
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.ACTION_CHARACTER_CHAT_FOREGROUND
+import com.teamoffroad.core.common.domain.model.FcmNotificationKey.ACTION_DIARY_CREATE_FOREGROUND
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.CHANNEL_ID
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_BODY
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_ID
@@ -22,7 +23,9 @@ import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_IMAGE
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_TITLE
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_TYPE
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.NOTICE
+import com.teamoffroad.core.common.domain.model.FcmNotificationKey.TYPE_ANNOUNCEMENT
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.TYPE_CHARACTER_CHAT
+import com.teamoffroad.core.common.domain.model.FcmNotificationKey.TYPE_DIARY_CREATE
 import com.teamoffroad.core.common.domain.repository.TokenRepository
 import com.teamoffroad.core.common.util.ActivityLifecycleHandler
 import com.teamoffroad.feature.main.MainActivity
@@ -45,7 +48,7 @@ class OffRoadMessagingService : FirebaseMessagingService() {
         super.onMessageReceived(remoteMessage)
         if (remoteMessage.data.isNotEmpty()) {
             if (ActivityLifecycleHandler.isAppInForeground) {
-                if (remoteMessage.data[KEY_TYPE] != TYPE_CHARACTER_CHAT)
+                if (remoteMessage.data[KEY_TYPE] == TYPE_ANNOUNCEMENT)
                     sendNotification(remoteMessage, true)
                 else {
                     sendCharacterChatNotificationInForeground(remoteMessage)
@@ -164,13 +167,21 @@ class OffRoadMessagingService : FirebaseMessagingService() {
     private fun sendCharacterChatNotificationInForeground(
         remoteMessage: RemoteMessage,
     ) {
-        val broadCastIntent =
-            Intent(ACTION_CHARACTER_CHAT_FOREGROUND).apply {
-                putExtra(KEY_TITLE, remoteMessage.data[KEY_TITLE])
-                putExtra(KEY_BODY, remoteMessage.data[KEY_BODY])
-                putExtra(KEY_TYPE, remoteMessage.data[KEY_TYPE])
+        when (remoteMessage.data[KEY_TYPE]) {
+            TYPE_CHARACTER_CHAT -> {
+                val broadCastIntent =
+                    Intent(ACTION_CHARACTER_CHAT_FOREGROUND).apply {
+                        putExtra(KEY_TITLE, remoteMessage.data[KEY_TITLE])
+                        putExtra(KEY_BODY, remoteMessage.data[KEY_BODY])
+                        putExtra(KEY_TYPE, remoteMessage.data[KEY_TYPE])
+                    }
+                sendBroadcast(broadCastIntent)
             }
-        sendBroadcast(broadCastIntent)
+
+            TYPE_DIARY_CREATE -> {
+                sendBroadcast(Intent(ACTION_DIARY_CREATE_FOREGROUND))
+            }
+        }
     }
 
     private fun showNotification(

@@ -1,8 +1,8 @@
-# 📗 OFFROAD-Android
+# 📗 Orb-Android
 
-<img src="https://github.com/user-attachments/assets/3d153cb7-f0e7-410a-baa3-9fb3ca21ae82" width="500">
+<img src="https://github.com/user-attachments/assets/132b190d-04b8-4719-ab2f-ec9f8ddd9854" width="300">
 
-> 오브, 일상을 모험하는 온오프라인 연계형 어드벤처 게임
+> 일상에 설렘을 더하다, 오브
 </br>
 
 ## 💻 IDE
@@ -28,26 +28,11 @@
 │  │  ├─📂domain
 │  │  ├─📂navigation
 │  │  └─📂presentation
+│  ├─📂characterchat
+│  ├─📂diary
 │  ├─📂explore
-│  │  ├─📂data
-│  │  ├─📂domain
-│  │  ├─📂navigation
-│  │  └─📂presentation
 │  ├─📂home
-│  │  ├─📂data
-│  │  ├─📂domain
-│  │  ├─📂navigation
-│  │  └─📂presentation
 │  ├─📂main
-│  │  ├─📂data
-│  │  ├─📂domain
-│  │  ├─📂navigation
-│  │  └─📂presentation
-│  ├─📂mypage
-│  │  ├─📂data
-│  │  ├─📂domain
-│  │  ├─📂navigation
-│  │  └─📂presentation
 │  └─📂mypage
 └─📂build-logic
 ```
@@ -91,7 +76,7 @@
 
 ## 🏷️ Convention
 
-- Adheres to the [OFFROAD-Android-Convention](https://github.com/Team-Offroad/Offroad-Android).
+- [Orb-Android-Convention](https://github.com/Team-Offroad/Offroad-Android)을 준수합니다.
 
 </br>
 
@@ -112,4 +97,4 @@
 | <img src="https://avatars.githubusercontent.com/u/127238018?v=4" width="128" /> | <img src="https://avatars.githubusercontent.com/u/81751105?v=4" width="128" /> | <img src="https://avatars.githubusercontent.com/u/112953135?v=4" width="128" /> |
 |:-------------------------------------------------------------------------------:|:------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------:|
 |                      [👑최준서](https://github.com/junseo511)                      |                      [유정현](https://github.com/OliviaYJH)                       |                     [이석찬](https://github.com/leeseokchan00)                     |
-|                                 탐험 뷰</br>모듈 분리                                  |                                 홈 뷰</br>디자인 세팅                                 |                          로그인 뷰</br>온보딩 뷰</br>네비게이션 세팅                           |
+|                                 탐험</br>모듈 분리</br>캐릭터 채팅                                  |                                 홈</br>디자인 시스템</br>홈 채팅                                 |                          로그인</br>온보딩</br>네비게이션</br>일기                           |

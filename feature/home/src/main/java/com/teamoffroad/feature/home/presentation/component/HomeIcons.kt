@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -31,11 +30,8 @@ import androidx.core.content.ContextCompat
 import com.teamoffroad.characterchat.presentation.model.CharacterChatLastUnreadUiState
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.ErrorNew
-import com.teamoffroad.feature.home.presentation.component.upload.uploadImage
 import com.teamoffroad.offroad.feature.home.R
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
@@ -43,13 +39,14 @@ fun HomeIcons(
     context: Context,
     imageUrl: String,
     characterName: String,
+    newDiaryExist: Boolean,
     characterChatLastUnreadUiState: State<CharacterChatLastUnreadUiState>,
     navigateToGainedCharacter: () -> Unit,
     updateShowUserChatTextField: (Boolean) -> Unit,
     updateCharacterChatExist: (Boolean) -> Unit,
     updateCharacterName: (String) -> Unit,
     updateLastUnreadChatDosAllRead: (Boolean) -> Unit,
-    navigateToDiary: () -> Unit,
+    navigateToDiary: (Boolean) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
 
@@ -152,20 +149,26 @@ fun HomeIcons(
                 modifier = Modifier.clickableWithoutRipple { navigateToGainedCharacter() }
             )
 
-            //TODO. 가장 최신일기 확인 여부 반환 api로 받아오기
-            val newDiary = false
-            if (newDiary) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_home_diary_new_complete),
-                    contentDescription = "new_diary",
-                    modifier = Modifier.clickableWithoutRipple { navigateToDiary() }
-                )
-            } else {
+            Box(
+                modifier = Modifier.clickableWithoutRipple { navigateToDiary(!newDiaryExist) }
+            ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_home_diary_empty),
                     contentDescription = "empty_diary",
-                    modifier = Modifier.clickableWithoutRipple { navigateToDiary() }
                 )
+                if (!newDiaryExist) {
+                    Canvas(
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(top = 6.dp, end = 6.dp)
+                            .size(8.dp)
+                    ) {
+                        drawCircle(
+                            color = ErrorNew,
+                            style = Fill
+                        )
+                    }
+                }
             }
         }
     }
@@ -189,11 +192,5 @@ private fun showCharacterChatExist(
                 style = Fill
             )
         }
-    }
-}
-
-suspend fun showToast(context: Context, message: String) {
-    withContext(Dispatchers.Main) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 }

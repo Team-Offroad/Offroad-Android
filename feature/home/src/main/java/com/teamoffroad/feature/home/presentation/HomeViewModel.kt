@@ -1,13 +1,18 @@
 package com.teamoffroad.feature.home.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.teamoffroad.characterchat.domain.repository.CharacterChatRepository
+import com.teamoffroad.core.common.domain.model.DiaryCreateNotificationEvent
 import com.teamoffroad.core.common.domain.repository.TokenRepository
 import com.teamoffroad.core.common.domain.usecase.SetAutoSignInUseCase
+import com.teamoffroad.feature.diary.domain.usecase.GetDiaryCheckLatestUseCase
 import com.teamoffroad.feature.home.domain.model.Emblem
 import com.teamoffroad.feature.home.domain.model.UserQuests
 import com.teamoffroad.feature.home.domain.model.UsersAdventuresInformation
 import com.teamoffroad.feature.home.domain.repository.UserRepository
+import com.teamoffroad.feature.home.domain.usecase.PostDiarySettingUseCase
 import com.teamoffroad.feature.home.domain.usecase.PostFcmTokenUseCase
 import com.teamoffroad.feature.home.presentation.component.UiState
 import com.teamoffroad.feature.home.presentation.component.getErrorMessage
@@ -16,6 +21,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,6 +32,9 @@ class HomeViewModel @Inject constructor(
     private val setAutoSignInUseCase: SetAutoSignInUseCase,
     private val deviceTokenRepository: TokenRepository,
     private val fcmTokenUseCase: PostFcmTokenUseCase,
+    private val characterChatRepository: CharacterChatRepository,
+    private val diarySettingUseCase: PostDiarySettingUseCase,
+    private val getDiaryCheckLatestUseCase: GetDiaryCheckLatestUseCase,
 ) : ViewModel() {
     private val _getUsersAdventuresInformationState =
         MutableStateFlow<UiState<UsersAdventuresInformation>>(
@@ -60,6 +71,29 @@ class HomeViewModel @Inject constructor(
 
     private val _characterName = MutableStateFlow("")
     val characterName = _characterName.asStateFlow()
+
+    private val _newDiaryExist = MutableStateFlow(true)
+    val newDiaryExist = _newDiaryExist.asStateFlow()
+
+    private val _diaryCreateState = MutableStateFlow(false)
+    val diaryCreateState = _diaryCreateState.asStateFlow()
+
+    init {
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onNotificationEvent(event: DiaryCreateNotificationEvent) {
+        viewModelScope.launch {
+            getDiaryCheckLatest()
+            _diaryCreateState.emit(event.state)
+        }
+    }
 
     fun getUsersAdventuresInformation(category: String) {
         viewModelScope.launch {
@@ -156,6 +190,26 @@ class HomeViewModel @Inject constructor(
                 fcmTokenUseCase.invoke(deviceToken)
             }.onSuccess { }
                 .onFailure {}
+        }
+    }
+
+    fun getDiaryCheckLatest() {
+        viewModelScope.launch {
+            getDiaryCheckLatestUseCase.invoke().onSuccess {
+                if (it != null) {
+                    _newDiaryExist.emit(it)
+                }
+            }
+        }
+    }
+
+    fun initUserDiarySetting() {
+        viewModelScope.launch { runCatching { diarySettingUseCase.invoke() } }
+    }
+
+    fun updateDiaryCreateDialogUnShown() {
+        viewModelScope.launch {
+            _diaryCreateState.emit(false)
         }
     }
 

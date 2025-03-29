@@ -2,6 +2,21 @@ package com.teamoffroad.feature.diary.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.teamoffroad.feature.diary.domain.model.DiaryFirstDate
+import com.teamoffroad.feature.diary.domain.model.MemoryLightSetting
+import com.teamoffroad.feature.diary.domain.usecase.GetDiaryByDateUseCase
+import com.teamoffroad.feature.diary.domain.usecase.GetDiaryCreateTimeCheckedUseCase
+import com.teamoffroad.feature.diary.domain.usecase.GetDiaryFirstDateUseCase
+import com.teamoffroad.feature.diary.domain.usecase.GetDiaryLatestUseCase
+import com.teamoffroad.feature.diary.domain.usecase.GetDiaryMonthlyHexUseCase
+import com.teamoffroad.feature.diary.domain.usecase.GetDiaryTutorialCheckedUseCase
+import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryCheckUseCase
+import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryCreateTimeCheckedUseCase
+import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryTutorialCheckedUseCase
+import com.teamoffroad.feature.diary.presentation.model.DiaryHintDialogState
+import com.teamoffroad.feature.diary.presentation.model.DiaryShownState
+import com.teamoffroad.feature.diary.presentation.model.DiarySideEffect
+import com.teamoffroad.feature.diary.presentation.model.DiaryUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,6 +28,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DiaryViewModel @Inject constructor(
+    private val getDiaryTutorialCheckedUseCase: GetDiaryTutorialCheckedUseCase,
+    private val patchDiaryTutorialCheckedUseCase: PatchDiaryTutorialCheckedUseCase,
+    private val getDiaryCreateTimeCheckedUseCase: GetDiaryCreateTimeCheckedUseCase,
+    private val patchDiaryCreateTimeCheckedUseCase: PatchDiaryCreateTimeCheckedUseCase,
+    private val getDiaryFirstDateUseCase: GetDiaryFirstDateUseCase,
+    private val patchDiaryCheckUseCase: PatchDiaryCheckUseCase,
+    private val getDiaryMonthlyHexUseCase: GetDiaryMonthlyHexUseCase,
+    private val getDiaryByDateUseCase: GetDiaryByDateUseCase,
+    private val getDiaryLatestUseCase: GetDiaryLatestUseCase,
 ) : ViewModel() {
     private val _diaryUiState: MutableStateFlow<DiaryUiState> =
         MutableStateFlow(DiaryUiState())
@@ -21,50 +45,168 @@ class DiaryViewModel @Inject constructor(
     private val _diarySideEffect: Channel<DiarySideEffect> = Channel()
     val diarySideEffect = _diarySideEffect.receiveAsFlow()
 
-    fun getLatestDiary() {
-        val dummyList = listOf("january", "february", "wednesday")
-        //TODO. api/diary/latest 리스트가 비어있으면 달력 empty, 리스트가 있으면 달력 한번이라도 작성완료
+    fun getDiaryFirstDate() {
+        viewModelScope.launch {
+            getDiaryFirstDateUseCase.invoke().onSuccess { diaryFirstDate ->
+                if (diaryFirstDate != null && diaryFirstDate.year != 0 && diaryFirstDate.month != 0) {
+                    _diaryUiState.value = diaryUiState.value.copy(
+                        diaryFirstCreatedDate = Pair(diaryFirstDate.year, diaryFirstDate.month)
+                    )
+                    changeDiaryShownState(diaryFirstDate)
+                } else {
+                    changeDiaryShownState(null)
+                }
+            }.onFailure {
+                changeDiaryShownState(null)
+            }
+        }
+    }
+
+    private fun changeDiaryShownState(state: DiaryFirstDate?) {
         viewModelScope.launch {
             _diaryUiState.value = diaryUiState.value.copy(
-                latestDiary = dummyList
+                diaryShown = if (state != null)
+                    DiaryShownState.DiaryShown
+                else
+                    DiaryShownState.DiaryEmpty
             )
         }
     }
 
-    fun getDummyHexCode() {
-        val dummyHexCodes: Map<Int, List<String>> = mapOf(
-            1 to listOf("#5580FF", "#FF69E1"),
-            2 to listOf("#70DAFF", "#FFDC14"),
-            3 to listOf("#FF69E1", "#FFB73B"),
-            4 to listOf("#FF4124", "#FF6D94"),
-            5 to listOf("#5580FF", "#FF69E1"),
-            6 to listOf("#5580FF", "#FF69E1"),
-            7 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
-            9 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
-            10 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
-            11 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
-            12 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
-            13 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
-            14 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
-            15 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
-            16 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
-            17 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
-            18 to listOf("#5580FF", "#FF69E1", "#FFFFFF"),
-            26 to listOf("#FF69E1", "#FFB73B", "#FFFFFF"),
-            27 to listOf("#FF69E1", "#FFB73B", "#FFFFFF"),
-        )
-        val firstDiaryMonth = 5
+    fun getDiaryHexCode(year: Int, month: Int) {
         viewModelScope.launch {
-            _diaryUiState.value = diaryUiState.value.copy(
-                dailyHexCodes = dummyHexCodes,
-                firstDiaryMonth = firstDiaryMonth,
-            )
+            getDiaryMonthlyHexUseCase.invoke(year, month).onSuccess {
+                _diaryUiState.value = diaryUiState.value.copy(
+                    dailyHexCodes = it,
+                )
+            }
         }
     }
 
-    fun backButtonClickListener() {
+    fun updateNavigationBackState() {
         viewModelScope.launch {
             _diarySideEffect.send(DiarySideEffect.NavigateBack)
+        }
+    }
+
+    fun updateNavigationDiaryTime() {
+        viewModelScope.launch {
+            _diarySideEffect.send(DiarySideEffect.NavigateDiaryTime)
+        }
+    }
+
+    fun getDiaryTutorialChecked() {
+        viewModelScope.launch {
+            getDiaryTutorialCheckedUseCase.invoke().onSuccess {
+                _diaryUiState.value = diaryUiState.value.copy(
+                    tutorialChecked = it
+                )
+            }
+            if (diaryUiState.value.tutorialChecked == false) updateHintDialogState(true)
+        }
+    }
+
+    fun patchDiaryTutorialChecked() {
+        viewModelScope.launch {
+            patchDiaryTutorialCheckedUseCase.invoke()
+        }
+    }
+
+    fun updateHintDialogState(state: Boolean) {
+        viewModelScope.launch {
+            _diaryUiState.value = diaryUiState.value.copy(
+                dialogVisibility = if (state) DiaryHintDialogState.HintDialogVisible else DiaryHintDialogState.HintDialogInVisible
+            )
+        }
+    }
+
+    fun getDiaryCreateTimeChecked() {
+        viewModelScope.launch {
+            getDiaryCreateTimeCheckedUseCase.invoke().onSuccess {
+                _diaryUiState.value = diaryUiState.value.copy(
+                    diaryCreateTimeChecked = it
+                )
+                updateTimeSettingDialogWithoutTutorial()
+            }
+        }
+    }
+
+    fun patchDiaryCreateTimeChecked() {
+        viewModelScope.launch {
+            patchDiaryCreateTimeCheckedUseCase.invoke()
+        }
+    }
+
+    private fun updateTimeSettingDialogWithoutTutorial() {
+        if (diaryUiState.value.tutorialChecked == true and
+            (diaryUiState.value.diaryCreateTimeChecked == false)
+        ) {
+            updateTimeSettingDialogState(true)
+        }
+    }
+
+    fun updateTimeSettingDialogState(state: Boolean) {
+        viewModelScope.launch {
+            _diaryUiState.value = diaryUiState.value.copy(
+                timeSettingDialogVisibility = if (diaryUiState.value.diaryCreateTimeChecked == true) false else state
+            )
+        }
+    }
+
+    fun updateLatestMemoryLight() {
+        viewModelScope.launch {
+            getDiaryLatestUseCase.invoke(1).onSuccess {
+                _diaryUiState.value = diaryUiState.value.copy(
+                    memoryLightList = it
+                )
+            }
+        }
+    }
+
+    fun updateMemoryLightInfo(date: String?) {
+        viewModelScope.launch {
+            if (date != null) {
+                getDiaryByDateUseCase.invoke(date, 1, 1).onSuccess {
+                    _diaryUiState.value = diaryUiState.value.copy(
+                        memoryLightList = it,
+                    )
+                }
+            }
+        }
+    }
+
+    fun updateDiaryCheck(date: String) {
+        viewModelScope.launch {
+            patchDiaryCheckUseCase.invoke(date)
+        }
+    }
+
+    fun updateMemoryLightState(state: Boolean) {
+        viewModelScope.launch {
+            if (!state) {
+                _diaryUiState.value = diaryUiState.value.copy(
+                    memoryLightList = MemoryLightSetting(0, 0, emptyList()),
+                )
+            }
+            _diaryUiState.value = diaryUiState.value.copy(
+                memoryLigthVisibility = state,
+            )
+        }
+    }
+
+    fun updateBottomSheetState(state: Boolean) {
+        viewModelScope.launch {
+            _diaryUiState.value = diaryUiState.value.copy(
+                bottomSheetVisibility = state
+            )
+        }
+    }
+
+    fun updateCurrentDiaryPage(date: String) {
+        viewModelScope.launch {
+            _diaryUiState.value = diaryUiState.value.copy(
+                currentDiaryCalendarPage = date
+            )
         }
     }
 }

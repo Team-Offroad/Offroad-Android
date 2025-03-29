@@ -17,7 +17,8 @@ android {
         manifestPlaceholders["NAVER_CLIENT_ID"] =
             gradleLocalProperties(rootDir, providers).getProperty("naver.client.id")
         manifestPlaceholders["KAKAO_REDIRECT_SCHEME"] =
-            gradleLocalProperties(rootDir, providers).getProperty("kakao.native.key").replace("\"", "")
+            gradleLocalProperties(rootDir, providers).getProperty("kakao.native.key")
+                .replace("\"", "")
         buildConfigField(
             "String",
             "KAKAO_APP_KEY",
@@ -38,6 +39,13 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
+        }
+
+        debug {
+            isMinifyEnabled = false
+            versionNameSuffix = "-debug"
+            applicationIdSuffix = ".debug"
         }
     }
     buildFeatures {

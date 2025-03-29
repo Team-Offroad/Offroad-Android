@@ -108,7 +108,7 @@ fun NavGraphBuilder.myPageNavGraph(
     navigateToCharacterChat: (Int, String) -> Unit,
     navigateToAnnouncementDeleteStack: () -> Unit,
     navigateToSupport: () -> Unit,
-    navigateToDiary: () -> Unit,
+    navigateToDiary: (Boolean) -> Unit,
     navigateToDiaryTime: () -> Unit
 ) {
     composable<MainTabRoute.MyPage> {
