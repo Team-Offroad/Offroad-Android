@@ -1,7 +1,6 @@
 package com.teamoffroad.core.common.data.tracker
 
 import android.content.Context
-import android.util.Log
 import com.amplitude.android.Amplitude
 import com.amplitude.android.Configuration
 import com.amplitude.android.TrackingOptions
