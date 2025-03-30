@@ -31,6 +31,11 @@ android {
                 "BASE_URL",
                 gradleLocalProperties(rootDir, providers).getProperty("debug.base.url")
             )
+            buildConfigField(
+                "String",
+                "AMPLITUDE_KEY",
+                gradleLocalProperties(rootDir, providers).getProperty("debug.amplitude.key")
+            )
         }
     }
 
