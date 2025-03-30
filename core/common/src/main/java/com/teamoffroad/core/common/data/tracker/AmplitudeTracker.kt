@@ -12,30 +12,32 @@ class AmplitudeTracker(
     apiKey: String,
 ) : Tracker {
 
-    private val amplitude = Amplitude(
-        Configuration(
-            apiKey = apiKey,
-            context = context,
-            flushQueueSize = FLUSH_QUEUE_SIZE,
-            flushIntervalMillis = FLUSH_INTERVAL_MILLIS,
-            minTimeBetweenSessionsMillis = MIN_SESSION_INTERVAL,
-            trackingOptions = TrackingOptions().apply {
-                disableCarrier()
-                disableLanguage()
-            },
-            autocapture = autocaptureOptions {
-                +sessions
-                +appLifecycles
-                +screenViews
-            }
+    private val amplitude: Amplitude? = if (apiKey.isNotEmpty()) {
+        Amplitude(
+            Configuration(
+                apiKey = apiKey,
+                context = context,
+                flushQueueSize = FLUSH_QUEUE_SIZE,
+                flushIntervalMillis = FLUSH_INTERVAL_MILLIS,
+                minTimeBetweenSessionsMillis = MIN_SESSION_INTERVAL,
+                trackingOptions = TrackingOptions().apply {
+                    disableCarrier()
+                    disableLanguage()
+                },
+                autocapture = autocaptureOptions {
+                    +sessions
+                    +appLifecycles
+                    +screenViews
+                }
+            )
         )
-    )
+    } else null
 
     override fun trackEvent(
         eventName: String,
         properties: Map<String, Any?>,
     ) {
-        amplitude.track(eventName, properties)
+        amplitude?.track(eventName, properties)
     }
 
     companion object {
