@@ -91,6 +91,9 @@ eventbus = "3.2.0"
 composeMaterial3 = "1.0.0-alpha32"
 composeMaterial = "1.4.1"
 
+# Analytics
+amplitude = "1.+"
+
 [libraries]
 # Core Libraries
 androidsvg-aar = { module = "com.caverock:androidsvg-aar", version.ref = "androidsvgAar" }
@@ -202,6 +205,9 @@ process-phoenix = { group = "com.jakewharton", name = "process-phoenix", version
 
 # Event Bus
 eventbus = { group = "org.greenrobot", name = "eventbus", version.ref = "eventbus" }
+
+# Amplitude Libraries
+amplitude = { module = "com.amplitude:analytics-android", version.ref = "amplitude" }
 
 [plugins]
 # Android Application Plugin

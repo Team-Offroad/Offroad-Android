@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.diary.presentation.model
+package com.teamoffroad.feature.diary.domain.model
 
 data class MemoryLight(
     val id: Int,
@@ -8,5 +8,5 @@ data class MemoryLight(
     val month: Int,
     val day: Int,
     val summation: String,
-    val hexCode: String,
+    val hexCodes: List<HexCode>
 )

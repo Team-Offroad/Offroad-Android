@@ -5,3 +5,7 @@ data class NotificationEvent(
     val characterContent: String?,
     val type: String?,
 )
+
+data class DiaryCreateNotificationEvent(
+    val state: Boolean,
+)

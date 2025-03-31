@@ -11,8 +11,32 @@ plugins {
 android {
     setNamespace("core.common")
 
-    defaultConfig {
-        buildConfigField("String", "BASE_URL", gradleLocalProperties(rootDir, providers).getProperty("base.url"))
+    buildTypes {
+        release {
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                gradleLocalProperties(rootDir, providers).getProperty("release.base.url")
+            )
+            buildConfigField(
+                "String",
+                "AMPLITUDE_KEY",
+                gradleLocalProperties(rootDir, providers).getProperty("amplitude.key")
+            )
+        }
+
+        debug {
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                gradleLocalProperties(rootDir, providers).getProperty("debug.base.url")
+            )
+            buildConfigField(
+                "String",
+                "AMPLITUDE_KEY",
+                gradleLocalProperties(rootDir, providers).getProperty("debug.amplitude.key")
+            )
+        }
     }
 
     buildFeatures {
@@ -28,4 +52,5 @@ dependencies {
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.amplitude)
 }

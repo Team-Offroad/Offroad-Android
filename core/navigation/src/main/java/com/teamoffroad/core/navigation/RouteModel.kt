@@ -113,5 +113,7 @@ sealed interface CharacterChatRoute : Route {
 
 sealed interface DiaryRoute : Route {
     @Serializable
-    data object Diary : DiaryRoute
+    data class Diary(
+        val newDiaryExist: Boolean,
+    ) : DiaryRoute
 }

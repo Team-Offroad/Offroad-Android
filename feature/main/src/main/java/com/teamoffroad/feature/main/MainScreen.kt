@@ -36,7 +36,8 @@ internal fun MainScreen(
 ) {
     val mainContainerSetting = remember { mutableStateOf(false) }
     val isMainUiState by mainViewModel.mainUiState.collectAsState()
-    val characterChatUiState = mainCharacterViewModel.characterChatUiState.collectAsStateWithLifecycle()
+    val characterChatUiState =
+        mainCharacterViewModel.characterChatUiState.collectAsStateWithLifecycle()
     val userChatUiState = mainCharacterViewModel.userChatUiState.collectAsStateWithLifecycle()
     val userChattingText = mainCharacterViewModel.userChattingText.collectAsStateWithLifecycle()
 

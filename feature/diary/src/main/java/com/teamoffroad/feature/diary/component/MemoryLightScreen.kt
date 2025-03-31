@@ -1,6 +1,7 @@
 package com.teamoffroad.feature.diary.component
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -21,20 +22,27 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlurEffect
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.layer.drawLayer
+import androidx.compose.ui.graphics.rememberGraphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.teamoffroad.core.common.util.saveBitmapToExternal
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
@@ -42,20 +50,28 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Stroke
 import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.White
-import com.teamoffroad.feature.diary.presentation.model.MemoryLight
+import com.teamoffroad.feature.diary.domain.model.MemoryLight
+import com.teamoffroad.feature.diary.domain.model.MemoryLightSetting
 import com.teamoffroad.offroad.feature.diary.R
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
 fun MemoryLightScreen(
-    memoryLightList: List<MemoryLight>,
-    onCancelClick: (String?) -> Unit,
+    memoryLight: MemoryLightSetting,
+    updateDiaryCheck: (String) -> Unit,
+    onCancelClick: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val pagerState = rememberPagerState(initialPage = 0, pageCount = { 2 })
+    val pagerState = rememberPagerState(
+        initialPage = memoryLight.initialPage,
+        pageCount = { memoryLight.pageCount })
+    val coroutineScope = rememberCoroutineScope()
+    val graphicsLayer = rememberGraphicsLayer()
+    val context = LocalContext.current
 
     BackHandler {
-        onCancelClick(null)
+        onCancelClick(false)
     }
     Column(
         modifier = modifier
@@ -80,14 +96,21 @@ fun MemoryLightScreen(
                 .padding(top = 65.dp, bottom = 30.dp)
                 .padding(end = 20.dp)
                 .align(Alignment.End)
-                .clickableWithoutRipple { onCancelClick(null) },
+                .clickableWithoutRipple { onCancelClick(false) },
         )
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.padding(bottom = 28.dp),
         ) { page ->
             MemoryLightItems(
-                memoryLight = memoryLightList[page]
+                memoryLight = memoryLight.memoryLight[page],
+                updateDiaryCheck = updateDiaryCheck,
+                modifier = Modifier.drawWithContent {
+                    graphicsLayer.record {
+                        this@drawWithContent.drawContent()
+                    }
+                    drawLayer(graphicsLayer)
+                }
             )
         }
         Row(
@@ -96,6 +119,18 @@ fun MemoryLightScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickableWithoutRipple {
+                    coroutineScope.launch {
+                        val bitmap = graphicsLayer
+                            .toImageBitmap()
+                            .asAndroidBitmap()
+                        val uri = saveBitmapToExternal(context, bitmap) ?: return@launch
+                        val intent = Intent(Intent.ACTION_SEND).apply {
+                            type = "image/png"
+                            putExtra(Intent.EXTRA_STREAM, uri)
+                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        }
+                        context.startActivity(Intent.createChooser(intent, "이미지 공유하기"))
+                    }
                 },
         ) {
             Image(
@@ -115,8 +150,14 @@ fun MemoryLightScreen(
 @Composable
 private fun MemoryLightItems(
     memoryLight: MemoryLight,
+    updateDiaryCheck: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    memoryLight.apply {
+        val formattedDate = "%04d-%02d-%02d".format(year, month, day)
+        updateDiaryCheck(formattedDate)
+    }
+
     Box(
         modifier = modifier
             .height(515.dp)

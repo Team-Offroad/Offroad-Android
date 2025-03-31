@@ -1,6 +1,7 @@
 package com.teamoffroad.feature.home.data.di
 
 import com.teamoffroad.core.common.data.di.qualifier.Auth
+import com.teamoffroad.feature.home.data.remote.service.DiarySettingService
 import com.teamoffroad.feature.home.data.remote.service.DummyUserService
 import com.teamoffroad.feature.home.data.remote.service.FcmTokenService
 import com.teamoffroad.feature.home.data.remote.service.UserService
@@ -31,5 +32,11 @@ object NetworkModule {
     @Singleton
     fun provideFcmTokenService(@Auth retrofit: Retrofit): FcmTokenService {
         return retrofit.create(FcmTokenService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDiarySettingService(@Auth retrofit: Retrofit): DiarySettingService {
+        return retrofit.create(DiarySettingService::class.java)
     }
 }

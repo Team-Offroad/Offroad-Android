@@ -10,6 +10,7 @@ import com.teamoffroad.characterchat.presentation.model.ChatModel
 import com.teamoffroad.characterchat.presentation.model.ChatModel.Companion.toTwelveHour
 import com.teamoffroad.characterchat.presentation.model.ChatType.USER
 import com.teamoffroad.characterchat.presentation.model.TimeType
+import com.teamoffroad.core.common.domain.tracker.Tracker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,6 +23,7 @@ import javax.inject.Inject
 class CharacterChatViewModel @Inject constructor(
     private val getChatListUseCase: GetChatListUseCase,
     private val postChatUseCase: PostChatUseCase,
+    private val tracker: Tracker,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<CharacterChatUiState> = MutableStateFlow(CharacterChatUiState())
@@ -99,6 +101,7 @@ class CharacterChatViewModel @Inject constructor(
             }.onSuccess { chat ->
                 extendChat(chat.toUi())
                 _uiState.value = uiState.value.copy(isSending = false)
+                tracker.trackEvent("send_chat", mapOf("chat_id" to chat.id))
             }.onFailure {
                 removeLastChat()
                 _uiState.value = uiState.value.copy(isSending = false)

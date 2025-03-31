@@ -2,6 +2,7 @@ package com.teamoffroad.feature.mypage.presentation.diaryTime
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.teamoffroad.feature.diary.domain.usecase.PatchDiaryCreateTimeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,6 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DiaryTimeViewModel @Inject constructor(
+    private val diaryCreateTimeUseCase: PatchDiaryCreateTimeUseCase,
 ) : ViewModel() {
     private val _diaryTimeUiState: MutableStateFlow<DiaryTimeUiState> =
         MutableStateFlow(DiaryTimeUiState())
@@ -41,13 +43,24 @@ class DiaryTimeViewModel @Inject constructor(
         if (type) {
             viewModelScope.launch {
                 _diaryTimeUiState.value = diaryTimeUiState.value.copy(
-                    diaryTime = time
+                    diaryTime = time.trim()
                 )
             }
         } else {
             viewModelScope.launch {
                 _diaryTimeUiState.value = diaryTimeUiState.value.copy(
                     meridiem = time
+                )
+            }
+        }
+    }
+
+    fun patchDiaryCreateTime() {
+        viewModelScope.launch {
+            runCatching {
+                diaryCreateTimeUseCase.invoke(
+                    _diaryTimeUiState.value.diaryTime.toInt(),
+                    _diaryTimeUiState.value.meridiem,
                 )
             }
         }

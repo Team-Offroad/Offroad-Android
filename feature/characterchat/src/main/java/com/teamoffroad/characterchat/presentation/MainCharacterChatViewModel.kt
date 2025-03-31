@@ -10,6 +10,7 @@ import com.teamoffroad.characterchat.presentation.model.CharacterChattingUiState
 import com.teamoffroad.characterchat.presentation.model.UiState
 import com.teamoffroad.characterchat.presentation.model.UserChattingUiState
 import com.teamoffroad.core.common.domain.model.NotificationEvent
+import com.teamoffroad.core.common.domain.tracker.Tracker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,6 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainCharacterChatViewModel @Inject constructor(
     private val characterChatRepository: CharacterChatRepository,
+    private val tracker: Tracker,
 ) : ViewModel() {
     private val _characterChatUiState = MutableStateFlow(CharacterChattingUiState())
     val characterChatUiState = _characterChatUiState.asStateFlow()
@@ -178,6 +180,7 @@ class MainCharacterChatViewModel @Inject constructor(
                     characterName = characterName.value
                 )
 
+                tracker.trackEvent("send_chat", mapOf("chat_id" to chat.id))
             }.onFailure { t ->
                 _sendChatState.emit(UiState.Failure(t.message.toString()))
             }
