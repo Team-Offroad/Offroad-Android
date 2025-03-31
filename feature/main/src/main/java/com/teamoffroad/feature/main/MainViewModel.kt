@@ -27,7 +27,7 @@ class MainViewModel @Inject constructor(
             runCatching {
                 minSupportedVersionRepository.fetchMinSupportedVersion()
             }.onSuccess { state ->
-                _appVersionState.value = compareVersions("1.0.0", state.android)
+                _appVersionState.value = compareVersions(currentVersion, state.android)
             }.onFailure { t ->
                 val errorMessage = getErrorMessage(t)
             }
@@ -35,13 +35,19 @@ class MainViewModel @Inject constructor(
     }
 
     private fun compareVersions(currentVersion: String, minAppVersion: String): Boolean {
-        val currentVersionParts = currentVersion.split(".").map { it.toInt() }
-        val minAppVersionParts = minAppVersion.split(".").map { it.toInt() }
+        val currentVersionParts = extractNumbers(currentVersion)
+        val minAppVersionParts = extractNumbers(minAppVersion)
 
         for (i in 0 until maxOf(currentVersionParts.size, minAppVersionParts.size)) {
             if (currentVersionParts.getOrElse(i) { 0 } < minAppVersionParts.getOrElse(i) { 0 }) return false
         }
         return true
+    }
+
+    private fun extractNumbers(version: String): List<Int> {
+        return "\\d+".toRegex().findAll(version)
+            .map { it.value.toInt() }
+            .toList()
     }
 
     fun navigateToAnnouncement(announcementId: String) {
