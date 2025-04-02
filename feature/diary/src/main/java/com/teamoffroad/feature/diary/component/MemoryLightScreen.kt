@@ -22,7 +22,14 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -65,10 +72,16 @@ fun MemoryLightScreen(
 ) {
     val pagerState = rememberPagerState(
         initialPage = memoryLight.initialPage,
-        pageCount = { memoryLight.pageCount })
+        pageCount = { memoryLight.pageCount }
+    )
     val coroutineScope = rememberCoroutineScope()
     val graphicsLayer = rememberGraphicsLayer()
     val context = LocalContext.current
+    var currentPage by remember { mutableIntStateOf(memoryLight.initialPage) }
+
+    LaunchedEffect(pagerState.currentPage) {
+        currentPage = pagerState.currentPage
+    }
 
     BackHandler {
         onCancelClick(false)
@@ -103,7 +116,7 @@ fun MemoryLightScreen(
             modifier = Modifier.padding(bottom = 28.dp),
         ) { page ->
             MemoryLightItems(
-                memoryLight = memoryLight.memoryLight[page],
+                memoryLight = memoryLight.memoryLight[currentPage],
                 updateDiaryCheck = updateDiaryCheck,
                 modifier = Modifier.drawWithContent {
                     graphicsLayer.record {
