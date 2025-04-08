@@ -2,14 +2,11 @@ package com.teamoffroad.feature.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.gson.Gson
 import com.teamoffroad.core.common.domain.repository.MinSupportedVersionRepository
-import com.teamoffroad.feature.home.presentation.model.HomeErrorMessageModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,8 +25,6 @@ class MainViewModel @Inject constructor(
                 minSupportedVersionRepository.fetchMinSupportedVersion()
             }.onSuccess { state ->
                 _appVersionState.value = compareVersions(currentVersion, state.android)
-            }.onFailure { t ->
-                val errorMessage = getErrorMessage(t)
             }
         }
     }
@@ -61,15 +56,4 @@ class MainViewModel @Inject constructor(
             announcementId = null,
         )
     }
-}
-
-fun getErrorMessage(t: Any): String {
-    val gson = Gson()
-
-    return if (t is HttpException) {
-        val errorBody = t.response()?.errorBody()?.string()
-        errorBody?.let {
-            gson.fromJson(it, HomeErrorMessageModel::class.java).message
-        } ?: t.message.toString()
-    } else t.toString()
 }

@@ -103,11 +103,9 @@ fun AppUpdateDialog(
 }
 
 private fun navigateToPlayStore(context: Context) {
-        try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=${context.packageName}"))
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(context, intent, null)
-        } catch (e: Exception) {
-            Log.e("orb app update", "error opening Play Store: ${e.message}")
-        }
-    }
+    val intent =
+        Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.teamoffroad.offroad.app"))
+        .apply { addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_NEW_TASK) }
+
+    if (intent.resolveActivity(context.packageManager) != null) { startActivity(context, intent, null) }
+}

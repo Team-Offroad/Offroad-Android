@@ -104,15 +104,4 @@ class MainActivity : ComponentActivity() {
             "Unknown"
         }
     }
-
-    private fun navigateToPlayStore() {
-        try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=${packageName}"))
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-        } catch (e: Exception) {
-            Log.e("orb app update", "error opening Play Store: ${e.message}")
-        }
-    }
-
 }
