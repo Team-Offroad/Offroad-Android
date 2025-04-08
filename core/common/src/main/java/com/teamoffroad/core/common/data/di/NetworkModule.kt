@@ -5,6 +5,7 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import com.teamoffroad.core.common.data.di.qualifier.Auth
 import com.teamoffroad.core.common.data.di.qualifier.NoneAuth
 import com.teamoffroad.core.common.data.local.AuthInterceptor
+import com.teamoffroad.core.common.data.remote.service.MinSupportedVersionService
 import com.teamoffroad.core.common.data.remote.service.TokenService
 import com.teamoffroad.offroad.core.common.BuildConfig
 import dagger.Module
@@ -89,5 +90,11 @@ object NetworkModule {
     @Singleton
     fun provideTokenService(@NoneAuth retrofit: Retrofit): TokenService {
         return retrofit.create(TokenService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideMinSupportedVersionService(@NoneAuth retrofit: Retrofit): MinSupportedVersionService {
+        return retrofit.create(MinSupportedVersionService::class.java)
     }
 }
