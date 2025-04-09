@@ -42,17 +42,10 @@ fun RecommendPlaceBody(
     var selectedTab by remember { mutableStateOf(RecommendTab.LIST) }
     var isButtonVisible by remember { mutableStateOf(true) }
 
-    // 스크롤 상태 공유
     val listState = rememberLazyListState()
 
-    // 이전 스크롤 위치 저장
-    var previousScrollOffset by remember { mutableStateOf(0) }
-
-    // 스크롤 감지
-    LaunchedEffect(listState.firstVisibleItemScrollOffset) {
-        val currentOffset = listState.firstVisibleItemScrollOffset
-        isButtonVisible = previousScrollOffset >= currentOffset || listState.firstVisibleItemIndex == 0
-        previousScrollOffset = currentOffset
+    LaunchedEffect(listState.firstVisibleItemIndex) {
+        isButtonVisible = listState.firstVisibleItemIndex == 0
     }
 
     Column {
