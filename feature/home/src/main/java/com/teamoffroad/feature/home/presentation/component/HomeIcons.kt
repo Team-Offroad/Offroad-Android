@@ -49,32 +49,6 @@ fun HomeIcons(
     navigateToDiary: (Boolean) -> Unit,
     navigateToRecommendPlace: () -> Unit,
 ) {
-    val scope = rememberCoroutineScope()
-
-    val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        listOf(Manifest.permission.READ_MEDIA_IMAGES)
-    } else {
-        listOf(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        )
-    }
-
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        scope.launch {
-            val deniedPermissions = permissions.filterValues { !it }.keys
-            if (deniedPermissions.isEmpty()) {
-                showToast(context, context.getString(R.string.allowed_permissions))
-            } else {
-                showToast(
-                    context, context.getString(R.string.not_allowed_permissions)
-                )
-            }
-        }
-    }
-
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier

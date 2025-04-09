@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="test">test</string>
+    <string name="recommend_place_back_to_home">홈</string>
+    <string name="recommend_place_orb">오브의 추천소</string>
+    <string name="recommend_place_welcome">오브의 추천소에 어서와~\n여기서는 ~~~소개소개</string>
+    <string name="recommend_place">추천 장소</string>
+    <string name="recommend_place_list">리스트</string>
+    <string name="recommend_place_map">지도</string>
 </resources>

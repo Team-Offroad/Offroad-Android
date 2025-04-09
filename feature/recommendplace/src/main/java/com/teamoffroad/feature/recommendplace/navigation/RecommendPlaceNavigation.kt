@@ -14,6 +14,6 @@ fun NavGraphBuilder.recommendPlaceNavGraph(
     navigateToBack: () -> Unit,
 ) {
     composable<RecommendPlaceRoute.RecommendPlace> { backStackEntry ->
-        RecommendPlaceScreen()
+        RecommendPlaceScreen(navigateToBack)
     }
 }
