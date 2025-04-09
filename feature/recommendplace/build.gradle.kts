@@ -10,6 +10,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":feature:explore"))
     implementation(libs.androidx.appcompat)
     implementation(libs.kotlinx.immutable)
     implementation(libs.retrofit.kotlinx.serialization)

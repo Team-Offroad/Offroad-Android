@@ -20,11 +20,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
+import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
+import com.teamoffroad.feature.explore.presentation.PlaceViewModel
+import com.teamoffroad.feature.explore.presentation.component.PlaceItems
 import com.teamoffroad.offroad.feature.recommendplace.R
 
 @Composable
@@ -38,7 +43,7 @@ fun RecommendPlaceBody(
             selectedTab = selectedTab,
             onTabSelected = { selectedTab = it }
         )
-        HorizontalDivider(color = Gray300)
+        HorizontalDivider(color = Gray100)
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -58,7 +63,16 @@ enum class RecommendTab {
 
 @Composable
 fun RecommendPlaceList() {
-    Text(text = "리스트")
+    val placeViewModel: PlaceViewModel = hiltViewModel()
+    val uiState = placeViewModel.uiState.collectAsStateWithLifecycle().value
+
+    PlaceItems(
+        places = uiState.visitedPlaces + uiState.unvisitedPlaces,
+        isLoading = uiState.isLoading,
+        isLoadable = uiState.isLoadable,
+        isAdditionalLoading = uiState.isAdditionalLoading,
+        updatePlaces = placeViewModel::updatePlaces
+    )
 }
 
 @Composable
