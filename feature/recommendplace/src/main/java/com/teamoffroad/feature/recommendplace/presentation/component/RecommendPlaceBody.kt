@@ -39,6 +39,7 @@ fun RecommendPlaceBody(
     var selectedTab by remember { mutableStateOf(RecommendTab.LIST) }
 
     Column {
+        RecommendPlaceButton()
         RecommendPlaceBodyTabs(
             selectedTab = selectedTab,
             onTabSelected = { selectedTab = it }
