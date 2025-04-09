@@ -1,11 +1,13 @@
 package com.teamoffroad.core.common.data.di
 
 import com.teamoffroad.core.common.domain.repository.AutoSignInRepository
+import com.teamoffroad.core.common.domain.repository.MinSupportedVersionRepository
 import com.teamoffroad.core.common.domain.repository.TokenRepository
 import com.teamoffroad.core.common.domain.usecase.ClearTokensUseCase
 import com.teamoffroad.core.common.domain.usecase.GetAccessTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.GetAutoSignInUseCase
 import com.teamoffroad.core.common.domain.usecase.GetRefreshTokenUseCase
+import com.teamoffroad.core.common.domain.usecase.MinSupportedVersionUseCase
 import com.teamoffroad.core.common.domain.usecase.RefreshTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.SaveAccessTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.SaveRefreshTokenUseCase
@@ -82,5 +84,13 @@ object UseCaseModule {
         autoSignInRepository: AutoSignInRepository,
     ): SetAutoSignInUseCase {
         return SetAutoSignInUseCase(autoSignInRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetMinSupportedVersionUseCase(
+        minSupportedVersionRepository: MinSupportedVersionRepository,
+    ): MinSupportedVersionUseCase {
+        return MinSupportedVersionUseCase(minSupportedVersionRepository)
     }
 }

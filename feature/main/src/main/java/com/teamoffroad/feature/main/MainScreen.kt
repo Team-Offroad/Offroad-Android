@@ -27,12 +27,12 @@ import kotlinx.coroutines.delay
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 internal fun MainScreen(
-    modifier: Modifier = Modifier,
     navigator: MainNavigator = rememberMainNavigator(),
     notificationType: String?,
     notificationId: String?,
     mainViewModel: MainViewModel,
     mainCharacterViewModel: MainCharacterChatViewModel,
+    modifier: Modifier = Modifier,
 ) {
     val mainContainerSetting = remember { mutableStateOf(false) }
     val isMainUiState by mainViewModel.mainUiState.collectAsState()
@@ -70,13 +70,11 @@ internal fun MainScreen(
         mainContainerSetting = mainContainerSetting,
         characterChatUiState = characterChatUiState,
         userChatUiState = userChatUiState,
-        updateAnswerCharacterChatButtonState = mainCharacterViewModel::updateAnswerCharacterChatButtonState,
         updateCharacterChatExist = mainCharacterViewModel::updateCharacterChatExist,
         updateUserWatchingCharacterChat = mainCharacterViewModel::updateUserWatchingCharacterChat,
         updateUserChattingText = mainCharacterViewModel::updateUserChattingText,
         updateShowUserChatTextField = mainCharacterViewModel::updateShowUserChatTextField,
         sendChat = mainCharacterViewModel::sendChat,
-        navigateToCharacterChatScreen = navigator::navigateToCharacterChat
     )
 }
 
@@ -89,13 +87,11 @@ private fun MainScreenContent(
     mainContainerSetting: MutableState<Boolean>,
     characterChatUiState: State<CharacterChattingUiState>,
     userChatUiState: State<UserChattingUiState>,
-    updateAnswerCharacterChatButtonState: (Boolean) -> Unit,
     updateCharacterChatExist: (Boolean) -> Unit,
     updateUserWatchingCharacterChat: (Boolean) -> Unit,
     updateUserChattingText: (String) -> Unit,
     updateShowUserChatTextField: (Boolean) -> Unit,
     sendChat: () -> Unit,
-    navigateToCharacterChatScreen: (Int, String) -> Unit,
 ) {
     val showSplash = remember { mutableStateOf(true) }
     LaunchedEffect(Unit) {
@@ -118,16 +114,6 @@ private fun MainScreenContent(
                         navigator.setBackButtonListenerEnabled(),
                     )
                     mainContainerSetting.value = true
-
-//                    showCharacterChat(
-//                        characterChatUiState = characterChatUiState,
-//                        userChatUiState = userChatUiState,
-//                        updateAnswerCharacterChatButtonState = updateAnswerCharacterChatButtonState,
-//                        updateCharacterChatExist = updateCharacterChatExist,
-//                        updateUserWatchingCharacterChat = updateUserWatchingCharacterChat,
-//                        updateShowUserChatTextField = updateShowUserChatTextField,
-//                        navigateToCharacterChatScreen = navigateToCharacterChatScreen
-//                    )
 
                     ShowUserChat(
                         userChatUiState = userChatUiState,
