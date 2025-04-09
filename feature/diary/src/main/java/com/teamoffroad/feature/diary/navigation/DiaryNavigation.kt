@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.teamoffroad.core.navigation.DiaryRoute
+import com.teamoffroad.core.navigation.RecommendPlaceRoute
 import com.teamoffroad.feature.diary.presentation.DiaryScreen
 
 fun NavController.navigateToDiary(newDiaryExist: Boolean) {

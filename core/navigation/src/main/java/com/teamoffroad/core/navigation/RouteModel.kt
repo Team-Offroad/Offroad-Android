@@ -111,6 +111,11 @@ sealed interface CharacterChatRoute : Route {
     ) : CharacterChatRoute
 }
 
+sealed interface RecommendPlaceRoute : Route {
+    @Serializable
+    data object RecommendPlace : RecommendPlaceRoute
+}
+
 sealed interface DiaryRoute : Route {
     @Serializable
     data class Diary(

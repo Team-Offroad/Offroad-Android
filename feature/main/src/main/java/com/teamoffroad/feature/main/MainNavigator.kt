@@ -35,6 +35,7 @@ import com.teamoffroad.feature.mypage.navigation.navigateToGainedEmblems
 import com.teamoffroad.feature.mypage.navigation.navigateToMyPage
 import com.teamoffroad.feature.mypage.navigation.navigateToSetting
 import com.teamoffroad.feature.mypage.navigation.navigateToSupport
+import com.teamoffroad.feature.recommendplace.navigation.navigateToRecommendPlace
 
 internal class MainNavigator(
     val navController: NavHostController,
@@ -195,6 +196,10 @@ internal class MainNavigator(
 
     fun navigateToDiaryTime() {
         navController.navigateToDiaryTime()
+    }
+
+    fun navigateToRecommendPlace() {
+        navController.navigateToRecommendPlace()
     }
 
     fun navigateToAnnouncementDetail(
