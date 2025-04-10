@@ -1,11 +1,9 @@
-package com.teamoffroad.feature.recommendplace.presentation.component
+package com.teamoffroad.characterchat.presentation.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,13 +11,14 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.teamoffroad.core.designsystem.theme.Main1
+import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.RecommendPlaceFillGradient1
 import com.teamoffroad.core.designsystem.theme.RecommendPlaceFillGradient2
@@ -35,7 +34,8 @@ import com.teamoffroad.core.designsystem.theme.RecommendPlaceStrokeGradient4
 import com.teamoffroad.core.designsystem.theme.RecommendPlaceStrokeGradient5
 import com.teamoffroad.core.designsystem.theme.RecommendPlaceStrokeGradient6
 import com.teamoffroad.core.designsystem.theme.RecommendPlaceStrokeGradient7
-import com.teamoffroad.offroad.feature.recommendplace.R
+import com.teamoffroad.core.designsystem.theme.Sub4
+import com.teamoffroad.offroad.feature.characterchat.R
 
 val RecommendPlaceStrokeGradientColors = listOf(
     RecommendPlaceStrokeGradient1,
@@ -58,21 +58,28 @@ val RecommendPlaceFillGradientColors = listOf(
 )
 
 @Composable
-fun RecommendPlaceButton() {
-    Box(
+fun RecommendPlaceChatBox(
+    name: String = "",
+    text: String,
+) {
+    Row(
         modifier = Modifier
-            .padding(horizontal = 24.dp)
             .fillMaxWidth()
+            .padding(end = 36.dp)
             .border(
                 width = 1.dp,
                 brush = Brush.horizontalGradient(colors = RecommendPlaceStrokeGradientColors),
                 shape = RoundedCornerShape(12.dp)
             )
-            .padding(1.dp)
+            .background(
+                color = Color.White,
+                shape = RoundedCornerShape(12.dp)
+            )
             .background(
                 brush = Brush.horizontalGradient(RecommendPlaceFillGradientColors),
                 shape = RoundedCornerShape(12.dp)
             )
+            .padding(16.dp)
     ) {
         Card(
             modifier = Modifier.fillMaxWidth(),
@@ -81,29 +88,51 @@ fun RecommendPlaceButton() {
                 containerColor = Color.Transparent
             ),
             content = {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
+                Column {
+                    Row {
+                        Text(
+                            text = name,
+                            style = OffroadTheme.typography.textBold,
+                            color = Sub4,
+                        )
+                        Text(
+                            text = ": ",
+                            color = Main2,
+                            style = OffroadTheme.typography.textRegular,
+                            modifier = Modifier.padding(start = 4.dp),
+                        )
+                        Text(
+                            text = text,
+                            style = OffroadTheme.typography.textRegular,
+                            color = Main2,
+                        )
+                    }
+
                     Text(
-                        text = stringResource(id = R.string.recommend_place_welcome),
+                        text = stringResource(id = R.string.chat_orb_recommend_place),
+                        color = Main1,
+                        style = OffroadTheme.typography.textRegular,
+                        textAlign = TextAlign.Center,
                         modifier = Modifier
-                            .padding(horizontal = 26.dp, vertical = 20.dp),
-                        style = OffroadTheme.typography.boxMedi
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    Image(
-                        painter = painterResource(R.drawable.ic_recommend_place_chat),
-                        contentDescription = null,
-                        modifier = Modifier.padding(end = 10.dp)
-                    )
-                    Image(
-                        painter = painterResource(R.drawable.ic_recommend_place_arrow_right),
-                        contentDescription = null,
-                        modifier = Modifier.padding(end = 18.dp)
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .padding(top = 10.dp)
+                            .border(
+                                width = 1.dp,
+                                brush = Brush.horizontalGradient(colors = RecommendPlaceStrokeGradientColors),
+                                shape = RoundedCornerShape(12.dp)
+                            )
+                            .background(
+                                color = Main2, // 나중에 수정
+                                shape = RoundedCornerShape(12.dp)
+                            )
+                            .padding(vertical = 10.dp)
                     )
                 }
+
             }
         )
     }
-
 }
+
+

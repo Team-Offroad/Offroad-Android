@@ -105,6 +105,12 @@ fun CharacterChats(
                     }
                 }
             }
+            item {
+                RecommendPlaceChatBox(
+                    name = "오브",
+                    text = "좋아! 신촌에서 데이트하기 좋은 식당을 알려줄게! 나를 따라와~"
+                )
+            }
         }
         item {
             CharacterChatLoadingBox(

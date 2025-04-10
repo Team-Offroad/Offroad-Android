@@ -29,26 +29,6 @@ import com.teamoffroad.core.designsystem.theme.RecommendPlaceStrokeGradient6
 import com.teamoffroad.core.designsystem.theme.RecommendPlaceStrokeGradient7
 import com.teamoffroad.offroad.feature.recommendplace.R
 
-val RecommendPlaceStrokeGradientColors = listOf(
-    RecommendPlaceStrokeGradient1,
-    RecommendPlaceStrokeGradient2,
-    RecommendPlaceStrokeGradient3,
-    RecommendPlaceStrokeGradient4,
-    RecommendPlaceStrokeGradient5,
-    RecommendPlaceStrokeGradient6,
-    RecommendPlaceStrokeGradient7,
-)
-
-val RecommendPlaceFillGradientColors = listOf(
-    RecommendPlaceFillGradient1,
-    RecommendPlaceFillGradient2,
-    RecommendPlaceFillGradient3,
-    RecommendPlaceFillGradient4,
-    RecommendPlaceFillGradient5,
-    RecommendPlaceFillGradient6,
-    RecommendPlaceFillGradient7,
-)
-
 @Composable
 fun RecommendPlaceHeader(
 
