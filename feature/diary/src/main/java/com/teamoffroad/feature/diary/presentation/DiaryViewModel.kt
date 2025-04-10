@@ -3,6 +3,7 @@ package com.teamoffroad.feature.diary.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.diary.domain.model.DiaryFirstDate
+import com.teamoffroad.feature.diary.domain.model.HexCode
 import com.teamoffroad.feature.diary.domain.model.MemoryLightSetting
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryByDateUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryCreateTimeCheckedUseCase
@@ -17,6 +18,7 @@ import com.teamoffroad.feature.diary.presentation.model.DiaryHintDialogState
 import com.teamoffroad.feature.diary.presentation.model.DiaryShownState
 import com.teamoffroad.feature.diary.presentation.model.DiarySideEffect
 import com.teamoffroad.feature.diary.presentation.model.DiaryUiState
+import com.teamoffroad.feature.diary.presentation.util.convertRegexToDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -44,6 +46,9 @@ class DiaryViewModel @Inject constructor(
 
     private val _diarySideEffect: Channel<DiarySideEffect> = Channel()
     val diarySideEffect = _diarySideEffect.receiveAsFlow()
+
+    private val _hexCodeData = MutableStateFlow<Map<String, Map<String, List<HexCode>>>>(emptyMap())
+    val hexCodeData: StateFlow<Map<String, Map<String, List<HexCode>>>> = _hexCodeData.asStateFlow()
 
     fun getDiaryFirstDate() {
         viewModelScope.launch {
@@ -75,10 +80,23 @@ class DiaryViewModel @Inject constructor(
 
     fun getDiaryHexCode(year: Int, month: Int) {
         viewModelScope.launch {
-            getDiaryMonthlyHexUseCase.invoke(year, month).onSuccess {
+            val hexCodeKey = "$year-$month"
+
+            if (_hexCodeData.value.containsKey(hexCodeKey)) {
+                val cachedHexCode = _hexCodeData.value[hexCodeKey]
                 _diaryUiState.value = diaryUiState.value.copy(
-                    dailyHexCodes = it,
+                    dailyHexCodes = cachedHexCode
                 )
+                return@launch
+            }
+
+            getDiaryMonthlyHexUseCase.invoke(year, month).onSuccess { hexCodes ->
+                hexCodes?.let {
+                    _hexCodeData.value += (hexCodeKey to it)
+                    _diaryUiState.value = diaryUiState.value.copy(
+                        dailyHexCodes = it
+                    )
+                }
             }
         }
     }
@@ -204,9 +222,11 @@ class DiaryViewModel @Inject constructor(
 
     fun updateCurrentDiaryPage(date: String) {
         viewModelScope.launch {
+            val (year, month) = convertRegexToDate(date)
             _diaryUiState.value = diaryUiState.value.copy(
                 currentDiaryCalendarPage = date
             )
+            getDiaryHexCode(year = year, month = month)
         }
     }
 }
