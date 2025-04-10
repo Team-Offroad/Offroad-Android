@@ -11,6 +11,7 @@ android {
 
 dependencies {
     implementation(project(":feature:explore"))
+    implementation(project(":feature:characterchat"))
     implementation(libs.androidx.appcompat)
     implementation(libs.kotlinx.immutable)
     implementation(libs.retrofit.kotlinx.serialization)
