@@ -36,6 +36,7 @@ fun CharacterChatScreen(
     characterId: Int?,
     characterName: String,
     navigateToBack: () -> Unit,
+    navigateToRecommendPlace: () -> Unit,
     characterChatViewModel: CharacterChatViewModel = hiltViewModel(),
 ) {
     val uiState = characterChatViewModel.uiState.collectAsStateWithLifecycle()
@@ -109,6 +110,7 @@ fun CharacterChatScreen(
                 isLoadable = uiState.value.isLoadable,
                 updateChats = characterChatViewModel::handleChatState,
                 updateIsChatting = characterChatViewModel::updateIsChatting,
+                navigateToRecommendPlace = navigateToRecommendPlace
             )
         }
         ChatTextField(

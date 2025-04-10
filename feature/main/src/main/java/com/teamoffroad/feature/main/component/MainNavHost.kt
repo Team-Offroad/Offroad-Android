@@ -111,6 +111,7 @@ internal fun MainNavHost(
             )
             characterChatNavGraph(
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
+                navigateToRecommendPlace = navigator::navigateToRecommendPlace
             )
             diaryNavGraph(
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,

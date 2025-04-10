@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -61,6 +62,7 @@ val RecommendPlaceFillGradientColors = listOf(
 fun RecommendPlaceChatBox(
     name: String = "",
     text: String,
+    navigateToRecommendPlace: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -120,13 +122,14 @@ fun RecommendPlaceChatBox(
                             .border(
                                 width = 1.dp,
                                 brush = Brush.horizontalGradient(colors = RecommendPlaceStrokeGradientColors),
-                                shape = RoundedCornerShape(12.dp)
+                                shape = RoundedCornerShape(4.dp)
                             )
                             .background(
                                 color = Main2, // 나중에 수정
-                                shape = RoundedCornerShape(12.dp)
+                                shape = RoundedCornerShape(4.dp)
                             )
                             .padding(vertical = 10.dp)
+                            .clickableWithoutRipple { navigateToRecommendPlace() }
                     )
                 }
 

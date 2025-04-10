@@ -37,6 +37,7 @@ fun CharacterChats(
     isLoadable: Boolean = true,
     updateChats: () -> Unit,
     updateIsChatting: (Boolean) -> Unit,
+    navigateToRecommendPlace: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val animatedHeight = animateDpAsState(targetValue = (bottomPadding.dp - 748.dp).coerceAtLeast(0.dp), label = "")
@@ -108,7 +109,8 @@ fun CharacterChats(
             item {
                 RecommendPlaceChatBox(
                     name = "오브",
-                    text = "좋아! 신촌에서 데이트하기 좋은 식당을 알려줄게! 나를 따라와~"
+                    text = "좋아! 신촌에서 데이트하기 좋은 식당을 알려줄게! 나를 따라와~",
+                    navigateToRecommendPlace = navigateToRecommendPlace
                 )
             }
         }
