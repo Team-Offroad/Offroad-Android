@@ -37,21 +37,11 @@ import com.teamoffroad.offroad.feature.recommendplace.R
 
 @Composable
 fun RecommendPlaceBody(
-
+    listState: LazyListState
 ) {
     var selectedTab by remember { mutableStateOf(RecommendTab.LIST) }
-    var isButtonVisible by remember { mutableStateOf(true) }
-
-    val listState = rememberLazyListState()
-
-    LaunchedEffect(listState.firstVisibleItemIndex) {
-        isButtonVisible = listState.firstVisibleItemIndex == 0
-    }
 
     Column {
-        AnimatedVisibility(visible = isButtonVisible) {
-            RecommendPlaceButton()
-        }
         RecommendPlaceBodyTabs(
             selectedTab = selectedTab,
             onTabSelected = { selectedTab = it }
