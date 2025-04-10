@@ -20,7 +20,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.RecommendPlaceFillGradient1
 import com.teamoffroad.core.designsystem.theme.RecommendPlaceFillGradient2
@@ -59,9 +58,7 @@ val RecommendPlaceFillGradientColors = listOf(
 )
 
 @Composable
-fun RecommendPlaceButton(
-    onClick: () -> Unit
-) {
+fun RecommendPlaceButton() {
     Box(
         modifier = Modifier
             .padding(horizontal = 24.dp)
@@ -78,10 +75,7 @@ fun RecommendPlaceButton(
             )
     ) {
         Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickableWithoutRipple { onClick() }
-                ,
+            modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
             colors = CardDefaults.cardColors(
                 containerColor = Color.Transparent
@@ -111,4 +105,5 @@ fun RecommendPlaceButton(
             }
         )
     }
+
 }
