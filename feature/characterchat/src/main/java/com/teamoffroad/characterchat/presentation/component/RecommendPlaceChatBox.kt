@@ -21,6 +21,13 @@ import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
+import com.teamoffroad.core.designsystem.theme.RecommendPlaceButtonGradient1
+import com.teamoffroad.core.designsystem.theme.RecommendPlaceButtonGradient2
+import com.teamoffroad.core.designsystem.theme.RecommendPlaceButtonGradient3
+import com.teamoffroad.core.designsystem.theme.RecommendPlaceButtonGradient4
+import com.teamoffroad.core.designsystem.theme.RecommendPlaceButtonGradient5
+import com.teamoffroad.core.designsystem.theme.RecommendPlaceButtonGradient6
+import com.teamoffroad.core.designsystem.theme.RecommendPlaceButtonGradient7
 import com.teamoffroad.core.designsystem.theme.RecommendPlaceFillGradient1
 import com.teamoffroad.core.designsystem.theme.RecommendPlaceFillGradient2
 import com.teamoffroad.core.designsystem.theme.RecommendPlaceFillGradient3
@@ -56,6 +63,16 @@ val RecommendPlaceFillGradientColors = listOf(
     RecommendPlaceFillGradient5,
     RecommendPlaceFillGradient6,
     RecommendPlaceFillGradient7,
+)
+
+val RecommendPlaceButtonGradient = listOf(
+    RecommendPlaceButtonGradient1,
+    RecommendPlaceButtonGradient2,
+    RecommendPlaceButtonGradient3,
+    RecommendPlaceButtonGradient4,
+    RecommendPlaceButtonGradient5,
+    RecommendPlaceButtonGradient6,
+    RecommendPlaceButtonGradient7,
 )
 
 @Composable
@@ -125,7 +142,7 @@ fun RecommendPlaceChatBox(
                                 shape = RoundedCornerShape(4.dp)
                             )
                             .background(
-                                color = Main2, // 나중에 수정
+                                brush = Brush.horizontalGradient(RecommendPlaceButtonGradient),
                                 shape = RoundedCornerShape(4.dp)
                             )
                             .padding(vertical = 10.dp)
