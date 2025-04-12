@@ -53,13 +53,13 @@ import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.diary.domain.model.HexCode
 import com.teamoffroad.feature.diary.presentation.model.DiaryUiState
 import com.teamoffroad.feature.diary.presentation.util.convertDateToRegex
-import com.teamoffroad.feature.diary.presentation.util.convertRegexToDate
 import com.teamoffroad.offroad.feature.diary.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
+import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
 
@@ -90,16 +90,13 @@ fun OrbDiary(
         currentPage = pagerState.currentPage
     }
 
-    LaunchedEffect(diaryUiState.currentDiaryCalendarPage) {
-        val moveDiaryCalendar = diaryUiState.currentDiaryCalendarPage
-        if (moveDiaryCalendar.isNotBlank()) {
-            val (year, month) = convertRegexToDate(moveDiaryCalendar)
-            coroutineScope.launch {
-                val targetPage =
-                    (year - diaryFirstCreatedDate.first) * maxMonth + (month - diaryFirstCreatedDate.second)
-                pagerState.animateScrollToPage(targetPage)
-            }
-        }
+    LaunchedEffect(pagerState.currentPage) {
+        val date = LocalDate.of(
+            diaryFirstCreatedDate.first + (diaryFirstCreatedDate.second - 1 + pagerState.currentPage) / maxMonth,
+            (diaryFirstCreatedDate.second - 1 + pagerState.currentPage) % maxMonth + 1,
+            1
+        )
+        diaryMoveClick(date.format(DateTimeFormatter.ofPattern("yyyy년 M월")))
     }
 
     Column(
@@ -218,9 +215,10 @@ fun OrbDiaryItems(
     dailyHexCodes: Map<String, List<HexCode>>?,
     dateButtonClick: (String) -> Unit
 ) {
-    val lastDay by remember { mutableIntStateOf(currentDate.lengthOfMonth()) }
-    val firstDay by remember { mutableIntStateOf(currentDate.withDayOfMonth(1).dayOfWeek.value % 7 + 1) }
-    val days by remember { mutableStateOf(IntRange(1, lastDay).toList()) }
+    val lastDay = currentDate.lengthOfMonth()
+    val firstDay = currentDate.withDayOfMonth(1).dayOfWeek.value % 7 + 1
+    val days = remember(lastDay) { IntRange(1, lastDay).toList() }
+
     Column(
         modifier = modifier
             .padding(horizontal = 22.dp)
@@ -236,16 +234,15 @@ fun OrbDiaryItems(
                 .padding(horizontal = 30.dp)
                 .padding(bottom = 30.dp)
                 .height(310.dp),
-            columns = GridCells.Fixed(7)
+            columns = GridCells.Fixed(7),
+            userScrollEnabled = false
         ) {
-            for (i in 1 until firstDay) {
-                item {
-                    Box(
-                        modifier = Modifier
-                            .size(30.dp)
-                            .padding(top = 20.dp)
-                    )
-                }
+            items(firstDay - 1) {
+                Box(
+                    modifier = Modifier
+                        .size(30.dp)
+                        .padding(top = 20.dp)
+                )
             }
             items(days) { day ->
                 val date = currentDate.withDayOfMonth(day)
@@ -264,30 +261,29 @@ fun OrbDiaryItems(
 }
 
 @Composable
-fun OrbDiaryCell(
+private fun OrbDiaryCell(
     modifier: Modifier = Modifier,
     date: LocalDate,
     hexCode: List<HexCode>?,
     dateButtonClick: (String) -> Unit
 ) {
-
-    val backgroundColor = if (!hexCode.isNullOrEmpty()) {
-        Brush.linearGradient(
-            colors = listOf(
-                Color(android.graphics.Color.parseColor(hexCode[0].small)),
-                Color(android.graphics.Color.parseColor(hexCode[0].large)),
+    val backgroundColor = remember(hexCode) {
+        if (!hexCode.isNullOrEmpty()) {
+            Brush.linearGradient(
+                colors = listOf(
+                    Color(android.graphics.Color.parseColor(hexCode[0].small)),
+                    Color(android.graphics.Color.parseColor(hexCode[0].large)),
+                )
             )
-        )
-    } else {
-        SolidColor(BoxInfo)
+        } else {
+            SolidColor(BoxInfo)
+        }
     }
 
     Box(
         modifier = modifier
             .clickableWithoutRipple {
-                if (backgroundColor != SolidColor(BoxInfo)) dateButtonClick(
-                    date.toString()
-                )
+                if (backgroundColor != SolidColor(BoxInfo)) dateButtonClick(date.toString())
             },
         contentAlignment = Alignment.Center,
     ) {
