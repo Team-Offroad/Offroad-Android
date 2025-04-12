@@ -59,7 +59,6 @@ fun RecommendPlaceScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .navigationPadding()
                     .actionBarPadding()
                     .background(color = Main1)
             ) {
