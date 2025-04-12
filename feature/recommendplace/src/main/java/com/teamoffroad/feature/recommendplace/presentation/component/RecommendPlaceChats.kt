@@ -29,12 +29,15 @@ import com.teamoffroad.core.designsystem.theme.Sub4
 
 @Composable
 fun RecommendPlaceChats(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    userChatText: String
 ) {
     RecommendPlaceCharacterChatBox(
         name = "오브", text = "오브의 추천소에 어서와~ 여기서는 ~~~소개소개", time = Triple(TimeType.AM, 9, 5)
     )
     RecommendPlaceUserChatBox(text = "오브의 추천소에 어서와~ 여기서는 ~~~소개소개", time = Triple(TimeType.AM, 9, 5))
+
+    RecommendPlaceUserChatBox(text = userChatText, time = Triple(TimeType.AM, 9, 5))
 
     LazyColumn(
         modifier = modifier.fillMaxWidth()

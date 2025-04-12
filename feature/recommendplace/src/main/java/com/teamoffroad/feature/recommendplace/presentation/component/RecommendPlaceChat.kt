@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,9 +32,9 @@ fun RecommendPlaceChat(
     time: String,
     onClose: () -> Unit
 ) {
-    val focusManager = LocalFocusManager.current
     val keyboardHeight = remember { mutableIntStateOf(0) }
     val view = LocalView.current
+    val userChatText = remember { mutableStateOf("") }
 
     DisposableEffect(view) {
         val listener = ViewTreeObserver.OnGlobalLayoutListener {
@@ -73,7 +74,14 @@ fun RecommendPlaceChat(
             )
 
             RecommendPlaceChats(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                userChatText = userChatText.value
+            )
+
+            RecommendPlaceExampleQuestionButton(
+                onClick = { question ->
+                    userChatText.value = question
+                }
             )
 
             RecommendChatTextField(
