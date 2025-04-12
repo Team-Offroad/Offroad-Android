@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImagePainter.State.Empty.painter
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.RecommendPlaceFillGradient1
@@ -79,8 +80,7 @@ fun RecommendPlaceButton(
     ) {
         Card(
             modifier = Modifier
-                .fillMaxWidth()
-                .clickableWithoutRipple { onClick() },
+                .fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
             colors = CardDefaults.cardColors(
                 containerColor = Color.Transparent
@@ -98,6 +98,13 @@ fun RecommendPlaceButton(
                     Spacer(modifier = Modifier.weight(1f))
                     Image(
                         painter = painterResource(R.drawable.ic_recommend_place_chat),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(end = 10.dp)
+                            .clickableWithoutRipple { onClick() }
+                    )
+                    Image(
+                        painter = painterResource(R.drawable.ic_recommend_place_order),
                         contentDescription = null,
                         modifier = Modifier.padding(end = 10.dp)
                     )
