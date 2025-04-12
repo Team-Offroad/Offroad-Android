@@ -31,7 +31,7 @@ fun RecommendPlaceExampleQuestionButton(
         val exampleQuestions = listOf(
             "오늘 날씨에 맞는 식당을\n추천해줘." to "오늘 날씨에 맞는 식당",
             "기분이 별로야.\n스트레스 풀릴만한 음식 없을까?" to "스트레스 풀릴만한 음식",
-            "신촌연 근처에\n분위기 좋은 카페 좀 찾아줘." to "분위기 좋은 카페"
+            "신촌역 근처에\n분위기 좋은 카페 좀 찾아줘." to "분위기 좋은 카페"
         )
 
         exampleQuestions.forEachIndexed { index, (fullText, boldText) ->

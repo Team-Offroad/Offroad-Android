@@ -20,7 +20,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImagePainter.State.Empty.painter
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.RecommendPlaceFillGradient1
@@ -61,7 +60,8 @@ val RecommendPlaceFillGradientColors = listOf(
 
 @Composable
 fun RecommendPlaceButton(
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    navigateToOrderRecommendPlace: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -106,7 +106,9 @@ fun RecommendPlaceButton(
                     Image(
                         painter = painterResource(R.drawable.ic_recommend_place_order),
                         contentDescription = null,
-                        modifier = Modifier.padding(end = 10.dp)
+                        modifier = Modifier
+                            .padding(end = 10.dp)
+                            .clickableWithoutRipple { navigateToOrderRecommendPlace() }
                     )
                     Image(
                         painter = painterResource(R.drawable.ic_recommend_place_arrow_right),

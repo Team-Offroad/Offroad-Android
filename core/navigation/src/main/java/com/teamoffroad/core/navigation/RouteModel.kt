@@ -114,6 +114,9 @@ sealed interface CharacterChatRoute : Route {
 sealed interface RecommendPlaceRoute : Route {
     @Serializable
     data object RecommendPlace : RecommendPlaceRoute
+
+    @Serializable
+    data object OrderRecommendPlace : RecommendPlaceRoute
 }
 
 sealed interface DiaryRoute : Route {

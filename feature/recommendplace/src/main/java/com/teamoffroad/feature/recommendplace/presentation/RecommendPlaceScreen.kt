@@ -36,6 +36,7 @@ import com.teamoffroad.offroad.feature.recommendplace.R
 @Composable
 fun RecommendPlaceScreen(
     navigateToBack: () -> Unit,
+    navigateToOrderRecommendPlace: () -> Unit,
 ) {
     var isButtonVisible by remember { mutableStateOf(true) }
     var isRecommendPlaceViewExpanded by remember { mutableStateOf(false) }
@@ -83,7 +84,8 @@ fun RecommendPlaceScreen(
                 RecommendPlaceHeader()
                 AnimatedVisibility(visible = isButtonVisible) {
                     RecommendPlaceButton(
-                        onClick = { isRecommendPlaceViewExpanded = true }
+                        onClick = { isRecommendPlaceViewExpanded = true },
+                        navigateToOrderRecommendPlace = navigateToOrderRecommendPlace
                     )
                 }
                 RecommendPlaceBody(listState)

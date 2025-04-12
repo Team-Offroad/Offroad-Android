@@ -19,6 +19,7 @@ import com.teamoffroad.feature.explore.navigation.exploreNavGraph
 import com.teamoffroad.feature.home.navigation.homeNavGraph
 import com.teamoffroad.feature.main.MainNavigator
 import com.teamoffroad.feature.mypage.navigation.myPageNavGraph
+import com.teamoffroad.feature.recommendplace.navigation.orderRecommendPlaceNavGraph
 import com.teamoffroad.feature.recommendplace.navigation.recommendPlaceNavGraph
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -119,7 +120,11 @@ internal fun MainNavHost(
                 navigateToDiaryTime = navigator::navigateToDiaryTime
             )
             recommendPlaceNavGraph(
-              navigateToBack = navigator::popBackStackIfNotMainTabRoute
+                navigateToBack = navigator::popBackStackIfNotMainTabRoute,
+                navigateToOrderRecommendPlace = navigator::navigateToOrderRecommendPlace
+            )
+            orderRecommendPlaceNavGraph(
+                navigateToBack = navigator::popBackStackIfNotMainTabRoute
             )
         }
     }
