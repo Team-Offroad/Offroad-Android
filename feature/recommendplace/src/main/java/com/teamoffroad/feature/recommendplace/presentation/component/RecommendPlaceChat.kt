@@ -7,10 +7,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -34,7 +36,7 @@ fun RecommendPlaceChat(
 ) {
     val keyboardHeight = remember { mutableIntStateOf(0) }
     val view = LocalView.current
-    val userChatText = remember { mutableStateOf("") }
+    val userChatMessages = remember { mutableStateListOf<String>() }
 
     DisposableEffect(view) {
         val listener = ViewTreeObserver.OnGlobalLayoutListener {
@@ -75,12 +77,12 @@ fun RecommendPlaceChat(
 
             RecommendPlaceChats(
                 modifier = Modifier.weight(1f),
-                userChatText = userChatText.value
+                userChatMessages = userChatMessages
             )
 
             RecommendPlaceExampleQuestionButton(
                 onClick = { question ->
-                    userChatText.value = question
+                    userChatMessages.add(question)
                 }
             )
 

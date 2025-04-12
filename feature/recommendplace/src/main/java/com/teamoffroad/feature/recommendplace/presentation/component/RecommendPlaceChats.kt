@@ -8,9 +8,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -30,19 +33,32 @@ import com.teamoffroad.core.designsystem.theme.Sub4
 @Composable
 fun RecommendPlaceChats(
     modifier: Modifier = Modifier,
-    userChatText: String
+    userChatMessages: List<String>,
 ) {
-    RecommendPlaceCharacterChatBox(
-        name = "오브", text = "오브의 추천소에 어서와~ 여기서는 ~~~소개소개", time = Triple(TimeType.AM, 9, 5)
-    )
-    RecommendPlaceUserChatBox(text = "오브의 추천소에 어서와~ 여기서는 ~~~소개소개", time = Triple(TimeType.AM, 9, 5))
+    val listState = rememberLazyListState()
 
-    RecommendPlaceUserChatBox(text = userChatText, time = Triple(TimeType.AM, 9, 5))
+    LaunchedEffect(userChatMessages.size) {
+        if (userChatMessages.isNotEmpty()) {
+            listState.animateScrollToItem(userChatMessages.size - 1)
+        }
+    }
 
     LazyColumn(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth(),
+        state = listState
     ) {
+        item {
+            RecommendPlaceCharacterChatBox(
+                name = "오브", text = "오브의 추천소에 어서와~ 여기서는 ~~~소개소개", time = Triple(TimeType.AM, 9, 5)
+            )
+        }
 
+        items(userChatMessages) { message ->
+            RecommendPlaceUserChatBox(
+                text = message,
+                time = Triple(TimeType.AM, 9, 5)
+            )
+        }
     }
 }
 
