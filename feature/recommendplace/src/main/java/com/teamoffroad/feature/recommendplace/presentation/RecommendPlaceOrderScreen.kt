@@ -1,13 +1,11 @@
 package com.teamoffroad.feature.recommendplace.presentation
 
-import androidx.annotation.StringRes
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -30,13 +28,13 @@ import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.component.navigationPadding
+import com.teamoffroad.core.designsystem.theme.Black25
 import com.teamoffroad.core.designsystem.theme.Gray100
-import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
-import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
-import com.teamoffroad.core.designsystem.theme.Sub
+import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.feature.recommendplace.presentation.component.PlaceType
 import com.teamoffroad.feature.recommendplace.presentation.component.RecommendPlaceSelect
 import com.teamoffroad.offroad.feature.recommendplace.R
 
@@ -44,6 +42,8 @@ import com.teamoffroad.offroad.feature.recommendplace.R
 fun RecommendPlaceOrder(
     navigateToBack: () -> Unit,
 ) {
+    var selectedType by remember { mutableStateOf<PlaceType?>(null) }
+
     Column(
         modifier = Modifier
             .navigationPadding()
@@ -54,9 +54,48 @@ fun RecommendPlaceOrder(
         Column {
             RecommendPlaceOrderHeader(navigateToBack)
             HorizontalDivider(color = Gray100)
-            RecommendPlaceSelect()
+            RecommendPlaceSelect(
+                selectedType = selectedType,
+                onSelectType = { selectedType = it }
+            )
+            RecommendPlaceOrderButton(
+                isEnabled = selectedType != null,
+                submitOrder = { // 제출
+                    // 다 선택했는지 확인
+                    Log.d("orb submit", "ok")
+                }
+            )
         }
     }
+}
+
+@Composable
+fun RecommendPlaceOrderButton(
+    isEnabled: Boolean,
+    submitOrder: () -> Unit
+) {
+    Text(
+        text = stringResource(id = R.string.recommend_place_order_question_button),
+        color = White,
+        style = OffroadTheme.typography.textRegular,
+        textAlign = TextAlign.Center,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp, vertical = 24.dp)
+            .then(
+                if (isEnabled) Modifier.border(
+                    width = 1.dp,
+                    shape = RoundedCornerShape(12.dp),
+                    color = Main2
+                ) else Modifier
+            )
+            .background(
+                shape = RoundedCornerShape(6.dp),
+                color = if (isEnabled) Main2 else Black25
+            )
+            .padding(horizontal = 110.dp, 14.dp)
+            .clickableWithoutRipple(enabled = isEnabled) { submitOrder() }
+    )
 }
 
 @Composable

@@ -27,9 +27,10 @@ import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.offroad.feature.recommendplace.R
 
 @Composable
-fun RecommendPlaceSelect() {
-    var selected by remember { mutableStateOf<PlaceType?>(null) }
-
+fun RecommendPlaceSelect(
+    selectedType: PlaceType?,
+    onSelectType: (PlaceType) -> Unit,
+) {
     Column(
         modifier = Modifier.padding(start = 24.dp, end = 24.dp, top = 34.dp)
     ) {
@@ -44,7 +45,7 @@ fun RecommendPlaceSelect() {
                 .padding(top = 12.dp)
         ) {
             PlaceType.entries.forEach { type ->
-                val isSelected = selected == type
+                val isSelected = selectedType == type
                 Text(
                     text = stringResource(id = type.textRes),
                     textAlign = TextAlign.Center,
@@ -62,7 +63,7 @@ fun RecommendPlaceSelect() {
                             shape = RoundedCornerShape(30.dp),
                             color = if (isSelected) Sub else Main3
                         )
-                        .clickableWithoutRipple { selected = type }
+                        .clickableWithoutRipple { onSelectType(type) }
                         .padding(horizontal = 64.dp, vertical = 12.dp),
                 )
             }

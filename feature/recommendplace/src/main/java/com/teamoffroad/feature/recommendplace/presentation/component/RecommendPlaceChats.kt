@@ -14,12 +14,18 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.teamoffroad.characterchat.presentation.component.TimeLabel
 import com.teamoffroad.characterchat.presentation.model.TimeType
 import com.teamoffroad.characterchat.presentation.model.TimeType.AM
@@ -37,6 +43,13 @@ fun RecommendPlaceChats(
 ) {
     val listState = rememberLazyListState()
 
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(com.teamoffroad.offroad.core.designsystem.R.raw.loading_linear))
+    val animationState = animateLottieCompositionAsState(composition, iterations = LottieConstants.IterateForever)
+
+    if (animationState.isAtEnd && animationState.isPlaying) {
+        LaunchedEffect(Unit) {  }
+    }
+
     LaunchedEffect(userChatMessages.size) {
         if (userChatMessages.isNotEmpty()) {
             listState.animateScrollToItem(userChatMessages.size - 1)
@@ -51,6 +64,46 @@ fun RecommendPlaceChats(
             RecommendPlaceCharacterChatBox(
                 name = "오브", text = "오브의 추천소에 어서와~ 여기서는 ~~~소개소개", time = Triple(TimeType.AM, 9, 5)
             )
+        }
+
+        item {
+            Row(
+                modifier = Modifier.padding(bottom = 16.dp)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .widthIn(max = 256.dp)
+                        .padding(start = 24.dp)
+                        .border(
+                            width = 1.dp,
+                            brush = Brush.horizontalGradient(colors = com.teamoffroad.characterchat.presentation.component.RecommendPlaceStrokeGradientColors),
+                            shape = RoundedCornerShape(12.dp)
+                        )
+                        .background(
+                            color = Color.White,
+                            shape = RoundedCornerShape(12.dp)
+                        )
+                        .background(
+                            brush = Brush.horizontalGradient(com.teamoffroad.characterchat.presentation.component.RecommendPlaceFillGradientColors),
+                            shape = RoundedCornerShape(12.dp)
+                        )
+                        .padding(16.dp)
+                ) {
+                    Text(
+                        text = "오브",
+                        style = OffroadTheme.typography.textBold,
+                        color = Sub4,
+                    )
+                    Text(
+                        text = ": ",
+                        color = Main2,
+                        style = OffroadTheme.typography.textRegular,
+                        modifier = Modifier.padding(start = 4.dp),
+                    )
+                    // 로티
+                    LottieAnimation(composition, animationState.progress)
+                }
+            }
         }
 
         items(userChatMessages) { message ->
