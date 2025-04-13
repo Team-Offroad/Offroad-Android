@@ -37,6 +37,7 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.recommendplace.presentation.component.PlaceType
 import com.teamoffroad.feature.recommendplace.presentation.component.RecommendPlaceOrderDialog
+import com.teamoffroad.feature.recommendplace.presentation.component.RecommendPlaceOrderEtc
 import com.teamoffroad.feature.recommendplace.presentation.component.RecommendPlaceOrderLocation
 import com.teamoffroad.feature.recommendplace.presentation.component.RecommendPlaceSelect
 import com.teamoffroad.offroad.feature.recommendplace.R
@@ -49,6 +50,7 @@ fun RecommendPlaceOrder(
     var showSelectedTypeWarning by remember { mutableStateOf(false) }
     var locationText by remember { mutableStateOf("") }
     var showLocationTextWarning by remember { mutableStateOf(false) }
+    var etcText by remember { mutableStateOf("") }
 
     val focusManager = LocalFocusManager.current
     val showBackConfirmDialog = remember { mutableStateOf(false) }
@@ -65,8 +67,8 @@ fun RecommendPlaceOrder(
             RecommendPlaceOrderHeader(
                 selectedType = selectedType,
                 locationText = locationText,
+                etcText = etcText,
                 showBackConfirmDialogSetter = { showBackConfirmDialog.value = it },
-                showBackConfirmDialog = showBackConfirmDialog,
                 navigateToBack = navigateToBack
             )
             HorizontalDivider(color = Gray100)
@@ -83,6 +85,10 @@ fun RecommendPlaceOrder(
                 onLocationTextChanged = { locationText = it },
                 showWarning = showLocationTextWarning
             )
+            RecommendPlaceOrderEtc(
+                etcText = etcText,
+                onEtcTextChanged = { etcText = it }
+            )
             RecommendPlaceOrderButton(
                 isEnabled = selectedType != null && locationText.isNotEmpty(),
                 submitOrder = {
@@ -92,12 +98,13 @@ fun RecommendPlaceOrder(
                     if (locationText.isEmpty()) {
                         showLocationTextWarning = true
                     }
+                    // 주문서 등록하기
                 }
             )
         }
     }
 
-    if (showBackConfirmDialog.value) { // 나중에 입력한 경우에만 띄우도록
+    if (showBackConfirmDialog.value) {
         RecommendPlaceOrderDialog(
             navigateToBack = navigateToBack,
             onClickCancel = {
@@ -140,8 +147,8 @@ fun RecommendPlaceOrderButton(
 fun RecommendPlaceOrderHeader(
     selectedType: PlaceType?,
     locationText: String,
+    etcText: String,
     showBackConfirmDialogSetter: (Boolean) -> Unit,
-    showBackConfirmDialog: MutableState<Boolean>,
     navigateToBack: () -> Unit,
 ) {
     Box(
@@ -159,8 +166,9 @@ fun RecommendPlaceOrderHeader(
                 .size(48.dp)
                 .padding(12.dp)
                 .clickableWithoutRipple {
-                    if (selectedType != null || locationText.isNotEmpty()) showBackConfirmDialog.value =
+                    if (selectedType != null || locationText.isNotEmpty() || etcText.isNotEmpty()) showBackConfirmDialogSetter(
                         true
+                    )
                     else navigateToBack()
                 },
         )
