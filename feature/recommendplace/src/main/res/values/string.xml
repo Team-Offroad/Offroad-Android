@@ -11,10 +11,15 @@
     <string name="recommend_place_order_question_select">어떤 추천이 필요하신가요? *</string>
     <string name="recommend_place_order_question_restaurant">식당</string>
     <string name="recommend_place_order_question_cafe">까페</string>
+    <string name="recommend_place_order_question_select_warning">*필수 체크 사항입니다.</string>
     <string name="recommend_place_order_question_location">어느 지역으로 추천해 드릴까요? *</string>
     <string name="recommend_place_order_question_location_placeholder">방문하실 지역을 입력하세요</string>
     <string name="recommend_place_order_question_location_warning">필수 입력 사항입니다.</string>
     <string name="recommend_place_order_question_etc">추가로 원하시는 내용이 있다면 입력해주세요.</string>
     <string name="recommend_place_order_question_etc_placeholder">기분이 안 좋은데 스트레스 풀릴만한 음식 추천해줘.\n애인과 함께할 분위기 좋은 식당이면 좋겠어.</string>
     <string name="recommend_place_order_question_button">주문서 작성 완료</string>
+
+    <string name="recommend_place_order_not_safe_info">주문 내용이 저장되지 않아요.\n작성을 멈추고 나가시겠어요?</string>
+    <string name="recommend_place_order_cancel">취소</string>
+    <string name="recommend_place_order_confirm">확인</string>
 </resources>

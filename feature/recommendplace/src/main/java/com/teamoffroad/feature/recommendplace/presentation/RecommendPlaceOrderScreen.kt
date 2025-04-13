@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,6 +36,8 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.recommendplace.presentation.component.PlaceType
+import com.teamoffroad.feature.recommendplace.presentation.component.RecommendPlaceOrderDialog
+import com.teamoffroad.feature.recommendplace.presentation.component.RecommendPlaceOrderLocation
 import com.teamoffroad.feature.recommendplace.presentation.component.RecommendPlaceSelect
 import com.teamoffroad.offroad.feature.recommendplace.R
 
@@ -43,6 +46,9 @@ fun RecommendPlaceOrder(
     navigateToBack: () -> Unit,
 ) {
     var selectedType by remember { mutableStateOf<PlaceType?>(null) }
+    var showSelectedTypeWarning by remember { mutableStateOf(false) }
+
+    val showBackConfirmDialog = remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -52,20 +58,38 @@ fun RecommendPlaceOrder(
             .actionBarPadding()
     ) {
         Column {
-            RecommendPlaceOrderHeader(navigateToBack)
+            RecommendPlaceOrderHeader(
+                showBackConfirmDialog = showBackConfirmDialog,
+                navigateToBack = navigateToBack
+            )
             HorizontalDivider(color = Gray100)
             RecommendPlaceSelect(
                 selectedType = selectedType,
-                onSelectType = { selectedType = it }
+                onSelectType = {
+                    selectedType = it
+                    showSelectedTypeWarning = false
+                },
+                showWarning = showSelectedTypeWarning
             )
+            RecommendPlaceOrderLocation()
             RecommendPlaceOrderButton(
                 isEnabled = selectedType != null,
-                submitOrder = { // 제출
-                    // 다 선택했는지 확인
-                    Log.d("orb submit", "ok")
+                submitOrder = {
+                    if (selectedType == null) {
+                        showSelectedTypeWarning = true
+                    }
                 }
             )
         }
+    }
+
+    if(showBackConfirmDialog.value) { // 나중에 입력한 경우에만 띄우도록
+        RecommendPlaceOrderDialog(
+            navigateToBack = navigateToBack,
+            onClickCancel = {
+                showBackConfirmDialog.value = false
+            }
+        )
     }
 }
 
@@ -94,12 +118,13 @@ fun RecommendPlaceOrderButton(
                 color = if (isEnabled) Main2 else Black25
             )
             .padding(horizontal = 110.dp, 14.dp)
-            .clickableWithoutRipple(enabled = isEnabled) { submitOrder() }
+            .clickableWithoutRipple { submitOrder() }
     )
 }
 
 @Composable
 fun RecommendPlaceOrderHeader(
+    showBackConfirmDialog: MutableState<Boolean>,
     navigateToBack: () -> Unit,
 ) {
     Box(
@@ -116,7 +141,7 @@ fun RecommendPlaceOrderHeader(
                 .padding(start = 6.dp)
                 .size(48.dp)
                 .padding(12.dp)
-                .clickableWithoutRipple { navigateToBack() },
+                .clickableWithoutRipple { if (true) showBackConfirmDialog.value = true  else navigateToBack() },
         )
 
         Text(

@@ -10,15 +10,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
+import com.teamoffroad.core.designsystem.theme.ErrorNew
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
@@ -30,6 +27,7 @@ import com.teamoffroad.offroad.feature.recommendplace.R
 fun RecommendPlaceSelect(
     selectedType: PlaceType?,
     onSelectType: (PlaceType) -> Unit,
+    showWarning: Boolean,
 ) {
     Column(
         modifier = Modifier.padding(start = 24.dp, end = 24.dp, top = 34.dp)
@@ -67,6 +65,14 @@ fun RecommendPlaceSelect(
                         .padding(horizontal = 64.dp, vertical = 12.dp),
                 )
             }
+        }
+        if (showWarning) {
+            Text(
+                text = stringResource(id = R.string.recommend_place_order_question_select_warning),
+                color = ErrorNew,
+                style = OffroadTheme.typography.hint,
+                modifier = Modifier.padding(top = 10.dp)
+            )
         }
     }
 }
