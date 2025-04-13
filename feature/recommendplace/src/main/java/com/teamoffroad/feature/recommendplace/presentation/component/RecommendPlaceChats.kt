@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -17,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -30,7 +32,6 @@ import com.teamoffroad.characterchat.presentation.component.TimeLabel
 import com.teamoffroad.characterchat.presentation.model.TimeType
 import com.teamoffroad.characterchat.presentation.model.TimeType.AM
 import com.teamoffroad.core.designsystem.theme.BtnInactive
-import com.teamoffroad.core.designsystem.theme.Kakao
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -43,7 +44,7 @@ fun RecommendPlaceChats(
 ) {
     val listState = rememberLazyListState()
 
-    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(com.teamoffroad.offroad.core.designsystem.R.raw.loading_linear))
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(com.teamoffroad.offroad.core.designsystem.R.raw.loading_linear_sub))
     val animationState = animateLottieCompositionAsState(composition, iterations = LottieConstants.IterateForever)
 
     if (animationState.isAtEnd && animationState.isPlaying) {
@@ -100,8 +101,12 @@ fun RecommendPlaceChats(
                         style = OffroadTheme.typography.textRegular,
                         modifier = Modifier.padding(start = 4.dp),
                     )
-                    // 로티
-                    LottieAnimation(composition, animationState.progress)
+                    LottieAnimation(
+                        composition = composition,
+                        progress = animationState.progress,
+                        modifier = Modifier.size(25.dp)
+                    )
+
                 }
             }
         }
