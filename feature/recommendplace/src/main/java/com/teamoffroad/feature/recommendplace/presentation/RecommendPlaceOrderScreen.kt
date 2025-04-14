@@ -7,13 +7,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -62,46 +62,47 @@ fun RecommendPlaceOrder(
             .fillMaxSize()
             .actionBarPadding()
             .clickableWithoutRipple { focusManager.clearFocus() }
+            .imePadding()
     ) {
-        Column {
-            RecommendPlaceOrderHeader(
-                selectedType = selectedType,
-                locationText = locationText,
-                etcText = etcText,
-                showBackConfirmDialogSetter = { showBackConfirmDialog.value = it },
-                navigateToBack = navigateToBack
-            )
-            HorizontalDivider(color = Gray100)
-            RecommendPlaceSelect(
-                selectedType = selectedType,
-                onSelectType = {
-                    selectedType = it
-                    showSelectedTypeWarning = false
-                },
-                showWarning = showSelectedTypeWarning
-            )
-            RecommendPlaceOrderLocation(
-                locationText = locationText,
-                onLocationTextChanged = { locationText = it },
-                showWarning = showLocationTextWarning
-            )
+        RecommendPlaceOrderHeader(
+            selectedType = selectedType,
+            locationText = locationText,
+            etcText = etcText,
+            showBackConfirmDialogSetter = { showBackConfirmDialog.value = it },
+            navigateToBack = navigateToBack
+        )
+        HorizontalDivider(color = Gray100)
+        RecommendPlaceSelect(
+            selectedType = selectedType,
+            onSelectType = {
+                selectedType = it
+                showSelectedTypeWarning = false
+            },
+            showWarning = showSelectedTypeWarning
+        )
+        RecommendPlaceOrderLocation(
+            locationText = locationText,
+            onLocationTextChanged = { locationText = it },
+            showWarning = showLocationTextWarning
+        )
+        Box(modifier = Modifier.weight(1f)) {
             RecommendPlaceOrderEtc(
                 etcText = etcText,
                 onEtcTextChanged = { etcText = it }
             )
-            RecommendPlaceOrderButton(
-                isEnabled = selectedType != null && locationText.isNotEmpty(),
-                submitOrder = {
-                    if (selectedType == null) {
-                        showSelectedTypeWarning = true
-                    }
-                    if (locationText.isEmpty()) {
-                        showLocationTextWarning = true
-                    }
-                    // 주문서 등록하기
-                }
-            )
         }
+        RecommendPlaceOrderButton(
+            isEnabled = selectedType != null && locationText.isNotEmpty(),
+            submitOrder = {
+                if (selectedType == null) {
+                    showSelectedTypeWarning = true
+                }
+                if (locationText.isEmpty()) {
+                    showLocationTextWarning = true
+                }
+                // 주문서 등록하기
+            }
+        )
     }
 
     if (showBackConfirmDialog.value) {

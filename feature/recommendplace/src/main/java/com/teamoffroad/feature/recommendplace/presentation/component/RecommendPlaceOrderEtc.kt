@@ -37,6 +37,7 @@ fun RecommendPlaceOrderEtc(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
+    val maxLines = 7
 
     Column(
         modifier = Modifier.padding(start = 24.dp, end = 24.dp, top = 34.dp)
@@ -50,7 +51,14 @@ fun RecommendPlaceOrderEtc(
         Box {
             BasicTextField(
                 value = etcText,
-                onValueChange = onEtcTextChanged,
+                onValueChange = {
+                    val lines = it.lines()
+                    if (lines.size <= maxLines) {
+                        onEtcTextChanged(it)
+                    } else {
+                        onEtcTextChanged(lines.take(maxLines).joinToString("\n"))
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 12.dp)
@@ -60,7 +68,6 @@ fun RecommendPlaceOrderEtc(
                     .padding(horizontal = 12.dp, vertical = 14.dp),
                 cursorBrush = SolidColor(Main2),
                 interactionSource = interactionSource,
-                maxLines = 7,
                 singleLine = false,
                 decorationBox = { innerTextField ->
                     Box {
