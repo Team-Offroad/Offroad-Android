@@ -22,11 +22,7 @@ fun NavGraphBuilder.recommendPlaceNavGraph(
     composable<RecommendPlaceRoute.RecommendPlace> { backStackEntry ->
         RecommendPlaceScreen(navigateToBack, navigateToOrderRecommendPlace)
     }
-}
 
-fun NavGraphBuilder.orderRecommendPlaceNavGraph(
-    navigateToBack: () -> Unit,
-) {
     composable<RecommendPlaceRoute.OrderRecommendPlace> { backStackEntry ->
         RecommendPlaceOrder(navigateToBack)
     }

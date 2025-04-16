@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
@@ -61,36 +62,41 @@ fun RecommendPlaceOrder(
             .background(color = Main1)
             .fillMaxSize()
             .actionBarPadding()
-            .clickableWithoutRipple { focusManager.clearFocus() }
             .imePadding()
     ) {
-        RecommendPlaceOrderHeader(
-            selectedType = selectedType,
-            locationText = locationText,
-            etcText = etcText,
-            showBackConfirmDialogSetter = { showBackConfirmDialog.value = it },
-            navigateToBack = navigateToBack
-        )
-        HorizontalDivider(color = Gray100)
-        RecommendPlaceSelect(
-            selectedType = selectedType,
-            onSelectType = {
-                selectedType = it
-                showSelectedTypeWarning = false
-            },
-            showWarning = showSelectedTypeWarning
-        )
+        Column(modifier = Modifier.clickableWithoutRipple { focusManager.clearFocus() }) {
+            RecommendPlaceOrderHeader(
+                selectedType = selectedType,
+                locationText = locationText,
+                etcText = etcText,
+                showBackConfirmDialogSetter = { showBackConfirmDialog.value = it },
+                navigateToBack = navigateToBack
+            )
+            HorizontalDivider(color = Gray100)
+            RecommendPlaceSelect(
+                selectedType = selectedType,
+                onSelectType = {
+                    selectedType = it
+                    showSelectedTypeWarning = false
+                },
+                showWarning = showSelectedTypeWarning
+            )
+        }
         RecommendPlaceOrderLocation(
             locationText = locationText,
             onLocationTextChanged = { locationText = it },
             showWarning = showLocationTextWarning
         )
-        Box(modifier = Modifier.weight(1f)) {
-            RecommendPlaceOrderEtc(
-                etcText = etcText,
-                onEtcTextChanged = { etcText = it }
-            )
-        }
+        RecommendPlaceOrderEtc(
+            etcText = etcText,
+            onEtcTextChanged = { etcText = it }
+        )
+
+        Spacer(modifier = Modifier
+            .weight(1f)
+//            .clickableWithoutRipple { focusManager.clearFocus() }
+        )
+
         RecommendPlaceOrderButton(
             isEnabled = selectedType != null && locationText.isNotEmpty(),
             submitOrder = {
