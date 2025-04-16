@@ -8,14 +8,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -56,13 +60,24 @@ fun RecommendPlaceOrder(
     val focusManager = LocalFocusManager.current
     val showBackConfirmDialog = remember { mutableStateOf(false) }
 
+    val scrollState = rememberScrollState()
+
+    var scrollHeight by remember { mutableStateOf(0.dp) }
+    var keyboardHeight by remember { mutableIntStateOf(0) }
+
+    LaunchedEffect(keyboardHeight) {
+        if (keyboardHeight > 0) {
+            scrollState.animateScrollTo(scrollState.maxValue)
+        }
+    }
+
     Column(
         modifier = Modifier
             .navigationPadding()
             .background(color = Main1)
             .fillMaxSize()
             .actionBarPadding()
-            .imePadding()
+            .verticalScroll(scrollState)
     ) {
         Column(modifier = Modifier.clickableWithoutRipple { focusManager.clearFocus() }) {
             RecommendPlaceOrderHeader(
@@ -88,15 +103,12 @@ fun RecommendPlaceOrder(
             showWarning = showLocationTextWarning
         )
         RecommendPlaceOrderEtc(
+            setScrollHeight = { scrollHeight = it },
+            setKeyboardHeight = { keyboardHeight = it },
             etcText = etcText,
             onEtcTextChanged = { etcText = it }
         )
-
-        Spacer(modifier = Modifier
-            .weight(1f)
-//            .clickableWithoutRipple { focusManager.clearFocus() }
-        )
-
+        if (keyboardHeight > 0) Spacer(modifier = Modifier.height(scrollHeight))
         RecommendPlaceOrderButton(
             isEnabled = selectedType != null && locationText.isNotEmpty(),
             submitOrder = {
