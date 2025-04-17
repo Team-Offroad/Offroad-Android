@@ -17,6 +17,7 @@
     <string name="recommend_place_order_question_location_warning">*필수 입력 사항입니다.</string>
     <string name="recommend_place_order_question_etc">추가로 원하시는 내용이 있다면 입력해주세요.</string>
     <string name="recommend_place_order_question_etc_placeholder">기분이 안 좋은데 스트레스 풀릴만한 음식 추천해줘.\n애인과 함께할 분위기 좋은 식당이면 좋겠어.</string>
+    <string name="recommend_place_order_question_undo">주문서 초기화</string>
     <string name="recommend_place_order_question_button">주문서 작성 완료</string>
 
     <string name="recommend_place_order_not_safe_info">주문 내용이 저장되지 않아요.\n작성을 멈추고 나가시겠어요?</string>

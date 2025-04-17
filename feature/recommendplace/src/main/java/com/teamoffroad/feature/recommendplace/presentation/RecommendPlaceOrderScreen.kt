@@ -1,10 +1,13 @@
 package com.teamoffroad.feature.recommendplace.presentation
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -36,6 +39,7 @@ import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Black25
 import com.teamoffroad.core.designsystem.theme.Gray100
+import com.teamoffroad.core.designsystem.theme.Gray400
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -66,8 +70,8 @@ fun RecommendPlaceOrder(
     var scrollHeight by remember { mutableStateOf(0.dp) }
     var keyboardHeight by remember { mutableIntStateOf(0) }
 
-    LaunchedEffect(keyboardHeight) {
-        if (keyboardHeight > 0) {
+    LaunchedEffect(keyboardHeight, etcTextFieldIsFocused) {
+        if (keyboardHeight > 0 && etcTextFieldIsFocused) {
             scrollState.animateScrollTo(scrollState.maxValue)
         }
     }
@@ -89,9 +93,11 @@ fun RecommendPlaceOrder(
             )
             HorizontalDivider(color = Gray100)
         }
+
         Column(
             modifier = Modifier
                 .verticalScroll(scrollState)
+                .weight(1f)
         ) {
             RecommendPlaceSelect(
                 selectedType = selectedType,
@@ -113,7 +119,37 @@ fun RecommendPlaceOrder(
                 onEtcTextChanged = { etcText = it },
                 setEtcTextFieldIsFocused = { etcTextFieldIsFocused = it }
             )
-            if (keyboardHeight > 0 && etcTextFieldIsFocused) Spacer(modifier = Modifier.height(scrollHeight))
+
+            if (keyboardHeight > 0 && etcTextFieldIsFocused) Spacer(
+                modifier = Modifier.height(
+                    scrollHeight
+                )
+            )
+        }
+
+        Column {
+            Row(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .clickableWithoutRipple {
+                        // 다 초기화
+                        selectedType = null
+                        locationText = ""
+                        etcText = ""
+                    },
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = stringResource(id = R.string.recommend_place_order_question_undo),
+                    style = OffroadTheme.typography.textBold,
+                    color = Gray400
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.ic_recommend_place_undo),
+                    contentDescription = null,
+                    modifier = Modifier.padding(start = 12.dp)
+                )
+            }
             RecommendPlaceOrderButton(
                 isEnabled = selectedType != null && locationText.isNotEmpty(),
                 submitOrder = {
