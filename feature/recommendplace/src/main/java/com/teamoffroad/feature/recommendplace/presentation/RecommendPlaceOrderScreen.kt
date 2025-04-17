@@ -56,6 +56,7 @@ fun RecommendPlaceOrder(
     var locationText by remember { mutableStateOf("") }
     var showLocationTextWarning by remember { mutableStateOf(false) }
     var etcText by remember { mutableStateOf("") }
+    var etcTextFieldIsFocused by remember { mutableStateOf(false) }
 
     val focusManager = LocalFocusManager.current
     val showBackConfirmDialog = remember { mutableStateOf(false) }
@@ -77,7 +78,6 @@ fun RecommendPlaceOrder(
             .background(color = Main1)
             .fillMaxSize()
             .actionBarPadding()
-            .verticalScroll(scrollState)
     ) {
         Column(modifier = Modifier.clickableWithoutRipple { focusManager.clearFocus() }) {
             RecommendPlaceOrderHeader(
@@ -88,6 +88,11 @@ fun RecommendPlaceOrder(
                 navigateToBack = navigateToBack
             )
             HorizontalDivider(color = Gray100)
+        }
+        Column(
+            modifier = Modifier
+                .verticalScroll(scrollState)
+        ) {
             RecommendPlaceSelect(
                 selectedType = selectedType,
                 onSelectType = {
@@ -96,31 +101,33 @@ fun RecommendPlaceOrder(
                 },
                 showWarning = showSelectedTypeWarning
             )
+            RecommendPlaceOrderLocation(
+                locationText = locationText,
+                onLocationTextChanged = { locationText = it },
+                showWarning = showLocationTextWarning
+            )
+            RecommendPlaceOrderEtc(
+                setScrollHeight = { scrollHeight = it },
+                setKeyboardHeight = { keyboardHeight = it },
+                etcText = etcText,
+                onEtcTextChanged = { etcText = it },
+                setEtcTextFieldIsFocused = { etcTextFieldIsFocused = it }
+            )
+            if (keyboardHeight > 0 && etcTextFieldIsFocused) Spacer(modifier = Modifier.height(scrollHeight))
+            RecommendPlaceOrderButton(
+                isEnabled = selectedType != null && locationText.isNotEmpty(),
+                submitOrder = {
+                    if (selectedType == null) {
+                        showSelectedTypeWarning = true
+                    }
+                    if (locationText.isEmpty()) {
+                        showLocationTextWarning = true
+                    }
+                    // 주문서 등록하기
+                }
+            )
         }
-        RecommendPlaceOrderLocation(
-            locationText = locationText,
-            onLocationTextChanged = { locationText = it },
-            showWarning = showLocationTextWarning
-        )
-        RecommendPlaceOrderEtc(
-            setScrollHeight = { scrollHeight = it },
-            setKeyboardHeight = { keyboardHeight = it },
-            etcText = etcText,
-            onEtcTextChanged = { etcText = it }
-        )
-        if (keyboardHeight > 0) Spacer(modifier = Modifier.height(scrollHeight))
-        RecommendPlaceOrderButton(
-            isEnabled = selectedType != null && locationText.isNotEmpty(),
-            submitOrder = {
-                if (selectedType == null) {
-                    showSelectedTypeWarning = true
-                }
-                if (locationText.isEmpty()) {
-                    showLocationTextWarning = true
-                }
-                // 주문서 등록하기
-            }
-        )
+
     }
 
     if (showBackConfirmDialog.value) {

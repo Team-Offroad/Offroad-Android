@@ -51,6 +51,7 @@ fun RecommendPlaceOrderEtc(
     setKeyboardHeight: (Int) -> Unit,
     etcText: String,
     onEtcTextChanged: (String) -> Unit,
+    setEtcTextFieldIsFocused: (Boolean) -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
@@ -69,6 +70,11 @@ fun RecommendPlaceOrderEtc(
 
     LaunchedEffect(textFieldHeightDp, heightDp) {
         setScrollHeight(textFieldHeightDp - heightDp + 20.dp)
+    }
+
+    LaunchedEffect(isFocused) {
+        if(isFocused) setEtcTextFieldIsFocused(true)
+        else setEtcTextFieldIsFocused(false)
     }
 
     DisposableEffect(contextView) {
