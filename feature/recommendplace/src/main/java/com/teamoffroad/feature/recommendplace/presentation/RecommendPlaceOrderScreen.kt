@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.recommendplace.presentation
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -113,18 +112,20 @@ fun RecommendPlaceOrder(
                 showWarning = showLocationTextWarning
             )
             RecommendPlaceOrderEtc(
-                setScrollHeight = { scrollHeight = it },
+                setScrollHeight = {
+                    if (scrollHeight == 0.dp) {
+                        scrollHeight = it
+                    }
+                },
                 setKeyboardHeight = { keyboardHeight = it },
                 etcText = etcText,
                 onEtcTextChanged = { etcText = it },
                 setEtcTextFieldIsFocused = { etcTextFieldIsFocused = it }
             )
 
-            if (keyboardHeight > 0 && etcTextFieldIsFocused) Spacer(
-                modifier = Modifier.height(
-                    scrollHeight
-                )
-            )
+            if (keyboardHeight > 0 && etcTextFieldIsFocused) {
+                Spacer(modifier = Modifier.height(scrollHeight))
+            }
         }
 
         Column {

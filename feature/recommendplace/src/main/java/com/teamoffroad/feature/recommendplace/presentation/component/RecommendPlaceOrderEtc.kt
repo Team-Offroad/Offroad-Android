@@ -20,7 +20,6 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -61,7 +60,8 @@ fun RecommendPlaceOrderEtc(
 
     // text field y 값
     var fieldBottomY by remember { mutableIntStateOf(0) }
-    val distanceFromBottom = with(density) { LocalConfiguration.current.screenHeightDp.dp.toPx() } - fieldBottomY
+    val distanceFromBottom =
+        with(density) { LocalConfiguration.current.screenHeightDp.dp.toPx() } - fieldBottomY
 
     // keyboard 높이
     val textFieldHeight = remember { mutableIntStateOf(0) }
@@ -69,11 +69,11 @@ fun RecommendPlaceOrderEtc(
     val textFieldHeightDp = with(density) { textFieldHeight.intValue.toDp() }
 
     LaunchedEffect(textFieldHeightDp, heightDp) {
-        setScrollHeight(textFieldHeightDp - heightDp + 20.dp)
+        if (textFieldHeightDp > 0.dp) setScrollHeight(textFieldHeightDp - heightDp + 20.dp)
     }
 
     LaunchedEffect(isFocused) {
-        if(isFocused) setEtcTextFieldIsFocused(true)
+        if (isFocused) setEtcTextFieldIsFocused(true)
         else setEtcTextFieldIsFocused(false)
     }
 
