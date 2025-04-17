@@ -98,19 +98,22 @@ fun RecommendPlaceOrder(
                 .verticalScroll(scrollState)
                 .weight(1f)
         ) {
-            RecommendPlaceSelect(
-                selectedType = selectedType,
-                onSelectType = {
-                    selectedType = it
-                    showSelectedTypeWarning = false
-                },
-                showWarning = showSelectedTypeWarning
-            )
-            RecommendPlaceOrderLocation(
-                locationText = locationText,
-                onLocationTextChanged = { locationText = it },
-                showWarning = showLocationTextWarning
-            )
+            Column(modifier = Modifier.clickableWithoutRipple { focusManager.clearFocus() }) {
+                RecommendPlaceSelect(
+                    selectedType = selectedType,
+                    onSelectType = {
+                        selectedType = it
+                        showSelectedTypeWarning = false
+                    },
+                    showWarning = showSelectedTypeWarning
+                )
+                RecommendPlaceOrderLocation(
+                    locationText = locationText,
+                    onLocationTextChanged = { locationText = it },
+                    showWarning = showLocationTextWarning
+                )
+            }
+
             RecommendPlaceOrderEtc(
                 setScrollHeight = {
                     if (scrollHeight == 0.dp) {
@@ -128,7 +131,7 @@ fun RecommendPlaceOrder(
             }
         }
 
-        Column {
+        Column(modifier = Modifier.clickableWithoutRipple { focusManager.clearFocus() }) {
             Row(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
