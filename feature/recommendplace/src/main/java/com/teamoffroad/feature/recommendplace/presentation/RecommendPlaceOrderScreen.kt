@@ -75,6 +75,7 @@ fun RecommendPlaceOrder(
         }
     }
 
+
     Column(
         modifier = Modifier
             .navigationPadding()
@@ -120,7 +121,10 @@ fun RecommendPlaceOrder(
                         scrollHeight = it
                     }
                 },
-                setKeyboardHeight = { keyboardHeight = it },
+                setKeyboardHeight = {
+                    if (keyboardHeight > 0) focusManager.clearFocus()
+                    keyboardHeight = it
+                },
                 etcText = etcText,
                 onEtcTextChanged = { etcText = it },
                 setEtcTextFieldIsFocused = { etcTextFieldIsFocused = it }
@@ -129,6 +133,7 @@ fun RecommendPlaceOrder(
             if (keyboardHeight > 0 && etcTextFieldIsFocused) {
                 Spacer(modifier = Modifier.height(scrollHeight))
             }
+
         }
 
         Column(modifier = Modifier.clickableWithoutRipple { focusManager.clearFocus() }) {
@@ -140,6 +145,7 @@ fun RecommendPlaceOrder(
                         selectedType = null
                         locationText = ""
                         etcText = ""
+                        focusManager.clearFocus()
                     },
                 horizontalArrangement = Arrangement.Center
             ) {

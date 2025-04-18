@@ -1,7 +1,6 @@
 package com.teamoffroad.feature.recommendplace.presentation.component
 
 import android.graphics.Rect
-import android.util.Log
 import android.view.ViewTreeObserver
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -27,7 +26,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
-import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
@@ -69,7 +67,9 @@ fun RecommendPlaceOrderEtc(
     val textFieldHeightDp = with(density) { textFieldHeight.intValue.toDp() }
 
     LaunchedEffect(textFieldHeightDp, heightDp) {
-        if (textFieldHeightDp > 0.dp) setScrollHeight(textFieldHeightDp - heightDp + 20.dp)
+        if (textFieldHeightDp > 0.dp) {
+            setScrollHeight(textFieldHeightDp - heightDp + 20.dp)
+        }
     }
 
     LaunchedEffect(isFocused) {
@@ -117,11 +117,7 @@ fun RecommendPlaceOrderEtc(
                         val position = layoutCoordinates.positionInRoot()
                         val height = layoutCoordinates.size.height
                         fieldBottomY = (position.y + height).toInt()
-
                         textFieldHeight.intValue = layoutCoordinates.size.height
-
-                        val absoluteY = layoutCoordinates.positionInWindow().y
-                        Log.d("AbsoluteY", "TextField absolute Y: $absoluteY")
                     }
                     .padding(top = 12.dp)
                     .heightIn(min = 202.dp)
