@@ -58,7 +58,6 @@ fun SplashScreen(
         viewModel.checkAutoSignIn()
     }
 
-    var backgroundVisibility by remember { mutableStateOf(true) }
     val scale = remember { Animatable(1f) }
     val alpha = remember { Animatable(1f) }
 
@@ -83,8 +82,6 @@ fun SplashScreen(
                 )
             )
         }
-        delay(1400L)
-        backgroundVisibility = false
     }
 
     Column(
@@ -99,7 +96,7 @@ fun SplashScreen(
         verticalArrangement = Arrangement.Center,
     ) {
         AnimatedVisibility(
-            visible = backgroundVisibility,
+            visible = true,
             enter = EnterTransition.None,
             exit = fadeOut(),
         ) {
@@ -111,17 +108,6 @@ fun SplashScreen(
                 painter = painterResource(R.drawable.ic_splash_logo),
                 contentDescription = "splash",
                 contentScale = ContentScale.FillHeight,
-            )
-        }
-        AnimatedVisibility(
-            visible = !backgroundVisibility,
-            enter = EnterTransition.None,
-            exit = fadeOut()
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Main2)
             )
         }
     }
