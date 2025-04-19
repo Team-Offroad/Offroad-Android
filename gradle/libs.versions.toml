@@ -27,8 +27,8 @@ kotlin = "2.0.0"
 androidGradlePlugin = "8.5.0"
 
 # App Versioning
-versionCode = "10002"
-versionName = "1.0.2"
+versionCode = "10003"
+versionName = "1.0.3"
 
 # Dependency Injection
 daggerHilt = "2.51.1"
