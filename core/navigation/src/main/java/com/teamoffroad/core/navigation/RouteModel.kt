@@ -25,6 +25,9 @@ sealed interface MainTabRoute : Route {
 sealed interface AuthRoute : Route {
 
     @Serializable
+    data object Splash : AuthRoute
+
+    @Serializable
     data object AgreeTermsAndConditions : AuthRoute
 
     @Serializable

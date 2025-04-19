@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.main.component
+package com.teamoffroad.feature.main.navigation
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -17,7 +17,7 @@ import com.teamoffroad.feature.auth.navigation.authNavGraph
 import com.teamoffroad.feature.diary.navigation.diaryNavGraph
 import com.teamoffroad.feature.explore.navigation.exploreNavGraph
 import com.teamoffroad.feature.home.navigation.homeNavGraph
-import com.teamoffroad.feature.main.MainNavigator
+import com.teamoffroad.feature.main.splash.splashNavGraph
 import com.teamoffroad.feature.mypage.navigation.myPageNavGraph
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -40,6 +40,10 @@ internal fun MainNavHost(
             exitTransition = { ExitTransition.None },
             popExitTransition = { ExitTransition.None },
         ) {
+            splashNavGraph(
+                navigateToHome = navigator::navigateToHome,
+                navigateToSignIn = navigator::navigateToAuth,
+            )
             homeNavGraph(
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
                 navigateToCharacterChatScreen = { characterName ->
