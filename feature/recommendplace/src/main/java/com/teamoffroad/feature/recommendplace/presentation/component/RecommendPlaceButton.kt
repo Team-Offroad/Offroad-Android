@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.RecommendPlaceFillGradient1
@@ -93,7 +94,8 @@ fun RecommendPlaceButton(
                         text = stringResource(id = R.string.recommend_place_welcome),
                         modifier = Modifier
                             .padding(horizontal = 26.dp, vertical = 20.dp),
-                        style = OffroadTheme.typography.boxMedi
+                        style = OffroadTheme.typography.boxMedi,
+                        lineHeight = 16.sp
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     Image(
