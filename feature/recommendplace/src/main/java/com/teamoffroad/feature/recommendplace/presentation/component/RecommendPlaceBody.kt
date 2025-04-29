@@ -45,6 +45,7 @@ import com.teamoffroad.offroad.feature.recommendplace.R
 
 @Composable
 fun RecommendPlaceBody(
+    hasChatted: Boolean,
     listState: LazyListState,
     isButtonVisible: MutableState<Boolean>,
 ) {
@@ -60,6 +61,7 @@ fun RecommendPlaceBody(
 
     Column {
         RecommendPlaceBodyTabs(
+            hasChatted = hasChatted,
             selectedTab = selectedTab,
             onTabSelected = { selectedTab = it }
         )
@@ -129,6 +131,7 @@ fun RecommendPlaceMap(hasLocationPermission: Boolean, isButtonVisible: MutableSt
 
 @Composable
 fun RecommendPlaceBodyTabs(
+    hasChatted: Boolean,
     selectedTab: RecommendTab,
     onTabSelected: (RecommendTab) -> Unit
 ) {
@@ -139,7 +142,7 @@ fun RecommendPlaceBodyTabs(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            text = stringResource(id = R.string.recommend_place),
+            text = stringResource(id = if(hasChatted) R.string.recommend_place else R.string.recommend_place_nearby),
             style = OffroadTheme.typography.textContents
         )
         Spacer(modifier = Modifier.weight(1f))

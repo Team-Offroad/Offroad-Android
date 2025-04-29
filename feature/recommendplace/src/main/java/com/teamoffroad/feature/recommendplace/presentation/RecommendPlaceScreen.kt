@@ -35,6 +35,7 @@ import com.teamoffroad.offroad.feature.recommendplace.R
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun RecommendPlaceScreen(
+    hasChatted: Boolean,
     navigateToBack: () -> Unit,
     navigateToOrderRecommendPlace: () -> Unit,
 ) {
@@ -88,7 +89,7 @@ fun RecommendPlaceScreen(
                         navigateToOrderRecommendPlace = navigateToOrderRecommendPlace
                     )
                 }
-                RecommendPlaceBody(listState, isButtonVisible)
+                RecommendPlaceBody(hasChatted, listState, isButtonVisible)
             }
         }
 

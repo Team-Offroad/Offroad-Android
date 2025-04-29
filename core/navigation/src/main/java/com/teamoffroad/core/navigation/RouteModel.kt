@@ -113,7 +113,9 @@ sealed interface CharacterChatRoute : Route {
 
 sealed interface RecommendPlaceRoute : Route {
     @Serializable
-    data object RecommendPlace : RecommendPlaceRoute
+    data class RecommendPlace(
+        val hasChatted: Boolean
+    ) : RecommendPlaceRoute
 
     @Serializable
     data object OrderRecommendPlace : RecommendPlaceRoute

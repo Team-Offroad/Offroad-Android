@@ -37,7 +37,7 @@ fun CharacterChats(
     isLoadable: Boolean = true,
     updateChats: () -> Unit,
     updateIsChatting: (Boolean) -> Unit,
-    navigateToRecommendPlace: () -> Unit,
+    navigateToRecommendPlace: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val animatedHeight = animateDpAsState(targetValue = (bottomPadding.dp - 748.dp).coerceAtLeast(0.dp), label = "")

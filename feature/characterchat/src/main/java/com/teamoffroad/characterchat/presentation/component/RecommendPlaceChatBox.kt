@@ -79,7 +79,7 @@ val RecommendPlaceButtonGradient = listOf(
 fun RecommendPlaceChatBox(
     name: String = "",
     text: String,
-    navigateToRecommendPlace: () -> Unit,
+    navigateToRecommendPlace: (Boolean) -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -146,7 +146,7 @@ fun RecommendPlaceChatBox(
                                 shape = RoundedCornerShape(4.dp)
                             )
                             .padding(vertical = 10.dp)
-                            .clickableWithoutRipple { navigateToRecommendPlace() }
+                            .clickableWithoutRipple { navigateToRecommendPlace(true) }
                     )
                 }
 

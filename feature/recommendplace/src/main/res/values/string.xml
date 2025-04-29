@@ -29,4 +29,5 @@
     <string name="recommend_place_map_no_place">적절한 장소를 찾지 못 했어요.\n다른 조건으로 장소를 찾아보세요.</string>
     <string name="recommend_place_map_no_place_reply">다시 물어보기</string>
     <string name="recommend_place_map_open_map">지도 열기</string>
+    <string name="recommend_place_nearby">근처에 가볼 만한 곳</string>
 </resources>

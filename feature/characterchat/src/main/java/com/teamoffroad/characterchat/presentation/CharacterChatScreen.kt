@@ -36,7 +36,7 @@ fun CharacterChatScreen(
     characterId: Int?,
     characterName: String,
     navigateToBack: () -> Unit,
-    navigateToRecommendPlace: () -> Unit,
+    navigateToRecommendPlace: (Boolean) -> Unit,
     characterChatViewModel: CharacterChatViewModel = hiltViewModel(),
 ) {
     val uiState = characterChatViewModel.uiState.collectAsStateWithLifecycle()
