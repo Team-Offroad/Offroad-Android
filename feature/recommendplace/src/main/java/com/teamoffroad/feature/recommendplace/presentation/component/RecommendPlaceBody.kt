@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,7 +37,6 @@ import com.teamoffroad.core.designsystem.theme.Black55
 import com.teamoffroad.core.designsystem.theme.Gray100
 import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.ListBg
-import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.explore.presentation.PlaceViewModel
@@ -50,6 +47,14 @@ fun RecommendPlaceBody(
     listState: LazyListState
 ) {
     var selectedTab by remember { mutableStateOf(RecommendTab.LIST) }
+
+    val context = LocalContext.current
+    val hasLocationPermission by remember {
+        mutableStateOf(
+            ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED
+        )
+    }
 
     Column {
         RecommendPlaceBodyTabs(
@@ -63,8 +68,8 @@ fun RecommendPlaceBody(
                 .background(ListBg)
         ) {
             when (selectedTab) {
-                RecommendTab.LIST -> RecommendPlaceList(listState)
-                RecommendTab.MAP -> RecommendPlaceMap()
+                RecommendTab.LIST -> RecommendPlaceList(listState, hasLocationPermission)
+                RecommendTab.MAP -> RecommendPlaceMap(hasLocationPermission)
             }
         }
     }
@@ -75,73 +80,19 @@ enum class RecommendTab {
 }
 
 @Composable
-fun RecommendPlaceList(listState: LazyListState) {
+fun RecommendPlaceList(listState: LazyListState, hasLocationPermission: Boolean) {
     val placeViewModel: PlaceViewModel = hiltViewModel()
     val uiState = placeViewModel.uiState.collectAsStateWithLifecycle().value
 
-    RecommendPlaceItems(
-        places = uiState.visitedPlaces + uiState.unvisitedPlaces,
-        isLoading = uiState.isLoading,
-        isLoadable = uiState.isLoadable,
-        isAdditionalLoading = uiState.isAdditionalLoading,
-        updatePlaces = placeViewModel::updatePlaces,
-        listState = listState
-    )
-}
-
-@Composable
-fun RecommendPlaceMap() {
-    val context = LocalContext.current
-    val hasLocationPermission by remember {
-        mutableStateOf(
-            ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED
-        )
-    }
-
     if (hasLocationPermission) {
-        val flag = true;
-        if(flag) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 52.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.img_recommend_sad),
-                    contentDescription = null,
-                )
-                Text(
-                    text = stringResource(id = R.string.recommend_place_map_no_place),
-                    style = OffroadTheme.typography.boxMedi,
-                    color = Black55,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(top = 26.dp),
-                    lineHeight = 16.sp
-                )
-                Text(
-                    text = stringResource(id = R.string.recommend_place_map_no_place_reply),
-                    style = OffroadTheme.typography.btnSmall,
-                    color = Main1,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 76.dp)
-                        .padding(top = 24.dp)
-                        .border(
-                            width = 1.dp,
-                            shape = RoundedCornerShape(46.dp),
-                            color = Main2
-                        )
-                        .background(
-                            shape = RoundedCornerShape(46.dp),
-                            color = Main2
-                        )
-                        .padding(vertical = 14.dp),
-                    textAlign = TextAlign.Center
-                )
-            }
-        }
+        RecommendPlaceItems(
+            places = uiState.visitedPlaces + uiState.unvisitedPlaces,
+            isLoading = uiState.isLoading,
+            isLoadable = uiState.isLoadable,
+            isAdditionalLoading = uiState.isAdditionalLoading,
+            updatePlaces = placeViewModel::updatePlaces,
+            listState = listState
+        )
     } else {
         Column(
             modifier = Modifier
@@ -163,6 +114,13 @@ fun RecommendPlaceMap() {
             )
         }
     }
+}
+
+@Composable
+fun RecommendPlaceMap(hasLocationPermission: Boolean) {
+    val flag = false;
+    if (flag) NoRecommendPlaceMapItems()
+    else HasRecommendPlaceMapItems()
 }
 
 @Composable
