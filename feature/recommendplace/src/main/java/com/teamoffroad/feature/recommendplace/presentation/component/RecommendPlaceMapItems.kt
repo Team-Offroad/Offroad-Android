@@ -266,7 +266,7 @@ fun ExploreRecommendPlaceMap(
                             infoWindowHeight = coordinates.size.height.toDp() - 20.dp
                         }
                     }) {
-                    ExploreInfoWindow(
+                    RecommendPlaceMapInfoWindow(
                         title = place.name,
                         shortIntroduction = place.shortIntroduction,
                         address = place.address,

@@ -28,4 +28,5 @@
     <string name="recommend_place_map_how_to_agree_permission">[휴대폰 설정 > 앱 > 오브 > 위치]\n에서 접근을 허용해주세요</string>
     <string name="recommend_place_map_no_place">적절한 장소를 찾지 못 했어요.\n다른 조건으로 장소를 찾아보세요.</string>
     <string name="recommend_place_map_no_place_reply">다시 물어보기</string>
+    <string name="recommend_place_map_open_map">지도 열기</string>
 </resources>
