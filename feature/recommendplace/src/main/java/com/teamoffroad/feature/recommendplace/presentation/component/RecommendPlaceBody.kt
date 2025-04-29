@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,7 +45,8 @@ import com.teamoffroad.offroad.feature.recommendplace.R
 
 @Composable
 fun RecommendPlaceBody(
-    listState: LazyListState
+    listState: LazyListState,
+    isButtonVisible: MutableState<Boolean>,
 ) {
     var selectedTab by remember { mutableStateOf(RecommendTab.LIST) }
 
@@ -69,7 +71,7 @@ fun RecommendPlaceBody(
         ) {
             when (selectedTab) {
                 RecommendTab.LIST -> RecommendPlaceList(listState, hasLocationPermission)
-                RecommendTab.MAP -> RecommendPlaceMap(hasLocationPermission)
+                RecommendTab.MAP -> RecommendPlaceMap(hasLocationPermission, isButtonVisible)
             }
         }
     }
@@ -117,7 +119,9 @@ fun RecommendPlaceList(listState: LazyListState, hasLocationPermission: Boolean)
 }
 
 @Composable
-fun RecommendPlaceMap(hasLocationPermission: Boolean) {
+fun RecommendPlaceMap(hasLocationPermission: Boolean, isButtonVisible: MutableState<Boolean>) {
+    isButtonVisible.value = true
+
     val flag = false;
     if (flag) NoRecommendPlaceMapItems()
     else HasRecommendPlaceMapItems()

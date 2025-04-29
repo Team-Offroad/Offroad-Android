@@ -38,7 +38,7 @@ fun RecommendPlaceScreen(
     navigateToBack: () -> Unit,
     navigateToOrderRecommendPlace: () -> Unit,
 ) {
-    var isButtonVisible by remember { mutableStateOf(true) }
+    val isButtonVisible = remember { mutableStateOf(true) }
     var isRecommendPlaceViewExpanded by remember { mutableStateOf(false) }
     val listState = rememberLazyListState()
 
@@ -46,7 +46,7 @@ fun RecommendPlaceScreen(
     transitionState.targetState = isRecommendPlaceViewExpanded
 
     LaunchedEffect(listState.firstVisibleItemIndex) {
-        isButtonVisible = listState.firstVisibleItemIndex == 0
+        isButtonVisible.value = listState.firstVisibleItemIndex == 0
     }
 
     AnimatedContent(
@@ -82,13 +82,13 @@ fun RecommendPlaceScreen(
                     modifier = Modifier.padding(top = 20.dp)
                 ) { navigateToBack() }
                 RecommendPlaceHeader()
-                AnimatedVisibility(visible = isButtonVisible) {
+                AnimatedVisibility(visible = isButtonVisible.value) {
                     RecommendPlaceButton(
                         onClick = { isRecommendPlaceViewExpanded = true },
                         navigateToOrderRecommendPlace = navigateToOrderRecommendPlace
                     )
                 }
-                RecommendPlaceBody(listState)
+                RecommendPlaceBody(listState, isButtonVisible)
             }
         }
 
