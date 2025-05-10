@@ -1,5 +1,9 @@
 package com.teamoffroad.feature.explore.presentation.component
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,9 +20,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.AdaptationImage
+import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.BoxInfo
 import com.teamoffroad.core.designsystem.theme.Gray400
 import com.teamoffroad.core.designsystem.theme.Main2
@@ -29,12 +36,16 @@ import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.feature.explore.presentation.model.PlaceModel
 import com.teamoffroad.offroad.feature.explore.R
+import java.net.URLEncoder
 
 @Composable
 fun PlaceItem(
     modifier: Modifier = Modifier,
     placeModel: PlaceModel,
+    isMap: Boolean = false,
 ) {
+    val context = LocalContext.current
+
     Column(modifier) {
         Row {
             PlaceTagItem(
@@ -55,12 +66,37 @@ fun PlaceItem(
             color = Main2,
             modifier = Modifier.padding(top = 12.dp)
         )
-        Text(
-            text = placeModel.address,
-            style = OffroadTheme.typography.hint,
-            color = Gray400,
-            modifier = Modifier.padding(top = 8.dp)
-        )
+        Row(modifier = Modifier.padding(top = 8.dp)) {
+            Text(
+                text = placeModel.address,
+                style = OffroadTheme.typography.hint,
+                color = Gray400,
+            )
+            if (isMap) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_explore_external_link),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(start = 6.dp)
+                        .clickableWithoutRipple {
+                            val geoUri = Uri.parse("nmap://place?name=${URLEncoder.encode(placeModel.name, "UTF-8")}&lat=${placeModel.location.latitude}&lng=${placeModel.location.longitude}&appname=${context.packageName}")
+                            val intent = Intent(Intent.ACTION_VIEW, geoUri).apply {
+                                setPackage("com.nhn.android.nmap")
+                            }
+
+                            try {
+                                context.startActivity(intent)
+                            } catch (e: ActivityNotFoundException) {
+                                val playStoreIntent = Intent(
+                                    Intent.ACTION_VIEW,
+                                    Uri.parse("market://details?id=com.nhn.android.nmap")
+                                )
+                                context.startActivity(playStoreIntent)
+                            }
+                        }
+                )
+            }
+        }
     }
 }
 

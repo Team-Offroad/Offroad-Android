@@ -1,5 +1,8 @@
 package com.teamoffroad.feature.recommendplace.presentation.component
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,20 +25,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.AdaptationImage
+import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Gray400
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub4
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.feature.explore.presentation.model.PlaceModel
 import com.teamoffroad.offroad.feature.explore.R.drawable
 import com.teamoffroad.offroad.feature.explore.R.string
 import com.teamoffroad.offroad.feature.recommendplace.R
+import java.net.URLEncoder
 
 @Composable
 fun RecommendPlaceMapInfoWindow(
@@ -44,10 +51,13 @@ fun RecommendPlaceMapInfoWindow(
     categoryImage: String,
     address: String,
     visitCount: Int,
+    place: PlaceModel? = null,
     onButtonClick: () -> Unit,
     onCloseButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -131,7 +141,31 @@ fun RecommendPlaceMapInfoWindow(
                         overflow = TextOverflow.Ellipsis,
                         color = White,
                         style = OffroadTheme.typography.btnSmall,
-                        modifier = Modifier.padding(vertical = 8.dp),
+                        modifier = Modifier
+                            .padding(vertical = 8.dp)
+                            .clickableWithoutRipple {
+                                val geoUri = Uri.parse(
+                                    "nmap://place?name=${
+                                        URLEncoder.encode(
+                                            title,
+                                            "UTF-8"
+                                        )
+                                    }&lat=${place?.location?.latitude}&lng=${place?.location?.longitude}&appname=${context.packageName}"
+                                )
+                                val intent = Intent(Intent.ACTION_VIEW, geoUri).apply {
+                                    setPackage("com.nhn.android.nmap")
+                                }
+
+                                try {
+                                    context.startActivity(intent)
+                                } catch (e: ActivityNotFoundException) {
+                                    val playStoreIntent = Intent(
+                                        Intent.ACTION_VIEW,
+                                        Uri.parse("market://details?id=com.nhn.android.nmap")
+                                    )
+                                    context.startActivity(playStoreIntent)
+                                }
+                            },
                     )
                 }
             }

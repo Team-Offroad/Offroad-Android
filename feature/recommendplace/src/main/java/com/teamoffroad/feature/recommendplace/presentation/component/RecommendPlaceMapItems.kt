@@ -272,6 +272,7 @@ fun ExploreRecommendPlaceMap(
                         address = place.address,
                         visitCount = place.visitCount,
                         categoryImage = place.categoryImageUrl,
+                        place = place,
                         onButtonClick = {
                             updateExploreResult(
                                 place.id,

@@ -69,7 +69,8 @@ fun RecommendPlaceItems(
                 },
                 defaultContent = {
                     PlaceItem(
-                        placeModel = places[index]
+                        placeModel = places[index],
+                        isMap = true
                     )
                 },
                 extraContent = {
@@ -85,6 +86,18 @@ fun RecommendPlaceItems(
         }
     }
 }
+
+/*
+Row {
+            Text(
+                text = placeModel.address,
+                style = OffroadTheme.typography.hint,
+                color = Gray400,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+            Image(painter = painterResource(id = R.drawable.ic), contentDescription = null)
+        }
+ */
 
 private const val NULL_INDEX = -1
 private const val LOAD_THRESHOLD = 10
