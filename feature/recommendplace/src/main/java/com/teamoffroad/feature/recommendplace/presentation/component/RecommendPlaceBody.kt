@@ -38,6 +38,7 @@ import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
+import com.teamoffroad.feature.recommendplace.presentation.RecommendPlaceViewModel
 import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsUiState
 import com.teamoffroad.offroad.feature.recommendplace.R
 
@@ -47,6 +48,7 @@ fun RecommendPlaceBody(
     listState: LazyListState,
     isButtonVisible: MutableState<Boolean>,
     recommendationsUiState: PlaceRecommendationsUiState,
+    recommendPlaceViewModel: RecommendPlaceViewModel,
 ) {
     var selectedTab by remember { mutableStateOf(RecommendTab.LIST) }
 
@@ -74,13 +76,15 @@ fun RecommendPlaceBody(
                 RecommendTab.LIST -> RecommendPlaceList(
                     listState,
                     hasLocationPermission,
-                    recommendationsUiState
+                    recommendationsUiState,
+                    recommendPlaceViewModel
                 )
 
                 RecommendTab.MAP -> RecommendPlaceMap(
                     hasLocationPermission,
                     isButtonVisible,
-                    recommendationsUiState
+                    recommendationsUiState,
+                    recommendPlaceViewModel
                 )
             }
         }
@@ -96,22 +100,20 @@ fun RecommendPlaceList(
     listState: LazyListState,
     hasLocationPermission: Boolean,
     recommendationsUiState: PlaceRecommendationsUiState,
+    recommendPlaceViewModel: RecommendPlaceViewModel,
 ) {
-//    val placeViewModel: PlaceViewModel = hiltViewModel()
-//    val uiState = placeViewModel.uiState.collectAsStateWithLifecycle().value
-
     if (hasLocationPermission) {
         if (recommendationsUiState.recommendations.isEmpty()) {
             NoRecommendPlaceMapItems()
         } else {
-//            RecommendPlaceItems(
-//                places = uiState.visitedPlaces + uiState.unvisitedPlaces,
-//                isLoading = recommendationsUiState.isLoading,
-//                isLoadable = uiState.isLoadable,
-//                isAdditionalLoading = uiState.isAdditionalLoading,
-//                updatePlaces = placeViewModel::updatePlaces,
-//                listState = listState
-//            )
+            RecommendPlaceItems(
+                places = recommendationsUiState.recommendations,
+                isLoading = recommendationsUiState.isLoading,
+                isLoadable = recommendationsUiState.isLoadable,
+                isAdditionalLoading = recommendationsUiState.isAdditionalLoading,
+                updatePlaces = recommendPlaceViewModel::getPlaceRecommendations,
+                listState = listState
+            )
         }
 
     } else {
@@ -142,11 +144,34 @@ fun RecommendPlaceMap(
     hasLocationPermission: Boolean,
     isButtonVisible: MutableState<Boolean>,
     recommendationsUiState: PlaceRecommendationsUiState,
+    recommendPlaceViewModel: RecommendPlaceViewModel,
 ) {
     isButtonVisible.value = true
 
-    if (recommendationsUiState.recommendations.isEmpty()) NoRecommendPlaceMapItems()
-    else HasRecommendPlaceMapItems()
+    if (hasLocationPermission) {
+        if (recommendationsUiState.recommendations.isEmpty()) NoRecommendPlaceMapItems()
+        else HasRecommendPlaceMapItems(recommendationsUiState, recommendPlaceViewModel)
+    } else {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 52.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.img_recommend_sad),
+                contentDescription = null,
+            )
+            Text(
+                text = stringResource(id = R.string.recommend_place_map_no_permission),
+                style = OffroadTheme.typography.boxMedi,
+                color = Black55,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(top = 26.dp),
+                lineHeight = 16.sp
+            )
+        }
+    }
 }
 
 @Composable

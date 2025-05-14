@@ -24,10 +24,11 @@ import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.feature.explore.presentation.component.PlaceExtraItem
 import com.teamoffroad.feature.explore.presentation.component.PlaceItem
 import com.teamoffroad.feature.explore.presentation.model.PlaceModel
+import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsUiState.RecommendationsUiState
 
 @Composable
 fun RecommendPlaceItems(
-    places: List<PlaceModel>,
+    places: List<RecommendationsUiState>,
     isLoading: Boolean,
     isLoadable: Boolean,
     isAdditionalLoading: Boolean,
@@ -68,14 +69,14 @@ fun RecommendPlaceItems(
                     expandedIndex = if (expandedIndex == index) NULL_INDEX else index
                 },
                 defaultContent = {
-                    PlaceItem(
-                        placeModel = places[index],
+                    RecommendPlaceItem(
+                        recommendPlaceModel = places[index],
                         isMap = true
                     )
                 },
                 extraContent = {
-                    PlaceExtraItem(
-                        placeModel = places[index]
+                    RecommendPlaceExtraItem(
+                        recommendPlaceModel = places[index]
                     )
                 },
                 modifier = Modifier.padding(bottom = 14.dp)
@@ -86,18 +87,6 @@ fun RecommendPlaceItems(
         }
     }
 }
-
-/*
-Row {
-            Text(
-                text = placeModel.address,
-                style = OffroadTheme.typography.hint,
-                color = Gray400,
-                modifier = Modifier.padding(top = 8.dp)
-            )
-            Image(painter = painterResource(id = R.drawable.ic), contentDescription = null)
-        }
- */
 
 private const val NULL_INDEX = -1
 private const val LOAD_THRESHOLD = 10

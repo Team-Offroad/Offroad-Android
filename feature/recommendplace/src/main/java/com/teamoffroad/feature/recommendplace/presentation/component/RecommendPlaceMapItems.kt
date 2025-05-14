@@ -70,41 +70,43 @@ import com.teamoffroad.feature.explore.presentation.model.LocationModel
 import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 import com.teamoffroad.feature.explore.presentation.model.PlaceModel
 import com.teamoffroad.feature.explore.presentation.util.ExploreAuthStateHandler
+import com.teamoffroad.feature.recommendplace.presentation.RecommendPlaceViewModel
+import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsUiState
 import com.teamoffroad.offroad.feature.recommendplace.R
 
 @Composable
 fun HasRecommendPlaceMapItems(
-    exploreViewModel: ExploreViewModel = hiltViewModel(),
+    recommendationsUiState: PlaceRecommendationsUiState,
+    recommendPlaceViewModel: RecommendPlaceViewModel,
 ) {
-    val uiState: ExploreUiState by exploreViewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
-    if (uiState.isUpdatePlacesFailed) {
-        Toast.makeText(
-            context,
-            stringResource(com.teamoffroad.offroad.feature.explore.R.string.explore_places_failed),
-            Toast.LENGTH_SHORT
-        ).show()
-    }
+//    if (recommendPlaceViewModel.isUpdatePlacesFailed) {
+//        Toast.makeText(
+//            context,
+//            stringResource(com.teamoffroad.offroad.feature.explore.R.string.explore_places_failed),
+//            Toast.LENGTH_SHORT
+//        ).show()
+//    }
 
-    ExploreAuthStateHandler(
-        uiState = uiState,
-        updateExploreAuthState = exploreViewModel::updateExploreAuthState,
-        navigateToHome = { _, _ -> },
-    )
+//    ExploreAuthStateHandler(
+//        uiState = uiState,
+//        updateExploreAuthState = exploreViewModel::updateExploreAuthState,
+//        navigateToHome = { _, _ -> },
+//    )
 
-    ExploreRecommendPlaceMap(
-        locationState = uiState.locationModel,
-        places = uiState.places,
-        selectedPlace = uiState.selectedPlace,
-        updateLocation = exploreViewModel::updateLocation,
-        updateTrackingToggle = exploreViewModel::updateTrackingToggle,
-        updateSelectedPlace = exploreViewModel::updateSelectedPlace,
-        updatePlaces = exploreViewModel::updatePlaces,
-        updateExploreResult = exploreViewModel::updateExploreResult,
-    )
+//    ExploreRecommendPlaceMap(
+//        locationState = recommendationsUiState.locationModel,
+//        places = recommendationsUiState.recommendations,
+//        selectedPlace = recommendationsUiState.selectedPlace,
+//        updateLocation = recommendPlaceViewModel::updateLocation,
+//        updateTrackingToggle = recommendPlaceViewModel::updateTrackingToggle,
+//        updateSelectedPlace = recommendPlaceViewModel::updateSelectedPlace,
+//        updatePlaces = recommendPlaceViewModel::updatePlaces,
+//        updateExploreResult = recommendPlaceViewModel::updateExploreResult,
+//    )
 
-    FullLinearLoadingAnimation(isLoading = uiState.loading)
+    FullLinearLoadingAnimation(isLoading = recommendationsUiState.isLoading)
 }
 
 @OptIn(ExperimentalNaverMapApi::class)

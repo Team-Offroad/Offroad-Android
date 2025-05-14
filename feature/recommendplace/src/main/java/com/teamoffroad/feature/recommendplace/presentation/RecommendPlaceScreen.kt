@@ -98,7 +98,7 @@ fun RecommendPlaceScreen(
                         navigateToOrderRecommendPlace = navigateToOrderRecommendPlace
                     )
                 }
-                RecommendPlaceBody(hasChatted, listState, isButtonVisible, placeRecommendationsUiState.value)
+                RecommendPlaceBody(hasChatted, listState, isButtonVisible, placeRecommendationsUiState.value, recommendPlaceViewModel)
             }
         }
 
