@@ -31,8 +31,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Black55
 import com.teamoffroad.core.designsystem.theme.Gray100
@@ -40,7 +38,7 @@ import com.teamoffroad.core.designsystem.theme.Gray300
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
-import com.teamoffroad.feature.explore.presentation.PlaceViewModel
+import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsUiState
 import com.teamoffroad.offroad.feature.recommendplace.R
 
 @Composable
@@ -48,6 +46,7 @@ fun RecommendPlaceBody(
     hasChatted: Boolean,
     listState: LazyListState,
     isButtonVisible: MutableState<Boolean>,
+    recommendationsUiState: PlaceRecommendationsUiState,
 ) {
     var selectedTab by remember { mutableStateOf(RecommendTab.LIST) }
 
@@ -72,8 +71,17 @@ fun RecommendPlaceBody(
                 .background(ListBg)
         ) {
             when (selectedTab) {
-                RecommendTab.LIST -> RecommendPlaceList(listState, hasLocationPermission)
-                RecommendTab.MAP -> RecommendPlaceMap(hasLocationPermission, isButtonVisible)
+                RecommendTab.LIST -> RecommendPlaceList(
+                    listState,
+                    hasLocationPermission,
+                    recommendationsUiState
+                )
+
+                RecommendTab.MAP -> RecommendPlaceMap(
+                    hasLocationPermission,
+                    isButtonVisible,
+                    recommendationsUiState
+                )
             }
         }
     }
@@ -84,19 +92,28 @@ enum class RecommendTab {
 }
 
 @Composable
-fun RecommendPlaceList(listState: LazyListState, hasLocationPermission: Boolean) {
-    val placeViewModel: PlaceViewModel = hiltViewModel()
-    val uiState = placeViewModel.uiState.collectAsStateWithLifecycle().value
+fun RecommendPlaceList(
+    listState: LazyListState,
+    hasLocationPermission: Boolean,
+    recommendationsUiState: PlaceRecommendationsUiState,
+) {
+//    val placeViewModel: PlaceViewModel = hiltViewModel()
+//    val uiState = placeViewModel.uiState.collectAsStateWithLifecycle().value
 
     if (hasLocationPermission) {
-        RecommendPlaceItems(
-            places = uiState.visitedPlaces + uiState.unvisitedPlaces,
-            isLoading = uiState.isLoading,
-            isLoadable = uiState.isLoadable,
-            isAdditionalLoading = uiState.isAdditionalLoading,
-            updatePlaces = placeViewModel::updatePlaces,
-            listState = listState
-        )
+        if (recommendationsUiState.recommendations.isEmpty()) {
+            NoRecommendPlaceMapItems()
+        } else {
+//            RecommendPlaceItems(
+//                places = uiState.visitedPlaces + uiState.unvisitedPlaces,
+//                isLoading = recommendationsUiState.isLoading,
+//                isLoadable = uiState.isLoadable,
+//                isAdditionalLoading = uiState.isAdditionalLoading,
+//                updatePlaces = placeViewModel::updatePlaces,
+//                listState = listState
+//            )
+        }
+
     } else {
         Column(
             modifier = Modifier
@@ -121,11 +138,14 @@ fun RecommendPlaceList(listState: LazyListState, hasLocationPermission: Boolean)
 }
 
 @Composable
-fun RecommendPlaceMap(hasLocationPermission: Boolean, isButtonVisible: MutableState<Boolean>) {
+fun RecommendPlaceMap(
+    hasLocationPermission: Boolean,
+    isButtonVisible: MutableState<Boolean>,
+    recommendationsUiState: PlaceRecommendationsUiState,
+) {
     isButtonVisible.value = true
 
-    val flag = false;
-    if (flag) NoRecommendPlaceMapItems()
+    if (recommendationsUiState.recommendations.isEmpty()) NoRecommendPlaceMapItems()
     else HasRecommendPlaceMapItems()
 }
 
@@ -142,7 +162,7 @@ fun RecommendPlaceBodyTabs(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            text = stringResource(id = if(hasChatted) R.string.recommend_place else R.string.recommend_place_nearby),
+            text = stringResource(id = if (hasChatted) R.string.recommend_place else R.string.recommend_place_nearby),
             style = OffroadTheme.typography.textContents
         )
         Spacer(modifier = Modifier.weight(1f))
