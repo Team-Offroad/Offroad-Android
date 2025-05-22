@@ -15,15 +15,15 @@ sealed interface MainTabRoute : Route {
     ) : MainTabRoute
 
     @Serializable
-    data class Explore(val authResultState: String = "NONE") :
-        MainTabRoute
+    data class Explore(
+        val authResultState: String = "NONE",
+    ) : MainTabRoute
 
     @Serializable
     data object MyPage : MainTabRoute
 }
 
 sealed interface AuthRoute : Route {
-
     @Serializable
     data object AgreeTermsAndConditions : AuthRoute
 
@@ -38,7 +38,9 @@ sealed interface AuthRoute : Route {
     ) : AuthRoute
 
     @Serializable
-    data class SelectedCharacter(val encodedUrl: String) : AuthRoute
+    data class SelectedCharacter(
+        val encodedUrl: String,
+    ) : AuthRoute
 }
 
 sealed interface ExploreRoute : Route {

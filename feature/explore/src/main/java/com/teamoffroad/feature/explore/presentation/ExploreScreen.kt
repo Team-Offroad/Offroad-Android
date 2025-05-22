@@ -54,26 +54,28 @@ internal fun ExploreScreen(
 
     uiState.isLocationPermissionGranted.let { isLocationPermissionGranted ->
         when (isLocationPermissionGranted) {
-            true -> StaticAnimationWrapper {
-                ExploreOffroadMap(
-                    locationState = uiState.locationModel,
-                    places = uiState.places,
-                    selectedPlace = uiState.selectedPlace,
-                    navigateToPlace = navigateToPlace,
-                    navigateToQuest = navigateToQuest,
-                    updateLocation = exploreViewModel::updateLocation,
-                    updateTrackingToggle = exploreViewModel::updateTrackingToggle,
-                    updateSelectedPlace = exploreViewModel::updateSelectedPlace,
-                    updatePlaces = exploreViewModel::updatePlaces,
-                    updateExploreResult = exploreViewModel::updateExploreResult,
-                )
-            }
+            true ->
+                StaticAnimationWrapper {
+                    ExploreOffroadMap(
+                        locationState = uiState.locationModel,
+                        places = uiState.places,
+                        selectedPlace = uiState.selectedPlace,
+                        navigateToPlace = navigateToPlace,
+                        navigateToQuest = navigateToQuest,
+                        updateLocation = exploreViewModel::updateLocation,
+                        updateTrackingToggle = exploreViewModel::updateTrackingToggle,
+                        updateSelectedPlace = exploreViewModel::updateSelectedPlace,
+                        updatePlaces = exploreViewModel::updatePlaces,
+                        updateExploreResult = exploreViewModel::updateExploreResult,
+                    )
+                }
 
-            false -> ExplorePermissionRejectedHandler(
-                context = context,
-                navigateToHome = { navigateToHome(PlaceCategory.NONE.name, emptyList()) },
-                updatePermission = exploreViewModel::updatePermission,
-            )
+            false ->
+                ExplorePermissionRejectedHandler(
+                    context = context,
+                    navigateToHome = { navigateToHome(PlaceCategory.NONE.name, emptyList()) },
+                    updatePermission = exploreViewModel::updatePermission,
+                )
 
             null -> Unit
         }

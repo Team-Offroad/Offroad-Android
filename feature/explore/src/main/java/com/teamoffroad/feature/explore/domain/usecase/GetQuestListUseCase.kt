@@ -6,8 +6,9 @@ import com.teamoffroad.feature.explore.domain.repository.QuestRepository
 class GetQuestListUseCase(
     private val questRepository: QuestRepository,
 ) {
-
-    suspend operator fun invoke(isProceeding: Boolean, cursor: Int, size: Int): List<Quest> {
-        return questRepository.fetchQuests(isProceeding, cursor, size)
-    }
+    suspend operator fun invoke(
+        isProceeding: Boolean,
+        cursor: Long,
+        size: Int,
+    ): List<Quest> = questRepository.fetchQuests(isProceeding, cursor, size)
 }

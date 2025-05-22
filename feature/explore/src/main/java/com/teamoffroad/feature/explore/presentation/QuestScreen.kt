@@ -25,34 +25,37 @@ fun QuestScreen(
     val uiState = questViewModel.uiState.collectAsStateWithLifecycle()
 
     Column(
-        modifier = Modifier
-            .navigationPadding()
-            .background(color = Main1)
-            .actionBarPadding()
+        modifier =
+            Modifier
+                .navigationPadding()
+                .background(color = Main1)
+                .actionBarPadding(),
     ) {
         NavigateBackAppBar(
             text = stringResource(id = R.string.explore_explore),
-            modifier = Modifier.padding(top = 20.dp)
+            modifier = Modifier.padding(top = 20.dp),
         ) { navigateToBack() }
         QuestHeader(
             uiState.value.isProceedingQuest,
             questViewModel::updateProceedingToggle,
         )
         QuestItems(
-            quests = when (uiState.value.isProceedingQuest) {
-                true -> uiState.value.proceedingQuests
-                false -> uiState.value.totalQuests
-            },
+            quests =
+                when (uiState.value.isProceedingQuest) {
+                    true -> uiState.value.proceedingQuests
+                    false -> uiState.value.totalQuests
+                },
             updateQuests = {
                 questViewModel.updateQuests()
             },
             isProceeding = uiState.value.isProceedingQuest,
             isLoading = uiState.value.isLoading,
             isAdditionalLoading = uiState.value.isAdditionalLoading,
-            isLoadable = when (uiState.value.isProceedingQuest) {
-                true -> uiState.value.isLoadable.first
-                false -> uiState.value.isLoadable.second
-            },
+            isLoadable =
+                when (uiState.value.isProceedingQuest) {
+                    true -> uiState.value.isLoadable.first
+                    false -> uiState.value.isLoadable.second
+                },
         )
     }
 }

@@ -6,11 +6,10 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface QuestService {
-
     @GET("quests")
     suspend fun getQuests(
         @Query("isActive") isActive: Boolean,
-        @Query("cursor") cursor: Int,
+        @Query("cursor") cursor: Long,
         @Query("size") size: Int,
     ): BaseResponse<QuestsResponseDto>
 }

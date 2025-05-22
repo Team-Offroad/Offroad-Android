@@ -15,39 +15,45 @@ import okhttp3.Response
 import okhttp3.Route
 import javax.inject.Inject
 
-class AuthAuthenticator @Inject constructor(
-    private val tokenPreferencesDataSource: TokenPreferencesDataSource,
-    private val refreshTokenUseCase: TokenService,
-    private val setAutoSignInUseCase: SetAutoSignInUseCase,
-    @ApplicationContext private val context: Context,
-    private val intentProvider: IntentProvider,
-) : Authenticator {
+class AuthAuthenticator
+    @Inject
+    constructor(
+        private val tokenPreferencesDataSource: TokenPreferencesDataSource,
+        private val refreshTokenUseCase: TokenService,
+        private val setAutoSignInUseCase: SetAutoSignInUseCase,
+        @ApplicationContext private val context: Context,
+        private val intentProvider: IntentProvider,
+    ) : Authenticator {
+        override fun authenticate(
+            route: Route?,
+            response: Response,
+        ): Request? {
+            val tokenResponse =
+                runCatching {
+                    runBlocking {
+                        refreshTokenUseCase.refreshAccessToken("Bearer ${tokenPreferencesDataSource.refreshToken.first()}")
+                    }
+                }.onSuccess {
+                    runBlocking {
+                        tokenPreferencesDataSource.apply {
+                            setAccessToken(it.data?.accessToken ?: return@runBlocking)
+                            setRefreshToken(it.data.refreshToken ?: return@runBlocking)
+                        }
+                    }
+                }.onFailure {
+                    runBlocking {
+                        setAutoSignInUseCase.invoke(false)
+                    }
+                    ProcessPhoenix.triggerRebirth(context, intentProvider.getIntent())
+                }.getOrThrow()
 
-    override fun authenticate(route: Route?, response: Response): Request? {
-        val tokenResponse = runCatching {
-            runBlocking {
-                refreshTokenUseCase.refreshAccessToken("Bearer ${tokenPreferencesDataSource.refreshToken.first()}")
-            }
-        }.onSuccess {
-            runBlocking {
-                tokenPreferencesDataSource.apply {
-                    setAccessToken(it.data?.accessToken ?: return@runBlocking)
-                    setRefreshToken(it.data.refreshToken ?: return@runBlocking)
-                }
-            }
-        }.onFailure {
-            runBlocking {
-                setAutoSignInUseCase.invoke(false)
-            }
-            ProcessPhoenix.triggerRebirth(context, intentProvider.getIntent())
-        }.getOrThrow()
+            return response.request
+                .newBuilder()
+                .header(AUTHORIZATION, "Bearer ${tokenResponse.data?.accessToken}")
+                .build()
+        }
 
-        return response.request.newBuilder()
-            .header(AUTHORIZATION, "Bearer ${tokenResponse.data?.accessToken}")
-            .build()
+        companion object {
+            private const val AUTHORIZATION = "Authorization"
+        }
     }
-
-    companion object {
-        private const val AUTHORIZATION = "Authorization"
-    }
-}

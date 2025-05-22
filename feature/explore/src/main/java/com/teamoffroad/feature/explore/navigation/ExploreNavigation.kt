@@ -21,7 +21,10 @@ fun NavController.navigateToExplore(
     navigate(MainTabRoute.Explore(authResultType), navOptions)
 }
 
-fun NavController.navigateToPlace(latitude: String, longitude: String) {
+fun NavController.navigateToPlace(
+    latitude: String,
+    longitude: String,
+) {
     navigate(ExploreRoute.PlaceScreen(latitude, longitude))
 }
 

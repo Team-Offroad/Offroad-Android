@@ -6,11 +6,19 @@ import com.teamoffroad.feature.explore.domain.model.Quest
 import com.teamoffroad.feature.explore.domain.repository.QuestRepository
 import javax.inject.Inject
 
-class QuestRepositoryImpl @Inject constructor(
-    private val questService: QuestService,
-) : QuestRepository {
-
-    override suspend fun fetchQuests(isActive: Boolean, cursor: Int, size: Int): List<Quest> {
-        return questService.getQuests(isActive, cursor, size).data?.questList?.map { it.toDomain() } ?: emptyList()
+class QuestRepositoryImpl
+    @Inject
+    constructor(
+        private val questService: QuestService,
+    ) : QuestRepository {
+        override suspend fun fetchQuests(
+            isActive: Boolean,
+            cursor: Long,
+            size: Int,
+        ): List<Quest> =
+            questService
+                .getQuests(isActive, cursor, size)
+                .data
+                ?.questList
+                ?.map { it.toDomain() } ?: emptyList()
     }
-}
