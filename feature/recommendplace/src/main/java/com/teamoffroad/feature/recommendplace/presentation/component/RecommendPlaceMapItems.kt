@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -81,19 +82,13 @@ fun HasRecommendPlaceMapItems(
 ) {
     val context = LocalContext.current
 
-//    if (recommendPlaceViewModel.isUpdatePlacesFailed) {
-//        Toast.makeText(
-//            context,
-//            stringResource(com.teamoffroad.offroad.feature.explore.R.string.explore_places_failed),
-//            Toast.LENGTH_SHORT
-//        ).show()
-//    }
-
-//    ExploreAuthStateHandler(
-//        uiState = uiState,
-//        updateExploreAuthState = exploreViewModel::updateExploreAuthState,
-//        navigateToHome = { _, _ -> },
-//    )
+    if (recommendationsUiState.isError) {
+        Toast.makeText(
+            context,
+            stringResource(com.teamoffroad.offroad.feature.explore.R.string.explore_places_failed),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
 
 //    ExploreRecommendPlaceMap(
 //        locationState = recommendationsUiState.locationModel,
@@ -103,7 +98,6 @@ fun HasRecommendPlaceMapItems(
 //        updateTrackingToggle = recommendPlaceViewModel::updateTrackingToggle,
 //        updateSelectedPlace = recommendPlaceViewModel::updateSelectedPlace,
 //        updatePlaces = recommendPlaceViewModel::updatePlaces,
-//        updateExploreResult = recommendPlaceViewModel::updateExploreResult,
 //    )
 
     FullLinearLoadingAnimation(isLoading = recommendationsUiState.isLoading)
@@ -119,7 +113,6 @@ fun ExploreRecommendPlaceMap(
     updateTrackingToggle: (Boolean) -> Unit,
     updateSelectedPlace: (PlaceModel?) -> Unit,
     updatePlaces: (Double, Double) -> Unit,
-    updateExploreResult: (Long, Double, Double, PlaceCategory) -> Unit,
 ) {
     val density = LocalDensity.current
     var markerOffset by remember { mutableStateOf(IntOffset.Zero) }
@@ -276,12 +269,12 @@ fun ExploreRecommendPlaceMap(
                         categoryImage = place.categoryImageUrl,
                         place = place,
                         onButtonClick = {
-                            updateExploreResult(
-                                place.id,
-                                locationState.location.latitude,
-                                locationState.location.longitude,
-                                place.placeCategory,
-                            )
+//                            updateExploreResult(
+//                                place.id,
+//                                locationState.location.latitude,
+//                                locationState.location.longitude,
+//                                place.placeCategory,
+//                            )
                             updateSelectedPlace(null)
                         },
                         onCloseButtonClick = {

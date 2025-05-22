@@ -3,6 +3,7 @@ package com.teamoffroad.feature.recommendplace.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.teamoffroad.feature.explore.domain.usecase.GetPreviousLocationUseCase
 import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 import com.teamoffroad.feature.recommendplace.domain.repository.PlaceRecommendationsRepository
 import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsUiState
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RecommendPlaceViewModel @Inject constructor(
-    private val placeRecommendationsRepository: PlaceRecommendationsRepository
+    private val placeRecommendationsRepository: PlaceRecommendationsRepository,
+    private val getPreviousLocationUseCase: GetPreviousLocationUseCase,
 ) : ViewModel() {
     private val _placeRecommendationsUiState = MutableStateFlow(PlaceRecommendationsUiState())
     val placeRecommendationsUiState = _placeRecommendationsUiState.asStateFlow()
@@ -83,6 +85,5 @@ class RecommendPlaceViewModel @Inject constructor(
             }
         }
     }
-
 
 }
