@@ -39,6 +39,7 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub4
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.explore.presentation.model.PlaceModel
+import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsUiState
 import com.teamoffroad.offroad.feature.explore.R.drawable
 import com.teamoffroad.offroad.feature.explore.R.string
 import com.teamoffroad.offroad.feature.recommendplace.R
@@ -51,7 +52,7 @@ fun RecommendPlaceMapInfoWindow(
     categoryImage: String,
     address: String,
     visitCount: Int,
-    place: PlaceModel? = null,
+    place: PlaceRecommendationsUiState.RecommendationsUiState? = null,
     onButtonClick: () -> Unit,
     onCloseButtonClick: () -> Unit,
     modifier: Modifier = Modifier,

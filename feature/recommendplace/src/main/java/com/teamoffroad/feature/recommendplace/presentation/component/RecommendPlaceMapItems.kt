@@ -90,15 +90,15 @@ fun HasRecommendPlaceMapItems(
         ).show()
     }
 
-//    ExploreRecommendPlaceMap(
-//        locationState = recommendationsUiState.locationModel,
-//        places = recommendationsUiState.recommendations,
-//        selectedPlace = recommendationsUiState.selectedPlace,
-//        updateLocation = recommendPlaceViewModel::updateLocation,
-//        updateTrackingToggle = recommendPlaceViewModel::updateTrackingToggle,
-//        updateSelectedPlace = recommendPlaceViewModel::updateSelectedPlace,
-//        updatePlaces = recommendPlaceViewModel::updatePlaces,
-//    )
+    ExploreRecommendPlaceMap(
+        locationState = recommendationsUiState.locationModel,
+        places = recommendationsUiState.recommendations,
+        selectedPlace = recommendationsUiState.selectedPlace,
+        updateLocation = recommendPlaceViewModel::updateLocation,
+        updateTrackingToggle = recommendPlaceViewModel::updateTrackingToggle,
+        updateSelectedPlace = recommendPlaceViewModel::updateSelectedPlace,
+        updatePlaces = recommendPlaceViewModel::updatePlaces,
+    )
 
     FullLinearLoadingAnimation(isLoading = recommendationsUiState.isLoading)
 }
@@ -107,11 +107,11 @@ fun HasRecommendPlaceMapItems(
 @Composable
 fun ExploreRecommendPlaceMap(
     locationState: LocationModel,
-    places: List<PlaceModel>,
-    selectedPlace: PlaceModel?,
+    places: List<PlaceRecommendationsUiState.RecommendationsUiState>,
+    selectedPlace: PlaceRecommendationsUiState.RecommendationsUiState?,
     updateLocation: (Double, Double) -> Unit,
     updateTrackingToggle: (Boolean) -> Unit,
-    updateSelectedPlace: (PlaceModel?) -> Unit,
+    updateSelectedPlace: (PlaceRecommendationsUiState.RecommendationsUiState?) -> Unit,
     updatePlaces: (Double, Double) -> Unit,
 ) {
     val density = LocalDensity.current
@@ -265,7 +265,7 @@ fun ExploreRecommendPlaceMap(
                         title = place.name,
                         shortIntroduction = place.shortIntroduction,
                         address = place.address,
-                        visitCount = place.visitCount,
+                        visitCount = 0,
                         categoryImage = place.categoryImageUrl,
                         place = place,
                         onButtonClick = {
