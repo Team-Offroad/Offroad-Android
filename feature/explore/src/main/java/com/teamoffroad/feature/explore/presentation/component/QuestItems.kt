@@ -21,11 +21,11 @@ import com.teamoffroad.core.designsystem.component.CircularLoadingAnimationLine
 import com.teamoffroad.core.designsystem.component.ExpandableItem
 import com.teamoffroad.core.designsystem.component.LinearLoadingAnimation
 import com.teamoffroad.core.designsystem.theme.ListBg
-import com.teamoffroad.feature.explore.presentation.model.QuestModel
+import com.teamoffroad.feature.explore.domain.model.Quest
 
 @Composable
 fun QuestItems(
-    quests: List<QuestModel>,
+    quests: List<Quest>,
     updateQuests: () -> Unit,
     isProceeding: Boolean,
     isLoading: Boolean,
@@ -49,17 +49,19 @@ fun QuestItems(
     }
 
     LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(ListBg)
-            .padding(horizontal = 24.dp),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(ListBg)
+                .padding(horizontal = 24.dp),
         state = listState,
         contentPadding = PaddingValues(vertical = 18.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = when (isLoading) {
-            true -> Arrangement.Center
-            false -> Arrangement.Top
-        },
+        verticalArrangement =
+            when (isLoading) {
+                true -> Arrangement.Center
+                false -> Arrangement.Top
+            },
     ) {
         item {
             LinearLoadingAnimation(isLoading = isLoading)
@@ -71,12 +73,12 @@ fun QuestItems(
                     expandedIndex = if (expandedIndex == index) NULL_INDEX else index
                 },
                 defaultContent = {
-                    QuestItem(questModel = quests[index])
+                    QuestItem(quest = quests[index])
                 },
                 extraContent = {
                     QuestExtraItem(questModel = quests[index])
                 },
-                modifier = Modifier.padding(bottom = 14.dp)
+                modifier = Modifier.padding(bottom = 14.dp),
             )
         }
         item {

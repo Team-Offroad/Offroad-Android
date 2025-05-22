@@ -26,60 +26,62 @@ import com.teamoffroad.core.designsystem.theme.Gray400
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub2
-import com.teamoffroad.feature.explore.presentation.model.QuestModel
+import com.teamoffroad.feature.explore.domain.model.Quest
 import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 fun QuestItem(
     modifier: Modifier = Modifier,
-    questModel: QuestModel,
+    quest: Quest,
 ) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            text = questModel.questName,
+            text = quest.questName,
             style = OffroadTheme.typography.textBold,
             color = Main2,
             modifier = Modifier.weight(1f),
         )
-        when (questModel.questProgressModel.isCompleted) {
-            true -> Text(
-                text = stringResource(R.string.explore_quest_completed),
-                style = OffroadTheme.typography.questCompleted,
-                color = Sub2,
-                modifier = Modifier.offset(x = 14.dp)
-            )
+        when (quest.progress.isCompleted) {
+            true ->
+                Text(
+                    text = stringResource(R.string.explore_quest_completed),
+                    style = OffroadTheme.typography.questCompleted,
+                    color = Sub2,
+                    modifier = Modifier.offset(x = 14.dp),
+                )
 
-            false -> QuestProgressText(questModel)
+            false -> QuestProgressText(quest)
         }
     }
 }
 
 @Composable
-fun QuestProgressText(questModel: QuestModel) {
-    val progressText = "(${questModel.questProgressModel.progressCount}/${questModel.questProgressModel.totalCount})"
-    val annotatedString = buildAnnotatedString {
-        withStyle(style = SpanStyle(color = Gray400)) {
-            append(stringResource(R.string.explore_quest_achievement_rate))
+fun QuestProgressText(questModel: Quest) {
+    val progressText = "(${questModel.progress.currentCount}/${questModel.progress.totalCount})"
+    val annotatedString =
+        buildAnnotatedString {
+            withStyle(style = SpanStyle(color = Gray400)) {
+                append(stringResource(R.string.explore_quest_achievement_rate))
+            }
+            withStyle(style = SpanStyle(color = Sub2)) {
+                append(progressText)
+            }
         }
-        withStyle(style = SpanStyle(color = Sub2)) {
-            append(progressText)
-        }
-    }
 
     Text(
         text = annotatedString,
         style = OffroadTheme.typography.hint,
-        modifier = Modifier.offset(x = 14.dp)
+        modifier = Modifier.offset(x = 14.dp),
     )
 }
 
 @Composable
 fun QuestExtraItem(
     modifier: Modifier = Modifier,
-    questModel: QuestModel,
+    questModel: Quest,
 ) {
     Column {
         Text(
@@ -90,11 +92,12 @@ fun QuestExtraItem(
             modifier = Modifier.padding(top = 8.dp),
         )
         Column(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(top = 14.dp, bottom = 4.dp)
-                .background(color = BoxInfo, shape = RoundedCornerShape(9.dp))
-                .padding(vertical = 8.dp, horizontal = 10.dp),
+            modifier =
+                modifier
+                    .fillMaxWidth()
+                    .padding(top = 14.dp, bottom = 4.dp)
+                    .background(color = BoxInfo, shape = RoundedCornerShape(9.dp))
+                    .padding(vertical = 8.dp, horizontal = 10.dp),
         ) {
             QuestDetailItem(
                 icon = painterResource(id = R.drawable.ic_explore_quest_task),

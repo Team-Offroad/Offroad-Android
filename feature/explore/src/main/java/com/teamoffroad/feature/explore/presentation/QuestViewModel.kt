@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.explore.domain.model.Quest
 import com.teamoffroad.feature.explore.domain.usecase.GetQuestListUseCase
-import com.teamoffroad.feature.explore.presentation.mapper.toUi
 import com.teamoffroad.feature.explore.presentation.model.QuestUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -77,6 +76,7 @@ class QuestViewModel
                     uiState.value.proceedingQuests
                         .lastOrNull()
                         ?.cursorId ?: 0L
+
                 false ->
                     uiState.value.totalQuests
                         .lastOrNull()
@@ -104,20 +104,18 @@ class QuestViewModel
             isProceeding: Boolean,
             quests: List<Quest>,
         ) {
-            val updatedQuests = quests.map { it.toUi() }
-
             _uiState.value =
                 when (isProceeding) {
                     true ->
                         uiState.value.copy(
-                            proceedingQuests = uiState.value.proceedingQuests + updatedQuests,
+                            proceedingQuests = uiState.value.proceedingQuests + quests,
                             isLoading = false,
                             isAdditionalLoading = false,
                         )
 
                     false ->
                         uiState.value.copy(
-                            totalQuests = uiState.value.totalQuests + updatedQuests,
+                            totalQuests = uiState.value.totalQuests + quests,
                             isLoading = false,
                             isAdditionalLoading = false,
                         )

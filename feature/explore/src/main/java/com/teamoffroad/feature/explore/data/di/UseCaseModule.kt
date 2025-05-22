@@ -7,6 +7,7 @@ import com.teamoffroad.feature.explore.domain.repository.UserRepository
 import com.teamoffroad.feature.explore.domain.usecase.GetMapPlaceListUseCase
 import com.teamoffroad.feature.explore.domain.usecase.GetPlaceListUseCase
 import com.teamoffroad.feature.explore.domain.usecase.GetPreviousLocationUseCase
+import com.teamoffroad.feature.explore.domain.usecase.GetQuestCourseUseCase
 import com.teamoffroad.feature.explore.domain.usecase.GetQuestListUseCase
 import com.teamoffroad.feature.explore.domain.usecase.PostExploreLocationAuthUseCase
 import com.teamoffroad.feature.explore.domain.usecase.SavePreviousLocationUseCase
@@ -48,5 +49,5 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideGetQuestCourseUseCase(questRepository: QuestRepository): GetQuestListUseCase = GetQuestListUseCase(questRepository)
+    fun provideGetQuestCourseUseCase(questRepository: QuestRepository): GetQuestCourseUseCase = GetQuestCourseUseCase(questRepository)
 }
