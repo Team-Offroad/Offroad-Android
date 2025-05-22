@@ -19,52 +19,34 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object UseCaseModule {
+    @Provides
+    @Singleton
+    fun provideGetMapPlaceListUseCase(placeRepository: PlaceRepository): GetMapPlaceListUseCase = GetMapPlaceListUseCase(placeRepository)
 
     @Provides
     @Singleton
-    fun provideGetMapPlaceListUseCase(
-        placeRepository: PlaceRepository,
-    ): GetMapPlaceListUseCase {
-        return GetMapPlaceListUseCase(placeRepository)
-    }
+    fun provideGetPlaceListUseCase(placeRepository: PlaceRepository): GetPlaceListUseCase = GetPlaceListUseCase(placeRepository)
 
     @Provides
     @Singleton
-    fun provideGetPlaceListUseCase(
-        placeRepository: PlaceRepository,
-    ): GetPlaceListUseCase {
-        return GetPlaceListUseCase(placeRepository)
-    }
+    fun providePostLocationAuthUseCase(userRepository: UserRepository): PostExploreLocationAuthUseCase =
+        PostExploreLocationAuthUseCase(userRepository)
 
     @Provides
     @Singleton
-    fun providePostLocationAuthUseCase(
-        userRepository: UserRepository,
-    ): PostExploreLocationAuthUseCase {
-        return PostExploreLocationAuthUseCase(userRepository)
-    }
+    fun provideGetQuestListUseCase(questRepository: QuestRepository): GetQuestListUseCase = GetQuestListUseCase(questRepository)
 
     @Provides
     @Singleton
-    fun provideGetQuestListUseCase(
-        questRepository: QuestRepository,
-    ): GetQuestListUseCase {
-        return GetQuestListUseCase(questRepository)
-    }
+    fun provideGetPreviousLocationUseCase(locationRepository: LocationRepository): GetPreviousLocationUseCase =
+        GetPreviousLocationUseCase(locationRepository)
 
     @Provides
     @Singleton
-    fun provideGetPreviousLocationUseCase(
-        locationRepository: LocationRepository,
-    ): GetPreviousLocationUseCase {
-        return GetPreviousLocationUseCase(locationRepository)
-    }
+    fun provideSavePreviousLocationUseCase(locationRepository: LocationRepository): SavePreviousLocationUseCase =
+        SavePreviousLocationUseCase(locationRepository)
 
     @Provides
     @Singleton
-    fun provideSavePreviousLocationUseCase(
-        locationRepository: LocationRepository,
-    ): SavePreviousLocationUseCase {
-        return SavePreviousLocationUseCase(locationRepository)
-    }
+    fun provideGetQuestCourseUseCase(questRepository: QuestRepository): GetQuestListUseCase = GetQuestListUseCase(questRepository)
 }
