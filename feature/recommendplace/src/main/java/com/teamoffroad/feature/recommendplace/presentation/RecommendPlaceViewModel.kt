@@ -8,9 +8,7 @@ import com.teamoffroad.feature.explore.domain.usecase.GetMapPlaceListUseCase
 import com.teamoffroad.feature.explore.domain.usecase.GetPreviousLocationUseCase
 import com.teamoffroad.feature.explore.domain.usecase.SavePreviousLocationUseCase
 import com.teamoffroad.feature.explore.presentation.mapper.toUi
-import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
 import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
-import com.teamoffroad.feature.explore.presentation.model.PlaceModel
 import com.teamoffroad.feature.recommendplace.domain.repository.PlaceRecommendationsRepository
 import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -91,7 +89,9 @@ class RecommendPlaceViewModel @Inject constructor(
                     isError = false,
                     isAdditionalLoading = false,
                     isLoading = false,
-                    recommendations = emptyList<PlaceRecommendationsUiState.RecommendationsUiState>().plus(testRecommendation)
+                    recommendations = emptyList<PlaceRecommendationsUiState.RecommendationsUiState>().plus(
+                        testRecommendation
+                    )
                 )
             }
         }
@@ -105,24 +105,35 @@ class RecommendPlaceViewModel @Inject constructor(
                     ?.let { (latitude, longitude) ->
                         updateLocation(latitude, longitude)
                         updateCameraState(latitude, longitude)
-                    } ?: updateLocation(placeRecommendationsUiState.value.locationModel.location.latitude, placeRecommendationsUiState.value.locationModel.location.longitude)
+                    } ?: updateLocation(
+                    placeRecommendationsUiState.value.locationModel.location.latitude,
+                    placeRecommendationsUiState.value.locationModel.location.longitude
+                )
             }
         }
     }
 
     private fun updateCameraState(latitude: Double, longitude: Double) {
         _placeRecommendationsUiState.value = placeRecommendationsUiState.value.copy(
-            locationModel = placeRecommendationsUiState.value.locationModel.updateCameraPositionState(latitude, longitude)
+            locationModel = placeRecommendationsUiState.value.locationModel.updateCameraPositionState(
+                latitude,
+                longitude
+            )
         )
     }
 
     fun updateLocation(latitude: Double, longitude: Double) {
         _placeRecommendationsUiState.value = placeRecommendationsUiState.value.copy(
-            locationModel = placeRecommendationsUiState.value.locationModel.updateLocation(latitude, longitude)
+            locationModel = placeRecommendationsUiState.value.locationModel.updateLocation(
+                latitude,
+                longitude
+            )
         )
         if (placeRecommendationsUiState.value.locationModel.isUserMoveFarEnough() || placeRecommendationsUiState.value.recommendations.isEmpty()) {
             _placeRecommendationsUiState.value = placeRecommendationsUiState.value.copy(
-                locationModel = placeRecommendationsUiState.value.locationModel.updatePreviousLocation(LatLng(latitude, longitude)),
+                locationModel = placeRecommendationsUiState.value.locationModel.updatePreviousLocation(
+                    LatLng(latitude, longitude)
+                ),
             )
             updatePlaces(latitude, longitude)
         }
@@ -134,7 +145,9 @@ class RecommendPlaceViewModel @Inject constructor(
     fun updateTrackingToggle(isUserTrackingEnabled: Boolean) {
         if (!isUserTrackingEnabled) updatePlaces()
         _placeRecommendationsUiState.value = placeRecommendationsUiState.value.copy(
-            locationModel = placeRecommendationsUiState.value.locationModel.updateTrackingToggle(isUserTrackingEnabled)
+            locationModel = placeRecommendationsUiState.value.locationModel.updateTrackingToggle(
+                isUserTrackingEnabled
+            )
         )
     }
 

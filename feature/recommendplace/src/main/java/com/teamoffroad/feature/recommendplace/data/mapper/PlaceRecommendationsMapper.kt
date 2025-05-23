@@ -2,9 +2,11 @@ package com.teamoffroad.feature.recommendplace.data.mapper
 
 import com.teamoffroad.feature.recommendplace.data.model.PlaceRecommendationsEntity
 import com.teamoffroad.feature.recommendplace.data.model.PlaceRecommendationsEntity.RecommendationsEntity
+import com.teamoffroad.feature.recommendplace.data.remote.request.PlaceRecommendationsOrderRequestDto
 import com.teamoffroad.feature.recommendplace.data.remote.response.PlaceRecommendationsResponseDto
 import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendations
 import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendations.Recommendations
+import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendationsOrder
 
 fun PlaceRecommendationsResponseDto.toData(): PlaceRecommendationsEntity {
     return PlaceRecommendationsEntity(
@@ -41,5 +43,13 @@ fun PlaceRecommendationsEntity.toDomain(): PlaceRecommendations {
                 categoryImageUrl = place.categoryImageUrl
             )
         }
+    )
+}
+
+fun PlaceRecommendationsOrder.toData(): PlaceRecommendationsOrderRequestDto {
+    return PlaceRecommendationsOrderRequestDto(
+        recommendationType = this.recommendationType,
+        region = this.region,
+        additionalContent = this.additionalContent,
     )
 }

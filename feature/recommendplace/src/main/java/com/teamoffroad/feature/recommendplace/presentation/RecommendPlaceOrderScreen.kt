@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.recommendplace.presentation
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -20,6 +21,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -33,6 +35,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.component.navigationPadding
@@ -43,6 +46,7 @@ import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendationsOrder
 import com.teamoffroad.feature.recommendplace.presentation.component.PlaceType
 import com.teamoffroad.feature.recommendplace.presentation.component.RecommendPlaceOrderDialog
 import com.teamoffroad.feature.recommendplace.presentation.component.RecommendPlaceOrderEtc
@@ -53,7 +57,10 @@ import com.teamoffroad.offroad.feature.recommendplace.R
 @Composable
 fun RecommendPlaceOrder(
     navigateToBack: () -> Unit,
+    placeOrderViewModel: RecommendPlaceOrderViewModel = hiltViewModel()
 ) {
+    val placeOrderUiState = placeOrderViewModel.placeOrderUiState.collectAsState()
+
     var selectedType by remember { mutableStateOf<PlaceType?>(null) }
     var showSelectedTypeWarning by remember { mutableStateOf(false) }
     var locationText by remember { mutableStateOf("") }
@@ -75,7 +82,11 @@ fun RecommendPlaceOrder(
         }
     }
 
-
+    LaunchedEffect(placeOrderUiState.value.isLoading, placeOrderUiState.value.content) {
+        if(!placeOrderUiState.value.isLoading && placeOrderUiState.value.content.isNotEmpty()) {
+            navigateToBack()
+        }
+    }
     Column(
         modifier = Modifier
             .navigationPadding()
@@ -163,13 +174,26 @@ fun RecommendPlaceOrder(
             RecommendPlaceOrderButton(
                 isEnabled = selectedType != null && locationText.isNotEmpty(),
                 submitOrder = {
+                    var isValid = true
+
                     if (selectedType == null) {
                         showSelectedTypeWarning = true
+                        isValid = false
                     }
                     if (locationText.isEmpty()) {
                         showLocationTextWarning = true
+                        isValid = false
                     }
-                    // 주문서 등록하기
+
+                    if(isValid) {
+                        placeOrderViewModel.savePlaceRecommendationsOrder(
+                            order = PlaceRecommendationsOrder(
+                                recommendationType = selectedType.toString(),
+                                region = locationText,
+                                additionalContent = etcText
+                            )
+                        )
+                    }
                 }
             )
         }
