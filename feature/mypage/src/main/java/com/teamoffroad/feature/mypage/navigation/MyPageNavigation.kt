@@ -78,8 +78,8 @@ fun NavController.navigateToAnnouncementDetail(
     )
 }
 
-fun NavController.navigateToAuth() {
-    navigate(Route.Auth)
+fun NavController.navigateToAuth(navOptions: NavOptions) {
+    navigate(Route.Auth, navOptions)
 }
 
 fun NavController.navigateToCharacterDetail(characterId: Int, isRepresentative: Boolean) {
