@@ -117,7 +117,7 @@ fun RecommendPlaceButton(
                                 .clickableWithoutRipple { navigateToOrderRecommendPlace() }
                         )
                     }
-                    
+
                     Image(
                         painter = painterResource(R.drawable.ic_recommend_place_arrow_right),
                         contentDescription = null,

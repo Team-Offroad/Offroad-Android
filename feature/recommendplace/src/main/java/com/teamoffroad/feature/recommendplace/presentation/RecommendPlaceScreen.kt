@@ -75,7 +75,7 @@ fun RecommendPlaceScreen(
             ) {
                 RecommendPlaceChat(
                     name = "추천 장소",
-                    text = "여기는 정말 좋은 곳이에요!",
+                    text = content,
                     time = "오전 11:30",
                     onClose = { isRecommendPlaceViewExpanded = false }
                 )

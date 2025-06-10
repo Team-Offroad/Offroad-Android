@@ -66,10 +66,6 @@ fun CharacterChatScreen(
         }
     }
 
-    LaunchedEffect(uiState.value.chats) {
-        Log.d("test chats list", uiState.value.chats.toString())
-    }
-
     Box(
         modifier = Modifier
             .fillMaxSize()
