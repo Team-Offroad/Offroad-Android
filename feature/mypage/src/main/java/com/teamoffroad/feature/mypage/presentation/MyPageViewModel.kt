@@ -15,6 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
     private val userRepository: UserRepository,
+    private val homeUserRepository: com.teamoffroad.feature.home.domain.repository.UserRepository,
     private val getDiaryCheckLatestUseCase: GetDiaryCheckLatestUseCase,
 ) : ViewModel() {
     private val _myPageUser = MutableStateFlow<MyPageUser>(MyPageUser("", "", 0, 0, 0, ""))
@@ -25,6 +26,20 @@ class MyPageViewModel @Inject constructor(
 
     private val _newDiaryExist = MutableStateFlow(false)
     val newDiaryExist = _newDiaryExist.asStateFlow()
+
+    private val _characterName = MutableStateFlow("")
+    val characterName = _characterName.asStateFlow()
+
+
+    fun getCharacterName() {
+        viewModelScope.launch {
+            runCatching {
+                homeUserRepository.getUsersAdventuresInformation("NONE")
+            }.onSuccess {
+                _characterName.value = it.characterName
+            }
+        }
+    }
 
     fun getDiaryCheckLatest() {
         viewModelScope.launch {

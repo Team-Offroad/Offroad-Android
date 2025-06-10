@@ -39,6 +39,7 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun DiaryScreen(
     newDiaryExist: Boolean,
+    characterName: String,
     navigateToBack: () -> Unit,
     navigateToCharacterChat: (String) -> Unit,
     navigateToDiaryTime: () -> Unit,
@@ -128,7 +129,9 @@ fun DiaryScreen(
 
                     DiaryShownState.DiaryEmpty -> {
                         OrbDiaryEmpty(
-                            navigateToCharacterChat = navigateToCharacterChat,
+                            navigateToCharacterChat = {
+                                navigateToCharacterChat(characterName)
+                            },
                             modifier = Modifier.padding(top = 124.dp),
                         )
                     }

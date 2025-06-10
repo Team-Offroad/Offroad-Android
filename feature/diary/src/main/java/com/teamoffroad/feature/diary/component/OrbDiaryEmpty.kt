@@ -24,7 +24,7 @@ import com.teamoffroad.offroad.feature.diary.R
 
 @Composable
 fun OrbDiaryEmpty(
-    navigateToCharacterChat: (String) -> Unit,
+    navigateToCharacterChat: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -51,7 +51,7 @@ fun OrbDiaryEmpty(
                     shape = RoundedCornerShape(46.dp)
                 )
                 .padding(horizontal = 68.dp, vertical = 14.dp)
-                .clickableWithoutRipple { navigateToCharacterChat("???") },
+                .clickableWithoutRipple { navigateToCharacterChat() },
         ) {
             Text(
                 text = stringResource(id = R.string.diary_empty_go_chatting),
