@@ -98,17 +98,19 @@ fun RecommendPlaceChatBox(
                 brush = Brush.horizontalGradient(RecommendPlaceFillGradientColors),
                 shape = RoundedCornerShape(12.dp)
             )
-            .padding(16.dp)
     ) {
         Card(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
             colors = CardDefaults.cardColors(
                 containerColor = Color.Transparent
             ),
             content = {
                 Column {
-                    Row {
+                    Row(
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)
+                    ) {
                         Text(
                             text = name,
                             style = OffroadTheme.typography.textBold,
@@ -134,6 +136,7 @@ fun RecommendPlaceChatBox(
                         textAlign = TextAlign.Center,
                         modifier = Modifier
                             .fillMaxWidth()
+                            .padding(bottom = 16.dp)
                             .padding(horizontal = 16.dp)
                             .padding(top = 10.dp)
                             .border(
