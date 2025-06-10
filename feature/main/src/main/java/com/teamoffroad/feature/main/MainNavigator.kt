@@ -199,8 +199,8 @@ internal class MainNavigator(
         navController.navigateToDiaryTime()
     }
 
-    fun navigateToRecommendPlace(hasChatted: Boolean) {
-        navController.navigateToRecommendPlace(hasChatted)
+    fun navigateToRecommendPlace(hasChatted: Boolean, content: String) {
+        navController.navigateToRecommendPlace(hasChatted, content)
     }
 
     fun navigateToAnnouncementDetail(

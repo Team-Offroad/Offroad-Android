@@ -1,6 +1,5 @@
 package com.teamoffroad.characterchat.presentation.component
 
-import android.util.Log
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -38,7 +37,7 @@ fun CharacterChats(
     isLoadable: Boolean = true,
     updateChats: () -> Unit,
     updateIsChatting: (Boolean) -> Unit,
-    navigateToRecommendPlace: (Boolean) -> Unit,
+    navigateToRecommendPlace: (Boolean, String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val animatedHeight =

@@ -61,6 +61,8 @@ val RecommendPlaceFillGradientColors = listOf(
 
 @Composable
 fun RecommendPlaceButton(
+    hasChatted: Boolean,
+    content: String,
     onClick: () -> Unit,
     navigateToOrderRecommendPlace: () -> Unit
 ) {
@@ -91,27 +93,31 @@ fun RecommendPlaceButton(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = stringResource(id = R.string.recommend_place_welcome),
+                        text = content,
                         modifier = Modifier
                             .padding(horizontal = 26.dp, vertical = 20.dp),
                         style = OffroadTheme.typography.boxMedi,
                         lineHeight = 16.sp
                     )
                     Spacer(modifier = Modifier.weight(1f))
-                    Image(
-                        painter = painterResource(R.drawable.ic_recommend_place_chat),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(end = 10.dp)
-                            .clickableWithoutRipple { onClick() }
-                    )
-                    Image(
-                        painter = painterResource(R.drawable.ic_recommend_place_order),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(end = 10.dp)
-                            .clickableWithoutRipple { navigateToOrderRecommendPlace() }
-                    )
+                    if(hasChatted) {
+                        Image(
+                            painter = painterResource(R.drawable.ic_recommend_place_chat),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(end = 10.dp)
+                                .clickableWithoutRipple { onClick() }
+                        )
+                    } else {
+                        Image(
+                            painter = painterResource(R.drawable.ic_recommend_place_order),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(end = 10.dp)
+                                .clickableWithoutRipple { navigateToOrderRecommendPlace() }
+                        )
+                    }
+                    
                     Image(
                         painter = painterResource(R.drawable.ic_recommend_place_arrow_right),
                         contentDescription = null,

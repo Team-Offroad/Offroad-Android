@@ -47,7 +47,7 @@ fun HomeIcons(
     updateCharacterName: (String) -> Unit,
     updateLastUnreadChatDosAllRead: (Boolean) -> Unit,
     navigateToDiary: (Boolean) -> Unit,
-    navigateToRecommendPlace: (Boolean) -> Unit,
+    navigateToRecommendPlace: (Boolean, String) -> Unit,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -76,7 +76,7 @@ fun HomeIcons(
             }
 
             Box(
-                modifier = Modifier.clickableWithoutRipple { navigateToRecommendPlace(false) }
+                modifier = Modifier.clickableWithoutRipple { navigateToRecommendPlace(false, "") }
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_home_recommend_place),

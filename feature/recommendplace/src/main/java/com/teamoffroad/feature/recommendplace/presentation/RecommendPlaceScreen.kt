@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.recommendplace.presentation
 
-import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -39,6 +38,7 @@ import com.teamoffroad.offroad.feature.recommendplace.R
 @Composable
 fun RecommendPlaceScreen(
     hasChatted: Boolean,
+    content: String,
     navigateToBack: () -> Unit,
     navigateToOrderRecommendPlace: () -> Unit,
     recommendPlaceViewModel: RecommendPlaceViewModel = hiltViewModel(),
@@ -94,6 +94,8 @@ fun RecommendPlaceScreen(
                 RecommendPlaceHeader()
                 AnimatedVisibility(visible = isButtonVisible.value) {
                     RecommendPlaceButton(
+                        hasChatted = hasChatted,
+                        content = content,
                         onClick = { isRecommendPlaceViewExpanded = true },
                         navigateToOrderRecommendPlace = navigateToOrderRecommendPlace
                     )

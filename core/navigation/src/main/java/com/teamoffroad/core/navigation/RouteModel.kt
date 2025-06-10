@@ -114,7 +114,8 @@ sealed interface CharacterChatRoute : Route {
 sealed interface RecommendPlaceRoute : Route {
     @Serializable
     data class RecommendPlace(
-        val hasChatted: Boolean
+        val hasChatted: Boolean,
+        val content: String
     ) : RecommendPlaceRoute
 
     @Serializable

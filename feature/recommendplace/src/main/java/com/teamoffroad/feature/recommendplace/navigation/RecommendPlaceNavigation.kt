@@ -8,8 +8,8 @@ import com.teamoffroad.core.navigation.RecommendPlaceRoute
 import com.teamoffroad.feature.recommendplace.presentation.RecommendPlaceOrder
 import com.teamoffroad.feature.recommendplace.presentation.RecommendPlaceScreen
 
-fun NavController.navigateToRecommendPlace(hasChatted: Boolean) {
-    navigate(RecommendPlaceRoute.RecommendPlace(hasChatted))
+fun NavController.navigateToRecommendPlace(hasChatted: Boolean, content: String) {
+    navigate(RecommendPlaceRoute.RecommendPlace(hasChatted, content))
 }
 
 fun NavController.navigateToOrderRecommendPlace() {
@@ -22,7 +22,8 @@ fun NavGraphBuilder.recommendPlaceNavGraph(
 ) {
     composable<RecommendPlaceRoute.RecommendPlace> { backStackEntry ->
         val hasChatted = backStackEntry.toRoute<RecommendPlaceRoute.RecommendPlace>().hasChatted
-        RecommendPlaceScreen(hasChatted, navigateToBack, navigateToOrderRecommendPlace)
+        val content = backStackEntry.toRoute<RecommendPlaceRoute.RecommendPlace>().content
+        RecommendPlaceScreen(hasChatted, content, navigateToBack, navigateToOrderRecommendPlace)
     }
 
     composable<RecommendPlaceRoute.OrderRecommendPlace> { backStackEntry ->
