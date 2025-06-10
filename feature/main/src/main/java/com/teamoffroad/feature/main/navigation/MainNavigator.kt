@@ -195,9 +195,11 @@ internal class MainNavigator(
 
     fun navigateToDiary(
         newDiaryExist: Boolean,
+        characterName: String,
     ) {
         navController.navigateToDiary(
             newDiaryExist = newDiaryExist,
+            characterName = characterName,
         )
     }
 
