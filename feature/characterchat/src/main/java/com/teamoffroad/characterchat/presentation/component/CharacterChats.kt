@@ -1,5 +1,6 @@
 package com.teamoffroad.characterchat.presentation.component
 
+import android.util.Log
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -40,7 +41,8 @@ fun CharacterChats(
     navigateToRecommendPlace: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val animatedHeight = animateDpAsState(targetValue = (bottomPadding.dp - 748.dp).coerceAtLeast(0.dp), label = "")
+    val animatedHeight =
+        animateDpAsState(targetValue = (bottomPadding.dp - 748.dp).coerceAtLeast(0.dp), label = "")
     val coroutineScope = rememberCoroutineScope()
     val listState = rememberLazyListState()
     var isInitialComposition = remember { true }
@@ -63,11 +65,12 @@ fun CharacterChats(
     }
 
     LaunchedEffect(listState, arrangedChats, isLoadable) {
-        snapshotFlow { listState.firstVisibleItemIndex }.distinctUntilChanged().collect { firstVisibleItemIndex ->
-            if (isLoadable && arrangedChats.isNotEmpty() && firstVisibleItemIndex < LOAD_THRESHOLD) {
-                updateChats()
+        snapshotFlow { listState.firstVisibleItemIndex }.distinctUntilChanged()
+            .collect { firstVisibleItemIndex ->
+                if (isLoadable && arrangedChats.isNotEmpty() && firstVisibleItemIndex < LOAD_THRESHOLD) {
+                    updateChats()
+                }
             }
-        }
     }
 
     LaunchedEffect(isChatting, bottomPadding) {
@@ -102,16 +105,25 @@ fun CharacterChats(
                 item(key = chat.id) {
                     when (chat.chatType) {
                         USER -> UserChatBox(text = chat.text, time = chat.time)
-                        ORB_CHARACTER -> CharacterChatBox(name = characterName, text = chat.text, time = chat.time)
+
+                        ORB_CHARACTER -> {
+                            if (chat.isPlaceRecommendation) {
+                                RecommendPlaceChatBox(
+                                    name = "오브",
+                                    text = "좋아! 신촌에서 데이트하기 좋은 식당을 알려줄게! 나를 따라와~",
+                                    navigateToRecommendPlace = navigateToRecommendPlace
+                                )
+                            } else
+                                CharacterChatBox(
+                                    name = characterName,
+                                    text = chat.text,
+                                    time = chat.time
+                                )
+
+
+                        }
                     }
                 }
-            }
-            item {
-                RecommendPlaceChatBox(
-                    name = "오브",
-                    text = "좋아! 신촌에서 데이트하기 좋은 식당을 알려줄게! 나를 따라와~",
-                    navigateToRecommendPlace = navigateToRecommendPlace
-                )
             }
         }
         item {

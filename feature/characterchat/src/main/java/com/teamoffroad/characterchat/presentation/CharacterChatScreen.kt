@@ -1,6 +1,7 @@
 package com.teamoffroad.characterchat.presentation
 
 import android.graphics.Rect
+import android.util.Log
 import android.view.ViewTreeObserver
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -51,7 +52,6 @@ fun CharacterChatScreen(
         characterChatViewModel.handleChatState()
     }
 
-
     DisposableEffect(contextView) {
         val rect = Rect()
         val listener = ViewTreeObserver.OnGlobalLayoutListener {
@@ -64,6 +64,10 @@ fun CharacterChatScreen(
         onDispose {
             contextView.viewTreeObserver.removeOnGlobalLayoutListener(listener)
         }
+    }
+
+    LaunchedEffect(uiState.value.chats) {
+        Log.d("test chats list", uiState.value.chats.toString())
     }
 
     Box(

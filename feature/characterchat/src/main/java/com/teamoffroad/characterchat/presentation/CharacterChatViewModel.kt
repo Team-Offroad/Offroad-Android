@@ -26,7 +26,8 @@ class CharacterChatViewModel @Inject constructor(
     private val tracker: Tracker,
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<CharacterChatUiState> = MutableStateFlow(CharacterChatUiState())
+    private val _uiState: MutableStateFlow<CharacterChatUiState> =
+        MutableStateFlow(CharacterChatUiState())
     val uiState: StateFlow<CharacterChatUiState> = _uiState.asStateFlow()
 
     private val _isChatting: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -36,7 +37,8 @@ class CharacterChatViewModel @Inject constructor(
     val chattingText: StateFlow<String> = _chattingText.asStateFlow()
 
     fun initCharacterId(characterId: Int?, characterName: String) {
-        _uiState.value = uiState.value.copy(characterId = characterId, characterName = characterName)
+        _uiState.value =
+            uiState.value.copy(characterId = characterId, characterName = characterName)
     }
 
     fun updateIsChatting(boolean: Boolean) {
@@ -71,13 +73,18 @@ class CharacterChatViewModel @Inject constructor(
             }.onSuccess { result ->
                 val chats = result.getOrNull() ?: emptyList()
                 _uiState.value = uiState.value.copy(
-                    chats = (chats.map { it.toUi() } + previousChats).sortedBy { it.id }.groupBy { it.date }.toSortedMap(),
+                    chats = (chats.map { it.toUi() } + previousChats).sortedBy { it.id }
+                        .groupBy { it.date }.toSortedMap(),
                     isLoading = false,
                     isLoadable = chats.isNotEmpty(),
                     isAdditionalLoading = false,
                 )
             }.onFailure {
-                _uiState.value = uiState.value.copy(isLoading = false, isAdditionalLoading = false, isError = true)
+                _uiState.value = uiState.value.copy(
+                    isLoading = false,
+                    isAdditionalLoading = false,
+                    isError = true
+                )
             }
         }
     }
@@ -92,8 +99,13 @@ class CharacterChatViewModel @Inject constructor(
                     chatType = USER,
                     text = chattingText,
                     date = now.toLocalDate(),
-                    time = Triple(TimeType.toTimeType(now.hour), now.hour.toTwelveHour(), now.minute),
+                    time = Triple(
+                        TimeType.toTimeType(now.hour),
+                        now.hour.toTwelveHour(),
+                        now.minute
+                    ),
                     id = (uiState.value.chats.values.flatten().maxOfOrNull { it.id } ?: 0L) + 1L,
+                    isPlaceRecommendation = false,
                 )
                 extendChat(userChat)
                 _uiState.value = uiState.value.copy(isSending = true)

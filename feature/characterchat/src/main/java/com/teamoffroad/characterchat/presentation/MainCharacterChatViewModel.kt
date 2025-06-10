@@ -177,7 +177,8 @@ class MainCharacterChatViewModel @Inject constructor(
                     isCharacterChattingExist = true,
                     isAnswerButtonClicked = true,
                     isCharacterChattingLoading = false,
-                    characterName = characterName.value
+                    characterName = characterName.value,
+                    isPlaceRecommendation = chat.isPlaceRecommendation
                 )
 
                 tracker.trackEvent("send_chat", mapOf("chat_id" to chat.id))
