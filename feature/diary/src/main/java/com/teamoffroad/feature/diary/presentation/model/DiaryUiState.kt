@@ -8,6 +8,8 @@ import java.time.format.DateTimeFormatter
 data class DiaryUiState(
     val diaryShown: DiaryShownState = DiaryShownState.DiaryUnShown,
     val dailyHexCodes: Map<String, List<HexCode>>? = mapOf("" to emptyList()),
+    val prevMonthHexCodes: Map<String, List<HexCode>>? = null,
+    val nextMonthHexCodes: Map<String, List<HexCode>>? = null,
     val tutorialChecked: Boolean? = null,
     val dialogVisibility: DiaryHintDialogState = DiaryHintDialogState.HintDialogInVisible,
     val diaryCreateTimeChecked: Boolean? = null,

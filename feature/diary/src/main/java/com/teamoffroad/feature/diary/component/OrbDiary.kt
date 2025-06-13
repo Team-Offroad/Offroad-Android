@@ -38,9 +38,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.toColorInt
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.BoxInfo
 import com.teamoffroad.core.designsystem.theme.DiaryButton
@@ -53,13 +53,13 @@ import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.diary.domain.model.HexCode
 import com.teamoffroad.feature.diary.presentation.model.DiaryUiState
 import com.teamoffroad.feature.diary.presentation.util.convertDateToRegex
+import com.teamoffroad.feature.diary.presentation.util.convertRegexToDate
 import com.teamoffroad.offroad.feature.diary.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
-import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
 
@@ -72,6 +72,7 @@ fun OrbDiary(
     dateButtonClick: (String) -> Unit,
     diaryTitleClick: (Boolean) -> Unit,
     diaryMoveClick: (String) -> Unit,
+    updateHexCodesForPageMove: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -84,19 +85,31 @@ fun OrbDiary(
     var currentPage by remember { mutableIntStateOf(initialPage) }
     val pagerState = rememberPagerState(initialPage = initialPage, pageCount = { pageCount })
 
-    LaunchedEffect(pagerState.currentPage) {
-        val monthCalculate = (pagerState.currentPage - currentPage).toLong()
-        currentYearAndMonth = currentYearAndMonth.plusMonths(monthCalculate)
-        currentPage = pagerState.currentPage
+    LaunchedEffect(diaryUiState.currentDiaryCalendarPage) {
+        val (year, month) = convertRegexToDate(diaryUiState.currentDiaryCalendarPage)
+        val newPage =
+            (year - diaryFirstCreatedDate.first) * maxMonth + month - diaryFirstCreatedDate.second
+        if (newPage in 0 until pageCount) {
+            pagerState.animateScrollToPage(newPage)
+        }
     }
 
     LaunchedEffect(pagerState.currentPage) {
-        val date = LocalDate.of(
-            diaryFirstCreatedDate.first + (diaryFirstCreatedDate.second - 1 + pagerState.currentPage) / maxMonth,
-            (diaryFirstCreatedDate.second - 1 + pagerState.currentPage) % maxMonth + 1,
-            1
-        )
-        diaryMoveClick(date.format(DateTimeFormatter.ofPattern("yyyy년 M월")))
+        val monthCalculate = pagerState.currentPage - currentPage
+        if (monthCalculate != 0) {
+            currentYearAndMonth = currentYearAndMonth.plusMonths(monthCalculate.toLong())
+            currentPage = pagerState.currentPage
+
+            when (monthCalculate) {
+                in 1..Int.MAX_VALUE -> {
+                    updateHexCodesForPageMove(true)
+                }
+
+                in Int.MIN_VALUE..-1 -> {
+                    updateHexCodesForPageMove(false)
+                }
+            }
+        }
     }
 
     Column(
@@ -110,7 +123,7 @@ fun OrbDiary(
                 .padding(top = 42.dp, bottom = 26.dp)
                 .fillMaxWidth()
                 .align(Alignment.CenterHorizontally),
-            text = currentYearAndMonth,
+            text = diaryUiState.currentDiaryCalendarPage,
             pagerState = pagerState,
             diaryCalendarInitPage = diaryFirstCreatedDate,
             lastDate = pageCount,
@@ -143,7 +156,7 @@ fun OrbDiary(
 @Composable
 fun OrbDiaryHeader(
     modifier: Modifier = Modifier,
-    text: YearMonth,
+    text: String,
     pagerState: PagerState,
     diaryCalendarInitPage: Pair<Int, Int>,
     lastDate: Int,
@@ -179,8 +192,7 @@ fun OrbDiaryHeader(
                 .width(180.dp)
                 .padding(horizontal = 30.dp)
                 .clickableWithoutRipple { diaryTitleClick(true) },
-            text = text.year.toString() + stringResource(R.string.diary_year) + " " +
-                    text.monthValue + stringResource(R.string.diary_month),
+            text = text,
             color = TooltipTitle,
             style = OffroadTheme.typography.tooltipTitle,
             textAlign = TextAlign.Center,
@@ -271,8 +283,8 @@ private fun OrbDiaryCell(
         if (!hexCode.isNullOrEmpty()) {
             Brush.linearGradient(
                 colors = listOf(
-                    Color(android.graphics.Color.parseColor(hexCode[0].small)),
-                    Color(android.graphics.Color.parseColor(hexCode[0].large)),
+                    Color(hexCode[0].small.toColorInt()),
+                    Color(hexCode[0].large.toColorInt()),
                 )
             )
         } else {

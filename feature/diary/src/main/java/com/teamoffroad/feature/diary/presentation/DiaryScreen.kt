@@ -49,9 +49,7 @@ fun DiaryScreen(
     LaunchedEffect(Unit) {
         viewModel.diarySideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
-                DiarySideEffect.Empty -> {
-                }
-
+                DiarySideEffect.Empty -> {}
                 DiarySideEffect.NavigateBack -> navigateToBack()
                 DiarySideEffect.NavigateDiaryTime -> navigateToDiaryTime()
             }
@@ -123,6 +121,7 @@ fun DiaryScreen(
                             dateButtonClick = viewModel::updateMemoryLightInfo,
                             diaryTitleClick = viewModel::updateBottomSheetState,
                             diaryMoveClick = viewModel::updateCurrentDiaryPage,
+                            updateHexCodesForPageMove = viewModel::updateHexCodesForPageMove,
                             modifier = Modifier.padding(top = 20.dp),
                         )
                     }
