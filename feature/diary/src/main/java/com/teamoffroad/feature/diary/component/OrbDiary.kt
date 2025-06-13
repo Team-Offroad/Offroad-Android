@@ -75,8 +75,10 @@ fun OrbDiary(
     modifier: Modifier = Modifier,
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val initialPage =
-        (currentDate.year - diaryFirstCreatedDate.first) * maxMonth + currentDate.monthValue - diaryFirstCreatedDate.second
+    val initialPage = remember(currentDate, diaryFirstCreatedDate, maxMonth) {
+        (currentDate.year - diaryFirstCreatedDate.first) * maxMonth +
+                currentDate.monthValue - diaryFirstCreatedDate.second
+    }
     val pageCount =
         (currentDate.year - diaryFirstCreatedDate.first) * 12 + currentDate.monthValue - diaryFirstCreatedDate.second + 1
 
@@ -218,9 +220,12 @@ fun OrbDiaryItems(
     dailyHexCodes: Map<String, List<HexCode>>?,
     dateButtonClick: (String) -> Unit
 ) {
-    val lastDay = currentDate.lengthOfMonth()
-    val firstDay = currentDate.withDayOfMonth(1).dayOfWeek.value % 7 + 1
+    val lastDay = remember(currentDate) { currentDate.lengthOfMonth() }
+    val firstDay = remember(currentDate) {
+        currentDate.withDayOfMonth(1).dayOfWeek.value % 7 + 1
+    }
     val days = remember(lastDay) { IntRange(1, lastDay).toList() }
+    val rememberedHexCodes = remember(dailyHexCodes) { dailyHexCodes }
 
     Column(
         modifier = modifier
@@ -250,7 +255,7 @@ fun OrbDiaryItems(
             items(days) { day ->
                 val date = currentDate.withDayOfMonth(day)
                 val currentDay = date.dayOfMonth.toString()
-                val hexCode = dailyHexCodes?.get(currentDay)
+                val hexCode = rememberedHexCodes?.get(currentDay)
                 OrbDiaryCell(
                     modifier = Modifier
                         .padding(top = 20.dp),
@@ -312,7 +317,9 @@ private fun OrbDiaryCell(
 fun WeekTitle(
     modifier: Modifier = Modifier
 ) {
-    val weekTitles = DayOfWeek.entries.sortedBy { it.value % 7 }
+    val weekTitles = remember {
+        DayOfWeek.entries.sortedBy { it.value % 7 }
+    }
     Row(modifier) {
         weekTitles.forEach { days ->
             Text(

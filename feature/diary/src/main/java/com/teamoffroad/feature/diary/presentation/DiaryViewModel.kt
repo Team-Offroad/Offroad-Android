@@ -3,6 +3,7 @@ package com.teamoffroad.feature.diary.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamoffroad.feature.diary.domain.model.DiaryFirstDate
+import com.teamoffroad.feature.diary.domain.model.HexCode
 import com.teamoffroad.feature.diary.domain.model.MemoryLightSetting
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryByDateUseCase
 import com.teamoffroad.feature.diary.domain.usecase.GetDiaryCreateTimeCheckedUseCase
@@ -45,6 +46,8 @@ class DiaryViewModel @Inject constructor(
 
     private val _diarySideEffect: Channel<DiarySideEffect> = Channel()
     val diarySideEffect = _diarySideEffect.receiveAsFlow()
+
+    private val hexCodeCache = mutableMapOf<String, Map<String, List<HexCode>>>()
 
     fun getDiaryFirstDate() {
         viewModelScope.launch {
@@ -207,13 +210,20 @@ class DiaryViewModel @Inject constructor(
 
     fun updateCurrentDiaryPage(date: String) {
         viewModelScope.launch {
+            _diaryUiState.value = diaryUiState.value.copy(
+                currentDiaryCalendarPage = date,
+            )
             val (year, month) = convertRegexToDate(date)
-            getDiaryMonthlyHexUseCase.invoke(year, month).onSuccess { currentHex ->
+            val cacheKey = "$year-$month"
+
+            if (hexCodeCache.containsKey(cacheKey)) {
                 _diaryUiState.value = diaryUiState.value.copy(
-                    currentDiaryCalendarPage = date,
-                    dailyHexCodes = currentHex,
+                    dailyHexCodes = hexCodeCache[cacheKey]
                 )
+                return@launch
             }
+
+            getDiaryHexCode(year = year, month = month)
         }
     }
 }
