@@ -57,18 +57,16 @@ fun DiaryScreen(
     }
 
     LaunchedEffect(Unit) {
+        val (year, month) = convertRegexToDate(diaryUiState.currentDiaryCalendarPage)
         viewModel.apply {
             getDiaryFirstDate()
             getDiaryTutorialChecked()
             getDiaryCreateTimeChecked()
+            getDiaryHexCode(year = year, month = month)
             if (newDiaryExist) updateLatestMemoryLight()
         }
     }
 
-    LaunchedEffect(diaryUiState.currentDiaryCalendarPage) {
-        val (year, month) = convertRegexToDate(diaryUiState.currentDiaryCalendarPage)
-        viewModel.getDiaryHexCode(year = year, month = month)
-    }
 
     LaunchedEffect(diaryUiState.memoryLightList) {
         if (diaryUiState.memoryLightList.memoryLight.isNotEmpty()) {
@@ -121,7 +119,6 @@ fun DiaryScreen(
                             dateButtonClick = viewModel::updateMemoryLightInfo,
                             diaryTitleClick = viewModel::updateBottomSheetState,
                             diaryMoveClick = viewModel::updateCurrentDiaryPage,
-                            updateHexCodesForPageMove = viewModel::updateHexCodesForPageMove,
                             modifier = Modifier.padding(top = 20.dp),
                         )
                     }

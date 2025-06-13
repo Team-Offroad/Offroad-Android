@@ -86,18 +86,6 @@ class DiaryViewModel @Inject constructor(
         }
     }
 
-    fun updateHexCodesForPageMove(isNextMonth: Boolean) {
-        viewModelScope.launch {
-            _diaryUiState.value = diaryUiState.value.copy(
-                dailyHexCodes = if (isNextMonth) {
-                    diaryUiState.value.nextMonthHexCodes
-                } else {
-                    diaryUiState.value.prevMonthHexCodes
-                }
-            )
-        }
-    }
-
     fun updateNavigationBackState() {
         viewModelScope.launch {
             _diarySideEffect.send(DiarySideEffect.NavigateBack)
@@ -220,19 +208,12 @@ class DiaryViewModel @Inject constructor(
     fun updateCurrentDiaryPage(date: String) {
         viewModelScope.launch {
             val (year, month) = convertRegexToDate(date)
-            val prev = if (month == 1) year - 1 to 12 else year to month - 1
-            val next = if (month == 12) year + 1 to 1 else year to month + 1
-
-            val currentHex = getDiaryMonthlyHexUseCase.invoke(year, month).getOrNull()
-            val prevHex = getDiaryMonthlyHexUseCase.invoke(prev.first, prev.second).getOrNull()
-            val nextHex = getDiaryMonthlyHexUseCase.invoke(next.first, next.second).getOrNull()
-
-            _diaryUiState.value = diaryUiState.value.copy(
-                currentDiaryCalendarPage = date,
-                dailyHexCodes = currentHex,
-                prevMonthHexCodes = prevHex,
-                nextMonthHexCodes = nextHex
-            )
+            getDiaryMonthlyHexUseCase.invoke(year, month).onSuccess { currentHex ->
+                _diaryUiState.value = diaryUiState.value.copy(
+                    currentDiaryCalendarPage = date,
+                    dailyHexCodes = currentHex,
+                )
+            }
         }
     }
 }

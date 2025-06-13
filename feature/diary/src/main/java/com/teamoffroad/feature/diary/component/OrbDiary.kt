@@ -72,7 +72,6 @@ fun OrbDiary(
     dateButtonClick: (String) -> Unit,
     diaryTitleClick: (Boolean) -> Unit,
     diaryMoveClick: (String) -> Unit,
-    updateHexCodesForPageMove: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -90,7 +89,9 @@ fun OrbDiary(
         val newPage =
             (year - diaryFirstCreatedDate.first) * maxMonth + month - diaryFirstCreatedDate.second
         if (newPage in 0 until pageCount) {
-            pagerState.animateScrollToPage(newPage)
+            coroutineScope.launch {
+                pagerState.scrollToPage(newPage)
+            }
         }
     }
 
@@ -99,16 +100,6 @@ fun OrbDiary(
         if (monthCalculate != 0) {
             currentYearAndMonth = currentYearAndMonth.plusMonths(monthCalculate.toLong())
             currentPage = pagerState.currentPage
-
-            when (monthCalculate) {
-                in 1..Int.MAX_VALUE -> {
-                    updateHexCodesForPageMove(true)
-                }
-
-                in Int.MIN_VALUE..-1 -> {
-                    updateHexCodesForPageMove(false)
-                }
-            }
         }
     }
 
@@ -141,14 +132,14 @@ fun OrbDiary(
                 (diaryFirstCreatedDate.second - 1 + page) % maxMonth + 1,
                 1
             )
-            if (page in pagerState.currentPage - 1..pagerState.currentPage + 1) {
-                OrbDiaryItems(
+            val rememberedHexCodes = remember(diaryUiState.dailyHexCodes) { diaryUiState.dailyHexCodes }
+
+            OrbDiaryItems(
                     modifier = Modifier,
                     currentDate = date,
-                    dailyHexCodes = diaryUiState.dailyHexCodes,
+                    dailyHexCodes = rememberedHexCodes,
                     dateButtonClick = dateButtonClick
                 )
-            }
         }
     }
 }
