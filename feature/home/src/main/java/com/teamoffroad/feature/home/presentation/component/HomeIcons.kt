@@ -46,7 +46,7 @@ fun HomeIcons(
     updateCharacterChatExist: (Boolean) -> Unit,
     updateCharacterName: (String) -> Unit,
     updateLastUnreadChatDosAllRead: (Boolean) -> Unit,
-    navigateToDiary: (Boolean) -> Unit,
+    navigateToDiary: (Boolean, String) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
 
@@ -150,7 +150,7 @@ fun HomeIcons(
             )
 
             Box(
-                modifier = Modifier.clickableWithoutRipple { navigateToDiary(!newDiaryExist) }
+                modifier = Modifier.clickableWithoutRipple { navigateToDiary(!newDiaryExist, characterName) }
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_home_diary_empty),

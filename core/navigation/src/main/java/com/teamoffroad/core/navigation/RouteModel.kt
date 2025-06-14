@@ -118,5 +118,6 @@ sealed interface DiaryRoute : Route {
     @Serializable
     data class Diary(
         val newDiaryExist: Boolean,
-    ) : DiaryRoute
+        val characterName: String,
+        ) : DiaryRoute
 }

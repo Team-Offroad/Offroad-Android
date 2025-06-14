@@ -39,6 +39,7 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun DiaryScreen(
     newDiaryExist: Boolean,
+    characterName: String,
     navigateToBack: () -> Unit,
     navigateToCharacterChat: (String) -> Unit,
     navigateToDiaryTime: () -> Unit,
@@ -48,9 +49,7 @@ fun DiaryScreen(
     LaunchedEffect(Unit) {
         viewModel.diarySideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
-                DiarySideEffect.Empty -> {
-                }
-
+                DiarySideEffect.Empty -> {}
                 DiarySideEffect.NavigateBack -> navigateToBack()
                 DiarySideEffect.NavigateDiaryTime -> navigateToDiaryTime()
             }
@@ -58,18 +57,16 @@ fun DiaryScreen(
     }
 
     LaunchedEffect(Unit) {
+        val (year, month) = convertRegexToDate(diaryUiState.currentDiaryCalendarPage)
         viewModel.apply {
             getDiaryFirstDate()
             getDiaryTutorialChecked()
             getDiaryCreateTimeChecked()
+            getDiaryHexCode(year = year, month = month)
             if (newDiaryExist) updateLatestMemoryLight()
         }
     }
 
-    LaunchedEffect(diaryUiState.currentDiaryCalendarPage) {
-        val (year, month) = convertRegexToDate(diaryUiState.currentDiaryCalendarPage)
-        viewModel.getDiaryHexCode(year = year, month = month)
-    }
 
     LaunchedEffect(diaryUiState.memoryLightList) {
         if (diaryUiState.memoryLightList.memoryLight.isNotEmpty()) {
@@ -128,7 +125,9 @@ fun DiaryScreen(
 
                     DiaryShownState.DiaryEmpty -> {
                         OrbDiaryEmpty(
-                            navigateToCharacterChat = navigateToCharacterChat,
+                            navigateToCharacterChat = {
+                                navigateToCharacterChat(characterName)
+                            },
                             modifier = Modifier.padding(top = 124.dp),
                         )
                     }

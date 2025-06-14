@@ -47,8 +47,7 @@ class DiaryViewModel @Inject constructor(
     private val _diarySideEffect: Channel<DiarySideEffect> = Channel()
     val diarySideEffect = _diarySideEffect.receiveAsFlow()
 
-    private val _hexCodeData = MutableStateFlow<Map<String, Map<String, List<HexCode>>>>(emptyMap())
-    val hexCodeData: StateFlow<Map<String, Map<String, List<HexCode>>>> = _hexCodeData.asStateFlow()
+    private val hexCodeCache = mutableMapOf<String, Map<String, List<HexCode>>>()
 
     fun getDiaryFirstDate() {
         viewModelScope.launch {
@@ -80,19 +79,8 @@ class DiaryViewModel @Inject constructor(
 
     fun getDiaryHexCode(year: Int, month: Int) {
         viewModelScope.launch {
-            val hexCodeKey = "$year-$month"
-
-            if (_hexCodeData.value.containsKey(hexCodeKey)) {
-                val cachedHexCode = _hexCodeData.value[hexCodeKey]
-                _diaryUiState.value = diaryUiState.value.copy(
-                    dailyHexCodes = cachedHexCode
-                )
-                return@launch
-            }
-
             getDiaryMonthlyHexUseCase.invoke(year, month).onSuccess { hexCodes ->
                 hexCodes?.let {
-                    _hexCodeData.value += (hexCodeKey to it)
                     _diaryUiState.value = diaryUiState.value.copy(
                         dailyHexCodes = it
                     )
@@ -222,10 +210,19 @@ class DiaryViewModel @Inject constructor(
 
     fun updateCurrentDiaryPage(date: String) {
         viewModelScope.launch {
-            val (year, month) = convertRegexToDate(date)
             _diaryUiState.value = diaryUiState.value.copy(
-                currentDiaryCalendarPage = date
+                currentDiaryCalendarPage = date,
             )
+            val (year, month) = convertRegexToDate(date)
+            val cacheKey = "$year-$month"
+
+            if (hexCodeCache.containsKey(cacheKey)) {
+                _diaryUiState.value = diaryUiState.value.copy(
+                    dailyHexCodes = hexCodeCache[cacheKey]
+                )
+                return@launch
+            }
+
             getDiaryHexCode(year = year, month = month)
         }
     }
