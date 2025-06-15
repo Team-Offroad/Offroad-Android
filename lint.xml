@@ -1,0 +1,5 @@
+<lint>
+    <issue id="ModifierParameter">
+        <ignore path="**" />
+    </issue>
+</lint>

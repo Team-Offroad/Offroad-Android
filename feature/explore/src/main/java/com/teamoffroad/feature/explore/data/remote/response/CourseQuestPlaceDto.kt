@@ -19,4 +19,6 @@ data class CourseQuestPlaceDto(
     val isVisited: Boolean,
     @SerialName("categoryImage")
     val categoryImage: String,
+    @SerialName("description")
+    val description: String,
 )

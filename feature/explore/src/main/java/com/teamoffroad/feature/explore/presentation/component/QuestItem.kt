@@ -31,8 +31,8 @@ import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 fun QuestItem(
-    modifier: Modifier = Modifier,
     quest: Quest,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier,
@@ -80,8 +80,8 @@ fun QuestProgressText(questModel: Quest) {
 
 @Composable
 fun QuestExtraItem(
-    modifier: Modifier = Modifier,
     questModel: Quest,
+    modifier: Modifier = Modifier,
 ) {
     Column {
         Text(
@@ -114,9 +114,9 @@ fun QuestExtraItem(
 
 @Composable
 private fun QuestDetailItem(
-    modifier: Modifier = Modifier,
     icon: Painter,
     text: String,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -131,7 +131,7 @@ private fun QuestDetailItem(
         Text(
             text = text,
             style = OffroadTheme.typography.textContentsSmall,
-            color = Gray400,
+            color = Main2,
             modifier = Modifier.padding(start = 6.dp),
         )
     }
