@@ -49,6 +49,7 @@ fun RecommendPlaceBody(
     isButtonVisible: MutableState<Boolean>,
     recommendationsUiState: PlaceRecommendationsUiState,
     recommendPlaceViewModel: RecommendPlaceViewModel,
+    onClick: () -> Unit,
 ) {
     var selectedTab by remember { mutableStateOf(RecommendTab.LIST) }
 
@@ -77,14 +78,16 @@ fun RecommendPlaceBody(
                     listState,
                     hasLocationPermission,
                     recommendationsUiState,
-                    recommendPlaceViewModel
+                    recommendPlaceViewModel,
+                    onClick
                 )
 
                 RecommendTab.MAP -> RecommendPlaceMap(
                     hasLocationPermission,
                     isButtonVisible,
                     recommendationsUiState,
-                    recommendPlaceViewModel
+                    recommendPlaceViewModel,
+                    onClick
                 )
             }
         }
@@ -101,10 +104,11 @@ fun RecommendPlaceList(
     hasLocationPermission: Boolean,
     recommendationsUiState: PlaceRecommendationsUiState,
     recommendPlaceViewModel: RecommendPlaceViewModel,
+    onClick: () -> Unit,
 ) {
     if (hasLocationPermission) {
         if (recommendationsUiState.recommendations.isEmpty()) {
-            NoRecommendPlaceMapItems()
+            NoRecommendPlaceMapItems(onClick)
         } else {
             RecommendPlaceItems(
                 places = recommendationsUiState.recommendations,
@@ -145,11 +149,12 @@ fun RecommendPlaceMap(
     isButtonVisible: MutableState<Boolean>,
     recommendationsUiState: PlaceRecommendationsUiState,
     recommendPlaceViewModel: RecommendPlaceViewModel,
+    onClick: () -> Unit,
 ) {
     isButtonVisible.value = true
 
     if (hasLocationPermission) {
-        if (recommendationsUiState.recommendations.isEmpty()) NoRecommendPlaceMapItems()
+        if (recommendationsUiState.recommendations.isEmpty()) NoRecommendPlaceMapItems(onClick)
         else HasRecommendPlaceMapItems(recommendationsUiState, recommendPlaceViewModel)
     } else {
         Column(

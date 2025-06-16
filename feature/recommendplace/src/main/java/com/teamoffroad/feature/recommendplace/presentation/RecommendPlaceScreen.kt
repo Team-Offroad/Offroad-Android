@@ -100,7 +100,8 @@ fun RecommendPlaceScreen(
                         navigateToOrderRecommendPlace = navigateToOrderRecommendPlace
                     )
                 }
-                RecommendPlaceBody(hasChatted, listState, isButtonVisible, placeRecommendationsUiState.value, recommendPlaceViewModel)
+                RecommendPlaceBody(hasChatted, listState, isButtonVisible, placeRecommendationsUiState.value, recommendPlaceViewModel,
+                    onClick = { isRecommendPlaceViewExpanded = true} )
             }
         }
 

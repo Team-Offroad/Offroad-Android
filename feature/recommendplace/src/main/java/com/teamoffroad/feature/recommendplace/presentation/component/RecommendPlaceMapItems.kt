@@ -56,6 +56,7 @@ import com.naver.maps.map.compose.rememberFusedLocationSource
 import com.naver.maps.map.overlay.OverlayImage
 import com.teamoffroad.core.designsystem.component.FullLinearLoadingAnimation
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
+import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Black55
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -361,7 +362,9 @@ private fun getAdjustedLocationFromMarkerOffset(
 }
 
 @Composable
-fun NoRecommendPlaceMapItems() {
+fun NoRecommendPlaceMapItems(
+    onClick: () -> Unit,
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -397,7 +400,11 @@ fun NoRecommendPlaceMapItems() {
                     shape = RoundedCornerShape(46.dp),
                     color = Main2
                 )
-                .padding(vertical = 14.dp),
+                .padding(vertical = 14.dp)
+                .clickableWithoutRipple {
+                    // 채팅창 열리기
+                    onClick()
+                },
             textAlign = TextAlign.Center
         )
     }

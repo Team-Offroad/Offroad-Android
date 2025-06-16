@@ -92,7 +92,7 @@ fun RecommendPlaceButton(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = content,
+                        text = content.ifEmpty { "반가워 나는 추천 오브 츄링이야!\n장소 추천이 필요해? 어디로 갈건지 말해봐 츄츄~" }, // 임의로 넣어둠
                         modifier = Modifier
                             .padding(horizontal = 26.dp, vertical = 20.dp),
                         style = OffroadTheme.typography.boxMedi,
