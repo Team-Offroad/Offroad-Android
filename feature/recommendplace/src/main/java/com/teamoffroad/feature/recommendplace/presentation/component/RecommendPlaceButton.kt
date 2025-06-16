@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
@@ -100,24 +99,13 @@ fun RecommendPlaceButton(
                         lineHeight = 16.sp
                     )
                     Spacer(modifier = Modifier.weight(1f))
-                    if(hasChatted) {
-                        Image(
-                            painter = painterResource(R.drawable.ic_recommend_place_chat),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(end = 10.dp)
-                                .clickableWithoutRipple { onClick() }
-                        )
-                    } else {
-                        Image(
-                            painter = painterResource(R.drawable.ic_recommend_place_order),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(end = 10.dp)
-                                .clickableWithoutRipple { navigateToOrderRecommendPlace() }
-                        )
-                    }
-
+                    Image(
+                        painter = painterResource(R.drawable.ic_recommend_place_chat),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(end = 10.dp)
+                            .clickableWithoutRipple { onClick() }
+                    )
                     Image(
                         painter = painterResource(R.drawable.ic_recommend_place_arrow_right),
                         contentDescription = null,
