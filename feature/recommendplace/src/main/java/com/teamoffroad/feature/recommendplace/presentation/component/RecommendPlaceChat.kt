@@ -76,6 +76,7 @@ fun RecommendPlaceChat(
             )
 
             RecommendPlaceChats(
+                name = name,
                 modifier = Modifier.weight(1f),
                 userChatMessages = userChatMessages
             )

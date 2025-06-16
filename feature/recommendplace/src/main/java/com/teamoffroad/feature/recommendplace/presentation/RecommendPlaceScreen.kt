@@ -74,9 +74,9 @@ fun RecommendPlaceScreen(
                     .background(color = Main1)
             ) {
                 RecommendPlaceChat(
-                    name = "추천 장소",
+                    name = "추천 장소", // 캐릭터 이름으로 넣기
                     text = content,
-                    time = "오전 11:30",
+                    time = "오전 11:30", // 현재 시간으로
                     onClose = { isRecommendPlaceViewExpanded = false }
                 )
             }

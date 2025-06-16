@@ -30,4 +30,6 @@
     <string name="recommend_place_map_no_place_reply">다시 물어보기</string>
     <string name="recommend_place_map_open_map">지도 열기</string>
     <string name="recommend_place_nearby">근처에 가볼 만한 곳</string>
+
+    <string name="recommend_place_button_temp_welcome_text">반가워 나는 추천 오브 츄링이야!\n장소 추천이 필요해?</string>
 </resources>

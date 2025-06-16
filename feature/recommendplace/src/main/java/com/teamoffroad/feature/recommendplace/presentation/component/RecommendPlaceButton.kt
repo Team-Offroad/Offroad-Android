@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
@@ -92,7 +93,7 @@ fun RecommendPlaceButton(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = content.ifEmpty { "반가워 나는 추천 오브 츄링이야!\n장소 추천이 필요해? 어디로 갈건지 말해봐 츄츄~" }, // 임의로 넣어둠
+                        text = content.ifEmpty { stringResource(id = R.string.recommend_place_button_temp_welcome_text) },
                         modifier = Modifier
                             .padding(horizontal = 26.dp, vertical = 20.dp),
                         style = OffroadTheme.typography.boxMedi,

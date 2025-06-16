@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.LottieAnimation
@@ -36,9 +37,11 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub4
+import com.teamoffroad.offroad.feature.recommendplace.R
 
 @Composable
 fun RecommendPlaceChats(
+    name: String,
     modifier: Modifier = Modifier,
     userChatMessages: List<String>,
 ) {
@@ -63,7 +66,7 @@ fun RecommendPlaceChats(
     ) {
         item {
             RecommendPlaceCharacterChatBox(
-                name = "오브", text = "오브의 추천소에 어서와~ 여기서는 ~~~소개소개", time = Triple(TimeType.AM, 9, 5)
+                name = name, text = stringResource(id = R.string.recommend_place_button_temp_welcome_text), time = Triple(TimeType.AM, 9, 5)
             )
         }
 
@@ -131,7 +134,7 @@ fun RecommendPlaceCharacterChatBox(
     ) {
         Row(
             modifier = Modifier
-                .widthIn(max = 256.dp)
+                .widthIn(max = 290.dp)
                 .padding(start = 24.dp)
                 .border(
                     width = 1.dp,
