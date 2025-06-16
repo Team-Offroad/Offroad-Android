@@ -37,7 +37,7 @@ fun CharacterChats(
     isLoadable: Boolean = true,
     updateChats: () -> Unit,
     updateIsChatting: (Boolean) -> Unit,
-    navigateToRecommendPlace: (Boolean, String) -> Unit,
+    navigateToRecommendPlace: (Boolean, String, String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val animatedHeight =

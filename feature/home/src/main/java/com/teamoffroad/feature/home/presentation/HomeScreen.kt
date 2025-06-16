@@ -63,7 +63,7 @@ fun HomeScreen(
     navigateToGainedCharacter: () -> Unit = {},
     navigateToCharacterChatScreen: (String) -> Unit,
     navigateToDiary: (Boolean) -> Unit,
-    navigateToRecommendPlace: (Boolean, String) -> Unit,
+    navigateToRecommendPlace: (Boolean, String, String) -> Unit,
 ) {
     val context = LocalContext.current
     val homeViewModel: HomeViewModel = hiltViewModel()
@@ -203,7 +203,7 @@ private fun UsersAdventuresInformation(
     updateCharacterName: (String) -> Unit,
     updateLastUnreadChatDosAllRead: (Boolean) -> Unit,
     navigateToDiary: (Boolean) -> Unit,
-    navigateToRecommendPlace: (Boolean, String) -> Unit,
+    navigateToRecommendPlace: (Boolean, String, String) -> Unit,
 ) {
     val adventuresInformationState =
         homeViewModel.getUsersAdventuresInformationState.collectAsState(initial = UiState.Loading).value
