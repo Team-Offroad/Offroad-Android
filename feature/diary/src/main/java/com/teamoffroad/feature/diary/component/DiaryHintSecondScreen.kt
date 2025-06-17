@@ -24,13 +24,12 @@ fun DiaryHintSecondScreen(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.fillMaxSize(),
-
         ) {
         Image(
-            painter = painterResource(id = R.drawable.img_diary_dialog_dummy),
-            contentDescription = "dummy",
+            painter = painterResource(id = R.drawable.img_diary_hint_memorylight),
+            contentDescription = "hint",
             modifier = Modifier
-                .height(220.dp)
+                .height(280.dp)
                 .padding(bottom = 40.dp),
         )
         Text(

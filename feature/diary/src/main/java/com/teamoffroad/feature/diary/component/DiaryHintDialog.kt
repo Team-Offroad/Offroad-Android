@@ -77,7 +77,7 @@ fun DiaryHintDialog(
             painter = painterResource(id = R.drawable.ic_diary_dialog_close),
             contentDescription = "close",
             modifier = Modifier
-                .padding(top = 65.dp, bottom = 40.dp)
+                .padding(top = 65.dp)
                 .padding(end = 20.dp)
                 .align(Alignment.End)
                 .clickableWithoutRipple { onCancelClick(false) },

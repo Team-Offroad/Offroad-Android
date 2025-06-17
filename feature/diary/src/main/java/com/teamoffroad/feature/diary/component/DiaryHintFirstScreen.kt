@@ -29,8 +29,7 @@ fun DiaryHintFirstScreen(
             painter = painterResource(id = R.drawable.img_diary_hint_character),
             contentDescription = "character",
             modifier = Modifier
-                .height(220.dp)
-                .padding(bottom = 40.dp),
+                .height(280.dp)
         )
         Text(
             textAlign = TextAlign.Center,
