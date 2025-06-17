@@ -97,7 +97,7 @@ fun DiaryHintDialog(
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 52.dp, bottom = 77.dp),
+                .padding(top = 32.dp, bottom = 77.dp),
         ) {
             DiaryHintProgressIndicator(animateActive = pagerState.currentPage >= firstPage)
             Spacer(modifier = Modifier.width(7.dp))
