@@ -23,10 +23,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -49,6 +47,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.graphics.toColorInt
 import com.teamoffroad.core.common.util.saveBitmapToExternal
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Main1
@@ -57,6 +56,7 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Stroke
 import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.feature.diary.domain.model.HexCode
 import com.teamoffroad.feature.diary.domain.model.MemoryLight
 import com.teamoffroad.feature.diary.domain.model.MemoryLightSetting
 import com.teamoffroad.offroad.feature.diary.R
@@ -79,6 +79,10 @@ fun MemoryLightScreen(
     val context = LocalContext.current
     var currentPage by remember { mutableIntStateOf(memoryLight.initialPage) }
 
+    val currentMemoryLight = remember(currentPage) {
+        memoryLight.memoryLight.getOrNull(currentPage)?.hexCodes
+    }
+
     LaunchedEffect(pagerState.currentPage) {
         currentPage = pagerState.currentPage
     }
@@ -94,7 +98,10 @@ fun MemoryLightScreen(
             .drawBehind {
                 drawRect(
                     brush = Brush.radialGradient(
-                        colors = listOf(Color(0xFF70DAFF), Color(0xFF5580FF)),
+                        colors = listOf(
+                            Color(currentMemoryLight?.firstOrNull()!!.small.toColorInt()),
+                            Color(currentMemoryLight.firstOrNull()!!.large.toColorInt())
+                        ),
                         center = Offset(0f, 0f),
                         radius = size.minDimension
                     ),
@@ -116,6 +123,7 @@ fun MemoryLightScreen(
             modifier = Modifier.padding(bottom = 28.dp),
         ) { page ->
             MemoryLightItems(
+                currentMemoryLight = currentMemoryLight,
                 memoryLight = memoryLight.memoryLight[currentPage],
                 updateDiaryCheck = updateDiaryCheck,
                 modifier = Modifier.drawWithContent {
@@ -162,6 +170,7 @@ fun MemoryLightScreen(
 
 @Composable
 private fun MemoryLightItems(
+    currentMemoryLight: List<HexCode>?,
     memoryLight: MemoryLight,
     updateDiaryCheck: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -178,7 +187,9 @@ private fun MemoryLightItems(
             .background(color = White, shape = RoundedCornerShape(20.dp))
             .fillMaxWidth()
     ) {
-        GradientCircle()
+        GradientCircle(
+            currentMemoryLight = currentMemoryLight
+        )
         Column(
             modifier = Modifier
                 .padding(horizontal = 24.dp)
@@ -274,7 +285,9 @@ fun DottedHorizontalDivider(
 }
 
 @Composable
-fun GradientCircle() {
+fun GradientCircle(
+    currentMemoryLight: List<HexCode>?,
+) {
     Box(
         modifier = Modifier
             .padding(top = 20.dp)
@@ -294,8 +307,8 @@ fun GradientCircle() {
             drawCircle(
                 brush = Brush.radialGradient(
                     colors = listOf(
-                        Color(0xFF70DAFF).copy(0.8f),
-                        Color(0xFF5580FF).copy(0.6f),
+                        Color(currentMemoryLight?.firstOrNull()!!.small.toColorInt()),
+                        Color(currentMemoryLight.firstOrNull()!!.large.toColorInt()),
                         Color.Transparent
                     ),
                     center = Offset(center.x - 90f, center.y - 100f),
