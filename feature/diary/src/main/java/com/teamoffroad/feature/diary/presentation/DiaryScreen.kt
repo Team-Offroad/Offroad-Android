@@ -47,8 +47,6 @@ fun DiaryScreen(
     navigateToDiaryTime: () -> Unit,
     viewModel: DiaryViewModel = hiltViewModel()
 ) {
-    Log.d("asdasdasd", characterName)
-
     val diaryUiState by viewModel.diaryUiState.collectAsState()
     LaunchedEffect(Unit) {
         viewModel.diarySideEffect.collectLatest { sideEffect ->
