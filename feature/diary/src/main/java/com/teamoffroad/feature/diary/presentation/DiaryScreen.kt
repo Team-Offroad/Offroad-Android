@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.diary.presentation
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -46,6 +47,8 @@ fun DiaryScreen(
     navigateToDiaryTime: () -> Unit,
     viewModel: DiaryViewModel = hiltViewModel()
 ) {
+    Log.d("asdasdasd", characterName)
+
     val diaryUiState by viewModel.diaryUiState.collectAsState()
     LaunchedEffect(Unit) {
         viewModel.diarySideEffect.collectLatest { sideEffect ->
@@ -129,6 +132,7 @@ fun DiaryScreen(
 
                     DiaryShownState.DiaryEmpty -> {
                         OrbDiaryEmpty(
+                            characterName = characterName,
                             navigateToCharacterChat = {
                                 navigateToCharacterChat(characterName)
                             },
