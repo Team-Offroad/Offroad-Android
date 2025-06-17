@@ -13,6 +13,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -87,7 +88,10 @@ fun DiaryScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Main1)
-                .actionBarPadding(),
+                .actionBarPadding()
+                .blur(
+                    radius = if (diaryUiState.dialogVisibility == DiaryHintDialogState.HintDialogVisible) 10.dp else 0.dp
+                ),
         ) {
             NavigateBackAppBar(
                 text = stringResource(id = R.string.diary_back_home),
@@ -125,6 +129,7 @@ fun DiaryScreen(
 
                     DiaryShownState.DiaryEmpty -> {
                         OrbDiaryEmpty(
+                            characterName = characterName,
                             navigateToCharacterChat = {
                                 navigateToCharacterChat(characterName)
                             },
