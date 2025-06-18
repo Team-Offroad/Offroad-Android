@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.characterchat.presentation.model.ChatModel
 import com.teamoffroad.characterchat.presentation.model.ChatModel.Companion.toTime
@@ -27,27 +26,19 @@ import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.offroad.feature.recommendplace.R
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Composable
 fun RecommendPlaceChat(
     name: String,
-    text: String,
-    time: String,
+    chatList: Map<LocalDate, List<ChatModel>>,
+    updateOrderChats: (ChatModel) -> Unit,
     onClose: () -> Unit
 ) {
     val keyboardHeight = remember { mutableIntStateOf(0) }
     val view = LocalView.current
     val userChatMessages = remember { mutableStateListOf<String>() }
-
-    val initialChat = ChatModel( // 환영 메시지로 초기 chatList 세팅
-        text = stringResource(id = R.string.recommend_place_button_temp_welcome_text),
-        time = LocalDateTime.now().toString().toTime(),
-        chatType = ChatType.ORB_CHARACTER,
-        isPlaceRecommendation = false
-    )
-    val chatList = remember { mutableStateListOf(initialChat) }
-
 
     DisposableEffect(view) {
         val listener = ViewTreeObserver.OnGlobalLayoutListener {
@@ -89,18 +80,18 @@ fun RecommendPlaceChat(
             RecommendPlaceChats(
                 name = name,
                 modifier = Modifier.weight(1f),
-                chatList = chatList,
+                chatList = chatList.values.flatten(),
                 userChatMessages = userChatMessages
             )
 
             RecommendPlaceExampleQuestionButton(
                 onClick = { question ->
                     userChatMessages.add(question)
-                    val currentTimeTriple = LocalDateTime.now().toString().toTime()
-                    chatList.add(
+                    val currentTime = LocalDateTime.now().toString().toTime()
+                    updateOrderChats(
                         ChatModel(
                             text = question,
-                            time = currentTimeTriple,
+                            time = currentTime,
                             chatType = ChatType.USER,
                             isPlaceRecommendation = true
                         )

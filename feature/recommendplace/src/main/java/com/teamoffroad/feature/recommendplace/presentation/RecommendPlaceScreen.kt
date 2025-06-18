@@ -48,6 +48,7 @@ fun RecommendPlaceScreen(
     var isRecommendPlaceViewExpanded by remember { mutableStateOf(false) }
     val listState = rememberLazyListState()
     val placeRecommendationsUiState = recommendPlaceViewModel.placeRecommendationsUiState.collectAsStateWithLifecycle()
+    val placeRecommendationsOrderChatsUiState = recommendPlaceViewModel.placeRecommendationsOrderChatsUiState.collectAsStateWithLifecycle()
 
     val transitionState = remember { MutableTransitionState(false) }
     transitionState.targetState = isRecommendPlaceViewExpanded
@@ -75,9 +76,9 @@ fun RecommendPlaceScreen(
                     .background(color = Main1)
             ) {
                 RecommendPlaceChat(
-                    name = characterName, // 캐릭터 이름으로 넣기
-                    text = content,
-                    time = "오전 11:30", // 현재 시간으로
+                    name = characterName,
+                    chatList = placeRecommendationsOrderChatsUiState.value.chats,
+                    updateOrderChats = recommendPlaceViewModel::updateOrderChats,
                     onClose = { isRecommendPlaceViewExpanded = false }
                 )
             }

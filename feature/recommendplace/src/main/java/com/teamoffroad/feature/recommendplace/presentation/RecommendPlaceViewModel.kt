@@ -1,21 +1,25 @@
 package com.teamoffroad.feature.recommendplace.presentation
 
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.naver.maps.geometry.LatLng
+import com.teamoffroad.characterchat.presentation.model.ChatModel
+import com.teamoffroad.characterchat.presentation.model.ChatModel.Companion.toTime
+import com.teamoffroad.characterchat.presentation.model.ChatType
 import com.teamoffroad.feature.explore.domain.usecase.GetMapPlaceListUseCase
 import com.teamoffroad.feature.explore.domain.usecase.GetPreviousLocationUseCase
 import com.teamoffroad.feature.explore.domain.usecase.SavePreviousLocationUseCase
 import com.teamoffroad.feature.explore.presentation.mapper.toUi
 import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 import com.teamoffroad.feature.recommendplace.domain.repository.PlaceRecommendationsRepository
+import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsOrderChatUiState
 import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,6 +31,52 @@ class RecommendPlaceViewModel @Inject constructor(
 ) : ViewModel() {
     private val _placeRecommendationsUiState = MutableStateFlow(PlaceRecommendationsUiState())
     val placeRecommendationsUiState = _placeRecommendationsUiState.asStateFlow()
+
+    private val _placeRecommendationsOrderChatsUiState = MutableStateFlow(PlaceRecommendationsOrderChatUiState())
+    val placeRecommendationsOrderChatsUiState = _placeRecommendationsOrderChatsUiState.asStateFlow()
+
+    init {
+        updateOrderChats(
+            ChatModel(
+                text = "반가워 나는 추천 오브 츄링이야!\n장소 추천이 필요해?",
+                time = LocalDateTime.now().toString().toTime(),
+                chatType = ChatType.ORB_CHARACTER,
+                isPlaceRecommendation = false
+            )
+        )
+    }
+
+    fun updateOrderChats(chat: ChatModel) {
+        val currentChats = _placeRecommendationsOrderChatsUiState.value.chats.toMutableMap()
+        val chatsForDate = currentChats[chat.date]?.toMutableList() ?: mutableListOf()
+        chatsForDate.add(chat)
+        currentChats[chat.date] = chatsForDate
+        _placeRecommendationsOrderChatsUiState.value = _placeRecommendationsOrderChatsUiState.value.copy(
+            chats = currentChats
+        )
+    }
+
+    fun getPlaceRecommendationsOrderChats(content: String) {
+        viewModelScope.launch {
+            runCatching {
+                _placeRecommendationsOrderChatsUiState.value = _placeRecommendationsOrderChatsUiState.value.copy(
+                    isLoading = true,
+                    isError = false
+                )
+                //placeRecommendationsRepository.postPlaceRecommendationsOrderChat(content)
+            }.onSuccess {
+                _placeRecommendationsOrderChatsUiState.value = _placeRecommendationsOrderChatsUiState.value.copy(
+                    isLoading = false,
+                    isError = false
+                )
+            }.onFailure {
+                _placeRecommendationsOrderChatsUiState.value = _placeRecommendationsOrderChatsUiState.value.copy(
+                    isLoading = false,
+                    isError = true
+                )
+            }
+        }
+    }
 
     fun getPlaceRecommendations() {
         if (placeRecommendationsUiState.value.isAdditionalLoading || placeRecommendationsUiState.value.isLoadable.not()) return
@@ -62,36 +112,12 @@ class RecommendPlaceViewModel @Inject constructor(
                     }
                 )
             }.onFailure { t ->
-                // 실제 부분
-//                _placeRecommendationsUiState.value = _placeRecommendationsUiState.value.copy(
-//                    isLoading = false,
-//                    isAdditionalLoading = false,
-//                    isError = true,
-//                    errorMessage = t.message.toString(),
-//                    recommendations = emptyList()
-//                )
-
-                // 테스트용 추천 항목 추가 -> 추후 삭제할 부분
-                val testRecommendation = PlaceRecommendationsUiState.RecommendationsUiState(
-                    id = 1,
-                    recommendationType = "RESTAURANT,CAFE",
-                    name = "테스트 장소",
-                    address = "서울시 강남구 테스트로 123",
-                    shortIntroduction = "테스트 장소입니다.",
-                    placeCategory = PlaceCategory.RESTAURANT,
-                    placeArea = "SEOUL",
-                    latitude = 37.123456,
-                    longitude = 127.123456,
-                    categoryImageUrl = "https://test.com/test.jpg",
-                    location = LatLng(37.123456, 127.123456)
-                )
                 _placeRecommendationsUiState.value = _placeRecommendationsUiState.value.copy(
-                    isError = false,
-                    isAdditionalLoading = false,
                     isLoading = false,
-                    recommendations = emptyList<PlaceRecommendationsUiState.RecommendationsUiState>().plus(
-                        testRecommendation
-                    )
+                    isAdditionalLoading = false,
+                    isError = true,
+                    errorMessage = t.message.toString(),
+                    recommendations = emptyList()
                 )
             }
         }

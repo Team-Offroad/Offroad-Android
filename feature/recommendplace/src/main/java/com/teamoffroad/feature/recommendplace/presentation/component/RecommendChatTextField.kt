@@ -108,6 +108,7 @@ fun RecommendChatTextField(modifier: Modifier, keyboardHeight: Int) {
                 .align(Alignment.CenterEnd)
                 .clickableWithoutRipple {
                     if (text.value.isNotBlank()) {
+                        // 채팅 보내기
                         text.value = ""
                     }
                 },
