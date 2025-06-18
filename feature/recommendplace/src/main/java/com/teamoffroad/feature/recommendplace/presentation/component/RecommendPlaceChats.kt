@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -18,18 +17,18 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.teamoffroad.characterchat.presentation.component.TimeLabel
+import com.teamoffroad.characterchat.presentation.component.UserChatBox
+import com.teamoffroad.characterchat.presentation.model.ChatModel
+import com.teamoffroad.characterchat.presentation.model.ChatType
 import com.teamoffroad.characterchat.presentation.model.TimeType
 import com.teamoffroad.characterchat.presentation.model.TimeType.AM
 import com.teamoffroad.core.designsystem.theme.BtnInactive
@@ -37,11 +36,11 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub4
-import com.teamoffroad.offroad.feature.recommendplace.R
 
 @Composable
 fun RecommendPlaceChats(
     name: String,
+    chatList: List<ChatModel>,
     modifier: Modifier = Modifier,
     userChatMessages: List<String>,
 ) {
@@ -64,62 +63,79 @@ fun RecommendPlaceChats(
         modifier = modifier.fillMaxWidth(),
         state = listState
     ) {
-        item {
-            RecommendPlaceCharacterChatBox(
-                name = name, text = stringResource(id = R.string.recommend_place_button_temp_welcome_text), time = Triple(TimeType.AM, 9, 5)
-            )
-        }
+        items(chatList) { chat ->
+            when (chat.chatType) {
+                ChatType.USER -> {
+                    if (chat.isPlaceRecommendation) {
+                        RecommendPlaceUserChatBox(
+                            text = chat.text,
+                            time = chat.time
+                        )
+                    } else {
+                        UserChatBox(
+                            text = chat.text,
+                            time = chat.time
+                        )
+                    }
+                }
 
-        item {
-            Row(
-                modifier = Modifier.padding(bottom = 16.dp)
-            ) {
-                Row(
-                    modifier = Modifier
-                        .widthIn(max = 256.dp)
-                        .padding(start = 24.dp)
-                        .border(
-                            width = 1.dp,
-                            brush = Brush.horizontalGradient(colors = com.teamoffroad.characterchat.presentation.component.RecommendPlaceStrokeGradientColors),
-                            shape = RoundedCornerShape(12.dp)
-                        )
-                        .background(
-                            color = Color.White,
-                            shape = RoundedCornerShape(12.dp)
-                        )
-                        .background(
-                            brush = Brush.horizontalGradient(com.teamoffroad.characterchat.presentation.component.RecommendPlaceFillGradientColors),
-                            shape = RoundedCornerShape(12.dp)
-                        )
-                        .padding(16.dp)
-                ) {
-                    Text(
-                        text = "오브",
-                        style = OffroadTheme.typography.textBold,
-                        color = Sub4,
+                ChatType.ORB_CHARACTER -> {
+                    RecommendPlaceCharacterChatBox(
+                        name = name,
+                        text = chat.text,
+                        time = chat.time
                     )
-                    Text(
-                        text = ": ",
-                        color = Main2,
-                        style = OffroadTheme.typography.textRegular,
-                        modifier = Modifier.padding(start = 4.dp),
-                    )
-                    LottieAnimation(
-                        composition = composition,
-                        progress = animationState.progress,
-                        modifier = Modifier.size(25.dp)
-                    )
-
                 }
             }
         }
 
-        items(userChatMessages) { message ->
-            RecommendPlaceUserChatBox(
-                text = message,
-                time = Triple(TimeType.AM, 9, 5)
-            )
-        }
+
+
+//        item {
+//            Row(
+//                modifier = Modifier.padding(bottom = 16.dp)
+//            ) {
+//                Row(
+//                    modifier = Modifier
+//                        .widthIn(max = 256.dp)
+//                        .padding(start = 24.dp)
+//                        .border(
+//                            width = 1.dp,
+//                            brush = Brush.horizontalGradient(colors = com.teamoffroad.characterchat.presentation.component.RecommendPlaceStrokeGradientColors),
+//                            shape = RoundedCornerShape(12.dp)
+//                        )
+//                        .background(
+//                            color = Color.White,
+//                            shape = RoundedCornerShape(12.dp)
+//                        )
+//                        .background(
+//                            brush = Brush.horizontalGradient(com.teamoffroad.characterchat.presentation.component.RecommendPlaceFillGradientColors),
+//                            shape = RoundedCornerShape(12.dp)
+//                        )
+//                        .padding(16.dp)
+//                ) {
+//                    Text(
+//                        text = "오브",
+//                        style = OffroadTheme.typography.textBold,
+//                        color = Sub4,
+//                    )
+//                    Text(
+//                        text = ": ",
+//                        color = Main2,
+//                        style = OffroadTheme.typography.textRegular,
+//                        modifier = Modifier.padding(start = 4.dp),
+//                    )
+//                    LottieAnimation(
+//                        composition = composition,
+//                        progress = animationState.progress,
+//                        modifier = Modifier.size(25.dp)
+//                    )
+//
+//                }
+//            }
+//        }
+
+
     }
 }
 
