@@ -42,7 +42,6 @@ fun RecommendPlaceChats(
     name: String,
     chatList: List<ChatModel>,
     modifier: Modifier = Modifier,
-    userChatMessages: List<String>,
 ) {
     val listState = rememberLazyListState()
 
@@ -53,9 +52,9 @@ fun RecommendPlaceChats(
         LaunchedEffect(Unit) {  }
     }
 
-    LaunchedEffect(userChatMessages.size) {
-        if (userChatMessages.isNotEmpty()) {
-            listState.animateScrollToItem(userChatMessages.size - 1)
+    LaunchedEffect(chatList.size) {
+        if (chatList.isNotEmpty()) {
+            listState.animateScrollToItem(chatList.lastIndex)
         }
     }
 

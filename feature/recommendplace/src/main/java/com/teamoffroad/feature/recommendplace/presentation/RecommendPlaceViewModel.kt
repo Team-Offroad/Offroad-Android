@@ -11,6 +11,7 @@ import com.teamoffroad.feature.explore.domain.usecase.GetPreviousLocationUseCase
 import com.teamoffroad.feature.explore.domain.usecase.SavePreviousLocationUseCase
 import com.teamoffroad.feature.explore.presentation.mapper.toUi
 import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
+import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendationsOrderChatRequest
 import com.teamoffroad.feature.recommendplace.domain.repository.PlaceRecommendationsRepository
 import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsOrderChatUiState
 import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsUiState
@@ -63,9 +64,22 @@ class RecommendPlaceViewModel @Inject constructor(
                     isLoading = true,
                     isError = false
                 )
-                //placeRecommendationsRepository.postPlaceRecommendationsOrderChat(content)
-            }.onSuccess {
+                placeRecommendationsRepository.postPlaceRecommendationsOrderChat(PlaceRecommendationsOrderChatRequest(content))
+            }.onSuccess { chat ->
+                val chatModel = ChatModel(
+                    text = chat.content,
+                    time = LocalDateTime.now().toString().toTime(),
+                    chatType = ChatType.ORB_CHARACTER,
+                    isPlaceRecommendation = true
+                )
+
+                val updatedChats = _placeRecommendationsOrderChatsUiState.value.chats.toMutableMap()
+                val chatsForDate = updatedChats[chatModel.date]?.toMutableList() ?: mutableListOf()
+                chatsForDate.add(chatModel)
+                updatedChats[chatModel.date] = chatsForDate
+
                 _placeRecommendationsOrderChatsUiState.value = _placeRecommendationsOrderChatsUiState.value.copy(
+                    chats = updatedChats,
                     isLoading = false,
                     isError = false
                 )

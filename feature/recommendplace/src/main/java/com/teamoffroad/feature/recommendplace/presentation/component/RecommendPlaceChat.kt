@@ -25,6 +25,7 @@ import com.teamoffroad.characterchat.presentation.model.ChatType
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.component.navigationPadding
+import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendationsOrderChat
 import com.teamoffroad.offroad.feature.recommendplace.R
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -34,6 +35,7 @@ fun RecommendPlaceChat(
     name: String,
     chatList: Map<LocalDate, List<ChatModel>>,
     updateOrderChats: (ChatModel) -> Unit,
+    getPlaceRecommendationsOrderChats: (String) -> Unit,
     onClose: () -> Unit
 ) {
     val keyboardHeight = remember { mutableIntStateOf(0) }
@@ -81,27 +83,27 @@ fun RecommendPlaceChat(
                 name = name,
                 modifier = Modifier.weight(1f),
                 chatList = chatList.values.flatten(),
-                userChatMessages = userChatMessages
             )
 
             RecommendPlaceExampleQuestionButton(
                 onClick = { question ->
-                    userChatMessages.add(question)
-                    val currentTime = LocalDateTime.now().toString().toTime()
                     updateOrderChats(
                         ChatModel(
                             text = question,
-                            time = currentTime,
+                            time = LocalDateTime.now().toString().toTime(),
                             chatType = ChatType.USER,
                             isPlaceRecommendation = true
                         )
                     )
+                    getPlaceRecommendationsOrderChats(question)
                 }
             )
 
             RecommendChatTextField(
                 modifier = Modifier,
-                keyboardHeight = keyboardHeight.intValue
+                keyboardHeight = keyboardHeight.intValue,
+                updateOrderChats = updateOrderChats,
+                getPlaceRecommendationsOrderChats = getPlaceRecommendationsOrderChats
             )
         }
     }

@@ -1,6 +1,7 @@
 package com.teamoffroad.feature.recommendplace.data.remote.service
 
 import com.teamoffroad.core.common.data.remote.response.BaseResponse
+import com.teamoffroad.feature.recommendplace.data.remote.request.PlaceRecommendationsOrderChatRequestDto
 import com.teamoffroad.feature.recommendplace.data.remote.request.PlaceRecommendationsOrderRequestDto
 import com.teamoffroad.feature.recommendplace.data.remote.response.PlaceRecommendationsOrderChatResponseDto
 import com.teamoffroad.feature.recommendplace.data.remote.response.PlaceRecommendationsOrderResponseDto
@@ -20,6 +21,6 @@ interface PlaceRecommendationsService {
 
     @POST("place-recommendations/order/chat")
     suspend fun postPlaceRecommendationsOrderChat(
-        @Body data: String
+        @Body data: PlaceRecommendationsOrderChatRequestDto
     ): BaseResponse<PlaceRecommendationsOrderChatResponseDto>
 }

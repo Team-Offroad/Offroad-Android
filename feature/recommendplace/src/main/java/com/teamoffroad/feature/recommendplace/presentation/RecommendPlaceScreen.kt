@@ -79,6 +79,7 @@ fun RecommendPlaceScreen(
                     name = characterName,
                     chatList = placeRecommendationsOrderChatsUiState.value.chats,
                     updateOrderChats = recommendPlaceViewModel::updateOrderChats,
+                    getPlaceRecommendationsOrderChats = recommendPlaceViewModel::getPlaceRecommendationsOrderChats,
                     onClose = { isRecommendPlaceViewExpanded = false }
                 )
             }

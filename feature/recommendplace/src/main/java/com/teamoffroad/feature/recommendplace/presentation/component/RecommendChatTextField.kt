@@ -28,6 +28,9 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.teamoffroad.characterchat.presentation.model.ChatModel
+import com.teamoffroad.characterchat.presentation.model.ChatModel.Companion.toTime
+import com.teamoffroad.characterchat.presentation.model.ChatType
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.BtnInactive
 import com.teamoffroad.core.designsystem.theme.Main2
@@ -35,10 +38,16 @@ import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Transparent
 import com.teamoffroad.core.designsystem.theme.White
 import kotlinx.coroutines.delay
+import java.time.LocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecommendChatTextField(modifier: Modifier, keyboardHeight: Int) {
+fun RecommendChatTextField(
+    modifier: Modifier,
+    keyboardHeight: Int,
+    updateOrderChats: (ChatModel) -> Unit,
+    getPlaceRecommendationsOrderChats: (String) -> Unit,
+) {
     val text = remember { mutableStateOf("") }
     val textFieldHeight = remember { mutableIntStateOf(0) }
     val focusRequester = remember { FocusRequester() }
@@ -108,7 +117,15 @@ fun RecommendChatTextField(modifier: Modifier, keyboardHeight: Int) {
                 .align(Alignment.CenterEnd)
                 .clickableWithoutRipple {
                     if (text.value.isNotBlank()) {
-                        // 채팅 보내기
+                        updateOrderChats(
+                            ChatModel(
+                                text = text.value,
+                                time = LocalDateTime.now().toString().toTime(),
+                                chatType = ChatType.USER,
+                                isPlaceRecommendation = true
+                            )
+                        )
+                        getPlaceRecommendationsOrderChats(text.value)
                         text.value = ""
                     }
                 },
