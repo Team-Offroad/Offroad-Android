@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.main
+package com.teamoffroad.feature.main.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.teamoffroad.characterchat.navigation.DEFAULT_CHARACTER_ID
 import com.teamoffroad.characterchat.navigation.navigateToCharacterChat
+import com.teamoffroad.core.navigation.AuthRoute
 import com.teamoffroad.core.navigation.CharacterChatRoute
 import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.core.navigation.MyPageRoute
@@ -23,6 +24,7 @@ import com.teamoffroad.feature.explore.navigation.navigateToExplore
 import com.teamoffroad.feature.explore.navigation.navigateToPlace
 import com.teamoffroad.feature.explore.navigation.navigateToQuest
 import com.teamoffroad.feature.home.navigation.navigateToHome
+import com.teamoffroad.feature.main.MainNavTab
 import com.teamoffroad.feature.mypage.navigation.navigateToAnnouncement
 import com.teamoffroad.feature.mypage.navigation.navigateToAnnouncementDetail
 import com.teamoffroad.feature.mypage.navigation.navigateToAuth
@@ -45,7 +47,7 @@ internal class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    val startDestination = Route.Auth
+    val startDestination = AuthRoute.Splash
 
     val currentTab: MainNavTab?
         @Composable get() = MainNavTab.find { tab ->
@@ -103,7 +105,12 @@ internal class MainNavigator(
     } || currentDestination?.hasRoute<Route.Auth>() == true
 
     fun navigateToAuth() {
-        navController.navigateToAuth()
+        val navOptions = navOptions {
+            popUpTo(navController.graph.startDestinationId) {
+                inclusive = true
+            }
+        }
+        navController.navigateToAuth(navOptions)
     }
 
     fun navigateToHome(category: String? = null, completeQuest: List<String> = emptyList()) {
@@ -179,7 +186,8 @@ internal class MainNavigator(
     }
 
     fun navigateToAnnouncementDeleteStack() {
-        navController.navigateToAnnouncement(null,
+        navController.navigateToAnnouncement(
+            null,
             navOptions {
                 popUpTo<MyPageRoute.AnnouncementDetail> { inclusive = true }
                 launchSingleTop = true
@@ -189,9 +197,11 @@ internal class MainNavigator(
 
     fun navigateToDiary(
         newDiaryExist: Boolean,
+        characterName: String,
     ) {
         navController.navigateToDiary(
             newDiaryExist = newDiaryExist,
+            characterName = characterName,
         )
     }
 

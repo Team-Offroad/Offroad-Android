@@ -25,6 +25,9 @@ sealed interface MainTabRoute : Route {
 sealed interface AuthRoute : Route {
 
     @Serializable
+    data object Splash : AuthRoute
+
+    @Serializable
     data object AgreeTermsAndConditions : AuthRoute
 
     @Serializable
@@ -127,5 +130,6 @@ sealed interface DiaryRoute : Route {
     @Serializable
     data class Diary(
         val newDiaryExist: Boolean,
-    ) : DiaryRoute
+        val characterName: String,
+        ) : DiaryRoute
 }
