@@ -46,8 +46,8 @@ fun HomeIcons(
     updateCharacterChatExist: (Boolean) -> Unit,
     updateCharacterName: (String) -> Unit,
     updateLastUnreadChatDosAllRead: (Boolean) -> Unit,
+    navigateToDiary: (Boolean) -> Unit,
     navigateToRecommendPlace: (Boolean, String, String) -> Unit,
-    navigateToDiary: (Boolean, String) -> Unit,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -91,7 +91,7 @@ fun HomeIcons(
             )
 
             Box(
-                modifier = Modifier.clickableWithoutRipple { navigateToDiary(!newDiaryExist, characterName) }
+                modifier = Modifier.clickableWithoutRipple { navigateToDiary(!newDiaryExist) }
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_home_diary_empty),

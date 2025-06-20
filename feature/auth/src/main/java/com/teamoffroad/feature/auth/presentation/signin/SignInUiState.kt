@@ -6,5 +6,6 @@ data class SignInUiState(
     val alreadyExist: Boolean = false,
     val startKakaoSignIn: Boolean = false,
     val startGoogleSignIn: Boolean = false,
+    val isAutoSignIn: Boolean = false,
 )
 

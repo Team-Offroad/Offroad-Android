@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.main.splash
+package com.teamoffroad.feature.main
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,9 +25,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.lifecycle.flowWithLifecycle
 import com.teamoffroad.core.designsystem.component.ChangeBottomBarColor
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Main2
@@ -38,30 +34,12 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SplashScreen(
-    navigateToHome: () -> Unit,
-    navigateToSignIn: () -> Unit,
-    viewModel: SplashViewModel = hiltViewModel()
 ) {
-    val lifecycleOwner = LocalLifecycleOwner.current
-
-    LaunchedEffect(viewModel.sideEffects, lifecycleOwner) {
-        viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
-            .collect { sideEffect ->
-                when (sideEffect) {
-                    is SplashSideEffect.NavigateToHome -> navigateToHome()
-                    is SplashSideEffect.NavigateLogin -> navigateToSignIn()
-                }
-            }
-    }
-
-    LaunchedEffect(Unit) {
-        viewModel.checkAutoSignIn()
-    }
-
+    ChangeBottomBarColor(Main2)
+    var backgroundVisibility by remember { mutableStateOf(true) }
     val scale = remember { Animatable(1f) }
     val alpha = remember { Animatable(1f) }
 
-    ChangeBottomBarColor(Main2)
     LaunchedEffect(Unit) {
         delay(200L)
         launch {
@@ -82,6 +60,8 @@ fun SplashScreen(
                 )
             )
         }
+        delay(1300L)
+        backgroundVisibility = false
     }
 
     Column(
@@ -96,7 +76,7 @@ fun SplashScreen(
         verticalArrangement = Arrangement.Center,
     ) {
         AnimatedVisibility(
-            visible = true,
+            visible = backgroundVisibility,
             enter = EnterTransition.None,
             exit = fadeOut(),
         ) {
@@ -108,6 +88,17 @@ fun SplashScreen(
                 painter = painterResource(R.drawable.ic_splash_logo),
                 contentDescription = "splash",
                 contentScale = ContentScale.FillHeight,
+            )
+        }
+        AnimatedVisibility(
+            visible = !backgroundVisibility,
+            enter = EnterTransition.None,
+            exit = fadeOut()
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Main2)
             )
         }
     }

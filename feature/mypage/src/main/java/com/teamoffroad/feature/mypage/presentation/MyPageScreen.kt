@@ -39,16 +39,13 @@ internal fun MyPageScreen(
     navigateToGainedCoupon: () -> Unit,
     navigateToGainedEmblems: () -> Unit,
     navigateToSetting: () -> Unit,
-    navigateToDiary: (Boolean, String) -> Unit,
+    navigateToDiary: (Boolean) -> Unit,
     myPageViewModel: MyPageViewModel = hiltViewModel(),
 ) {
 
     LaunchedEffect(Unit) {
-        myPageViewModel.apply {
-            getCharacterName()
-            getMyPageUser()
-            getDiaryCheckLatest()
-        }
+        myPageViewModel.getMyPageUser()
+        myPageViewModel.getDiaryCheckLatest()
     }
 
     val snackBarHostState = remember { SnackbarHostState() }
@@ -83,7 +80,7 @@ internal fun MyPageScreen(
             )
             UserDiary(
                 modifier = Modifier.padding(top = 8.dp),
-                navigateToUserDiary = { navigateToDiary(!newDiaryExist, myPageViewModel.characterName.value) }
+                navigateToUserDiary = { navigateToDiary(!newDiaryExist) }
             )
             Row(
                 modifier = Modifier
@@ -136,5 +133,13 @@ internal fun MyPageScreen(
             }
             Spacer(modifier = Modifier.height(106.dp))
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MyPageScreenPreview() {
+    OffroadTheme {
+        MyPageScreen({}, {}, {}, {}, {})
     }
 }
