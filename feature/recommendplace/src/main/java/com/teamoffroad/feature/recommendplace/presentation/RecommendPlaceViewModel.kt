@@ -121,7 +121,8 @@ class RecommendPlaceViewModel @Inject constructor(
                             latitude = it.latitude,
                             longitude = it.longitude,
                             categoryImageUrl = it.categoryImageUrl,
-                            location = LatLng(it.latitude, it.longitude)
+                            location = LatLng(it.latitude, it.longitude),
+                            visitCount = it.visitCount
                         )
                     }
                 )

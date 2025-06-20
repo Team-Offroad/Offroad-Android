@@ -38,7 +38,9 @@ data class PlaceRecommendationsResponseDto(
         val longitude: Double,
 
         @SerialName("categoryImageUrl")
-        val categoryImageUrl: String
+        val categoryImageUrl: String,
 
+        @SerialName("visitCount")
+        val visitCount: Int
     )
 }

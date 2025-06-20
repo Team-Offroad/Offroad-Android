@@ -13,6 +13,7 @@ data class PlaceRecommendationsEntity(
         val placeArea: String,
         val latitude: Double,
         val longitude: Double,
-        val categoryImageUrl: String
+        val categoryImageUrl: String,
+        val visitCount: Int,
     )
 }

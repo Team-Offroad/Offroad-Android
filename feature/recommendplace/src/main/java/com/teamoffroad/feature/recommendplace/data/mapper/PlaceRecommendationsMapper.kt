@@ -26,7 +26,8 @@ fun PlaceRecommendationsResponseDto.toData(): PlaceRecommendationsEntity {
                 placeArea = place.placeArea,
                 latitude = place.latitude,
                 longitude = place.longitude,
-                categoryImageUrl = place.categoryImageUrl
+                categoryImageUrl = place.categoryImageUrl,
+                visitCount = place.visitCount
             )
         }
     )
@@ -45,7 +46,8 @@ fun PlaceRecommendationsEntity.toDomain(): PlaceRecommendations {
                 placeArea = place.placeArea,
                 latitude = place.latitude,
                 longitude = place.longitude,
-                categoryImageUrl = place.categoryImageUrl
+                categoryImageUrl = place.categoryImageUrl,
+                visitCount = place.visitCount
             )
         }
     )

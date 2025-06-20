@@ -26,5 +26,6 @@ data class PlaceRecommendationsUiState(
         val longitude: Double,
         val categoryImageUrl: String,
         val location: LatLng,
+        val visitCount: Int,
     )
 }

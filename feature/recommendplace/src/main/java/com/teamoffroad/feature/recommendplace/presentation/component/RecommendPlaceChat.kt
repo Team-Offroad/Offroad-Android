@@ -40,7 +40,6 @@ fun RecommendPlaceChat(
 ) {
     val keyboardHeight = remember { mutableIntStateOf(0) }
     val view = LocalView.current
-    val userChatMessages = remember { mutableStateListOf<String>() }
 
     DisposableEffect(view) {
         val listener = ViewTreeObserver.OnGlobalLayoutListener {

@@ -29,9 +29,9 @@ fun RecommendPlaceExampleQuestionButton(
             .padding(bottom = 14.dp)
     ) {
         val exampleQuestions = listOf(
-            "오늘 날씨에 맞는 식당을\n추천해줘." to "오늘 날씨에 맞는 식당",
-            "기분이 별로야.\n스트레스 풀릴만한 음식 없을까?" to "스트레스 풀릴만한 음식",
-            "신촌역 근처에\n분위기 좋은 카페 좀 찾아줘." to "분위기 좋은 카페"
+            "강남에 가는데\n오늘 날씨에 맞는 식당 추천해줘." to "오늘 날씨에 맞는 식당",
+            "기분이 별로야.\n판교에 스트레스 풀릴 음식 없나?" to "판교에 스트레스 풀릴",
+            "여의도 점심 메뉴 추천해주라.\n소화 잘 되는 음식이면 좋겠어." to "여의도 점심 메뉴"
         )
 
         exampleQuestions.forEachIndexed { index, (fullText, boldText) ->
