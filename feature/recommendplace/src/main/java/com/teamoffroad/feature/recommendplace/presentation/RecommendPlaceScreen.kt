@@ -48,7 +48,7 @@ fun RecommendPlaceScreen(
     var isRecommendPlaceViewExpanded by remember { mutableStateOf(false) }
     val listState = rememberLazyListState()
     val placeRecommendationsUiState = recommendPlaceViewModel.placeRecommendationsUiState.collectAsStateWithLifecycle()
-    val placeRecommendationsOrderChatsUiState = recommendPlaceViewModel.placeRecommendationsOrderChatsUiState.collectAsStateWithLifecycle()
+    val placeRecommendationsChatsUiState = recommendPlaceViewModel.placeRecommendationsChatsUiState.collectAsStateWithLifecycle()
     val placeRecommendationsFixedPhraseUiState = recommendPlaceViewModel.placeRecommendationsFixedPhraseUiState.collectAsStateWithLifecycle()
 
     val transitionState = remember { MutableTransitionState(false) }
@@ -79,9 +79,11 @@ fun RecommendPlaceScreen(
             ) {
                 RecommendPlaceChat(
                     name = characterName,
-                    chatList = placeRecommendationsOrderChatsUiState.value.chats,
+                    isChatLoading = placeRecommendationsChatsUiState.value.isLoading,
+                    chatList = placeRecommendationsChatsUiState.value.chats,
                     updateOrderChats = recommendPlaceViewModel::updateOrderChats,
                     getPlaceRecommendationsOrderChats = recommendPlaceViewModel::getPlaceRecommendationsOrderChats,
+                    getPlaceRecommendations = recommendPlaceViewModel::getPlaceRecommendations,
                     onClose = { isRecommendPlaceViewExpanded = false }
                 )
             }
@@ -100,7 +102,7 @@ fun RecommendPlaceScreen(
                 AnimatedVisibility(visible = isButtonVisible.value) {
                     RecommendPlaceButton(
                         hasChatted = hasChatted,
-                        content = if(hasChatted) content else placeRecommendationsFixedPhraseUiState.value.content,
+                        content = placeRecommendationsFixedPhraseUiState.value.content,
                         onClick = { isRecommendPlaceViewExpanded = true },
                         navigateToOrderRecommendPlace = navigateToOrderRecommendPlace
                     )

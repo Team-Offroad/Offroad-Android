@@ -33,9 +33,11 @@ import java.time.LocalDateTime
 @Composable
 fun RecommendPlaceChat(
     name: String,
+    isChatLoading: Boolean,
     chatList: Map<LocalDate, List<ChatModel>>,
     updateOrderChats: (ChatModel) -> Unit,
     getPlaceRecommendationsOrderChats: (String) -> Unit,
+    getPlaceRecommendations: () -> Unit,
     onClose: () -> Unit
 ) {
     val keyboardHeight = remember { mutableIntStateOf(0) }
@@ -75,11 +77,15 @@ fun RecommendPlaceChat(
                 modifier = Modifier
                     .align(Alignment.End)
                     .padding(end = 20.dp)
-                    .clickableWithoutRipple { onClose() }
+                    .clickableWithoutRipple {
+                        getPlaceRecommendations()
+                        onClose()
+                    }
             )
 
             RecommendPlaceChats(
                 name = name,
+                isChatLoading = isChatLoading,
                 modifier = Modifier.weight(1f),
                 chatList = chatList.values.flatten(),
             )
