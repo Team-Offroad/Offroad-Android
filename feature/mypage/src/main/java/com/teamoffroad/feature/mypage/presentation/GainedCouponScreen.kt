@@ -32,6 +32,7 @@ import com.teamoffroad.offroad.feature.mypage.R
 
 @Composable
 internal fun GainedCouponScreen(
+    characterName: String,
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
     navigateToMyPage: () -> Unit,
     backgroundColor: Color = Main1,
