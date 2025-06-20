@@ -65,6 +65,7 @@ internal fun GainedCouponScreen(
             }
             Spacer(modifier = Modifier.padding(vertical = 10.dp))
             GainedCouponViewPager(
+                characterName = characterName,
                 availableCouponListState = viewModel.availableCouponListState.collectAsStateWithLifecycle(),
                 usedCouponListState = viewModel.usedCouponListState.collectAsStateWithLifecycle(),
                 availableCouponsCount = viewModel.availableCouponsCount.collectAsState().value,

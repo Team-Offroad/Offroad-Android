@@ -40,6 +40,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun GainedCouponViewPager(
+    characterName: String,
     availableCouponListState: State<AvailableCouponListUiState>,
     usedCouponListState: State<UsedCouponListUiState>,
     availableCouponsCount: Int,
@@ -50,6 +51,12 @@ fun GainedCouponViewPager(
     getUserAvailableCoupons: (Boolean, Int) -> Unit,
     getUserUsedCoupons: (Boolean, Int) -> Unit,
 ) {
+    val emptyCharacterImage = when (characterName) {
+        "루미" -> com.teamoffroad.offroad.core.designsystem.R.drawable.img_empty_rumi
+        "레디" -> com.teamoffroad.offroad.core.designsystem.R.drawable.img_empty_ready
+        else -> com.teamoffroad.offroad.core.designsystem.R.drawable.img_empty_nova
+    }
+
     val tabTitles = listOf(
         stringResource(id = R.string.my_page_gained_coupon_available),
         stringResource(id = R.string.my_page_gained_coupon_used)
@@ -118,6 +125,7 @@ fun GainedCouponViewPager(
         ) { page ->
             when (page) {
                 0 -> AvailableCouponItems(
+                    emptyCharacterImage = emptyCharacterImage,
                     availableCouponsCount,
                     coupons = availableCoupons,
                     navigateToAvailableCouponDetail = navigateToAvailableCouponDetail,
@@ -125,6 +133,7 @@ fun GainedCouponViewPager(
                 )
 
                 1 -> UsedCouponItems(
+                    emptyCharacterImage = emptyCharacterImage,
                     usedCouponsCount,
                     coupons = usedCoupons,
                     getUserUsedCoupons,
