@@ -3,6 +3,7 @@ package com.teamoffroad.feature.recommendplace.data.remote.service
 import com.teamoffroad.core.common.data.remote.response.BaseResponse
 import com.teamoffroad.feature.recommendplace.data.remote.request.PlaceRecommendationsOrderChatRequestDto
 import com.teamoffroad.feature.recommendplace.data.remote.request.PlaceRecommendationsOrderRequestDto
+import com.teamoffroad.feature.recommendplace.data.remote.response.PlaceRecommendationsFixedPhraseResponseDto
 import com.teamoffroad.feature.recommendplace.data.remote.response.PlaceRecommendationsOrderChatResponseDto
 import com.teamoffroad.feature.recommendplace.data.remote.response.PlaceRecommendationsOrderResponseDto
 import com.teamoffroad.feature.recommendplace.data.remote.response.PlaceRecommendationsResponseDto
@@ -23,4 +24,7 @@ interface PlaceRecommendationsService {
     suspend fun postPlaceRecommendationsOrderChat(
         @Body data: PlaceRecommendationsOrderChatRequestDto
     ): BaseResponse<PlaceRecommendationsOrderChatResponseDto>
+
+    @GET("place-recommendations/fixed-phrase")
+    suspend fun getPlaceRecommendationsFixedPhrase(): BaseResponse<PlaceRecommendationsFixedPhraseResponseDto>
 }

@@ -1,6 +1,7 @@
 package com.teamoffroad.feature.recommendplace.domain.usecase
 
 import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendations
+import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendationsFixedPhrase
 import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendationsOrder
 import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendationsOrderChat
 import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendationsOrderChatRequest
@@ -19,5 +20,9 @@ class GetPlaceRecommendationsUseCase(
 
     suspend fun postPlaceRecommendations(content: PlaceRecommendationsOrderChatRequest): PlaceRecommendationsOrderChat {
         return placeRecommendationsRepository.postPlaceRecommendationsOrderChat(content)
+    }
+
+    suspend fun fetchPlaceRecommendationsFixedPhrase(): PlaceRecommendationsFixedPhrase {
+        return placeRecommendationsRepository.fetchPlaceRecommendationsFixedPhrase()
     }
 }

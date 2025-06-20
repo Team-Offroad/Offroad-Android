@@ -2,13 +2,16 @@ package com.teamoffroad.feature.recommendplace.data.mapper
 
 import com.teamoffroad.feature.recommendplace.data.model.PlaceRecommendationsEntity
 import com.teamoffroad.feature.recommendplace.data.model.PlaceRecommendationsEntity.RecommendationsEntity
+import com.teamoffroad.feature.recommendplace.data.model.PlaceRecommendationsFixedPhraseEntity
 import com.teamoffroad.feature.recommendplace.data.model.PlaceRecommendationsOrderChatEntity
 import com.teamoffroad.feature.recommendplace.data.remote.request.PlaceRecommendationsOrderChatRequestDto
 import com.teamoffroad.feature.recommendplace.data.remote.request.PlaceRecommendationsOrderRequestDto
+import com.teamoffroad.feature.recommendplace.data.remote.response.PlaceRecommendationsFixedPhraseResponseDto
 import com.teamoffroad.feature.recommendplace.data.remote.response.PlaceRecommendationsOrderChatResponseDto
 import com.teamoffroad.feature.recommendplace.data.remote.response.PlaceRecommendationsResponseDto
 import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendations
 import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendations.Recommendations
+import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendationsFixedPhrase
 import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendationsOrder
 import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendationsOrderChat
 import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendationsOrderChatRequest
@@ -78,5 +81,11 @@ fun PlaceRecommendationsOrderChatEntity.toDomain(): PlaceRecommendationsOrderCha
     return PlaceRecommendationsOrderChat(
         content = content,
         success = success
+    )
+}
+
+fun PlaceRecommendationsFixedPhraseResponseDto.toData(): PlaceRecommendationsFixedPhrase {
+    return PlaceRecommendationsFixedPhrase(
+        content = content
     )
 }

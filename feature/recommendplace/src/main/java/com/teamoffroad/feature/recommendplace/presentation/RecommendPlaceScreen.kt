@@ -49,12 +49,14 @@ fun RecommendPlaceScreen(
     val listState = rememberLazyListState()
     val placeRecommendationsUiState = recommendPlaceViewModel.placeRecommendationsUiState.collectAsStateWithLifecycle()
     val placeRecommendationsOrderChatsUiState = recommendPlaceViewModel.placeRecommendationsOrderChatsUiState.collectAsStateWithLifecycle()
+    val placeRecommendationsFixedPhraseUiState = recommendPlaceViewModel.placeRecommendationsFixedPhraseUiState.collectAsStateWithLifecycle()
 
     val transitionState = remember { MutableTransitionState(false) }
     transitionState.targetState = isRecommendPlaceViewExpanded
 
     LaunchedEffect(Unit) {
         recommendPlaceViewModel.getPlaceRecommendations()
+        recommendPlaceViewModel.getPlaceRecommendationsFixedPhrase()
     }
 
     LaunchedEffect(listState.firstVisibleItemIndex) {
@@ -98,7 +100,7 @@ fun RecommendPlaceScreen(
                 AnimatedVisibility(visible = isButtonVisible.value) {
                     RecommendPlaceButton(
                         hasChatted = hasChatted,
-                        content = content,
+                        content = if(hasChatted) content else placeRecommendationsFixedPhraseUiState.value.content,
                         onClick = { isRecommendPlaceViewExpanded = true },
                         navigateToOrderRecommendPlace = navigateToOrderRecommendPlace
                     )

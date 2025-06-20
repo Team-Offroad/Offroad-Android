@@ -13,6 +13,7 @@ import com.teamoffroad.feature.explore.presentation.mapper.toUi
 import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendationsOrderChatRequest
 import com.teamoffroad.feature.recommendplace.domain.repository.PlaceRecommendationsRepository
+import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsFixedPhraseUiState
 import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsOrderChatUiState
 import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,6 +34,9 @@ class RecommendPlaceViewModel @Inject constructor(
     private val _placeRecommendationsUiState = MutableStateFlow(PlaceRecommendationsUiState())
     val placeRecommendationsUiState = _placeRecommendationsUiState.asStateFlow()
 
+    private val _placeRecommendationsFixedPhraseUiState = MutableStateFlow(PlaceRecommendationsFixedPhraseUiState())
+    val placeRecommendationsFixedPhraseUiState = _placeRecommendationsFixedPhraseUiState.asStateFlow()
+
     private val _placeRecommendationsOrderChatsUiState = MutableStateFlow(PlaceRecommendationsOrderChatUiState())
     val placeRecommendationsOrderChatsUiState = _placeRecommendationsOrderChatsUiState.asStateFlow()
 
@@ -45,6 +49,29 @@ class RecommendPlaceViewModel @Inject constructor(
                 isPlaceRecommendation = false
             )
         )
+    }
+
+    fun getPlaceRecommendationsFixedPhrase() {
+        viewModelScope.launch {
+            runCatching {
+                _placeRecommendationsFixedPhraseUiState.value = _placeRecommendationsFixedPhraseUiState.value.copy(
+                    isLoading = true,
+                    isError = false
+                )
+                placeRecommendationsRepository.fetchPlaceRecommendationsFixedPhrase()
+            }.onSuccess { phrase ->
+                _placeRecommendationsFixedPhraseUiState.value = _placeRecommendationsFixedPhraseUiState.value.copy(
+                    content = phrase.content,
+                    isLoading = false,
+                    isError = false
+                )
+            }.onFailure {
+                _placeRecommendationsFixedPhraseUiState.value = _placeRecommendationsFixedPhraseUiState.value.copy(
+                    isLoading = false,
+                    isError = true
+                )
+            }
+        }
     }
 
     fun updateOrderChats(chat: ChatModel) {

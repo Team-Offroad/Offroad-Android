@@ -5,6 +5,7 @@ import com.teamoffroad.feature.recommendplace.data.mapper.toDomain
 import com.teamoffroad.feature.recommendplace.data.remote.request.PlaceRecommendationsOrderChatRequestDto
 import com.teamoffroad.feature.recommendplace.data.remote.service.PlaceRecommendationsService
 import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendations
+import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendationsFixedPhrase
 import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendationsOrder
 import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendationsOrderChat
 import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendationsOrderChatRequest
@@ -27,5 +28,10 @@ class PlaceRecommendationsRepositoryImpl @Inject constructor(
     override suspend fun postPlaceRecommendationsOrderChat(content: PlaceRecommendationsOrderChatRequest): PlaceRecommendationsOrderChat {
         val response = placeRecommendationsService.postPlaceRecommendationsOrderChat(content.toData()).data
         return response?.toData()?.toDomain() ?: PlaceRecommendationsOrderChat("", false)
+    }
+
+    override suspend fun fetchPlaceRecommendationsFixedPhrase(): PlaceRecommendationsFixedPhrase {
+        val response = placeRecommendationsService.getPlaceRecommendationsFixedPhrase().data
+        return response?.toData() ?: PlaceRecommendationsFixedPhrase("")
     }
 }
