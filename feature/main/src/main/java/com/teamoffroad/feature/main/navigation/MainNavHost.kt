@@ -19,7 +19,6 @@ import com.teamoffroad.feature.explore.navigation.exploreNavGraph
 import com.teamoffroad.feature.home.navigation.homeNavGraph
 import com.teamoffroad.feature.main.splash.splashNavGraph
 import com.teamoffroad.feature.mypage.navigation.myPageNavGraph
-import com.teamoffroad.feature.recommendplace.navigation.recommendPlaceNavGraph
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
@@ -55,8 +54,7 @@ internal fun MainNavHost(
                         navigator.navigateToGainedCharacter()
                     }
                 },
-                navigateToDiary = navigator::navigateToDiary,
-                navigateToRecommendPlace = navigator::navigateToRecommendPlace,
+                navigateToDiary = navigator::navigateToDiary
             )
             exploreNavGraph(
                 navigateToHome = { category, completeQuests ->
@@ -120,9 +118,6 @@ internal fun MainNavHost(
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
                 navigateToCharacterChat = navigator::navigateToCharacterChat,
                 navigateToDiaryTime = navigator::navigateToDiaryTime
-            )
-            recommendPlaceNavGraph(
-              navigateToBack = navigator::popBackStackIfNotMainTabRoute
             )
         }
     }
