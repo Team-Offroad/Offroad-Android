@@ -45,14 +45,21 @@ class MainCharacterChatViewModel @Inject constructor(
     val characterName = _characterName.asStateFlow()
 
     init {
+        //아까 CharacterChatBroadcastReceiver에서 게시한 브로드캐스트리시버를 여기서 받습니다.
         EventBus.getDefault().register(this)
     }
 
+    //뷰모델이 삭제될때 이벤트버스도 해제시켜줍니다.
     override fun onCleared() {
         super.onCleared()
         EventBus.getDefault().unregister(this)
     }
 
+    //브로드캐스트리시버가 작동할때마다 동작하는 함수(fcm발송 > 앱이 포그라운드에 있고, 타입이 캐릭터채팅이라면 작동)
+    //그런데 홈화면이 아니고 다른화면에서 이 함수가 호출되면 ui가 활성되있지 않기 때문에 ui작업을 할 수 없습니다.(함수 실행될때 로그는 찍힘)
+    //그래서 데이터스토어 같은 로컬저장소에 데이터와 캐릭터 채팅확인 여부를 저장해두었다가
+    //홈화면에 들어와서 채팅확인 여부가 x라면 알림을 보여주고, 알림을 봤다면 다시 채팅확인 여부가 o로 만드는식으로 하면 될거같습니다.
+    //그래서 포스트맨으로 fcm쏴보면서 요함수에서 하면 될 것 같습니다.
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onNotificationEvent(event: NotificationEvent) {
         Log.d("characterChat data", event.toString())
@@ -157,7 +164,7 @@ class MainCharacterChatViewModel @Inject constructor(
 
         viewModelScope.launch {
             runCatching {
-                characterChatRepository.saveChat(characterId = null, _userChatUiState.value.chatContent)
+                characterChatRepository.saveChat(1, _userChatUiState.value.chatContent)
             }.onSuccess { chat ->
                 _sendChatState.emit(UiState.Success(chat))
                 _userChatUiState.value = _userChatUiState.value.copy(
@@ -170,7 +177,8 @@ class MainCharacterChatViewModel @Inject constructor(
                     isCharacterChattingExist = true,
                     isAnswerButtonClicked = true,
                     isCharacterChattingLoading = false,
-                    characterName = characterName.value
+                    characterName = characterName.value,
+                    isPlaceRecommendation = chat.isPlaceRecommendation
                 )
 
                 tracker.trackEvent("send_chat", mapOf("chat_id" to chat.id))

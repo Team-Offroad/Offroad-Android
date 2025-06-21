@@ -13,4 +13,6 @@ data class CharacterChatResponseDto(
     val createdAt: String,
     @SerialName("id")
     val id: Long,
+    @SerialName("isPlaceRecommendation")
+    val isPlaceRecommendation: Boolean
 )

@@ -62,7 +62,8 @@ fun HomeScreen(
     completeQuests: List<String> = emptyList(),
     navigateToGainedCharacter: () -> Unit = {},
     navigateToCharacterChatScreen: (String) -> Unit,
-    navigateToDiary: (Boolean, String) -> Unit,
+    navigateToDiary: (Boolean) -> Unit,
+    navigateToRecommendPlace: (Boolean, String, String) -> Unit,
 ) {
     val context = LocalContext.current
     val homeViewModel: HomeViewModel = hiltViewModel()
@@ -131,7 +132,8 @@ fun HomeScreen(
                 updateCharacterChatExist = mainViewModel::updateCharacterChatExist,
                 updateCharacterName = mainViewModel::updateCharacterName,
                 updateLastUnreadChatDosAllRead = mainViewModel::updateLastUnreadChatDosAllRead,
-                navigateToDiary = navigateToDiary
+                navigateToDiary = navigateToDiary,
+                navigateToRecommendPlace = navigateToRecommendPlace,
             )
             Spacer(modifier = Modifier.padding(top = 12.dp))
             UsersQuestInformation(context, homeViewModel)
@@ -155,7 +157,7 @@ fun HomeScreen(
             cancelButtonText = stringResource(id = R.string.home_diary_create_cancel),
             nextButtonText = stringResource(id = R.string.home_confirm),
             onClick = {
-                if (!newDiaryExist.value) navigateToDiary(true, characterName.value)
+                if (!newDiaryExist.value) navigateToDiary(true)
                 homeViewModel.updateDiaryCreateDialogUnShown()
             },
             onCancelClick = {
@@ -200,7 +202,8 @@ private fun UsersAdventuresInformation(
     updateCharacterChatExist: (Boolean) -> Unit,
     updateCharacterName: (String) -> Unit,
     updateLastUnreadChatDosAllRead: (Boolean) -> Unit,
-    navigateToDiary: (Boolean, String) -> Unit,
+    navigateToDiary: (Boolean) -> Unit,
+    navigateToRecommendPlace: (Boolean, String, String) -> Unit,
 ) {
     val adventuresInformationState =
         homeViewModel.getUsersAdventuresInformationState.collectAsState(initial = UiState.Loading).value
@@ -236,6 +239,7 @@ private fun UsersAdventuresInformation(
                 updateCharacterName = updateCharacterName,
                 updateLastUnreadChatDosAllRead = updateLastUnreadChatDosAllRead,
                 navigateToDiary = navigateToDiary,
+                navigateToRecommendPlace = navigateToRecommendPlace,
             )
         }
 

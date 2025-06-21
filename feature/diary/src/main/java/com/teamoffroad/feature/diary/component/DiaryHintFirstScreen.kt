@@ -29,14 +29,15 @@ fun DiaryHintFirstScreen(
             painter = painterResource(id = R.drawable.img_diary_hint_character),
             contentDescription = "character",
             modifier = Modifier
-                .height(240.dp)
+                .height(220.dp)
+                .padding(bottom = 40.dp),
         )
         Text(
             textAlign = TextAlign.Center,
             text = stringResource(id = R.string.diary_dialog_hint_first_title),
             color = White,
             style = OffroadTheme.typography.textRegular,
-            modifier = Modifier.padding(top = 40.dp, bottom = 24.dp),
+            modifier = Modifier.padding(bottom = 24.dp),
         )
         Text(
             textAlign = TextAlign.Center,

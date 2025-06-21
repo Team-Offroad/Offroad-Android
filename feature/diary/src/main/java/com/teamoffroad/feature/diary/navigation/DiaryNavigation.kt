@@ -5,10 +5,11 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.teamoffroad.core.navigation.DiaryRoute
+import com.teamoffroad.core.navigation.RecommendPlaceRoute
 import com.teamoffroad.feature.diary.presentation.DiaryScreen
 
-fun NavController.navigateToDiary(newDiaryExist: Boolean, characterName: String) {
-    navigate(DiaryRoute.Diary(newDiaryExist, characterName))
+fun NavController.navigateToDiary(newDiaryExist: Boolean) {
+    navigate(DiaryRoute.Diary(newDiaryExist))
 }
 
 fun NavGraphBuilder.diaryNavGraph(
@@ -18,10 +19,8 @@ fun NavGraphBuilder.diaryNavGraph(
 ) {
     composable<DiaryRoute.Diary> { backStackEntry ->
         val newDiaryExist = backStackEntry.toRoute<DiaryRoute.Diary>().newDiaryExist
-        val characterName = backStackEntry.toRoute<DiaryRoute.Diary>().characterName
         DiaryScreen(
             newDiaryExist = newDiaryExist,
-            characterName = characterName,
             navigateToBack = navigateToBack,
             navigateToCharacterChat = navigateToCharacterChat,
             navigateToDiaryTime = navigateToDiaryTime,

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="recommend_place_back_to_home">홈</string>
+    <string name="recommend_place_orb">오브의 추천소</string>
+    <string name="recommend_place_welcome">오브의 추천소에 어서와~\n여기서는 ~~~소개소개</string>
+    <string name="recommend_place">추천 장소</string>
+    <string name="recommend_place_list">리스트</string>
+    <string name="recommend_place_map">지도</string>
+
+    <string name="recommend_place_order">추천 주문서</string>
+    <string name="recommend_place_order_question_select">어떤 추천이 필요하신가요? *</string>
+    <string name="recommend_place_order_question_restaurant">식당</string>
+    <string name="recommend_place_order_question_cafe">까페</string>
+    <string name="recommend_place_order_question_select_warning">*필수 체크 사항입니다.</string>
+    <string name="recommend_place_order_question_location">어느 지역으로 추천해 드릴까요? *</string>
+    <string name="recommend_place_order_question_location_placeholder">방문하실 지역을 입력하세요</string>
+    <string name="recommend_place_order_question_location_warning">*필수 입력 사항입니다.</string>
+    <string name="recommend_place_order_question_etc">추가로 원하시는 내용이 있다면 입력해주세요.</string>
+    <string name="recommend_place_order_question_etc_placeholder">기분이 안 좋은데 스트레스 풀릴만한 음식 추천해줘.\n애인과 함께할 분위기 좋은 식당이면 좋겠어.</string>
+    <string name="recommend_place_order_question_undo">주문서 초기화</string>
+    <string name="recommend_place_order_question_button">주문서 작성 완료</string>
+
+    <string name="recommend_place_order_not_safe_info">주문 내용이 저장되지 않아요.\n작성을 멈추고 나가시겠어요?</string>
+    <string name="recommend_place_order_cancel">취소</string>
+    <string name="recommend_place_order_confirm">확인</string>
+    
+    <string name="recommend_place_map_no_permission">오브가 위치를 알게 해주시면\n정확한 장소를 추천할 수 있어요\n\n[휴대폰 설정 > 앱 > 오브 > 위치]\n에서 접근을 허용해주세요</string>
+    <string name="recommend_place_map_how_to_agree_permission">[휴대폰 설정 > 앱 > 오브 > 위치]\n에서 접근을 허용해주세요</string>
+    <string name="recommend_place_map_no_place">적절한 장소를 찾지 못 했어요.\n다른 조건으로 장소를 찾아보세요.</string>
+    <string name="recommend_place_map_no_place_reply">다시 물어보기</string>
+    <string name="recommend_place_map_open_map">지도 열기</string>
+    <string name="recommend_place_nearby">근처에 가볼 만한 곳</string>
+
+    <string name="recommend_place_button_temp_welcome_text">반가워 나는 추천 오브 츄링이야!\n장소 추천이 필요해?</string>
+</resources>

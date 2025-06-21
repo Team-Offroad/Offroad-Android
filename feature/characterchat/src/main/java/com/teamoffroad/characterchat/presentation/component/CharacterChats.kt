@@ -37,9 +37,11 @@ fun CharacterChats(
     isLoadable: Boolean = true,
     updateChats: () -> Unit,
     updateIsChatting: (Boolean) -> Unit,
+    navigateToRecommendPlace: (Boolean, String, String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val animatedHeight = animateDpAsState(targetValue = (bottomPadding.dp - 748.dp).coerceAtLeast(0.dp), label = "")
+    val animatedHeight =
+        animateDpAsState(targetValue = (bottomPadding.dp - 748.dp).coerceAtLeast(0.dp), label = "")
     val coroutineScope = rememberCoroutineScope()
     val listState = rememberLazyListState()
     var isInitialComposition = remember { true }
@@ -62,11 +64,12 @@ fun CharacterChats(
     }
 
     LaunchedEffect(listState, arrangedChats, isLoadable) {
-        snapshotFlow { listState.firstVisibleItemIndex }.distinctUntilChanged().collect { firstVisibleItemIndex ->
-            if (isLoadable && arrangedChats.isNotEmpty() && firstVisibleItemIndex < LOAD_THRESHOLD) {
-                updateChats()
+        snapshotFlow { listState.firstVisibleItemIndex }.distinctUntilChanged()
+            .collect { firstVisibleItemIndex ->
+                if (isLoadable && arrangedChats.isNotEmpty() && firstVisibleItemIndex < LOAD_THRESHOLD) {
+                    updateChats()
+                }
             }
-        }
     }
 
     LaunchedEffect(isChatting, bottomPadding) {
@@ -101,7 +104,23 @@ fun CharacterChats(
                 item(key = chat.id) {
                     when (chat.chatType) {
                         USER -> UserChatBox(text = chat.text, time = chat.time)
-                        ORB_CHARACTER -> CharacterChatBox(name = characterName, text = chat.text, time = chat.time)
+
+                        ORB_CHARACTER -> {
+                            if (chat.isPlaceRecommendation) {
+                                RecommendPlaceChatBox(
+                                    name = characterName,
+                                    text = chat.text,
+                                    navigateToRecommendPlace = navigateToRecommendPlace
+                                )
+                            } else
+                                CharacterChatBox(
+                                    name = characterName,
+                                    text = chat.text,
+                                    time = chat.time
+                                )
+
+
+                        }
                     }
                 }
             }

@@ -13,7 +13,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -40,7 +39,6 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun DiaryScreen(
     newDiaryExist: Boolean,
-    characterName: String,
     navigateToBack: () -> Unit,
     navigateToCharacterChat: (String) -> Unit,
     navigateToDiaryTime: () -> Unit,
@@ -50,7 +48,9 @@ fun DiaryScreen(
     LaunchedEffect(Unit) {
         viewModel.diarySideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
-                DiarySideEffect.Empty -> {}
+                DiarySideEffect.Empty -> {
+                }
+
                 DiarySideEffect.NavigateBack -> navigateToBack()
                 DiarySideEffect.NavigateDiaryTime -> navigateToDiaryTime()
             }
@@ -58,16 +58,18 @@ fun DiaryScreen(
     }
 
     LaunchedEffect(Unit) {
-        val (year, month) = convertRegexToDate(diaryUiState.currentDiaryCalendarPage)
         viewModel.apply {
             getDiaryFirstDate()
             getDiaryTutorialChecked()
             getDiaryCreateTimeChecked()
-            getDiaryHexCode(year = year, month = month)
             if (newDiaryExist) updateLatestMemoryLight()
         }
     }
 
+    LaunchedEffect(diaryUiState.currentDiaryCalendarPage) {
+        val (year, month) = convertRegexToDate(diaryUiState.currentDiaryCalendarPage)
+        viewModel.getDiaryHexCode(year = year, month = month)
+    }
 
     LaunchedEffect(diaryUiState.memoryLightList) {
         if (diaryUiState.memoryLightList.memoryLight.isNotEmpty()) {
@@ -88,10 +90,7 @@ fun DiaryScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Main1)
-                .actionBarPadding()
-                .blur(
-                    radius = if (diaryUiState.dialogVisibility == DiaryHintDialogState.HintDialogVisible) 10.dp else 0.dp
-                ),
+                .actionBarPadding(),
         ) {
             NavigateBackAppBar(
                 text = stringResource(id = R.string.diary_back_home),
@@ -129,10 +128,7 @@ fun DiaryScreen(
 
                     DiaryShownState.DiaryEmpty -> {
                         OrbDiaryEmpty(
-                            characterName = characterName,
-                            navigateToCharacterChat = {
-                                navigateToCharacterChat(characterName)
-                            },
+                            navigateToCharacterChat = navigateToCharacterChat,
                             modifier = Modifier.padding(top = 124.dp),
                         )
                     }

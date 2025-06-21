@@ -3,8 +3,10 @@ package com.teamoffroad.feature.main
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -16,14 +18,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.teamoffroad.characterchat.presentation.MainCharacterChatViewModel
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_ID
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_TYPE
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.main.component.MainTransparentActionBar
-import com.teamoffroad.feature.main.navigation.MainNavigator
-import com.teamoffroad.feature.main.navigation.rememberMainNavigator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -71,7 +75,6 @@ class MainActivity : ComponentActivity() {
 
                 if (appUpdateDialogShown.value) {
                     AppUpdateDialog(
-                        appUpdateDialogShown = appUpdateDialogShown,
                         onDismissRequest = { appUpdateDialogShown.value = false },
                         context = LocalContext.current
                     )

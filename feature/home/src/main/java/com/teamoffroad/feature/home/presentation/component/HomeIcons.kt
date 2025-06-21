@@ -46,34 +46,9 @@ fun HomeIcons(
     updateCharacterChatExist: (Boolean) -> Unit,
     updateCharacterName: (String) -> Unit,
     updateLastUnreadChatDosAllRead: (Boolean) -> Unit,
-    navigateToDiary: (Boolean, String) -> Unit,
+    navigateToDiary: (Boolean) -> Unit,
+    navigateToRecommendPlace: (Boolean, String, String) -> Unit,
 ) {
-    val scope = rememberCoroutineScope()
-
-    val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        listOf(Manifest.permission.READ_MEDIA_IMAGES)
-    } else {
-        listOf(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        )
-    }
-
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        scope.launch {
-            val deniedPermissions = permissions.filterValues { !it }.keys
-            if (deniedPermissions.isEmpty()) {
-                showToast(context, context.getString(R.string.allowed_permissions))
-            } else {
-                showToast(
-                    context, context.getString(R.string.not_allowed_permissions)
-                )
-            }
-        }
-    }
-
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
@@ -100,48 +75,14 @@ fun HomeIcons(
                 showCharacterChatExist(characterChatLastUnreadUiState)
             }
 
-            val uploadInteractionSource = remember { MutableInteractionSource() }
-            Image(
-                painter = painterResource(id = R.drawable.ic_home_upload),
-                contentDescription = "upload",
-                modifier = Modifier
-                    .clickableWithoutRipple(interactionSource = uploadInteractionSource) {
-                        val allPermissionsGranted =
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                permissions.all {
-                                    ContextCompat.checkSelfPermission(
-                                        context,
-                                        Manifest.permission.READ_MEDIA_IMAGES
-                                    ) == PackageManager.PERMISSION_GRANTED
-                                }
-                            } else {
-                                permissions.all {
-                                    ContextCompat.checkSelfPermission(
-                                        context,
-                                        it
-                                    ) == PackageManager.PERMISSION_GRANTED
-                                }
-                            }
-
-                        if (allPermissionsGranted) {
-                            scope.launch {
-                                uploadImage(context, imageUrl)
-                            }
-                        } else {
-                            launcher.launch(
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                    arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
-                                } else {
-                                    arrayOf(
-                                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                        Manifest.permission.READ_EXTERNAL_STORAGE
-                                    )
-                                }
-                            )
-                        }
-
-                    }
-            )
+            Box(
+                modifier = Modifier.clickableWithoutRipple { navigateToRecommendPlace(false, characterName, "") }
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_home_recommend_place),
+                    contentDescription = "recommend place",
+                )
+            }
 
             Image(
                 painter = painterResource(id = R.drawable.ic_home_change_character),
@@ -150,7 +91,7 @@ fun HomeIcons(
             )
 
             Box(
-                modifier = Modifier.clickableWithoutRipple { navigateToDiary(!newDiaryExist, characterName) }
+                modifier = Modifier.clickableWithoutRipple { navigateToDiary(!newDiaryExist) }
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_home_diary_empty),

@@ -78,8 +78,8 @@ fun NavController.navigateToAnnouncementDetail(
     )
 }
 
-fun NavController.navigateToAuth(navOptions: NavOptions) {
-    navigate(Route.Auth, navOptions)
+fun NavController.navigateToAuth() {
+    navigate(Route.Auth)
 }
 
 fun NavController.navigateToCharacterDetail(characterId: Int, isRepresentative: Boolean) {
@@ -108,7 +108,7 @@ fun NavGraphBuilder.myPageNavGraph(
     navigateToCharacterChat: (Int, String) -> Unit,
     navigateToAnnouncementDeleteStack: () -> Unit,
     navigateToSupport: () -> Unit,
-    navigateToDiary: (Boolean, String) -> Unit,
+    navigateToDiary: (Boolean) -> Unit,
     navigateToDiaryTime: () -> Unit
 ) {
     composable<MainTabRoute.MyPage> {
