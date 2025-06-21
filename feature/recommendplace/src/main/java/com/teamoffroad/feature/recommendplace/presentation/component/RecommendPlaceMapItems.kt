@@ -98,7 +98,7 @@ fun HasRecommendPlaceMapItems(
         updateLocation = recommendPlaceViewModel::updateLocation,
         updateTrackingToggle = recommendPlaceViewModel::updateTrackingToggle,
         updateSelectedPlace = recommendPlaceViewModel::updateSelectedPlace,
-        updatePlaces = recommendPlaceViewModel::updatePlaces,
+        updatePlaces = recommendPlaceViewModel::    updatePlaces,
     )
 
     FullLinearLoadingAnimation(isLoading = recommendationsUiState.isLoading)
@@ -243,7 +243,6 @@ fun ExploreRecommendPlaceMap(
                     .padding(end = 22.dp),
             )
         }
-
 
         selectedPlace?.let { place ->
             Box(
@@ -401,10 +400,7 @@ fun NoRecommendPlaceMapItems(
                     color = Main2
                 )
                 .padding(vertical = 14.dp)
-                .clickableWithoutRipple {
-                    // 채팅창 열리기
-                    onClick()
-                },
+                .clickableWithoutRipple { onClick() },
             textAlign = TextAlign.Center
         )
     }

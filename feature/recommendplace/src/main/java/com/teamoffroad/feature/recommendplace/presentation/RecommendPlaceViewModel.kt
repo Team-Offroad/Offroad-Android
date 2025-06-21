@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.recommendplace.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.naver.maps.geometry.LatLng
@@ -13,8 +14,8 @@ import com.teamoffroad.feature.explore.presentation.mapper.toUi
 import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendationsOrderChatRequest
 import com.teamoffroad.feature.recommendplace.domain.repository.PlaceRecommendationsRepository
-import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsFixedPhraseUiState
 import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsChatUiState
+import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsFixedPhraseUiState
 import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -122,8 +123,6 @@ class RecommendPlaceViewModel @Inject constructor(
     }
 
     fun getPlaceRecommendations() {
-        if (placeRecommendationsUiState.value.isAdditionalLoading || placeRecommendationsUiState.value.isLoadable.not()) return
-
         viewModelScope.launch {
             runCatching {
                 _placeRecommendationsUiState.value = _placeRecommendationsUiState.value.copy(
@@ -135,7 +134,7 @@ class RecommendPlaceViewModel @Inject constructor(
                 _placeRecommendationsUiState.value = _placeRecommendationsUiState.value.copy(
                     isError = false,
                     isAdditionalLoading = false,
-                    isLoadable = place.recommendations.isEmpty().not(),
+                    isLoadable = false,
                     isLoading = false,
                     recommendations = place.recommendations.map {
                         PlaceRecommendationsUiState.RecommendationsUiState(
@@ -230,7 +229,6 @@ class RecommendPlaceViewModel @Inject constructor(
                 getMapPlaceListUseCase(latitude, longitude, LOAD_PLACES_LIMIT).map { it.toUi() }
             }.onSuccess { places ->
                 _placeRecommendationsUiState.value = placeRecommendationsUiState.value.copy(
-//                    recommendations = places,
                     isLoadable = false,
                 )
             }.onFailure {
