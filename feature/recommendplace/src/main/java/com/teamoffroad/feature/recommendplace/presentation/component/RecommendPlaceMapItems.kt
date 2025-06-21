@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,8 +38,6 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraUpdate
@@ -63,15 +60,9 @@ import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub2
-import com.teamoffroad.feature.explore.presentation.ExploreViewModel
-import com.teamoffroad.feature.explore.presentation.component.ExploreInfoWindow
 import com.teamoffroad.feature.explore.presentation.component.ExploreRefreshButton
 import com.teamoffroad.feature.explore.presentation.component.ExploreTrackingButton
-import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
 import com.teamoffroad.feature.explore.presentation.model.LocationModel
-import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
-import com.teamoffroad.feature.explore.presentation.model.PlaceModel
-import com.teamoffroad.feature.explore.presentation.util.ExploreAuthStateHandler
 import com.teamoffroad.feature.recommendplace.presentation.RecommendPlaceViewModel
 import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsUiState
 import com.teamoffroad.offroad.feature.recommendplace.R
@@ -98,7 +89,7 @@ fun HasRecommendPlaceMapItems(
         updateLocation = recommendPlaceViewModel::updateLocation,
         updateTrackingToggle = recommendPlaceViewModel::updateTrackingToggle,
         updateSelectedPlace = recommendPlaceViewModel::updateSelectedPlace,
-        updatePlaces = recommendPlaceViewModel::    updatePlaces,
+        updatePlaces = recommendPlaceViewModel::updatePlaces,
     )
 
     FullLinearLoadingAnimation(isLoading = recommendationsUiState.isLoading)
@@ -268,20 +259,9 @@ fun ExploreRecommendPlaceMap(
                         visitCount = 0,
                         categoryImage = place.categoryImageUrl,
                         place = place,
-                        onButtonClick = {
-//                            updateExploreResult(
-//                                place.id,
-//                                locationState.location.latitude,
-//                                locationState.location.longitude,
-//                                place.placeCategory,
-//                            )
-                            updateSelectedPlace(null)
-                        },
-                        onCloseButtonClick = {
-                            updateSelectedPlace(null)
-                        },
-                        modifier = Modifier
-                            .align(Alignment.TopCenter),
+                        onButtonClick = { updateSelectedPlace(null) },
+                        onCloseButtonClick = { updateSelectedPlace(null) },
+                        modifier = Modifier.align(Alignment.TopCenter),
                     )
                 }
             }
