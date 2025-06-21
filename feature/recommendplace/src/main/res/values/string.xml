@@ -6,6 +6,7 @@
     <string name="recommend_place">추천 장소</string>
     <string name="recommend_place_list">리스트</string>
     <string name="recommend_place_map">지도</string>
+<<<<<<< HEAD
 
     <string name="recommend_place_order">추천 주문서</string>
     <string name="recommend_place_order_question_select">어떤 추천이 필요하신가요? *</string>
@@ -32,4 +33,6 @@
     <string name="recommend_place_nearby">근처에 가볼 만한 곳</string>
 
     <string name="recommend_place_button_temp_welcome_text">반가워 나는 추천 오브 츄링이야!\n장소 추천이 필요해?</string>
+=======
+>>>>>>> b503e9e3 (feature: Add recommend place screen)
 </resources>
