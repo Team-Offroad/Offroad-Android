@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
@@ -31,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import com.teamoffroad.core.designsystem.component.CircularLoadingAnimation
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Black55
 import com.teamoffroad.core.designsystem.theme.Gray100
@@ -68,27 +70,40 @@ fun RecommendPlaceBody(
             onTabSelected = { selectedTab = it }
         )
         HorizontalDivider(color = Gray100)
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(ListBg)
         ) {
-            when (selectedTab) {
-                RecommendTab.LIST -> RecommendPlaceList(
-                    listState,
-                    hasLocationPermission,
-                    recommendationsUiState,
-                    recommendPlaceViewModel,
-                    onClick
-                )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentHeight(),
+                contentAlignment = Alignment.Center,
+            ) {
+                CircularLoadingAnimation(isLoading = recommendationsUiState.isAdditionalLoading)
+            }
 
-                RecommendTab.MAP -> RecommendPlaceMap(
-                    hasLocationPermission,
-                    isButtonVisible,
-                    recommendationsUiState,
-                    recommendPlaceViewModel,
-                    onClick
-                )
+
+            if (!recommendationsUiState.isAdditionalLoading) {
+                when (selectedTab) {
+                    RecommendTab.LIST -> RecommendPlaceList(
+                        listState,
+                        hasLocationPermission,
+                        recommendationsUiState,
+                        recommendPlaceViewModel,
+                        onClick
+                    )
+
+                    RecommendTab.MAP -> RecommendPlaceMap(
+                        hasLocationPermission,
+                        isButtonVisible,
+                        recommendationsUiState,
+                        recommendPlaceViewModel,
+                        onClick
+                    )
+                }
             }
         }
     }

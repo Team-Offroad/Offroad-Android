@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.recommendplace.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.naver.maps.geometry.LatLng
@@ -13,8 +14,8 @@ import com.teamoffroad.feature.explore.presentation.mapper.toUi
 import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendationsOrderChatRequest
 import com.teamoffroad.feature.recommendplace.domain.repository.PlaceRecommendationsRepository
+import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsChatUiState
 import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsFixedPhraseUiState
-import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsOrderChatUiState
 import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,8 +38,8 @@ class RecommendPlaceViewModel @Inject constructor(
     private val _placeRecommendationsFixedPhraseUiState = MutableStateFlow(PlaceRecommendationsFixedPhraseUiState())
     val placeRecommendationsFixedPhraseUiState = _placeRecommendationsFixedPhraseUiState.asStateFlow()
 
-    private val _placeRecommendationsOrderChatsUiState = MutableStateFlow(PlaceRecommendationsOrderChatUiState())
-    val placeRecommendationsOrderChatsUiState = _placeRecommendationsOrderChatsUiState.asStateFlow()
+    private val _placeRecommendationsChatsUiState = MutableStateFlow(PlaceRecommendationsChatUiState())
+    val placeRecommendationsChatsUiState = _placeRecommendationsChatsUiState.asStateFlow()
 
     init {
         updateOrderChats(
@@ -75,19 +76,21 @@ class RecommendPlaceViewModel @Inject constructor(
     }
 
     fun updateOrderChats(chat: ChatModel) {
-        val currentChats = _placeRecommendationsOrderChatsUiState.value.chats.toMutableMap()
+        val currentChats = _placeRecommendationsChatsUiState.value.chats.toMutableMap()
         val chatsForDate = currentChats[chat.date]?.toMutableList() ?: mutableListOf()
         chatsForDate.add(chat)
         currentChats[chat.date] = chatsForDate
-        _placeRecommendationsOrderChatsUiState.value = _placeRecommendationsOrderChatsUiState.value.copy(
-            chats = currentChats
+        _placeRecommendationsChatsUiState.value = _placeRecommendationsChatsUiState.value.copy(
+            chats = currentChats,
+            isLoading = false,
+            isError = false
         )
     }
 
     fun getPlaceRecommendationsOrderChats(content: String) {
         viewModelScope.launch {
             runCatching {
-                _placeRecommendationsOrderChatsUiState.value = _placeRecommendationsOrderChatsUiState.value.copy(
+                _placeRecommendationsChatsUiState.value = _placeRecommendationsChatsUiState.value.copy(
                     isLoading = true,
                     isError = false
                 )
@@ -100,18 +103,18 @@ class RecommendPlaceViewModel @Inject constructor(
                     isPlaceRecommendation = true
                 )
 
-                val updatedChats = _placeRecommendationsOrderChatsUiState.value.chats.toMutableMap()
+                val updatedChats = _placeRecommendationsChatsUiState.value.chats.toMutableMap()
                 val chatsForDate = updatedChats[chatModel.date]?.toMutableList() ?: mutableListOf()
                 chatsForDate.add(chatModel)
                 updatedChats[chatModel.date] = chatsForDate
 
-                _placeRecommendationsOrderChatsUiState.value = _placeRecommendationsOrderChatsUiState.value.copy(
+                _placeRecommendationsChatsUiState.value = _placeRecommendationsChatsUiState.value.copy(
                     chats = updatedChats,
                     isLoading = false,
                     isError = false
                 )
             }.onFailure {
-                _placeRecommendationsOrderChatsUiState.value = _placeRecommendationsOrderChatsUiState.value.copy(
+                _placeRecommendationsChatsUiState.value = _placeRecommendationsChatsUiState.value.copy(
                     isLoading = false,
                     isError = true
                 )
@@ -120,8 +123,6 @@ class RecommendPlaceViewModel @Inject constructor(
     }
 
     fun getPlaceRecommendations() {
-        if (placeRecommendationsUiState.value.isAdditionalLoading || placeRecommendationsUiState.value.isLoadable.not()) return
-
         viewModelScope.launch {
             runCatching {
                 _placeRecommendationsUiState.value = _placeRecommendationsUiState.value.copy(
@@ -133,7 +134,7 @@ class RecommendPlaceViewModel @Inject constructor(
                 _placeRecommendationsUiState.value = _placeRecommendationsUiState.value.copy(
                     isError = false,
                     isAdditionalLoading = false,
-                    isLoadable = place.recommendations.isEmpty().not(),
+                    isLoadable = false,
                     isLoading = false,
                     recommendations = place.recommendations.map {
                         PlaceRecommendationsUiState.RecommendationsUiState(
@@ -228,7 +229,6 @@ class RecommendPlaceViewModel @Inject constructor(
                 getMapPlaceListUseCase(latitude, longitude, LOAD_PLACES_LIMIT).map { it.toUi() }
             }.onSuccess { places ->
                 _placeRecommendationsUiState.value = placeRecommendationsUiState.value.copy(
-//                    recommendations = places,
                     isLoadable = false,
                 )
             }.onFailure {

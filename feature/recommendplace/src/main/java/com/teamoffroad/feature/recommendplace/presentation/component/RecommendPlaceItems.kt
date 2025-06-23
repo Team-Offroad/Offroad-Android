@@ -8,22 +8,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.teamoffroad.core.designsystem.component.CircularLoadingAnimationLine
 import com.teamoffroad.core.designsystem.component.ExpandableItem
-import com.teamoffroad.core.designsystem.component.LinearLoadingAnimation
 import com.teamoffroad.core.designsystem.theme.ListBg
-import com.teamoffroad.feature.explore.presentation.component.PlaceExtraItem
-import com.teamoffroad.feature.explore.presentation.component.PlaceItem
-import com.teamoffroad.feature.explore.presentation.model.PlaceModel
 import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsUiState.RecommendationsUiState
 
 @Composable
@@ -36,15 +29,6 @@ fun RecommendPlaceItems(
     listState: LazyListState
 ) {
     var expandedIndex by remember { mutableIntStateOf(NULL_INDEX) }
-
-    LaunchedEffect(listState, places, isLoadable) {
-        snapshotFlow { listState.firstVisibleItemIndex }
-            .collect { index ->
-                if (index + LOAD_THRESHOLD >= places.size && isLoadable) {
-                    updatePlaces()
-                }
-            }
-    }
 
     LazyColumn(
         modifier = Modifier
@@ -59,9 +43,6 @@ fun RecommendPlaceItems(
             false -> Arrangement.Top
         },
     ) {
-        item {
-            LinearLoadingAnimation(isLoading = isLoading)
-        }
         items(places.size) { index ->
             ExpandableItem(
                 isExpanded = expandedIndex == index,
@@ -81,9 +62,6 @@ fun RecommendPlaceItems(
                 },
                 modifier = Modifier.padding(bottom = 14.dp)
             )
-        }
-        item {
-            CircularLoadingAnimationLine(isLoading = isAdditionalLoading)
         }
     }
 }

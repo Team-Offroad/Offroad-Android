@@ -38,7 +38,6 @@ import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub4
 import com.teamoffroad.core.designsystem.theme.White
-import com.teamoffroad.feature.explore.presentation.model.PlaceModel
 import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsUiState
 import com.teamoffroad.offroad.feature.explore.R.drawable
 import com.teamoffroad.offroad.feature.explore.R.string
@@ -133,7 +132,30 @@ fun RecommendPlaceMapInfoWindow(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(color = Sub4, shape = RoundedCornerShape(6.dp)),
+                        .background(color = Sub4, shape = RoundedCornerShape(6.dp))
+                        .clickableWithoutRipple {
+                            val geoUri = Uri.parse(
+                                "nmap://place?name=${
+                                    URLEncoder.encode(
+                                        title,
+                                        "UTF-8"
+                                    )
+                                }&lat=${place?.location?.latitude}&lng=${place?.location?.longitude}&appname=${context.packageName}"
+                            )
+                            val intent = Intent(Intent.ACTION_VIEW, geoUri).apply {
+                                setPackage("com.nhn.android.nmap")
+                            }
+
+                            try {
+                                context.startActivity(intent)
+                            } catch (e: ActivityNotFoundException) {
+                                val playStoreIntent = Intent(
+                                    Intent.ACTION_VIEW,
+                                    Uri.parse("market://details?id=com.nhn.android.nmap")
+                                )
+                                context.startActivity(playStoreIntent)
+                            }
+                        },
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
@@ -142,31 +164,7 @@ fun RecommendPlaceMapInfoWindow(
                         overflow = TextOverflow.Ellipsis,
                         color = White,
                         style = OffroadTheme.typography.btnSmall,
-                        modifier = Modifier
-                            .padding(vertical = 8.dp)
-                            .clickableWithoutRipple {
-                                val geoUri = Uri.parse(
-                                    "nmap://place?name=${
-                                        URLEncoder.encode(
-                                            title,
-                                            "UTF-8"
-                                        )
-                                    }&lat=${place?.location?.latitude}&lng=${place?.location?.longitude}&appname=${context.packageName}"
-                                )
-                                val intent = Intent(Intent.ACTION_VIEW, geoUri).apply {
-                                    setPackage("com.nhn.android.nmap")
-                                }
-
-                                try {
-                                    context.startActivity(intent)
-                                } catch (e: ActivityNotFoundException) {
-                                    val playStoreIntent = Intent(
-                                        Intent.ACTION_VIEW,
-                                        Uri.parse("market://details?id=com.nhn.android.nmap")
-                                    )
-                                    context.startActivity(playStoreIntent)
-                                }
-                            },
+                        modifier = Modifier.padding(vertical = 8.dp)
                     )
                 }
             }

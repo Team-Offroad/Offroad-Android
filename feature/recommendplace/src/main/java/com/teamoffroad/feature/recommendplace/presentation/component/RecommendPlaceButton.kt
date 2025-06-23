@@ -83,7 +83,8 @@ fun RecommendPlaceButton(
     ) {
         Card(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .clickableWithoutRipple { onClick() },
             shape = RoundedCornerShape(12.dp),
             colors = CardDefaults.cardColors(
                 containerColor = Color.Transparent
@@ -93,19 +94,17 @@ fun RecommendPlaceButton(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = content.ifEmpty { stringResource(id = R.string.recommend_place_button_temp_welcome_text) },
+                        text = content,
                         modifier = Modifier
-                            .padding(horizontal = 26.dp, vertical = 20.dp),
+                            .padding(horizontal = 26.dp, vertical = 20.dp)
+                            .weight(1f),
                         style = OffroadTheme.typography.boxMedi,
                         lineHeight = 16.sp
                     )
-                    Spacer(modifier = Modifier.weight(1f))
                     Image(
                         painter = painterResource(R.drawable.ic_recommend_place_chat),
                         contentDescription = null,
-                        modifier = Modifier
-                            .padding(end = 10.dp)
-                            .clickableWithoutRipple { onClick() }
+                        modifier = Modifier.padding(end = 10.dp)
                     )
                     Image(
                         painter = painterResource(R.drawable.ic_recommend_place_arrow_right),
@@ -116,5 +115,4 @@ fun RecommendPlaceButton(
             }
         )
     }
-
 }

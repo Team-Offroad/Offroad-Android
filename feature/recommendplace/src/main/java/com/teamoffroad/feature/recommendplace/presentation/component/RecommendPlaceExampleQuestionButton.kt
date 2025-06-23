@@ -26,7 +26,7 @@ fun RecommendPlaceExampleQuestionButton(
     Row(
         modifier = Modifier
             .horizontalScroll(rememberScrollState())
-            .padding(bottom = 14.dp)
+            .padding(top = 14.dp, bottom = 14.dp)
     ) {
         val exampleQuestions = listOf(
             "강남에 가는데\n오늘 날씨에 맞는 식당 추천해줘." to "오늘 날씨에 맞는 식당",

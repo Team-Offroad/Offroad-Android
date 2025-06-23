@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,7 +24,6 @@ import com.teamoffroad.characterchat.presentation.model.ChatType
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.component.navigationPadding
-import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendationsOrderChat
 import com.teamoffroad.offroad.feature.recommendplace.R
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -33,9 +31,11 @@ import java.time.LocalDateTime
 @Composable
 fun RecommendPlaceChat(
     name: String,
+    isChatLoading: Boolean,
     chatList: Map<LocalDate, List<ChatModel>>,
     updateOrderChats: (ChatModel) -> Unit,
     getPlaceRecommendationsOrderChats: (String) -> Unit,
+    getPlaceRecommendations: () -> Unit,
     onClose: () -> Unit
 ) {
     val keyboardHeight = remember { mutableIntStateOf(0) }
@@ -65,21 +65,23 @@ fun RecommendPlaceChat(
             }
     ) {
         Column(
-            modifier = Modifier
-                .actionBarPadding()
-                .fillMaxSize()
+            modifier = Modifier.fillMaxSize()
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_recommend_place_close),
                 contentDescription = null,
                 modifier = Modifier
                     .align(Alignment.End)
-                    .padding(end = 20.dp)
-                    .clickableWithoutRipple { onClose() }
+                    .padding(top = 10.dp, end = 20.dp)
+                    .clickableWithoutRipple {
+                        getPlaceRecommendations()
+                        onClose()
+                    }
             )
 
             RecommendPlaceChats(
                 name = name,
+                isChatLoading = isChatLoading,
                 modifier = Modifier.weight(1f),
                 chatList = chatList.values.flatten(),
             )
