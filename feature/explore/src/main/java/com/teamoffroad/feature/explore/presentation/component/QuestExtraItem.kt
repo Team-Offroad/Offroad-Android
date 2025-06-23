@@ -46,14 +46,37 @@ fun QuestExtraItem(
                     .background(color = BoxInfo, shape = RoundedCornerShape(9.dp))
                     .padding(vertical = 8.dp, horizontal = 10.dp),
         ) {
+            when (questModel.courseQuestInfo.isCourse) {
+                true -> CourseQuestDetails(questModel)
+                false -> DefaultQuestDetails(questModel)
+            }
+        }
+    }
+}
+
+@Composable
+private fun DefaultQuestDetails(questModel: Quest) {
+    QuestDetailItem(
+        icon = painterResource(id = R.drawable.ic_explore_quest_task),
+        text = questModel.requirement,
+    )
+    QuestDetailItem(
+        icon = painterResource(id = R.drawable.ic_explore_quest_reward),
+        text = questModel.reward,
+        modifier = Modifier.padding(top = 4.dp),
+    )
+}
+
+@Composable
+private fun CourseQuestDetails(questModel: Quest) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        questModel.courseQuestInfo.courseQuestPlaces.forEachIndexed { index, place ->
             QuestDetailItem(
                 icon = painterResource(id = R.drawable.ic_explore_quest_task),
-                text = questModel.requirement,
-            )
-            QuestDetailItem(
-                icon = painterResource(id = R.drawable.ic_explore_quest_reward),
-                text = questModel.reward,
-                modifier = Modifier.padding(top = 4.dp),
+                text = place.description,
+                modifier = if (index == 0) Modifier else Modifier.padding(top = 4.dp),
             )
         }
     }

@@ -31,6 +31,7 @@ import com.teamoffroad.offroad.core.designsystem.R
 fun ExpandableItem(
     isExpanded: Boolean,
     onExpandClick: () -> Unit,
+    onExtraContentClick: () -> Unit = {},
     defaultContent: @Composable (Boolean) -> Unit,
     extraContent: @Composable () -> Unit = {},
     backgroundColor: Color = Main3,
@@ -48,16 +49,18 @@ fun ExpandableItem(
                 .animateContentSize()
                 .wrapContentHeight()
                 .background(color = backgroundColor, shape = RoundedCornerShape(cornerRadius.dp))
-                .padding(vertical = verticalPadding.dp, horizontal = horizontalPadding.dp)
-                .clickableWithoutRipple { onExpandClick() },
+                .padding(vertical = verticalPadding.dp, horizontal = horizontalPadding.dp),
     ) {
         Row(
             modifier =
                 Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .clickableWithoutRipple { onExpandClick() },
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Box(modifier = Modifier.weight(1f)) {
+            Box(
+                modifier = Modifier.weight(1f),
+            ) {
                 defaultContent(isExpanded)
             }
             Image(
@@ -73,6 +76,7 @@ fun ExpandableItem(
         }
         AnimatedVisibility(
             visible = isExpanded,
+            modifier = Modifier.clickableWithoutRipple { onExtraContentClick() },
         ) {
             extraContent()
         }

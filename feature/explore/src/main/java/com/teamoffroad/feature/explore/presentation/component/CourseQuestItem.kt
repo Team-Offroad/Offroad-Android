@@ -20,36 +20,39 @@ import java.time.LocalDateTime
 @Composable
 fun CourseQuestItem(
     quest: Quest,
-    onDetailClick: () -> Unit,
+    isExpanded: Boolean,
+    onExpandClick: () -> Unit,
+    onDetailClick: (Long) -> Unit,
 ) {
     Box {
         ExpandableItem(
-            isExpanded = true,
-            onExpandClick = {
-                onDetailClick()
-            },
+            isExpanded = isExpanded,
+            onExpandClick = onExpandClick,
+            onExtraContentClick = { onDetailClick(quest.questId) },
             defaultContent = {
                 QuestItem(quest = quest)
             },
             extraContent = {
                 QuestExtraItem(questModel = quest)
             },
-            modifier = Modifier.padding(top = 14.dp, bottom = 14.dp),
+            modifier = Modifier.padding(vertical = 14.dp),
         )
-        Box {
-            Image(
-                painter = painterResource(id = R.drawable.ic_left_date_count),
-                contentDescription = null,
-            )
-            Text(
-                "D-${quest.getLeftDayCount()}",
-                style = OffroadTheme.typography.textBold,
-                color = Sub4_80,
-                modifier =
-                    Modifier
-                        .padding(bottom = 10.dp)
-                        .align(Alignment.Center),
-            )
+        if (quest.courseQuestInfo.isCourse) {
+            Box {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_left_date_count),
+                    contentDescription = null,
+                )
+                Text(
+                    "D-${quest.getLeftDayCount()}",
+                    style = OffroadTheme.typography.textBold,
+                    color = Sub4_80,
+                    modifier =
+                        Modifier
+                            .padding(bottom = 10.dp)
+                            .align(Alignment.Center),
+                )
+            }
         }
     }
 }
@@ -75,6 +78,8 @@ fun CourseQuestItemPreview() {
                             courseQuestPlaces = listOf(),
                         ),
                 ),
+            isExpanded = true,
+            onExpandClick = {},
             onDetailClick = {},
         )
     }

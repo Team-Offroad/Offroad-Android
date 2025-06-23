@@ -18,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.CircularLoadingAnimationLine
-import com.teamoffroad.core.designsystem.component.ExpandableItem
 import com.teamoffroad.core.designsystem.component.LinearLoadingAnimation
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.feature.explore.domain.model.Quest
@@ -31,6 +30,7 @@ fun QuestItems(
     isLoading: Boolean,
     isAdditionalLoading: Boolean,
     isLoadable: Boolean,
+    onDetailClick: (Long) -> Unit,
 ) {
     var expandedIndex by remember { mutableIntStateOf(NULL_INDEX) }
     val listState = rememberLazyListState()
@@ -66,20 +66,31 @@ fun QuestItems(
         item {
             LinearLoadingAnimation(isLoading = isLoading)
         }
+
         items(quests.size) { index ->
-            ExpandableItem(
-                isExpanded = expandedIndex == index,
-                onExpandClick = {
-                    expandedIndex = if (expandedIndex == index) NULL_INDEX else index
-                },
-                defaultContent = {
-                    QuestItem(quest = quests[index])
-                },
-                extraContent = {
-                    QuestExtraItem(questModel = quests[index])
-                },
-                modifier = Modifier.padding(bottom = 14.dp),
-            )
+            val quest = quests[index]
+            val isExpanded = expandedIndex == index
+
+            val toggleExpand = {
+                expandedIndex = if (isExpanded) NULL_INDEX else index
+            }
+
+            when (quest.courseQuestInfo.isCourse) {
+                true ->
+                    CourseQuestItem(
+                        quest = quest,
+                        onDetailClick = onDetailClick,
+                        isExpanded = isExpanded,
+                        onExpandClick = toggleExpand,
+                    )
+
+                false ->
+                    DefaultQuestItem(
+                        quest = quest,
+                        isExpanded = isExpanded,
+                        onExpandClick = toggleExpand,
+                    )
+            }
         }
         item {
             CircularLoadingAnimationLine(isLoading = isAdditionalLoading)
@@ -87,5 +98,5 @@ fun QuestItems(
     }
 }
 
-private const val NULL_INDEX = -1
 private const val LOAD_THRESHOLD = 10
+private const val NULL_INDEX = -1

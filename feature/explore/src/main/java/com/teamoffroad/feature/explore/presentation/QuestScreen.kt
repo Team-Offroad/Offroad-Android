@@ -56,6 +56,9 @@ fun QuestScreen(
                     true -> uiState.value.isLoadable.first
                     false -> uiState.value.isLoadable.second
                 },
+            onDetailClick = { questId ->
+                //TODO: navigateToQuestDetail(questId)
+            }
         )
     }
 }
