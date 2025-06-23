@@ -19,6 +19,7 @@ import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 fun QuestScreen(
+    navigateToQuestDetail: (Long) -> Unit,
     navigateToBack: () -> Unit,
     questViewModel: QuestViewModel = hiltViewModel(),
 ) {
@@ -57,8 +58,8 @@ fun QuestScreen(
                     false -> uiState.value.isLoadable.second
                 },
             onDetailClick = { questId ->
-                //TODO: navigateToQuestDetail(questId)
-            }
+                navigateToQuestDetail(questId)
+            },
         )
     }
 }

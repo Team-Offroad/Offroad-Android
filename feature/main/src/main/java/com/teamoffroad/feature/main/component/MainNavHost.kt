@@ -28,9 +28,10 @@ internal fun MainNavHost(
     padding: PaddingValues,
 ) {
     Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(ListBg)
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(ListBg),
     ) {
         NavHost(
             navController = navigator.navController,
@@ -50,7 +51,7 @@ internal fun MainNavHost(
                         navigator.navigateToGainedCharacter()
                     }
                 },
-                navigateToDiary = navigator::navigateToDiary
+                navigateToDiary = navigator::navigateToDiary,
             )
             exploreNavGraph(
                 navigateToHome = { category, completeQuests ->
@@ -61,6 +62,9 @@ internal fun MainNavHost(
                 },
                 navigateToQuest = {
                     navigator.navigateToQuest()
+                },
+                navigateToQuestDetail = { questId ->
+                    navigator.navigateToCourseQuestDetail(questId)
                 },
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
             )
@@ -74,7 +78,7 @@ internal fun MainNavHost(
                         name,
                         couponImageUrl,
                         description,
-                        placeId
+                        placeId,
                     )
                 },
                 navigateToGainedCharacter = {
@@ -113,7 +117,7 @@ internal fun MainNavHost(
             diaryNavGraph(
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
                 navigateToCharacterChat = navigator::navigateToCharacterChat,
-                navigateToDiaryTime = navigator::navigateToDiaryTime
+                navigateToDiaryTime = navigator::navigateToDiaryTime,
             )
         }
     }

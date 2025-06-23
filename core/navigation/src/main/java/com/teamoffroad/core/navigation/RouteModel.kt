@@ -52,6 +52,11 @@ sealed interface ExploreRoute : Route {
 
     @Serializable
     data object QuestScreen : ExploreRoute
+
+    @Serializable
+    data class CourseQuestDetail(
+        val questId: Long,
+    ) : ExploreRoute
 }
 
 sealed interface MyPageRoute : Route {
