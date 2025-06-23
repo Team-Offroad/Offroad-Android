@@ -62,7 +62,7 @@ fun HomeScreen(
     completeQuests: List<String> = emptyList(),
     navigateToGainedCharacter: () -> Unit = {},
     navigateToCharacterChatScreen: (String) -> Unit,
-    navigateToDiary: (Boolean) -> Unit,
+    navigateToDiary: (Boolean, String) -> Unit,
     navigateToRecommendPlace: (Boolean, String, String) -> Unit,
 ) {
     val context = LocalContext.current
@@ -157,7 +157,7 @@ fun HomeScreen(
             cancelButtonText = stringResource(id = R.string.home_diary_create_cancel),
             nextButtonText = stringResource(id = R.string.home_confirm),
             onClick = {
-                if (!newDiaryExist.value) navigateToDiary(true)
+                if (!newDiaryExist.value) navigateToDiary(true, characterName.value)
                 homeViewModel.updateDiaryCreateDialogUnShown()
             },
             onCancelClick = {
@@ -202,7 +202,7 @@ private fun UsersAdventuresInformation(
     updateCharacterChatExist: (Boolean) -> Unit,
     updateCharacterName: (String) -> Unit,
     updateLastUnreadChatDosAllRead: (Boolean) -> Unit,
-    navigateToDiary: (Boolean) -> Unit,
+    navigateToDiary: (Boolean, String) -> Unit,
     navigateToRecommendPlace: (Boolean, String, String) -> Unit,
 ) {
     val adventuresInformationState =
