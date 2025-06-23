@@ -35,13 +35,16 @@ class QuestViewModel
 
         fun updateQuests(isProceeding: Boolean = uiState.value.isProceedingQuest) {
             if (uiState.value.isAdditionalLoading) return
+            val cursorId = getCursorId(isProceeding)
+            if (cursorId == uiState.value.lastUpdatedCursorId) return
 
             viewModelScope.launch {
+                updateLoadingState(cursorId)
+
                 runCatching {
-                    val cursorId = getCursorId(isProceeding)
-                    updateLoadingState(cursorId)
                     getQuestListUseCase(isProceeding, cursorId, 20)
                 }.onSuccess { quests ->
+                    _uiState.value = uiState.value.copy(lastUpdatedCursorId = cursorId)
                     when (quests.isEmpty()) {
                         true -> updateLoadableState(isProceeding)
                         false -> updateExistQuests(isProceeding, quests)

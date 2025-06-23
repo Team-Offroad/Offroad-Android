@@ -16,7 +16,7 @@ data class CourseQuestPlaceDto(
     @SerialName("longitude")
     val longitude: Double,
     @SerialName("isVisited")
-    val isVisited: Boolean,
+    val isVisited: Boolean?,
     @SerialName("categoryImage")
     val categoryImage: String,
     @SerialName("description")

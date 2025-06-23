@@ -8,4 +8,5 @@ data class CourseQuestPlace(
     val longitude: Double,
     val isVisited: Boolean,
     val categoryImage: String,
+    val description: String,
 )

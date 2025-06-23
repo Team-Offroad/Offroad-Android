@@ -41,6 +41,7 @@ fun CourseQuestPlaceDto.toDomain(): CourseQuestPlace =
         address = address,
         latitude = latitude,
         longitude = longitude,
-        isVisited = isVisited,
+        isVisited = isVisited ?: false,
         categoryImage = categoryImage,
+        description = description,
     )
