@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CourseQuestPlacesDto(
+data class CourseQuestPlacesResponseDto(
     @SerialName("places")
-    val places: List<CourseQuestPlaceDto>,
+    val places: List<CourseQuestPlaceResponseDto>,
 )

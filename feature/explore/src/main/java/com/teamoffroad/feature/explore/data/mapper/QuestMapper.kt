@@ -1,6 +1,6 @@
 package com.teamoffroad.feature.explore.data.mapper
 
-import com.teamoffroad.feature.explore.data.remote.response.CourseQuestPlaceDto
+import com.teamoffroad.feature.explore.data.remote.response.CourseQuestPlaceResponseDto
 import com.teamoffroad.feature.explore.data.remote.response.QuestResponseDto
 import com.teamoffroad.feature.explore.domain.model.CourseQuestPlace
 import com.teamoffroad.feature.explore.domain.model.Quest
@@ -34,7 +34,7 @@ fun QuestResponseDto.toDomain(): Quest {
     )
 }
 
-fun CourseQuestPlaceDto.toDomain(): CourseQuestPlace =
+fun CourseQuestPlaceResponseDto.toDomain(): CourseQuestPlace =
     CourseQuestPlace(
         category = category,
         name = name,

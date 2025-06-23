@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CourseQuestPlaceDto(
+data class CourseQuestPlaceResponseDto(
     @SerialName("category")
     val category: String,
     @SerialName("name")
