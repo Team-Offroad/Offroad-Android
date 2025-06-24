@@ -28,6 +28,7 @@ import com.naver.maps.map.compose.MapUiSettings
 import com.naver.maps.map.compose.Marker
 import com.naver.maps.map.compose.MarkerState
 import com.naver.maps.map.compose.NaverMap
+import com.naver.maps.map.compose.rememberFusedLocationSource
 import com.naver.maps.map.overlay.OverlayImage
 import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.actionBarPadding
@@ -125,6 +126,7 @@ fun CourseQuestDetailScreen(
                         logoGravity = Gravity.TOP,
                         logoMargin = PaddingValues(top = 28.dp, start = 22.dp),
                     ),
+                locationSource = rememberFusedLocationSource(isCompassEnabled = true),
                 cameraPositionState =
                     CameraPositionState(
                         CameraPosition(quests.value.centerLocation.toLatLng(), 13.5),

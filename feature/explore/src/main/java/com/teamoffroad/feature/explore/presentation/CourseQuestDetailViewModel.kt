@@ -56,8 +56,8 @@ class CourseQuestDetailViewModel
 
         fun performExplore(
             place: CourseQuestPlaceUiModel,
-            latitude: Double = _location.value.latitude,
-            longitude: Double = _location.value.longitude,
+            latitude: Double = location.value.latitude,
+            longitude: Double = location.value.longitude,
         ) {
             viewModelScope.launch {
                 runCatching {
