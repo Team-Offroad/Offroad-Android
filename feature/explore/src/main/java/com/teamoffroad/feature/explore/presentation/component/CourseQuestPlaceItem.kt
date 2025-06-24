@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.AdaptationImage
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.BoxInfo
+import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.NametagInactive
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub
@@ -34,10 +35,12 @@ import com.teamoffroad.offroad.feature.explore.R
 fun CourseQuestPlaceItem(
     quest: CourseQuestPlaceUiModel,
     onVisitClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier =
-            Modifier
+            modifier
+                .background(Main1)
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)
                 .padding(vertical = 6.dp)

@@ -10,8 +10,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -52,7 +53,7 @@ fun CourseQuestDetailScreen(
     val quests = courseQuestDetailViewModel.quests.collectAsStateWithLifecycle()
     val mapHeight = 218.dp
     val rewardBoxHeight = 88.dp
-    val scrollState = rememberScrollState()
+    val listState = rememberLazyListState()
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
@@ -71,7 +72,43 @@ fun CourseQuestDetailScreen(
             text = "퀘스트 목록",
             modifier = Modifier.padding(top = 20.dp),
         ) { navigateToBack() }
-        Box {
+
+        Box(modifier = Modifier.fillMaxSize()) {
+            LazyColumn(
+                state = listState,
+                modifier =
+                    Modifier
+                        .fillMaxSize(),
+            ) {
+                item {
+                    Spacer(
+                        modifier =
+                            Modifier
+                                .height(mapHeight)
+                                .fillMaxWidth(),
+                    )
+                }
+
+                item {
+                    DeadlineHeader(
+                        deadline = LocalDateTime.parse(deadline),
+                        dDay = "D-$dDay",
+                    )
+                }
+
+                items(quests.value.places) { place ->
+                    CourseQuestPlaceItem(quest = place, onVisitClick = {})
+                }
+
+                item {
+                    Spacer(
+                        modifier =
+                            Modifier
+                                .background(Main1)
+                                .height(rewardBoxHeight),
+                    )
+                }
+            }
             NaverMap(
                 uiSettings =
                     MapUiSettings(
@@ -82,11 +119,15 @@ fun CourseQuestDetailScreen(
                         logoGravity = Gravity.TOP,
                         logoMargin = PaddingValues(top = 28.dp, start = 22.dp),
                     ),
-                cameraPositionState = CameraPositionState(CameraPosition(quests.value.centerMapPosition.toLatLng(), 13.5)),
+                cameraPositionState =
+                    CameraPositionState(
+                        CameraPosition(quests.value.centerMapPosition.toLatLng(), 13.5),
+                    ),
                 modifier =
                     Modifier
                         .fillMaxWidth()
-                        .height(mapHeight),
+                        .height(mapHeight)
+                        .align(Alignment.TopCenter),
             ) {
                 quests.value.places.forEach { place ->
                     Marker(
@@ -94,37 +135,6 @@ fun CourseQuestDetailScreen(
                         icon = OverlayImage.fromBitmap(getCategoryOverlayImage(context, place.category)),
                     )
                 }
-            }
-            Column(
-                modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .verticalScroll(scrollState),
-            ) {
-                Spacer(
-                    modifier =
-                        Modifier
-                            .height(mapHeight)
-                            .fillMaxWidth(),
-                )
-
-                Column(
-                    modifier =
-                        Modifier
-                            .fillMaxSize()
-                            .background(Main1),
-                ) {
-                    DeadlineHeader(
-                        deadline = LocalDateTime.parse(deadline),
-                        dDay = "D-$dDay",
-                    )
-
-                    quests.value.places.forEach {
-                        CourseQuestPlaceItem(quest = it, onVisitClick = {})
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(rewardBoxHeight))
             }
             RewardBox(
                 reward = reward,

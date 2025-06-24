@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.explore.presentation.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Gray400
+import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.Sub4_80
 import com.teamoffroad.offroad.feature.explore.R
@@ -28,10 +30,12 @@ private val DEADLINE_FORMATTER = DateTimeFormatter.ofPattern("yyyy. MM. dd")
 fun DeadlineHeader(
     deadline: LocalDateTime,
     dDay: String,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier =
-            Modifier
+            modifier
+                .background(Main1)
                 .fillMaxWidth()
                 .padding(top = 20.dp, bottom = 16.dp, end = 26.dp),
         verticalAlignment = Alignment.CenterVertically,
