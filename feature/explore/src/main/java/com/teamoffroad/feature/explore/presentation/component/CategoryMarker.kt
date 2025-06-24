@@ -58,7 +58,7 @@ private fun PlaceCategory.color(): Color =
         PlaceCategory.RESTAURANT -> Color(0xFFFF8670)
         PlaceCategory.CULTURE -> Color(0xFFFF6CC0)
         PlaceCategory.SPORT -> Color(0xFF729EFF)
-        else -> Color.Gray
+        PlaceCategory.NONE -> Color(0xFFBDBDBD)
     }
 
 fun getCategoryOverlayImage(
