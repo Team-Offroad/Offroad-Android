@@ -33,8 +33,13 @@ fun NavController.navigateToQuest() {
     navigate(ExploreRoute.QuestScreen)
 }
 
-fun NavController.navigateToCourseQuestDetail(questId: Long) {
-    navigate(ExploreRoute.CourseQuestDetail(questId))
+fun NavController.navigateToCourseQuestDetail(
+    questId: Long,
+    deadline: String,
+    dDay: Int,
+    reward: String,
+) {
+    navigate(ExploreRoute.CourseQuestDetail(questId, deadline, dDay, reward))
 }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -42,7 +47,7 @@ fun NavGraphBuilder.exploreNavGraph(
     navigateToHome: (String, List<String>) -> Unit,
     navigateToPlace: (String, String) -> Unit,
     navigateToQuest: () -> Unit,
-    navigateToQuestDetail: (Long) -> Unit,
+    navigateToQuestDetail: (questId: Long, deadline: String, dDay: Int, reward: String) -> Unit,
     navigateToBack: () -> Unit,
 ) {
     composable<MainTabRoute.Explore> { backStackEntry ->
@@ -62,6 +67,9 @@ fun NavGraphBuilder.exploreNavGraph(
 
     composable<ExploreRoute.CourseQuestDetail> { backStackEntry ->
         val questId = backStackEntry.toRoute<ExploreRoute.CourseQuestDetail>().questId
-        CourseQuestDetailScreen(questId, navigateToBack)
+        val deadline = backStackEntry.toRoute<ExploreRoute.CourseQuestDetail>().deadline
+        val dDay = backStackEntry.toRoute<ExploreRoute.CourseQuestDetail>().dDay
+        val reward = backStackEntry.toRoute<ExploreRoute.CourseQuestDetail>().reward
+        CourseQuestDetailScreen(questId, deadline, dDay, reward, navigateToBack)
     }
 }

@@ -22,13 +22,13 @@ fun CourseQuestItem(
     quest: Quest,
     isExpanded: Boolean,
     onExpandClick: () -> Unit,
-    onDetailClick: (Long) -> Unit,
+    onDetailClick: () -> Unit,
 ) {
     Box {
         ExpandableItem(
             isExpanded = isExpanded,
             onExpandClick = onExpandClick,
-            onExtraContentClick = { onDetailClick(quest.questId) },
+            onExtraContentClick = { onDetailClick() },
             defaultContent = {
                 QuestItem(quest = quest)
             },

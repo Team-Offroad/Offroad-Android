@@ -56,6 +56,9 @@ sealed interface ExploreRoute : Route {
     @Serializable
     data class CourseQuestDetail(
         val questId: Long,
+        val deadline: String,
+        val dDay: Int,
+        val reward: String,
     ) : ExploreRoute
 }
 

@@ -30,7 +30,7 @@ fun QuestItems(
     isLoading: Boolean,
     isAdditionalLoading: Boolean,
     isLoadable: Boolean,
-    onDetailClick: (Long) -> Unit,
+    onDetailClick: (Quest) -> Unit,
 ) {
     var expandedIndex by remember { mutableIntStateOf(NULL_INDEX) }
     val listState = rememberLazyListState()
@@ -79,7 +79,7 @@ fun QuestItems(
                 true ->
                     CourseQuestItem(
                         quest = quest,
-                        onDetailClick = onDetailClick,
+                        onDetailClick = { onDetailClick(quest) },
                         isExpanded = isExpanded,
                         onExpandClick = toggleExpand,
                     )
