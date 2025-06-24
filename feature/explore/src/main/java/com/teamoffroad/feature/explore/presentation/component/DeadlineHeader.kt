@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.explore.presentation.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -47,7 +48,7 @@ fun DeadlineHeader(
             style = OffroadTheme.typography.hint,
         )
         Spacer(modifier = Modifier.width(8.dp))
-        Icon(painter = painterResource(R.drawable.ic_quest_calendar_check), contentDescription = null, modifier = Modifier.size(22.dp))
+        Image(painter = painterResource(R.drawable.ic_quest_calendar_check), contentDescription = null, modifier = Modifier.size(22.dp))
         Spacer(modifier = Modifier.width(4.dp))
         Text(text = dDay, color = Sub4_80, style = OffroadTheme.typography.questCompleted)
     }
