@@ -33,7 +33,7 @@ import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Main1
-import com.teamoffroad.feature.explore.domain.model.MapPosition.Companion.toLatLng
+import com.teamoffroad.feature.explore.domain.model.Location.Companion.toLatLng
 import com.teamoffroad.feature.explore.presentation.component.CourseQuestPlaceItem
 import com.teamoffroad.feature.explore.presentation.component.DeadlineHeader
 import com.teamoffroad.feature.explore.presentation.component.RewardBox
@@ -48,16 +48,16 @@ fun CourseQuestDetailScreen(
     dDay: Int,
     reward: String,
     navigateToBack: () -> Unit,
-    courseQuestDetailViewModel: CourseQuestDetailViewModel = hiltViewModel(),
+    viewModel: CourseQuestDetailViewModel = hiltViewModel(),
 ) {
-    val quests = courseQuestDetailViewModel.quests.collectAsStateWithLifecycle()
+    val quests = viewModel.quests.collectAsStateWithLifecycle()
     val mapHeight = 218.dp
     val rewardBoxHeight = 88.dp
     val listState = rememberLazyListState()
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        courseQuestDetailViewModel.loadQuestDetails(questId)
+        viewModel.loadQuestDetails(questId)
     }
 
     Column(
@@ -102,7 +102,7 @@ fun CourseQuestDetailScreen(
                         quest = place,
                         isFirst = isFirst,
                         isLast = isLast,
-                        onVisitClick = {},
+                        onVisitClick = { viewModel.performExplore(place) },
                     )
                 }
 
@@ -127,8 +127,11 @@ fun CourseQuestDetailScreen(
                     ),
                 cameraPositionState =
                     CameraPositionState(
-                        CameraPosition(quests.value.centerMapPosition.toLatLng(), 13.5),
+                        CameraPosition(quests.value.centerLocation.toLatLng(), 13.5),
                     ),
+                onLocationChange = { location ->
+                    viewModel.updateLocation(location.latitude, location.longitude)
+                },
                 modifier =
                     Modifier
                         .fillMaxWidth()

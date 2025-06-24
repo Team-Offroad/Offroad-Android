@@ -4,8 +4,9 @@ data class CourseQuestPlace(
     val category: String,
     val name: String,
     val address: String,
-    val position: MapPosition,
+    val position: Location,
     val isVisited: Boolean,
     val categoryImage: String,
     val description: String,
+    val placeId: Long,
 )

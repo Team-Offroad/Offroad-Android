@@ -13,4 +13,5 @@ fun CourseQuestPlace.toUi(): CourseQuestPlaceUiModel =
         isVisited = isVisited,
         categoryImage = categoryImage,
         description = description,
+        placeId = placeId,
     )

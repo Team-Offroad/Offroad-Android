@@ -1,13 +1,13 @@
 package com.teamoffroad.feature.explore.presentation.model
 
-import com.teamoffroad.feature.explore.domain.model.MapPosition
+import com.teamoffroad.feature.explore.domain.model.Location
 
 data class CourseQuestPlacesUiModel(
     val places: List<CourseQuestPlaceUiModel> = emptyList(),
 ) {
-    val centerMapPosition: MapPosition
+    val centerLocation: Location
         get() =
-            MapPosition(
+            Location(
                 latitude = places.map { it.position.latitude }.average(),
                 longitude = places.map { it.position.longitude }.average(),
             )

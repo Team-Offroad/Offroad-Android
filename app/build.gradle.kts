@@ -11,13 +11,16 @@ android {
 
     defaultConfig {
         applicationId = "com.teamoffroad.offroad.app"
-        versionCode = libs.versions.versionCode.get().toInt()
+        versionCode =
+            libs.versions.versionCode
+                .get()
+                .toInt()
         versionName = libs.versions.versionName.get()
 
-        manifestPlaceholders["NAVER_CLIENT_ID"] =
-            gradleLocalProperties(rootDir, providers).getProperty("naver.client.id")
+        manifestPlaceholders["NAVER_CLIENT_ID"] = gradleLocalProperties(rootDir, providers).getProperty("naver.client.id")
         manifestPlaceholders["KAKAO_REDIRECT_SCHEME"] =
-            gradleLocalProperties(rootDir, providers).getProperty("kakao.native.key")
+            gradleLocalProperties(rootDir, providers)
+                .getProperty("kakao.native.key")
                 .replace("\"", "")
         buildConfigField(
             "String",
@@ -37,7 +40,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
             signingConfig = signingConfigs.getByName("debug")
         }

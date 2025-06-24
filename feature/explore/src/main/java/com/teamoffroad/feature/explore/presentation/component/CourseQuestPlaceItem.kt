@@ -40,7 +40,7 @@ import com.teamoffroad.core.designsystem.theme.Sub
 import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.core.designsystem.theme.Transparent
 import com.teamoffroad.core.designsystem.theme.White
-import com.teamoffroad.feature.explore.domain.model.MapPosition
+import com.teamoffroad.feature.explore.domain.model.Location
 import com.teamoffroad.feature.explore.presentation.model.CourseQuestPlaceUiModel
 import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 import com.teamoffroad.offroad.feature.explore.R
@@ -72,9 +72,10 @@ fun CourseQuestPlaceItem(
                     .width(22.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            val lineHeight = with(LocalDensity.current) {
-                (rowHeight / 2).toDp() - 22.dp / 2
-            }
+            val lineHeight =
+                with(LocalDensity.current) {
+                    (rowHeight / 2).toDp() - 22.dp / 2
+                }
 
             if (!isFirst) {
                 DashedLine(
@@ -201,10 +202,11 @@ fun CourseQuestPlaceItemPreview() {
                     category = PlaceCategory.CAFFE,
                     name = "Nima",
                     address = "Evonne",
-                    position = MapPosition(latitude = 16.877, longitude = 79.676),
+                    position = Location(latitude = 16.877, longitude = 79.676),
                     isVisited = true,
                     categoryImage = "Miguel",
                     description = "Ignacio",
+                    placeId = 0L,
                 ),
             onVisitClick = {},
         )

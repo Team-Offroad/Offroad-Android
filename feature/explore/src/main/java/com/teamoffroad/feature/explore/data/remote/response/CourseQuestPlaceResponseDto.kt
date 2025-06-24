@@ -21,4 +21,6 @@ data class CourseQuestPlaceResponseDto(
     val categoryImage: String,
     @SerialName("description")
     val description: String,
+    @SerialName("placeId")
+    val placeId: Long,
 )

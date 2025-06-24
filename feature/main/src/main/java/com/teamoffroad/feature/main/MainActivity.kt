@@ -95,7 +95,7 @@ class MainActivity : ComponentActivity() {
     private fun getAppVersion(): String =
         try {
             val packageInfo = packageManager.getPackageInfo(packageName, 0)
-            packageInfo.versionName
+            packageInfo.versionName ?: "1.0.0"
         } catch (e: PackageManager.NameNotFoundException) {
             "Unknown"
         }
