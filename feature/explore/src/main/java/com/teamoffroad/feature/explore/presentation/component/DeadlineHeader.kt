@@ -37,7 +37,7 @@ fun DeadlineHeader(
             modifier
                 .background(Main1)
                 .fillMaxWidth()
-                .padding(top = 20.dp, bottom = 16.dp, end = 26.dp),
+                .padding(top = 20.dp, bottom = 16.dp, end = 28.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.End,
     ) {

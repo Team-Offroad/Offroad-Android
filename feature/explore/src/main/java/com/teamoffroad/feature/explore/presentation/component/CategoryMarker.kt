@@ -12,12 +12,14 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.createBitmap
+import com.teamoffroad.core.designsystem.theme.Black25
 import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 
 @Composable
@@ -30,6 +32,12 @@ fun CategoryMarker(
         modifier =
             modifier
                 .size(size)
+                .shadow(
+                    elevation = 4.dp,
+                    shape = CircleShape,
+                    ambientColor = Black25,
+                    spotColor = Black25,
+                )
                 .background(category.color(), shape = CircleShape)
                 .border(width = 1.dp, color = Color.White, shape = CircleShape),
         contentAlignment = Alignment.Center,

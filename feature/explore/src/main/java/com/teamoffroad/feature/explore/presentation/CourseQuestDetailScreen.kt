@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -76,9 +76,7 @@ fun CourseQuestDetailScreen(
         Box(modifier = Modifier.fillMaxSize()) {
             LazyColumn(
                 state = listState,
-                modifier =
-                    Modifier
-                        .fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
             ) {
                 item {
                     Spacer(
@@ -96,8 +94,16 @@ fun CourseQuestDetailScreen(
                     )
                 }
 
-                items(quests.value.places) { place ->
-                    CourseQuestPlaceItem(quest = place, onVisitClick = {})
+                itemsIndexed(quests.value.places) { index, place ->
+                    val isFirst = index == 0
+                    val isLast = index == quests.value.places.lastIndex
+
+                    CourseQuestPlaceItem(
+                        quest = place,
+                        isFirst = isFirst,
+                        isLast = isLast,
+                        onVisitClick = {},
+                    )
                 }
 
                 item {
@@ -138,7 +144,7 @@ fun CourseQuestDetailScreen(
             }
             RewardBox(
                 reward = reward,
-                isComplete = false,
+                isComplete = quests.value.isComplete,
                 modifier =
                     Modifier
                         .background(Main1)
