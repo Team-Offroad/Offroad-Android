@@ -19,11 +19,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.createBitmap
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.compose.CameraPositionState
 import com.naver.maps.map.compose.ExperimentalNaverMapApi
+import com.naver.maps.map.compose.LocationOverlay
+import com.naver.maps.map.compose.LocationTrackingMode
+import com.naver.maps.map.compose.MapProperties
 import com.naver.maps.map.compose.MapUiSettings
 import com.naver.maps.map.compose.Marker
 import com.naver.maps.map.compose.MarkerState
@@ -34,6 +38,7 @@ import com.teamoffroad.core.designsystem.component.NavigateBackAppBar
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Main1
+import com.teamoffroad.core.designsystem.theme.Transparent
 import com.teamoffroad.feature.explore.domain.model.Location.Companion.toLatLng
 import com.teamoffroad.feature.explore.presentation.component.CourseQuestPlaceItem
 import com.teamoffroad.feature.explore.presentation.component.DeadlineHeader
@@ -52,6 +57,7 @@ fun CourseQuestDetailScreen(
     viewModel: CourseQuestDetailViewModel = hiltViewModel(),
 ) {
     val quests = viewModel.quests.collectAsStateWithLifecycle()
+    val location = viewModel.location.collectAsStateWithLifecycle()
     val mapHeight = 218.dp
     val rewardBoxHeight = 88.dp
     val listState = rememberLazyListState()
@@ -72,7 +78,8 @@ fun CourseQuestDetailScreen(
         NavigateBackAppBar(
             text = "퀘스트 목록",
             modifier = Modifier.padding(top = 20.dp),
-        ) { navigateToBack() }
+            navigateToBack = { navigateToBack() },
+        )
 
         Box(modifier = Modifier.fillMaxSize()) {
             LazyColumn(
@@ -116,7 +123,9 @@ fun CourseQuestDetailScreen(
                     )
                 }
             }
+
             NaverMap(
+                properties = MapProperties(locationTrackingMode = LocationTrackingMode.NoFollow),
                 uiSettings =
                     MapUiSettings(
                         isScaleBarEnabled = false,
@@ -140,6 +149,12 @@ fun CourseQuestDetailScreen(
                         .height(mapHeight)
                         .align(Alignment.TopCenter),
             ) {
+                LocationOverlay(
+                    position = location.value.toLatLng(),
+                    icon = OverlayImage.fromBitmap(createBitmap(1, 1)),
+                    circleColor = Transparent,
+                )
+
                 quests.value.places.forEach { place ->
                     Marker(
                         state = MarkerState(position = place.position.toLatLng()),
@@ -147,6 +162,7 @@ fun CourseQuestDetailScreen(
                     )
                 }
             }
+
             RewardBox(
                 reward = reward,
                 isComplete = quests.value.isComplete,
