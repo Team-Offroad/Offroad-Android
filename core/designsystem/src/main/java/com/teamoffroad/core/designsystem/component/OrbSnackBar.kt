@@ -35,9 +35,9 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun OrbSnackBar(
-    modifier: Modifier = Modifier,
     text: AnnotatedString,
     painter: Painter = painterResource(id = R.drawable.ic_success),
+    modifier: Modifier = Modifier,
 ) {
     val isVisible = remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
