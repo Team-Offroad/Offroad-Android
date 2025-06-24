@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.mypage.presentation.component
+package com.teamoffroad.core.designsystem.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -23,22 +23,21 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Black55
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
-import com.teamoffroad.offroad.feature.mypage.R
+import com.teamoffroad.offroad.core.designsystem.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun RepresentativeUpdateResultSnackBar(
+fun OrbSnackBar(
     modifier: Modifier = Modifier,
-    characterName: String = "",
+    text: AnnotatedString,
+    painter: Painter = painterResource(id = R.drawable.ic_success),
 ) {
     val isVisible = remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
@@ -53,43 +52,42 @@ fun RepresentativeUpdateResultSnackBar(
 
     AnimatedVisibility(
         visible = isVisible.value,
-        enter = slideInVertically(
-            initialOffsetY = { -it },
-            animationSpec = tween(durationMillis = 500)
-        ) + fadeIn(
-            animationSpec = tween(durationMillis = 500)
-        ),
-        exit = fadeOut(
-            animationSpec = tween(durationMillis = 500)
-        ),
+        enter =
+            slideInVertically(
+                initialOffsetY = { -it },
+                animationSpec = tween(durationMillis = 500),
+            ) +
+                fadeIn(
+                    animationSpec = tween(durationMillis = 500),
+                ),
+        exit =
+            fadeOut(
+                animationSpec = tween(durationMillis = 500),
+            ),
         modifier = modifier,
     ) {
         Box(
-            modifier = Modifier
-                .padding(horizontal = 24.dp)
-                .fillMaxWidth()
-                .background(color = Black55, shape = RoundedCornerShape(8.dp))
-                .padding(horizontal = 20.dp, vertical = 10.dp)
+            modifier =
+                Modifier
+                    .padding(horizontal = 24.dp)
+                    .fillMaxWidth()
+                    .background(color = Black55, shape = RoundedCornerShape(8.dp))
+                    .padding(horizontal = 20.dp, vertical = 10.dp),
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Start
+                horizontalArrangement = Arrangement.Start,
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_my_page_success),
+                    painter = painter,
                     contentDescription = null,
                     modifier = Modifier.size(24.dp),
                 )
                 Text(
-                    text = buildAnnotatedString {
-                        withStyle(style = SpanStyle(fontFamily = OffroadTheme.typography.textBold.fontFamily)) {
-                            append("\'$characterName\'")
-                        }
-                        append(stringResource(R.string.my_page_representative_success))
-                    },
+                    text = text,
                     color = Color.White,
                     style = OffroadTheme.typography.textRegular,
-                    modifier = Modifier.padding(start = 10.dp)
+                    modifier = Modifier.padding(start = 10.dp),
                 )
             }
         }
