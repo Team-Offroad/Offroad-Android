@@ -84,7 +84,8 @@ fun RecommendPlaceScreen(
                     updateOrderChats = recommendPlaceViewModel::updateOrderChats,
                     getPlaceRecommendationsOrderChats = recommendPlaceViewModel::getPlaceRecommendationsOrderChats,
                     getPlaceRecommendations = recommendPlaceViewModel::getPlaceRecommendations,
-                    onClose = { isRecommendPlaceViewExpanded = false }
+                    onClose = { isRecommendPlaceViewExpanded = false },
+                    resetPlaceRecommendationsChats = recommendPlaceViewModel::resetPlaceRecommendationsChats
                 )
             }
         } else {

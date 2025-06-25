@@ -36,7 +36,8 @@ fun RecommendPlaceChat(
     updateOrderChats: (ChatModel) -> Unit,
     getPlaceRecommendationsOrderChats: (String) -> Unit,
     getPlaceRecommendations: () -> Unit,
-    onClose: () -> Unit
+    onClose: () -> Unit,
+    resetPlaceRecommendationsChats: () -> Unit,
 ) {
     val keyboardHeight = remember { mutableIntStateOf(0) }
     val view = LocalView.current
@@ -74,6 +75,7 @@ fun RecommendPlaceChat(
                     .align(Alignment.End)
                     .padding(top = 10.dp, end = 20.dp)
                     .clickableWithoutRipple {
+                        resetPlaceRecommendationsChats()
                         getPlaceRecommendations()
                         onClose()
                     }

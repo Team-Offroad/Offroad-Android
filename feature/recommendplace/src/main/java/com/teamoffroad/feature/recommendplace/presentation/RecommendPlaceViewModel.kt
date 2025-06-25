@@ -42,6 +42,10 @@ class RecommendPlaceViewModel @Inject constructor(
     val placeRecommendationsChatsUiState = _placeRecommendationsChatsUiState.asStateFlow()
 
     init {
+        initUpdateOrderChats()
+    }
+
+    private fun initUpdateOrderChats() {
         updateOrderChats(
             ChatModel(
                 text = "반가워 나는 추천 오브 츄링이야!\n장소 추천이 필요해?",
@@ -50,6 +54,13 @@ class RecommendPlaceViewModel @Inject constructor(
                 isPlaceRecommendation = false
             )
         )
+    }
+
+    fun resetPlaceRecommendationsChats() {
+        _placeRecommendationsChatsUiState.value = _placeRecommendationsChatsUiState.value.copy(
+            chats = emptyMap()
+        )
+        initUpdateOrderChats()
     }
 
     fun getPlaceRecommendationsFixedPhrase() {
