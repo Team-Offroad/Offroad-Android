@@ -146,7 +146,9 @@ fun ExploreRecommendPlaceMap(
         StaticAnimationWrapper {
             Column {
                 NaverMap(
-                    properties = locationState.mapProperties,
+                    properties = locationState.mapProperties.copy(
+                        maxTilt = 0.0
+                    ),
                     uiSettings = MapUiSettings(
                         isScaleBarEnabled = false,
                         isZoomControlEnabled = false,
