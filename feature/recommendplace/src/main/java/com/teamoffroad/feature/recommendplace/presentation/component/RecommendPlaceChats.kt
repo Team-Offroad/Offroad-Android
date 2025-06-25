@@ -34,6 +34,7 @@ import com.teamoffroad.characterchat.presentation.model.ChatType
 import com.teamoffroad.characterchat.presentation.model.TimeType
 import com.teamoffroad.characterchat.presentation.model.TimeType.AM
 import com.teamoffroad.core.designsystem.theme.BtnInactive
+import com.teamoffroad.core.designsystem.theme.Kakao
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
@@ -113,7 +114,7 @@ fun RecommendPlaceChats(
                             .padding(16.dp)
                     ) {
                         Text(
-                            text = "오브",
+                            text = name,
                             style = OffroadTheme.typography.textBold,
                             color = Sub4,
                         )
@@ -209,7 +210,7 @@ fun RecommendPlaceUserChatBox(
         )
         Row(
             modifier = Modifier
-                .widthIn(max = 220.dp)
+                .widthIn(max = 240.dp)
                 .padding(end = 24.dp)
                 .border(
                     width = 1.dp,
