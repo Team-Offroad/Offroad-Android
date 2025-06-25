@@ -154,6 +154,7 @@ fun ExploreRecommendPlaceMap(
                         isCompassEnabled = false,
                         logoGravity = Gravity.TOP,
                         logoMargin = PaddingValues(top = 28.dp, start = 22.dp),
+                        isRotateGesturesEnabled = false
                     ),
                     locationSource = rememberFusedLocationSource(isCompassEnabled = true),
                     cameraPositionState = locationState.cameraPositionState,
