@@ -47,7 +47,7 @@ fun CourseQuestDetailScreen(
     val mapHeight = 218.dp
     val rewardBoxHeight = 88.dp
 
-    val mapHeightPx = remember { mutableFloatStateOf(0f) }
+    val mapViewHeight = remember { mutableFloatStateOf(0f) }
     val isTouchingMapArea = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
@@ -78,7 +78,7 @@ fun CourseQuestDetailScreen(
         Box(modifier = Modifier.fillMaxSize()) {
             CourseQuestMap(
                 mapHeight = mapHeight,
-                mapHeightPx = mapHeightPx,
+                mapHeightPx = mapViewHeight,
                 location = location.value,
                 places = places.value,
                 onLocationChange = viewModel::updateLocation,
@@ -91,7 +91,7 @@ fun CourseQuestDetailScreen(
                 contentPadding = PaddingValues(bottom = rewardBoxHeight),
                 mapHeight = mapHeight,
                 isTouchingMapArea = isTouchingMapArea,
-                mapHeightPx = mapHeightPx,
+                mapHeightPx = mapViewHeight,
                 onVisitClick = viewModel::performExplore,
             )
 

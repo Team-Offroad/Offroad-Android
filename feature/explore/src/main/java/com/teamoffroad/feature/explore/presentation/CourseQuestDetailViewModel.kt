@@ -54,6 +54,13 @@ class CourseQuestDetailViewModel
             }
         }
 
+        fun updateLocation(
+            latitude: Double,
+            longitude: Double,
+        ) {
+            _location.value = Location(latitude, longitude)
+        }
+
         fun performExplore(
             place: CourseQuestPlaceUiModel,
             latitude: Double = location.value.latitude,
@@ -62,47 +69,26 @@ class CourseQuestDetailViewModel
             viewModelScope.launch {
                 runCatching {
                     postExploreLocationAuthUseCase(place.placeId, latitude, longitude)
-                }.onSuccess { exploreResult ->
+                }.onSuccess { result ->
                     when {
-                        !exploreResult.isValidPosition -> {
-                            _exploreAuthState.value =
-                                ExploreAuthState.LocationError(
-                                    exploreResult.successCharacterImageUrl,
-                                )
+                        !result.isValidPosition -> {
+                            updateExploreAuthState(ExploreAuthState.LocationError(result.successCharacterImageUrl))
                         }
 
-                        !exploreResult.isFirstVisitToday -> {
-                            _exploreAuthState.value =
-                                ExploreAuthState.DuplicateError(
-                                    exploreResult.successCharacterImageUrl,
-                                )
+                        !result.isFirstVisitToday -> {
+                            updateExploreAuthState(ExploreAuthState.DuplicateError(result.successCharacterImageUrl))
                         }
 
                         else -> {
-                            _exploreAuthState.value =
+                            updateVisitedPlace(place.placeId)
+                            trackExploreEvents(place.placeId, result.completeQuests)
+                            updateExploreAuthState(
                                 ExploreAuthState.Success(
-                                    place.category,
-                                    exploreResult.successCharacterImageUrl,
-                                    exploreResult.completeQuests,
-                                )
-                            _places.value =
-                                places.value.copy(
-                                    places =
-                                        places.value.places.map {
-                                            if (it.placeId == place.placeId) {
-                                                it.copy(isVisited = true)
-                                            } else {
-                                                it
-                                            }
-                                        },
-                                )
-                            tracker.trackEvent("explore_success", mapOf("place_id" to place.placeId))
-                            if (exploreResult.completeQuests.isNotEmpty()) {
-                                tracker.trackEvent(
-                                    "quest_success",
-                                    mapOf("quests" to exploreResult.completeQuests),
-                                )
-                            }
+                                    category = place.category,
+                                    characterImageUrl = result.successCharacterImageUrl,
+                                    completeQuests = result.completeQuests,
+                                ),
+                            )
                         }
                     }
                 }.onFailure {
@@ -111,14 +97,28 @@ class CourseQuestDetailViewModel
             }
         }
 
-        fun updateLocation(
-            latitude: Double,
-            longitude: Double,
-        ) {
-            _location.value = Location(latitude, longitude)
-        }
-
         fun updateExploreAuthState(state: ExploreAuthState) {
             _exploreAuthState.value = state
+        }
+
+        private fun updateVisitedPlace(placeId: Long) {
+            _places.value =
+                places.value.copy(
+                    places =
+                        places.value.places.map {
+                            if (it.placeId == placeId) it.copy(isVisited = true) else it
+                        },
+                )
+        }
+
+        private fun trackExploreEvents(
+            placeId: Long,
+            completeQuests: List<String>,
+        ) {
+            tracker.trackEvent("explore_success", mapOf("place_id" to placeId))
+
+            if (completeQuests.isNotEmpty()) {
+                tracker.trackEvent("quest_success", mapOf("quests" to completeQuests))
+            }
         }
     }
