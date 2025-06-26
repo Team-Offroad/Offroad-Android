@@ -38,4 +38,5 @@
     <string name="explore_course_quest_visit_failed_title">방문 실패</string>
     <string name="explore_course_quest_distance_failed_label">거리가 너무 멀어요.\n**더 가까이에서** 방문 버튼을 눌러주세요.</string>
     <string name="explore_course_quest_visit_success_label">방문 성공! 앞으로 **%1$s곳** 남았어요</string>
+    <string name="explore_course_quest_clear">퀘스트 클리어! **보상**을 받아보세요</string>
 </resources>

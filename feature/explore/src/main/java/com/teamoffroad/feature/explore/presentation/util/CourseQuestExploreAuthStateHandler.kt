@@ -73,7 +73,12 @@ fun CourseQuestExploreAuthStateHandler(
         is ExploreAuthState.Success -> {
             OrbSnackBar(
                 isVisible = isSnackBarShown.value,
-                text = stringResource(R.string.explore_course_quest_visit_success_label, places.leftCount),
+                text =
+                    if (places.isComplete) {
+                        stringResource(R.string.explore_course_quest_clear)
+                    } else {
+                        stringResource(R.string.explore_course_quest_visit_success_label, places.leftCount)
+                    },
                 modifier =
                     Modifier
                         .actionBarPadding()
