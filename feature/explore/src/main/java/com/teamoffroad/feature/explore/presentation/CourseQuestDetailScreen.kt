@@ -44,6 +44,7 @@ import com.teamoffroad.feature.explore.presentation.component.CourseQuestPlaceIt
 import com.teamoffroad.feature.explore.presentation.component.DeadlineHeader
 import com.teamoffroad.feature.explore.presentation.component.RewardBox
 import com.teamoffroad.feature.explore.presentation.component.getCategoryOverlayImage
+import com.teamoffroad.feature.explore.presentation.util.CourseQuestExploreAuthStateHandler
 import java.time.LocalDateTime
 
 @OptIn(ExperimentalNaverMapApi::class)
@@ -56,8 +57,9 @@ fun CourseQuestDetailScreen(
     navigateToBack: () -> Unit,
     viewModel: CourseQuestDetailViewModel = hiltViewModel(),
 ) {
-    val quests = viewModel.quests.collectAsStateWithLifecycle()
+    val places = viewModel.places.collectAsStateWithLifecycle()
     val location = viewModel.location.collectAsStateWithLifecycle()
+    val exploreAuthState = viewModel.exploreAuthState.collectAsStateWithLifecycle()
     val mapHeight = 218.dp
     val rewardBoxHeight = 88.dp
     val listState = rememberLazyListState()
@@ -102,15 +104,17 @@ fun CourseQuestDetailScreen(
                     )
                 }
 
-                itemsIndexed(quests.value.places) { index, place ->
+                itemsIndexed(places.value.places) { index, place ->
                     val isFirst = index == 0
-                    val isLast = index == quests.value.places.lastIndex
+                    val isLast = index == places.value.places.lastIndex
 
                     CourseQuestPlaceItem(
                         quest = place,
                         isFirst = isFirst,
                         isLast = isLast,
-                        onVisitClick = { viewModel.performExplore(place) },
+                        onVisitClick = {
+                            viewModel.performExplore(place)
+                        },
                     )
                 }
 
@@ -138,7 +142,7 @@ fun CourseQuestDetailScreen(
                 locationSource = rememberFusedLocationSource(isCompassEnabled = true),
                 cameraPositionState =
                     CameraPositionState(
-                        CameraPosition(quests.value.centerLocation.toLatLng(), 13.5),
+                        CameraPosition(places.value.centerLocation.toLatLng(), 13.5),
                     ),
                 onLocationChange = { location ->
                     viewModel.updateLocation(location.latitude, location.longitude)
@@ -155,7 +159,7 @@ fun CourseQuestDetailScreen(
                     circleColor = Transparent,
                 )
 
-                quests.value.places.forEach { place ->
+                places.value.places.forEach { place ->
                     Marker(
                         state = MarkerState(position = place.position.toLatLng()),
                         icon = OverlayImage.fromBitmap(getCategoryOverlayImage(context, place.category)),
@@ -165,7 +169,7 @@ fun CourseQuestDetailScreen(
 
             RewardBox(
                 reward = reward,
-                isComplete = quests.value.isComplete,
+                isComplete = places.value.isComplete,
                 modifier =
                     Modifier
                         .background(Main1)
@@ -175,4 +179,6 @@ fun CourseQuestDetailScreen(
             )
         }
     }
+
+    CourseQuestExploreAuthStateHandler(places.value, exploreAuthState.value, viewModel::updateExploreAuthState)
 }

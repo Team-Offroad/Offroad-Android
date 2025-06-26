@@ -23,4 +23,7 @@ data class CourseQuestPlacesUiModel(
 
     val isComplete: Boolean
         get() = places.all { it.isVisited }
+
+    val leftCount: Int
+        get() = places.count { !it.isVisited }
 }

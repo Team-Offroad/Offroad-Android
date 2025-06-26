@@ -24,14 +24,14 @@ class CourseQuestDetailViewModel
         private val postExploreLocationAuthUseCase: PostExploreLocationAuthUseCase,
         private val tracker: Tracker,
     ) : ViewModel() {
-        private val _quests: MutableStateFlow<CourseQuestPlacesUiModel> = MutableStateFlow(CourseQuestPlacesUiModel())
-        val quests: StateFlow<CourseQuestPlacesUiModel> get() = _quests
+        private val _places: MutableStateFlow<CourseQuestPlacesUiModel> = MutableStateFlow(CourseQuestPlacesUiModel())
+        val places: StateFlow<CourseQuestPlacesUiModel> get() = _places
 
-        private val _isLoading: MutableStateFlow<Boolean> = MutableStateFlow(false)
-        val isLoading: StateFlow<Boolean> get() = _isLoading
+        private val _isQuestLoading: MutableStateFlow<Boolean> = MutableStateFlow(false)
+        val isQuestLoading: StateFlow<Boolean> get() = _isQuestLoading
 
-        private val _isError: MutableStateFlow<Boolean> = MutableStateFlow(false)
-        val isError: StateFlow<Boolean> get() = _isError
+        private val _isNetworkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
+        val isNetworkError: StateFlow<Boolean> get() = _isNetworkError
 
         private val _exploreAuthState: MutableStateFlow<ExploreAuthState> = MutableStateFlow(ExploreAuthState.None)
         val exploreAuthState: StateFlow<ExploreAuthState> get() = _exploreAuthState
@@ -44,12 +44,12 @@ class CourseQuestDetailViewModel
                 runCatching {
                     getQuestCourseUseCase(questId)
                 }.onSuccess { places ->
-                    _quests.value = CourseQuestPlacesUiModel(places.map { it.toUi() } + places.map { it.toUi() })
-                    _isLoading.value = false
-                    _isError.value = false
+                    _places.value = CourseQuestPlacesUiModel(places.map { it.toUi() } + places.map { it.toUi() })
+                    _isQuestLoading.value = false
+                    _isNetworkError.value = false
                 }.onFailure {
-                    _isLoading.value = false
-                    _isError.value = true
+                    _isQuestLoading.value = false
+                    _isNetworkError.value = true
                 }
             }
         }
@@ -85,6 +85,17 @@ class CourseQuestDetailViewModel
                                     exploreResult.successCharacterImageUrl,
                                     exploreResult.completeQuests,
                                 )
+                            _places.value =
+                                places.value.copy(
+                                    places =
+                                        places.value.places.map {
+                                            if (it.placeId == place.placeId) {
+                                                it.copy(isVisited = true)
+                                            } else {
+                                                it
+                                            }
+                                        },
+                                )
                             tracker.trackEvent("explore_success", mapOf("place_id" to place.placeId))
                             if (exploreResult.completeQuests.isNotEmpty()) {
                                 tracker.trackEvent(
@@ -105,5 +116,9 @@ class CourseQuestDetailViewModel
             longitude: Double,
         ) {
             _location.value = Location(latitude, longitude)
+        }
+
+        fun updateExploreAuthState(state: ExploreAuthState) {
+            _exploreAuthState.value = state
         }
     }

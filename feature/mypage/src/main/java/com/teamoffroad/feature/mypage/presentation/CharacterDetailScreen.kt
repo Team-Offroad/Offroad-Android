@@ -12,23 +12,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
 import com.teamoffroad.core.designsystem.component.OrbSnackBar
+import com.teamoffroad.core.designsystem.component.SHOWN_SNACK_BAR_DURATION
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.core.designsystem.component.navigationPadding
-import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.mypage.presentation.component.CharacterDescriptionContainer
 import com.teamoffroad.feature.mypage.presentation.component.CharacterDetailAppBar
 import com.teamoffroad.feature.mypage.presentation.component.CharacterDetailImageItem
 import com.teamoffroad.feature.mypage.presentation.component.CharacterMotionsContainer
 import com.teamoffroad.feature.mypage.presentation.component.UpdateRepresentativeCharacterButton
 import com.teamoffroad.offroad.feature.mypage.R
+import kotlinx.coroutines.delay
 
 @Composable
 fun CharacterDetailScreen(
@@ -43,6 +41,13 @@ fun CharacterDetailScreen(
 
     LaunchedEffect(Unit) {
         characterDetailViewModel.updateCharacterDetail(characterId, isRepresentative)
+    }
+
+    LaunchedEffect(uiState.value.isRepresentativeUpdateSuccess) {
+        if (uiState.value.isRepresentativeUpdateSuccess) {
+            delay(SHOWN_SNACK_BAR_DURATION)
+            characterDetailViewModel.updateRepresentativeUpdateSuccess(false)
+        }
     }
 
     StaticAnimationWrapper {
@@ -80,17 +85,10 @@ fun CharacterDetailScreen(
             }
         }
 
-        if (uiState.value.isRepresentativeUpdateSuccess) {
-            OrbSnackBar(
-                modifier = Modifier.padding(top = 112.dp),
-                text =
-                    buildAnnotatedString {
-                        withStyle(style = SpanStyle(fontFamily = OffroadTheme.typography.textBold.fontFamily)) {
-                            append("\'${uiState.value.characterDetailModel.characterName}\'")
-                        }
-                        append(stringResource(R.string.my_page_representative_success))
-                    },
-            )
-        }
+        OrbSnackBar(
+            isVisible = uiState.value.isRepresentativeUpdateSuccess,
+            modifier = Modifier.padding(top = 112.dp),
+            text = "**\'${uiState.value.characterDetailModel.characterName}\'**${stringResource(R.string.my_page_representative_success)}",
+        )
     }
 }

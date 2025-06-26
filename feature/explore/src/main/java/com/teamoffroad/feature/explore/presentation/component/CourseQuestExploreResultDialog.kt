@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.explore.presentation.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,7 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,16 +31,14 @@ import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
 import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
-fun ExploreResultDialog(
+fun CourseQuestExploreResultDialog(
     state: ExploreAuthState,
     title: String = "",
-    description: String = "",
-    isBackgroundShown: Boolean = false,
-    content: @Composable () -> Unit = {},
-    onDismissRequest: () -> Unit,
+    text: String = "",
+    onDismissClick: () -> Unit,
 ) {
     Dialog(
-        onDismissRequest = onDismissRequest,
+        onDismissRequest = onDismissClick,
         properties = DialogProperties(dismissOnClickOutside = false),
     ) {
         Box(
@@ -52,69 +48,63 @@ fun ExploreResultDialog(
                     .wrapContentHeight()
                     .background(Main3, shape = RoundedCornerShape(14.dp)),
         ) {
-            if (isBackgroundShown) {
-                Image(
-                    painter = painterResource(id = R.drawable.bg_explore_dialog),
-                    contentDescription = null,
-                    modifier =
-                        Modifier
-                            .align(Alignment.BottomCenter)
-                            .fillMaxWidth(),
-                )
-            }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Bottom,
                 modifier =
                     Modifier
                         .wrapContentHeight()
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .padding(top = 34.dp),
             ) {
-                Spacer(modifier = Modifier.height(34.dp))
                 Text(
-                    text = title,
+                    text =
+                        if (state is ExploreAuthState.Success) {
+                            stringResource(R.string.explore_dialog_success)
+                        } else {
+                            stringResource(R.string.explore_dialog_failed)
+                        },
                     style = OffroadTheme.typography.title,
                     color = Main2,
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
-                    text = description.applyBold(),
+                    text = text.applyBold(),
                     color = Main2,
                     textAlign = TextAlign.Center,
                     style = OffroadTheme.typography.textRegular,
                 )
                 Spacer(modifier = Modifier.height(14.dp))
-                content()
-                Spacer(modifier = Modifier.height(6.dp))
+            }
+            Box(
+                modifier =
+                    Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(horizontal = 40.dp)
+                        .padding(bottom = 28.dp),
+            ) {
                 Box(
                     modifier =
                         Modifier
-                            .padding(horizontal = 40.dp)
-                            .padding(bottom = 28.dp),
+                            .background(
+                                color = Main2,
+                                shape = RoundedCornerShape(6.dp),
+                            ).clickable(onClick = onDismissClick)
+                            .fillMaxWidth()
+                            .height(44.dp)
+                            .align(Alignment.BottomCenter),
                 ) {
-                    Box(
-                        modifier =
-                            Modifier
-                                .background(
-                                    color = Main2,
-                                    shape = RoundedCornerShape(6.dp),
-                                ).clickable(onClick = onDismissRequest)
-                                .fillMaxWidth()
-                                .height(44.dp)
-                                .align(Alignment.BottomCenter),
-                    ) {
-                        Text(
-                            text =
-                                when (state) {
-                                    is ExploreAuthState.Success -> stringResource(R.string.explore_dialog_success_button)
-                                    else -> stringResource(R.string.explore_dialog_failed_button)
-                                },
-                            textAlign = TextAlign.Center,
-                            style = OffroadTheme.typography.btnSmall,
-                            color = White,
-                            modifier = Modifier.align(Alignment.Center),
-                        )
-                    }
+                    Text(
+                        text =
+                            when (state) {
+                                is ExploreAuthState.Success -> stringResource(R.string.explore_dialog_success_button)
+                                else -> stringResource(R.string.explore_dialog_failed_button)
+                            },
+                        textAlign = TextAlign.Center,
+                        style = OffroadTheme.typography.btnSmall,
+                        color = White,
+                        modifier = Modifier.align(Alignment.Center),
+                    )
                 }
             }
         }
@@ -123,14 +113,13 @@ fun ExploreResultDialog(
 
 @Preview
 @Composable
-fun ExploreResultDialogPreview() {
+fun CourseQuestExploreResultDialogPreview() {
     OffroadTheme {
-        ExploreResultDialog(
+        CourseQuestExploreResultDialog(
             state = ExploreAuthState.Success(),
-            title = stringResource(R.string.explore_dialog_success),
-            description = stringResource(R.string.explore_dialog_success_label),
-            content = {},
-            onDismissRequest = {},
+            title = "퀘스트 완료",
+            text = "축하합니다! 퀘스트를 성공적으로 완료했습니다.",
+            onDismissClick = {},
         )
     }
 }

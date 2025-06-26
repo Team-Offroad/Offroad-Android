@@ -2,7 +2,7 @@ package com.teamoffroad.feature.explore.presentation.model
 
 sealed interface ExploreAuthState {
     data object None : ExploreAuthState
-    data object Loading : ExploreAuthState
+
     data class LocationError(
         val characterImageUrl: String = "",
     ) : ExploreAuthState
@@ -12,6 +12,7 @@ sealed interface ExploreAuthState {
     ) : ExploreAuthState
 
     data object EtcError : ExploreAuthState
+
     data class Success(
         val category: PlaceCategory = PlaceCategory.NONE,
         val characterImageUrl: String = "",
@@ -19,15 +20,13 @@ sealed interface ExploreAuthState {
     ) : ExploreAuthState
 
     companion object {
-        fun from(value: String): ExploreAuthState {
-            return when (value) {
+        fun from(value: String): ExploreAuthState =
+            when (value) {
                 "None" -> None
-                "Loading" -> Loading
                 "Success" -> Success()
                 "LocationError" -> LocationError()
                 "EtcError" -> EtcError
                 else -> None
             }
-        }
     }
 }
