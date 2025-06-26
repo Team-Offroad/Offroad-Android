@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -86,6 +87,15 @@ fun CourseQuestDetailScreen(
     val mapHeightPx = remember { mutableFloatStateOf(0f) }
     val isTouchingMapArea = remember { mutableStateOf(false) }
     val cameraPositionState = remember { CameraPositionState() }
+
+    val scrollOffsetPx =
+        remember {
+            derivedStateOf {
+                val firstIndex = listState.firstVisibleItemIndex
+                val offset = listState.firstVisibleItemScrollOffset
+                if (firstIndex == 0) offset.toFloat() else mapHeightPx.floatValue
+            }
+        }
 
     val scrollBlocker =
         remember {
@@ -185,8 +195,10 @@ fun CourseQuestDetailScreen(
                         .fillMaxSize()
                         .nestedScroll(scrollBlocker)
                         .pointerInteropFilter { event ->
+                            val shownMapHeight = mapHeightPx.floatValue - scrollOffsetPx.value
+
                             when (event.actionMasked) {
-                                ACTION_DOWN, ACTION_MOVE -> isTouchingMapArea.value = event.y < mapHeightPx.floatValue
+                                ACTION_DOWN, ACTION_MOVE -> isTouchingMapArea.value = event.y < shownMapHeight
                                 ACTION_UP, ACTION_CANCEL -> isTouchingMapArea.value = false
                             }
                             false
