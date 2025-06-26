@@ -30,4 +30,12 @@
     <string name="explore_quest_proceeding">진행 중</string>
     <string name="explore_quest_completed">달성완료</string>
     <string name="explore_explore_count">탐험횟수: %1$s</string>
+    <string name="explore_course_quest_quests">퀘스트 목록</string>
+    <string name="explore_course_quest_deadline">퀘스트 마감일 : %1$s</string>
+    <string name="explore_course_quest_visit">방문</string>
+    <string name="explore_course_quest_get_reward">보상받기</string>
+    <string name="explore_course_quest_reward_info">보상 : %1$s</string>
+    <string name="explore_course_quest_visit_failed_title">방문 실패</string>
+    <string name="explore_course_quest_distance_failed_label">거리가 너무 멀어요.\n**더 가까이에서** 방문 버튼을 눌러주세요.</string>
+    <string name="explore_course_quest_visit_success_label">방문 성공! 앞으로 **%1$s곳** 남았어요</string>
 </resources>

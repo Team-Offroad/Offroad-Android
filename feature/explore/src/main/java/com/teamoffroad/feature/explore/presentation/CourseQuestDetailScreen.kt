@@ -31,6 +31,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.createBitmap
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -58,10 +59,12 @@ import com.teamoffroad.feature.explore.presentation.component.DeadlineHeader
 import com.teamoffroad.feature.explore.presentation.component.RewardBox
 import com.teamoffroad.feature.explore.presentation.component.getCategoryOverlayImage
 import com.teamoffroad.feature.explore.presentation.util.CourseQuestExploreAuthStateHandler
+import com.teamoffroad.offroad.feature.explore.R
 import kotlinx.coroutines.delay
 import java.time.LocalDateTime
 
-private const val TOUCH_EVENT_THRESHOLD = 100L
+private const val TOUCH_EVENT_THRESHOLD: Long = 100L
+private const val DEFAULT_MAP_ZOOM: Double = 13.5
 
 @OptIn(ExperimentalNaverMapApi::class)
 @Composable
@@ -102,7 +105,7 @@ fun CourseQuestDetailScreen(
         cameraPositionState.position =
             CameraPosition(
                 places.value.centerLocation.toLatLng(),
-                13.5,
+                DEFAULT_MAP_ZOOM,
             )
     }
 
@@ -122,7 +125,7 @@ fun CourseQuestDetailScreen(
                 .actionBarPadding(),
     ) {
         NavigateBackAppBar(
-            text = "퀘스트 목록",
+            text = stringResource(R.string.explore_course_quest_quests),
             modifier = Modifier.padding(top = 20.dp),
             navigateToBack = { navigateToBack() },
         )

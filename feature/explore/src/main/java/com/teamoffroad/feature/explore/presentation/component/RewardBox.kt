@@ -9,11 +9,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Black15
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
+import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 fun RewardBox(
@@ -35,7 +37,15 @@ fun RewardBox(
                     .padding(vertical = 16.dp),
         ) {
             Text(
-                text = if (isComplete) "보상받기" else "보상 : $reward",
+                text =
+                    if (isComplete) {
+                        stringResource(R.string.explore_course_quest_get_reward)
+                    } else {
+                        stringResource(
+                            R.string.explore_course_quest_reward_info,
+                            reward,
+                        )
+                    },
                 style = if (isComplete) OffroadTheme.typography.textRegular else OffroadTheme.typography.textBold,
                 color = White,
             )

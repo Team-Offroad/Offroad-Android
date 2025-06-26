@@ -46,8 +46,8 @@ fun CourseQuestExploreAuthStateHandler(
         is ExploreAuthState.LocationError -> {
             ExploreResultDialog(
                 state = ExploreAuthState.DuplicateError(),
-                title = "방문 실패",
-                description = "거리가 너무 멀어요.\n**더 가까이에서** 방문 버튼을 눌러주세요.",
+                title = stringResource(R.string.explore_course_quest_visit_failed_title),
+                description = stringResource(R.string.explore_course_quest_distance_failed_label),
                 onDismissRequest = { updateExploreAuthState(ExploreAuthState.None) },
             )
         }
@@ -55,7 +55,7 @@ fun CourseQuestExploreAuthStateHandler(
         is ExploreAuthState.DuplicateError -> {
             ExploreResultDialog(
                 state = ExploreAuthState.DuplicateError(),
-                title = "방문 실패",
+                title = stringResource(R.string.explore_course_quest_visit_failed_title),
                 description = stringResource(R.string.explore_duplicate_failed_label),
                 onDismissRequest = { updateExploreAuthState(ExploreAuthState.None) },
             )
@@ -64,7 +64,7 @@ fun CourseQuestExploreAuthStateHandler(
         ExploreAuthState.EtcError -> {
             ExploreResultDialog(
                 state = ExploreAuthState.EtcError,
-                title = "방문 실패",
+                title = stringResource(R.string.explore_course_quest_visit_failed_title),
                 description = stringResource(R.string.explore_etc_failed_label),
                 onDismissRequest = { updateExploreAuthState(ExploreAuthState.None) },
             )
@@ -73,7 +73,7 @@ fun CourseQuestExploreAuthStateHandler(
         is ExploreAuthState.Success -> {
             OrbSnackBar(
                 isVisible = isSnackBarShown.value,
-                text = "방문 성공! 앞으로 **${places.leftCount}곳** 남았어요",
+                text = stringResource(R.string.explore_course_quest_visit_success_label, places.leftCount),
                 modifier =
                     Modifier
                         .actionBarPadding()
