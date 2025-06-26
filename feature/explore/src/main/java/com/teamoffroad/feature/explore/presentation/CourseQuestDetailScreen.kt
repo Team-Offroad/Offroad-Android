@@ -1,6 +1,10 @@
 package com.teamoffroad.feature.explore.presentation
 
 import android.view.Gravity
+import android.view.MotionEvent.ACTION_CANCEL
+import android.view.MotionEvent.ACTION_DOWN
+import android.view.MotionEvent.ACTION_MOVE
+import android.view.MotionEvent.ACTION_UP
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,8 +19,17 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.input.pointer.pointerInteropFilter
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.createBitmap
@@ -45,7 +58,10 @@ import com.teamoffroad.feature.explore.presentation.component.DeadlineHeader
 import com.teamoffroad.feature.explore.presentation.component.RewardBox
 import com.teamoffroad.feature.explore.presentation.component.getCategoryOverlayImage
 import com.teamoffroad.feature.explore.presentation.util.CourseQuestExploreAuthStateHandler
+import kotlinx.coroutines.delay
 import java.time.LocalDateTime
+
+private const val TOUCH_EVENT_THRESHOLD = 100L
 
 @OptIn(ExperimentalNaverMapApi::class)
 @Composable
@@ -64,9 +80,37 @@ fun CourseQuestDetailScreen(
     val rewardBoxHeight = 88.dp
     val listState = rememberLazyListState()
     val context = LocalContext.current
+    val mapHeightPx = remember { mutableFloatStateOf(0f) }
+    val isTouchingMapArea = remember { mutableStateOf(false) }
+    val cameraPositionState = remember { CameraPositionState() }
+
+    val scrollBlocker =
+        remember {
+            object : NestedScrollConnection {
+                override fun onPreScroll(
+                    available: Offset,
+                    source: NestedScrollSource,
+                ): Offset = if (isTouchingMapArea.value) available else Offset.Zero
+            }
+        }
 
     LaunchedEffect(Unit) {
         viewModel.loadQuestDetails(questId)
+    }
+
+    LaunchedEffect(places.value.centerLocation) {
+        cameraPositionState.position =
+            CameraPosition(
+                places.value.centerLocation.toLatLng(),
+                13.5,
+            )
+    }
+
+    LaunchedEffect(isTouchingMapArea.value) {
+        if (isTouchingMapArea.value) {
+            delay(TOUCH_EVENT_THRESHOLD)
+            isTouchingMapArea.value = false
+        }
     }
 
     Column(
@@ -84,19 +128,72 @@ fun CourseQuestDetailScreen(
         )
 
         Box(modifier = Modifier.fillMaxSize()) {
+            Box(
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(mapHeight)
+                        .align(Alignment.TopCenter)
+                        .onGloballyPositioned { layoutCoordinates ->
+                            mapHeightPx.floatValue = layoutCoordinates.size.height.toFloat()
+                        },
+            ) {
+                NaverMap(
+                    properties = MapProperties(locationTrackingMode = LocationTrackingMode.NoFollow),
+                    uiSettings =
+                        MapUiSettings(
+                            isScaleBarEnabled = false,
+                            isZoomControlEnabled = false,
+                            isLogoClickEnabled = false,
+                            isCompassEnabled = false,
+                            logoGravity = Gravity.TOP,
+                            logoMargin = PaddingValues(top = 28.dp, start = 22.dp),
+                        ),
+                    locationSource = rememberFusedLocationSource(isCompassEnabled = true),
+                    cameraPositionState = cameraPositionState,
+                    onLocationChange = { location ->
+                        viewModel.updateLocation(location.latitude, location.longitude)
+                    },
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .height(mapHeight),
+                ) {
+                    LocationOverlay(
+                        position = location.value.toLatLng(),
+                        icon = OverlayImage.fromBitmap(createBitmap(1, 1)),
+                        circleColor = Transparent,
+                    )
+
+                    places.value.places.forEach { place ->
+                        Marker(
+                            state = MarkerState(position = place.position.toLatLng()),
+                            icon = OverlayImage.fromBitmap(getCategoryOverlayImage(context, place.category)),
+                        )
+                    }
+                }
+            }
+
             LazyColumn(
                 state = listState,
-                modifier = Modifier.fillMaxSize(),
+                userScrollEnabled = mapHeightPx.floatValue != 0f && !isTouchingMapArea.value,
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .nestedScroll(scrollBlocker)
+                        .pointerInteropFilter { event ->
+                            when (event.actionMasked) {
+                                ACTION_DOWN, ACTION_MOVE -> isTouchingMapArea.value = event.y < mapHeightPx.floatValue
+                                ACTION_UP, ACTION_CANCEL -> isTouchingMapArea.value = false
+                            }
+                            false
+                        },
             ) {
                 item {
                     Spacer(
-                        modifier =
-                            Modifier
-                                .height(mapHeight)
-                                .fillMaxWidth(),
+                        modifier = Modifier.height(mapHeight),
                     )
                 }
-
                 item {
                     DeadlineHeader(
                         deadline = LocalDateTime.parse(deadline),
@@ -124,45 +221,6 @@ fun CourseQuestDetailScreen(
                             Modifier
                                 .background(Main1)
                                 .height(rewardBoxHeight),
-                    )
-                }
-            }
-
-            NaverMap(
-                properties = MapProperties(locationTrackingMode = LocationTrackingMode.NoFollow),
-                uiSettings =
-                    MapUiSettings(
-                        isScaleBarEnabled = false,
-                        isZoomControlEnabled = false,
-                        isLogoClickEnabled = false,
-                        isCompassEnabled = false,
-                        logoGravity = Gravity.TOP,
-                        logoMargin = PaddingValues(top = 28.dp, start = 22.dp),
-                    ),
-                locationSource = rememberFusedLocationSource(isCompassEnabled = true),
-                cameraPositionState =
-                    CameraPositionState(
-                        CameraPosition(places.value.centerLocation.toLatLng(), 13.5),
-                    ),
-                onLocationChange = { location ->
-                    viewModel.updateLocation(location.latitude, location.longitude)
-                },
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .height(mapHeight)
-                        .align(Alignment.TopCenter),
-            ) {
-                LocationOverlay(
-                    position = location.value.toLatLng(),
-                    icon = OverlayImage.fromBitmap(createBitmap(1, 1)),
-                    circleColor = Transparent,
-                )
-
-                places.value.places.forEach { place ->
-                    Marker(
-                        state = MarkerState(position = place.position.toLatLng()),
-                        icon = OverlayImage.fromBitmap(getCategoryOverlayImage(context, place.category)),
                     )
                 }
             }

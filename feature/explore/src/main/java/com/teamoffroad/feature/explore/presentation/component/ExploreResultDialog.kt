@@ -70,7 +70,7 @@ fun ExploreResultDialog(
                         .wrapContentHeight()
                         .fillMaxWidth(),
             ) {
-                Spacer(modifier = Modifier.height(34.dp))
+                Spacer(modifier = Modifier.height(32.dp))
                 Text(
                     text = title,
                     style = OffroadTheme.typography.title,
