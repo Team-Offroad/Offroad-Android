@@ -24,13 +24,12 @@ fun DiaryHintSecondScreen(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.fillMaxSize(),
-
         ) {
         Image(
-            painter = painterResource(id = R.drawable.img_diary_dialog_dummy),
-            contentDescription = "dummy",
+            painter = painterResource(id = R.drawable.img_diary_hint_memorylight),
+            contentDescription = "hint",
             modifier = Modifier
-                .height(220.dp)
+                .height(260.dp)
                 .padding(bottom = 40.dp),
         )
         Text(
@@ -38,7 +37,7 @@ fun DiaryHintSecondScreen(
             text = stringResource(id = R.string.diary_dialog_hint_second_title),
             color = White,
             style = OffroadTheme.typography.textRegular,
-            modifier = Modifier.padding(bottom = 24.dp),
+            modifier = Modifier.padding(top = 20.dp, bottom = 24.dp),
         )
         Text(
             textAlign = TextAlign.Center,

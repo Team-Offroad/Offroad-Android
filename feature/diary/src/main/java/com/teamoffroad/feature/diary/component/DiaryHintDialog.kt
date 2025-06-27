@@ -77,7 +77,7 @@ fun DiaryHintDialog(
             painter = painterResource(id = R.drawable.ic_diary_dialog_close),
             contentDescription = "close",
             modifier = Modifier
-                .padding(top = 65.dp, bottom = 40.dp)
+                .padding(top = 65.dp)
                 .padding(end = 20.dp)
                 .align(Alignment.End)
                 .clickableWithoutRipple { onCancelClick(false) },
@@ -97,7 +97,7 @@ fun DiaryHintDialog(
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 52.dp, bottom = 77.dp),
+                .padding(top = 32.dp, bottom = 77.dp),
         ) {
             DiaryHintProgressIndicator(animateActive = pagerState.currentPage >= firstPage)
             Spacer(modifier = Modifier.width(7.dp))

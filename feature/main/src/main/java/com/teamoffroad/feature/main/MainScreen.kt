@@ -20,9 +20,10 @@ import com.teamoffroad.characterchat.presentation.model.UserChattingUiState
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.TYPE_ANNOUNCEMENT
 import com.teamoffroad.core.common.util.OnBackButtonListener
 import com.teamoffroad.feature.main.component.MainBottomBar
-import com.teamoffroad.feature.main.component.MainNavHost
+import com.teamoffroad.feature.main.navigation.MainNavHost
+import com.teamoffroad.feature.main.navigation.MainNavigator
+import com.teamoffroad.feature.main.navigation.rememberMainNavigator
 import kotlinx.collections.immutable.toPersistentList
-import kotlinx.coroutines.delay
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
@@ -93,40 +94,31 @@ private fun MainScreenContent(
     updateShowUserChatTextField: (Boolean) -> Unit,
     sendChat: () -> Unit,
 ) {
-    val showSplash = remember { mutableStateOf(true) }
-    LaunchedEffect(Unit) {
-        delay(1550)
-        showSplash.value = false
-    }
     Scaffold(
         modifier = modifier,
         content = { padding ->
-            when (showSplash.value) {
-                true -> SplashScreen()
-                false -> {
-                    MainNavHost(
-                        navigator = navigator,
-                        padding = padding,
-                        modifier = Modifier,
-                    )
-                    OnBackButtonListener(
-                        navigator::popBackStackIfNotMainTabRoute,
-                        navigator.setBackButtonListenerEnabled(),
-                    )
-                    mainContainerSetting.value = true
 
-                    ShowUserChat(
-                        userChatUiState = userChatUiState,
-                        characterChatUiState = characterChatUiState,
-                        userChattingText = userChattingText,
-                        updateCharacterChatExist = updateCharacterChatExist,
-                        updateUserWatchingCharacterChat = updateUserWatchingCharacterChat,
-                        updateUserChattingText = updateUserChattingText,
-                        updateShowUserChatTextField = updateShowUserChatTextField,
-                        sendChat = sendChat
-                    )
-                }
-            }
+            MainNavHost(
+                navigator = navigator,
+                padding = padding,
+                modifier = Modifier,
+            )
+            OnBackButtonListener(
+                navigator::popBackStackIfNotMainTabRoute,
+                navigator.setBackButtonListenerEnabled(),
+            )
+            mainContainerSetting.value = true
+
+            ShowUserChat(
+                userChatUiState = userChatUiState,
+                characterChatUiState = characterChatUiState,
+                userChattingText = userChattingText,
+                updateCharacterChatExist = updateCharacterChatExist,
+                updateUserWatchingCharacterChat = updateUserWatchingCharacterChat,
+                updateUserChattingText = updateUserChattingText,
+                updateShowUserChatTextField = updateShowUserChatTextField,
+                sendChat = sendChat
+            )
         },
         bottomBar = {
             MainBottomBar(

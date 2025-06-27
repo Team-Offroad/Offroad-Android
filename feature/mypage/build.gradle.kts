@@ -12,6 +12,7 @@ android {
 dependencies {
     implementation(project(":feature:auth"))
     implementation(project(":feature:diary"))
+    implementation(project(":feature:home"))
     implementation(libs.retrofit.kotlinx.serialization)
     implementation(libs.lottie.compose)
     implementation(libs.gson)

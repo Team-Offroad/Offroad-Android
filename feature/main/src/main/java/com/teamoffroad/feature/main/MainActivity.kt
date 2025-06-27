@@ -21,6 +21,8 @@ import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_ID
 import com.teamoffroad.core.common.domain.model.FcmNotificationKey.KEY_TYPE
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.feature.main.component.MainTransparentActionBar
+import com.teamoffroad.feature.main.navigation.MainNavigator
+import com.teamoffroad.feature.main.navigation.rememberMainNavigator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

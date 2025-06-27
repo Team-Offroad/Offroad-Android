@@ -2,7 +2,6 @@ package com.teamoffroad.feature.auth.presentation.signin
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.teamoffroad.core.common.domain.usecase.GetAutoSignInUseCase
 import com.teamoffroad.core.common.domain.usecase.SaveAccessTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.SaveRefreshTokenUseCase
 import com.teamoffroad.feature.auth.domain.model.SocialSignInPlatform
@@ -21,7 +20,6 @@ class SignInViewModel @Inject constructor(
     private val authUseCase: AuthUseCase,
     private val saveAccessTokenUseCase: SaveAccessTokenUseCase,
     private val saveRefreshTokenUseCase: SaveRefreshTokenUseCase,
-    private val getAutoSignInUseCase: GetAutoSignInUseCase,
 ) : ViewModel() {
     private val _signInUiState: MutableStateFlow<SignInUiState> = MutableStateFlow(SignInUiState())
     val signInUiState: StateFlow<SignInUiState> = _signInUiState.asStateFlow()
@@ -74,16 +72,6 @@ class SignInViewModel @Inject constructor(
                 )
             }.onFailure {
                 initState()
-            }
-        }
-    }
-
-    fun checkAutoSignIn() {
-        viewModelScope.launch {
-            getAutoSignInUseCase().collect { isAutoSignIn ->
-                _signInUiState.value = _signInUiState.value.copy(
-                    isAutoSignIn = isAutoSignIn
-                )
             }
         }
     }
