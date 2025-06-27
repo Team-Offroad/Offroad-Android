@@ -68,7 +68,7 @@ class CourseQuestDetailViewModel
         ) {
             viewModelScope.launch {
                 runCatching {
-                    postExploreLocationAuthUseCase(place.placeId, latitude, longitude)
+                    postExploreLocationAuthUseCase(place.placeId, latitude, longitude, place.category)
                 }.onSuccess { result ->
                     when {
                         !result.isValidPosition -> {

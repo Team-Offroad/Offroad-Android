@@ -8,12 +8,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.teamoffroad.core.common.domain.model.PlaceCategory
 import com.teamoffroad.core.designsystem.component.FullLinearLoadingAnimation
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.feature.explore.presentation.component.ExploreOffroadMap
 import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
 import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
-import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 import com.teamoffroad.feature.explore.presentation.util.ExploreAuthStateHandler
 import com.teamoffroad.feature.explore.presentation.util.ExplorePermissionHandler
 import com.teamoffroad.feature.explore.presentation.util.ExplorePermissionRejectedHandler

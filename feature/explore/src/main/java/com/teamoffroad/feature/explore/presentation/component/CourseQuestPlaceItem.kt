@@ -30,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.teamoffroad.core.common.domain.model.PlaceCategory
 import com.teamoffroad.core.designsystem.component.AdaptationImage
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.BoxInfo
@@ -43,7 +44,6 @@ import com.teamoffroad.core.designsystem.theme.Transparent
 import com.teamoffroad.core.designsystem.theme.White
 import com.teamoffroad.feature.explore.domain.model.Location
 import com.teamoffroad.feature.explore.presentation.model.CourseQuestPlaceUiModel
-import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 import com.teamoffroad.offroad.feature.explore.R
 
 @Composable

@@ -2,10 +2,13 @@ package com.teamoffroad.core.common.data.di
 
 import com.teamoffroad.core.common.domain.repository.AutoSignInRepository
 import com.teamoffroad.core.common.domain.repository.MinSupportedVersionRepository
+import com.teamoffroad.core.common.domain.repository.QuestRepository
 import com.teamoffroad.core.common.domain.repository.TokenRepository
 import com.teamoffroad.core.common.domain.usecase.ClearTokensUseCase
 import com.teamoffroad.core.common.domain.usecase.GetAccessTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.GetAutoSignInUseCase
+import com.teamoffroad.core.common.domain.usecase.GetCategoryUseCase
+import com.teamoffroad.core.common.domain.usecase.GetCompleteQuestListUseCase
 import com.teamoffroad.core.common.domain.usecase.GetRefreshTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.MinSupportedVersionUseCase
 import com.teamoffroad.core.common.domain.usecase.RefreshTokenUseCase
@@ -21,76 +24,51 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object UseCaseModule {
+    @Provides
+    @Singleton
+    fun provideRefreshTokenUseCase(tokenRepository: TokenRepository): RefreshTokenUseCase = RefreshTokenUseCase(tokenRepository)
 
     @Provides
     @Singleton
-    fun provideRefreshTokenUseCase(
-        tokenRepository: TokenRepository,
-    ): RefreshTokenUseCase {
-        return RefreshTokenUseCase(tokenRepository)
-    }
+    fun provideSaveAccessTokenUseCase(tokenRepository: TokenRepository): SaveAccessTokenUseCase = SaveAccessTokenUseCase(tokenRepository)
 
     @Provides
     @Singleton
-    fun provideSaveAccessTokenUseCase(
-        tokenRepository: TokenRepository,
-    ): SaveAccessTokenUseCase {
-        return SaveAccessTokenUseCase(tokenRepository)
-    }
+    fun provideSaveRefreshTokenUseCase(tokenRepository: TokenRepository): SaveRefreshTokenUseCase = SaveRefreshTokenUseCase(tokenRepository)
 
     @Provides
     @Singleton
-    fun provideSaveRefreshTokenUseCase(
-        tokenRepository: TokenRepository,
-    ): SaveRefreshTokenUseCase {
-        return SaveRefreshTokenUseCase(tokenRepository)
-    }
+    fun provideGetAccessTokenUseCase(tokenRepository: TokenRepository): GetAccessTokenUseCase = GetAccessTokenUseCase(tokenRepository)
 
     @Provides
     @Singleton
-    fun provideGetAccessTokenUseCase(
-        tokenRepository: TokenRepository,
-    ): GetAccessTokenUseCase {
-        return GetAccessTokenUseCase(tokenRepository)
-    }
+    fun provideGetRefreshTokenUseCase(tokenRepository: TokenRepository): GetRefreshTokenUseCase = GetRefreshTokenUseCase(tokenRepository)
 
     @Provides
     @Singleton
-    fun provideGetRefreshTokenUseCase(
-        tokenRepository: TokenRepository,
-    ): GetRefreshTokenUseCase {
-        return GetRefreshTokenUseCase(tokenRepository)
-    }
+    fun provideClearTokensUseCase(tokenRepository: TokenRepository): ClearTokensUseCase = ClearTokensUseCase(tokenRepository)
 
     @Provides
     @Singleton
-    fun provideClearTokensUseCase(
-        tokenRepository: TokenRepository,
-    ): ClearTokensUseCase {
-        return ClearTokensUseCase(tokenRepository)
-    }
+    fun provideGetAutoLoginUseCase(autoSignInRepository: AutoSignInRepository): GetAutoSignInUseCase =
+        GetAutoSignInUseCase(autoSignInRepository)
 
     @Provides
     @Singleton
-    fun provideGetAutoLoginUseCase(
-        autoSignInRepository: AutoSignInRepository,
-    ): GetAutoSignInUseCase {
-        return GetAutoSignInUseCase(autoSignInRepository)
-    }
+    fun provideSetAutoLoginUseCase(autoSignInRepository: AutoSignInRepository): SetAutoSignInUseCase =
+        SetAutoSignInUseCase(autoSignInRepository)
 
     @Provides
     @Singleton
-    fun provideSetAutoLoginUseCase(
-        autoSignInRepository: AutoSignInRepository,
-    ): SetAutoSignInUseCase {
-        return SetAutoSignInUseCase(autoSignInRepository)
-    }
+    fun provideGetMinSupportedVersionUseCase(minSupportedVersionRepository: MinSupportedVersionRepository): MinSupportedVersionUseCase =
+        MinSupportedVersionUseCase(minSupportedVersionRepository)
 
     @Provides
     @Singleton
-    fun provideGetMinSupportedVersionUseCase(
-        minSupportedVersionRepository: MinSupportedVersionRepository,
-    ): MinSupportedVersionUseCase {
-        return MinSupportedVersionUseCase(minSupportedVersionRepository)
-    }
+    fun provideGetCategoryUseCase(questRepository: QuestRepository): GetCategoryUseCase = GetCategoryUseCase(questRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetCompleteQuestListUseCase(questRepository: QuestRepository): GetCompleteQuestListUseCase =
+        GetCompleteQuestListUseCase(questRepository)
 }

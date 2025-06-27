@@ -45,6 +45,7 @@ import com.naver.maps.map.compose.MarkerState
 import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberFusedLocationSource
 import com.naver.maps.map.overlay.OverlayImage
+import com.teamoffroad.core.common.domain.model.PlaceCategory
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.core.designsystem.component.navigationPadding
@@ -52,7 +53,6 @@ import com.teamoffroad.core.designsystem.theme.Black
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.core.designsystem.theme.Sub2
 import com.teamoffroad.feature.explore.presentation.model.LocationModel
-import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 import com.teamoffroad.feature.explore.presentation.model.PlaceModel
 import com.teamoffroad.offroad.feature.explore.R
 
@@ -89,9 +89,14 @@ fun ExploreOffroadMap(
 
     LaunchedEffect(animatedInfoWindowHeight) {
         if (selectedPlace != null) {
-            val offsetResult = getMarkerOffset(
-                selectedPlace.location, locationState.cameraPositionState, density, mapViewSize, animatedInfoWindowHeight,
-            )
+            val offsetResult =
+                getMarkerOffset(
+                    selectedPlace.location,
+                    locationState.cameraPositionState,
+                    density,
+                    mapViewSize,
+                    animatedInfoWindowHeight,
+                )
             markerOffset = offsetResult.first
         }
     }
@@ -103,20 +108,22 @@ fun ExploreOffroadMap(
             .actionBarPadding()
             .onGloballyPositioned { coordinates ->
                 mapViewSize = coordinates.size
-            }) {
+            },
+    ) {
         StaticAnimationWrapper {
             Column {
                 ExploreAppBar(backgroundPadding)
                 NaverMap(
                     properties = locationState.mapProperties,
-                    uiSettings = MapUiSettings(
-                        isScaleBarEnabled = false,
-                        isZoomControlEnabled = false,
-                        isLogoClickEnabled = false,
-                        isCompassEnabled = false,
-                        logoGravity = Gravity.TOP,
-                        logoMargin = PaddingValues(top = 28.dp, start = 22.dp),
-                    ),
+                    uiSettings =
+                        MapUiSettings(
+                            isScaleBarEnabled = false,
+                            isZoomControlEnabled = false,
+                            isLogoClickEnabled = false,
+                            isCompassEnabled = false,
+                            logoGravity = Gravity.TOP,
+                            logoMargin = PaddingValues(top = 28.dp, start = 22.dp),
+                        ),
                     locationSource = rememberFusedLocationSource(isCompassEnabled = true),
                     cameraPositionState = locationState.cameraPositionState,
                     onLocationChange = { location ->
@@ -139,13 +146,21 @@ fun ExploreOffroadMap(
                             state = MarkerState(position = place.location),
                             icon = OverlayImage.fromResource(R.drawable.ic_explore_marker),
                             onClick = {
-                                val offsetResult = getMarkerOffset(
-                                    place.location, locationState.cameraPositionState, density, mapViewSize, infoWindowHeight,
-                                )
+                                val offsetResult =
+                                    getMarkerOffset(
+                                        place.location,
+                                        locationState.cameraPositionState,
+                                        density,
+                                        mapViewSize,
+                                        infoWindowHeight,
+                                    )
                                 markerOffset = offsetResult.first
-                                val newLatLng = getAdjustedLocationFromMarkerOffset(
-                                    offsetResult.second, locationState.cameraPositionState, mapViewSize,
-                                )
+                                val newLatLng =
+                                    getAdjustedLocationFromMarkerOffset(
+                                        offsetResult.second,
+                                        locationState.cameraPositionState,
+                                        mapViewSize,
+                                    )
                                 newLatLng?.let {
                                     locationState.cameraPositionState.move(CameraUpdate.scrollTo(it).animate(CameraAnimation.Easing, 500))
                                 }
@@ -159,10 +174,11 @@ fun ExploreOffroadMap(
         }
         ExploreMapForeground()
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = (backgroundPadding + 18).dp)
-                .align(Alignment.TopCenter),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = (backgroundPadding + 18).dp)
+                    .align(Alignment.TopCenter),
         ) {
             if (locationState.isUserTrackingEnabled.not()) {
                 ExploreRefreshButton(
@@ -179,16 +195,18 @@ fun ExploreOffroadMap(
             ExploreTrackingButton(
                 isTrackingEnabled = locationState.isUserTrackingEnabled,
                 onClick = updateTrackingToggle,
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .padding(end = 22.dp),
+                modifier =
+                    Modifier
+                        .align(Alignment.CenterEnd)
+                        .padding(end = 22.dp),
             )
         }
         Row(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .navigationPadding()
-                .padding(bottom = 148.dp),
+            modifier =
+                Modifier
+                    .align(Alignment.BottomCenter)
+                    .navigationPadding()
+                    .padding(bottom = 148.dp),
             horizontalArrangement = Arrangement.Center,
         ) {
             ExploreMapBottomButton(
@@ -210,21 +228,25 @@ fun ExploreOffroadMap(
         }
         selectedPlace?.let { place ->
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Black.copy(alpha = 0.25f))
-                    .pointerInput(Unit) {
-                        detectTapGestures(onTap = { updateSelectedPlace(null) })
-                    }
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .background(Black.copy(alpha = 0.25f))
+                        .pointerInput(Unit) {
+                            detectTapGestures(onTap = { updateSelectedPlace(null) })
+                        },
             ) {
-                Box(modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .offset { markerOffset }
-                    .onGloballyPositioned { coordinates ->
-                        with(density) {
-                            infoWindowHeight = coordinates.size.height.toDp() - 20.dp
-                        }
-                    }) {
+                Box(
+                    modifier =
+                        Modifier
+                            .align(Alignment.TopStart)
+                            .offset { markerOffset }
+                            .onGloballyPositioned { coordinates ->
+                                with(density) {
+                                    infoWindowHeight = coordinates.size.height.toDp() - 20.dp
+                                }
+                            },
+                ) {
                     ExploreInfoWindow(
                         title = place.name,
                         shortIntroduction = place.shortIntroduction,
@@ -243,8 +265,9 @@ fun ExploreOffroadMap(
                         onCloseButtonClick = {
                             updateSelectedPlace(null)
                         },
-                        modifier = Modifier
-                            .align(Alignment.TopCenter),
+                        modifier =
+                            Modifier
+                                .align(Alignment.TopCenter),
                     )
                 }
             }
@@ -319,5 +342,7 @@ private fun getAdjustedLocationFromMarkerOffset(
 
     return if (lat != targetPosition.latitude || lng != targetPosition.longitude) {
         LatLng(lat, lng)
-    } else null
+    } else {
+        null
+    }
 }

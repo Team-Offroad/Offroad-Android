@@ -1,5 +1,7 @@
 package com.teamoffroad.feature.explore.presentation.model
 
+import com.teamoffroad.core.common.domain.model.PlaceCategory
+
 sealed interface ExploreAuthState {
     data object None : ExploreAuthState
 

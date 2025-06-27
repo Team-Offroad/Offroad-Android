@@ -1,5 +1,6 @@
 package com.teamoffroad.feature.explore.presentation.model
 
+import com.teamoffroad.core.common.domain.model.PlaceCategory
 import com.teamoffroad.feature.explore.domain.model.Location
 
 data class CourseQuestPlaceUiModel(
