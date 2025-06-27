@@ -6,7 +6,6 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import com.teamoffroad.core.common.domain.preferences.QuestPreferences
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -21,16 +20,6 @@ class QuestPreferencesImpl
             val CATEGORY = stringPreferencesKey("CATEGORY")
             val COMPLETE_QUESTS = stringSetPreferencesKey("COMPLETE_QUESTS")
         }
-
-        override val category: Flow<String> =
-            dataStore.data.map { preferences ->
-                preferences[PreferencesKey.CATEGORY] ?: ""
-            }
-
-        override val completeQuests: Flow<List<String>> =
-            dataStore.data.map { preferences ->
-                preferences[PreferencesKey.COMPLETE_QUESTS]?.toList() ?: emptyList()
-            }
 
         override suspend fun getCategory(): String? {
             val value = dataStore.data.map { it[PreferencesKey.CATEGORY] }.first()
@@ -53,8 +42,9 @@ class QuestPreferencesImpl
         }
 
         override suspend fun saveCompleteQuests(quests: List<String>) {
-            dataStore.edit {
-                it[PreferencesKey.COMPLETE_QUESTS] = quests.toSet()
+            dataStore.edit { preferences ->
+                val exist = preferences[PreferencesKey.COMPLETE_QUESTS] ?: emptySet()
+                preferences[PreferencesKey.COMPLETE_QUESTS] = exist + quests.toSet()
             }
         }
 
