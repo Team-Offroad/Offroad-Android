@@ -54,8 +54,8 @@ internal fun MainNavHost(
                 navigateToDiary = navigator::navigateToDiary,
             )
             exploreNavGraph(
-                navigateToHome = { category, completeQuests ->
-                    navigator.navigateToHomeFromExplore(category, completeQuests)
+                navigateToHome = {
+                    navigator.navigateToHome()
                 },
                 navigateToPlace = { latitude, longitude ->
                     navigator.navigateToPlace(latitude, longitude)

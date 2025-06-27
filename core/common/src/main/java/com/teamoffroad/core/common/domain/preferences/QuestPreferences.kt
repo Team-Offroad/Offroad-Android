@@ -7,7 +7,7 @@ interface QuestPreferences {
 
     val completeQuests: Flow<List<String>>
 
-    suspend fun getCategory(): String
+    suspend fun getCategory(): String?
 
     suspend fun getCompleteQuests(): List<String>
 

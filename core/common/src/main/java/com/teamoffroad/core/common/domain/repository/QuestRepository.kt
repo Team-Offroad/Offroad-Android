@@ -1,7 +1,7 @@
 package com.teamoffroad.core.common.domain.repository
 
 interface QuestRepository {
-    suspend fun getCategory(): String
+    suspend fun getCategory(): String?
 
     suspend fun getCompleteQuests(): List<String>
 

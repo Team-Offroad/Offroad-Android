@@ -44,7 +44,7 @@ fun NavController.navigateToCourseQuestDetail(
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun NavGraphBuilder.exploreNavGraph(
-    navigateToHome: (String, List<String>) -> Unit,
+    navigateToHome: () -> Unit,
     navigateToPlace: (String, String) -> Unit,
     navigateToQuest: () -> Unit,
     navigateToQuestDetail: (questId: Long, deadline: String, dDay: Int, reward: String) -> Unit,

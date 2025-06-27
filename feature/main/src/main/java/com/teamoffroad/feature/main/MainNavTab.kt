@@ -15,7 +15,7 @@ internal enum class MainNavTab(
         selectedIconResId = R.drawable.ic_main_home_selected,
         deselectedIconResId = R.drawable.ic_main_home_deselected,
         contentDescription = "홈",
-        route = MainTabRoute.Home(),
+        route = MainTabRoute.Home,
     ),
     EXPLORE(
         selectedIconResId = R.drawable.ic_main_explore,
@@ -27,17 +27,14 @@ internal enum class MainNavTab(
         deselectedIconResId = R.drawable.ic_main_my_page_deselected,
         contentDescription = "마이페이지",
         route = MainTabRoute.MyPage,
-    );
+    ),
+    ;
 
     companion object {
         @Composable
-        fun find(predicate: @Composable (MainTabRoute) -> Boolean): MainNavTab? {
-            return entries.find { predicate(it.route) }
-        }
+        fun find(predicate: @Composable (MainTabRoute) -> Boolean): MainNavTab? = entries.find { predicate(it.route) }
 
         @Composable
-        fun contains(predicate: @Composable (Route) -> Boolean): Boolean {
-            return entries.map { it.route }.any { predicate(it) }
-        }
+        fun contains(predicate: @Composable (Route) -> Boolean): Boolean = entries.map { it.route }.any { predicate(it) }
     }
 }

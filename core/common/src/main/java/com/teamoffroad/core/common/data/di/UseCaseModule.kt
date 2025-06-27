@@ -7,8 +7,8 @@ import com.teamoffroad.core.common.domain.repository.TokenRepository
 import com.teamoffroad.core.common.domain.usecase.ClearTokensUseCase
 import com.teamoffroad.core.common.domain.usecase.GetAccessTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.GetAutoSignInUseCase
-import com.teamoffroad.core.common.domain.usecase.GetCategoryUseCase
 import com.teamoffroad.core.common.domain.usecase.GetCompleteQuestListUseCase
+import com.teamoffroad.core.common.domain.usecase.GetRecentVisitedCategoryUseCase
 import com.teamoffroad.core.common.domain.usecase.GetRefreshTokenUseCase
 import com.teamoffroad.core.common.domain.usecase.MinSupportedVersionUseCase
 import com.teamoffroad.core.common.domain.usecase.RefreshTokenUseCase
@@ -65,7 +65,8 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideGetCategoryUseCase(questRepository: QuestRepository): GetCategoryUseCase = GetCategoryUseCase(questRepository)
+    fun provideGetCategoryUseCase(questRepository: QuestRepository): GetRecentVisitedCategoryUseCase =
+        GetRecentVisitedCategoryUseCase(questRepository)
 
     @Provides
     @Singleton

@@ -9,7 +9,7 @@ class QuestRepositoryImpl
     constructor(
         private val questPreferences: QuestPreferences,
     ) : QuestRepository {
-        override suspend fun getCategory(): String = questPreferences.getCategory()
+        override suspend fun getCategory(): String? = questPreferences.getCategory()
 
         override suspend fun getCompleteQuests(): List<String> = questPreferences.getCompleteQuests()
 

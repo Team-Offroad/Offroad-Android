@@ -8,7 +8,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.teamoffroad.core.common.domain.model.PlaceCategory
 import com.teamoffroad.core.designsystem.component.FullLinearLoadingAnimation
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.feature.explore.presentation.component.ExploreOffroadMap
@@ -22,7 +21,7 @@ import com.teamoffroad.offroad.feature.explore.R
 @Composable
 internal fun ExploreScreen(
     authResultState: String?,
-    navigateToHome: (String, List<String>) -> Unit,
+    navigateToHome: () -> Unit,
     navigateToPlace: (String, String) -> Unit,
     navigateToQuest: () -> Unit,
     exploreViewModel: ExploreViewModel = hiltViewModel(),
@@ -73,7 +72,7 @@ internal fun ExploreScreen(
             false ->
                 ExplorePermissionRejectedHandler(
                     context = context,
-                    navigateToHome = { navigateToHome(PlaceCategory.NONE.name, emptyList()) },
+                    navigateToHome = { navigateToHome() },
                     updatePermission = exploreViewModel::updatePermission,
                 )
 

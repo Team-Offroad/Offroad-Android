@@ -32,9 +32,9 @@ class QuestPreferencesImpl
                 preferences[PreferencesKey.COMPLETE_QUESTS]?.toList() ?: emptyList()
             }
 
-        override suspend fun getCategory(): String {
-            val value = dataStore.data.map { it[PreferencesKey.CATEGORY] ?: "" }.first()
-            clearCategory()
+        override suspend fun getCategory(): String? {
+            val value = dataStore.data.map { it[PreferencesKey.CATEGORY] }.first()
+            value?.let { clearCategory() }
             return value
         }
 

@@ -13,7 +13,7 @@ import com.teamoffroad.offroad.feature.explore.R
 fun ExploreAuthStateHandler(
     uiState: ExploreUiState,
     updateExploreAuthState: (ExploreAuthState) -> Unit,
-    navigateToHome: (String, List<String>) -> Unit,
+    navigateToHome: () -> Unit,
 ) {
     when (uiState.authResultType) {
         is ExploreAuthState.LocationError -> {
@@ -67,7 +67,7 @@ fun ExploreAuthStateHandler(
                 content = { ExploreSuccessDialogContent(url = uiState.authResultType.characterImageUrl) },
                 onDismissRequest = {
                     updateExploreAuthState(ExploreAuthState.None)
-                    navigateToHome(uiState.authResultType.category.name, uiState.authResultType.completeQuests)
+                    navigateToHome()
                 },
             )
         }
