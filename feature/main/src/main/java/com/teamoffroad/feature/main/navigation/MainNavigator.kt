@@ -110,11 +110,12 @@ internal class MainNavigator(
             currentDestination?.hasRoute<Route.Auth>() == true
 
     fun navigateToAuth() {
-        val navOptions = navOptions {
-            popUpTo(navController.graph.startDestinationId) {
-                inclusive = true
+        val navOptions =
+            navOptions {
+                popUpTo(navController.graph.startDestinationId) {
+                    inclusive = true
+                }
             }
-        }
         navController.navigateToAuth(navOptions)
     }
 
