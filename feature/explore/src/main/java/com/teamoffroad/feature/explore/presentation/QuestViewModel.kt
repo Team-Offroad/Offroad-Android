@@ -2,6 +2,7 @@ package com.teamoffroad.feature.explore.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.teamoffroad.core.common.domain.usecase.GetCompleteQuestListUseCase
 import com.teamoffroad.feature.explore.domain.model.Quest
 import com.teamoffroad.feature.explore.domain.usecase.GetQuestListUseCase
 import com.teamoffroad.feature.explore.presentation.model.QuestUiState
@@ -17,13 +18,27 @@ class QuestViewModel
     @Inject
     constructor(
         private val getQuestListUseCase: GetQuestListUseCase,
+        private val getCompleteQuestListUseCase: GetCompleteQuestListUseCase,
     ) : ViewModel() {
         private val _uiState: MutableStateFlow<QuestUiState> = MutableStateFlow(QuestUiState())
         val uiState: StateFlow<QuestUiState> = _uiState.asStateFlow()
 
+        private val _completeQuests = MutableStateFlow<List<String>>(emptyList())
+        val completeQuests = _completeQuests.asStateFlow()
+
         init {
             updateQuests(true)
             updateQuests(false)
+        }
+
+        fun loadCompleteQuests() {
+            viewModelScope.launch {
+                runCatching {
+                    getCompleteQuestListUseCase()
+                }.onSuccess { quests ->
+                    _completeQuests.value = quests
+                }
+            }
         }
 
         fun updateProceedingToggle() {

@@ -18,7 +18,6 @@ fun ExploreAuthStateHandler(
     when (uiState.authResultType) {
         is ExploreAuthState.LocationError -> {
             ExploreResultDialog(
-                state = ExploreAuthState.LocationError(),
                 title = stringResource(R.string.explore_dialog_failed),
                 description = stringResource(R.string.explore_location_failed_label),
                 content = {
@@ -32,7 +31,6 @@ fun ExploreAuthStateHandler(
 
         is ExploreAuthState.DuplicateError -> {
             ExploreResultDialog(
-                state = ExploreAuthState.DuplicateError(),
                 title = stringResource(R.string.explore_dialog_failed),
                 description = stringResource(R.string.explore_duplicate_failed_label),
                 content = {
@@ -46,7 +44,6 @@ fun ExploreAuthStateHandler(
 
         ExploreAuthState.EtcError -> {
             ExploreResultDialog(
-                state = ExploreAuthState.EtcError,
                 title = stringResource(R.string.explore_dialog_failed),
                 description = stringResource(R.string.explore_etc_failed_label),
                 content = {
@@ -60,9 +57,9 @@ fun ExploreAuthStateHandler(
 
         is ExploreAuthState.Success -> {
             ExploreResultDialog(
-                state = ExploreAuthState.Success(),
                 title = stringResource(R.string.explore_dialog_success),
                 description = stringResource(R.string.explore_dialog_success_label),
+                buttonLabel = stringResource(R.string.explore_dialog_success_button),
                 isBackgroundShown = true,
                 content = { ExploreSuccessDialogContent(url = uiState.authResultType.characterImageUrl) },
                 onDismissRequest = {
