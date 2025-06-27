@@ -2,9 +2,9 @@ package com.teamoffroad.feature.explore.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.teamoffroad.core.common.domain.usecase.GetCompleteQuestListUseCase
 import com.teamoffroad.feature.explore.domain.model.Quest
 import com.teamoffroad.feature.explore.domain.usecase.GetQuestListUseCase
-import com.teamoffroad.feature.explore.presentation.mapper.toUi
 import com.teamoffroad.feature.explore.presentation.model.QuestUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,13 +18,27 @@ class QuestViewModel
     @Inject
     constructor(
         private val getQuestListUseCase: GetQuestListUseCase,
+        private val getCompleteQuestListUseCase: GetCompleteQuestListUseCase,
     ) : ViewModel() {
         private val _uiState: MutableStateFlow<QuestUiState> = MutableStateFlow(QuestUiState())
         val uiState: StateFlow<QuestUiState> = _uiState.asStateFlow()
 
+        private val _completeQuests = MutableStateFlow<List<String>>(emptyList())
+        val completeQuests = _completeQuests.asStateFlow()
+
         init {
             updateQuests(true)
             updateQuests(false)
+        }
+
+        fun loadCompleteQuests() {
+            viewModelScope.launch {
+                runCatching {
+                    getCompleteQuestListUseCase()
+                }.onSuccess { quests ->
+                    _completeQuests.value = quests
+                }
+            }
         }
 
         fun updateProceedingToggle() {
@@ -36,13 +50,16 @@ class QuestViewModel
 
         fun updateQuests(isProceeding: Boolean = uiState.value.isProceedingQuest) {
             if (uiState.value.isAdditionalLoading) return
+            val cursorId = getCursorId(isProceeding)
+            if (cursorId == uiState.value.lastUpdatedCursorId) return
 
             viewModelScope.launch {
+                updateLoadingState(cursorId)
+
                 runCatching {
-                    val cursorId = getCursorId(isProceeding)
-                    updateLoadingState(cursorId)
                     getQuestListUseCase(isProceeding, cursorId, 20)
                 }.onSuccess { quests ->
+                    _uiState.value = uiState.value.copy(lastUpdatedCursorId = cursorId)
                     when (quests.isEmpty()) {
                         true -> updateLoadableState(isProceeding)
                         false -> updateExistQuests(isProceeding, quests)
@@ -77,6 +94,7 @@ class QuestViewModel
                     uiState.value.proceedingQuests
                         .lastOrNull()
                         ?.cursorId ?: 0L
+
                 false ->
                     uiState.value.totalQuests
                         .lastOrNull()
@@ -104,20 +122,18 @@ class QuestViewModel
             isProceeding: Boolean,
             quests: List<Quest>,
         ) {
-            val updatedQuests = quests.map { it.toUi() }
-
             _uiState.value =
                 when (isProceeding) {
                     true ->
                         uiState.value.copy(
-                            proceedingQuests = uiState.value.proceedingQuests + updatedQuests,
+                            proceedingQuests = uiState.value.proceedingQuests + quests,
                             isLoading = false,
                             isAdditionalLoading = false,
                         )
 
                     false ->
                         uiState.value.copy(
-                            totalQuests = uiState.value.totalQuests + updatedQuests,
+                            totalQuests = uiState.value.totalQuests + quests,
                             isLoading = false,
                             isAdditionalLoading = false,
                         )

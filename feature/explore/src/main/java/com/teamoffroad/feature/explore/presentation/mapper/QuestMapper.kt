@@ -1,24 +1,17 @@
 package com.teamoffroad.feature.explore.presentation.mapper
 
-import com.teamoffroad.feature.explore.domain.model.Quest
-import com.teamoffroad.feature.explore.presentation.model.QuestModel
-import com.teamoffroad.feature.explore.presentation.model.QuestModel.QuestProgressModel
+import com.teamoffroad.core.common.domain.model.PlaceCategory
+import com.teamoffroad.feature.explore.domain.model.CourseQuestPlace
+import com.teamoffroad.feature.explore.presentation.model.CourseQuestPlaceUiModel
 
-fun Quest.toUi(): QuestModel {
-    return QuestModel(
-        questName = questName,
+fun CourseQuestPlace.toUi(): CourseQuestPlaceUiModel =
+    CourseQuestPlaceUiModel(
+        category = PlaceCategory.fromKrName(category),
+        name = name,
+        address = address,
+        position = position,
+        isVisited = isVisited,
+        categoryImage = categoryImage,
         description = description,
-        requirement = requirement,
-        reward = reward,
-        cursorId = cursorId,
-        questProgressModel = progress.toUi()
+        placeId = placeId,
     )
-}
-
-fun Quest.QuestProgressModel.toUi(): QuestProgressModel {
-    return QuestProgressModel(
-        progressCount = currentCount,
-        totalCount = totalCount,
-        isCompleted = isCompleted,
-    )
-}

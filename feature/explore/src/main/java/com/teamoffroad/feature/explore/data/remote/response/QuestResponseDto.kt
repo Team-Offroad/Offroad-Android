@@ -24,7 +24,7 @@ data class QuestResponseDto(
     @SerialName("deadline")
     val deadline: String?,
     @SerialName("courseQuestPlaces")
-    val courseQuestPlaces: List<CourseQuestPlaceDto>?,
+    val courseQuestPlaces: List<CourseQuestPlaceResponseDto>?,
     @SerialName("questId")
     val questId: Long,
 )

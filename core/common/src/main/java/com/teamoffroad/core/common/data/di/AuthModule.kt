@@ -1,10 +1,10 @@
 package com.teamoffroad.core.common.data.di
 
 import android.content.Context
-import com.teamoffroad.core.common.data.datasource.TokenPreferencesDataSource
 import com.teamoffroad.core.common.data.local.AuthAuthenticator
 import com.teamoffroad.core.common.data.local.AuthInterceptor
 import com.teamoffroad.core.common.data.remote.service.TokenService
+import com.teamoffroad.core.common.domain.preferences.TokenPreferences
 import com.teamoffroad.core.common.domain.usecase.SetAutoSignInUseCase
 import com.teamoffroad.core.common.util.IntentProvider
 import dagger.Module
@@ -17,25 +17,20 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AuthModule {
-
     @Provides
     @Singleton
     fun provideAuthInterceptor(
         authAuthenticator: AuthAuthenticator,
-        tokenPreferencesDataSource: TokenPreferencesDataSource,
-    ): AuthInterceptor {
-        return AuthInterceptor(authAuthenticator, tokenPreferencesDataSource)
-    }
+        tokenPreferences: TokenPreferences,
+    ): AuthInterceptor = AuthInterceptor(authAuthenticator, tokenPreferences)
 
     @Provides
     @Singleton
     fun provideAuthAuthenticator(
-        tokenPreferencesDataSource: TokenPreferencesDataSource,
+        tokenPreferences: TokenPreferences,
         refreshTokenUseCase: TokenService,
         setAutoSignInUseCase: SetAutoSignInUseCase,
         @ApplicationContext context: Context,
         intentProvider: IntentProvider,
-    ): AuthAuthenticator {
-        return AuthAuthenticator(tokenPreferencesDataSource, refreshTokenUseCase, setAutoSignInUseCase, context, intentProvider)
-    }
+    ): AuthAuthenticator = AuthAuthenticator(tokenPreferences, refreshTokenUseCase, setAutoSignInUseCase, context, intentProvider)
 }

@@ -3,7 +3,7 @@ package com.teamoffroad.feature.explore.data.di
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import com.teamoffroad.core.common.data.di.DataStoreModule.createDataStore
+import com.teamoffroad.core.common.data.di.PreferencesModule.createDataStore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,13 +15,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DataStoreModule {
-
     @Provides
     @Singleton
     @Named("locationDataStore")
-    fun provideExploreDataStore(@ApplicationContext context: Context): DataStore<Preferences> {
-        return context.createDataStore(TOKEN_PREFERENCES)
-    }
+    fun provideExploreDataStore(
+        @ApplicationContext context: Context,
+    ): DataStore<Preferences> = context.createDataStore(TOKEN_PREFERENCES)
 
     private const val TOKEN_PREFERENCES = "com.teamoffroad.location_preferences"
 }

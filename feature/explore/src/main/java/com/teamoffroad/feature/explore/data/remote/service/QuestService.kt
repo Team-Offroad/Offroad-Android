@@ -1,9 +1,10 @@
 package com.teamoffroad.feature.explore.data.remote.service
 
 import com.teamoffroad.core.common.data.remote.response.BaseResponse
-import com.teamoffroad.feature.explore.data.remote.response.CourseQuestPlacesDto
+import com.teamoffroad.feature.explore.data.remote.response.CourseQuestPlacesResponseDto
 import com.teamoffroad.feature.explore.data.remote.response.QuestsResponseDto
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface QuestService {
@@ -16,6 +17,6 @@ interface QuestService {
 
     @GET("quests/course/{questId}")
     suspend fun getQuestCourse(
-        @Query("questId") questId: Long,
-    ): BaseResponse<CourseQuestPlacesDto>
+        @Path("questId") questId: Long,
+    ): BaseResponse<CourseQuestPlacesResponseDto>
 }

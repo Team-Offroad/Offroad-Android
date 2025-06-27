@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CourseQuestPlaceDto(
+data class CourseQuestPlaceResponseDto(
     @SerialName("category")
     val category: String,
     @SerialName("name")
@@ -16,7 +16,11 @@ data class CourseQuestPlaceDto(
     @SerialName("longitude")
     val longitude: Double,
     @SerialName("isVisited")
-    val isVisited: Boolean,
+    val isVisited: Boolean?,
     @SerialName("categoryImage")
     val categoryImage: String,
+    @SerialName("description")
+    val description: String,
+    @SerialName("placeId")
+    val placeId: Long,
 )

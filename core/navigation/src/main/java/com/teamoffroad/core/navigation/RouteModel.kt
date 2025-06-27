@@ -9,10 +9,7 @@ sealed interface Route {
 
 sealed interface MainTabRoute : Route {
     @Serializable
-    data class Home(
-        val category: String? = null,
-        val completeQuests: List<String> = emptyList(),
-    ) : MainTabRoute
+    data object Home : MainTabRoute
 
     @Serializable
     data class Explore(
@@ -52,6 +49,14 @@ sealed interface ExploreRoute : Route {
 
     @Serializable
     data object QuestScreen : ExploreRoute
+
+    @Serializable
+    data class CourseQuestDetail(
+        val questId: Long,
+        val deadline: String,
+        val dDay: Int,
+        val reward: String,
+    ) : ExploreRoute
 }
 
 sealed interface MyPageRoute : Route {

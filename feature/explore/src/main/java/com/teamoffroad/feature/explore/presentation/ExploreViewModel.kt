@@ -3,6 +3,7 @@ package com.teamoffroad.feature.explore.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.naver.maps.geometry.LatLng
+import com.teamoffroad.core.common.domain.model.PlaceCategory
 import com.teamoffroad.core.common.domain.tracker.Tracker
 import com.teamoffroad.feature.explore.domain.usecase.GetMapPlaceListUseCase
 import com.teamoffroad.feature.explore.domain.usecase.GetPreviousLocationUseCase
@@ -11,7 +12,6 @@ import com.teamoffroad.feature.explore.domain.usecase.SavePreviousLocationUseCas
 import com.teamoffroad.feature.explore.presentation.mapper.toUi
 import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
 import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
-import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 import com.teamoffroad.feature.explore.presentation.model.PlaceModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -138,7 +138,7 @@ class ExploreViewModel
         ) {
             viewModelScope.launch {
                 runCatching {
-                    postExploreLocationAuthUseCase(placeId, latitude, longitude)
+                    postExploreLocationAuthUseCase(placeId, latitude, longitude, category)
                 }.onSuccess { exploreResult ->
                     when {
                         !exploreResult.isValidPosition -> {

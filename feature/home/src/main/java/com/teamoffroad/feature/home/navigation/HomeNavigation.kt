@@ -6,16 +6,11 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
 import com.teamoffroad.core.navigation.MainTabRoute
 import com.teamoffroad.feature.home.presentation.HomeScreen
 
-fun NavController.navigateToHome(
-    category: String? = null,
-    completeQuest: List<String> = emptyList(),
-    navOptions: NavOptions,
-) {
-    navigate(MainTabRoute.Home(category = category, completeQuests = completeQuest), navOptions = navOptions)
+fun NavController.navigateToHome(navOptions: NavOptions) {
+    navigate(MainTabRoute.Home, navOptions = navOptions)
 }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -23,17 +18,13 @@ fun NavGraphBuilder.homeNavGraph(
     navigateToBack: () -> Unit,
     navigateToGainedCharacter: () -> Unit,
     navigateToCharacterChatScreen: (String) -> Unit,
-    navigateToDiary: (Boolean) -> Unit
+    navigateToDiary: (Boolean) -> Unit,
 ) {
-    composable<MainTabRoute.Home> { backStackEntry ->
-        val category = backStackEntry.toRoute<MainTabRoute.Home>().category
-        val completeQuests = backStackEntry.toRoute<MainTabRoute.Home>().completeQuests
+    composable<MainTabRoute.Home> {
         HomeScreen(
-            category = category,
-            completeQuests = completeQuests,
             navigateToGainedCharacter = navigateToGainedCharacter,
             navigateToCharacterChatScreen = navigateToCharacterChatScreen,
-            navigateToDiary = navigateToDiary
+            navigateToDiary = navigateToDiary,
         )
     }
 }
