@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -20,55 +21,87 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.theme.Main3
+import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.offroad.core.designsystem.R
 
 @Composable
 fun ExpandableItem(
-    modifier: Modifier = Modifier,
     isExpanded: Boolean,
     onExpandClick: () -> Unit,
+    onExtraContentClick: () -> Unit = {},
     defaultContent: @Composable (Boolean) -> Unit,
     extraContent: @Composable () -> Unit = {},
     backgroundColor: Color = Main3,
     cornerRadius: Int = 5,
     verticalPadding: Int = 16,
     horizontalPadding: Int = 18,
+    modifier: Modifier = Modifier,
 ) {
     val rotationAngle by animateFloatAsState(targetValue = if (isExpanded) 180f else 0f, label = "")
 
     Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .animateContentSize()
-            .wrapContentHeight()
-            .background(color = backgroundColor, shape = RoundedCornerShape(cornerRadius.dp))
-            .padding(vertical = verticalPadding.dp, horizontal = horizontalPadding.dp)
-            .clickableWithoutRipple { onExpandClick() },
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .animateContentSize()
+                .wrapContentHeight()
+                .background(color = backgroundColor, shape = RoundedCornerShape(cornerRadius.dp))
+                .padding(vertical = verticalPadding.dp, horizontal = horizontalPadding.dp),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .clickableWithoutRipple { onExpandClick() },
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Box(modifier = Modifier.weight(1f)) {
+            Box(
+                modifier = Modifier.weight(1f),
+            ) {
                 defaultContent(isExpanded)
             }
             Image(
                 painter = painterResource(id = R.drawable.ic_expand),
                 contentDescription = null,
-                modifier = Modifier
-                    .align(Alignment.CenterVertically)
-                    .offset(x = 12.dp)
-                    .rotate(rotationAngle),
-                alignment = Alignment.CenterEnd
+                modifier =
+                    Modifier
+                        .align(Alignment.CenterVertically)
+                        .offset(x = 12.dp)
+                        .rotate(rotationAngle),
+                alignment = Alignment.CenterEnd,
             )
         }
         AnimatedVisibility(
             visible = isExpanded,
+            modifier = Modifier.clickableWithoutRipple { onExtraContentClick() },
         ) {
             extraContent()
         }
+    }
+}
+
+@Preview
+@Composable
+fun ExpandableItemPreview() {
+    OffroadTheme {
+        ExpandableItem(
+            isExpanded = true,
+            onExpandClick = {},
+            defaultContent = { isExpanded ->
+                Text(
+                    text = "Default Content $isExpanded",
+                    color = Color.Blue,
+                )
+            },
+            extraContent = {
+                Text(
+                    text = "Extra Content",
+                    color = Color.Black,
+                )
+            },
+        )
     }
 }

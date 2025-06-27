@@ -42,9 +42,10 @@ class MainActivity : ComponentActivity() {
 
         notificationTypeState.value = intent.getStringExtra(KEY_TYPE)
         notificationIdState.value = intent.getStringExtra(KEY_ID)
-        characterBroadcastReceiver = FcmBroadcastReceiver(
-            navigateToAnnouncement = viewModel::navigateToAnnouncement,
-        )
+        characterBroadcastReceiver =
+            FcmBroadcastReceiver(
+                navigateToAnnouncement = viewModel::navigateToAnnouncement,
+            )
         FcmBroadcastReceiver.register(this, characterBroadcastReceiver)
 
         setContent {
@@ -73,7 +74,7 @@ class MainActivity : ComponentActivity() {
                     AppUpdateDialog(
                         appUpdateDialogShown = appUpdateDialogShown,
                         onDismissRequest = { appUpdateDialogShown.value = false },
-                        context = LocalContext.current
+                        context = LocalContext.current,
                     )
                 }
             }
@@ -87,17 +88,17 @@ class MainActivity : ComponentActivity() {
 
     companion object {
         @JvmStatic
-        fun newInstance(context: Context) = Intent(context, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
+        fun newInstance(context: Context) =
+            Intent(context, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
     }
 
-    private fun getAppVersion(): String {
-        return try {
+    private fun getAppVersion(): String =
+        try {
             val packageInfo = packageManager.getPackageInfo(packageName, 0)
-            packageInfo.versionName
+            packageInfo.versionName ?: "1.0.0"
         } catch (e: PackageManager.NameNotFoundException) {
             "Unknown"
         }
-    }
 }

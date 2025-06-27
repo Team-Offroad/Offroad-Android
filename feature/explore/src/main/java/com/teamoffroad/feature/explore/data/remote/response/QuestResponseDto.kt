@@ -18,5 +18,13 @@ data class QuestResponseDto(
     @SerialName("reward")
     val reward: String,
     @SerialName("cursorId")
-    val cursorId: Int,
+    val cursorId: Long,
+    @SerialName("isCourse")
+    val isCourse: Boolean,
+    @SerialName("deadline")
+    val deadline: String?,
+    @SerialName("courseQuestPlaces")
+    val courseQuestPlaces: List<CourseQuestPlaceResponseDto>?,
+    @SerialName("questId")
+    val questId: Long,
 )

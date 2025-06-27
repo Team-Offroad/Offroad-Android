@@ -20,6 +20,7 @@ import com.teamoffroad.feature.auth.navigation.navigateToSelectedCharacter
 import com.teamoffroad.feature.auth.navigation.navigateToSetCharacter
 import com.teamoffroad.feature.auth.navigation.navigateToSignUp
 import com.teamoffroad.feature.diary.navigation.navigateToDiary
+import com.teamoffroad.feature.explore.navigation.navigateToCourseQuestDetail
 import com.teamoffroad.feature.explore.navigation.navigateToExplore
 import com.teamoffroad.feature.explore.navigation.navigateToPlace
 import com.teamoffroad.feature.explore.navigation.navigateToQuest
@@ -42,15 +43,19 @@ internal class MainNavigator(
     val navController: NavHostController,
 ) {
     private val currentDestination: NavDestination?
-        @Composable get() = navController
-            .currentBackStackEntryAsState().value?.destination
+        @Composable get() =
+            navController
+                .currentBackStackEntryAsState()
+                .value
+                ?.destination
 
     val startDestination = AuthRoute.Splash
 
     val currentTab: MainNavTab?
-        @Composable get() = MainNavTab.find { tab ->
-            currentDestination?.hasRoute(tab::class) == true
-        }
+        @Composable get() =
+            MainNavTab.find { tab ->
+                currentDestination?.hasRoute(tab::class) == true
+            }
 
     private val mainTabNavOptions by lazy {
         navOptions {
@@ -78,41 +83,44 @@ internal class MainNavigator(
         if (!isSameCurrentDestination<MainTabRoute.Home>() &&
             !isSameCurrentDestination<MainTabRoute.Explore>() &&
             !isSameCurrentDestination<MainTabRoute.MyPage>()
-        ) popBackStack()
+        ) {
+            popBackStack()
+        }
     }
 
-    private inline fun <reified T : Route> isSameCurrentDestination(): Boolean {
-        return navController.currentDestination?.hasRoute<T>() == true
-    }
+    private inline fun <reified T : Route> isSameCurrentDestination(): Boolean = navController.currentDestination?.hasRoute<T>() == true
 
     @Composable
     fun setBottomBarVisibility(): Boolean {
-        val isMainNavTabRoute = MainNavTab.contains {
-            currentDestination?.hasRoute(it::class) == true
-        }
+        val isMainNavTabRoute =
+            MainNavTab.contains {
+                currentDestination?.hasRoute(it::class) == true
+            }
         val isCharacterChatRoute =
             currentDestination?.hasRoute<CharacterChatRoute.CharacterChat>() == true
 
         return isMainNavTabRoute || isCharacterChatRoute
     }
 
-
     @Composable
-    fun setBackButtonListenerEnabled() = MainNavTab.contains {
-        currentDestination?.hasRoute(it::class) == true
-    } || currentDestination?.hasRoute<Route.Auth>() == true
+    fun setBackButtonListenerEnabled() =
+        MainNavTab.contains {
+            currentDestination?.hasRoute(it::class) == true
+        } ||
+            currentDestination?.hasRoute<Route.Auth>() == true
 
     fun navigateToAuth() {
-        val navOptions = navOptions {
-            popUpTo(navController.graph.startDestinationId) {
-                inclusive = true
+        val navOptions =
+            navOptions {
+                popUpTo(navController.graph.startDestinationId) {
+                    inclusive = true
+                }
             }
-        }
         navController.navigateToAuth(navOptions)
     }
 
-    fun navigateToHome(category: String? = null, completeQuest: List<String> = emptyList()) {
-        navController.navigateToHome(category, completeQuest, this.mainTabNavOptions)
+    fun navigateToHome() {
+        navController.navigateToHome(mainTabNavOptions)
     }
 
     fun navigateToAgreeTermsAndConditions() {
@@ -123,7 +131,11 @@ internal class MainNavigator(
         navController.navigateToSignUp()
     }
 
-    fun navigateToSetCharacter(nickname: String, birthDate: String?, gender: String?) {
+    fun navigateToSetCharacter(
+        nickname: String,
+        birthDate: String?,
+        gender: String?,
+    ) {
         navController.navigateToSetCharacter(nickname, birthDate, gender)
     }
 
@@ -151,20 +163,28 @@ internal class MainNavigator(
             name,
             couponImageUrl,
             description,
-            placeId
+            placeId,
         )
     }
 
-    fun navigateToExplore(authResultType: String) {
-        navController.navigateToExplore(authResultType, mainTabNavOptions)
-    }
-
-    fun navigateToPlace(latitude: String, longitude: String) {
+    fun navigateToPlace(
+        latitude: String,
+        longitude: String,
+    ) {
         navController.navigateToPlace(latitude, longitude)
     }
 
     fun navigateToQuest() {
         navController.navigateToQuest()
+    }
+
+    fun navigateToCourseQuestDetail(
+        questId: Long,
+        deadline: String,
+        dDay: Int,
+        reward: String,
+    ) {
+        navController.navigateToCourseQuestDetail(questId, deadline, dDay, reward)
     }
 
     fun navigateToGainedCharacter() {
@@ -189,7 +209,7 @@ internal class MainNavigator(
             navOptions {
                 popUpTo<MyPageRoute.AnnouncementDetail> { inclusive = true }
                 launchSingleTop = true
-            }
+            },
         )
     }
 
@@ -223,25 +243,21 @@ internal class MainNavigator(
             updateAt,
             hasExternalLinks,
             externalLinks,
-            externalLinksTitles
+            externalLinksTitles,
         )
     }
 
-    fun navigateToCharacterDetail(characterId: Int, isRepresentative: Boolean) {
+    fun navigateToCharacterDetail(
+        characterId: Int,
+        isRepresentative: Boolean,
+    ) {
         navController.navigateToCharacterDetail(characterId, isRepresentative)
     }
 
-    fun navigateToHomeFromExplore(category: String, completeQuest: List<String>) {
-        val navOptions = navOptions {
-            popUpTo(navController.graph.startDestinationId) {
-                inclusive = true
-            }
-            launchSingleTop = true
-        }
-        navController.navigateToHome(category, completeQuest, navOptions)
-    }
-
-    fun navigateToCharacterChat(characterId: Int = DEFAULT_CHARACTER_ID, characterName: String) {
+    fun navigateToCharacterChat(
+        characterId: Int = DEFAULT_CHARACTER_ID,
+        characterName: String,
+    ) {
         navController.navigateToCharacterChat(characterId, characterName)
     }
 
@@ -255,8 +271,7 @@ internal class MainNavigator(
 }
 
 @Composable
-internal fun rememberMainNavigator(
-    navController: NavHostController = rememberNavController(),
-): MainNavigator = remember(navController) {
-    MainNavigator(navController)
-}
+internal fun rememberMainNavigator(navController: NavHostController = rememberNavController()): MainNavigator =
+    remember(navController) {
+        MainNavigator(navController)
+    }

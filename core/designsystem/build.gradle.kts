@@ -10,6 +10,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:common"))
     implementation(libs.androidx.appcompat)
     implementation(libs.lottie.compose)
     implementation(libs.bundles.coil)

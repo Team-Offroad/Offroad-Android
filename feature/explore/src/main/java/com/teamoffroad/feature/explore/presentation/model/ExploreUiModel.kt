@@ -6,13 +6,15 @@ import com.naver.maps.map.compose.CameraPositionState
 import com.naver.maps.map.compose.LocationTrackingMode
 import com.naver.maps.map.compose.MapProperties
 import com.naver.maps.map.overlay.OverlayImage
+import com.teamoffroad.core.common.domain.model.PlaceCategory
 import com.teamoffroad.offroad.feature.explore.R
 
 data class LocationModel(
-    val location: LatLng = LatLng(
-        DEFAULT_LOCATION_LATITUDE,
-        DEFAULT_LOCATION_LONGITUDE,
-    ),
+    val location: LatLng =
+        LatLng(
+            DEFAULT_LOCATION_LATITUDE,
+            DEFAULT_LOCATION_LONGITUDE,
+        ),
     val previousLocation: LatLng = location,
     val isUserTrackingEnabled: Boolean = true,
     val mapProperties: MapProperties = MapProperties(locationTrackingMode = LocationTrackingMode.Face),
@@ -22,8 +24,11 @@ data class LocationModel(
 ) {
     private var isInit: Boolean = false
 
-    fun updateLocation(latitude: Double, longitude: Double): LocationModel {
-        return when (isInit) {
+    fun updateLocation(
+        latitude: Double,
+        longitude: Double,
+    ): LocationModel =
+        when (isInit) {
             true -> {
                 isInit = false
                 copy(
@@ -38,55 +43,50 @@ data class LocationModel(
                 )
             }
         }
-    }
 
-    fun updateTrackingToggle(isUserTrackingEnabled: Boolean): LocationModel {
-        return copy(
+    fun updateTrackingToggle(isUserTrackingEnabled: Boolean): LocationModel =
+        copy(
             isUserTrackingEnabled = !isUserTrackingEnabled,
-            mapProperties = MapProperties(
-                locationTrackingMode = getTrackingMode(!isUserTrackingEnabled),
-            ),
+            mapProperties =
+                MapProperties(
+                    locationTrackingMode = getTrackingMode(!isUserTrackingEnabled),
+                ),
             subIcon = getSubIconImage(!isUserTrackingEnabled),
             circleAlpha = getCircleAlpha(!isUserTrackingEnabled),
         )
-    }
 
-    private fun getTrackingMode(isUserTrackingEnabled: Boolean): LocationTrackingMode {
-        return when (isUserTrackingEnabled) {
+    private fun getTrackingMode(isUserTrackingEnabled: Boolean): LocationTrackingMode =
+        when (isUserTrackingEnabled) {
             true -> LocationTrackingMode.Face
             false -> LocationTrackingMode.NoFollow
         }
-    }
 
-    private fun getSubIconImage(isUserTrackingEnabled: Boolean): OverlayImage {
-        return when (isUserTrackingEnabled) {
+    private fun getSubIconImage(isUserTrackingEnabled: Boolean): OverlayImage =
+        when (isUserTrackingEnabled) {
             true -> OverlayImage.fromResource(R.drawable.ic_explore_location_overlay_sub)
             false -> OverlayImage.fromResource(R.drawable.ic_explore_location_overlay_sub_copy)
         }
-    }
 
-    private fun getCircleAlpha(isUserTrackingEnabled: Boolean): Float {
-        return when (isUserTrackingEnabled) {
+    private fun getCircleAlpha(isUserTrackingEnabled: Boolean): Float =
+        when (isUserTrackingEnabled) {
             true -> FOLLOW_CIRCLE_ALPHA
             false -> NO_FOLLOW_CIRCLE_ALPHA
         }
-    }
 
-    fun isUserMoveFarEnough(): Boolean {
-        return location.distanceTo(previousLocation) > MAX_DISTANCE
-    }
+    fun isUserMoveFarEnough(): Boolean = location.distanceTo(previousLocation) > MAX_DISTANCE
 
-    fun updatePreviousLocation(location: LatLng): LocationModel {
-        return copy(
+    fun updatePreviousLocation(location: LatLng): LocationModel =
+        copy(
             previousLocation = location,
         )
-    }
 
-    fun updateCameraPositionState(latitude: Double, longitude: Double): LocationModel {
-        return copy(
+    fun updateCameraPositionState(
+        latitude: Double,
+        longitude: Double,
+    ): LocationModel =
+        copy(
             cameraPositionState = CameraPositionState(CameraPosition(LatLng(latitude, longitude), 15.0)),
         )
-    }
 
     private companion object {
         private const val DEFAULT_LOCATION_LATITUDE = 37.588764

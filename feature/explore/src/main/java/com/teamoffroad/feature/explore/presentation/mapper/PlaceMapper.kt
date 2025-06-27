@@ -1,19 +1,17 @@
 package com.teamoffroad.feature.explore.presentation.mapper
 
 import com.naver.maps.geometry.LatLng
+import com.teamoffroad.core.common.domain.model.PlaceCategory
 import com.teamoffroad.feature.explore.domain.model.Place
-import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 import com.teamoffroad.feature.explore.presentation.model.PlaceModel
 
-fun Place.toUi(): PlaceModel {
-    return PlaceModel(
+fun Place.toUi(): PlaceModel =
+    PlaceModel(
         id = id,
         name = name,
         address = address,
         shortIntroduction = shortIntroduction,
-        placeCategory = PlaceCategory.entries.find {
-            it.name == placeCategory
-        } ?: PlaceCategory.NONE,
+        placeCategory = PlaceCategory.valueOf(placeCategory),
         placeArea = placeArea,
         categoryImageUrl = categoryImageUrl,
         location = LatLng(latitude, longitude),
@@ -21,4 +19,3 @@ fun Place.toUi(): PlaceModel {
         isVisited = visitCount > 0,
         distanceFromUser = distanceFromUser,
     )
-}

@@ -22,20 +22,21 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-
     private const val BASE_URL = BuildConfig.BASE_URL
     private const val CONTENT_TYPE = "application/json"
 
-    private val json: Json = Json {
-        ignoreUnknownKeys = true
-    }
+    private val json: Json =
+        Json {
+            ignoreUnknownKeys = true
+        }
 
     @Provides
     @Singleton
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
-        val loggingInterceptor = HttpLoggingInterceptor { message ->
-            Log.d("Retrofit2", "CONNECTION INFO -> $message")
-        }
+        val loggingInterceptor =
+            HttpLoggingInterceptor { message ->
+                Log.d("Retrofit2", "CONNECTION INFO -> $message")
+            }
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         return loggingInterceptor
     }
@@ -46,55 +47,57 @@ object NetworkModule {
     fun provideOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
         authInterceptor: AuthInterceptor,
-    ): OkHttpClient {
-        return OkHttpClient.Builder()
+    ): OkHttpClient =
+        OkHttpClient
+            .Builder()
             .addInterceptor(loggingInterceptor)
             .addInterceptor(authInterceptor)
             .build()
-    }
 
     @Provides
     @Singleton
     @NoneAuth
-    fun provideNoneAuthOkHttpClient(
-        loggingInterceptor: HttpLoggingInterceptor,
-    ): OkHttpClient {
-        return OkHttpClient.Builder()
+    fun provideNoneAuthOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
+        OkHttpClient
+            .Builder()
             .addInterceptor(loggingInterceptor)
             .build()
-    }
 
     @Provides
     @Singleton
     @Auth
-    fun provideRetrofit(@Auth okHttpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
+    fun provideRetrofit(
+        @Auth okHttpClient: OkHttpClient,
+    ): Retrofit =
+        Retrofit
+            .Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(json.asConverterFactory(CONTENT_TYPE.toMediaType()))
             .build()
-    }
 
     @Provides
     @Singleton
     @NoneAuth
-    fun provideNoneAuthRetrofit(@NoneAuth okHttpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
+    fun provideNoneAuthRetrofit(
+        @NoneAuth okHttpClient: OkHttpClient,
+    ): Retrofit =
+        Retrofit
+            .Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(json.asConverterFactory(CONTENT_TYPE.toMediaType()))
             .build()
-    }
 
     @Provides
     @Singleton
-    fun provideTokenService(@NoneAuth retrofit: Retrofit): TokenService {
-        return retrofit.create(TokenService::class.java)
-    }
+    fun provideTokenService(
+        @NoneAuth retrofit: Retrofit,
+    ): TokenService = retrofit.create(TokenService::class.java)
 
     @Provides
     @Singleton
-    fun provideMinSupportedVersionService(@NoneAuth retrofit: Retrofit): MinSupportedVersionService {
-        return retrofit.create(MinSupportedVersionService::class.java)
-    }
+    fun provideMinSupportedVersionService(
+        @NoneAuth retrofit: Retrofit,
+    ): MinSupportedVersionService = retrofit.create(MinSupportedVersionService::class.java)
 }

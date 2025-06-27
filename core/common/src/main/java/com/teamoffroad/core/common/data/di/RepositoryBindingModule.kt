@@ -2,9 +2,11 @@ package com.teamoffroad.core.common.data.di
 
 import com.teamoffroad.core.common.data.repository.AutoSignInRepositoryImpl
 import com.teamoffroad.core.common.data.repository.MinSupportedVersionRepositoryImpl
+import com.teamoffroad.core.common.data.repository.QuestRepositoryImpl
 import com.teamoffroad.core.common.data.repository.TokenRepositoryImpl
 import com.teamoffroad.core.common.domain.repository.AutoSignInRepository
 import com.teamoffroad.core.common.domain.repository.MinSupportedVersionRepository
+import com.teamoffroad.core.common.domain.repository.QuestRepository
 import com.teamoffroad.core.common.domain.repository.TokenRepository
 import dagger.Binds
 import dagger.Module
@@ -14,23 +16,21 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class RepositoryModule {
-
+abstract class RepositoryBindingModule {
     @Binds
-    abstract fun bindTokenRepository(
-        tokenRepositoryImpl: TokenRepositoryImpl,
-    ): TokenRepository
+    abstract fun bindTokenRepository(tokenRepositoryImpl: TokenRepositoryImpl): TokenRepository
 
     @Binds
     @Singleton
-    abstract fun bindAutoSignInRepository(
-        authRepositoryImpl: AutoSignInRepositoryImpl,
-    ): AutoSignInRepository
+    abstract fun bindAutoSignInRepository(authRepositoryImpl: AutoSignInRepositoryImpl): AutoSignInRepository
 
     @Binds
     @Singleton
     abstract fun bindMinSupportedVersionRepository(
-        minSupportedVersionRepositoryImpl: MinSupportedVersionRepositoryImpl
+        minSupportedVersionRepositoryImpl: MinSupportedVersionRepositoryImpl,
     ): MinSupportedVersionRepository
 
+    @Binds
+    @Singleton
+    abstract fun bindQuestRepository(questRepositoryImpl: QuestRepositoryImpl): QuestRepository
 }

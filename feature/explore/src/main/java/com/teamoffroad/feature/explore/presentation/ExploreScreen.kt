@@ -13,7 +13,6 @@ import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.feature.explore.presentation.component.ExploreOffroadMap
 import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
 import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
-import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 import com.teamoffroad.feature.explore.presentation.util.ExploreAuthStateHandler
 import com.teamoffroad.feature.explore.presentation.util.ExplorePermissionHandler
 import com.teamoffroad.feature.explore.presentation.util.ExplorePermissionRejectedHandler
@@ -22,7 +21,7 @@ import com.teamoffroad.offroad.feature.explore.R
 @Composable
 internal fun ExploreScreen(
     authResultState: String?,
-    navigateToHome: (String, List<String>) -> Unit,
+    navigateToHome: () -> Unit,
     navigateToPlace: (String, String) -> Unit,
     navigateToQuest: () -> Unit,
     exploreViewModel: ExploreViewModel = hiltViewModel(),
@@ -54,26 +53,28 @@ internal fun ExploreScreen(
 
     uiState.isLocationPermissionGranted.let { isLocationPermissionGranted ->
         when (isLocationPermissionGranted) {
-            true -> StaticAnimationWrapper {
-                ExploreOffroadMap(
-                    locationState = uiState.locationModel,
-                    places = uiState.places,
-                    selectedPlace = uiState.selectedPlace,
-                    navigateToPlace = navigateToPlace,
-                    navigateToQuest = navigateToQuest,
-                    updateLocation = exploreViewModel::updateLocation,
-                    updateTrackingToggle = exploreViewModel::updateTrackingToggle,
-                    updateSelectedPlace = exploreViewModel::updateSelectedPlace,
-                    updatePlaces = exploreViewModel::updatePlaces,
-                    updateExploreResult = exploreViewModel::updateExploreResult,
-                )
-            }
+            true ->
+                StaticAnimationWrapper {
+                    ExploreOffroadMap(
+                        locationState = uiState.locationModel,
+                        places = uiState.places,
+                        selectedPlace = uiState.selectedPlace,
+                        navigateToPlace = navigateToPlace,
+                        navigateToQuest = navigateToQuest,
+                        updateLocation = exploreViewModel::updateLocation,
+                        updateTrackingToggle = exploreViewModel::updateTrackingToggle,
+                        updateSelectedPlace = exploreViewModel::updateSelectedPlace,
+                        updatePlaces = exploreViewModel::updatePlaces,
+                        updateExploreResult = exploreViewModel::updateExploreResult,
+                    )
+                }
 
-            false -> ExplorePermissionRejectedHandler(
-                context = context,
-                navigateToHome = { navigateToHome(PlaceCategory.NONE.name, emptyList()) },
-                updatePermission = exploreViewModel::updatePermission,
-            )
+            false ->
+                ExplorePermissionRejectedHandler(
+                    context = context,
+                    navigateToHome = { navigateToHome() },
+                    updatePermission = exploreViewModel::updatePermission,
+                )
 
             null -> Unit
         }
