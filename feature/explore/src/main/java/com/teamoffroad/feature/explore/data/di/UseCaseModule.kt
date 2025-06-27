@@ -30,8 +30,10 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun providePostLocationAuthUseCase(userRepository: UserRepository): PostExploreLocationAuthUseCase =
-        PostExploreLocationAuthUseCase(userRepository)
+    fun providePostLocationAuthUseCase(
+        userRepository: UserRepository,
+        questRepository: com.teamoffroad.core.common.domain.repository.QuestRepository,
+    ): PostExploreLocationAuthUseCase = PostExploreLocationAuthUseCase(userRepository, questRepository)
 
     @Provides
     @Singleton

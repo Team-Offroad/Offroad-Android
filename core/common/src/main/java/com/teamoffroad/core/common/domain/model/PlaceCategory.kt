@@ -1,4 +1,4 @@
-package com.teamoffroad.feature.explore.presentation.model
+package com.teamoffroad.core.common.domain.model
 
 enum class PlaceCategory(
     val krName: String,
@@ -12,8 +12,6 @@ enum class PlaceCategory(
     ;
 
     companion object {
-        fun fromName(name: String): PlaceCategory = entries.find { it.name == name } ?: NONE
-
         fun fromKrName(krName: String): PlaceCategory = entries.find { it.krName == krName } ?: NONE
     }
 }

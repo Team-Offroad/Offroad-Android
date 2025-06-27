@@ -1,8 +1,8 @@
 package com.teamoffroad.feature.explore.presentation.mapper
 
 import com.naver.maps.geometry.LatLng
+import com.teamoffroad.core.common.domain.model.PlaceCategory
 import com.teamoffroad.feature.explore.domain.model.Place
-import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 import com.teamoffroad.feature.explore.presentation.model.PlaceModel
 
 fun Place.toUi(): PlaceModel =
@@ -11,7 +11,7 @@ fun Place.toUi(): PlaceModel =
         name = name,
         address = address,
         shortIntroduction = shortIntroduction,
-        placeCategory = PlaceCategory.fromName(placeCategory),
+        placeCategory = PlaceCategory.valueOf(placeCategory),
         placeArea = placeArea,
         categoryImageUrl = categoryImageUrl,
         location = LatLng(latitude, longitude),

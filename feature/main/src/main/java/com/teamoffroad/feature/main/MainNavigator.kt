@@ -111,11 +111,8 @@ internal class MainNavigator(
         navController.navigateToAuth()
     }
 
-    fun navigateToHome(
-        category: String? = null,
-        completeQuest: List<String> = emptyList(),
-    ) {
-        navController.navigateToHome(category, completeQuest, this.mainTabNavOptions)
+    fun navigateToHome() {
+        navController.navigateToHome(mainTabNavOptions)
     }
 
     fun navigateToAgreeTermsAndConditions() {
@@ -243,20 +240,6 @@ internal class MainNavigator(
         isRepresentative: Boolean,
     ) {
         navController.navigateToCharacterDetail(characterId, isRepresentative)
-    }
-
-    fun navigateToHomeFromExplore(
-        category: String,
-        completeQuest: List<String>,
-    ) {
-        val navOptions =
-            navOptions {
-                popUpTo(navController.graph.startDestinationId) {
-                    inclusive = true
-                }
-                launchSingleTop = true
-            }
-        navController.navigateToHome(category, completeQuest, navOptions)
     }
 
     fun navigateToCharacterChat(

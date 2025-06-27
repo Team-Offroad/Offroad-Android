@@ -13,7 +13,6 @@ import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.feature.explore.presentation.component.ExploreOffroadMap
 import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
 import com.teamoffroad.feature.explore.presentation.model.ExploreUiState
-import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 import com.teamoffroad.feature.explore.presentation.util.ExploreAuthStateHandler
 import com.teamoffroad.feature.explore.presentation.util.ExplorePermissionHandler
 import com.teamoffroad.feature.explore.presentation.util.ExplorePermissionRejectedHandler
@@ -22,7 +21,7 @@ import com.teamoffroad.offroad.feature.explore.R
 @Composable
 internal fun ExploreScreen(
     authResultState: String?,
-    navigateToHome: (String, List<String>) -> Unit,
+    navigateToHome: () -> Unit,
     navigateToPlace: (String, String) -> Unit,
     navigateToQuest: () -> Unit,
     exploreViewModel: ExploreViewModel = hiltViewModel(),
@@ -73,7 +72,7 @@ internal fun ExploreScreen(
             false ->
                 ExplorePermissionRejectedHandler(
                     context = context,
-                    navigateToHome = { navigateToHome(PlaceCategory.NONE.name, emptyList()) },
+                    navigateToHome = { navigateToHome() },
                     updatePermission = exploreViewModel::updatePermission,
                 )
 

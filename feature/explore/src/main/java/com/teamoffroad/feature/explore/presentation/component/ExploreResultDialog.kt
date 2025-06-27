@@ -29,14 +29,13 @@ import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
-import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
 import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 fun ExploreResultDialog(
-    state: ExploreAuthState,
     title: String = "",
     description: String = "",
+    buttonLabel: String = stringResource(R.string.explore_dialog_accept),
     isBackgroundShown: Boolean = false,
     content: @Composable () -> Unit = {},
     onDismissRequest: () -> Unit,
@@ -104,11 +103,7 @@ fun ExploreResultDialog(
                                 .align(Alignment.BottomCenter),
                     ) {
                         Text(
-                            text =
-                                when (state) {
-                                    is ExploreAuthState.Success -> stringResource(R.string.explore_dialog_success_button)
-                                    else -> stringResource(R.string.explore_dialog_failed_button)
-                                },
+                            text = buttonLabel,
                             textAlign = TextAlign.Center,
                             style = OffroadTheme.typography.btnSmall,
                             color = White,
@@ -126,9 +121,9 @@ fun ExploreResultDialog(
 fun ExploreResultDialogPreview() {
     OffroadTheme {
         ExploreResultDialog(
-            state = ExploreAuthState.Success(),
             title = stringResource(R.string.explore_dialog_success),
             description = stringResource(R.string.explore_dialog_success_label),
+            buttonLabel = stringResource(R.string.explore_dialog_success_button),
             content = {},
             onDismissRequest = {},
         )

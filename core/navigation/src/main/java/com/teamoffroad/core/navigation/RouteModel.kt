@@ -9,10 +9,7 @@ sealed interface Route {
 
 sealed interface MainTabRoute : Route {
     @Serializable
-    data class Home(
-        val category: String? = null,
-        val completeQuests: List<String> = emptyList(),
-    ) : MainTabRoute
+    data object Home : MainTabRoute
 
     @Serializable
     data class Explore(

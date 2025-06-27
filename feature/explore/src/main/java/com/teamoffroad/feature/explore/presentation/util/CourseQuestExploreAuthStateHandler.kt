@@ -45,7 +45,6 @@ fun CourseQuestExploreAuthStateHandler(
     when (exploreAuthState) {
         is ExploreAuthState.LocationError -> {
             ExploreResultDialog(
-                state = ExploreAuthState.DuplicateError(),
                 title = stringResource(R.string.explore_course_quest_visit_failed_title),
                 description = stringResource(R.string.explore_course_quest_distance_failed_label),
                 onDismissRequest = { updateExploreAuthState(ExploreAuthState.None) },
@@ -54,7 +53,6 @@ fun CourseQuestExploreAuthStateHandler(
 
         is ExploreAuthState.DuplicateError -> {
             ExploreResultDialog(
-                state = ExploreAuthState.DuplicateError(),
                 title = stringResource(R.string.explore_course_quest_visit_failed_title),
                 description = stringResource(R.string.explore_duplicate_failed_label),
                 onDismissRequest = { updateExploreAuthState(ExploreAuthState.None) },
@@ -63,7 +61,6 @@ fun CourseQuestExploreAuthStateHandler(
 
         ExploreAuthState.EtcError -> {
             ExploreResultDialog(
-                state = ExploreAuthState.EtcError,
                 title = stringResource(R.string.explore_course_quest_visit_failed_title),
                 description = stringResource(R.string.explore_etc_failed_label),
                 onDismissRequest = { updateExploreAuthState(ExploreAuthState.None) },

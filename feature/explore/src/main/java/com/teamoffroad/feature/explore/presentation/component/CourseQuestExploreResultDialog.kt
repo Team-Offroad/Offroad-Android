@@ -98,7 +98,7 @@ fun CourseQuestExploreResultDialog(
                         text =
                             when (state) {
                                 is ExploreAuthState.Success -> stringResource(R.string.explore_dialog_success_button)
-                                else -> stringResource(R.string.explore_dialog_failed_button)
+                                else -> stringResource(R.string.explore_dialog_accept)
                             },
                         textAlign = TextAlign.Center,
                         style = OffroadTheme.typography.btnSmall,

@@ -19,8 +19,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.createBitmap
+import com.teamoffroad.core.common.domain.model.PlaceCategory
 import com.teamoffroad.core.designsystem.theme.Black25
-import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 
 @Composable
 fun CategoryMarker(
@@ -37,8 +37,7 @@ fun CategoryMarker(
                     shape = CircleShape,
                     ambientColor = Black25,
                     spotColor = Black25,
-                )
-                .background(category.color(), shape = CircleShape)
+                ).background(category.color(), shape = CircleShape)
                 .border(width = 1.dp, color = Color.White, shape = CircleShape),
         contentAlignment = Alignment.Center,
     ) {

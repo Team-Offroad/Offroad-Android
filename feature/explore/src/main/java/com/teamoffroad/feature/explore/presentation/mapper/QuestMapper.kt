@@ -1,8 +1,8 @@
 package com.teamoffroad.feature.explore.presentation.mapper
 
+import com.teamoffroad.core.common.domain.model.PlaceCategory
 import com.teamoffroad.feature.explore.domain.model.CourseQuestPlace
 import com.teamoffroad.feature.explore.presentation.model.CourseQuestPlaceUiModel
-import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 
 fun CourseQuestPlace.toUi(): CourseQuestPlaceUiModel =
     CourseQuestPlaceUiModel(
