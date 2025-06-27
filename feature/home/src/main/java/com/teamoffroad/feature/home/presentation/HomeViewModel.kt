@@ -139,7 +139,7 @@ class HomeViewModel
                     getRecentVisitedCategoryUseCase()
                 }.onSuccess {
                     _category.value = it
-                    if (it != PlaceCategory.NONE) getUsersAdventuresInformation(it)
+                    getUsersAdventuresInformation(it)
                 }
             }
         }
