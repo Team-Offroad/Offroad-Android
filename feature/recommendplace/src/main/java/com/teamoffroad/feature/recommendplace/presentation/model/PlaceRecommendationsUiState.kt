@@ -1,8 +1,8 @@
 package com.teamoffroad.feature.recommendplace.presentation.model
 
 import com.naver.maps.geometry.LatLng
+import com.teamoffroad.core.common.domain.model.PlaceCategory
 import com.teamoffroad.feature.explore.presentation.model.LocationModel
-import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 
 data class PlaceRecommendationsUiState(
     val locationModel: LocationModel = LocationModel(),

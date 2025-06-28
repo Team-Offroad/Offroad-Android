@@ -7,11 +7,11 @@ import com.naver.maps.geometry.LatLng
 import com.teamoffroad.characterchat.presentation.model.ChatModel
 import com.teamoffroad.characterchat.presentation.model.ChatModel.Companion.toTime
 import com.teamoffroad.characterchat.presentation.model.ChatType
+import com.teamoffroad.core.common.domain.model.PlaceCategory
 import com.teamoffroad.feature.explore.domain.usecase.GetMapPlaceListUseCase
 import com.teamoffroad.feature.explore.domain.usecase.GetPreviousLocationUseCase
 import com.teamoffroad.feature.explore.domain.usecase.SavePreviousLocationUseCase
 import com.teamoffroad.feature.explore.presentation.mapper.toUi
-import com.teamoffroad.feature.explore.presentation.model.PlaceCategory
 import com.teamoffroad.feature.recommendplace.domain.model.PlaceRecommendationsOrderChatRequest
 import com.teamoffroad.feature.recommendplace.domain.repository.PlaceRecommendationsRepository
 import com.teamoffroad.feature.recommendplace.presentation.model.PlaceRecommendationsChatUiState
