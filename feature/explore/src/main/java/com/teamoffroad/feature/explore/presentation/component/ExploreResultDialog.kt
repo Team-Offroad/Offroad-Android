@@ -19,27 +19,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.teamoffroad.core.common.util.applyBold
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
 import com.teamoffroad.core.designsystem.theme.OffroadTheme
 import com.teamoffroad.core.designsystem.theme.White
-import com.teamoffroad.feature.explore.presentation.model.ExploreAuthState
 import com.teamoffroad.offroad.feature.explore.R
-import java.util.Stack
 
 @Composable
 fun ExploreResultDialog(
-    errorType: ExploreAuthState,
-    text: String = "",
-    content: @Composable () -> Unit,
+    title: String = "",
+    description: String = "",
+    buttonLabel: String = stringResource(R.string.explore_dialog_accept),
+    isBackgroundShown: Boolean = false,
+    content: @Composable () -> Unit = {},
     onDismissRequest: () -> Unit,
 ) {
     Dialog(
@@ -47,109 +45,87 @@ fun ExploreResultDialog(
         properties = DialogProperties(dismissOnClickOutside = false),
     ) {
         Box(
-            modifier = Modifier
-                .width(312.dp)
-                .wrapContentHeight()
-                .background(Main3, shape = RoundedCornerShape(14.dp))
+            modifier =
+                Modifier
+                    .width(312.dp)
+                    .wrapContentHeight()
+                    .background(Main3, shape = RoundedCornerShape(14.dp)),
         ) {
-            if (errorType is ExploreAuthState.Success) {
+            if (isBackgroundShown) {
                 Image(
                     painter = painterResource(id = R.drawable.bg_explore_dialog),
                     contentDescription = null,
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .fillMaxWidth(),
+                    modifier =
+                        Modifier
+                            .align(Alignment.BottomCenter)
+                            .fillMaxWidth(),
                 )
             }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Bottom,
-                modifier = Modifier
-                    .wrapContentHeight()
-                    .fillMaxWidth()
-                    .padding(top = 34.dp),
+                modifier =
+                    Modifier
+                        .wrapContentHeight()
+                        .fillMaxWidth(),
             ) {
+                Spacer(modifier = Modifier.height(32.dp))
                 Text(
-                    text = if (errorType is ExploreAuthState.Success) {
-                        stringResource(R.string.explore_dialog_success)
-                    } else {
-                        stringResource(R.string.explore_dialog_failed)
-                    },
+                    text = title,
                     style = OffroadTheme.typography.title,
                     color = Main2,
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
-                    text = applyBoldToText(text),
+                    text = description.applyBold(),
                     color = Main2,
                     textAlign = TextAlign.Center,
-                    style = OffroadTheme.typography.textRegular
+                    style = OffroadTheme.typography.textRegular,
                 )
                 Spacer(modifier = Modifier.height(14.dp))
                 content()
-            }
-            Box(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(horizontal = 40.dp)
-                    .padding(bottom = 28.dp)
-            ) {
+                Spacer(modifier = Modifier.height(6.dp))
                 Box(
-                    modifier = Modifier
-                        .background(
-                            color = Main2,
-                            shape = RoundedCornerShape(6.dp)
-                        )
-                        .clickable(onClick = onDismissRequest)
-                        .fillMaxWidth()
-                        .height(44.dp)
-                        .align(Alignment.BottomCenter),
+                    modifier =
+                        Modifier
+                            .padding(horizontal = 40.dp)
+                            .padding(bottom = 28.dp),
                 ) {
-                    Text(
-                        text = when (errorType) {
-                            is ExploreAuthState.Success -> stringResource(R.string.explore_dialog_success_button)
-                            else -> stringResource(R.string.explore_dialog_failed_button)
-                        },
-                        textAlign = TextAlign.Center,
-                        style = OffroadTheme.typography.btnSmall,
-                        color = White,
-                        modifier = Modifier.align(Alignment.Center)
-                    )
+                    Box(
+                        modifier =
+                            Modifier
+                                .background(
+                                    color = Main2,
+                                    shape = RoundedCornerShape(6.dp),
+                                ).clickable(onClick = onDismissRequest)
+                                .fillMaxWidth()
+                                .height(44.dp)
+                                .align(Alignment.BottomCenter),
+                    ) {
+                        Text(
+                            text = buttonLabel,
+                            textAlign = TextAlign.Center,
+                            style = OffroadTheme.typography.btnSmall,
+                            color = White,
+                            modifier = Modifier.align(Alignment.Center),
+                        )
+                    }
                 }
             }
         }
     }
 }
 
-private fun applyBoldToText(inputText: String): AnnotatedString {
-    return buildAnnotatedString {
-        val boldDelimiter = "**"
-        var currentIndex = 0
-        val boldStack = Stack<Int>()
-
-        while (currentIndex < inputText.length) {
-            val boldStart = inputText.indexOf(boldDelimiter, currentIndex)
-
-            if (boldStart == -1) {
-                append(inputText.substring(currentIndex))
-                break
-            }
-
-            append(inputText.substring(currentIndex, boldStart))
-
-            when (boldStack.isEmpty()) {
-                true -> boldStack.push(length)
-                false -> {
-                    val start = boldStack.pop()
-                    addStyle(
-                        style = SpanStyle(fontWeight = FontWeight.Bold),
-                        start = start,
-                        end = length
-                    )
-                }
-            }
-
-            currentIndex = boldStart + boldDelimiter.length
-        }
+@Preview
+@Composable
+fun ExploreResultDialogPreview() {
+    OffroadTheme {
+        ExploreResultDialog(
+            title = stringResource(R.string.explore_dialog_success),
+            description = stringResource(R.string.explore_dialog_success_label),
+            buttonLabel = stringResource(R.string.explore_dialog_success_button),
+            content = {},
+            onDismissRequest = {},
+        )
     }
 }

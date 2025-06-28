@@ -29,9 +29,10 @@ internal fun MainNavHost(
     padding: PaddingValues,
 ) {
     Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(ListBg)
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(ListBg),
     ) {
         NavHost(
             navController = navigator.navController,
@@ -59,14 +60,17 @@ internal fun MainNavHost(
                 navigateToRecommendPlace = navigator::navigateToRecommendPlace,
             )
             exploreNavGraph(
-                navigateToHome = { category, completeQuests ->
-                    navigator.navigateToHomeFromExplore(category, completeQuests)
+                navigateToHome = {
+                    navigator.navigateToHome()
                 },
                 navigateToPlace = { latitude, longitude ->
                     navigator.navigateToPlace(latitude, longitude)
                 },
                 navigateToQuest = {
                     navigator.navigateToQuest()
+                },
+                navigateToQuestDetail = { questId, deadline, dDay, reward ->
+                    navigator.navigateToCourseQuestDetail(questId, deadline, dDay, reward)
                 },
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
             )
@@ -80,7 +84,7 @@ internal fun MainNavHost(
                         name,
                         couponImageUrl,
                         description,
-                        placeId
+                        placeId,
                     )
                 },
                 navigateToGainedCharacter = {
@@ -120,7 +124,7 @@ internal fun MainNavHost(
             diaryNavGraph(
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
                 navigateToCharacterChat = navigator::navigateToCharacterChat,
-                navigateToDiaryTime = navigator::navigateToDiaryTime
+                navigateToDiaryTime = navigator::navigateToDiaryTime,
             )
             recommendPlaceNavGraph(
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,

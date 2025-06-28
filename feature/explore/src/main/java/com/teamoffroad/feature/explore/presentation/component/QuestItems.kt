@@ -18,19 +18,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.teamoffroad.core.designsystem.component.CircularLoadingAnimationLine
-import com.teamoffroad.core.designsystem.component.ExpandableItem
 import com.teamoffroad.core.designsystem.component.LinearLoadingAnimation
 import com.teamoffroad.core.designsystem.theme.ListBg
-import com.teamoffroad.feature.explore.presentation.model.QuestModel
+import com.teamoffroad.feature.explore.domain.model.Quest
 
 @Composable
 fun QuestItems(
-    quests: List<QuestModel>,
+    quests: List<Quest>,
     updateQuests: () -> Unit,
     isProceeding: Boolean,
     isLoading: Boolean,
     isAdditionalLoading: Boolean,
     isLoadable: Boolean,
+    onDetailClick: (Quest) -> Unit,
 ) {
     var expandedIndex by remember { mutableIntStateOf(NULL_INDEX) }
     val listState = rememberLazyListState()
@@ -49,35 +49,48 @@ fun QuestItems(
     }
 
     LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(ListBg)
-            .padding(horizontal = 24.dp),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(ListBg)
+                .padding(horizontal = 24.dp),
         state = listState,
         contentPadding = PaddingValues(vertical = 18.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = when (isLoading) {
-            true -> Arrangement.Center
-            false -> Arrangement.Top
-        },
+        verticalArrangement =
+            when (isLoading) {
+                true -> Arrangement.Center
+                false -> Arrangement.Top
+            },
     ) {
         item {
             LinearLoadingAnimation(isLoading = isLoading)
         }
+
         items(quests.size) { index ->
-            ExpandableItem(
-                isExpanded = expandedIndex == index,
-                onExpandClick = {
-                    expandedIndex = if (expandedIndex == index) NULL_INDEX else index
-                },
-                defaultContent = {
-                    QuestItem(questModel = quests[index])
-                },
-                extraContent = {
-                    QuestExtraItem(questModel = quests[index])
-                },
-                modifier = Modifier.padding(bottom = 14.dp)
-            )
+            val quest = quests[index]
+            val isExpanded = expandedIndex == index
+
+            val toggleExpand = {
+                expandedIndex = if (isExpanded) NULL_INDEX else index
+            }
+
+            when (quest.courseQuestInfo.isCourse) {
+                true ->
+                    CourseQuestItem(
+                        quest = quest,
+                        onDetailClick = { onDetailClick(quest) },
+                        isExpanded = isExpanded,
+                        onExpandClick = toggleExpand,
+                    )
+
+                false ->
+                    DefaultQuestItem(
+                        quest = quest,
+                        isExpanded = isExpanded,
+                        onExpandClick = toggleExpand,
+                    )
+            }
         }
         item {
             CircularLoadingAnimationLine(isLoading = isAdditionalLoading)
@@ -85,5 +98,5 @@ fun QuestItems(
     }
 }
 
-private const val NULL_INDEX = -1
 private const val LOAD_THRESHOLD = 10
+private const val NULL_INDEX = -1

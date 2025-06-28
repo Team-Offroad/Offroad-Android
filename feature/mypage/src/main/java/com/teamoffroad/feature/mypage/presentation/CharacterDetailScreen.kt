@@ -11,18 +11,22 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teamoffroad.core.designsystem.component.OffroadActionBar
+import com.teamoffroad.core.designsystem.component.OrbSnackBar
+import com.teamoffroad.core.designsystem.component.SHOWN_SNACK_BAR_DURATION
 import com.teamoffroad.core.designsystem.component.StaticAnimationWrapper
 import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.feature.mypage.presentation.component.CharacterDescriptionContainer
 import com.teamoffroad.feature.mypage.presentation.component.CharacterDetailAppBar
 import com.teamoffroad.feature.mypage.presentation.component.CharacterDetailImageItem
 import com.teamoffroad.feature.mypage.presentation.component.CharacterMotionsContainer
-import com.teamoffroad.feature.mypage.presentation.component.RepresentativeUpdateResultSnackBar
 import com.teamoffroad.feature.mypage.presentation.component.UpdateRepresentativeCharacterButton
+import com.teamoffroad.offroad.feature.mypage.R
+import kotlinx.coroutines.delay
 
 @Composable
 fun CharacterDetailScreen(
@@ -39,12 +43,20 @@ fun CharacterDetailScreen(
         characterDetailViewModel.updateCharacterDetail(characterId, isRepresentative)
     }
 
+    LaunchedEffect(uiState.value.isRepresentativeUpdateSuccess) {
+        if (uiState.value.isRepresentativeUpdateSuccess) {
+            delay(SHOWN_SNACK_BAR_DURATION)
+            characterDetailViewModel.updateRepresentativeUpdateSuccess(false)
+        }
+    }
+
     StaticAnimationWrapper {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .navigationPadding()
-                .background(Color(uiState.value.characterDetailModel.characterSubColorCode)),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .navigationPadding()
+                    .background(Color(uiState.value.characterDetailModel.characterSubColorCode)),
         ) {
             OffroadActionBar()
             CharacterDetailAppBar(
@@ -62,18 +74,21 @@ fun CharacterDetailScreen(
                     ) {
                         CharacterDetailImageItem(uiState.value)
                         CharacterDescriptionContainer(uiState.value)
-                        if (!uiState.value.characterDetailModel.isRepresentative) UpdateRepresentativeCharacterButton(characterDetailViewModel::updateIsRepresentative)
+                        if (!uiState.value.characterDetailModel.isRepresentative) {
+                            UpdateRepresentativeCharacterButton(
+                                characterDetailViewModel::updateIsRepresentative,
+                            )
+                        }
                         CharacterMotionsContainer(uiState.value.characterMotions, uiState.value.characterDetailModel)
                     }
                 }
             }
         }
 
-        if (uiState.value.isRepresentativeUpdateSuccess) {
-            RepresentativeUpdateResultSnackBar(
-                modifier = Modifier.padding(top = 112.dp),
-                characterName = uiState.value.characterDetailModel.characterName,
-            )
-        }
+        OrbSnackBar(
+            isVisible = uiState.value.isRepresentativeUpdateSuccess,
+            modifier = Modifier.padding(top = 112.dp),
+            text = "**\'${uiState.value.characterDetailModel.characterName}\'**${stringResource(R.string.my_page_representative_success)}",
+        )
     }
 }

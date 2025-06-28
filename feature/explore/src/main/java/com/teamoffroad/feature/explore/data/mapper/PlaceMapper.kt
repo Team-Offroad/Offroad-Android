@@ -3,8 +3,8 @@ package com.teamoffroad.feature.explore.data.mapper
 import com.teamoffroad.feature.explore.data.remote.response.PlaceResponseDto
 import com.teamoffroad.feature.explore.domain.model.Place
 
-fun PlaceResponseDto.toDomain(): Place {
-    return Place(
+fun PlaceResponseDto.toDomain(): Place =
+    Place(
         id = id,
         name = name,
         address = address,
@@ -17,4 +17,3 @@ fun PlaceResponseDto.toDomain(): Place {
         visitCount = visitCount,
         distanceFromUser = distanceFromUser,
     )
-}

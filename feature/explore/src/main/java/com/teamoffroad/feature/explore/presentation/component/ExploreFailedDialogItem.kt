@@ -19,22 +19,25 @@ fun ExploreFailedDialogContent(
     url: String,
 ) {
     Box(
-        modifier = modifier
-            .wrapContentHeight()
-            .fillMaxWidth()
+        modifier =
+            modifier
+                .wrapContentHeight()
+                .fillMaxWidth(),
     ) {
         Column(
-            modifier = Modifier
-                .padding(bottom = 88.dp)
-                .align(Alignment.BottomCenter),
+            modifier =
+                Modifier
+                    .padding(bottom = 2.dp)
+                    .align(Alignment.BottomCenter),
         ) {
             AdaptationImage(
                 imageUrl = url,
                 contentScale = ContentScale.FillHeight,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(start = 10.dp)
-                    .height(166.dp),
+                modifier =
+                    Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(start = 10.dp)
+                        .height(166.dp),
             )
         }
     }

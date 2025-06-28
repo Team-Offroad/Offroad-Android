@@ -65,7 +65,7 @@ desugarJdkLibs = "2.0.4"
 kotlinxImmutable = "0.3.7"
 
 # Naver Map
-naverMapCompose = "1.7.3"
+naverMapCompose = "1.8.2"
 naverMapLocation = "21.0.2"
 naverMapSdk = "3.19.1"
 

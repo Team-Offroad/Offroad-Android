@@ -58,8 +58,6 @@ import com.teamoffroad.offroad.feature.home.R
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun HomeScreen(
-    category: String?,
-    completeQuests: List<String> = emptyList(),
     navigateToGainedCharacter: () -> Unit = {},
     navigateToCharacterChatScreen: (String) -> Unit,
     navigateToDiary: (Boolean, String) -> Unit,
@@ -76,11 +74,13 @@ fun HomeScreen(
     val characterName = homeViewModel.characterName.collectAsStateWithLifecycle()
     val newDiaryExist = homeViewModel.newDiaryExist.collectAsStateWithLifecycle()
     val diaryCreate = homeViewModel.diaryCreateState.collectAsStateWithLifecycle()
+    val completeQuests = homeViewModel.completeQuests.collectAsStateWithLifecycle()
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) {}
 
     LaunchedEffect(Unit) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && ContextCompat.checkSelfPermission(
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            ContextCompat.checkSelfPermission(
                 context,
                 Manifest.permission.POST_NOTIFICATIONS,
             ) == PackageManager.PERMISSION_DENIED
@@ -91,40 +91,45 @@ fun HomeScreen(
     LaunchedEffect(Unit) {
         homeViewModel.updateAutoSignIn()
         homeViewModel.updateFcmToken()
-        homeViewModel.updateCategory(if (category.isNullOrEmpty()) "NONE" else category)
-        homeViewModel.getUsersAdventuresInformation(homeViewModel.category.value)
+        homeViewModel.updateCategory()
         homeViewModel.getUserQuests()
-        if (completeQuests.isNotEmpty()) isCompleteQuestDialogShown.value = true
+        homeViewModel.loadCompleteQuests()
         mainViewModel.getCharacterChatLastUnread()
         homeViewModel.initUserDiarySetting()
         homeViewModel.getDiaryCheckLatest()
     }
+    LaunchedEffect(completeQuests.value) {
+        if (completeQuests.value.isNotEmpty()) isCompleteQuestDialogShown.value = true
+    }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier =
+            Modifier
+                .fillMaxSize(),
     ) {
         Image(
             painter = painterResource(id = R.drawable.img_home_background),
             contentDescription = "home background",
             modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
         )
     }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(bottom = 192.dp)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(bottom = 192.dp),
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             UsersAdventuresInformation(
                 context = context,
                 characterName = characterName.value,
                 newDiaryExist = newDiaryExist.value,
-                modifier = Modifier
-                    .weight(1f)
-                    .actionBarPadding(),
+                modifier =
+                    Modifier
+                        .weight(1f)
+                        .actionBarPadding(),
                 homeViewModel = homeViewModel,
                 characterChatLastUnreadUiState = characterChatLastUnreadUiState,
                 navigateToGainedCharacter = navigateToGainedCharacter,
@@ -143,7 +148,7 @@ fun HomeScreen(
     if (isCompleteQuestDialogShown.value) {
         CompleteQuestDialog(
             isCompleteQuestDialogShown = isCompleteQuestDialogShown,
-            completeQuests = completeQuests,
+            completeQuests = completeQuests.value,
             onClickCancel = {
                 isCompleteQuestDialogShown.value = false
             },
@@ -162,7 +167,7 @@ fun HomeScreen(
             },
             onCancelClick = {
                 homeViewModel.updateDiaryCreateDialogUnShown()
-            }
+            },
         )
     }
 
@@ -173,7 +178,7 @@ fun HomeScreen(
         updateCharacterChatExist = mainViewModel::updateCharacterChatExist,
         updateUserWatchingCharacterChat = mainViewModel::updateUserWatchingCharacterChat,
         updateShowUserChatTextField = mainViewModel::updateShowUserChatTextField,
-        navigateToCharacterChatScreen = navigateToCharacterChatScreen
+        navigateToCharacterChatScreen = navigateToCharacterChatScreen,
     )
 
     ShowUserChat(
@@ -184,7 +189,7 @@ fun HomeScreen(
         updateUserWatchingCharacterChat = mainViewModel::updateUserWatchingCharacterChat,
         updateUserChattingText = mainViewModel::updateUserChattingText,
         updateShowUserChatTextField = mainViewModel::updateShowUserChatTextField,
-        sendChat = mainViewModel::sendChat
+        sendChat = mainViewModel::sendChat,
     )
 }
 
@@ -208,24 +213,27 @@ private fun UsersAdventuresInformation(
     val adventuresInformationState =
         homeViewModel.getUsersAdventuresInformationState.collectAsState(initial = UiState.Loading).value
 
-    val adventuresInformationData = when (adventuresInformationState) {
-        is UiState.Success -> adventuresInformationState.data
-        is UiState.Failure -> {
-            Toast.makeText(context, adventuresInformationState.errorMessage, Toast.LENGTH_SHORT)
-                .show()
-            null
+    val adventuresInformationData =
+        when (adventuresInformationState) {
+            is UiState.Success -> adventuresInformationState.data
+            is UiState.Failure -> {
+                Toast
+                    .makeText(context, adventuresInformationState.errorMessage, Toast.LENGTH_SHORT)
+                    .show()
+                null
+            }
+
+            else -> null
         }
 
-        else -> null
-    }
-
     Box(
-        modifier = modifier
-            .fillMaxWidth()
+        modifier =
+            modifier
+                .fillMaxWidth(),
     ) {
         Box(
             modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.TopEnd
+            contentAlignment = Alignment.TopEnd,
         ) {
             HomeIcons(
                 context = context,
@@ -250,8 +258,9 @@ private fun UsersAdventuresInformation(
 
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
+            modifier =
+                Modifier
+                    .align(Alignment.BottomCenter),
         ) {
             HomeCharacterItem().CharacterImage(homeViewModel, context)
         }
@@ -268,18 +277,19 @@ private fun UsersQuestInformation(
     val userQuestsState =
         viewModel.getUserQuestsState.collectAsState(initial = UiState.Loading).value
 
-    val userQuests = when (userQuestsState) {
-        is UiState.Success -> {
-            userQuestsState.data
-        }
+    val userQuests =
+        when (userQuestsState) {
+            is UiState.Success -> {
+                userQuestsState.data
+            }
 
-        is UiState.Failure -> {
-            Toast.makeText(context, userQuestsState.errorMessage, Toast.LENGTH_SHORT).show()
-            null
-        }
+            is UiState.Failure -> {
+                Toast.makeText(context, userQuestsState.errorMessage, Toast.LENGTH_SHORT).show()
+                null
+            }
 
-        else -> null
-    }
+            else -> null
+        }
 
     val recentQuest = userQuests?.userRecent ?: UserQuests.UserRecent()
     val almostQuest = userQuests?.userAlmost ?: UserQuests.UserAlmost()
@@ -287,39 +297,45 @@ private fun UsersQuestInformation(
     val density = LocalDensity.current
 
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 176.dp)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .heightIn(min = 176.dp),
     ) {
         Spacer(modifier = Modifier.padding(start = 24.dp))
         RecentQuest(
-            modifier = Modifier
-                .weight(1f)
-                .height(questContainerHeight),
-            data = HomeProgressBarModel(
-                stringResource(id = R.string.home_recent_quest_title),
-                recentQuest.progress,
-                recentQuest.completeCondition,
-                recentQuest.questName
-            ),
-            viewModel = viewModel
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .height(questContainerHeight),
+            data =
+                HomeProgressBarModel(
+                    stringResource(id = R.string.home_recent_quest_title),
+                    recentQuest.progress,
+                    recentQuest.completeCondition,
+                    recentQuest.questName,
+                ),
+            viewModel = viewModel,
         )
         Spacer(modifier = Modifier.padding(horizontal = 6.dp))
         CloseCompleteRequest(
-            modifier = Modifier
-                .weight(1f)
-                .onGloballyPositioned { coordinates ->
-                    questContainerHeight = with(density) {
-                        coordinates.size.height.toDp()
-                    }
-                },
-            data = HomeProgressBarModel(
-                stringResource(id = R.string.home_close_complete_quest_title),
-                almostQuest.progress,
-                almostQuest.completeCondition,
-                almostQuest.questName
-            ),
-            viewModel = viewModel
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .onGloballyPositioned { coordinates ->
+                        questContainerHeight =
+                            with(density) {
+                                coordinates.size.height.toDp()
+                            }
+                    },
+            data =
+                HomeProgressBarModel(
+                    stringResource(id = R.string.home_close_complete_quest_title),
+                    almostQuest.progress,
+                    almostQuest.completeCondition,
+                    almostQuest.questName,
+                ),
+            viewModel = viewModel,
         )
         Spacer(modifier = Modifier.padding(end = 24.dp))
     }

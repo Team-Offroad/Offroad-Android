@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.teamoffroad.core.navigation.ExploreRoute
 import com.teamoffroad.core.navigation.MainTabRoute
+import com.teamoffroad.feature.explore.presentation.CourseQuestDetailScreen
 import com.teamoffroad.feature.explore.presentation.ExploreScreen
 import com.teamoffroad.feature.explore.presentation.PlaceScreen
 import com.teamoffroad.feature.explore.presentation.QuestScreen
@@ -21,7 +22,10 @@ fun NavController.navigateToExplore(
     navigate(MainTabRoute.Explore(authResultType), navOptions)
 }
 
-fun NavController.navigateToPlace(latitude: String, longitude: String) {
+fun NavController.navigateToPlace(
+    latitude: String,
+    longitude: String,
+) {
     navigate(ExploreRoute.PlaceScreen(latitude, longitude))
 }
 
@@ -29,11 +33,21 @@ fun NavController.navigateToQuest() {
     navigate(ExploreRoute.QuestScreen)
 }
 
+fun NavController.navigateToCourseQuestDetail(
+    questId: Long,
+    deadline: String,
+    dDay: Int,
+    reward: String,
+) {
+    navigate(ExploreRoute.CourseQuestDetail(questId, deadline, dDay, reward))
+}
+
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun NavGraphBuilder.exploreNavGraph(
-    navigateToHome: (String, List<String>) -> Unit,
+    navigateToHome: () -> Unit,
     navigateToPlace: (String, String) -> Unit,
     navigateToQuest: () -> Unit,
+    navigateToQuestDetail: (questId: Long, deadline: String, dDay: Int, reward: String) -> Unit,
     navigateToBack: () -> Unit,
 ) {
     composable<MainTabRoute.Explore> { backStackEntry ->
@@ -48,6 +62,14 @@ fun NavGraphBuilder.exploreNavGraph(
     }
 
     composable<ExploreRoute.QuestScreen> {
-        QuestScreen(navigateToBack)
+        QuestScreen(navigateToQuestDetail, navigateToBack)
+    }
+
+    composable<ExploreRoute.CourseQuestDetail> { backStackEntry ->
+        val questId = backStackEntry.toRoute<ExploreRoute.CourseQuestDetail>().questId
+        val deadline = backStackEntry.toRoute<ExploreRoute.CourseQuestDetail>().deadline
+        val dDay = backStackEntry.toRoute<ExploreRoute.CourseQuestDetail>().dDay
+        val reward = backStackEntry.toRoute<ExploreRoute.CourseQuestDetail>().reward
+        CourseQuestDetailScreen(questId, deadline, dDay, reward, navigateToBack)
     }
 }
