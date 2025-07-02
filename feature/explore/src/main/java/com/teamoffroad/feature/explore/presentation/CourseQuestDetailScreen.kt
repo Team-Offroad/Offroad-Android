@@ -5,14 +5,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -24,7 +22,6 @@ import com.teamoffroad.core.designsystem.component.navigationPadding
 import com.teamoffroad.core.designsystem.theme.Main1
 import com.teamoffroad.feature.explore.presentation.component.CourseQuestMap
 import com.teamoffroad.feature.explore.presentation.component.CourseQuestPlacesContainer
-import com.teamoffroad.feature.explore.presentation.component.RewardBox
 import com.teamoffroad.feature.explore.presentation.util.CourseQuestExploreAuthStateHandler
 import com.teamoffroad.offroad.feature.explore.R
 import kotlinx.coroutines.delay
@@ -36,7 +33,6 @@ fun CourseQuestDetailScreen(
     questId: Long,
     deadline: String,
     dDay: Int,
-    reward: String,
     navigateToBack: () -> Unit,
     viewModel: CourseQuestDetailViewModel = hiltViewModel(),
 ) {
@@ -93,17 +89,6 @@ fun CourseQuestDetailScreen(
                 isTouchingMapArea = isTouchingMapArea,
                 mapHeightPx = mapViewHeight,
                 onVisitClick = viewModel::performExplore,
-            )
-
-            RewardBox(
-                reward = reward,
-                isComplete = places.value.isComplete,
-                modifier =
-                    Modifier
-                        .background(Main1)
-                        .padding(horizontal = 24.dp)
-                        .height(rewardBoxHeight)
-                        .align(Alignment.BottomCenter),
             )
         }
     }

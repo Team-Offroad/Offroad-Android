@@ -67,8 +67,8 @@ internal fun MainNavHost(
                 navigateToQuest = {
                     navigator.navigateToQuest()
                 },
-                navigateToQuestDetail = { questId, deadline, dDay, reward ->
-                    navigator.navigateToCourseQuestDetail(questId, deadline, dDay, reward)
+                navigateToQuestDetail = { questId, deadline, dDay ->
+                    navigator.navigateToCourseQuestDetail(questId, deadline, dDay)
                 },
                 navigateToBack = navigator::popBackStackIfNotMainTabRoute,
             )

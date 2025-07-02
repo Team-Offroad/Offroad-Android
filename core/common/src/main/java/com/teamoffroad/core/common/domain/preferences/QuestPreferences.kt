@@ -1,12 +1,6 @@
 package com.teamoffroad.core.common.domain.preferences
 
-import kotlinx.coroutines.flow.Flow
-
 interface QuestPreferences {
-    val category: Flow<String>
-
-    val completeQuests: Flow<List<String>>
-
     suspend fun getCategory(): String?
 
     suspend fun getCompleteQuests(): List<String>

@@ -58,7 +58,6 @@ sealed interface ExploreRoute : Route {
         val questId: Long,
         val deadline: String,
         val dDay: Int,
-        val reward: String,
     ) : ExploreRoute
 }
 
@@ -126,5 +125,5 @@ sealed interface DiaryRoute : Route {
     data class Diary(
         val newDiaryExist: Boolean,
         val characterName: String,
-        ) : DiaryRoute
+    ) : DiaryRoute
 }

@@ -44,7 +44,7 @@ class CourseQuestDetailViewModel
                 runCatching {
                     getQuestCourseUseCase(questId)
                 }.onSuccess { places ->
-                    _places.value = CourseQuestPlacesUiModel(places.map { it.toUi() } + places.map { it.toUi() })
+                    _places.value = CourseQuestPlacesUiModel(places.map { it.toUi() })
                     _isQuestLoading.value = false
                     _isNetworkError.value = false
                 }.onFailure {
