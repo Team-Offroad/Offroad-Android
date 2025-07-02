@@ -27,7 +27,7 @@ import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 fun QuestScreen(
-    navigateToQuestDetail: (questId: Long, deadline: String, dDay: Int, reward: String) -> Unit,
+    navigateToQuestDetail: (questId: Long, deadline: String, dDay: Int) -> Unit,
     navigateToBack: () -> Unit,
     questViewModel: QuestViewModel = hiltViewModel(),
 ) {
@@ -88,7 +88,7 @@ fun QuestScreen(
                     false -> uiState.value.isLoadable.second
                 },
             onDetailClick = { quest ->
-                navigateToQuestDetail(quest.questId, quest.courseQuestInfo.deadline.toString(), quest.getLeftDayCount(), quest.reward)
+                navigateToQuestDetail(quest.questId, quest.courseQuestInfo.deadline.toString(), quest.getLeftDayCount())
             },
         )
     }
