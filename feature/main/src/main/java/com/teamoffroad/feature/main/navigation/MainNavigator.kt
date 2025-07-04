@@ -184,9 +184,8 @@ internal class MainNavigator(
         questId: Long,
         deadline: String,
         dDay: Int,
-        reward: String,
     ) {
-        navController.navigateToCourseQuestDetail(questId, deadline, dDay, reward)
+        navController.navigateToCourseQuestDetail(questId, deadline, dDay)
     }
 
     fun navigateToGainedCharacter() {

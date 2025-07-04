@@ -27,7 +27,7 @@ import com.teamoffroad.offroad.feature.explore.R
 
 @Composable
 fun QuestScreen(
-    navigateToQuestDetail: (questId: Long, deadline: String, dDay: Int, reward: String) -> Unit,
+    navigateToQuestDetail: (questId: Long, deadline: String, dDay: Int) -> Unit,
     navigateToBack: () -> Unit,
     questViewModel: QuestViewModel = hiltViewModel(),
 ) {
@@ -88,12 +88,12 @@ fun QuestScreen(
                     false -> uiState.value.isLoadable.second
                 },
             onDetailClick = { quest ->
-                navigateToQuestDetail(quest.questId, quest.courseQuestInfo.deadline.toString(), quest.getLeftDayCount(), quest.reward)
+                navigateToQuestDetail(quest.questId, quest.courseQuestInfo.deadline.toString(), quest.getLeftDayCount())
             },
         )
     }
 
-    if (isCompleteQuestDialogShown.value) {
+    if (isCompleteQuestDialogShown.value && completeQuests.value.isNotEmpty()) {
         ExploreResultDialog(
             title = "퀘스트 성공 !",
             description = "퀘스트 **‘${completeQuests.value.first()}’ 외 ${completeQuests.value.size - 1}개**를\n클리어했어요! 마이페이지에서\n보상을 확인해보세요.",
