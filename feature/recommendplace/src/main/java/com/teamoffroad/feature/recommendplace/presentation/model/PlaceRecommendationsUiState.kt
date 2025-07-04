@@ -13,6 +13,7 @@ data class PlaceRecommendationsUiState(
     val isAdditionalLoading: Boolean = false,
     val isLoadable: Boolean = true,
     val isError: Boolean = false,
+    val isFirstCalled: Boolean = true,
 ) {
     data class RecommendationsUiState(
         val id: Int,

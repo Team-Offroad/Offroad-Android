@@ -1,6 +1,5 @@
 package com.teamoffroad.feature.recommendplace.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.naver.maps.geometry.LatLng
@@ -43,6 +42,12 @@ class RecommendPlaceViewModel @Inject constructor(
 
     init {
         initUpdateOrderChats()
+    }
+
+    fun updateIsFirstCalled(check: Boolean) {
+        _placeRecommendationsUiState.value = _placeRecommendationsUiState.value.copy(
+            isFirstCalled = check
+        )
     }
 
     private fun initUpdateOrderChats() {
@@ -239,8 +244,28 @@ class RecommendPlaceViewModel @Inject constructor(
             runCatching {
                 getMapPlaceListUseCase(latitude, longitude, LOAD_PLACES_LIMIT).map { it.toUi() }
             }.onSuccess { places ->
-                _placeRecommendationsUiState.value = placeRecommendationsUiState.value.copy(
+                _placeRecommendationsUiState.value = _placeRecommendationsUiState.value.copy(
+                    isError = false,
+                    isAdditionalLoading = false,
                     isLoadable = false,
+                    isLoading = false,
+                    recommendations = places.map {
+                        PlaceRecommendationsUiState.RecommendationsUiState(
+                            id = it.id.toInt(),
+                            recommendationType = PlaceCategory.entries.find { cat -> cat.name == it.placeArea }.toString(),
+                            name = it.name,
+                            address = it.address,
+                            shortIntroduction = it.shortIntroduction,
+                            placeCategory = PlaceCategory.entries.find { cat -> cat.name == it.placeArea }
+                                ?: PlaceCategory.NONE,
+                            placeArea = it.placeArea,
+                            latitude = it.location.latitude,
+                            longitude = it.location.longitude,
+                            categoryImageUrl = it.categoryImageUrl,
+                            location = LatLng(it.location.latitude, it.location.longitude),
+                            visitCount = it.visitCount
+                        )
+                    }
                 )
             }.onFailure {
                 _placeRecommendationsUiState.value = placeRecommendationsUiState.value.copy(
