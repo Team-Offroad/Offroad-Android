@@ -9,10 +9,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,17 +18,20 @@ import com.teamoffroad.core.designsystem.component.LinearLoadingAnimation
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.feature.explore.domain.model.Quest
 
+private const val LOAD_THRESHOLD = 10
+
 @Composable
 fun QuestItems(
     quests: List<Quest>,
     updateQuests: () -> Unit,
+    expandedIndex: Int,
     isProceeding: Boolean,
     isLoading: Boolean,
     isAdditionalLoading: Boolean,
     isLoadable: Boolean,
     onDetailClick: (Quest) -> Unit,
+    onExpandClick: (Int) -> Unit,
 ) {
-    var expandedIndex by remember { mutableIntStateOf(NULL_INDEX) }
     val listState = rememberLazyListState()
 
     LaunchedEffect(listState) {
@@ -71,24 +70,20 @@ fun QuestItems(
             val quest = quests[index]
             val isExpanded = expandedIndex == index
 
-            val toggleExpand = {
-                expandedIndex = if (isExpanded) NULL_INDEX else index
-            }
-
             when (quest.courseQuestInfo.isCourse) {
                 true ->
                     CourseQuestItem(
                         quest = quest,
                         onDetailClick = { onDetailClick(quest) },
                         isExpanded = isExpanded,
-                        onExpandClick = toggleExpand,
+                        onExpandClick = { onExpandClick(index) },
                     )
 
                 false ->
                     DefaultQuestItem(
                         quest = quest,
                         isExpanded = isExpanded,
-                        onExpandClick = toggleExpand,
+                        onExpandClick = { onExpandClick(index) },
                     )
             }
         }
@@ -97,6 +92,3 @@ fun QuestItems(
         }
     }
 }
-
-private const val LOAD_THRESHOLD = 10
-private const val NULL_INDEX = -1
