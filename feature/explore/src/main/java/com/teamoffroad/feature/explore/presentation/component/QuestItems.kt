@@ -9,6 +9,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,21 +22,21 @@ import com.teamoffroad.core.designsystem.component.LinearLoadingAnimation
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.feature.explore.domain.model.Quest
 
+private const val NULL_INDEX = -1
 private const val LOAD_THRESHOLD = 10
 
 @Composable
 fun QuestItems(
     quests: List<Quest>,
     updateQuests: () -> Unit,
-    expandedIndex: Int,
     isProceeding: Boolean,
     isLoading: Boolean,
     isAdditionalLoading: Boolean,
     isLoadable: Boolean,
     onDetailClick: (Quest) -> Unit,
-    onExpandClick: (Int) -> Unit,
 ) {
     val listState = rememberLazyListState()
+    var expandedIndex by remember { mutableIntStateOf(NULL_INDEX) }
 
     LaunchedEffect(listState) {
         snapshotFlow { listState.firstVisibleItemIndex }
@@ -41,6 +45,12 @@ fun QuestItems(
                     updateQuests()
                 }
             }
+    }
+
+    LaunchedEffect(quests) {
+        if (expandedIndex == NULL_INDEX && quests.isNotEmpty()) {
+            expandedIndex = quests.indexOfFirst { it.courseQuestInfo.isCourse }
+        }
     }
 
     LaunchedEffect(isProceeding) {
@@ -76,14 +86,14 @@ fun QuestItems(
                         quest = quest,
                         onDetailClick = { onDetailClick(quest) },
                         isExpanded = isExpanded,
-                        onExpandClick = { onExpandClick(index) },
+                        onExpandClick = { expandedIndex = if (isExpanded) NULL_INDEX else index },
                     )
 
                 false ->
                     DefaultQuestItem(
                         quest = quest,
                         isExpanded = isExpanded,
-                        onExpandClick = { onExpandClick(index) },
+                        onExpandClick = { expandedIndex = if (isExpanded) NULL_INDEX else index },
                     )
             }
         }
