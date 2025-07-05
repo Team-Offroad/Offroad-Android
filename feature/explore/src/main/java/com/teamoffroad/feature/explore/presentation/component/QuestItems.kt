@@ -80,20 +80,24 @@ fun QuestItems(
             val quest = quests[index]
             val isExpanded = expandedIndex == index
 
+            val toggleExpand = {
+                expandedIndex = if (isExpanded) NULL_INDEX else index
+            }
+
             when (quest.courseQuestInfo.isCourse) {
                 true ->
                     CourseQuestItem(
                         quest = quest,
                         onDetailClick = { onDetailClick(quest) },
                         isExpanded = isExpanded,
-                        onExpandClick = { expandedIndex = if (isExpanded) NULL_INDEX else index },
+                        onExpandClick = toggleExpand,
                     )
 
                 false ->
                     DefaultQuestItem(
                         quest = quest,
                         isExpanded = isExpanded,
-                        onExpandClick = { expandedIndex = if (isExpanded) NULL_INDEX else index },
+                        onExpandClick = toggleExpand,
                     )
             }
         }
