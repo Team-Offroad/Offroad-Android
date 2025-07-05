@@ -23,6 +23,7 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.teamoffroad.feature.explore.presentation.model.CourseQuestPlaceUiModel
 import java.time.LocalDateTime
 
@@ -31,7 +32,6 @@ fun CourseQuestPlacesContainer(
     places: List<CourseQuestPlaceUiModel>,
     deadline: String,
     dDay: Int,
-    contentPadding: PaddingValues,
     mapHeight: Dp,
     isTouchingMapArea: MutableState<Boolean>,
     mapHeightPx: MutableFloatState,
@@ -50,7 +50,7 @@ fun CourseQuestPlacesContainer(
     LazyColumn(
         state = listState,
         userScrollEnabled = mapHeightPx.floatValue != 0f && !isTouchingMapArea.value,
-        contentPadding = contentPadding,
+        contentPadding = PaddingValues(bottom = 12.dp),
         modifier =
             Modifier
                 .fillMaxSize()

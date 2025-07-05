@@ -3,7 +3,6 @@ package com.teamoffroad.feature.explore.presentation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -41,7 +40,6 @@ fun CourseQuestDetailScreen(
     val exploreAuthState = viewModel.exploreAuthState.collectAsStateWithLifecycle()
 
     val mapHeight = 218.dp
-    val rewardBoxHeight = 88.dp
 
     val mapViewHeight = remember { mutableFloatStateOf(0f) }
     val isTouchingMapArea = remember { mutableStateOf(false) }
@@ -84,7 +82,6 @@ fun CourseQuestDetailScreen(
                 places = places.value.places,
                 deadline = deadline,
                 dDay = dDay,
-                contentPadding = PaddingValues(bottom = rewardBoxHeight),
                 mapHeight = mapHeight,
                 isTouchingMapArea = isTouchingMapArea,
                 mapHeightPx = mapViewHeight,
