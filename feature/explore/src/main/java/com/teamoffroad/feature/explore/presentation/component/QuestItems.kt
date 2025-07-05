@@ -22,6 +22,9 @@ import com.teamoffroad.core.designsystem.component.LinearLoadingAnimation
 import com.teamoffroad.core.designsystem.theme.ListBg
 import com.teamoffroad.feature.explore.domain.model.Quest
 
+private const val NULL_INDEX = -1
+private const val LOAD_THRESHOLD = 10
+
 @Composable
 fun QuestItems(
     quests: List<Quest>,
@@ -32,8 +35,8 @@ fun QuestItems(
     isLoadable: Boolean,
     onDetailClick: (Quest) -> Unit,
 ) {
-    var expandedIndex by remember { mutableIntStateOf(NULL_INDEX) }
     val listState = rememberLazyListState()
+    var expandedIndex by remember { mutableIntStateOf(NULL_INDEX) }
 
     LaunchedEffect(listState) {
         snapshotFlow { listState.firstVisibleItemIndex }
@@ -42,6 +45,12 @@ fun QuestItems(
                     updateQuests()
                 }
             }
+    }
+
+    LaunchedEffect(quests) {
+        if (expandedIndex == NULL_INDEX && quests.isNotEmpty()) {
+            expandedIndex = quests.indexOfFirst { it.courseQuestInfo.isCourse }
+        }
     }
 
     LaunchedEffect(isProceeding) {
@@ -97,6 +106,3 @@ fun QuestItems(
         }
     }
 }
-
-private const val LOAD_THRESHOLD = 10
-private const val NULL_INDEX = -1

@@ -17,6 +17,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.teamoffroad.core.designsystem.component.AdaptationImage
 import com.teamoffroad.core.designsystem.theme.BoxInfo
 import com.teamoffroad.core.designsystem.theme.Gray400
 import com.teamoffroad.core.designsystem.theme.Main2
@@ -74,7 +75,7 @@ private fun CourseQuestDetails(questModel: Quest) {
     ) {
         questModel.courseQuestInfo.courseQuestPlaces.forEachIndexed { index, place ->
             QuestDetailItem(
-                icon = painterResource(id = R.drawable.ic_explore_quest_task),
+                iconUrl = place.categoryImage,
                 text = place.description,
                 modifier = if (index == 0) Modifier else Modifier.padding(top = 4.dp),
             )
@@ -84,7 +85,8 @@ private fun CourseQuestDetails(questModel: Quest) {
 
 @Composable
 private fun QuestDetailItem(
-    icon: Painter,
+    icon: Painter? = null,
+    iconUrl: String? = null,
     text: String,
     modifier: Modifier = Modifier,
 ) {
@@ -92,18 +94,38 @@ private fun QuestDetailItem(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier,
     ) {
-        Image(
-            painter = icon,
-            contentDescription = null,
-            modifier = Modifier.width(22.dp),
-            contentScale = ContentScale.FillWidth,
-        )
+        QuestDetailIcon(icon = icon, iconUrl = iconUrl)
         Text(
             text = text,
             style = OffroadTheme.typography.textContentsSmall,
             color = Main2,
             modifier = Modifier.padding(start = 6.dp),
         )
+    }
+}
+
+@Composable
+private fun QuestDetailIcon(
+    icon: Painter? = null,
+    iconUrl: String? = null,
+) {
+    when {
+        icon != null -> {
+            Image(
+                painter = icon,
+                contentDescription = null,
+                modifier = Modifier.width(22.dp),
+                contentScale = ContentScale.FillWidth,
+            )
+        }
+
+        iconUrl != null -> {
+            AdaptationImage(
+                imageUrl = iconUrl,
+                modifier = Modifier.width(22.dp),
+                contentScale = ContentScale.FillWidth,
+            )
+        }
     }
 }
 

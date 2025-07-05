@@ -70,27 +70,37 @@ fun QuestScreen(
             uiState.value.isProceedingQuest,
             questViewModel::updateProceedingToggle,
         )
-        QuestItems(
-            quests =
-                when (uiState.value.isProceedingQuest) {
-                    true -> uiState.value.proceedingQuests
-                    false -> uiState.value.totalQuests
-                },
-            updateQuests = {
-                questViewModel.updateQuests()
-            },
-            isProceeding = uiState.value.isProceedingQuest,
-            isLoading = uiState.value.isLoading,
-            isAdditionalLoading = uiState.value.isAdditionalLoading,
-            isLoadable =
-                when (uiState.value.isProceedingQuest) {
-                    true -> uiState.value.isLoadable.first
-                    false -> uiState.value.isLoadable.second
-                },
-            onDetailClick = { quest ->
-                navigateToQuestDetail(quest.questId, quest.courseQuestInfo.deadline.toString(), quest.getLeftDayCount())
-            },
-        )
+        when (uiState.value.isProceedingQuest) {
+            true ->
+                QuestItems(
+                    quests = uiState.value.proceedingQuests,
+                    updateQuests = {
+                        questViewModel.updateQuests()
+                    },
+                    isProceeding = uiState.value.isProceedingQuest,
+                    isLoading = uiState.value.isLoading,
+                    isAdditionalLoading = uiState.value.isAdditionalLoading,
+                    isLoadable = uiState.value.isLoadable.first,
+                    onDetailClick = { quest ->
+                        navigateToQuestDetail(quest.questId, quest.courseQuestInfo.deadline.toString(), quest.getLeftDayCount())
+                    },
+                )
+
+            false ->
+                QuestItems(
+                    quests = uiState.value.totalQuests,
+                    updateQuests = {
+                        questViewModel.updateQuests()
+                    },
+                    isProceeding = uiState.value.isProceedingQuest,
+                    isLoading = uiState.value.isLoading,
+                    isAdditionalLoading = uiState.value.isAdditionalLoading,
+                    isLoadable = uiState.value.isLoadable.second,
+                    onDetailClick = { quest ->
+                        navigateToQuestDetail(quest.questId, quest.courseQuestInfo.deadline.toString(), quest.getLeftDayCount())
+                    },
+                )
+        }
     }
 
     if (isCompleteQuestDialogShown.value && completeQuests.value.isNotEmpty()) {
