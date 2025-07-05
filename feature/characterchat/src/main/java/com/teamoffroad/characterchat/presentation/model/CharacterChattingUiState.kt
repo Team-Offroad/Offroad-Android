@@ -7,5 +7,6 @@ data class CharacterChattingUiState(
     val isCharacterChattingLoading: Boolean = false,
     val isUserWatchingCharacterChat: Boolean = false,
     val isAnswerButtonClicked: Boolean = false,
-    val isError: Boolean = false
+    val isError: Boolean = false,
+    val isPlaceRecommendation: Boolean = false,
 )

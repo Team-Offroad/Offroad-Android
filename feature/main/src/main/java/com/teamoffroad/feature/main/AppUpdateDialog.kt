@@ -16,6 +16,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.core.content.ContextCompat.startActivity
+import androidx.core.graphics.translationMatrix
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.Main2
 import com.teamoffroad.core.designsystem.theme.Main3
@@ -36,7 +39,6 @@ import com.teamoffroad.offroad.feature.main.R
 
 @Composable
 fun AppUpdateDialog(
-    appUpdateDialogShown: MutableState<Boolean>,
     onDismissRequest: () -> Unit,
     shape: Shape = RoundedCornerShape(14.dp),
     textColor: Color = Main2,
@@ -44,6 +46,7 @@ fun AppUpdateDialog(
     context: Context,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
+    val checkIfUpdateAvailable = remember { mutableStateOf(true) }
 
     Dialog(
         onDismissRequest = { onDismissRequest() },
@@ -52,7 +55,7 @@ fun AppUpdateDialog(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(218.dp),
+                .height(200.dp),
             shape = shape
         ) {
             Column(
@@ -76,7 +79,7 @@ fun AppUpdateDialog(
                     color = textColor,
                     style = OffroadTheme.typography.textRegular,
                     textAlign = TextAlign.Center,
-                    text = stringResource(id = R.string.main_update_description)
+                    text = stringResource(id = if (checkIfUpdateAvailable.value) R.string.main_update_description else R.string.main_update_unavailable)
                 )
                 Text(
                     text = stringResource(id = R.string.main_update),
@@ -92,7 +95,10 @@ fun AppUpdateDialog(
                         .clickableWithoutRipple(
                             interactionSource = interactionSource,
                             onClick = {
-                                navigateToPlayStore(context = context)
+                                navigateToPlayStore(
+                                    context = context,
+                                    checkIfUpdateAvailable = checkIfUpdateAvailable
+                                )
                             }
                         )
                         .fillMaxWidth(),
@@ -102,10 +108,17 @@ fun AppUpdateDialog(
     }
 }
 
-private fun navigateToPlayStore(context: Context) {
+private fun navigateToPlayStore(context: Context, checkIfUpdateAvailable: MutableState<Boolean>) {
     val intent =
-        Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.teamoffroad.offroad.app"))
-        .apply { addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_NEW_TASK) }
+        Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("https://play.google.com/store/apps/details?id=com.teamoffroad.offroad.app")
+        )
+            .apply { addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_NEW_TASK) }
 
-    if (intent.resolveActivity(context.packageManager) != null) { startActivity(context, intent, null) }
+    if (intent.resolveActivity(context.packageManager) != null) {
+        startActivity(context, intent, null)
+    } else {
+        checkIfUpdateAvailable.value = false
+    }
 }

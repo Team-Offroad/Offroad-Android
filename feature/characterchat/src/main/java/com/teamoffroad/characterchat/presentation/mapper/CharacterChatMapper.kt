@@ -13,5 +13,6 @@ fun Chat.toUi(): ChatModel {
         date = createdAt.toDate(),
         time = createdAt.toTime(),
         id = id,
+        isPlaceRecommendation = isPlaceRecommendation,
     )
 }

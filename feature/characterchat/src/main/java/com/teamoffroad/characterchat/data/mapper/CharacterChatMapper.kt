@@ -11,6 +11,7 @@ fun CharacterChatResponseDto.toDomain(): Chat {
         content = content,
         createdAt = createdAt,
         id = id,
+        isPlaceRecommendation = isPlaceRecommendation
     )
 }
 

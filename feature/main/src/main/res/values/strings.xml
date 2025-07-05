@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="main_update_info">업데이트 안내</string>
-    <string name="main_update_description">앱의 최신버전이 출시되었습니다.\n원활한 앱 사용을 위해서 업데이트 이후\n사용하시길 바랍니다.</string>
-    <string name="main_update">업데이트</string>
+    <string name="main_update_description">오브의 공간에 변화가 생겼어요!\n앱을 최신 버전으로 업데이트 해주세요.</string>
+    <string name="main_update_unavailable">앱스토어 이동에 문제가 발생했어요.\n잠시 후 다시 업데이트 해주세요.</string>
+    <string name="main_update">업데이트하기</string>
 </resources>

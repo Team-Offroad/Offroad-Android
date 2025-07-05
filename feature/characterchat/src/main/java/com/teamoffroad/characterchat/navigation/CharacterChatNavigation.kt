@@ -13,6 +13,7 @@ fun NavController.navigateToCharacterChat(characterId: Int = DEFAULT_CHARACTER_I
 
 fun NavGraphBuilder.characterChatNavGraph(
     navigateToBack: () -> Unit,
+    navigateToRecommendPlace: (Boolean, String, String) -> Unit,
 ) {
     composable<CharacterChatRoute.CharacterChat> { backStackEntry ->
         val characterName = backStackEntry.toRoute<CharacterChatRoute.CharacterChat>().characterName
@@ -25,6 +26,7 @@ fun NavGraphBuilder.characterChatNavGraph(
             },
             characterName = characterName,
             navigateToBack = navigateToBack,
+            navigateToRecommendPlace = navigateToRecommendPlace
         )
     }
 }

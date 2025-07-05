@@ -72,7 +72,6 @@ class MainActivity : ComponentActivity() {
 
                 if (appUpdateDialogShown.value) {
                     AppUpdateDialog(
-                        appUpdateDialogShown = appUpdateDialogShown,
                         onDismissRequest = { appUpdateDialogShown.value = false },
                         context = LocalContext.current,
                     )

@@ -1,6 +1,7 @@
 package com.teamoffroad.characterchat.presentation
 
 import android.graphics.Rect
+import android.util.Log
 import android.view.ViewTreeObserver
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -36,6 +37,7 @@ fun CharacterChatScreen(
     characterId: Int?,
     characterName: String,
     navigateToBack: () -> Unit,
+    navigateToRecommendPlace: (Boolean, String, String) -> Unit,
     characterChatViewModel: CharacterChatViewModel = hiltViewModel(),
 ) {
     val uiState = characterChatViewModel.uiState.collectAsStateWithLifecycle()
@@ -49,7 +51,6 @@ fun CharacterChatScreen(
         characterChatViewModel.initCharacterId(characterId, characterName)
         characterChatViewModel.handleChatState()
     }
-
 
     DisposableEffect(contextView) {
         val rect = Rect()
@@ -109,6 +110,7 @@ fun CharacterChatScreen(
                 isLoadable = uiState.value.isLoadable,
                 updateChats = characterChatViewModel::handleChatState,
                 updateIsChatting = characterChatViewModel::updateIsChatting,
+                navigateToRecommendPlace = navigateToRecommendPlace
             )
         }
         ChatTextField(

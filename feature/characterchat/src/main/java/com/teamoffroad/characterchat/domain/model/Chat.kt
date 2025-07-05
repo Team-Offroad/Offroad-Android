@@ -5,4 +5,5 @@ data class Chat(
     val content: String = "",
     val createdAt: String = "",
     val id: Long = 0,
+    val isPlaceRecommendation: Boolean = false,
 )

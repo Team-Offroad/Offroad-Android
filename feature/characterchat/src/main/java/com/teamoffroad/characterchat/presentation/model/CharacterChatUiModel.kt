@@ -11,6 +11,7 @@ data class ChatModel(
     val date: LocalDate = LocalDate.now(),
     val time: Triple<TimeType, Int, Int> = Triple(AM, 0, 0),
     val id: Long = 0,
+    val isPlaceRecommendation: Boolean = false,
 ) {
     companion object {
         fun String.toDate(): LocalDate {

@@ -38,6 +38,8 @@ import com.teamoffroad.feature.mypage.navigation.navigateToGainedEmblems
 import com.teamoffroad.feature.mypage.navigation.navigateToMyPage
 import com.teamoffroad.feature.mypage.navigation.navigateToSetting
 import com.teamoffroad.feature.mypage.navigation.navigateToSupport
+import com.teamoffroad.feature.recommendplace.navigation.navigateToOrderRecommendPlace
+import com.teamoffroad.feature.recommendplace.navigation.navigateToRecommendPlace
 
 internal class MainNavigator(
     val navController: NavHostController,
@@ -226,6 +228,10 @@ internal class MainNavigator(
         navController.navigateToDiaryTime()
     }
 
+    fun navigateToRecommendPlace(hasChatted: Boolean, name: String, content: String) {
+        navController.navigateToRecommendPlace(hasChatted, name, content)
+    }
+
     fun navigateToAnnouncementDetail(
         title: String,
         content: String,
@@ -262,6 +268,10 @@ internal class MainNavigator(
 
     fun navigateToCharacterChat(characterName: String) {
         navController.navigateToCharacterChat(characterName = characterName)
+    }
+
+    fun navigateToOrderRecommendPlace() {
+        navController.navigateToOrderRecommendPlace()
     }
 
     fun navigateToSupport() {

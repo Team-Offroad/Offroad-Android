@@ -61,6 +61,7 @@ fun HomeScreen(
     navigateToGainedCharacter: () -> Unit = {},
     navigateToCharacterChatScreen: (String) -> Unit,
     navigateToDiary: (Boolean, String) -> Unit,
+    navigateToRecommendPlace: (Boolean, String, String) -> Unit,
 ) {
     val context = LocalContext.current
     val homeViewModel: HomeViewModel = hiltViewModel()
@@ -137,6 +138,7 @@ fun HomeScreen(
                 updateCharacterName = mainViewModel::updateCharacterName,
                 updateLastUnreadChatDosAllRead = mainViewModel::updateLastUnreadChatDosAllRead,
                 navigateToDiary = navigateToDiary,
+                navigateToRecommendPlace = navigateToRecommendPlace,
             )
             Spacer(modifier = Modifier.padding(top = 12.dp))
             UsersQuestInformation(context, homeViewModel)
@@ -206,6 +208,7 @@ private fun UsersAdventuresInformation(
     updateCharacterName: (String) -> Unit,
     updateLastUnreadChatDosAllRead: (Boolean) -> Unit,
     navigateToDiary: (Boolean, String) -> Unit,
+    navigateToRecommendPlace: (Boolean, String, String) -> Unit,
 ) {
     val adventuresInformationState =
         homeViewModel.getUsersAdventuresInformationState.collectAsState(initial = UiState.Loading).value
@@ -244,6 +247,7 @@ private fun UsersAdventuresInformation(
                 updateCharacterName = updateCharacterName,
                 updateLastUnreadChatDosAllRead = updateLastUnreadChatDosAllRead,
                 navigateToDiary = navigateToDiary,
+                navigateToRecommendPlace = navigateToRecommendPlace,
             )
         }
 
