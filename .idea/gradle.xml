@@ -37,6 +37,7 @@
             <option value="$PROJECT_DIR$/feature/home" />
             <option value="$PROJECT_DIR$/feature/main" />
             <option value="$PROJECT_DIR$/feature/mypage" />
+            <option value="$PROJECT_DIR$/feature/recommendplace" />
           </set>
         </option>
       </GradleProjectSettings>
