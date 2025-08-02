@@ -65,7 +65,7 @@ internal class MainNavigator(
                 saveState = true
             }
             launchSingleTop = true
-            restoreState = false
+            restoreState = true
         }
     }
 
