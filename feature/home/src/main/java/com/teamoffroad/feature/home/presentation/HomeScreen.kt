@@ -62,7 +62,7 @@ import com.teamoffroad.offroad.feature.home.R
 fun HomeScreen(
     navigateToGainedCharacter: () -> Unit = {},
     navigateToCharacterChatScreen: (String) -> Unit,
-    navigateToDiary: (Boolean, String) -> Unit,
+    navigateToDiary: (Boolean, String, String) -> Unit,
     navigateToRecommendPlace: (Boolean, String, String) -> Unit,
 ) {
     val context = LocalContext.current
@@ -164,7 +164,7 @@ fun HomeScreen(
             cancelButtonText = stringResource(id = R.string.home_diary_create_cancel),
             nextButtonText = stringResource(id = R.string.home_confirm),
             onClick = {
-                if (!newDiaryExist.value) navigateToDiary(true, characterName.value)
+                if (!newDiaryExist.value) navigateToDiary(true, "home", characterName.value)
                 homeViewModel.updateDiaryCreateDialogUnShown()
             },
             onCancelClick = {
@@ -209,7 +209,7 @@ private fun UsersAdventuresInformation(
     updateCharacterChatExist: (Boolean) -> Unit,
     updateCharacterName: (String) -> Unit,
     updateLastUnreadChatDosAllRead: (Boolean) -> Unit,
-    navigateToDiary: (Boolean, String) -> Unit,
+    navigateToDiary: (Boolean, String, String) -> Unit,
     navigateToRecommendPlace: (Boolean, String, String) -> Unit,
 ) {
     val adventuresInformationState =

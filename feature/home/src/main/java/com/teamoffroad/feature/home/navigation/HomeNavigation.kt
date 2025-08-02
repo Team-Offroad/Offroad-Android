@@ -18,7 +18,7 @@ fun NavGraphBuilder.homeNavGraph(
     navigateToBack: () -> Unit,
     navigateToGainedCharacter: () -> Unit,
     navigateToCharacterChatScreen: (String) -> Unit,
-    navigateToDiary: (Boolean, String) -> Unit,
+    navigateToDiary: (Boolean,String, String) -> Unit,
     navigateToRecommendPlace: (Boolean, String, String) -> Unit,
 ) {
     composable<MainTabRoute.Home> {

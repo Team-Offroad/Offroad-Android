@@ -216,10 +216,12 @@ internal class MainNavigator(
 
     fun navigateToDiary(
         newDiaryExist: Boolean,
+        beforeNavigateRoute: String,
         characterName: String,
     ) {
         navController.navigateToDiary(
             newDiaryExist = newDiaryExist,
+            beforeNavigateRoute = beforeNavigateRoute,
             characterName = characterName,
         )
     }
