@@ -57,11 +57,13 @@ import com.teamoffroad.offroad.feature.mypage.R.drawable
 
 @Composable
 fun AvailableCouponItems(
+    emptyCharacterImage: Int,
     availableCouponsCount: Int,
     coupons: List<UserAvailableCoupons.AvailableCoupons>,
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
     getUserCoupons: (Boolean, Int) -> Unit,
 ) {
+
     if (availableCouponsCount == 0) {
         Column(
             modifier = Modifier
@@ -69,7 +71,7 @@ fun AvailableCouponItems(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(id = R.drawable.img_my_page_empty),
+                painter = painterResource(id = emptyCharacterImage),
                 contentDescription = "empty available coupon",
                 modifier = Modifier
                     .padding(start = 110.dp, top = 132.dp, end = 110.dp)
@@ -165,6 +167,7 @@ private fun AvailableCouponItem(
 
 @Composable
 fun UsedCouponItems(
+    emptyCharacterImage: Int,
     usedCouponsCount: Int,
     coupons: List<UserUsedCoupons.UsedCoupons>,
     getUserCoupons: (Boolean, Int) -> Unit,
@@ -176,7 +179,7 @@ fun UsedCouponItems(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(id = R.drawable.img_my_page_empty),
+                painter = painterResource(id = emptyCharacterImage),
                 contentDescription = "empty used coupon",
                 modifier = Modifier
                     .padding(start = 110.dp, top = 132.dp, end = 110.dp)

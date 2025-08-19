@@ -30,9 +30,9 @@ fun OrbDiaryEmpty(
     modifier: Modifier = Modifier,
 ) {
     val emptyCharacterImage = when (characterName) {
-        "루미" -> R.drawable.img_diary_empty_rumi
-        "레디" -> R.drawable.img_diary_empty_ready
-        else -> R.drawable.img_diary_empty_nova
+        "루미" -> R.drawable.img_empty_rumi
+        "레디" -> R.drawable.img_empty_ready
+        else -> R.drawable.img_empty_nova
     }
 
     Column(

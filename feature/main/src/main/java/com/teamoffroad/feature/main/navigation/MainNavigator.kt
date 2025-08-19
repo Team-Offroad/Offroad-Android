@@ -149,8 +149,10 @@ internal class MainNavigator(
         navController.navigateToMyPage(mainTabNavOptions)
     }
 
-    fun navigateToGainedCoupon() {
-        navController.navigateToGainedCoupon()
+    fun navigateToGainedCoupon(
+        characterName: String
+    ) {
+        navController.navigateToGainedCoupon(characterName = characterName)
     }
 
     fun navigateToAvailableCouponDetail(
