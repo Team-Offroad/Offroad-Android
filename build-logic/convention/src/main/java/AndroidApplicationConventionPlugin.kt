@@ -17,7 +17,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
             configureKotestAndroid()
 
             extensions.configure<ApplicationExtension> {
-                defaultConfig.targetSdk = 34
+                defaultConfig.targetSdk = 36
             }
         }
     }

@@ -145,7 +145,7 @@ class CharacterChatViewModel
                         uiState.value.chats.toMutableMap().apply {
                             val lastChatDate = keys.lastOrNull() ?: return@apply
                             val lastChatList = get(lastChatDate)?.toMutableList() ?: mutableListOf()
-                            lastChatList.removeLast()
+                            lastChatList.removeAt(lastChatList.lastIndex)
                             put(lastChatDate, lastChatList)
                         },
                 )
