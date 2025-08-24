@@ -75,7 +75,9 @@ sealed interface MyPageRoute : Route {
     ) : MyPageRoute
 
     @Serializable
-    data object GainedCharacter : MyPageRoute
+    data class GainedCharacter(
+        val beforeNavigateRoute: String,
+    ) : MyPageRoute
 
     @Serializable
     data object GainedEmblems : MyPageRoute

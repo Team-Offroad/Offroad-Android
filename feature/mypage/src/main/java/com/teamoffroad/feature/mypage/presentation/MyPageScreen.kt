@@ -33,7 +33,7 @@ import com.teamoffroad.feature.mypage.presentation.component.UserSettings
 
 @Composable
 internal fun MyPageScreen(
-    navigateToGainedCharacter: () -> Unit,
+    navigateToGainedCharacter: (String) -> Unit,
     navigateToGainedCoupon: () -> Unit,
     navigateToGainedEmblems: () -> Unit,
     navigateToSetting: () -> Unit,
@@ -100,7 +100,7 @@ internal fun MyPageScreen(
                         .aspectRatio(150f / 124f)
                 ) {
                     AcquireCharacter(
-                        navigateToGainedCharacter
+                        { navigateToGainedCharacter("mypage")}
                     )
                 }
                 Spacer(modifier = Modifier.padding(horizontal = 6.dp))

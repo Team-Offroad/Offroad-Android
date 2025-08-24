@@ -32,7 +32,7 @@ fun HomeIcons(
     characterName: String,
     newDiaryExist: Boolean,
     characterChatLastUnreadUiState: State<CharacterChatLastUnreadUiState>,
-    navigateToGainedCharacter: () -> Unit,
+    navigateToGainedCharacter: (String) -> Unit,
     updateShowUserChatTextField: (Boolean) -> Unit,
     updateCharacterChatExist: (Boolean) -> Unit,
     updateCharacterName: (String) -> Unit,
@@ -84,7 +84,7 @@ fun HomeIcons(
             Image(
                 painter = painterResource(id = R.drawable.ic_home_change_character),
                 contentDescription = "change",
-                modifier = Modifier.clickableWithoutRipple { navigateToGainedCharacter() }
+                modifier = Modifier.clickableWithoutRipple { navigateToGainedCharacter("home") }
             )
 
             Box(

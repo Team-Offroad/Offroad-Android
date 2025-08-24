@@ -60,7 +60,7 @@ import com.teamoffroad.offroad.feature.home.R
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun HomeScreen(
-    navigateToGainedCharacter: () -> Unit = {},
+    navigateToGainedCharacter: (String) -> Unit = {},
     navigateToCharacterChatScreen: (String) -> Unit,
     navigateToDiary: (Boolean, String, String) -> Unit,
     navigateToRecommendPlace: (Boolean, String, String) -> Unit,
@@ -204,7 +204,7 @@ private fun UsersAdventuresInformation(
     modifier: Modifier = Modifier,
     homeViewModel: HomeViewModel,
     characterChatLastUnreadUiState: State<CharacterChatLastUnreadUiState>,
-    navigateToGainedCharacter: () -> Unit,
+    navigateToGainedCharacter: (String) -> Unit,
     updateShowUserChatTextField: (Boolean) -> Unit,
     updateCharacterChatExist: (Boolean) -> Unit,
     updateCharacterName: (String) -> Unit,

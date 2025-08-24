@@ -188,8 +188,10 @@ internal class MainNavigator(
         navController.navigateToCourseQuestDetail(questId, deadline, dDay)
     }
 
-    fun navigateToGainedCharacter() {
-        navController.navigateToGainedCharacter()
+    fun navigateToGainedCharacter(
+        beforeNavigateRoute: String
+    ) {
+        navController.navigateToGainedCharacter(beforeNavigateRoute = beforeNavigateRoute)
     }
 
     fun navigateToGainedEmblems() {

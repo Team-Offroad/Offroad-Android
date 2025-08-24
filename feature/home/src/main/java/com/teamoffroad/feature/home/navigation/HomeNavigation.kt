@@ -16,7 +16,7 @@ fun NavController.navigateToHome(navOptions: NavOptions) {
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun NavGraphBuilder.homeNavGraph(
     navigateToBack: () -> Unit,
-    navigateToGainedCharacter: () -> Unit,
+    navigateToGainedCharacter: (String) -> Unit,
     navigateToCharacterChatScreen: (String) -> Unit,
     navigateToDiary: (Boolean,String, String) -> Unit,
     navigateToRecommendPlace: (Boolean, String, String) -> Unit,
