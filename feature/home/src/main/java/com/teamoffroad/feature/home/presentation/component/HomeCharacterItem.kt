@@ -45,164 +45,165 @@ import com.teamoffroad.feature.home.presentation.HomeViewModel
 import com.teamoffroad.feature.home.presentation.model.HomeUserChangeEmblemDialogStateModel
 import com.teamoffroad.offroad.feature.home.R
 
-class HomeCharacterItem {
-
-    @Composable
-    fun CharacterImage(
-        viewModel: HomeViewModel,
-        context: Context,
-    ) {
-        val baseCharacterImage = viewModel.baseCharacterImage.collectAsState().value
-        val motionCharacterUrl = viewModel.motionCharacterUrl.collectAsState().value
-
-        Box(
-            modifier = Modifier
-                .aspectRatio(280f / 280f),
-            contentAlignment = Alignment.Center
-        ) {
-            if (motionCharacterUrl == null) {
-                Box(
-                    modifier = Modifier
-                        .padding(top = 120.dp)
-                        .fillMaxHeight()
-                        .align(Alignment.BottomCenter)
-                ) {
-                    AsyncImage(
-                        model = ImageRequest.Builder(context)
-                            .data(baseCharacterImage)
-                            .decoderFactory(SvgDecoder.Factory())
-                            .build(),
-                        contentDescription = "explorer",
-                        modifier = Modifier
-                            .aspectRatio(210f / 210f)
-                            .fillMaxSize()
-                            .align(Alignment.BottomCenter),
-                    )
-                }
-            } else {
-                val composition by rememberLottieComposition(
-                    spec = LottieCompositionSpec.Url(motionCharacterUrl)
-                )
-
-                val progress by animateLottieCompositionAsState(
-                    composition = composition,
-                    iterations = 60
-                )
-
-                val lottieAnimatable = rememberLottieAnimatable()
-
-                LaunchedEffect(composition) {
-                    lottieAnimatable.animate(
-                        composition = composition,
-                        initialProgress = 0f
-                    )
-                }
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(top = 140.dp)
-                        .aspectRatio(210f / 210f)
-                ) {
-                    LottieAnimation(
-                        composition = composition,
-                        progress = progress,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(30.dp)
-                            .align(Alignment.BottomCenter)
-                    )
-                }
-            }
-        }
+@Composable
+fun CharacterImage(
+    viewModel: HomeViewModel,
+    context: Context,
+) {
+    val baseCharacterImage = viewModel.baseCharacterImage.collectAsState().value
+    val motionCharacterUrl = viewModel.motionCharacterUrl.collectAsState().value
+    val normalizedUrl = remember(motionCharacterUrl) {
+        motionCharacterUrl?.substringBefore("?")
     }
 
-    @Composable
-    fun CharacterNameText(
-        name: String,
-        backgroundColor: Color = Sub55,
-        borderColor: Color = Sub,
+    Box(
+        modifier = Modifier
+            .aspectRatio(280f / 280f),
+        contentAlignment = Alignment.Center
     ) {
-        Text(
-            style = OffroadTheme.typography.subtitle2Semibold,
-            text = name,
-            modifier = Modifier
-                .padding(start = 24.dp, top = 12.dp)
-                .background(
-                    color = backgroundColor,
-                    shape = RoundedCornerShape(20.dp)
-                )
-                .border(
-                    width = 1.dp,
-                    shape = RoundedCornerShape(20.dp),
-                    color = borderColor
-                )
-                .padding(horizontal = 16.dp)
-                .padding(vertical = 6.dp),
-            color = White
-        )
-    }
-
-    @SuppressLint("UnrememberedMutableState")
-    @Composable
-    fun EmblemNameText(
-        context: Context,
-        modifier: Modifier = Modifier,
-    ) {
-        val viewModel: HomeViewModel = hiltViewModel()
-        val emblemState = viewModel.patchEmblemState.collectAsState(initial = UiState.Loading).value
-        val userEmblem = viewModel.selectedEmblem.collectAsState().value
-        val homeUserChangeEmblemDialogStateModel =
-            remember { mutableStateOf<HomeUserChangeEmblemDialogStateModel?>(null) }
-        val interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
-
-        val isChangeEmblemDialogShown = remember { mutableStateOf(false) }
-
-        when (emblemState) {
-            is UiState.Success -> null
-            is UiState.Failure -> {
-                Toast.makeText(context, emblemState.errorMessage, Toast.LENGTH_SHORT).show()
-                null
-            }
-
-            else -> null
-        }
-
-        Box(
-            modifier = modifier
-                .padding(horizontal = 24.dp)
-                .fillMaxWidth(),
-            contentAlignment = Alignment.CenterEnd
-        ) {
-            OffroadTagItem(text = userEmblem)
-            Image(
-                painter = painterResource(id = R.drawable.ic_home_change_title),
-                contentDescription = "change title",
+        if (motionCharacterUrl == null) {
+            Box(
                 modifier = Modifier
-                    .padding(top = 8.dp, bottom = 8.dp, end = 20.dp)
-                    .clickableWithoutRipple(
-                        interactionSource = interactionSource
-                    ) {
-                        isChangeEmblemDialogShown.value = true
-                    }
+                    .padding(top = 120.dp)
+                    .fillMaxHeight()
+                    .align(Alignment.BottomCenter)
+            ) {
+                AsyncImage(
+                    model = ImageRequest.Builder(context)
+                        .data(baseCharacterImage)
+                        .decoderFactory(SvgDecoder.Factory())
+                        .build(),
+                    contentDescription = "explorer",
+                    modifier = Modifier
+                        .aspectRatio(210f / 210f)
+                        .fillMaxSize()
+                        .align(Alignment.BottomCenter),
+                )
+            }
+        } else {
+            val composition by rememberLottieComposition(
+                spec = LottieCompositionSpec.Url(motionCharacterUrl),
+                cacheKey = normalizedUrl
             )
 
-            if (isChangeEmblemDialogShown.value) {
-                ChangeEmblemDialog(
-                    showDialog = isChangeEmblemDialogShown,
-                    homeUserChangeEmblemDialogStateModel = homeUserChangeEmblemDialogStateModel,
-                    originEmblem = userEmblem,
-                    onClickCancel = {
-                        isChangeEmblemDialogShown.value = false
-                        homeUserChangeEmblemDialogStateModel.value?.onClickCancel
-                    },
-                    onCharacterChange = { emblem ->
-                        if (emblem != null) {
-                            viewModel.patchEmblem(emblem)
-                        }
-                    }
+            val progress by animateLottieCompositionAsState(
+                composition = composition,
+                iterations = 60
+            )
+
+            val lottieAnimatable = rememberLottieAnimatable()
+
+            LaunchedEffect(composition) {
+                lottieAnimatable.animate(
+                    composition = composition,
+                    initialProgress = 0f
                 )
             }
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 140.dp)
+                    .aspectRatio(210f / 210f)
+            ) {
+                LottieAnimation(
+                    composition = composition,
+                    progress = progress,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(30.dp)
+                        .align(Alignment.BottomCenter)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun CharacterNameText(
+    name: String,
+    backgroundColor: Color = Sub55,
+    borderColor: Color = Sub,
+) {
+    Text(
+        style = OffroadTheme.typography.subtitle2Semibold,
+        text = name,
+        modifier = Modifier
+            .padding(start = 24.dp, top = 12.dp)
+            .background(
+                color = backgroundColor,
+                shape = RoundedCornerShape(20.dp)
+            )
+            .border(
+                width = 1.dp,
+                shape = RoundedCornerShape(20.dp),
+                color = borderColor
+            )
+            .padding(horizontal = 16.dp)
+            .padding(vertical = 6.dp),
+        color = White
+    )
+}
+
+@SuppressLint("UnrememberedMutableState")
+@Composable
+fun EmblemNameText(
+    context: Context,
+    modifier: Modifier = Modifier,
+) {
+    val viewModel: HomeViewModel = hiltViewModel()
+    val emblemState = viewModel.patchEmblemState.collectAsState(initial = UiState.Loading).value
+    val userEmblem = viewModel.selectedEmblem.collectAsState().value
+    val homeUserChangeEmblemDialogStateModel =
+        remember { mutableStateOf<HomeUserChangeEmblemDialogStateModel?>(null) }
+    val interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
+
+    val isChangeEmblemDialogShown = remember { mutableStateOf(false) }
+
+    when (emblemState) {
+        is UiState.Success -> null
+        is UiState.Failure -> {
+            Toast.makeText(context, emblemState.errorMessage, Toast.LENGTH_SHORT).show()
+            null
+        }
+
+        else -> null
+    }
+
+    Box(
+        modifier = modifier
+            .padding(horizontal = 24.dp)
+            .fillMaxWidth(),
+        contentAlignment = Alignment.CenterEnd
+    ) {
+        OffroadTagItem(text = userEmblem)
+        Image(
+            painter = painterResource(id = R.drawable.ic_home_change_title),
+            contentDescription = "change title",
+            modifier = Modifier
+                .padding(top = 8.dp, bottom = 8.dp, end = 20.dp)
+                .clickableWithoutRipple(
+                    interactionSource = interactionSource
+                ) {
+                    isChangeEmblemDialogShown.value = true
+                }
+        )
+
+        if (isChangeEmblemDialogShown.value) {
+            ChangeEmblemDialog(
+                showDialog = isChangeEmblemDialogShown,
+                homeUserChangeEmblemDialogStateModel = homeUserChangeEmblemDialogStateModel,
+                originEmblem = userEmblem,
+                onClickCancel = {
+                    isChangeEmblemDialogShown.value = false
+                    homeUserChangeEmblemDialogStateModel.value?.onClickCancel
+                },
+                onCharacterChange = { emblem ->
+                    if (emblem != null) {
+                        viewModel.patchEmblem(emblem)
+                    }
+                }
+            )
         }
     }
 }

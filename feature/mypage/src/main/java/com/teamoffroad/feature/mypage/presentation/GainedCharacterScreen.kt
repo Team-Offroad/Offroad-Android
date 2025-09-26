@@ -34,6 +34,7 @@ import com.teamoffroad.offroad.feature.mypage.R
 @Composable
 fun GainedCharacterScreen(
     navigateToCharacterDetail: (Int, Boolean) -> Unit,
+    beforeNavigateRoute: String,
     navigateToBack: () -> Unit,
     gainedCharacterViewModel: GainedCharacterViewModel = hiltViewModel(),
 ) {
@@ -53,7 +54,7 @@ fun GainedCharacterScreen(
                 .actionBarPadding()
         ) {
             NavigateBackAppBar(
-                text = stringResource(R.string.my_page_my_page),
+                text = stringResource(if (beforeNavigateRoute == "home") R.string.my_page_home else R.string.my_page_my_page),
                 modifier = Modifier.padding(top = 20.dp),
             ) {
                 navigateToBack()

@@ -10,6 +10,7 @@
     <string name="my_page_acquire_emblem">획득 칭호</string>
     <string name="my_page_settings">설정</string>
     <string name="my_page_my_page">마이페이지</string>
+    <string name="my_page_home">홈</string>
     <string name="my_page_gained_character">획득 캐릭터</string>
     <string name="my_page_gained_character_hint">퀘스트를 달성하고 보상으로 캐릭터를 얻어보아요!</string>
     <string name="my_page_gained_coupon_available">사용 가능</string>

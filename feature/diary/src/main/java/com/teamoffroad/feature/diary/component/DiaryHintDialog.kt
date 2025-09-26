@@ -85,7 +85,7 @@ fun DiaryHintDialog(
         HorizontalPager(
             verticalAlignment = Alignment.Top,
             state = pagerState,
-            userScrollEnabled = false,
+            userScrollEnabled = true,
             modifier = Modifier.weight(1f),
         ) { page ->
             when (page) {

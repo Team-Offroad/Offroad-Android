@@ -40,6 +40,7 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun DiaryScreen(
     newDiaryExist: Boolean,
+    beforeNavigateRoute: String,
     characterName: String,
     navigateToBack: () -> Unit,
     navigateToCharacterChat: (String) -> Unit,
@@ -94,7 +95,7 @@ fun DiaryScreen(
                 ),
         ) {
             NavigateBackAppBar(
-                text = stringResource(id = R.string.diary_back_home),
+                text = stringResource(id = if (beforeNavigateRoute == "home") R.string.diary_back_home else R.string.diary_back_mypage),
                 modifier = Modifier.padding(top = 20.dp)
             ) {
                 viewModel.updateNavigationBackState()

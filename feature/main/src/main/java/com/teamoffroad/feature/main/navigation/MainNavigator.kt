@@ -65,7 +65,7 @@ internal class MainNavigator(
                 saveState = true
             }
             launchSingleTop = true
-            restoreState = false
+            restoreState = true
         }
     }
 
@@ -188,8 +188,10 @@ internal class MainNavigator(
         navController.navigateToCourseQuestDetail(questId, deadline, dDay)
     }
 
-    fun navigateToGainedCharacter() {
-        navController.navigateToGainedCharacter()
+    fun navigateToGainedCharacter(
+        beforeNavigateRoute: String
+    ) {
+        navController.navigateToGainedCharacter(beforeNavigateRoute = beforeNavigateRoute)
     }
 
     fun navigateToGainedEmblems() {
@@ -216,10 +218,12 @@ internal class MainNavigator(
 
     fun navigateToDiary(
         newDiaryExist: Boolean,
+        beforeNavigateRoute: String,
         characterName: String,
     ) {
         navController.navigateToDiary(
             newDiaryExist = newDiaryExist,
+            beforeNavigateRoute = beforeNavigateRoute,
             characterName = characterName,
         )
     }

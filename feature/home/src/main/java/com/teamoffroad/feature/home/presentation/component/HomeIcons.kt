@@ -1,15 +1,10 @@
 package com.teamoffroad.feature.home.presentation.component
 
-import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Build
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,19 +14,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import com.teamoffroad.characterchat.presentation.model.CharacterChatLastUnreadUiState
 import com.teamoffroad.core.designsystem.component.clickableWithoutRipple
 import com.teamoffroad.core.designsystem.theme.ErrorNew
 import com.teamoffroad.offroad.feature.home.R
-import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
@@ -41,12 +32,12 @@ fun HomeIcons(
     characterName: String,
     newDiaryExist: Boolean,
     characterChatLastUnreadUiState: State<CharacterChatLastUnreadUiState>,
-    navigateToGainedCharacter: () -> Unit,
+    navigateToGainedCharacter: (String) -> Unit,
     updateShowUserChatTextField: (Boolean) -> Unit,
     updateCharacterChatExist: (Boolean) -> Unit,
     updateCharacterName: (String) -> Unit,
     updateLastUnreadChatDosAllRead: (Boolean) -> Unit,
-    navigateToDiary: (Boolean, String) -> Unit,
+    navigateToDiary: (Boolean, String, String) -> Unit,
     navigateToRecommendPlace: (Boolean, String, String) -> Unit,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
@@ -76,7 +67,13 @@ fun HomeIcons(
             }
 
             Box(
-                modifier = Modifier.clickableWithoutRipple { navigateToRecommendPlace(false, characterName, "") }
+                modifier = Modifier.clickableWithoutRipple {
+                    navigateToRecommendPlace(
+                        false,
+                        characterName,
+                        ""
+                    )
+                }
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_home_recommend_place),
@@ -87,11 +84,17 @@ fun HomeIcons(
             Image(
                 painter = painterResource(id = R.drawable.ic_home_change_character),
                 contentDescription = "change",
-                modifier = Modifier.clickableWithoutRipple { navigateToGainedCharacter() }
+                modifier = Modifier.clickableWithoutRipple { navigateToGainedCharacter("home") }
             )
 
             Box(
-                modifier = Modifier.clickableWithoutRipple { navigateToDiary(!newDiaryExist, characterName) }
+                modifier = Modifier.clickableWithoutRipple {
+                    navigateToDiary(
+                        !newDiaryExist,
+                        "home",
+                        characterName
+                    )
+                }
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_home_diary_empty),

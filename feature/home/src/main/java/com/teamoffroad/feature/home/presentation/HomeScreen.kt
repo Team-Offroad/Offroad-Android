@@ -45,9 +45,11 @@ import com.teamoffroad.characterchat.presentation.model.CharacterChatLastUnreadU
 import com.teamoffroad.core.designsystem.component.OrbDialog
 import com.teamoffroad.core.designsystem.component.actionBarPadding
 import com.teamoffroad.feature.home.domain.model.UserQuests
+import com.teamoffroad.feature.home.presentation.component.CharacterImage
+import com.teamoffroad.feature.home.presentation.component.CharacterNameText
 import com.teamoffroad.feature.home.presentation.component.CloseCompleteRequest
 import com.teamoffroad.feature.home.presentation.component.CompleteQuestDialog
-import com.teamoffroad.feature.home.presentation.component.HomeCharacterItem
+import com.teamoffroad.feature.home.presentation.component.EmblemNameText
 import com.teamoffroad.feature.home.presentation.component.HomeIcons
 import com.teamoffroad.feature.home.presentation.component.NicknameText
 import com.teamoffroad.feature.home.presentation.component.RecentQuest
@@ -58,9 +60,9 @@ import com.teamoffroad.offroad.feature.home.R
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun HomeScreen(
-    navigateToGainedCharacter: () -> Unit = {},
+    navigateToGainedCharacter: (String) -> Unit = {},
     navigateToCharacterChatScreen: (String) -> Unit,
-    navigateToDiary: (Boolean, String) -> Unit,
+    navigateToDiary: (Boolean, String, String) -> Unit,
     navigateToRecommendPlace: (Boolean, String, String) -> Unit,
 ) {
     val context = LocalContext.current
@@ -162,7 +164,7 @@ fun HomeScreen(
             cancelButtonText = stringResource(id = R.string.home_diary_create_cancel),
             nextButtonText = stringResource(id = R.string.home_confirm),
             onClick = {
-                if (!newDiaryExist.value) navigateToDiary(true, characterName.value)
+                if (!newDiaryExist.value) navigateToDiary(true, "home", characterName.value)
                 homeViewModel.updateDiaryCreateDialogUnShown()
             },
             onCancelClick = {
@@ -202,12 +204,12 @@ private fun UsersAdventuresInformation(
     modifier: Modifier = Modifier,
     homeViewModel: HomeViewModel,
     characterChatLastUnreadUiState: State<CharacterChatLastUnreadUiState>,
-    navigateToGainedCharacter: () -> Unit,
+    navigateToGainedCharacter: (String) -> Unit,
     updateShowUserChatTextField: (Boolean) -> Unit,
     updateCharacterChatExist: (Boolean) -> Unit,
     updateCharacterName: (String) -> Unit,
     updateLastUnreadChatDosAllRead: (Boolean) -> Unit,
-    navigateToDiary: (Boolean, String) -> Unit,
+    navigateToDiary: (Boolean, String, String) -> Unit,
     navigateToRecommendPlace: (Boolean, String, String) -> Unit,
 ) {
     val adventuresInformationState =
@@ -253,7 +255,7 @@ private fun UsersAdventuresInformation(
 
         Column {
             NicknameText(adventuresInformationData?.nickname ?: "")
-            HomeCharacterItem().CharacterNameText(adventuresInformationData?.characterName ?: "")
+            CharacterNameText(adventuresInformationData?.characterName ?: "")
         }
 
         Box(
@@ -262,11 +264,11 @@ private fun UsersAdventuresInformation(
                 Modifier
                     .align(Alignment.BottomCenter),
         ) {
-            HomeCharacterItem().CharacterImage(homeViewModel, context)
+            CharacterImage(homeViewModel, context)
         }
     }
     Spacer(modifier = Modifier.padding(10.dp))
-    HomeCharacterItem().EmblemNameText(context, Modifier)
+    EmblemNameText(context, Modifier)
 }
 
 @Composable

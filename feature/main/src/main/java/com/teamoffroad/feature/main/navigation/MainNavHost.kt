@@ -51,10 +51,8 @@ internal fun MainNavHost(
                 navigateToCharacterChatScreen = { characterName ->
                     navigator.navigateToCharacterChat(characterName)
                 },
-                navigateToGainedCharacter = {
-                    navigator.navigateToMyPage().also {
-                        navigator.navigateToGainedCharacter()
-                    }
+                navigateToGainedCharacter = { beforeNavigateRoute ->
+                    navigator.navigateToGainedCharacter(beforeNavigateRoute = beforeNavigateRoute)
                 },
                 navigateToDiary = navigator::navigateToDiary,
                 navigateToRecommendPlace = navigator::navigateToRecommendPlace,
@@ -87,8 +85,8 @@ internal fun MainNavHost(
                         placeId,
                     )
                 },
-                navigateToGainedCharacter = {
-                    navigator.navigateToGainedCharacter()
+                navigateToGainedCharacter = { beforeNavigateRoute ->
+                    navigator.navigateToGainedCharacter(beforeNavigateRoute)
                 },
                 navigateToGainedEmblems = navigator::navigateToGainedEmblems,
                 navigateToSetting = navigator::navigateToSetting,

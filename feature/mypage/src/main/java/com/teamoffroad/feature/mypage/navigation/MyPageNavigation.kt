@@ -12,20 +12,20 @@ import com.teamoffroad.feature.mypage.presentation.AnnouncementDetailScreen
 import com.teamoffroad.feature.mypage.presentation.AnnouncementScreen
 import com.teamoffroad.feature.mypage.presentation.AvailableCouponDetailScreen
 import com.teamoffroad.feature.mypage.presentation.CharacterDetailScreen
-import com.teamoffroad.feature.mypage.presentation.diaryTime.DiaryTimeScreen
 import com.teamoffroad.feature.mypage.presentation.GainedCharacterScreen
 import com.teamoffroad.feature.mypage.presentation.GainedCouponScreen
 import com.teamoffroad.feature.mypage.presentation.GainedEmblemsScreen
 import com.teamoffroad.feature.mypage.presentation.MyPageScreen
 import com.teamoffroad.feature.mypage.presentation.SettingScreen
 import com.teamoffroad.feature.mypage.presentation.SupportScreen
+import com.teamoffroad.feature.mypage.presentation.diaryTime.DiaryTimeScreen
 
 fun NavController.navigateToMyPage(navOptions: NavOptions) {
     navigate(MainTabRoute.MyPage, navOptions)
 }
 
-fun NavController.navigateToGainedCharacter() {
-    navigate(MyPageRoute.GainedCharacter)
+fun NavController.navigateToGainedCharacter(beforeNavigateRoute: String) {
+    navigate(MyPageRoute.GainedCharacter(beforeNavigateRoute = beforeNavigateRoute))
 }
 
 fun NavController.navigateToGainedCoupon() {
@@ -95,7 +95,7 @@ fun NavController.navigateToDiaryTime() {
 }
 
 fun NavGraphBuilder.myPageNavGraph(
-    navigateToGainedCharacter: () -> Unit,
+    navigateToGainedCharacter: (String) -> Unit,
     navigateToGainedCoupon: () -> Unit,
     navigateToAvailableCouponDetail: (Int, String, String, String, Int) -> Unit,
     navigateToGainedEmblems: () -> Unit,
@@ -108,8 +108,8 @@ fun NavGraphBuilder.myPageNavGraph(
     navigateToCharacterChat: (Int, String) -> Unit,
     navigateToAnnouncementDeleteStack: () -> Unit,
     navigateToSupport: () -> Unit,
-    navigateToDiary: (Boolean, String) -> Unit,
-    navigateToDiaryTime: () -> Unit
+    navigateToDiary: (Boolean, String, String) -> Unit,
+    navigateToDiaryTime: () -> Unit,
 ) {
     composable<MainTabRoute.MyPage> {
         MyPageScreen(
@@ -121,8 +121,14 @@ fun NavGraphBuilder.myPageNavGraph(
         )
     }
 
-    composable<MyPageRoute.GainedCharacter> {
-        GainedCharacterScreen(navigateToCharacterDetail, navigateToBack)
+    composable<MyPageRoute.GainedCharacter> { backStackEntry ->
+        val beforeNavigateRoute =
+            backStackEntry.toRoute<MyPageRoute.GainedCharacter>().beforeNavigateRoute
+        GainedCharacterScreen(
+            navigateToCharacterDetail = navigateToCharacterDetail,
+            beforeNavigateRoute = beforeNavigateRoute,
+            navigateToBack = navigateToBack
+        )
     }
 
     composable<MyPageRoute.GainedCouponScreen> {
